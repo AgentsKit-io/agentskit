@@ -41,8 +41,8 @@ importers:
         specifier: workspace:*
         version: link:packages/core
       '@agentskit/doc-bridge':
-        specifier: 1.12.0
-        version: 1.12.0(@agentskit/adapters@0.18.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85))(@agentskit/core@packages+core)(@agentskit/ink@0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0))(@agentskit/memory@0.11.14(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76)))(@agentskit/rag@0.6.1(@aws-sdk/client-s3@3.1124.0))(@types/react@19.2.17)(graphology-types@0.24.8)(react-devtools-core@6.1.5)(react@19.3.0)
+        specifier: 2.0.0
+        version: 2.0.0(@agentskit/adapters@0.19.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85))(@agentskit/core@packages+core)(@agentskit/ink@0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0))(@agentskit/memory@0.12.0(drizzle-orm@0.45.3(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76)))(@agentskit/rag@0.7.0(@aws-sdk/client-s3@3.1124.0))(@types/react@19.2.17)(graphology-types@0.24.8)(react-devtools-core@6.1.5)(react@19.3.0)
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
@@ -169,7 +169,7 @@ importers:
         version: link:../../packages/adapters
       '@agentskit/chat':
         specifier: 0.4.1
-        version: 0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))
+        version: 0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -688,7 +688,7 @@ importers:
     dependencies:
       '@agentskit/chat':
         specifier: 0.4.1
-        version: 0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))
+        version: 0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -1240,7 +1240,7 @@ importers:
         version: 13.0.3
       drizzle-orm:
         specifier: ^0.45.3
-        version: 0.45.3(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1)
+        version: 0.45.3(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1)
       pg:
         specifier: ^8.23.1
         version: 8.23.1
@@ -1261,7 +1261,7 @@ importers:
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@25.9.5)(@vitest/coverage-v8@4.1.11)(happy-dom@20.14.5)(jsdom@30.0.1(@noble/hashes@2.2.0))(msw@2.15.0(@types/node@25.9.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
       wrangler:
         specifier: ^4.148.0
-        version: 4.148.0(@types/node@25.9.5)
+        version: 4.148.0(@cloudflare/workers-types@4.20260702.1)(@types/node@25.9.5)
 
   packages/net:
     dependencies:
@@ -1317,7 +1317,7 @@ importers:
         version: 8.23.1
       drizzle-orm:
         specifier: ^0.45.3
-        version: 0.45.3(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1)
+        version: 0.45.3(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1)
       langfuse:
         specifier: ^3.38.20
         version: 3.39.2
@@ -1338,7 +1338,7 @@ importers:
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@25.9.5)(@vitest/coverage-v8@4.1.11)(happy-dom@20.14.5)(jsdom@30.0.1(@noble/hashes@2.2.0))(msw@2.15.0(@types/node@25.9.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
       wrangler:
         specifier: ^4.148.0
-        version: 4.148.0(@types/node@25.9.5)
+        version: 4.148.0(@cloudflare/workers-types@4.20260702.1)(@types/node@25.9.5)
 
   packages/observability-langfuse:
     dependencies:
@@ -1736,8 +1736,9 @@ packages:
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
 
-  '@agentskit/adapters@0.18.1':
-    resolution: {integrity: sha512-oyb3g5wXwby61ye52zHdqAWcwYWNmGAMb3NM/AbNpZ9JeEHrGtwgYsWBLsGIHGVWH7nlPRE8GIOLI+eX1rFTPA==}
+  '@agentskit/adapters@0.19.0':
+    resolution: {integrity: sha512-nX0ZiXP5X4Ps5dWaU87kTBSdhLbKkrRQ5W6EpOzgeR9w4FQ/tMBiZAY6zZRTpawC1qtUy1OvXfxB8NJ20Lolog==}
+    engines: {node: '>=20.19'}
     peerDependencies:
       '@aws-sdk/client-bedrock-runtime': ^3.0.0
       '@langchain/core': ^1.0.0
@@ -1813,13 +1814,22 @@ packages:
   '@agentskit/core@1.14.1':
     resolution: {integrity: sha512-7+zyB5+azISWTCXWIWTs3pQVE9LiKUNQf8GfMV+TWSDSKDkkf7c3xlBCsVFs5QBqUVGBH72TERY+iL2JlqiAdg==}
 
+  '@agentskit/core@1.15.0':
+    resolution: {integrity: sha512-qJxJXAUBbx7BpjfkF/2YCQ9i0voimTfDbDFLRvaOsLkxa2O0ZC5yMQFdTqE8++yGPVPm14Dlc+TMxlNcCaNz9w==}
+    engines: {node: '>=20.19'}
+
   '@agentskit/cross-platform@0.2.1':
     resolution: {integrity: sha512-RXbvF8hgA1X4dMkdkhx1vRy0L4JIx9eST5BZEu+ErGpTaqcAkX4y8eH0QuEmy9CR66yxFc655s0XxAOqdADw4A==}
     engines: {node: '>=20.19'}
     hasBin: true
 
-  '@agentskit/doc-bridge@1.12.0':
-    resolution: {integrity: sha512-Hft7ekdi1cCjn0HDWjYkD1FPLugQXrS+rgxarNAAIGU8sp32I+Q6Dp9dRIQRYkvvckjJI43ckCPy/NdjkbGuTg==}
+  '@agentskit/cross-platform@0.3.0':
+    resolution: {integrity: sha512-UndmyjQkR+3u/3EqUrBfz7sO16hBhWB+dkJoMepvuENcpwQe5c+jcRW5neNKpxmThhrast4KdD6l1Mi92FHT+w==}
+    engines: {node: '>=20.19'}
+    hasBin: true
+
+  '@agentskit/doc-bridge@2.0.0':
+    resolution: {integrity: sha512-1V1XSU7xgbaUtsB3DtnciTY9CbDH6jDge+DBObEHAjlIezqhmkRdz+lPIhBZd/mPbPAAHIGH+vjN+i4hPTYlfA==}
     engines: {node: '>=22'}
     hasBin: true
     peerDependencies:
@@ -1846,23 +1856,16 @@ packages:
   '@agentskit/eval@0.4.19':
     resolution: {integrity: sha512-DYjEa6bgzP/rVqTZBuguXjn+JuoPG9NfVUa/ogubm5hPlVKL0SVD1ThTDfuhTqrMqOgqHIBwIHv5yFbjnqheDg==}
 
-  '@agentskit/harness@0.11.0':
-    resolution: {integrity: sha512-nzdx+mAJZUtAodk+ZArjxbIyHSJTnbCud+uet6nupr0mjLZEWKWfVWwEFYCuzObxHLL0IqPCJmsuEK8TBJBsWQ==}
+  '@agentskit/harness@0.22.3':
+    resolution: {integrity: sha512-GmyA3jeeAYMIYEWup2BPL+Dyd1iPO49ukUAT7gALDakw+nhpa53pGyeIWabc90XEOZA7syIlOeWfpEeiWypA6Q==}
     engines: {node: '>=22'}
     hasBin: true
 
-  '@agentskit/ink@0.10.15':
-    resolution: {integrity: sha512-ZScGOrKtZtQ/MR1oP97FUqWiN0ICmb5J1yAGnXni8z1TxMuZLZB5HbA5iXv2nT2jJcsyWNITtc2uI/t0O4eU6w==}
+  '@agentskit/ink@0.10.16':
+    resolution: {integrity: sha512-mTe4O0POBc3ldka5v74zCw3IpSZNwiFeA08DLPASkoGRCO29z6HX5/EaUgLzhXrx7jXNrX8loap4GcGYBleKsw==}
+    engines: {node: '>=20.19'}
     peerDependencies:
       react: '>=18.0.0'
-
-  '@agentskit/memory@0.11.14':
-    resolution: {integrity: sha512-SB9kmBWBBgFsbgVRj69jadRNzE73WiXFVf2Ivaiwn2zgeoiuAyjHrBmhvQ8X4Av5jXdlX5vMvSO6CXf0uutcBg==}
-    peerDependencies:
-      vectra: ^0.15.0
-    peerDependenciesMeta:
-      vectra:
-        optional: true
 
   '@agentskit/memory@0.11.8':
     resolution: {integrity: sha512-pw6dAzVUIzIL+MvPFPVghZtFweaNxmlDnNSryhAJq3ozYLtmL8GnswocG0fKL4arYtOwhwCaAwmuMJjIzgOVbw==}
@@ -1872,12 +1875,32 @@ packages:
       vectra:
         optional: true
 
+  '@agentskit/memory@0.12.0':
+    resolution: {integrity: sha512-lsHzCUwJxJGWskDU8t4fbEixbqpNaU5s96/2Fy5jEdwgkuFNUu9e/2ouKFKt+0XO3q8v+9Z4w3upgnn5AlPoaA==}
+    engines: {node: '>=20.19'}
+    peerDependencies:
+      drizzle-orm: ^0.44.0 || ^0.45.3
+      pg: ^8.23.1
+      vectra: ^0.15.0
+    peerDependenciesMeta:
+      drizzle-orm:
+        optional: true
+      pg:
+        optional: true
+      vectra:
+        optional: true
+
   '@agentskit/net@0.2.2':
     resolution: {integrity: sha512-jse659/Z3+iqlz8PN8xzK3zzknBQ7/3b9/C4kcPX0eq6sYdH+QKIxug7cFKxm1meB2kPNmiECClsqhVYwkknvA==}
     engines: {node: '>=20.19'}
 
-  '@agentskit/rag@0.6.1':
-    resolution: {integrity: sha512-rVp1BNeLskEOLaCc2JKDVdSwfMwlTVIsbmhzy/hzsI4vj8alAOMamD4aFs5BvqJrm0wFxI8bBJ6YnKEupsToNQ==}
+  '@agentskit/net@0.2.3':
+    resolution: {integrity: sha512-/i+yoCbFjs+hp7Qs8ygRJDmJRpMIgbNSvl9mjIl2NRH4DHv4YPBclFzmY3t13AHePY/svQvGMLM9DNY3dY046w==}
+    engines: {node: '>=20.19'}
+
+  '@agentskit/rag@0.7.0':
+    resolution: {integrity: sha512-SR6uXS4xl/dkLZ/1Cs18W8xafqiHYA9XFGoR7tNnI/GXz56Io037SH4rNDXhey6IxyjSrLLFCoXUE9KX3NV2Gg==}
+    engines: {node: '>=20.19'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.0.0
     peerDependenciesMeta:
@@ -2339,8 +2362,23 @@ packages:
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
 
+  '@chevrotain/cst-dts-gen@13.2.0':
+    resolution: {integrity: sha512-bA9dvWlhAUcHkNwU+8w9yiUxJPlj/Lm3VqS7MD+NbIR/7LmpNLuK/AWNFdCo/T3SK5ND0/UHf3IJvl/Jn/i6yg==}
+
+  '@chevrotain/gast@13.2.0':
+    resolution: {integrity: sha512-bCARdAsG+eEbOveSXcOAC7pVxA04I1ionzeMOwIYf5NX7SaS7zgn4Dgug2BSqoL+iyKeMNSorQjsFSHJHsCNwg==}
+
+  '@chevrotain/regexp-to-ast@13.2.0':
+    resolution: {integrity: sha512-kxpUkLtiaK09ph+dib+Yvm+3sWSnuwlo25gqfKRgTPNmF6H7uW4gVkMjaRdtnN783S9sM6vUNWh9CsxYX4QwKw==}
+
   '@chevrotain/types@11.1.2':
     resolution: {integrity: sha512-U+HFai5+zmJCkK86QsaJtoITlboZHBqrVketcO2ROv865xfCMSFpELQoz1GkX5GzME8pTa+3kbKrZHQtI0gdbw==}
+
+  '@chevrotain/types@13.2.0':
+    resolution: {integrity: sha512-7qrYHRlKfWf2AvBfJi5eVOrKAkbxvMFsy/iIHTGIiApNcEecCaVIdR+mIQhyCBsTDJxBz4JWXHMo6krbhR9hVg==}
+
+  '@chevrotain/utils@13.2.0':
+    resolution: {integrity: sha512-SzKYY68rseOrb9KILVzPsl6SjkQtdWw01SRGB5aCVI5kFcHltQsOYV3JB0Ffst72DgkvHCyDQ0NLwxtmCCf97Q==}
 
   '@cloudflare/build-output-utils@0.8.4':
     resolution: {integrity: sha512-IjFovj2NV5GXA2D4EZu243M5iiwcEEVeQwaOySfz6L+D9U6C5pVtO8WINQCVLc3zPW8Av9grQzBX2UvCbntnbw==}
@@ -2806,6 +2844,9 @@ packages:
 
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
+
+  '@flowershow/remark-wiki-link@3.4.0':
+    resolution: {integrity: sha512-YeeIwZ630CgBRiVWwM5C8ikAyuT0nLjdjhAZxhOOBgUCA34LCQxFwCkEnA0BySDJr6NQiJjJfRvO/TxBs+deAA==}
 
   '@fuma-translate/react@1.0.2':
     resolution: {integrity: sha512-uOiOtBx3nRXR8Nu1GzBf1tApgF1FErDBTHxRIAQeyQdyOoZbrNRN6H4kDCWObY4qyGeGbHydG0DHzgeUgFDMIw==}
@@ -3302,6 +3343,10 @@ packages:
 
   '@mermaid-js/parser@1.2.1':
     resolution: {integrity: sha512-n12NohV3mrUyUL2o93IgG/ifeW9FTyeJn3zDxkhwa8MJ9Fxg3HQMlA3RiGmD/3UnJvheztkjjQAjA2T4LmUcpw==}
+
+  '@mermaid-js/parser@2.0.1':
+    resolution: {integrity: sha512-j37dj/h6p6pots1L7pLPPNuABEEu9WP4OYg9pW1g+nYG331j0+3canE9OagtYdytYvdSAMG+2fKU5cxep6LgjA==}
+    engines: {node: '>=22.12.0'}
 
   '@mixmark-io/domino@2.2.0':
     resolution: {integrity: sha512-Y28PR25bHXUg88kCV7nivXrP2Nj2RueZ3/l/jdx6J9f8J4nsEGcgX0Qe6lt7Pa+J79+kPiJU3LguR6O/6zrLOw==}
@@ -5695,6 +5740,10 @@ packages:
     resolution: {integrity: sha512-WDrybc/gKFpTYQutKIK6UvfcuxijIZfMfXaYm8NMsPQxSYvf+13fXUJ4rztGGbJcBQ/GF55gvrZ0Bc0bj/mqvg==}
     engines: {node: '>=20.18.1'}
 
+  chevrotain@13.2.0:
+    resolution: {integrity: sha512-GTouk5YzgBxlTPCaDn5q0q2EJKkrYmnPF+HmF8v0Qo4r3iyPG7HJivkN1wthCXZcm3sIcZFpGTRovLPNdJNRCA==}
+    engines: {node: '>=22.0.0'}
+
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
@@ -6390,6 +6439,9 @@ packages:
 
   electron-to-chromium@1.5.420:
     resolution: {integrity: sha512-2yD6XreGusOfNV+dUcvipJEXc3n/n7fgr7996aszTG+YY5E4mqM4tOq/3uhP129cazL9YHbVWSpc79ePotWtPA==}
+
+  elkjs@0.9.3:
+    resolution: {integrity: sha512-f/ZeWvW/BCXbhGEf1Ujp29EASo/lk1FDnETgNKwJrsVvGZhUWCZyg3xLJjAsxfOmt8KjswHmI5EwCQcPMpOYhQ==}
 
   emoji-regex-xs@2.0.1:
     resolution: {integrity: sha512-1QFuh8l7LqUcKe24LsPUNzjrzJQ7pgRwp1QMcZ5MX6mFplk2zQ08NVCM84++1cveaUUYtcCYHmeFEuNg16sU4g==}
@@ -7454,8 +7506,8 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
-  knap@0.5.1:
-    resolution: {integrity: sha512-t2w9XIdtMrI8q6WhUu9tN74BRI42z/HqSi6wpVI1S1dslb/VlUg5a8XohQ2GeYHr2l4FYacz36Zq7j92bHlDbg==}
+  knap@0.6.0:
+    resolution: {integrity: sha512-FpuNFQ67rrgbZu3prheLA05/ND0gdHchRBC43Abn5CmROwn8XdYdar5+fRcylN/jrDnSNKj3aFdg92qvQJbYZA==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -7905,6 +7957,10 @@ packages:
 
   mermaid@11.17.2:
     resolution: {integrity: sha512-V6K3C8EBdEsPFZXSKMJe6ppQOENxuHARr9GvHX4hh47lAbhMRD9qf4oEK7LoaRQxULMa80/qt5gHO73aCleBBg==}
+
+  mermaid@12.1.0:
+    resolution: {integrity: sha512-wlVCp+8eTupfCeeFvoZNNiTuHrvag0P2jz/ILgb/f/6jkVokUefOcujefi8qUe/j2asHiSePncVsz/xzzA80LQ==}
+    engines: {node: '>=22.12.0'}
 
   metro-babel-transformer@0.84.6:
     resolution: {integrity: sha512-B1ozl6KxFHbQjXZ2U8WiTPWXylqiD3V4EXyV5r0fqETOrqIrJlBvbVTD82UxIN+B3Vpe4l8G1tb15ocd2RyOQA==}
@@ -8580,6 +8636,9 @@ packages:
 
   package-manager-detector@1.6.0:
     resolution: {integrity: sha512-61A5ThoTiDG/C8s8UMZwSorAGwMJ0ERVGj2OjoW5pAalsNOg15+iQiPzrLJ4jhZ1HJzmC2PIHT2oEiH3R5fzNA==}
+
+  packageurl-js@2.0.1:
+    resolution: {integrity: sha512-N5ixXjzTy4QDQH0Q9YFjqIWd6zH6936Djpl2m9QNFmDv5Fum8q8BjkpAcHNMzOFE0IwQrFhJWex3AN6kS0OSwg==}
 
   pako@0.2.9:
     resolution: {integrity: sha512-NUcwaKxUxWrZLpDG+z/xZaCgQITkA/Dv4V/T6bw7VON6l1Xz/VnrBqrYjZQ12TamKHzITTfOEIYUj48y2KXImA==}
@@ -10249,18 +10308,18 @@ snapshots:
 
   '@adobe/css-tools@4.5.0': {}
 
-  '@agentskit/adapters@0.18.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85)':
+  '@agentskit/adapters@0.19.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85)':
     dependencies:
-      '@agentskit/core': 1.14.1
-      '@agentskit/cross-platform': 0.2.1
-      '@agentskit/net': 0.2.2
+      '@agentskit/core': 1.15.0
+      '@agentskit/cross-platform': 0.3.0
+      '@agentskit/net': 0.2.3
     optionalDependencies:
       '@aws-sdk/client-bedrock-runtime': 3.1068.0
       '@langchain/core': 1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0)
       '@mlc-ai/web-llm': 0.2.85
     optional: true
 
-  '@agentskit/chat@0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))':
+  '@agentskit/chat@0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       '@agentskit/core': link:packages/core
       '@agentskit/eval': 0.4.19
@@ -10269,7 +10328,7 @@ snapshots:
       tslib: 2.8.1
       zod: 4.6.5
     optionalDependencies:
-      '@agentskit/ink': 0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
+      '@agentskit/ink': 0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
       '@agentskit/react': link:packages/react
       '@angular/common': 21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/core': 21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3)
@@ -10283,7 +10342,7 @@ snapshots:
     transitivePeerDependencies:
       - vectra
 
-  '@agentskit/chat@0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))':
+  '@agentskit/chat@0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       '@agentskit/core': link:packages/core
       '@agentskit/eval': 0.4.19
@@ -10292,7 +10351,7 @@ snapshots:
       tslib: 2.8.1
       zod: 4.6.5
     optionalDependencies:
-      '@agentskit/ink': 0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)
+      '@agentskit/ink': 0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)
       '@agentskit/react': link:packages/react
       '@angular/common': 21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/core': 21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3)
@@ -10310,7 +10369,9 @@ snapshots:
 
   '@agentskit/core@1.12.8': {}
 
-  '@agentskit/core@1.14.1':
+  '@agentskit/core@1.14.1': {}
+
+  '@agentskit/core@1.15.0':
     optional: true
 
   '@agentskit/cross-platform@0.2.1':
@@ -10321,11 +10382,23 @@ snapshots:
       pathe: 2.0.3
       tree-kill: 1.2.2
       which: 2.0.2
+
+  '@agentskit/cross-platform@0.3.0':
+    dependencies:
+      '@agentskit/core': 1.15.0
+      cross-spawn: 7.0.6
+      graceful-fs: 4.2.11
+      pathe: 2.0.3
+      tree-kill: 1.2.2
+      which: 2.0.2
     optional: true
 
-  '@agentskit/doc-bridge@1.12.0(@agentskit/adapters@0.18.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85))(@agentskit/core@packages+core)(@agentskit/ink@0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0))(@agentskit/memory@0.11.14(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76)))(@agentskit/rag@0.6.1(@aws-sdk/client-s3@3.1124.0))(@types/react@19.2.17)(graphology-types@0.24.8)(react-devtools-core@6.1.5)(react@19.3.0)':
+  '@agentskit/doc-bridge@2.0.0(@agentskit/adapters@0.19.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85))(@agentskit/core@packages+core)(@agentskit/ink@0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0))(@agentskit/memory@0.12.0(drizzle-orm@0.45.3(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76)))(@agentskit/rag@0.7.0(@aws-sdk/client-s3@3.1124.0))(@types/react@19.2.17)(graphology-types@0.24.8)(react-devtools-core@6.1.5)(react@19.3.0)':
     dependencies:
-      '@agentskit/harness': 0.11.0(@types/react@19.2.17)(react-devtools-core@6.1.5)
+      '@agentskit/cross-platform': 0.2.1
+      '@agentskit/harness': 0.22.3(@types/react@19.2.17)(react-devtools-core@6.1.5)
+      '@agentskit/net': 0.2.2
+      '@flowershow/remark-wiki-link': 3.4.0
       github-slugger: 2.0.0
       graphology: 0.26.0(graphology-types@0.24.8)
       graphology-communities-louvain: 2.0.2(graphology-types@0.24.8)
@@ -10333,24 +10406,26 @@ snapshots:
       graphology-metrics: 2.4.2(graphology-types@0.24.8)
       graphology-shortest-path: 2.1.0(graphology-types@0.24.8)
       ignore: 7.0.10
-      knap: 0.5.1
+      knap: 0.6.0
       mdast-util-to-string: 4.0.0
-      mermaid: 11.17.2
+      mermaid: 12.1.0
       minimatch: 10.2.6
+      packageurl-js: 2.0.1
       remark-frontmatter: 5.0.0
       remark-gfm: 4.0.1
       remark-parse: 11.0.0
+      semver: 7.8.5
       typescript: 6.0.3
       unified: 11.0.5
       unist-util-visit: 5.1.0
       yaml: 2.9.1
       zod: 4.6.5
     optionalDependencies:
-      '@agentskit/adapters': 0.18.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85)
+      '@agentskit/adapters': 0.19.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85)
       '@agentskit/core': link:packages/core
-      '@agentskit/ink': 0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)
-      '@agentskit/memory': 0.11.14(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76))
-      '@agentskit/rag': 0.6.1(@aws-sdk/client-s3@3.1124.0)
+      '@agentskit/ink': 0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)
+      '@agentskit/memory': 0.12.0(drizzle-orm@0.45.3(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76))
+      '@agentskit/rag': 0.7.0(@aws-sdk/client-s3@3.1124.0)
       react: 19.3.0
     transitivePeerDependencies:
       - '@types/react'
@@ -10364,9 +10439,10 @@ snapshots:
     dependencies:
       '@agentskit/core': 1.12.3
 
-  '@agentskit/harness@0.11.0(@types/react@19.2.17)(react-devtools-core@6.1.5)':
+  '@agentskit/harness@0.22.3(@types/react@19.2.17)(react-devtools-core@6.1.5)':
     dependencies:
       commander: 14.0.3
+      cross-spawn: 7.0.6
       ink: 7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)
       react: 19.3.0
       yaml: 2.9.1
@@ -10377,9 +10453,9 @@ snapshots:
       - react-devtools-core
       - utf-8-validate
 
-  '@agentskit/ink@0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)':
+  '@agentskit/ink@0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)':
     dependencies:
-      '@agentskit/core': 1.14.1
+      '@agentskit/core': 1.15.0
       ink: 7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
       marked: 15.0.12
       marked-terminal: 7.3.0(marked@15.0.12)
@@ -10391,9 +10467,9 @@ snapshots:
       - utf-8-validate
     optional: true
 
-  '@agentskit/ink@0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)':
+  '@agentskit/ink@0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)':
     dependencies:
-      '@agentskit/core': 1.14.1
+      '@agentskit/core': 1.15.0
       ink: 7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)
       marked: 15.0.12
       marked-terminal: 7.3.0(marked@15.0.12)
@@ -10405,9 +10481,9 @@ snapshots:
       - utf-8-validate
     optional: true
 
-  '@agentskit/ink@0.10.15(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)':
+  '@agentskit/ink@0.10.16(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)':
     dependencies:
-      '@agentskit/core': 1.14.1
+      '@agentskit/core': 1.15.0
       ink: 7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)
       marked: 15.0.12
       marked-terminal: 7.3.0(marked@15.0.12)
@@ -10419,31 +10495,39 @@ snapshots:
       - utf-8-validate
     optional: true
 
-  '@agentskit/memory@0.11.14(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76))':
-    dependencies:
-      '@agentskit/core': 1.14.1
-      '@agentskit/net': 0.2.2
-    optionalDependencies:
-      vectra: 0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76)
-    optional: true
-
   '@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5))':
     dependencies:
       '@agentskit/core': 1.12.8
     optionalDependencies:
       vectra: 0.15.0(@huggingface/transformers@4.3.0(@types/node@26.2.0))(ws@8.21.0)(zod@4.6.5)
 
+  '@agentskit/memory@0.12.0(drizzle-orm@0.45.3(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76))':
+    dependencies:
+      '@agentskit/core': 1.15.0
+      '@agentskit/net': 0.2.3
+    optionalDependencies:
+      drizzle-orm: 0.45.3(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1)
+      pg: 8.23.1
+      vectra: 0.15.0(@huggingface/transformers@4.3.0(@types/node@26.6.1))(ws@8.21.0)(zod@3.25.76)
+    optional: true
+
   '@agentskit/net@0.2.2':
     dependencies:
       '@agentskit/core': 1.14.1
       eventsource-parser: 4.1.1
       ipaddr.js: 2.5.0
+
+  '@agentskit/net@0.2.3':
+    dependencies:
+      '@agentskit/core': 1.15.0
+      eventsource-parser: 4.1.1
+      ipaddr.js: 2.5.0
     optional: true
 
-  '@agentskit/rag@0.6.1(@aws-sdk/client-s3@3.1124.0)':
+  '@agentskit/rag@0.7.0(@aws-sdk/client-s3@3.1124.0)':
     dependencies:
-      '@agentskit/core': 1.14.1
-      '@agentskit/net': 0.2.2
+      '@agentskit/core': 1.15.0
+      '@agentskit/net': 0.2.3
       yaml: 2.9.1
     optionalDependencies:
       '@aws-sdk/client-s3': 3.1124.0
@@ -11173,7 +11257,22 @@ snapshots:
       human-id: 4.2.0
       prettier: 2.8.8
 
+  '@chevrotain/cst-dts-gen@13.2.0':
+    dependencies:
+      '@chevrotain/gast': 13.2.0
+      '@chevrotain/types': 13.2.0
+
+  '@chevrotain/gast@13.2.0':
+    dependencies:
+      '@chevrotain/types': 13.2.0
+
+  '@chevrotain/regexp-to-ast@13.2.0': {}
+
   '@chevrotain/types@11.1.2': {}
+
+  '@chevrotain/types@13.2.0': {}
+
+  '@chevrotain/utils@13.2.0': {}
 
   '@cloudflare/build-output-utils@0.8.4':
     dependencies:
@@ -11632,6 +11731,13 @@ snapshots:
       react-dom: 19.2.8(react@19.2.8)
 
   '@floating-ui/utils@0.2.11': {}
+
+  '@flowershow/remark-wiki-link@3.4.0':
+    dependencies:
+      github-slugger: 2.0.0
+      mdast-util-to-markdown: 2.1.2
+      micromark-util-character: 2.1.1
+      micromark-util-symbol: 2.0.1
 
   '@fuma-translate/react@1.0.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
@@ -12220,6 +12326,10 @@ snapshots:
   '@mermaid-js/parser@1.2.1':
     dependencies:
       '@chevrotain/types': 11.1.2
+
+  '@mermaid-js/parser@2.0.1':
+    dependencies:
+      '@chevrotain/types': 13.2.0
 
   '@mixmark-io/domino@2.2.0': {}
 
@@ -14834,6 +14944,14 @@ snapshots:
       undici: 7.29.1
       whatwg-mimetype: 4.0.0
 
+  chevrotain@13.2.0:
+    dependencies:
+      '@chevrotain/cst-dts-gen': 13.2.0
+      '@chevrotain/gast': 13.2.0
+      '@chevrotain/regexp-to-ast': 13.2.0
+      '@chevrotain/types': 13.2.0
+      '@chevrotain/utils': 13.2.0
+
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
@@ -15398,8 +15516,9 @@ snapshots:
 
   dotenv@17.4.2: {}
 
-  drizzle-orm@0.45.3(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1):
+  drizzle-orm@0.45.3(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1):
     optionalDependencies:
+      '@cloudflare/workers-types': 4.20260702.1
       '@opentelemetry/api': 1.9.1
       '@types/better-sqlite3': 7.6.13
       '@types/pg': 8.23.1
@@ -15432,6 +15551,8 @@ snapshots:
   ee-first@1.1.1: {}
 
   electron-to-chromium@1.5.420: {}
+
+  elkjs@0.9.3: {}
 
   emoji-regex-xs@2.0.1: {}
 
@@ -16776,7 +16897,7 @@ snapshots:
 
   kleur@4.1.5: {}
 
-  knap@0.5.1:
+  knap@0.6.0:
     dependencies:
       dayjs: 1.11.23
 
@@ -17301,6 +17422,32 @@ snapshots:
       dompurify: 3.4.13
       es-toolkit: 1.47.1
       fastdom: 1.0.12
+      katex: 0.16.47
+      khroma: 2.1.0
+      marked: 16.4.2
+      roughjs: 4.6.6
+      stylis: 4.4.0
+      ts-dedent: 2.3.0
+      uuid: 14.0.0
+
+  mermaid@12.1.0:
+    dependencies:
+      '@braintree/sanitize-url': 7.1.2
+      '@iconify/utils': 3.1.3
+      '@mermaid-js/parser': 2.0.1
+      '@types/d3': 7.4.3
+      '@upsetjs/venn.js': 2.0.0
+      chevrotain: 13.2.0
+      cytoscape: 3.34.0
+      cytoscape-cose-bilkent: 4.1.0(cytoscape@3.34.0)
+      cytoscape-fcose: 2.2.0(cytoscape@3.34.0)
+      d3: 7.9.0
+      d3-sankey: 0.12.3
+      dagre-d3-es: 7.0.14
+      dayjs: 1.11.23
+      dompurify: 3.4.13
+      elkjs: 0.9.3
+      es-toolkit: 1.47.1
       katex: 0.16.47
       khroma: 2.1.0
       marked: 16.4.2
@@ -18467,6 +18614,8 @@ snapshots:
       quansync: 0.2.11
 
   package-manager-detector@1.6.0: {}
+
+  packageurl-js@2.0.1: {}
 
   pako@0.2.9: {}
 
@@ -20527,7 +20676,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20261006.1
       '@cloudflare/workerd-windows-64': 1.20261006.1
 
-  wrangler@4.148.0(@types/node@25.9.5):
+  wrangler@4.148.0(@cloudflare/workers-types@4.20260702.1)(@types/node@25.9.5):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.0
       '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261006.1)
@@ -20538,6 +20687,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20261006.1
     optionalDependencies:
+      '@cloudflare/workers-types': 4.20260702.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - '@types/node'
