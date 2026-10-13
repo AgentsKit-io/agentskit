@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { readJson } from '@agentskit/net'
 import {
   FIRST_PUBLISHED_DAY, PACKAGE_NAMES, dateChunks,
   type DailyCount, type DownloadsData, type PackageCounts, type PackageName,
@@ -9,7 +10,7 @@ const API = 'https://api.npmjs.org/downloads'
 async function npmJson(url: string): Promise<unknown> {
   const response = await fetch(url, { next: { revalidate: 3600 } })
   if (!response.ok) throw new Error(`npm downloads API returned ${response.status}`)
-  return response.json()
+  return readJson(response, { maxBytes: 64_000 })
 }
 
 function isDailyCount(value: unknown): value is DailyCount {
@@ -31,7 +32,7 @@ async function getPackage(name: PackageName, through: string): Promise<PackageCo
         next: { revalidate: 86400 },
       })
       if (!registry.ok) throw new Error(`npm registry returned ${registry.status} for ${name}`)
-      const metadata: unknown = await registry.json()
+      const metadata: unknown = await readJson(registry, { maxBytes: 4_000_000 })
       const created = typeof metadata === 'object' && metadata !== null && 'time' in metadata &&
         typeof metadata.time === 'object' && metadata.time !== null && 'created' in metadata.time
         ? metadata.time.created : null
@@ -42,7 +43,7 @@ async function getPackage(name: PackageName, through: string): Promise<PackageCo
       throw new Error(`npm has no download data for ${name}`)
     }
     if (!response.ok) throw new Error(`npm downloads API returned ${response.status} for ${name}`)
-    const payload: unknown = await response.json()
+    const payload: unknown = await readJson(response, { maxBytes: 1_000_000 })
     if (typeof payload !== 'object' || payload === null || !('package' in payload) || payload.package !== name || !('downloads' in payload) ||
         !Array.isArray(payload.downloads) || !payload.downloads.every(isDailyCount)) {
       throw new Error(`Unexpected npm download data for ${name}`)

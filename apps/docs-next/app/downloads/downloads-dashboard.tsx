@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { readJson } from '@agentskit/net'
 import {
   PACKAGE_NAMES, addDays, sumDays,
   type DailyCount, type DownloadsData, type PackageName,
@@ -87,7 +88,7 @@ export function DownloadsDashboard() {
     const controller = new AbortController()
     fetch('/api/downloads', { signal: controller.signal })
       .then(async (response) => {
-        const body = await response.json()
+        const body = await readJson<{ error?: string } & DownloadsData>(response, { maxBytes: 4_000_000 })
         if (!response.ok) throw new Error(body.error ?? 'Unable to load npm downloads.')
         setData(body as DownloadsData)
         setError('')
@@ -147,7 +148,7 @@ export function DownloadsDashboard() {
       <header className="max-w-3xl">
         <p className="font-mono text-sm text-ak-blue">/downloads</p>
         <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-ak-foam sm:text-5xl">npm downloads</h1>
-        <p className="mt-4 text-lg leading-relaxed text-ak-graphite">Public download activity across the 36 packages in the <code className="text-ak-foam">@agentskit</code> scope. Counts come from npm and include dependency installs; they do not represent unique users.</p>
+        <p className="mt-4 text-lg leading-relaxed text-ak-graphite">Public download activity across the {PACKAGE_NAMES.length} packages in the <code className="text-ak-foam">@agentskit</code> scope. Counts come from npm and include dependency installs; they do not represent unique users.</p>
       </header>
 
       {!data && !error && <div role="status" className="mt-12 rounded-lg border border-ak-border bg-ak-surface p-6 text-ak-graphite">Loading download history from npm…</div>}
