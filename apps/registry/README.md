@@ -7,6 +7,8 @@ Profile: <code>public-app</code>
 - App package lives at `apps/registry`.
 - Root claims: [ecosystem-claims.json](../../ecosystem-claims.json)
 
+![AgentsKit Registry uses the shared Ask backend alongside the docs site](../../.github/assets/app-surfaces.svg)
+
 ## Install / run
 
 <!-- readme-command:install -->

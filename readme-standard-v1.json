@@ -2355,7 +2355,13 @@
           "playbook.agentskit.io"
         ]
       },
-      "visuals": [],
+      "visuals": [
+        {
+          "src": ".github/assets/app-surfaces.svg",
+          "kind": "explanation",
+          "darkMode": "neutral"
+        }
+      ],
       "commands": [
         {
           "id": "install",
@@ -2382,24 +2388,9 @@
           "ecosystem-claims.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:3635f9615671c7e47bbd69b7fde7966996e524738ee15d1af6415cc48e904adc"
+        "sourceHash": "sha256:381a3ef6b3310557a9c9165f4438822a6968002832bc24194015ec059bf2ba50"
       },
-      "exceptions": [
-        {
-          "ruleId": "visual-exception",
-          "reason": "Public app README uses textual navigation and links to the live site; the monorepo logo lives on the product surface rather than a local package image.",
-          "approvedBy": "EmersonBraun",
-          "trackingUrl": "https://github.com/AgentsKit-io/agentskit/issues/1220",
-          "reviewOn": "2026-10-12"
-        },
-        {
-          "ruleId": "image-budget",
-          "reason": "Zero local content images by design for concise monorepo app READMEs that defer visuals to the deployed site.",
-          "approvedBy": "EmersonBraun",
-          "trackingUrl": "https://github.com/AgentsKit-io/agentskit/issues/1220",
-          "reviewOn": "2026-10-12"
-        }
-      ]
+      "exceptions": []
     },
     {
       "id": "app-landing",
@@ -2439,7 +2430,13 @@
           "playbook.agentskit.io"
         ]
       },
-      "visuals": [],
+      "visuals": [
+        {
+          "src": ".github/assets/app-surfaces.svg",
+          "kind": "explanation",
+          "darkMode": "neutral"
+        }
+      ],
       "commands": [
         {
           "id": "install",
@@ -2466,24 +2463,9 @@
           "ecosystem-claims.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:ce98d8947c32cde8e390cbea73188c70f44a03411124886e36a18953b2d776bf"
+        "sourceHash": "sha256:92dd7164f147994b26eb22417337b99018f51ba2314a259e378f36d424984f48"
       },
-      "exceptions": [
-        {
-          "ruleId": "visual-exception",
-          "reason": "Public app README uses textual navigation and links to the live site; the monorepo logo lives on the product surface rather than a local package image.",
-          "approvedBy": "EmersonBraun",
-          "trackingUrl": "https://github.com/AgentsKit-io/agentskit/issues/1220",
-          "reviewOn": "2026-10-12"
-        },
-        {
-          "ruleId": "image-budget",
-          "reason": "Zero local content images by design for concise monorepo app READMEs that defer visuals to the deployed site.",
-          "approvedBy": "EmersonBraun",
-          "trackingUrl": "https://github.com/AgentsKit-io/agentskit/issues/1220",
-          "reviewOn": "2026-10-12"
-        }
-      ]
+      "exceptions": []
     },
     {
       "id": "app-registry",
@@ -2523,7 +2505,13 @@
           "playbook.agentskit.io"
         ]
       },
-      "visuals": [],
+      "visuals": [
+        {
+          "src": ".github/assets/app-surfaces.svg",
+          "kind": "explanation",
+          "darkMode": "neutral"
+        }
+      ],
       "commands": [
         {
           "id": "install",
@@ -2550,24 +2538,9 @@
           "ecosystem-claims.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:600ae7a10307a6fd323d088ef9408841f4defa5b7fb70647d7d991d9d07f9ee7"
+        "sourceHash": "sha256:b5351c285010603f2c8193998bfed340ad8747e0dc0b7cca713dead7b2429868"
       },
-      "exceptions": [
-        {
-          "ruleId": "visual-exception",
-          "reason": "Public app README uses textual navigation and links to the live site; the monorepo logo lives on the product surface rather than a local package image.",
-          "approvedBy": "EmersonBraun",
-          "trackingUrl": "https://github.com/AgentsKit-io/agentskit/issues/1220",
-          "reviewOn": "2026-10-12"
-        },
-        {
-          "ruleId": "image-budget",
-          "reason": "Zero local content images by design for concise monorepo app READMEs that defer visuals to the deployed site.",
-          "approvedBy": "EmersonBraun",
-          "trackingUrl": "https://github.com/AgentsKit-io/agentskit/issues/1220",
-          "reviewOn": "2026-10-12"
-        }
-      ]
+      "exceptions": []
     },
     {
       "id": "app-ask-backend",
@@ -2607,7 +2580,13 @@
           "playbook.agentskit.io"
         ]
       },
-      "visuals": [],
+      "visuals": [
+        {
+          "src": ".github/assets/app-surfaces.svg",
+          "kind": "explanation",
+          "darkMode": "neutral"
+        }
+      ],
       "commands": [
         {
           "id": "install",
@@ -2634,24 +2613,9 @@
           "ecosystem-claims.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:d7060be9c4c307fe39004dc49392c0ac011747804a3056bda6476afc9f585a89"
+        "sourceHash": "sha256:12ee47f3cdfa7eae10f236952da9102d747fe3a9514467ba7a7274d8b7b3bb0c"
       },
-      "exceptions": [
-        {
-          "ruleId": "visual-exception",
-          "reason": "Public app README uses textual navigation and links to the live site; the monorepo logo lives on the product surface rather than a local package image.",
-          "approvedBy": "EmersonBraun",
-          "trackingUrl": "https://github.com/AgentsKit-io/agentskit/issues/1220",
-          "reviewOn": "2026-10-12"
-        },
-        {
-          "ruleId": "image-budget",
-          "reason": "Zero local content images by design for concise monorepo app READMEs that defer visuals to the deployed site.",
-          "approvedBy": "EmersonBraun",
-          "trackingUrl": "https://github.com/AgentsKit-io/agentskit/issues/1220",
-          "reviewOn": "2026-10-12"
-        }
-      ]
+      "exceptions": []
     }
   ]
 }

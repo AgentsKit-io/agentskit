@@ -7,6 +7,8 @@ Profile: <code>public-app</code>
 - App package lives at `apps/landing`.
 - Root claims: [ecosystem-claims.json](../../ecosystem-claims.json)
 
+![AgentsKit landing is standalone while docs serve the public domain](../../.github/assets/app-surfaces.svg)
+
 ## Install / run
 
 <!-- readme-command:install -->

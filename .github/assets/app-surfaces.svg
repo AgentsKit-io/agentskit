@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" role="img" aria-labelledby="title desc">
+  <title id="title">AgentsKit public app surfaces</title>
+  <desc id="desc">The canonical docs site and Registry use the shared Ask backend. The standalone landing app is an alternate surface and does not serve the public domain.</desc>
+  <rect width="880" height="360" rx="20" fill="#111820"/>
+  <text x="40" y="54" fill="#dce8f0" font-family="system-ui,sans-serif" font-size="22" font-weight="700">AgentsKit app surfaces</text>
+  <text x="40" y="84" fill="#9aafbe" font-family="system-ui,sans-serif" font-size="14">Current public routes and the shared answer service</text>
+  <g font-family="system-ui,sans-serif">
+    <rect x="40" y="122" width="240" height="88" rx="12" fill="#1c2b37" stroke="#5489ac"/>
+    <text x="60" y="155" fill="#eaf3f8" font-size="17" font-weight="700">docs-next</text>
+    <text x="60" y="181" fill="#a9bfcd" font-size="13">www.agentskit.io</text>
+    <rect x="40" y="232" width="240" height="88" rx="12" fill="#1c2b37" stroke="#5489ac"/>
+    <text x="60" y="265" fill="#eaf3f8" font-size="17" font-weight="700">registry</text>
+    <text x="60" y="291" fill="#a9bfcd" font-size="13">registry.agentskit.io</text>
+    <rect x="366" y="177" width="200" height="88" rx="12" fill="#1c2b37" stroke="#70b5dc"/>
+    <text x="386" y="210" fill="#eaf3f8" font-size="17" font-weight="700">ask-backend</text>
+    <text x="386" y="236" fill="#a9bfcd" font-size="13">shared answer API</text>
+    <rect x="640" y="177" width="200" height="88" rx="12" fill="#1c2b37" stroke="#657a89"/>
+    <text x="660" y="210" fill="#eaf3f8" font-size="17" font-weight="700">landing</text>
+    <text x="660" y="236" fill="#a9bfcd" font-size="13">standalone alternate</text>
+    <path d="M280 166H320V199H366M280 276H320V243H366" fill="none" stroke="#70b5dc" stroke-width="2"/>
+    <path d="m357 194 9 5-9 5M357 238l9 5-9 5" fill="none" stroke="#70b5dc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

@@ -7,6 +7,8 @@ Profile: <code>public-app</code>
 - App package lives at `apps/docs-next`.
 - Root claims: [ecosystem-claims.json](../../ecosystem-claims.json)
 
+![AgentsKit docs serve the public site and use the shared Ask backend](../../.github/assets/app-surfaces.svg)
+
 ## Install / run
 
 <!-- readme-command:install -->
