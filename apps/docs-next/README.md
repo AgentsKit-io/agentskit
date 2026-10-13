@@ -87,6 +87,10 @@ The public Cloudflare Worker uses the vinext build. Verify it locally with
 `pnpm --filter @agentskit/docs-next start:vinext`; deploy the merged revision with
 `pnpm --filter @agentskit/docs-next deploy:vinext` from the authorized Cloudflare account.
 
+The unlisted `/downloads` page reads all 36 scoped packages from npm's public downloads API.
+Its API route retries npm rate limits and caches a successful aggregate at the Cloudflare edge
+for up to 24 hours. The displayed `through` date identifies the latest complete npm day.
+
 ## Decision criteria for migration
 
 Compare against `apps/docs` (Docusaurus):

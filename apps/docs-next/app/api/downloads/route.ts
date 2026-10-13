@@ -1,14 +1,25 @@
 import { NextResponse } from 'next/server'
-import { readJson } from '@agentskit/net'
+import { fetchWithRetry, readJson } from '@agentskit/net'
 import {
   FIRST_PUBLISHED_DAY, PACKAGE_NAMES, dateChunks,
   type DailyCount, type DownloadsData, type PackageCounts, type PackageName,
 } from '@/lib/npm-downloads'
 
 const API = 'https://api.npmjs.org/downloads'
+const CACHE_KEY = 'https://www.agentskit.io/api/downloads'
+const CACHE_CONTROL = 'public, s-maxage=86400'
+
+function npmFetch(url: string): Promise<Response> {
+  return fetchWithRetry(url, {}, {
+    retries: 3,
+    minDelayMs: 750,
+    maxDelayMs: 3000,
+    maxRetryAfterMs: 15_000,
+  })
+}
 
 async function npmJson(url: string): Promise<unknown> {
-  const response = await fetch(url, { next: { revalidate: 3600 } })
+  const response = await npmFetch(url)
   if (!response.ok) throw new Error(`npm downloads API returned ${response.status}`)
   return readJson(response, { maxBytes: 64_000 })
 }
@@ -25,12 +36,10 @@ async function getPackage(name: PackageName, through: string): Promise<PackageCo
   const seen = new Set<string>()
   for (const chunk of dateChunks(FIRST_PUBLISHED_DAY, through)) {
     const url = `${API}/range/${chunk.start}:${chunk.end}/${name}`
-    const response = await fetch(url, { next: { revalidate: 3600 } })
+    const response = await npmFetch(url)
     if (response.status === 404) {
       // npm has no download series until the first completed day after publication.
-      const registry = await fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`, {
-        next: { revalidate: 86400 },
-      })
+      const registry = await npmFetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`)
       if (!registry.ok) throw new Error(`npm registry returned ${registry.status} for ${name}`)
       const metadata: unknown = await readJson(registry, { maxBytes: 4_000_000 })
       const created = typeof metadata === 'object' && metadata !== null && 'time' in metadata &&
@@ -61,6 +70,11 @@ async function getPackage(name: PackageName, through: string): Promise<PackageCo
 
 export async function GET() {
   try {
+    const edgeCache = (globalThis as typeof globalThis & { caches?: { default?: Cache } }).caches?.default
+    const cacheRequest = new Request(CACHE_KEY)
+    const cached = await edgeCache?.match(cacheRequest).catch(() => undefined)
+    if (cached) return cached
+
     const latest: unknown = await npmJson(`${API}/point/last-day`)
     if (typeof latest !== 'object' || latest === null || !('end' in latest) ||
         typeof latest.end !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(latest.end)) {
@@ -70,14 +84,16 @@ export async function GET() {
     const names = PACKAGE_NAMES.map((name) => `@agentskit/${name}` as PackageName)
     const packages: PackageCounts[] = new Array(names.length)
     let next = 0
-    await Promise.all(Array.from({ length: 6 }, async () => {
+    await Promise.all(Array.from({ length: 2 }, async () => {
       while (next < names.length) {
         const index = next++
         packages[index] = await getPackage(names[index], through)
       }
     }))
     const data: DownloadsData = { since: FIRST_PUBLISHED_DAY, through, packages }
-    return NextResponse.json(data, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=3600' } })
+    const response = NextResponse.json(data, { headers: { 'Cache-Control': CACHE_CONTROL } })
+    await edgeCache?.put(cacheRequest, response.clone()).catch(() => undefined)
+    return response
   } catch (error) {
     console.error('Unable to load npm downloads:', error)
     return NextResponse.json({ error: 'npm download data is temporarily unavailable. Please retry.' }, { status: 502 })
