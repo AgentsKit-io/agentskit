@@ -63,6 +63,8 @@ Tailwind v4 + `fumadocs-ui/css/preset.css` + neutral theme.
 
 The legacy Docusaurus app at `apps/docs` is not the canonical documentation surface. The current deployment has one public owner for `/` and `/docs` in this app; `apps/landing` remains a standalone alternate surface until routing is deliberately changed.
 
+The unlisted `/downloads` route shows npm download history for the 36 `@agentskit` packages. Its `/api/downloads` route fetches each scoped package from npm's public downloads API, caches responses for one hour, and splits history into non-overlapping windows within npm's 18-month limit. The route is intentionally absent from navigation and the sitemap. The dashboard excludes the current incomplete UTC day and treats packages published after the last completed day as awaiting data.
+
 ## Run locally
 
 ```bash
