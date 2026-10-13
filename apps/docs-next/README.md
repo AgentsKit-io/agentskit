@@ -44,7 +44,7 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) and [LICENSE](../../LICENSE).
 
 Profile: <code>public-app</code>
 
-Canonical Fumadocs site for AgentsKit. The existing Vercel project `agentskit-doc` is rooted at `apps/docs-next` and currently serves `www.agentskit.io`, including the apex homepage, `/docs`, learning, blog, ecosystem, and machine-readable documentation surfaces. The standalone `apps/landing` app is not currently mapped to the public domain.
+Canonical Fumadocs site for AgentsKit. The Cloudflare Worker `agentskit-docs`, built from `apps/docs-next` with vinext, currently serves `www.agentskit.io`, including the homepage, `/docs`, learning, blog, ecosystem, and machine-readable documentation surfaces. The standalone `apps/landing` app is not mapped to the public domain.
 
 Tracked by [#238](https://github.com/AgentsKit-io/agentskit/issues/238) in the Phase 0 roadmap.
 
@@ -63,7 +63,7 @@ Tailwind v4 + `fumadocs-ui/css/preset.css` + neutral theme.
 
 ## Why parallel to `apps/docs`
 
-The legacy Docusaurus app at `apps/docs` is not the canonical documentation surface. The current deployment has one public owner for `/` and `/docs` in this app; `apps/landing` remains a standalone alternate surface until routing is deliberately changed.
+The legacy Docusaurus app at `apps/docs` is not the canonical documentation surface. The Cloudflare deployment has one public owner for `/` and `/docs` in this app; `apps/landing` remains a standalone alternate surface until routing is deliberately changed.
 
 The unlisted `/downloads` route shows npm download history for the 36 `@agentskit` packages. Its `/api/downloads` route fetches each scoped package from npm's public downloads API, caches responses for one hour, and splits history into non-overlapping windows within npm's 18-month limit. The route is intentionally absent from navigation and the sitemap. The dashboard excludes the current incomplete UTC day and treats packages published after the last completed day as awaiting data.
 
@@ -81,6 +81,11 @@ Build:
 pnpm --filter @agentskit/docs-next build
 pnpm --filter @agentskit/docs-next start
 ```
+
+The public Cloudflare Worker uses the vinext build. Verify it locally with
+`pnpm --filter @agentskit/docs-next build:vinext` and
+`pnpm --filter @agentskit/docs-next start:vinext`; deploy the merged revision with
+`pnpm --filter @agentskit/docs-next deploy:vinext` from the authorized Cloudflare account.
 
 ## Decision criteria for migration
 
