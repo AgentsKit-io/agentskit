@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+/* vinext needs these responsive Fumadocs nav utilities included explicitly. */
+@source inline("max-sm:hidden max-lg:hidden");
 /* Canonical brand palette — GENERATED from brand/tokens.json (single source for
  * the whole ecosystem). Provides --ak-bg/surface/border/fg/muted/blue/red/green/
  * accent + fonts/radii/motion, per light + .dark. Regenerate via
