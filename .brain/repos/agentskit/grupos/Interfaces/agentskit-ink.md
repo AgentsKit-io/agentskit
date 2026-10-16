@@ -6,88 +6,78 @@ npm: "@agentskit/ink"
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível)"
-fontes: ["packages/ink/package.json", "packages/ink/src/index.ts", "apps/docs-next/content/docs/for-agents/ink.mdx", "AGENTS.md", "packages/ink/CONVENTIONS.md", "packages/ink/tests/InputBar.test.tsx", "packages/ink/tests/MarkdownText.catch.test.tsx", "packages/ink/tests/MarkdownText.test.tsx", "packages/ink/tests/Message.test.tsx", "docs/architecture/adrs/0009-composition-rules.md", "docs/architecture/adrs/0010-egress-policy.md", "docs/architecture/adrs/0020-serializable-interaction-state.md"]
+commits: { agentskit: 9f8d8551 }
+metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível); auditado em 2026-10-16"
+fontes: ["packages/ink/package.json", "packages/ink/src/index.ts", "packages/ink/src/useChat.ts", "packages/ink/src/progress-observer.ts", "packages/ink/README.md", "apps/docs-next/content/docs/for-agents/ink.mdx", "AGENTS.md", "packages/ink/CONVENTIONS.md", "packages/ink/tests/InputBar.test.tsx", "packages/ink/tests/MarkdownText.catch.test.tsx", "packages/ink/tests/MarkdownText.test.tsx", "packages/ink/tests/Message.test.tsx", "docs/architecture/adrs/0009-composition-rules.md", "docs/architecture/adrs/0010-egress-policy.md", "docs/architecture/adrs/0020-serializable-interaction-state.md"]
 tags: [pacote, repo/agentskit, camada/framework, grupo/interfaces]
 ---
 
 # agentskit-ink
 
 > [!tldr] Em linguagem comum
-> Pacote ink do AgentsKit: veja a responsabilidade abaixo e a documentação de agente indicada.
+> Binding do AgentsKit para interfaces de terminal com Ink (React para CLI): hook `useChat`, componentes de chat para o terminal, um observador de progresso que escreve no terminal e um tema de cores.
 
 ← [[00 Grupo - agentskit - Interfaces]]
 
 ## O que faz e por que existe
 
-O pacote `@agentskit/ink` publica a superfície definida em `packages/ink/src/index.ts`; a responsabilidade funcional está resumida no handoff do Doc Bridge. O índice aponta o início de leitura em `apps/docs-next/content/docs/for-agents/ink.mdx` e limita edições a `packages/ink`. Fonte: `packages/ink/package.json:1`; `.doc-bridge/index.json` (registro `handoffs.ink`).
+Binding Ink do contrato `ChatReturn` compartilhado. Reexporta o controlador e os tipos de `@agentskit/core` (`packages/ink/src/index.ts:5-80`), mais o hook `useChat` que liga o controlador ao estado do React/Ink (`packages/ink/src/index.ts:91`), um observador de progresso para o terminal (`packages/ink/src/index.ts:97`) e componentes de terminal (`packages/ink/src/index.ts:103-116`). Depende de `@agentskit/core` (`packages/ink/package.json:46`). O índice do Doc Bridge aponta o início de leitura em `apps/docs-next/content/docs/for-agents/ink.mdx` e limita edições a `packages/ink` (`.doc-bridge/index.json`, `handoffs.ink`).
 
 ## API e contratos
 
-Exports de topo (assinaturas resumidas conforme declarações de exportação):
+Exports de `packages/ink/src/index.ts`. Os símbolos reexportados de `@agentskit/core` são os mesmos de `agentskit-react`; aqui listamos a linha de cada export.
 
 | Símbolo | Tipo | Para que serve | Onde |
 |---|---|---|---|
-| `createChatController` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:5` |
-| `createInMemoryMemory` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:10` |
-| `createLocalStorageMemory` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:15` |
-| `createStaticRetriever` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:20` |
-| `formatRetrievedDocuments` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:25` |
-| `MaybePromise` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:28` |
-| `StreamStatus` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:30` |
-| `MessageRole` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:32` |
-| `MessageStatus` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:34` |
-| `ToolCallStatus` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:36` |
-| `ToolCall` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:38` |
-| `RetrievedDocument` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:40` |
-| `Message` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:42` |
-| `StreamToolCallPayload` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:44` |
-| `StreamChunk` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:46` |
-| `StreamSource` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:48` |
-| `UseStreamOptions` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:50` |
-| `UseStreamReturn` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:52` |
-| `ToolExecutionContext` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:54` |
-| `ToolDefinition` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:56` |
-| `ToolCallHandlerContext` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:58` |
-| `ChatMemory` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:60` |
-| `RetrieverRequest` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:62` |
-| `Retriever` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:64` |
-| `AdapterContext` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:66` |
-| `AdapterRequest` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:68` |
-| `ChatConfig` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:70` |
-| `ChatState` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:72` |
-| `ChatController` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:74` |
-| `ChatReturn` | export nomeado | API pública do pacote. | `packages/ink/src/index.ts:76` |
+| `createChatController`, `createInMemoryMemory`, `createLocalStorageMemory`, `createStaticRetriever`, `formatRetrievedDocuments` | funções reexportadas de `@agentskit/core` | Fábrica de controlador, memória (em memória e `localStorage`), retriever estático e formatação de documentos. | `packages/ink/src/index.ts:5`, `:10`, `:15`, `:20`, `:25` |
+| `MaybePromise`, `StreamStatus`, `MessageRole`, `MessageStatus`, `ToolCallStatus`, `ToolCall`, `RetrievedDocument`, `MessageType`, `StreamToolCallPayload`, `StreamChunk`, `StreamSource`, `UseStreamOptions`, `UseStreamReturn`, `ToolExecutionContext`, `ToolDefinition`, `ToolCallHandlerContext`, `ChatMemory`, `RetrieverRequest`, `Retriever`, `AdapterContext`, `AdapterRequest`, `ChatConfig`, `ChatState`, `ChatController`, `ChatReturn`, `MemoryRecord`, `AdapterFactory` | tipos reexportados de `@agentskit/core` | Contratos de mensagem, stream, ferramenta, memória, retriever, adapter e controlador. `MessageType` é `Message as MessageType`. | `packages/ink/src/index.ts:28-80` |
+| `useChat` | hook | Liga o controlador ao estado do Ink. O JSDoc traz exemplo `useChat({ adapter })` com `<InputBar chat={chat} />`. | `packages/ink/src/index.ts:91`; `packages/ink/src/useChat.ts` |
+| `createProgressObserver` | função | Cria um observador que escreve eventos de status no terminal. | `packages/ink/src/index.ts:97`; `packages/ink/src/progress-observer.ts` |
+| `SPINNER_FRAMES` | constante | Quadros do spinner Braille usados pelos indicadores de progresso. | `packages/ink/src/index.ts:99` |
+| `ProgressObserverOptions` | tipo | Opções de saída e animação do observador. | `packages/ink/src/index.ts:101` |
+| `ChatContainer`, `Message`, `InputBar`, `ToolCallView`, `ThinkingIndicator`, `StatusHeader`, `MarkdownText`, `ToolConfirmation`, `TopologyGraphView` | componentes Ink | Componentes de chat para terminal. | `packages/ink/src/index.ts:103-116` |
+| `InkThemeProvider`, `useInkTheme`, `defaultInkTheme` | tema | Provedor e hook de tema, com tema padrão. | `packages/ink/src/index.ts:113-115` |
+| `ChatContainerProps`, `MessageProps`, `InputBarProps`, `ToolCallViewProps`, `ThinkingIndicatorProps`, `StatusHeaderProps`, `MarkdownTextProps`, `ToolConfirmationProps`, `TopologyGraphViewProps`, `TopologyGraphViewNode`, `TopologyGraphViewEdge`, `TopologyGraphViewSnapshot`, `TopologyGraphSource`, `InkTheme` | tipos | Props dos componentes e formatos do grafo de topologia e do tema. | `packages/ink/src/index.ts:118-133` |
 
-Exemplo de uso localizado em documentação ou teste:
+Exemplo real do README (imports do pacote):
 
-Exemplo real de import do pacote: `import { ChatContainer, InputBar, Message, useChat } from '@agentskit/ink'` — `packages/ink/README.md:56`.
+```tsx
+import { ChatContainer, InputBar, Message, useChat } from '@agentskit/ink'
+import { ollama } from '@agentskit/adapters'
+```
+
+Fonte: `packages/ink/README.md:56-57`.
 
 ## Quem usa e do que depende
 
 | Relação | Nota / evidência |
 |---|---|
-| Dependência interna | [[agentskit-core]] (`packages/ink/package.json:1`) |
+| Dependência interna | [[agentskit-core]] (`packages/ink/package.json:46`, `"@agentskit/core": "workspace:*"`) |
+| Consumidores no monorepo | `apps/example-ink` (`apps/example-ink/package.json:13`) e `packages/cli` (`packages/cli/package.json:55`) declaram `"@agentskit/ink": "workspace:*"`. |
+| Consumidores externos | Não confirmado. |
 | Documentação para agentes | `apps/docs-next/content/docs/for-agents/ink.mdx` (`.doc-bridge/index.json`, `handoffs.ink`) |
-| Consumidores | Consumidores internos identificados por busca de dependências/manifests não foram consolidados nesta nota; uso externo não confirmado. |
 
 ## Dados e efeitos
 
-Variáveis identificadas por acesso direto no código: Nenhuma variável de ambiente identificada pela busca estática no pacote. Os efeitos e condições de uso dependem dos locais citados nas fontes. configuração indireta por argumentos. Requisitos de rede, arquivos e permissões dependem dos módulos concretos; a entrada pública não basta para afirmar uso em execução. Consulte fontes abaixo antes de alterar efeitos colaterais.
+- Nenhuma leitura de variáveis de ambiente em `packages/ink/src` (busca por `process.env` sem resultado).
+- Escreve no terminal (stdout) pelo observador de progresso e pelos componentes Ink. O teclado é lido só pelo hook `useInput` do Ink, nunca por stdin direto (`packages/ink/CONVENTIONS.md:26`).
+- O README configura o adapter com `ollama` de `@agentskit/adapters`; o manifesto deste pacote não declara `@agentskit/adapters`, então a configuração do adapter é responsabilidade do consumidor.
+- Sem permissões ou capabilities exigidas além de um terminal compatível com Ink.
 
 ## Como mexer (para agentes)
 
-- **Comece por:** `apps/docs-next/content/docs/for-agents/ink.mdx`, `packages/ink/CONVENTIONS.md` e `packages/ink/src/index.ts`.
+- **Comece por:** `packages/ink/CONVENTIONS.md`, `packages/ink/src/index.ts` e `packages/ink/src/useChat.ts`. O handoff do índice também cita `apps/docs-next/content/docs/for-agents/ink.mdx`.
 - **Raiz de edição do handoff:** `packages/ink` (`.doc-bridge/index.json`, `handoffs.ink`).
-- **Invariantes:** `ink-testing-library@4` does **not** route stdin through `ink@7`'s input pipeline. Keyboard-input tests must mock `useInput` directly: (`packages/ink/CONVENTIONS.md:1`).
-- **Testes encontrados:** `packages/ink/tests/InputBar.test.tsx`, `packages/ink/tests/MarkdownText.catch.test.tsx`, `packages/ink/tests/MarkdownText.test.tsx`, `packages/ink/tests/Message.test.tsx`, `packages/ink/tests/StatusHeader.test.tsx`, `packages/ink/tests/ToolCallView.test.tsx`, `packages/ink/tests/ToolConfirmation.test.tsx`, `packages/ink/tests/TopologyGraphView.test.tsx`.
-- **Validação indicada pelo índice:** `pnpm --filter @agentskit/ink test` e `pnpm --filter @agentskit/ink lint`. Não executados: `pnpm` não está instalado no ambiente.
-- **Armadilha:** não ampliar a responsabilidade do pacote nem introduzir quebra de contrato sem ler os ADRs relacionados.
+- **Invariantes:**
+  - Usar o hook `useInput` do Ink e não ler stdin diretamente (`packages/ink/CONVENTIONS.md:26`).
+  - `ink-testing-library@4` não passa stdin pelo pipeline de entrada do `ink@7`; testes de teclado precisam mockar `useInput` diretamente (`packages/ink/CONVENTIONS.md:32`).
+- **Testes:** `packages/ink/tests/useChat-sync.test.ts` (hook), `packages/ink/tests/exports.test.ts` (superfície pública), `packages/ink/tests/progress-observer.test.ts`, `packages/ink/tests/integration.test.tsx`, `packages/ink/tests/security-boundary.test.tsx`, `packages/ink/tests/theme.test.tsx`, componentes (`InputBar`, `Message`, `MarkdownText`, `MarkdownText.catch`, `StatusHeader`, `ToolCallView`, `ToolConfirmation`, `TopologyGraphView`) e snapshots em `packages/ink/tests/visual.snap.test.tsx`.
+- **Validação:** `pnpm --filter @agentskit/ink test` (executa `turbo run build` e `vitest run`, `packages/ink/package.json:40`) e `pnpm --filter @agentskit/ink lint` (`tsc --noEmit`, `packages/ink/package.json:42`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Quem revisa:** não identificado nos arquivos auditados; confirmar com o coordenador do repo.
 
 ## Decisões e história
 
-ADRs relacionados identificados por busca no texto: [[agentskit ADR-0009 - Regras de composição e dependência]], [[agentskit ADR-0010 - Política de saída de rede (safeFetch)]], [[agentskit ADR-0020 - Estado de interação serializável]], [[agentskit ADR-0021 - Manifesto versionado do ecossistema e afirmações com evidência]], [[agentskit ADR-0023 - Perfil estrito de qualidade da documentação do ecossistema]], [[agentskit ADR-0029 - Shell web compartilhado do ecossistema]], [[agentskit ADR-0033 - Registry adota o shell do ecossistema]], [[agentskit ADR-0034 - Shell do ecossistema v1]], [[agentskit ADR-0035 - Poda da documentação e consolidação das rotas de referência da API]]. Histórico recente (`git log --oneline -15 -- packages/ink`):
+ADRs relacionados identificados pelos documentos citados na fonte da nota: [[agentskit ADR-0009 - Regras de composição e dependência]], [[agentskit ADR-0010 - Política de saída de rede (safeFetch)]], [[agentskit ADR-0020 - Estado de interação serializável]]. Histórico recente (`git log --oneline -8 -- packages/ink`, conferido em 2026-10-16):
 
 - `e8d42064 chore: version packages (#1757)`
 - `bdd1cf10 chore: share tsup package defaults (#1796)`
@@ -99,7 +89,8 @@ ADRs relacionados identificados por busca no texto: [[agentskit ADR-0009 - Regra
 - `ee56f43d perf(ci): reuse Turbo build prerequisites across checks (#1700)`
 
 > [!info]- Detalhe técnico
-> - `packages/ink/package.json:1` — manifesto, versão, dependências e scripts.
-> - `packages/ink/src/index.ts:1` — entrada pública.
+> - `packages/ink/package.json:1` — manifesto, dependências (`:46`) e scripts (`:40`, `:42`).
+> - `packages/ink/src/index.ts:1` — entrada pública (controlador, hook, observador, componentes e tema).
+> - `packages/ink/README.md:56` — exemplo de import.
+> - `packages/ink/CONVENTIONS.md:26` — uso de `useInput` e testes de teclado.
 > - `apps/docs-next/content/docs/for-agents/ink.mdx:1` — handoff documental de agentes.
-> - `packages/ink/CONVENTIONS.md:1` — invariantes e orientação de contribuição.

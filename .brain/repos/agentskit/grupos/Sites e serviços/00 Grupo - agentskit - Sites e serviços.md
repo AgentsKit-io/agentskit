@@ -6,8 +6,8 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "inspeção estática; .doc-bridge/index.json versionado consultado; pnpm ausente, índice não atualizado"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; .doc-bridge/index.json versionado consultado; pnpm ausente, índice não atualizado; auditado em 2026-10-16"
 fontes:
   - "apps/ask-backend/package.json"
   - "apps/docs-next/package.json"
@@ -32,11 +32,13 @@ Este grupo organiza as superfícies sites e serviços do monorepo. Consulte cada
 
 | Nota | Papel |
 |---|---|
-| [[agentskit-ask-backend]] | Aplicação deste grupo |
-| [[agentskit-docs-next]] | Aplicação deste grupo |
-| [[agentskit-landing]] | Aplicação deste grupo |
-| [[agentskit-registry]] | Aplicação deste grupo |
-| [[agentskit-visual-react]] | Aplicação deste grupo |
+| [[agentskit-ask-backend]] | Serviço de perguntas sobre a documentação, com recuperação e citações; expõe também `/mcp`. |
+| [[agentskit-docs-next]] | Site de documentação e referência; publica o corpus para agentes. |
+| [[agentskit-landing]] | Página pública de apresentação, com analytics opt-in. |
+| [[agentskit-registry]] | Catálogo visual de agentes; consome o Ask pelo widget. |
+| [[agentskit-visual-react]] | Galeria de componentes React para comparação visual (Playwright). |
+
+Todos os cinco são workspaces privados (`"private": true`, linha 4 de cada `package.json`). O único consumo interno verificado entre eles é o widget do registry chamando o endpoint do Ask (ver [[agentskit-registry]]).
 
 > [!info]- Detalhe técnico
 > Índice Doc Bridge: `.doc-bridge/index.json` (gerado em 2026-10-12); `doc-bridge.config.json` declara corpus de documentação e CLI.

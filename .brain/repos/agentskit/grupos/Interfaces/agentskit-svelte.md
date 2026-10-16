@@ -6,60 +6,80 @@ npm: "@agentskit/svelte"
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível)"
-fontes: ["packages/svelte/package.json", "packages/svelte/src/index.ts", "apps/docs-next/content/docs/for-agents/svelte.mdx", "AGENTS.md", "packages/svelte/CONVENTIONS.md", "packages/svelte/tests/components.test.ts", "packages/svelte/tests/package-manifest.test.ts", "packages/svelte/tests/ssr.test.ts", "packages/svelte/tests/store.test.ts", "docs/architecture/adrs/0009-composition-rules.md", "docs/architecture/adrs/0020-serializable-interaction-state.md"]
+commits: { agentskit: 9f8d8551 }
+metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível); auditado em 2026-10-16"
+fontes: ["packages/svelte/package.json", "packages/svelte/src/index.ts", "packages/svelte/src/useChat.ts", "packages/svelte/README.md", "apps/docs-next/content/docs/for-agents/svelte.mdx", "AGENTS.md", "packages/svelte/CONVENTIONS.md", "packages/svelte/vitest.ssr.config.ts", "packages/svelte/tests/components.test.ts", "packages/svelte/tests/package-manifest.test.ts", "packages/svelte/tests/ssr.test.ts", "packages/svelte/tests/store.test.ts", "docs/architecture/adrs/0009-composition-rules.md", "docs/architecture/adrs/0020-serializable-interaction-state.md"]
 tags: [pacote, repo/agentskit, camada/framework, grupo/interfaces]
 ---
 
 # agentskit-svelte
 
 > [!tldr] Em linguagem comum
-> Pacote svelte do AgentsKit: veja a responsabilidade abaixo e a documentação de agente indicada.
+> Binding do AgentsKit para Svelte 5: um store de chat (`createChatStore`) que pode ser lido com `$chat`, e oito componentes de interface sem estilo fixo.
 
 ← [[00 Grupo - agentskit - Interfaces]]
 
 ## O que faz e por que existe
 
-O pacote `@agentskit/svelte` publica a superfície definida em `packages/svelte/src/index.ts`; a responsabilidade funcional está resumida no handoff do Doc Bridge. O índice aponta o início de leitura em `apps/docs-next/content/docs/for-agents/svelte.mdx` e limita edições a `packages/svelte`. Fonte: `packages/svelte/package.json:1`; `.doc-bridge/index.json` (registro `handoffs.svelte`).
+Binding Svelte 5 do contrato `ChatReturn` compartilhado, com API baseada em store e oito componentes `.svelte` headless (`packages/svelte/CONVENTIONS.md:3-4`). `createChatStore(config)` devolve `SvelteChatStore`, um `Readable<ChatState>` (com `subscribe` e `$chat`) mais as ações (`packages/svelte/CONVENTIONS.md:11-12`). Peer declarado: `svelte ^5`; publicado como ESM com condição de export `svelte` e empacotado com `@sveltejs/package` (`packages/svelte/CONVENTIONS.md:6-7`). O pacote depende de `@agentskit/core` (`packages/svelte/package.json:49`), que contém o controlador. O índice do Doc Bridge aponta o início de leitura em `apps/docs-next/content/docs/for-agents/svelte.mdx` e limita edições a `packages/svelte` (`.doc-bridge/index.json`, `handoffs.svelte`).
 
 ## API e contratos
 
-Exports de topo (assinaturas resumidas conforme declarações de exportação):
+Exports de `packages/svelte/src/index.ts`:
 
 | Símbolo | Tipo | Para que serve | Onde |
 |---|---|---|---|
-| `createChatStore` | export nomeado | API pública do pacote. | `packages/svelte/src/index.ts:1` |
-| `SvelteChatStore` | export nomeado | API pública do pacote. | `packages/svelte/src/index.ts:3` |
+| `createChatStore` | função | Cria o store de chat (`SvelteChatStore`). | `packages/svelte/src/index.ts:1` |
+| `SvelteChatStore` | tipo | Store com `subscribe`/`$chat` mais as ações do chat. | `packages/svelte/src/index.ts:3` |
+| `ChatContainer` | componente `.svelte` | Região rolável que acompanha mudanças no conteúdo. | `packages/svelte/src/index.ts:6` |
+| `Message` | componente `.svelte` | Renderiza uma mensagem com avatar e ações opcionais. | `packages/svelte/src/index.ts:8` |
+| `InputBar` | componente `.svelte` | Campo de texto e botão de envio ligados ao store. | `packages/svelte/src/index.ts:10` |
+| `Markdown` | componente `.svelte` | Renderiza conteúdo com marcador opcional de streaming. | `packages/svelte/src/index.ts:12` |
+| `CodeBlock` | componente `.svelte` | Bloco de código com cópia opcional para a área de transferência. | `packages/svelte/src/index.ts:14` |
+| `ToolCallView` | componente `.svelte` | Resumo de chamada de ferramenta com argumentos e resultado expansíveis. | `packages/svelte/src/index.ts:16` |
+| `ThinkingIndicator` | componente `.svelte` | Indicador de raciocínio, exibido quando `visible` é verdadeiro. | `packages/svelte/src/index.ts:18` |
+| `ToolConfirmation` | componente `.svelte` | Controles de aprovação enquanto uma chamada aguarda confirmação. | `packages/svelte/src/index.ts:20` |
 
-Exemplo de uso localizado em documentação ou teste:
+Exemplo real do README (import do store e do tipo de configuração):
 
-Exemplo real de import do pacote: `import { createChatStore } from '@agentskit/svelte'` — `packages/svelte/README.md:54`.
+```svelte
+import { createChatStore } from '@agentskit/svelte'
+import type { ChatConfig } from '@agentskit/core'
+```
+
+Fonte: `packages/svelte/README.md:54-55`. As descrições dos componentes vêm do JSDoc de `packages/svelte/src/index.ts:5-20`.
 
 ## Quem usa e do que depende
 
 | Relação | Nota / evidência |
 |---|---|
-| Dependência interna | [[agentskit-core]] (`packages/svelte/package.json:1`) |
+| Dependência interna | [[agentskit-core]] (`packages/svelte/package.json:49`, `"@agentskit/core": "workspace:*"`) |
+| Peer | `svelte ^5` (`packages/svelte/CONVENTIONS.md:6`) |
+| Consumidores no monorepo | Nenhum `package.json` do monorepo declara `@agentskit/svelte` (busca por `"@agentskit/svelte"` retorna só o próprio pacote). |
+| Consumidores externos | Não confirmado. |
 | Documentação para agentes | `apps/docs-next/content/docs/for-agents/svelte.mdx` (`.doc-bridge/index.json`, `handoffs.svelte`) |
-| Consumidores | Consumidores internos identificados por busca de dependências/manifests não foram consolidados nesta nota; uso externo não confirmado. |
 
 ## Dados e efeitos
 
-Variáveis identificadas por acesso direto no código: Nenhuma variável de ambiente identificada pela busca estática no pacote. Os efeitos e condições de uso dependem dos locais citados nas fontes. configuração indireta por argumentos. Requisitos de rede, arquivos e permissões dependem dos módulos concretos; a entrada pública não basta para afirmar uso em execução. Consulte fontes abaixo antes de alterar efeitos colaterais.
+- Nenhuma leitura de variáveis de ambiente em `packages/svelte/src` (busca por `process.env` e `import.meta.env` sem resultado).
+- Adapters que fazem chamadas de rede não devem iniciar durante SSR; adie para `onMount` ou para um endpoint do servidor (`packages/svelte/CONVENTIONS.md:61`).
+- Sem permissões ou capabilities exigidas além do ambiente de execução do Svelte.
 
 ## Como mexer (para agentes)
 
-- **Comece por:** `apps/docs-next/content/docs/for-agents/svelte.mdx`, `packages/svelte/CONVENTIONS.md` e `packages/svelte/src/index.ts`.
+- **Comece por:** `packages/svelte/CONVENTIONS.md`, `packages/svelte/src/index.ts` e `packages/svelte/src/useChat.ts`. O handoff do índice também cita `apps/docs-next/content/docs/for-agents/svelte.mdx`.
 - **Raiz de edição do handoff:** `packages/svelte` (`.doc-bridge/index.json`, `handoffs.svelte`).
-- **Invariantes:** Browser-only side effects at module top level (SSR components must render) (`packages/svelte/CONVENTIONS.md:1`).
-- **Testes encontrados:** `packages/svelte/tests/components.test.ts`, `packages/svelte/tests/package-manifest.test.ts`, `packages/svelte/tests/ssr.test.ts`, `packages/svelte/tests/store.test.ts`.
-- **Validação indicada pelo índice:** `pnpm --filter @agentskit/svelte test` e `pnpm --filter @agentskit/svelte lint`. Não executados: `pnpm` não está instalado no ambiente.
-- **Armadilha:** não ampliar a responsabilidade do pacote nem introduzir quebra de contrato sem ler os ADRs relacionados.
+- **Invariantes:**
+  - Sem efeitos colaterais de navegador no nível do módulo: os componentes precisam renderizar no servidor (`packages/svelte/CONVENTIONS.md:27`); os componentes empacotados devem continuar renderizáveis em SSR (`packages/svelte/CONVENTIONS.md:45`).
+  - Não reimplementar a lógica do controlador; apenas envolver `createChatController` (`packages/svelte/CONVENTIONS.md:35`).
+- **Testes:** `packages/svelte/tests/store.test.ts` (store), `packages/svelte/tests/components.test.ts` (componentes), `packages/svelte/tests/ssr.test.ts` (renderização no servidor) e `packages/svelte/tests/package-manifest.test.ts` (manifesto).
+- **Validação:** `pnpm --filter @agentskit/svelte test` executa `turbo run build`, `vitest run` e `vitest run --config vitest.ssr.config.ts` (`packages/svelte/package.json:43`); `pnpm --filter @agentskit/svelte lint` executa `tsc --noEmit` (`packages/svelte/package.json:45`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Armadilhas:** iniciar adapters de rede durante SSR (`packages/svelte/CONVENTIONS.md:61`).
+- **Quem revisa:** não identificado nos arquivos auditados; confirmar com o coordenador do repo.
 
 ## Decisões e história
 
-ADRs relacionados identificados por busca no texto: [[agentskit ADR-0009 - Regras de composição e dependência]], [[agentskit ADR-0020 - Estado de interação serializável]]. Histórico recente (`git log --oneline -15 -- packages/svelte`):
+ADRs relacionados identificados por busca no texto: [[agentskit ADR-0009 - Regras de composição e dependência]], [[agentskit ADR-0020 - Estado de interação serializável]]. Histórico recente (`git log --oneline -8 -- packages/svelte`, conferido em 2026-10-16):
 
 - `e8d42064 chore: version packages (#1757)`
 - `8bf15b0a feat(core): durable tool decisions and multimodal sends (#1828)`
@@ -71,7 +91,8 @@ ADRs relacionados identificados por busca no texto: [[agentskit ADR-0009 - Regra
 - `02ca0b8e chore: version packages`
 
 > [!info]- Detalhe técnico
-> - `packages/svelte/package.json:1` — manifesto, versão, dependências e scripts.
-> - `packages/svelte/src/index.ts:1` — entrada pública.
+> - `packages/svelte/package.json:1` — manifesto, dependências (`:49`) e scripts (`:43`, `:45`).
+> - `packages/svelte/src/index.ts:1` — entrada pública (store e componentes `.svelte`).
+> - `packages/svelte/README.md:54` — exemplo de import.
+> - `packages/svelte/CONVENTIONS.md:27` — invariantes de SSR e escopo.
 > - `apps/docs-next/content/docs/for-agents/svelte.mdx:1` — handoff documental de agentes.
-> - `packages/svelte/CONVENTIONS.md:1` — invariantes e orientação de contribuição.

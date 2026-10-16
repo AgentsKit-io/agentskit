@@ -6,10 +6,11 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "doc-bridge index versionado em .doc-bridge/index.json (gerado em 2026-10-12) para inventário/relacionamentos; pnpm indisponível, CLI não executada; inspeção estática no commit 9b31c771"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; pnpm indisponível, comandos não executados; auditado em 2026-10-16"
 fontes:
   - "apps/example-flow/package.json"
+  - "apps/example-flow/README.md"
   - "apps/example-flow/src/index.ts"
 tags: [app, repo/agentskit, camada/ferramenta, grupo/exemplos]
 ---
@@ -17,40 +18,45 @@ tags: [app, repo/agentskit, camada/ferramenta, grupo/exemplos]
 # agentskit-example-flow
 
 > [!tldr] Em linguagem comum
-> Demonstra fluxo YAML com etapas registradas para retomada.
+> Demo ao vivo de `compileFlow` do runtime: um fluxo definido em YAML é compilado e executado.
 
 ← [[00 Grupo - agentskit - Exemplos]]
 
 ## O que faz e por que existe
 
-Este exemplo ensina: Demonstra fluxo YAML com etapas registradas para retomada. [apps/example-flow/src/index.ts:33].
+Demo ao vivo de `compileFlow` de `@agentskit/runtime`, com um fluxo definido em YAML (`apps/example-flow/README.md:3`). A compilação acontece em `apps/example-flow/src/index.ts:89`, com a definição e um registro de passos. O pacote é privado (`apps/example-flow/package.json:2`).
 
 ## API e contratos
 
-É app privado, não API npm. O símbolo demonstrado é `registry` — FlowRegistry para executar etapas [apps/example-flow/src/index.ts:33]. Exemplo real: `const response = await fetch(url, options)` [apps/example-flow/src/index.ts:33].
+Não exporta API npm. Símbolo principal: `compileFlow({ definition, registry })` (`apps/example-flow/src/index.ts:89`).
 
 ## Quem usa e do que depende
 
-Exercita [[agentskit-runtime]]; copie a composição adaptando configuração e host. Manifesto: `apps/example-flow/package.json:1`.
+| Relação | Evidência |
+|---|---|
+| Dependência | `@agentskit/runtime` (`apps/example-flow/package.json:12`) |
+| Consumidores | Nenhum; é um exemplo. |
 
 ## Dados e efeitos
 
-Lê `flow.yaml`, chama GitHub, pode usar `GITHUB_TOKEN`, grava `.agentskit/flow.jsonl`; `RUN_ID` identifica execução.
+- `GITHUB_TOKEN` (`apps/example-flow/src/index.ts:41`): quando definido, é enviado como `authorization` em uma requisição de rede. O valor não é copiado para a documentação.
+- `RUN_ID` (`apps/example-flow/src/index.ts:91`): identificador da execução, com padrão `demo-run`.
+- Rede: a requisição de rede depende do passo do fluxo que a faz.
 
 ## Como mexer (para agentes)
 
-- Entrada: `apps/example-flow/src/index.ts`.
-- Invariante: preserve distinção entre fixture/mock e integração real.
-- Testes: nenhum teste declarado.
-- Validação: `pnpm --filter @agentskit/example-flow lint`.
-- Execução: Comando disponível conforme manifesto: `pnpm --filter @agentskit/example-flow dev` se existir script `dev`; este manifesto define seu script em `apps/example-example-flow/package.json`.
-- Armadilha: JSONL é estado local da demonstração.
-- Revisão: `.github/CODEOWNERS` ou mantenedores.
+- **Comece por:** `apps/example-flow/src/index.ts`.
+- **Testes:** nenhum teste declarado no exemplo.
+- **Validação:** `pnpm --filter @agentskit/example-flow lint` (`tsc --noEmit`, `apps/example-flow/package.json:9`). `build` também é `tsc --noEmit` (`:8`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Execução:** `dev` roda `tsx src/index.ts` (`apps/example-flow/package.json:7`).
+- **Revisão:** owners em `.github/CODEOWNERS`; sem regra específica para o exemplo.
 
 ## Decisões e história
 
-- Contratos: ADRs específicos do exemplo não confirmados; consulte o ADR do contrato exercitado antes de alterar sua semântica.
-- Histórico recente (git log --oneline -15 -- apps/example-flow): 2026-10-03 · 109488c8 · auditoria de dependências e engines; 2026-09-16 · 9266a6da · atualiza dependências; 2026-07-10 · a50084ee · polimento de dependências.
+- ADR específico do exemplo: não identificado.
+- Histórico recente (`git log --oneline -n 3 -- apps/example-flow`, conferido em 2026-10-16): `9266a6da chore(deps): refresh minor and patch versions`, `a50084ee chore: dependency polish, doc-bridge, and registry catalog UI (#1119)`, `230dd913 chore(deps): consolidated minor/patch dependabot updates (#916)`.
 
 > [!info]- Detalhe técnico
-> Manifesto: `apps/example-flow/package.json:1`; implementação: `apps/example-flow/src/index.ts:33`. O Doc Bridge index versionado foi consultado para contexto, sem atualização por indisponibilidade de pnpm.
+> - `apps/example-flow/package.json:1` — manifesto, scripts (`:7` dev, `:8` build, `:9` lint) e dependência (`:12`).
+> - `apps/example-flow/src/index.ts:89` — `compileFlow`.
+> - `apps/example-flow/src/index.ts:41` — `GITHUB_TOKEN`; `:91` — `RUN_ID`.

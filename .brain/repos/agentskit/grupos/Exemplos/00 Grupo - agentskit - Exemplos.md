@@ -6,8 +6,8 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "inspeção estática; .doc-bridge/index.json versionado consultado; pnpm ausente, índice não atualizado"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; .doc-bridge/index.json versionado consultado; pnpm ausente, índice não atualizado; auditado em 2026-10-16"
 fontes:
   - "apps/example-react/package.json"
   - "apps/example-runtime/package.json"
@@ -28,21 +28,26 @@ Este grupo organiza as superfícies exemplos do monorepo. Consulte cada app para
 
 ## Partes e fluxos
 
-| Nota | Papel |
+| Nota | Papel (verificado no README e no entry do exemplo) |
 |---|---|
-| [[agentskit-example-discord-bot]] | Aplicação deste grupo |
-| [[agentskit-example-dspy]] | Aplicação deste grupo |
-| [[agentskit-example-edge]] | Aplicação deste grupo |
-| [[agentskit-example-embedded]] | Aplicação deste grupo |
-| [[agentskit-example-flow]] | Aplicação deste grupo |
-| [[agentskit-example-ink]] | Aplicação deste grupo |
-| [[agentskit-example-multi-agent]] | Aplicação deste grupo |
-| [[agentskit-example-rag-chat]] | Aplicação deste grupo |
-| [[agentskit-example-react]] | Aplicação deste grupo |
-| [[agentskit-example-runtime]] | Aplicação deste grupo |
-| [[agentskit-example-slack-bot]] | Aplicação deste grupo |
-| [[agentskit-example-teams-bot]] | Aplicação deste grupo |
-| [[agentskit-example-webllm]] | Aplicação deste grupo |
+| [[agentskit-example-discord-bot]] | Bot de Discord de referência, com `createChatTrigger` do runtime. Tem testes. |
+| [[agentskit-example-dspy]] | Prompt base contra prompt otimizado por DSPy, pontuados pelo `@agentskit/eval`. |
+| [[agentskit-example-edge]] | Worker de Cloudflare com `POST /chat`, no caminho quente pequeno. |
+| [[agentskit-example-embedded]] | O mesmo agente em CLI Node, Raycast e tarefa do VS Code. |
+| [[agentskit-example-embedded-raycast]] | Host do Raycast do exemplo embedded (script Node próprio). |
+| [[agentskit-example-flow]] | Demo de `compileFlow` com fluxo em YAML. |
+| [[agentskit-example-ink]] | Chat no terminal com Ink e memória em arquivo. |
+| [[agentskit-example-multi-agent]] | App React com `useChat` e a skill `planner`. |
+| [[agentskit-example-rag-chat]] | Chat com RAG sobre um corpus pequeno em Markdown. |
+| [[agentskit-example-react]] | Chat React com OpenAI (se houver chave) ou demo, e memória em `localStorage`. |
+| [[agentskit-example-runtime]] | Demos headless do runtime, com adapter simulado. |
+| [[agentskit-example-slack-bot]] | Bot de Slack de referência, com `createChatTrigger`. Tem testes. |
+| [[agentskit-example-teams-bot]] | Bot de Microsoft Teams de referência, com `createChatTrigger`. Tem testes. |
+| [[agentskit-example-webllm]] | Chat que roda no navegador via WebGPU. |
+
+Exemplos com teste próprio: apenas discord-bot, slack-bot e teams-bot (`tests/adapter.test.ts`). Os demais declaram só `lint`, e alguns `dev`/`build`.
+
+Parte de um host de exemplo, não de workspace próprio: `apps/example-embedded/raycast/` tem `package.json` próprio, fora do `pnpm --filter @agentskit/example-embedded` (ver [[agentskit-example-embedded-raycast]]).
 
 > [!info]- Detalhe técnico
-> Índice Doc Bridge: `.doc-bridge/index.json` (gerado em 2026-10-12); `doc-bridge.config.json` declara corpus de documentação e CLI.
+> Índice Doc Bridge: `.doc-bridge/index.json` (`generatedAt` 2026-10-12); `doc-bridge.config.json` declara corpus de documentação e CLI.

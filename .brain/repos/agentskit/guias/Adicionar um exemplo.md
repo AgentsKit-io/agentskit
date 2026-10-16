@@ -5,8 +5,8 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "inspeção estática; .doc-bridge/index.json versionado consultado; pnpm ausente, índice não atualizado"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; comandos conferidos em package.json e nos manifests dos exemplos; pnpm não executado; auditado em 2026-10-16"
 fontes:
   - "AGENTS.md"
   - "CONTRIBUTING.md"
@@ -19,34 +19,39 @@ tags: [guia, repo/agentskit, camada/ferramenta]
 # Adicionar um exemplo
 
 > [!tldr] Em linguagem comum
-> Use para demonstrar composição com um host ou capacidade AgentsKit.
+> Use para mostrar a composição de pacotes do AgentsKit com um host ou capacidade, num app pequeno em `apps/`.
 
 ← [[00 Hub - agentskit]]
 
 ## Quando usar
 
-Use para demonstrar composição com um host ou capacidade AgentsKit.
+Ao demonstrar a composição de pacotes do AgentsKit com um host (navegador, terminal, bot, edge) ou com uma capacidade (RAG, fluxo, avaliação). Os exemplos atuais estão no grupo [[00 Grupo - agentskit - Exemplos]].
 
 ## Pré-requisitos
 
-- Node.js 22+ e pnpm 10+ (`CONTRIBUTING.md`).
-- Checkout atualizado; leia instruções e handoff antes de editar pacote.
+- Node.js 22+ e pnpm 10+ (`CONTRIBUTING.md:26-27`).
+- Checkout atualizado; leia o handoff dos pacotes que o exemplo vai usar.
 
 ## Passos
 
-- Leia `AGENTS.md`, `CONTRIBUTING.md` e os README/CONVENTIONS dos pacotes usados.
-- Crie `apps/example-<slug>` e adicione dependências `workspace:*` no manifesto.
-- Inclua README com objetivo, requisitos, comandos `dev`, credenciais por nome e limites entre mock e integração real.
-- Adicione testes se comportamento novo exigir; conecte no E2E só quando aplicável.
+1. Leia `AGENTS.md`, `CONTRIBUTING.md` e os README e CONVENTIONS dos pacotes usados.
+2. Crie `apps/example-<slug>` com `package.json` próprio. Os exemplos atuais declaram os pacotes como `"workspace:*"` (por exemplo `apps/example-react/package.json:12-14`), e `pnpm-workspace.yaml` deve incluir a pasta `apps/*`.
+3. Escreva um README com o objetivo, os requisitos, o comando `dev`, os nomes das variáveis de ambiente e o limite entre mock e integração real. Os exemplos existentes seguem esse formato (`apps/example-embedded/README.md`).
+4. Adicione testes só se o comportamento novo exigir (ver os exemplos com `tests/` em [[agentskit-example-discord-bot]]). Conecte ao E2E só quando for aplicável (`.github/workflows/e2e.yml`).
 
 ## Como validar
 
-`pnpm --filter @agentskit/example-<slug> lint`, `pnpm --filter @agentskit/example-<slug> build`; se tiver testes, `pnpm --filter @agentskit/example-<slug> test`; confira `pnpm test:e2e`.
+- `pnpm --filter @agentskit/example-<slug> lint` (`tsc --noEmit`, presente nos exemplos atuais).
+- `pnpm --filter @agentskit/example-<slug> build`, quando o script existir.
+- `pnpm --filter @agentskit/example-<slug> test`, se houver testes.
+- `pnpm test:e2e`: o E2E cobre os exemplos (`CONTRIBUTING.md:220`; script em `package.json:11`).
 
 ## Erros comuns
 
-Não chame uma simulação de integração real; não inclua chaves em app cliente ou documentação.
+- Não apresente uma simulação como integração real; o README deve dizer o que é mock.
+- Não coloque chaves em app cliente nem em documentação. Variáveis `VITE_` e `EXPO_PUBLIC_` vão para o bundle do cliente (ver [[agentskit-example-react]]).
 
 ## Notas relacionadas
 
-Consulte o hub do repositório para localizar apps e pacotes relacionados.
+- [[00 Grupo - agentskit - Exemplos]]
+- [[Criar um pacote]]

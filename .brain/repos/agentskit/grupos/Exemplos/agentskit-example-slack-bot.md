@@ -6,51 +6,58 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "doc-bridge index versionado em .doc-bridge/index.json (gerado em 2026-10-12) para inventário/relacionamentos; pnpm indisponível, CLI não executada; inspeção estática no commit 9b31c771"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; pnpm indisponível, comandos não executados; auditado em 2026-10-16"
 fontes:
   - "apps/example-slack-bot/package.json"
+  - "apps/example-slack-bot/README.md"
+  - "apps/example-slack-bot/src/index.ts"
   - "apps/example-slack-bot/src/adapter.ts"
+  - "apps/example-slack-bot/tests/adapter.test.ts"
 tags: [app, repo/agentskit, camada/ferramenta, grupo/exemplos]
 ---
 
 # agentskit-example-slack-bot
 
 > [!tldr] Em linguagem comum
-> Demonstra adapter Slack com verificação de assinatura e resposta do runtime.
+> Bot de Slack de referência: recebe mensagens pelo `createChatTrigger` do runtime e responde com o agente.
 
 ← [[00 Grupo - agentskit - Exemplos]]
 
 ## O que faz e por que existe
 
-Este exemplo ensina: Demonstra adapter Slack com verificação de assinatura e resposta do runtime. [apps/example-slack-bot/src/adapter.ts:66].
+Bot de Slack de referência, montado com `createChatTrigger` de `@agentskit/runtime` (`apps/example-slack-bot/README.md:3`). O runtime é criado em `apps/example-slack-bot/src/index.ts:23` e o gatilho em `:33`. O adapter do Slack é `slackAdapter` (`apps/example-slack-bot/src/adapter.ts:66`). O pacote é privado (`apps/example-slack-bot/package.json:2`).
 
 ## API e contratos
 
-É app privado, não API npm. O símbolo demonstrado é `slackAdapter` — (options: SlackAdapterOptions): ChatSurfaceAdapter [apps/example-slack-bot/src/adapter.ts:66]. Exemplo real: `slackAdapter({ botToken, signingSecret })` [apps/example-slack-bot/src/adapter.ts:66].
+Não exporta API npm. Símbolo principal: `slackAdapter(options)`, que devolve um `ChatSurfaceAdapter` (`apps/example-slack-bot/src/adapter.ts:66`).
 
 ## Quem usa e do que depende
 
-Exercita [[agentskit-core]], [[agentskit-runtime]]; copie a composição adaptando configuração e host. Manifesto: `apps/example-slack-bot/package.json:1`.
+| Relação | Evidência |
+|---|---|
+| Dependências | `@agentskit/core` e `@agentskit/runtime` (`apps/example-slack-bot/package.json:13-14`) |
+| Consumidores | Nenhum; é um exemplo. |
 
 ## Dados e efeitos
 
-HTTP de entrada e resposta via Slack; `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, `PORT`.
+- `SLACK_BOT_TOKEN` (`apps/example-slack-bot/src/index.ts:29`) e `SLACK_SIGNING_SECRET` (`:30`) são lidos do ambiente, com padrão vazio. O segundo valida a assinatura das requisições do Slack. Os valores não são copiados para a documentação.
+- `PORT` define a porta, com padrão `3000` (`apps/example-slack-bot/src/index.ts:82`).
 
 ## Como mexer (para agentes)
 
-- Entrada: `apps/example-slack-bot/src/adapter.ts`.
-- Invariante: preserve distinção entre fixture/mock e integração real.
-- Testes: `apps/example-slack-bot/tests/adapter.test.ts`.
-- Validação: `pnpm --filter @agentskit/example-slack-bot test`.
-- Execução: Comando disponível conforme manifesto: `pnpm --filter @agentskit/example-slack-bot dev` se existir script `dev`; este manifesto define seu script em `apps/example-example-slack-bot/package.json`.
-- Armadilha: Configure credenciais e validação antes de expor endpoint.
-- Revisão: `.github/CODEOWNERS` ou mantenedores.
+- **Comece por:** `apps/example-slack-bot/src/index.ts` e `apps/example-slack-bot/src/adapter.ts`.
+- **Testes:** `apps/example-slack-bot/tests/adapter.test.ts`.
+- **Validação:** `pnpm --filter @agentskit/example-slack-bot test` (`vitest run`, `apps/example-slack-bot/package.json:10`) e `pnpm --filter @agentskit/example-slack-bot lint` (`tsc --noEmit`, `:9`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Execução local:** `dev` roda `tsx src/index.ts` (`apps/example-slack-bot/package.json:7`).
+- **Revisão:** owners em `.github/CODEOWNERS`; sem regra específica para o exemplo.
 
 ## Decisões e história
 
-- Contratos: ADRs específicos do exemplo não confirmados; consulte o ADR do contrato exercitado antes de alterar sua semântica.
-- Histórico recente (git log --oneline -15 -- apps/example-slack-bot): 2026-10-03 · 109488c8 · auditoria de dependências e engines; 2026-09-16 · 9266a6da · atualiza dependências; 2026-07-10 · a50084ee · polimento de dependências.
+- ADR específico do exemplo: não identificado.
+- Histórico recente (`git log --oneline -n 3 -- apps/example-slack-bot`, conferido em 2026-10-16): `109488c8 chore: audit dead deps and align Node engines (#1783)`, `9266a6da chore(deps): refresh minor and patch versions`, `a50084ee chore: dependency polish, doc-bridge, and registry catalog UI (#1119)`.
 
 > [!info]- Detalhe técnico
-> Manifesto: `apps/example-slack-bot/package.json:1`; implementação: `apps/example-slack-bot/src/adapter.ts:66`. O Doc Bridge index versionado foi consultado para contexto, sem atualização por indisponibilidade de pnpm.
+> - `apps/example-slack-bot/package.json:1` — manifesto, scripts (`:7` dev, `:9` lint, `:10` test) e dependências (`:13-14`).
+> - `apps/example-slack-bot/src/index.ts:23` — `createRuntime`; `:33` — `createChatTrigger`.
+> - `apps/example-slack-bot/src/adapter.ts:66` — `slackAdapter`.

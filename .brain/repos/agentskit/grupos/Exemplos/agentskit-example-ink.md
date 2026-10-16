@@ -6,8 +6,8 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "doc-bridge index versionado em .doc-bridge/index.json (gerado em 2026-10-12) para inventário/relacionamentos; pnpm indisponível, CLI não executada; inspeção estática no commit 9b31c771"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; pnpm indisponível, comandos não executados; auditado em 2026-10-16"
 fontes:
   - "apps/example-ink/package.json"
   - "apps/example-ink/src/index.tsx"
@@ -17,40 +17,43 @@ tags: [app, repo/agentskit, camada/ferramenta, grupo/exemplos]
 # agentskit-example-ink
 
 > [!tldr] Em linguagem comum
-> Demonstra chat no terminal com ferramenta e memória em arquivo.
+> Chat no terminal com Ink: a interface de linha de comando usa `useChat` do `@agentskit/ink` e memória do pacote de memória.
 
 ← [[00 Grupo - agentskit - Exemplos]]
 
 ## O que faz e por que existe
 
-Este exemplo ensina: Demonstra chat no terminal com ferramenta e memória em arquivo. [apps/example-ink/src/index.tsx:52].
+Interface de chat no terminal, feita com Ink (React para terminal). O estado vem de `useChat({` (`apps/example-ink/src/index.tsx:53`). O exemplo não tem README próprio. O pacote é privado (`apps/example-ink/package.json:2`).
 
 ## API e contratos
 
-É app privado, não API npm. O símbolo demonstrado é `App` — componente Ink [apps/example-ink/src/index.tsx:52]. Exemplo real: `render(<App />)` [apps/example-ink/src/index.tsx:52].
+Não exporta API npm. Símbolo principal: a chamada `useChat({ ... })` em `apps/example-ink/src/index.tsx:53`, do pacote [[agentskit-ink]].
 
 ## Quem usa e do que depende
 
-Exercita [[agentskit-core]], [[agentskit-ink]], [[agentskit-memory]]; copie a composição adaptando configuração e host. Manifesto: `apps/example-ink/package.json:1`.
+| Relação | Evidência |
+|---|---|
+| Dependências | `@agentskit/core` (`apps/example-ink/package.json:12`), [[agentskit-ink]] (`:13`) e `@agentskit/memory` (`:14`) |
+| Consumidores | Nenhum; é um exemplo. |
 
 ## Dados e efeitos
 
-Entrada/saída de terminal; `fileChatMemory` usa `.example-ink-history.json`; adapter é demonstrativo.
+Nenhuma variável de ambiente lida em `apps/example-ink/src`. A memória do chat é `fileChatMemory` de `@agentskit/memory` (`apps/example-ink/src/index.tsx:4`), ou seja, o histórico é gravado em arquivo local.
 
 ## Como mexer (para agentes)
 
-- Entrada: `apps/example-ink/src/index.tsx`.
-- Invariante: preserve distinção entre fixture/mock e integração real.
-- Testes: nenhum teste declarado.
-- Validação: `pnpm --filter @agentskit/example-ink lint`.
-- Execução: Comando disponível conforme manifesto: `pnpm --filter @agentskit/example-ink dev` se existir script `dev`; este manifesto define seu script em `apps/example-example-ink/package.json`.
-- Armadilha: Não chama modelo remoto no adapter de exemplo.
-- Revisão: `.github/CODEOWNERS` ou mantenedores.
+- **Comece por:** `apps/example-ink/src/index.tsx`.
+- **Testes:** nenhum teste declarado no exemplo.
+- **Validação:** `pnpm --filter @agentskit/example-ink lint` (`tsc --noEmit`, `apps/example-ink/package.json:9`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Execução:** `dev` roda `tsx src/index.tsx` (`apps/example-ink/package.json:7`).
+- **Armadilha:** teclado e terminal dependem do Ink; testes de teclado seguem a regra de [[agentskit-ink]].
+- **Revisão:** owners em `.github/CODEOWNERS`; sem regra específica para o exemplo.
 
 ## Decisões e história
 
-- Contratos: ADRs específicos do exemplo não confirmados; consulte o ADR do contrato exercitado antes de alterar sua semântica.
-- Histórico recente (git log --oneline -15 -- apps/example-ink): 2026-09-16 · 9266a6da · atualiza dependências; 2026-07-10 · a50084ee · polimento de dependências; 2026-06-15 · 289d3ae8 · atualiza dependências.
+- ADR específico do exemplo: não identificado.
+- Histórico recente (`git log --oneline -n 3 -- apps/example-ink`, conferido em 2026-10-16): `9266a6da chore(deps): refresh minor and patch versions`, `a50084ee chore: dependency polish, doc-bridge, and registry catalog UI (#1119)`, `289d3ae8 chore(deps): bump minor/patch dependencies across the workspace (#1004)`.
 
 > [!info]- Detalhe técnico
-> Manifesto: `apps/example-ink/package.json:1`; implementação: `apps/example-ink/src/index.tsx:52`. O Doc Bridge index versionado foi consultado para contexto, sem atualização por indisponibilidade de pnpm.
+> - `apps/example-ink/package.json:1` — manifesto, scripts (`:7` dev, `:8` build, `:9` lint) e dependências (`:12-14`).
+> - `apps/example-ink/src/index.tsx:53` — `useChat`.

@@ -6,10 +6,11 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "doc-bridge index versionado em .doc-bridge/index.json (gerado em 2026-10-12) para inventário/relacionamentos; pnpm indisponível, CLI não executada; inspeção estática no commit 9b31c771"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; pnpm indisponível, comandos não executados; auditado em 2026-10-16"
 fontes:
   - "apps/example-dspy/package.json"
+  - "apps/example-dspy/README.md"
   - "apps/example-dspy/src/agent.ts"
 tags: [app, repo/agentskit, camada/ferramenta, grupo/exemplos]
 ---
@@ -17,43 +18,42 @@ tags: [app, repo/agentskit, camada/ferramenta, grupo/exemplos]
 # agentskit-example-dspy
 
 > [!tldr] Em linguagem comum
-> Compara variantes locais de prompt por resultados de avaliação sintéticos.
+> Vitrine que compara um prompt base com um prompt otimizado por DSPy, pontuando os dois lado a lado no pipeline de avaliação do AgentsKit.
 
 ← [[00 Grupo - agentskit - Exemplos]]
 
 ## O que faz e por que existe
 
-Este exemplo ensina: Compara variantes locais de prompt por resultados de avaliação sintéticos. [apps/example-dspy/src/agent.ts:79].
+Demonstra a comparação entre o prompt base e o prompt otimizado por DSPy, com pontuação pelo pipeline de avaliação (`apps/example-dspy/README.md:3`). A variante do agente é montada por `makeAgent(variant)` (`apps/example-dspy/src/agent.ts:79`). O pacote é privado (`apps/example-dspy/package.json:2`).
 
 ## API e contratos
 
-É app privado, não API npm. O símbolo demonstrado é `makeAgent` — (variant: PromptVariant) => agente demonstrativo [apps/example-dspy/src/agent.ts:79]. Exemplo real: `makeAgent('baseline')` [apps/example-dspy/src/agent.ts:79].
+Não exporta API npm. Símbolo principal: `makeAgent(variant: PromptVariant)` (`apps/example-dspy/src/agent.ts:79`).
 
 ## Quem usa e do que depende
 
-Exercita [[agentskit-eval]]; copie a composição adaptando configuração e host. Manifesto: `apps/example-dspy/package.json:1`.
+| Relação | Evidência |
+|---|---|
+| Dependência | `@agentskit/eval` (`apps/example-dspy/package.json:14`) |
+| Consumidores | Nenhum; é um exemplo. |
 
 ## Dados e efeitos
 
-Lê prompts e dataset versionados; upload é bloqueado pelo stub local.
+Nenhuma variável de ambiente lida em `apps/example-dspy/src`. Não grava dados próprios.
 
 ## Como mexer (para agentes)
 
-- Entrada: `apps/example-dspy/src/agent.ts`.
-- Invariante: preserve distinção entre fixture/mock e integração real.
-- Testes: nenhum teste declarado.
-- Validação: `pnpm --filter @agentskit/example-dspy lint`.
-- Execução: Comando disponível conforme manifesto: `pnpm --filter @agentskit/example-dspy dev` se existir script `dev`; este manifesto define seu script em `apps/example-example-dspy/package.json`.
-- Armadilha: Não implementa otimização de prompt por serviço DSPy remoto.
-- Revisão: `.github/CODEOWNERS` ou mantenedores.
+- **Comece por:** `apps/example-dspy/src/agent.ts`.
+- **Testes:** nenhum teste declarado no exemplo.
+- **Validação:** `pnpm --filter @agentskit/example-dspy lint` (`tsc --noEmit`, `apps/example-dspy/package.json:11`). `build` também é `tsc --noEmit` (`:10`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Execução:** `start` roda `tsx src/index.ts` (`apps/example-dspy/package.json:8`); `dev` usa `tsx watch` (`:9`).
+- **Revisão:** owners em `.github/CODEOWNERS`; sem regra específica para o exemplo.
 
 ## Decisões e história
 
-- Contratos: ADRs específicos do exemplo não confirmados; consulte o ADR do contrato exercitado antes de alterar sua semântica.
-- Histórico recente (git log --oneline -15 -- apps/example-dspy): 2026-09-16 · 9266a6da · atualiza dependências; 2026-07-14 · 85710388 · consolida superfície de pacotes; 2026-07-10 · a50084ee · polimento de dependências.
+- ADR específico do exemplo: não identificado.
+- Histórico recente (`git log --oneline -n 3 -- apps/example-dspy`, conferido em 2026-10-16): `9266a6da chore(deps): refresh minor and patch versions`, `85710388 refactor: consolidate public package surface (#1231)`, `a50084ee chore: dependency polish, doc-bridge, and registry catalog UI (#1119)`.
 
 > [!info]- Detalhe técnico
-> Manifesto: `apps/example-dspy/package.json:1`; implementação: `apps/example-dspy/src/agent.ts:79`. O Doc Bridge index versionado foi consultado para contexto, sem atualização por indisponibilidade de pnpm.
-
-> [!bug] Existe, mas ninguém usa
-> O exemplo não conecta serviço de orquestração/otimização real; as respostas são simuladas.
+> - `apps/example-dspy/package.json:1` — manifesto, scripts (`:8` start, `:9` dev, `:10` build, `:11` lint) e dependência (`:14`).
+> - `apps/example-dspy/src/agent.ts:79` — `makeAgent`.

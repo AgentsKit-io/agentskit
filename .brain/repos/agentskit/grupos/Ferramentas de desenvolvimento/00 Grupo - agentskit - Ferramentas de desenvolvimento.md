@@ -5,8 +5,8 @@ grupo: Ferramentas de desenvolvimento
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "manifestos, fontes e índice .doc-bridge/index.json; CLI indisponível porque pnpm não está instalado"
+commits: { agentskit: 9f8d8551 }
+metodo: "manifestos, fontes e índice .doc-bridge/index.json; CLI indisponível porque pnpm não está instalado; auditado em 2026-10-16"
 fontes: ["packages/cli/package.json", "packages/templates/package.json"]
 tags: [grupo, repo/agentskit, camada/framework, grupo/ferramentas-de-desenvolvimento]
 ---
@@ -26,8 +26,8 @@ O grupo organiza pacotes por responsabilidade funcional e facilita a navegação
 
 ```mermaid
 flowchart LR
-  cli[agentskit-cli] --> templates
-  templates[agentskit-templates]
+  cli[agentskit-cli] --> core[agentskit-core]
+  templates[agentskit-templates] --> core
 ```
 
 | Nota | Pacote | Raiz |
@@ -35,16 +35,20 @@ flowchart LR
 | [[agentskit-cli]] | `@agentskit/cli` | `packages/cli` |
 | [[agentskit-templates]] | `@agentskit/templates` | `packages/templates` |
 
+Não há dependência entre `@agentskit/cli` e `@agentskit/templates` nos manifests: a raiz do monorepo é o único `package.json` que declara `@agentskit/templates` (`package.json:93`).
+
 ## Dependências de outros grupos
+
+Verificadas nos manifests de `packages/cli/package.json:52-62` e `packages/templates/package.json:50`.
 
 | Grupo | Relação |
 |---|---|
-| [[00 Grupo - agentskit - Núcleo]] | Contratos centrais usados por diversos pacotes do ecossistema. |
-| [[00 Grupo - agentskit - Provedores e ferramentas]] | Fornece adaptadores, ferramentas e integrações quando declarado nos manifests. |
-| [[00 Grupo - agentskit - Memória e RAG]] | Armazenamento e recuperação consumidos opcionalmente. |
-| [[00 Grupo - agentskit - Interfaces]] | Bindings que conectam controladores às plataformas de UI. |
-| [[00 Grupo - agentskit - Qualidade e observabilidade]] | Medição, observação e integrações de avaliação. |
-| [[00 Grupo - agentskit - Ferramentas de desenvolvimento]] | CLI e templates para criação de projetos. |
+| [[00 Grupo - agentskit - Núcleo]] | `@agentskit/core` (cli e templates), `@agentskit/net` e `@agentskit/runtime` (cli). |
+| [[00 Grupo - agentskit - Provedores e ferramentas]] | `@agentskit/adapters`, `@agentskit/integrations`, `@agentskit/skills` e `@agentskit/tools` (cli). |
+| [[00 Grupo - agentskit - Memória e RAG]] | `@agentskit/memory` e `@agentskit/rag` (cli). |
+| [[00 Grupo - agentskit - Interfaces]] | `@agentskit/ink` e `@agentskit/cross-platform` (cli). |
+| [[00 Grupo - agentskit - Qualidade e observabilidade]] | Nenhuma dependência encontrada nos manifests. |
+| [[00 Grupo - agentskit - Ferramentas de desenvolvimento]] | Nenhuma dependência de outro pacote do grupo. |
 
 ## ADRs
 

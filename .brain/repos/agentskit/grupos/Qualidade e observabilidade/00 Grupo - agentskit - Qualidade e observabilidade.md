@@ -5,8 +5,8 @@ grupo: Qualidade e observabilidade
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "manifestos, fontes e índice .doc-bridge/index.json; CLI indisponível porque pnpm não está instalado"
+commits: { agentskit: 9f8d8551 }
+metodo: "manifestos, fontes e índice .doc-bridge/index.json; CLI indisponível porque pnpm não está instalado; auditado em 2026-10-16"
 fontes: ["packages/eval/package.json", "packages/eval-braintrust/package.json", "packages/observability/package.json", "packages/observability-langfuse/package.json"]
 tags: [grupo, repo/agentskit, camada/framework, grupo/qualidade-e-observabilidade]
 ---
@@ -42,14 +42,17 @@ flowchart LR
 
 ## Dependências de outros grupos
 
-| Grupo | Relação |
+| Grupo | Relação (verificada nos manifests) |
 |---|---|
-| [[00 Grupo - agentskit - Núcleo]] | Contratos centrais usados por diversos pacotes do ecossistema. |
-| [[00 Grupo - agentskit - Provedores e ferramentas]] | Fornece adaptadores, ferramentas e integrações quando declarado nos manifests. |
-| [[00 Grupo - agentskit - Memória e RAG]] | Armazenamento e recuperação consumidos opcionalmente. |
-| [[00 Grupo - agentskit - Interfaces]] | Bindings que conectam controladores às plataformas de UI. |
-| [[00 Grupo - agentskit - Qualidade e observabilidade]] | Medição, observação e integrações de avaliação. |
-| [[00 Grupo - agentskit - Ferramentas de desenvolvimento]] | CLI e templates para criação de projetos. |
+| [[00 Grupo - agentskit - Núcleo]] | `@agentskit/core` é dependência dos quatro pacotes deste grupo. `@agentskit/net` é dependência de `observability` (`packages/observability/package.json:80`). |
+| [[00 Grupo - agentskit - Interfaces]] | `@agentskit/cross-platform` é dependência de `eval` (`packages/eval/package.json:111`) e de `observability` (`packages/observability/package.json:118`); ver [[agentskit-cross-platform]]. |
+| [[00 Grupo - agentskit - Provedores e ferramentas]] | Nenhuma dependência encontrada nos manifests. |
+| [[00 Grupo - agentskit - Memória e RAG]] | Nenhuma dependência encontrada nos manifests. |
+| [[00 Grupo - agentskit - Ferramentas de desenvolvimento]] | Nenhuma dependência encontrada nos manifests. |
+
+Dentro do grupo: `@agentskit/observability-langfuse` depende de `@agentskit/observability` (`packages/observability-langfuse/package.json:45`), como mostra o diagrama.
+
+Consumidores fora do grupo, verificados em `package.json`: `@agentskit/eval` é declarado por `apps/docs-next` (`apps/docs-next/package.json:39`), `apps/example-dspy` (`apps/example-dspy/package.json:14`) e a raiz do monorepo (`package.json:89`); `@agentskit/observability` é declarado por `apps/docs-next` (`apps/docs-next/package.json:42`) e pela raiz (`package.json:90`).
 
 ## ADRs
 

@@ -6,62 +6,75 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "doc-bridge index versionado em .doc-bridge/index.json (gerado em 2026-10-12) para inventário/relacionamentos; pnpm indisponível, CLI não executada; inspeção estática no commit 9b31c771"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; doc-bridge index versionado em .doc-bridge/index.json para inventário; pnpm indisponível, CLI não executada; auditado em 2026-10-16"
 fontes:
   - "apps/registry/package.json"
   - "apps/registry/app/(home)/page.tsx"
   - "apps/registry/components/ask-widget.tsx"
+  - "apps/registry/lib/catalog.ts"
   - "apps/registry/lib/registry.ts"
+  - "apps/registry/lib/posthog-client.ts"
+  - "apps/registry/lib/analytics.ts"
+  - ".github/CODEOWNERS"
 tags: [app, repo/agentskit, camada/ferramenta, grupo/sites-e-servicos]
 ---
 
 # agentskit-registry
 
 > [!tldr] Em linguagem comum
-> Catálogo visual para descobrir agentes prontos e copiar comandos de instalação.
+> Catálogo visual para descobrir agentes prontos, ver categorias e copiar comandos de instalação. Inclui um widget de pergunta ao Ask.
 
 ← [[00 Grupo - agentskit - Sites e serviços]]
 
 ## O que faz e por que existe
 
-A home carrega itens e categorias; filtros encaminham para `/agents`. [apps/registry/app/(home)/page.tsx:21].
+A home carrega itens e categorias; os filtros levam para `/agents` (`apps/registry/app/(home)/page.tsx:21`). A home é `HomePage`, função assíncrona que recebe `searchParams`. O workspace é privado e não é pacote npm (`apps/registry/package.json:4`; nome `@agentskit/registry-app` na linha 2).
 
 ## API e contratos
 
-O workspace é privado e não publica API npm; o contrato observável é a superfície de app abaixo.
+O workspace não publica API npm. A superfície observável é a página de entrada:
 
 | Símbolo | Tipo | Para que serve | Onde |
 |---|---|---|---|
-| `HomePage` | página Next assíncrona | Composição principal | `apps/registry/app/(home)/page.tsx:21` |
+| `HomePage` | página assíncrona (default export) | Home do catálogo, com filtros via `searchParams`. | `apps/registry/app/(home)/page.tsx:21` |
 
-Exemplo real: `await HomePage({ searchParams })` — `apps/registry/app/(home)/page.tsx:21`.
+Uso real, a assinatura da própria página:
+
+```tsx
+export default async function HomePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+```
+
+Fonte: `apps/registry/app/(home)/page.tsx:21`.
 
 ## Quem usa e do que depende
 
-Consome catálogo de [[00 Hub - agentskit-registry]] e Ask de [[agentskit-ask-backend]].
-
 | Relação | Evidência |
 |---|---|
-| Dependências declaradas no manifesto | `apps/registry/package.json:1` |
+| Ask | O widget `apps/registry/components/ask-widget.tsx` consulta o endpoint do Ask: `NEXT_PUBLIC_ASK_ENDPOINT` (linha 138), com valor padrão `https://ask.agentskit.io/v1/ask`. Ver [[agentskit-ask-backend]]. |
+| Catálogo | `apps/registry/lib/catalog.ts` concentra filtro, ordenação e comparação (`filterAndSortAgents`, `parseCompareIds`, `:30`, `:51`). A fonte de conteúdo é o `loader` de `apps/registry/lib/source.ts:4`. |
+| Consumidores | Visitantes do site. Nenhum `package.json` do monorepo declara `@agentskit/registry-app`. |
 
 ## Dados e efeitos
 
-Lê catálogo/index remotos; revalidação da home a cada 3600s. Widget Ask persiste thread em localStorage e envia requisições a `NEXT_PUBLIC_ASK_ENDPOINT`.
+- Revalidação: a home exporta `revalidate = 3600` (`apps/registry/app/(home)/page.tsx:11`), o mesmo intervalo das páginas de lista e das rotas `llms.txt` (`apps/registry/app/llms.txt/route.ts:5`).
+- Variável pública: `NEXT_PUBLIC_ASK_ENDPOINT` (`apps/registry/components/ask-widget.tsx:138`); é um endereço público, não um segredo.
+- Analytics: `apps/registry/lib/posthog-client.ts` e `apps/registry/lib/analytics.ts` (contrato e envio; ver os arquivos para as variáveis usadas).
 
 ## Como mexer (para agentes)
 
-- Entrada: `apps/registry/app/(home)/page.tsx`.
-- Invariantes: preserve os limites entre demo e integração real e os contratos usados.
-- Testes: `apps/registry/lib/*.test.ts`; `pnpm --filter @agentskit/registry-app test`.
-- Validação: `pnpm --filter @agentskit/registry-app lint`.
-- Armadilha: comandos de build/deploy configurados não comprovam o destino atualmente ativo; confira o manifesto e o workflow do app.
-- Revisão: owners em `.github/CODEOWNERS`; sem regra específica, mantenedores.
+- **Comece por:** `apps/registry/app/(home)/page.tsx` (home), `apps/registry/lib/catalog.ts` (carga do catálogo) e `apps/registry/components/ask-widget.tsx` (widget do Ask).
+- **Testes:** `apps/registry/lib/*.test.ts` (catálogo, categorias, validação, analytics, clipboard, descoberta etc.) e `app/deterministic` (rotas determinísticas).
+- **Validação:** `pnpm --filter @agentskit/registry-app test` (executa `vitest run lib app/deterministic`, `apps/registry/package.json:10`) e `pnpm --filter @agentskit/registry-app lint` (`tsc --noEmit`, `apps/registry/package.json:12`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Armadilha:** os comandos de build e deploy configurados não comprovam o destino ativo; confirme no manifesto e no workflow.
+- **Revisão:** owners em `.github/CODEOWNERS`; sem regra específica para o app, mantenedores.
 
 ## Decisões e história
 
-- ADR: [[agentskit ADR-0033 - Registry adota o shell do ecossistema]] (quando a alteração tocar a decisão descrita; não implica que o ADR cubra toda a implementação).
-- Histórico recente (git log --oneline -15 -- apps/registry): 2026-10-13 · c7f19deb · painel público de downloads npm; 2026-10-02 · e710dafa · build docs/registry para Workers via vinext; 2026-09-27 · 7c448e49 · roteia dependências por cross-platform.
+- ADR relacionado: [[agentskit ADR-0033 - Registry adota o shell do ecossistema]] (`docs/architecture/adrs/0033-registry-ecosystem-shell.md`), quando a alteração tocar a decisão descrita; não implica que o ADR cubra toda a implementação.
+- Histórico recente (`git log --oneline -n 3 -- apps/registry`, conferido em 2026-10-16): `c7f19deb Add public npm downloads dashboard (#1840)`, `e710dafa build(sites): docs-next and registry on Cloudflare Workers via vinext (#1738)`, `7c448e49 fix: route cli, adapters, tools, eval, sandbox via cross-platform (#1682)`.
 
 > [!info]- Detalhe técnico
-> Manifesto e scripts: `apps/registry/package.json:1`; símbolo: `apps/registry/app/(home)/page.tsx:21`. O índice Doc Bridge versionado foi usado para contexto de documentação e relações, mas não pôde ser atualizado porque pnpm não está disponível.
+> - `apps/registry/package.json:1` — manifesto, scripts (`:9` build, `:10` test, `:12` lint).
+> - `apps/registry/app/(home)/page.tsx:11` — `revalidate = 3600`; `:21` — `HomePage`.
+> - `apps/registry/components/ask-widget.tsx:138` — endpoint do Ask.

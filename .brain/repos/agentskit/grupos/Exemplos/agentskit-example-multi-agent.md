@@ -6,8 +6,8 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "doc-bridge index versionado em .doc-bridge/index.json (gerado em 2026-10-12) para inventário/relacionamentos; pnpm indisponível, CLI não executada; inspeção estática no commit 9b31c771"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; pnpm indisponível, comandos não executados; auditado em 2026-10-16"
 fontes:
   - "apps/example-multi-agent/package.json"
   - "apps/example-multi-agent/src/App.tsx"
@@ -17,43 +17,42 @@ tags: [app, repo/agentskit, camada/ferramenta, grupo/exemplos]
 # agentskit-example-multi-agent
 
 > [!tldr] Em linguagem comum
-> Mostra visualmente planejamento/delegação como roteiro de UI.
+> App React de exemplo com um chat que usa a skill `planner` de `@agentskit/skills` para orquestrar o trabalho.
 
 ← [[00 Grupo - agentskit - Exemplos]]
 
 ## O que faz e por que existe
 
-Este exemplo ensina: Mostra visualmente planejamento/delegação como roteiro de UI. [apps/example-multi-agent/src/App.tsx:70].
+App React de exemplo. O componente `App` (`apps/example-multi-agent/src/App.tsx:70`) usa `useChat({` (`:71`) do [[agentskit-react]] e importa a skill `planner` de `@agentskit/skills` (`apps/example-multi-agent/src/App.tsx:3`). O exemplo não tem README próprio. O pacote é privado (`apps/example-multi-agent/package.json:2`).
 
 ## API e contratos
 
-É app privado, não API npm. O símbolo demonstrado é `App` — componente React [apps/example-multi-agent/src/App.tsx:70]. Exemplo real: `<App />` [apps/example-multi-agent/src/App.tsx:70].
+Não exporta API npm. Símbolo principal: `App` (`apps/example-multi-agent/src/App.tsx:70`).
 
 ## Quem usa e do que depende
 
-Exercita [[agentskit-react]], [[agentskit-skills]]; copie a composição adaptando configuração e host. Manifesto: `apps/example-multi-agent/package.json:1`.
+| Relação | Evidência |
+|---|---|
+| Dependências | `@agentskit/react` (`apps/example-multi-agent/package.json:12`) e `@agentskit/skills` (`:13`) |
+| Consumidores | Nenhum; é um exemplo. |
 
 ## Dados e efeitos
 
-Estado em memória do navegador; adapter devolve respostas simuladas.
+Nenhuma variável de ambiente lida em `apps/example-multi-agent/src`. O exemplo não grava dados próprios.
 
 ## Como mexer (para agentes)
 
-- Entrada: `apps/example-multi-agent/src/App.tsx`.
-- Invariante: preserve distinção entre fixture/mock e integração real.
-- Testes: nenhum teste declarado.
-- Validação: `pnpm --filter @agentskit/example-multi-agent lint`.
-- Execução: Comando disponível conforme manifesto: `pnpm --filter @agentskit/example-multi-agent dev` se existir script `dev`; este manifesto define seu script em `apps/example-example-multi-agent/package.json`.
-- Armadilha: Não comprova orquestração multiagente real.
-- Revisão: `.github/CODEOWNERS` ou mantenedores.
+- **Comece por:** `apps/example-multi-agent/src/App.tsx`.
+- **Testes:** nenhum teste declarado no exemplo.
+- **Validação:** `pnpm --filter @agentskit/example-multi-agent lint` (`tsc --noEmit`, `apps/example-multi-agent/package.json:9`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Execução:** `dev` roda `vite` (`apps/example-multi-agent/package.json:7`).
+- **Revisão:** owners em `.github/CODEOWNERS`; sem regra específica para o exemplo.
 
 ## Decisões e história
 
-- Contratos: ADRs específicos do exemplo não confirmados; consulte o ADR do contrato exercitado antes de alterar sua semântica.
-- Histórico recente (git log --oneline -15 -- apps/example-multi-agent): 2026-09-16 · 9266a6da · atualiza dependências; 2026-07-10 · a50084ee · polimento de dependências; 2026-06-09 · 230dd913 · atualiza dependências.
+- ADR específico do exemplo: não identificado.
+- Histórico recente (`git log --oneline -n 3 -- apps/example-multi-agent`, conferido em 2026-10-16): `9266a6da chore(deps): refresh minor and patch versions`, `a50084ee chore: dependency polish, doc-bridge, and registry catalog UI (#1119)`, `289d3ae8 chore(deps): bump minor/patch dependencies across the workspace (#1004)`.
 
 > [!info]- Detalhe técnico
-> Manifesto: `apps/example-multi-agent/package.json:1`; implementação: `apps/example-multi-agent/src/App.tsx:70`. O Doc Bridge index versionado foi consultado para contexto, sem atualização por indisponibilidade de pnpm.
-
-> [!bug] Existe, mas ninguém usa
-> O exemplo não conecta serviço de orquestração/otimização real; as respostas são simuladas.
+> - `apps/example-multi-agent/package.json:1` — manifesto, scripts (`:7` dev, `:8` build, `:9` lint) e dependências (`:12-13`).
+> - `apps/example-multi-agent/src/App.tsx:70` — `App`; `:71` — `useChat`.

@@ -6,51 +6,59 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "doc-bridge index versionado em .doc-bridge/index.json (gerado em 2026-10-12) para inventário/relacionamentos; pnpm indisponível, CLI não executada; inspeção estática no commit 9b31c771"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; pnpm indisponível, comandos não executados; auditado em 2026-10-16"
 fontes:
   - "apps/example-runtime/package.json"
+  - "apps/example-runtime/README.md"
   - "apps/example-runtime/src/index.ts"
+  - "apps/example-runtime/src/durable.ts"
+  - "apps/example-runtime/src/speculate.ts"
+  - "apps/example-runtime/src/topology.ts"
 tags: [app, repo/agentskit, camada/ferramenta, grupo/exemplos]
 ---
 
 # agentskit-example-runtime
 
 > [!tldr] Em linguagem comum
-> Demonstra runtime, observer, ferramenta, durable runner, especulação e topologias.
+> Demos do runtime sem interface e sem chaves de provedor: o adapter é simulado, com uma sequência fixa de chamadas de ferramenta.
 
 ← [[00 Grupo - agentskit - Exemplos]]
 
 ## O que faz e por que existe
 
-Este exemplo ensina: Demonstra runtime, observer, ferramenta, durable runner, especulação e topologias. [apps/example-runtime/src/index.ts:63].
+Demos headless do runtime, sem UI e sem chave de provedor; cada adapter é simulado (`apps/example-runtime/README.md:3`). O `src/index.ts` cria um adapter de demonstração com sequência fixa (`createDemoAdapter`, `apps/example-runtime/src/index.ts:6`), uma ferramenta `web_search` que devolve texto fixo (`:38`) e um observador que escreve no stderr (`:51`). O runtime é criado em `apps/example-runtime/src/index.ts:61`. Os outros arquivos do `src/` são `durable.ts`, `speculate.ts` e `topology.ts`. O pacote é privado (`apps/example-runtime/package.json:2`).
 
 ## API e contratos
 
-É app privado, não API npm. O símbolo demonstrado é `runtime.run` — (task: string, options?) => Promise<RunResult> [apps/example-runtime/src/index.ts:63]. Exemplo real: `await runtime.run('Research the latest developments in AI safety')` [apps/example-runtime/src/index.ts:63].
+Não exporta API npm. Símbolos principais: `createDemoAdapter` (`apps/example-runtime/src/index.ts:6`) e a chamada `createRuntime({ adapter, tools: [webSearch], observers: [verbose] })` (`:61`).
 
 ## Quem usa e do que depende
 
-Exercita [[agentskit-runtime]], [[agentskit-core]], [[agentskit-skills]]; copie a composição adaptando configuração e host. Manifesto: `apps/example-runtime/package.json:1`.
+| Relação | Evidência |
+|---|---|
+| Dependências | `@agentskit/core` (`apps/example-runtime/package.json:15`), `@agentskit/runtime` (`:16`) e `@agentskit/skills` (`:17`) |
+| Import | `researcher` de `@agentskit/skills` (`apps/example-runtime/src/index.ts:2`) |
+| Consumidores | Nenhum; é um exemplo. |
 
 ## Dados e efeitos
 
-Cenário principal usa adapter sintético; `durable.ts` grava `.agentskit/durable.jsonl`; outros cenários usam stubs.
+Nenhuma variável de ambiente lida em `apps/example-runtime/src`. Não há rede nem gravação: a ferramenta `web_search` devolve texto fixo (`apps/example-runtime/src/index.ts:47`), e o observador escreve no stderr.
 
 ## Como mexer (para agentes)
 
-- Entrada: `apps/example-runtime/src/index.ts`.
-- Invariante: preserve distinção entre fixture/mock e integração real.
-- Testes: nenhum teste declarado.
-- Validação: `pnpm --filter @agentskit/example-runtime lint`.
-- Execução: Comando disponível conforme manifesto: `pnpm --filter @agentskit/example-runtime dev` se existir script `dev`; este manifesto define seu script em `apps/example-example-runtime/package.json`.
-- Armadilha: Topologias usam agentes mock.
-- Revisão: `.github/CODEOWNERS` ou mantenedores.
+- **Comece por:** `apps/example-runtime/src/index.ts`; os demais arquivos de `src/` mostram durabilidade, especulação e topologia.
+- **Testes:** nenhum teste declarado no exemplo.
+- **Validação:** `pnpm --filter @agentskit/example-runtime lint` (`tsc --noEmit`, `apps/example-runtime/package.json:12`). `build` também é `tsc --noEmit` (`:11`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Execução:** `dev` roda `tsx src/index.ts` (`apps/example-runtime/package.json:7`).
+- **Armadilha:** o adapter é simulado; não trate as respostas como saída de modelo real.
+- **Revisão:** owners em `.github/CODEOWNERS`; sem regra específica para o exemplo.
 
 ## Decisões e história
 
-- Contratos: ADRs específicos do exemplo não confirmados; consulte o ADR do contrato exercitado antes de alterar sua semântica.
-- Histórico recente (git log --oneline -15 -- apps/example-runtime): 2026-09-16 · 9266a6da · atualiza dependências; 2026-07-10 · a50084ee · polimento de dependências; 2026-06-15 · 289d3ae8 · atualiza dependências.
+- ADR específico do exemplo: não identificado. Para o contrato de runtime, ver [[agentskit-runtime]].
+- Histórico recente (`git log --oneline -n 3 -- apps/example-runtime`, conferido em 2026-10-16): `9266a6da chore(deps): refresh minor and patch versions`, `a50084ee chore: dependency polish, doc-bridge, and registry catalog UI (#1119)`, `289d3ae8 chore(deps): bump minor/patch dependencies across the workspace (#1004)`.
 
 > [!info]- Detalhe técnico
-> Manifesto: `apps/example-runtime/package.json:1`; implementação: `apps/example-runtime/src/index.ts:63`. O Doc Bridge index versionado foi consultado para contexto, sem atualização por indisponibilidade de pnpm.
+> - `apps/example-runtime/package.json:1` — manifesto, scripts (`:7` dev, `:11` build, `:12` lint) e dependências (`:15-17`).
+> - `apps/example-runtime/src/index.ts:6` — adapter simulado; `:38` — `webSearch`; `:61` — `createRuntime`.

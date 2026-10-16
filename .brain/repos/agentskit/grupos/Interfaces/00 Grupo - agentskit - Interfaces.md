@@ -5,8 +5,8 @@ grupo: Interfaces
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "manifestos, fontes e índice .doc-bridge/index.json; CLI indisponível porque pnpm não está instalado"
+commits: { agentskit: 9f8d8551 }
+metodo: "manifestos, fontes e índice .doc-bridge/index.json; CLI indisponível porque pnpm não está instalado; auditado em 2026-10-16"
 fontes: ["packages/react/package.json", "packages/vue/package.json", "packages/svelte/package.json", "packages/solid/package.json", "packages/angular/package.json", "packages/ink/package.json", "packages/react-native/package.json", "packages/cross-platform/package.json"]
 tags: [grupo, repo/agentskit, camada/framework, grupo/interfaces]
 ---
@@ -26,16 +26,17 @@ O grupo organiza pacotes por responsabilidade funcional e facilita a navegação
 
 ```mermaid
 flowchart LR
-  react[agentskit-react]
-  vue[agentskit-vue]
-  svelte[agentskit-svelte]
-  solid[agentskit-solid]
-  angular[agentskit-angular]
-  ink[agentskit-ink]
-  react-native[agentskit-react-native]
-  cross-platform[agentskit-cross-platform]
-  ink --> ink
+  react[agentskit-react] --> core[agentskit-core]
+  vue[agentskit-vue] --> core
+  svelte[agentskit-svelte] --> core
+  solid[agentskit-solid] --> core
+  angular[agentskit-angular] --> core
+  ink[agentskit-ink] --> core
+  react-native[agentskit-react-native] --> core
+  cross-platform[agentskit-cross-platform] --> core
 ```
+
+Nenhum pacote deste grupo depende de outro pacote deste grupo: a única dependência interna declarada nos manifests é `@agentskit/core` (`packages/*/package.json`, campo `dependencies`, valor `workspace:*`).
 
 | Nota | Pacote | Raiz |
 |---|---|---|
@@ -50,14 +51,15 @@ flowchart LR
 
 ## Dependências de outros grupos
 
-| Grupo | Relação |
+| Grupo | Relação (verificada nos manifests) |
 |---|---|
-| [[00 Grupo - agentskit - Núcleo]] | Contratos centrais usados por diversos pacotes do ecossistema. |
-| [[00 Grupo - agentskit - Provedores e ferramentas]] | Fornece adaptadores, ferramentas e integrações quando declarado nos manifests. |
-| [[00 Grupo - agentskit - Memória e RAG]] | Armazenamento e recuperação consumidos opcionalmente. |
-| [[00 Grupo - agentskit - Interfaces]] | Bindings que conectam controladores às plataformas de UI. |
-| [[00 Grupo - agentskit - Qualidade e observabilidade]] | Medição, observação e integrações de avaliação. |
-| [[00 Grupo - agentskit - Ferramentas de desenvolvimento]] | CLI e templates para criação de projetos. |
+| [[00 Grupo - agentskit - Núcleo]] | Dependência única de todos os pacotes deste grupo: `@agentskit/core` (`workspace:*`). |
+| [[00 Grupo - agentskit - Provedores e ferramentas]] | Nenhum pacote deste grupo declara dependência de adapters ou ferramentas. Em sentido inverso, `@agentskit/cross-platform` é consumido por `packages/adapters` e `packages/tools` (ver [[agentskit-cross-platform]]). |
+| [[00 Grupo - agentskit - Ferramentas de desenvolvimento]] | `@agentskit/ink` e `@agentskit/cross-platform` são declarados por `packages/cli` (`packages/cli/package.json:55` e `:54`). |
+| [[00 Grupo - agentskit - Qualidade e observabilidade]] | `packages/eval` (`:111`) e `packages/observability` (`:118`) declaram `@agentskit/cross-platform`. |
+| [[00 Grupo - agentskit - Memória e RAG]] | `packages/memory` declara `@agentskit/cross-platform` (`packages/memory/package.json:89`). `createInMemoryMemory` e `createLocalStorageMemory` vêm de `@agentskit/core`, não de um pacote de memória. |
+
+Consumidores fora do grupo, verificados em `package.json`: `apps/example-ink` declara `@agentskit/ink`; `apps/docs-next`, `apps/example-react`, `apps/visual-react` e outros declaram `@agentskit/react`.
 
 ## ADRs
 

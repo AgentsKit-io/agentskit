@@ -6,88 +6,91 @@ npm: "@agentskit/cli"
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível)"
-fontes: ["packages/cli/package.json", "packages/cli/src/index.ts", "apps/docs-next/content/docs/for-agents/cli.mdx", "AGENTS.md", "packages/cli/CONVENTIONS.md", "packages/cli/tests/ai.test.ts", "packages/cli/tests/chat-app-utils.test.ts", "packages/cli/tests/chat-app.test.tsx", "packages/cli/tests/commands-actions.test.ts", "docs/architecture/adrs/0002-tool-contract.md", "docs/architecture/adrs/0003-memory-contract.md", "docs/architecture/adrs/0009-composition-rules.md"]
+commits: { agentskit: 9f8d8551 }
+metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível); auditado em 2026-10-16"
+fontes: ["packages/cli/package.json", "packages/cli/src/index.ts", "packages/cli/src/providers.ts", "packages/cli/src/doctor.ts", "packages/cli/src/resolve.ts", "packages/cli/src/extensibility/rag/runner.ts", "packages/cli/src/extensibility/mcp/client.ts", "packages/cli/tests/fixtures/readme-quickstart.ts", "apps/docs-next/content/docs/for-agents/cli.mdx", "AGENTS.md", "packages/cli/CONVENTIONS.md", "packages/cli/tests/ai.test.ts", "packages/cli/tests/chat-app.test.tsx", "packages/cli/tests/commands-chat.test.ts", "docs/architecture/adrs/0002-tool-contract.md", "docs/architecture/adrs/0003-memory-contract.md", "docs/architecture/adrs/0009-composition-rules.md"]
 tags: [pacote, repo/agentskit, camada/framework, grupo/ferramentas-de-desenvolvimento]
 ---
 
 # agentskit-cli
 
 > [!tldr] Em linguagem comum
-> Pacote cli do AgentsKit: veja a responsabilidade abaixo e a documentação de agente indicada.
+> Ferramenta de linha de comando do AgentsKit: cria projetos, roda um agente, abre um chat no terminal, executa diagnóstico (`doctor`), inicia o modo de desenvolvimento com recarga e expõe um túnel. Reúne a maior parte dos pacotes do ecossistema.
 
 ← [[00 Grupo - agentskit - Ferramentas de desenvolvimento]]
 
 ## O que faz e por que existe
 
-O pacote `@agentskit/cli` publica a superfície definida em `packages/cli/src/index.ts`; a responsabilidade funcional está resumida no handoff do Doc Bridge. O índice aponta o início de leitura em `apps/docs-next/content/docs/for-agents/cli.mdx` e limita edições a `packages/cli`. Fonte: `packages/cli/package.json:1`; `.doc-bridge/index.json` (registro `handoffs.cli`).
+Pacote da CLI `agentskit`. Sua entrada exporta `createCli` (criação do programa de comandos) e as operações que os comandos usam: `ChatApp` e `renderChatHeader` (chat no terminal), `writeStarterProject` (projeto inicial), `runAgent`, `runDoctor`, `startDev`, `startTunnel`, além de sessões, plugins, MCP, telemetria de custo, RAG, hooks e permissões (`packages/cli/src/index.ts:1-79`). Depende de onze pacotes do ecossistema: `adapters`, `core`, `cross-platform`, `ink`, `integrations`, `memory`, `net`, `rag`, `runtime`, `skills` e `tools` (`packages/cli/package.json:52-62`). O índice do Doc Bridge aponta o início de leitura em `apps/docs-next/content/docs/for-agents/cli.mdx` e limita edições a `packages/cli` (`.doc-bridge/index.json`, `handoffs.cli`).
 
 ## API e contratos
 
-Exports de topo (assinaturas resumidas conforme declarações de exportação):
+Exports de `packages/cli/src/index.ts`, agrupados pela ordem do arquivo:
 
-| Símbolo | Tipo | Para que serve | Onde |
+| Símbolos | Tipo | Para que serve | Onde |
 |---|---|---|---|
-| `createCli` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:1` |
-| `loadConfig` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:2` |
-| `AgentsKitConfig` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:3` |
-| `LoadConfigOptions` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:3` |
-| `ChatApp` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:4` |
-| `renderChatHeader` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:4` |
-| `writeStarterProject` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:5` |
-| `resolveChatProvider` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:6` |
-| `ChatCommandOptions` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:7` |
-| `InitCommandOptions` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:8` |
-| `StarterKind` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:8` |
-| `ChatProviderOptions` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:9` |
-| `ResolvedChatProvider` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:9` |
-| `runAgent` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:10` |
-| `RunCommandOptions` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:11` |
-| `runDoctor` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:12` |
-| `renderReport` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:12` |
-| `CheckResult` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:13` |
-| `CheckStatus` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:13` |
-| `DoctorOptions` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:13` |
-| `DoctorReport` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:13` |
-| `startDev` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:14` |
-| `DevOptions` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:15` |
-| `DevController` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:15` |
-| `DevWatcher` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:15` |
-| `startTunnel` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:16` |
-| `TunnelOptions` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:17` |
-| `TunnelController` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:17` |
-| `TunnelLike` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:17` |
-| `{` | export nomeado | API pública do pacote. | `packages/cli/src/index.ts:30` |
+| `createCli` | função | Monta o programa de comandos da CLI. | `packages/cli/src/index.ts:1` |
+| `loadConfig`, `AgentsKitConfig`, `LoadConfigOptions` | função e tipos | Carrega a configuração do projeto. | `packages/cli/src/index.ts:2-3` |
+| `ChatApp`, `renderChatHeader`, `ChatCommandOptions` | componente, função e tipo | Chat interativo no terminal. | `packages/cli/src/index.ts:4`, `:7` |
+| `writeStarterProject`, `InitCommandOptions`, `StarterKind` | função e tipos | Cria um projeto inicial. | `packages/cli/src/index.ts:5`, `:8` |
+| `resolveChatProvider`, `ChatProviderOptions`, `ResolvedChatProvider` | função e tipos | Resolve o provedor de modelo a partir das opções e do ambiente. | `packages/cli/src/index.ts:6`, `:9` |
+| `runAgent`, `RunCommandOptions` | função e tipo | Executa um agente. | `packages/cli/src/index.ts:10-11` |
+| `runDoctor`, `renderReport`, `CheckResult`, `CheckStatus`, `DoctorOptions`, `DoctorReport` | funções e tipos | Diagnóstico do ambiente e do projeto. | `packages/cli/src/index.ts:12-13` |
+| `startDev`, `DevOptions`, `DevController`, `DevWatcher` | função e tipos | Modo de desenvolvimento com observação de arquivos. | `packages/cli/src/index.ts:14-15` |
+| `startTunnel`, `TunnelOptions`, `TunnelController`, `TunnelLike` | função e tipos | Túnel para expor o agente localmente. | `packages/cli/src/index.ts:16-17` |
+| `listSessions`, `findSession`, `findLatestSession`, `renameSession`, `forkSession`, `resolveSession`, `writeSessionMeta`, `derivePreview`, `generateSessionId`, `sessionFilePath`, e tipos de sessão | funções e tipos | Gerenciamento de sessões de conversa. | `packages/cli/src/index.ts:18-35` |
+| `loadPlugins`, `mergePluginsIntoBundle`, e tipos de plugin | funções e tipos | Carregamento de plugins. | `packages/cli/src/index.ts:36`, `:66-78` |
+| `McpClient`, `bridgeMcpServers`, `disposeMcpClients`, `McpTool`, `McpBridgeResult` | classe, funções e tipos | Cliente MCP e ponte para servidores MCP. | `packages/cli/src/index.ts:37-38` |
+| `computeCost`, `getPricing`, `registerPricing`, `ModelPricing`, `ComputedCost`, `TokenUsageLike` | funções e tipos | Telemetria de custo por modelo. | `packages/cli/src/index.ts:39-40` |
+| `createOpenAiEmbedder`, `buildRagFromConfig`, `indexSources`, e tipos de RAG | funções e tipos | Embedder OpenAI e montagem de RAG a partir da configuração. | `packages/cli/src/index.ts:41-51` |
+| `HookDispatcher`, `configHooksToHandlers`, e tipos de hook | classe, função e tipos | Hooks de ciclo de vida definidos na configuração. | `packages/cli/src/index.ts:52-53` |
+| `defaultPolicy`, `evaluatePolicy`, `applyPolicyToTool`, `applyPolicyToTools`, e tipos de permissão | funções e tipos | Políticas de permissão de ferramentas. | `packages/cli/src/index.ts:54-65` |
 
-Exemplo de uso localizado em documentação ou teste:
+Exemplo real de import, no fixture do README:
 
-Exemplo real de import do pacote: `import '@agentskit/cli'` — `packages/cli/tests/fixtures/readme-quickstart.ts:1`.
+```ts
+import '@agentskit/cli'
+```
+
+Fonte: `packages/cli/tests/fixtures/readme-quickstart.ts:1`. Para o uso como programa, a entrada é `createCli` (`packages/cli/src/index.ts:1`).
 
 ## Quem usa e do que depende
 
 | Relação | Nota / evidência |
 |---|---|
-| Dependência interna | [[agentskit-adapters]], [[agentskit-core]], [[agentskit-cross-platform]], [[agentskit-ink]], [[agentskit-integrations]], [[agentskit-memory]], [[agentskit-net]], [[agentskit-rag]], [[agentskit-runtime]], [[agentskit-skills]], [[agentskit-tools]] (`packages/cli/package.json:1`) |
+| Dependências internas | [[agentskit-adapters]] (`packages/cli/package.json:52`), [[agentskit-core]] (`:53`), [[agentskit-cross-platform]] (`:54`), [[agentskit-ink]] (`:55`), [[agentskit-integrations]] (`:56`), [[agentskit-memory]] (`:57`), [[agentskit-net]] (`:58`), [[agentskit-rag]] (`:59`), [[agentskit-runtime]] (`:60`), [[agentskit-skills]] (`:61`), [[agentskit-tools]] (`:62`) |
+| Consumidores no monorepo | Nenhum `package.json` do monorepo declara `@agentskit/cli`. |
+| Consumidores externos | Não confirmado. |
 | Documentação para agentes | `apps/docs-next/content/docs/for-agents/cli.mdx` (`.doc-bridge/index.json`, `handoffs.cli`) |
-| Consumidores | Consumidores internos identificados por busca de dependências/manifests não foram consolidados nesta nota; uso externo não confirmado. |
+
+Não há dependência de `@agentskit/templates` no manifesto (`packages/cli/package.json:52-62`).
 
 ## Dados e efeitos
 
-Variáveis identificadas por acesso direto no código: ANTHROPIC_API_KEY, DEEPSEEK_API_KEY, GEMINI_API_KEY, GITHUB_TOKEN, GOOGLE_API_KEY, GOOGLE_GENERATIVE_AI_API_KEY, GROQ_API_KEY, HOME, KIMI_API_KEY, MOONSHOT_API_KEY, MY_KEY, OPENAI_API_KEY, OPENROUTER_API_KEY, PORT, SLACK_BOT_TOKEN, USERPROFILE, VITE_, XAI_API_KEY. Os efeitos e condições de uso dependem dos locais citados nas fontes. configuração indireta por argumentos. Requisitos de rede, arquivos e permissões dependem dos módulos concretos; a entrada pública não basta para afirmar uso em execução. Consulte fontes abaixo antes de alterar efeitos colaterais.
+- Chaves de provedor: a CLI lê as variáveis indicadas pela tabela de provedores (`packages/cli/src/providers.ts:164`), pelo ambiente de diagnóstico (`packages/cli/src/doctor.ts:140-174`) e pelo helper de comandos (`packages/cli/src/commands/shared.ts:12`). Os nomes exatos dependem do provedor escolhido.
+- Chaves de RAG: `OPENAI_API_KEY` e `OPENROUTER_API_KEY`, quando o embedder não recebe a chave por opção (`packages/cli/src/extensibility/rag/runner.ts:58`).
+- Integrações: credenciais de integração são lidas do ambiente por `integrationToolsFromEnv` (`packages/cli/src/resolve.ts:77`).
+- Processos filhos: o cliente MCP inicia servidores com o ambiente do processo mais o `env` da especificação (`packages/cli/src/extensibility/mcp/client.ts:52`); o modo `dev` inicia subprocesso com `FORCE_COLOR=1` (`packages/cli/src/dev.ts:120`).
+- Rede: chamadas aos provedores de modelo e às integrações; `startTunnel` expõe o agente por túnel.
+- Arquivos: escreve o projeto inicial (`writeStarterProject`) e as sessões em disco (`sessionFilePath`).
+- Código gerado: o gerador de projeto escreve `import.meta.env.VITE_<CHAVE>` em código de exemplo (`packages/cli/src/init.ts:75`). Isso é texto gerado, não leitura do pacote.
 
 ## Como mexer (para agentes)
 
-- **Comece por:** `apps/docs-next/content/docs/for-agents/cli.mdx`, `packages/cli/CONVENTIONS.md` e `packages/cli/src/index.ts`.
+- **Comece por:** `packages/cli/CONVENTIONS.md`, `packages/cli/src/index.ts` e `packages/cli/src/commands` (registro de comandos).
 - **Raiz de edição do handoff:** `packages/cli` (`.doc-bridge/index.json`, `handoffs.cli`).
-- **Invariantes:** Siga os limites de responsabilidade e compatibilidade descritos em CONVENTIONS.md. (`packages/cli/CONVENTIONS.md:1`).
-- **Testes encontrados:** `packages/cli/tests/ai.test.ts`, `packages/cli/tests/chat-app-utils.test.ts`, `packages/cli/tests/chat-app.test.tsx`, `packages/cli/tests/commands-actions.test.ts`, `packages/cli/tests/commands-chat-resume.test.ts`, `packages/cli/tests/commands-chat.test.ts`, `packages/cli/tests/commands-misc.test.ts`, `packages/cli/tests/commands-registry.test.ts`.
-- **Validação indicada pelo índice:** `pnpm --filter @agentskit/cli test` e `pnpm --filter @agentskit/cli lint`. Não executados: `pnpm` não está instalado no ambiente.
-- **Armadilha:** não ampliar a responsabilidade do pacote nem introduzir quebra de contrato sem ler os ADRs relacionados.
+- **Invariantes:**
+  - Sair do processo com `process.exit(code)` apenas no nível superior; nunca dentro de função de biblioteca (`packages/cli/CONVENTIONS.md:18`).
+  - Cores via `chalk` ou Ink, sem códigos ANSI fixos (`packages/cli/CONVENTIONS.md:23`).
+  - Toda flag curta (`-p`) tem a forma longa correspondente (`--provider`) (`packages/cli/CONVENTIONS.md:29`).
+- **Testes:** `packages/cli/tests/commands*.test.ts` (comandos), `tests/chat-app.test.tsx` e `tests/runtime-hooks.test.tsx` (interface e hooks), `tests/providers.test.ts` e `tests/provider-matrix.test.ts` (provedores), `tests/init*.test.ts` (projeto inicial), `tests/doctor*.test.ts`, `tests/dev*.test.ts`, `tests/tunnel.test.ts`, `tests/sessions*.test.ts`, `tests/mcp*.test.ts`, `tests/rag*.test.ts`, `tests/permissions.test.ts` e `tests/components-*.test.ts` (componentes).
+- **Validação:** `pnpm --filter @agentskit/cli test` (executa `vitest run`, `packages/cli/package.json:46`) e `pnpm --filter @agentskit/cli lint` (`tsc --noEmit`, `packages/cli/package.json:48`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Armadilha:** a CLI depende de onze pacotes; uma mudança em qualquer um deles pode quebrar comandos. Rode os testes do pacote afetado antes de alterar a CLI.
+- **Quem revisa:** não identificado nos arquivos auditados; confirmar com o coordenador do repo.
 
 ## Decisões e história
 
-ADRs relacionados identificados por busca no texto: [[agentskit ADR-0002 - Contrato de ferramenta]], [[agentskit ADR-0003 - Contrato de memória]], [[agentskit ADR-0009 - Regras de composição e dependência]], [[agentskit ADR-0012 - Escopo e granularidade dos adapters de fornecedor]], [[agentskit ADR-0013 - Validação em runtime de registros de mensagem serializados]], [[agentskit ADR-0015 - Autorização de ferramenta antes da proposta e da execução]], [[agentskit ADR-0019 - Operações canceláveis de ChatMemory]], [[agentskit ADR-0026 - Limites de segurança na execução de integrações]], [[agentskit ADR-0028 - Limites da ponte MCP beta]], [[agentskit ADR-0029 - Shell web compartilhado do ecossistema]], [[agentskit ADR-0031 - Fronteira compartilhada de execução de adapters CLI]], [[agentskit ADR-0034 - Shell do ecossistema v1]], [[agentskit ADR-0036 - Um pacote cuida da portabilidade de SO e runtime]], [[agentskit ADR-0038 - Utilitários de JSON canônico e SHA-256]], [[agentskit ADR-0042 - Decisões duráveis de ferramenta no core 1.x]]. Histórico recente (`git log --oneline -15 -- packages/cli`):
+ADRs relacionados identificados pelos documentos citados na fonte: [[agentskit ADR-0002 - Contrato de ferramenta]], [[agentskit ADR-0003 - Contrato de memória]], [[agentskit ADR-0009 - Regras de composição e dependência]]. Histórico recente (`git log --oneline -8 -- packages/cli`, conferido em 2026-10-16):
 
 - `e8d42064 chore: version packages (#1757)`
 - `7ac9ad94 docs: add public JSDoc across packages (DOC-03 combined) (#1813)`
@@ -99,7 +102,9 @@ ADRs relacionados identificados por busca no texto: [[agentskit ADR-0002 - Contr
 - `fa341bfa chore: version packages (#1699)`
 
 > [!info]- Detalhe técnico
-> - `packages/cli/package.json:1` — manifesto, versão, dependências e scripts.
+> - `packages/cli/package.json:1` — manifesto, dependências (`:52-62`) e scripts (`:46`, `:48`).
 > - `packages/cli/src/index.ts:1` — entrada pública.
-> - `apps/docs-next/content/docs/for-agents/cli.mdx:1` — handoff documental de agentes.
-> - `packages/cli/CONVENTIONS.md:1` — invariantes e orientação de contribuição.
+> - `packages/cli/src/providers.ts:164` — leitura de chaves de provedor.
+> - `packages/cli/src/resolve.ts:77` — credenciais de integração do ambiente.
+> - `packages/cli/src/extensibility/rag/runner.ts:58` — chaves de RAG.
+> - `packages/cli/tests/fixtures/readme-quickstart.ts:1` — import de exemplo.

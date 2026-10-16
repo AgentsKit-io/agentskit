@@ -6,51 +6,66 @@ camada: ferramenta
 visibilidade: publico
 verificado-em: 2026-10-16
 commits:
-  agentskit: 9b31c771
-metodo: "doc-bridge index versionado em .doc-bridge/index.json (gerado em 2026-10-12) para inventário/relacionamentos; pnpm indisponível, CLI não executada; inspeção estática no commit 9b31c771"
+  agentskit: 9f8d8551
+metodo: "inspeção estática; pnpm e wrangler indisponíveis, comandos não executados; auditado em 2026-10-16"
 fontes:
   - "apps/example-edge/package.json"
+  - "apps/example-edge/README.md"
   - "apps/example-edge/src/worker.ts"
+  - "apps/example-edge/wrangler.jsonc"
 tags: [app, repo/agentskit, camada/ferramenta, grupo/exemplos]
 ---
 
 # agentskit-example-edge
 
 > [!tldr] Em linguagem comum
-> Mostra uma rota de chat compatível com fetch em runtime edge.
+> AgentsKit rodando em Cloudflare Workers: um endpoint `POST /chat` que devolve a resposta do modelo em stream, com o caminho quente pequeno de propósito.
 
 ← [[00 Grupo - agentskit - Exemplos]]
 
 ## O que faz e por que existe
 
-Este exemplo ensina: Mostra uma rota de chat compatível com fetch em runtime edge. [apps/example-edge/src/worker.ts:40].
+Worker de Cloudflare que demonstra o caminho quente de até 50 KB descrito na documentação de produção (`apps/example-edge/README.md:3`). O cabeçalho do arquivo lista o fluxo por requisição: fábrica `openai`, `createSource(...).stream()` e uma ponte para SSE (`apps/example-edge/src/worker.ts:1-19`). Não usa runtime, memória nem ferramentas (`apps/example-edge/src/worker.ts:16`). O pacote é privado (`apps/example-edge/package.json:2`).
 
 ## API e contratos
 
-É app privado, não API npm. O símbolo demonstrado é `fetch` — (request: Request, env: Env) => Promise<Response> [apps/example-edge/src/worker.ts:40]. Exemplo real: `async fetch(request, env) { /* handler */ }` [apps/example-edge/src/worker.ts:40].
+Não exporta API npm. Endpoints do Worker (`apps/example-edge/src/worker.ts:39-50`):
+
+| Rota | Método | Resposta |
+|---|---|---|
+| `/health` | GET | `ok` (`:45`) |
+| `/chat` | POST | Stream de eventos do provedor (`:48` valida método e caminho). Corpo: `{ messages: [{ role, content }] }` (`:29-31`). |
+| qualquer outro | — | `404` (`:49`) |
+
+Símbolo exportado: `default { fetch }` (`apps/example-edge/src/worker.ts:39`).
 
 ## Quem usa e do que depende
 
-Exercita [[agentskit-core]], [[agentskit-adapters]]; copie a composição adaptando configuração e host. Manifesto: `apps/example-edge/package.json:1`.
+| Relação | Evidência |
+|---|---|
+| Dependências | `@agentskit/adapters` e `@agentskit/core` (`apps/example-edge/package.json:13-14`) |
+| Consumidores | Nenhum; é um exemplo. |
 
 ## Dados e efeitos
 
-Recebe HTTP e chama adapter; não declara persistência própria.
+- Variáveis do Worker, recebidas por `env` (não por `process.env`): `OPENAI_API_KEY` (`apps/example-edge/src/worker.ts:25`), obrigatória, com resposta `500` se ausente (`:51`); e `OPENAI_MODEL` (`:26`), opcional. Configure-as como secrets do Worker; os valores não são copiados para a documentação.
+- Rede: chama a API do provedor a cada requisição de `/chat`.
+- CORS aberto para qualquer origem (`apps/example-edge/src/worker.ts:34`).
 
 ## Como mexer (para agentes)
 
-- Entrada: `apps/example-edge/src/worker.ts`.
-- Invariante: preserve distinção entre fixture/mock e integração real.
-- Testes: nenhum teste declarado.
-- Validação: `pnpm --filter @agentskit/example-edge lint`.
-- Execução: Comando disponível conforme manifesto: `pnpm --filter @agentskit/example-edge dev` se existir script `dev`; este manifesto define seu script em `apps/example-example-edge/package.json`.
-- Armadilha: O script dev é aviso/exit; use Wrangler conforme README.
-- Revisão: `.github/CODEOWNERS` ou mantenedores.
+- **Comece por:** `apps/example-edge/src/worker.ts`; a configuração de deploy está em `apps/example-edge/wrangler.jsonc`.
+- **Testes:** nenhum teste declarado no exemplo.
+- **Validação:** `pnpm --filter @agentskit/example-edge lint` (`tsc --noEmit`, `apps/example-edge/package.json:10`). O script `build` também é `tsc --noEmit` (`:9`). O script `dev` não inicia o Worker; só imprime a instrução `pnpm wrangler dev` (`:8`). Não executados nesta auditoria.
+- **Armadilha:** não adicionar dependências ou módulos ao caminho quente sem medir o tamanho do bundle; o exemplo existe para mostrar esse orçamento.
+- **Revisão:** owners em `.github/CODEOWNERS`; sem regra específica para o exemplo.
 
 ## Decisões e história
 
-- Contratos: ADRs específicos do exemplo não confirmados; consulte o ADR do contrato exercitado antes de alterar sua semântica.
-- Histórico recente (git log --oneline -15 -- apps/example-edge): 2026-07-10 · a50084ee · polimento de dependências; 2026-06-15 · 289d3ae8 · atualiza dependências; 2026-06-09 · 230dd913 · atualiza dependências.
+- ADR específico do exemplo: não identificado. A documentação de referência do caminho quente está em `docs/production/edge`, citada no README (`apps/example-edge/README.md:3`).
+- Histórico recente (`git log --oneline -n 3 -- apps/example-edge`, conferido em 2026-10-16): `a50084ee chore: dependency polish, doc-bridge, and registry catalog UI (#1119)`, `289d3ae8 chore(deps): bump minor/patch dependencies across the workspace (#1004)`, `230dd913 chore(deps): consolidated minor/patch dependabot updates (#916)`.
 
 > [!info]- Detalhe técnico
-> Manifesto: `apps/example-edge/package.json:1`; implementação: `apps/example-edge/src/worker.ts:40`. O Doc Bridge index versionado foi consultado para contexto, sem atualização por indisponibilidade de pnpm.
+> - `apps/example-edge/package.json:1` — manifesto, scripts (`:8` dev, `:9` build, `:10` lint) e dependências (`:13-14`).
+> - `apps/example-edge/src/worker.ts:39` — `export default { fetch }`.
+> - `apps/example-edge/src/worker.ts:25-26` — bindings `OPENAI_API_KEY` e `OPENAI_MODEL`.
