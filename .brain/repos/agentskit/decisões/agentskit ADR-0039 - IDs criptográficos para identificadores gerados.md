@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0039 - IDs criptográficos para identificadores gerados
 
 > [!tldr] Em linguagem comum
-> Cryptographic IDs for generated identifiers.
+> IDs criptográficos para identificadores gerados pelo ecossistema. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-09-29.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-09-29.
 
 ## Decisão em linguagem comum
 
@@ -46,7 +46,9 @@ produce IDs with different formats.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0039-cryptographic-ids.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] (`createId`, `generateId`), [[agentskit-runtime]] (IDs de execução de fluxo).
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

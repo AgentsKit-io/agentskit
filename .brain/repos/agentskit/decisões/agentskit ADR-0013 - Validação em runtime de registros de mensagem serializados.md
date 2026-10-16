@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0013 - Validação em runtime de registros de mensagem serializados
 
 > [!tldr] Em linguagem comum
-> Runtime validation for serialized message records.
+> Validação em tempo de execução de registros de mensagem serializados, pela função `validateMemoryRecord` do core. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- Status: Accepted; - Date: 2026-07-11.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-11.
 
 ## Decisão em linguagem comum
 
@@ -45,7 +45,9 @@ Core must remain zero-dependency, browser/edge compatible, and under its bundle 
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0013-memory-record-runtime-validation.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] (`@agentskit/core/memory-validation`), [[agentskit-memory]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

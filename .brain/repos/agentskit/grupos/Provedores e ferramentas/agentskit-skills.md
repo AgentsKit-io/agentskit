@@ -6,100 +6,92 @@ npm: "@agentskit/skills"
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível)"
-fontes: ["packages/skills/package.json", "packages/skills/src/index.ts", "apps/docs-next/content/docs/for-agents/skills.mdx", "AGENTS.md", "packages/skills/CONVENTIONS.md", "packages/skills/tests/adr-0005-contract.test.ts", "packages/skills/tests/compose.test.ts", "packages/skills/tests/discovery.test.ts", "packages/skills/tests/extra-skills.test.ts", "docs/architecture/adrs/0004-retriever-contract.md", "docs/architecture/adrs/0005-skill-contract.md", "docs/architecture/adrs/0009-composition-rules.md"]
+commits: { agentskit: 9f8d8551 }
+metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível); busca de consumidores e de variáveis de ambiente por git grep; auditado em 2026-10-16"
+fontes: ["packages/skills/package.json", "packages/skills/src/index.ts", "packages/skills/src/technical-writer.ts", "packages/skills/README.md", "apps/docs-next/content/docs/for-agents/skills.mdx", "AGENTS.md", "packages/skills/CONVENTIONS.md", "packages/skills/tests/adr-0005-contract.test.ts", "packages/skills/tests/compose.test.ts", "packages/skills/tests/discovery.test.ts", "packages/skills/tests/marketplace.test.ts", "docs/architecture/adrs/0005-skill-contract.md", "docs/architecture/adrs/0009-composition-rules.md"]
 tags: [pacote, repo/agentskit, camada/framework, grupo/provedores-e-ferramentas]
 ---
 
 # agentskit-skills
 
 > [!tldr] Em linguagem comum
-> Pacote skills do AgentsKit: veja a responsabilidade abaixo e a documentação de agente indicada.
+> Um catálogo de "personas" prontas: cada skill é um texto de instruções (papel, passos, formato de saída) que faz o modelo agir como pesquisador, revisor de código, analista de SQL, assistente jurídico e assim por diante. Skill não executa código; ferramenta sim.
 
 ← [[00 Grupo - agentskit - Provedores e ferramentas]]
 
 ## O que faz e por que existe
 
-O pacote `@agentskit/skills` publica a superfície definida em `packages/skills/src/index.ts`; a responsabilidade funcional está resumida no handoff do Doc Bridge. O índice aponta o início de leitura em `apps/docs-next/content/docs/for-agents/skills.mdx` e limita edições a `packages/skills`. Fonte: `packages/skills/package.json:1`; `.doc-bridge/index.json` (registro `handoffs.skills`).
+O pacote `@agentskit/skills` traz as skills prontas que cumprem o contrato de skill (ADR 0005) (`packages/skills/CONVENTIONS.md:3`). Ele cuida de skills declarativas de uso geral, engenharia, dados, suporte e domínios regulados, além de composição, descoberta defensiva e um marketplace em memória (`CONVENTIONS.md:6-8`). Uma skill não tem método `run` nem `execute` (`CONVENTIONS.md:35-37`).
 
 ## API e contratos
 
-Exports de topo (assinaturas resumidas conforme declarações de exportação):
+Exports de `packages/skills/src/index.ts` (linhas verificadas no commit `9f8d8551`):
 
 | Símbolo | Tipo | Para que serve | Onde |
 |---|---|---|---|
-| `researcher` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:1` |
-| `coder` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:2` |
-| `planner` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:3` |
-| `critic` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:4` |
-| `summarizer` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:5` |
-| `codeReviewer` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:6` |
-| `prReviewer` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:7` |
-| `sqlGen` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:8` |
-| `dataAnalyst` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:9` |
-| `translator` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:10` |
-| `translatorWithGlossary` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:10` |
-| `GlossaryEntry` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:11` |
-| `sqlAnalyst` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:12` |
-| `technicalWriter` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:13` |
-| `securityAuditor` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:14` |
-| `customerSupport` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:15` |
-| `healthcareAssistant` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:16` |
-| `clinicalNoteSummarizer` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:16` |
-| `financialAdvisor` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:17` |
-| `transactionTriage` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:17` |
-| `legalAssistant` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:18` |
-| `contractReviewer` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:18` |
-| `tutor` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:19` |
-| `curriculumDesigner` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:19` |
-| `storefrontConcierge` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:20` |
-| `merchandisingAnalyst` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:20` |
-| `listingConcierge` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:21` |
-| `marketAnalyst` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:21` |
-| `{` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:29` |
-| `composeSkills` | export nomeado | API pública do pacote. | `packages/skills/src/index.ts:35` |
+| `researcher`, `coder`, `planner`, `critic`, `summarizer` | `SkillDefinition` | Skills de uso geral | `src/index.ts:1-5` |
+| `codeReviewer`, `prReviewer`, `sqlGen`, `dataAnalyst`, `sqlAnalyst`, `technicalWriter`, `securityAuditor` | `SkillDefinition` | Skills de engenharia e dados | `src/index.ts:6-9`, `:12-14` |
+| `translator`, `translatorWithGlossary` (+ `GlossaryEntry`) | `SkillDefinition` e tipo | Tradução, com glossário opcional | `src/index.ts:10-11` |
+| `customerSupport` | `SkillDefinition` | Suporte ao cliente | `src/index.ts:15` |
+| `healthcareAssistant`, `clinicalNoteSummarizer` | `SkillDefinition` | Saúde | `src/index.ts:16` |
+| `financialAdvisor`, `transactionTriage` | `SkillDefinition` | Finanças | `src/index.ts:17` |
+| `legalAssistant`, `contractReviewer` | `SkillDefinition` | Jurídico | `src/index.ts:18` |
+| `tutor`, `curriculumDesigner` | `SkillDefinition` | Educação | `src/index.ts:19` |
+| `storefrontConcierge`, `merchandisingAnalyst` | `SkillDefinition` | Comércio | `src/index.ts:20` |
+| `listingConcierge`, `marketAnalyst` | `SkillDefinition` | Imobiliário | `src/index.ts:21` |
+| `createSkillRegistry`, `parseSemver`, `compareSemver`, `matchesRange` (+ `SkillPackage`, `SkillRegistry`, `SkillRegistryQuery`) | funções e tipos | Marketplace em memória e comparação de versões | `src/index.ts:23-33` (`src/marketplace.ts`) |
+| `composeSkills` | função | Compor skills | `src/index.ts:35` (`src/compose.ts`) |
+| `listSkills`, `getBuiltinSkills` (+ `SkillMetadata`) | funções e tipo | Descoberta das skills embutidas | `src/index.ts:36-37` (`src/discovery.ts`) |
 
-Exemplo de uso localizado em documentação ou teste:
+Exemplo real (README do pacote, `packages/skills/README.md:54`):
 
-Exemplo real de import do pacote: `import { researcher, coder, composeSkills } from '@agentskit/skills'` — `packages/skills/README.md:54`.
+```ts
+import { researcher, coder, composeSkills } from '@agentskit/skills'
+```
 
 ## Quem usa e do que depende
 
 | Relação | Nota / evidência |
 |---|---|
-| Dependência interna | [[agentskit-core]] (`packages/skills/package.json:1`) |
+| Dependência interna | [[agentskit-core]] (`packages/skills/package.json:55-57`) |
 | Documentação para agentes | `apps/docs-next/content/docs/for-agents/skills.mdx` (`.doc-bridge/index.json`, `handoffs.skills`) |
-| Consumidores | Consumidores internos identificados por busca de dependências/manifests não foram consolidados nesta nota; uso externo não confirmado. |
+| Consumidores dentro do repo | 4 manifestos declaram `@agentskit/skills` (busca em `packages` e `apps`, commit `9f8d8551`): `apps/docs-next`, `apps/example-multi-agent`, `apps/example-runtime` e `packages/cli`. |
+| Consumidores fora do repo | Não confirmado nesta auditoria. |
 
 ## Dados e efeitos
 
-Variáveis identificadas por acesso direto no código: ANTHROPIC_API_KEY, FOO_API_KEY. Os efeitos e condições de uso dependem dos locais citados nas fontes. configuração indireta por argumentos. Requisitos de rede, arquivos e permissões dependem dos módulos concretos; a entrada pública não basta para afirmar uso em execução. Consulte fontes abaixo antes de alterar efeitos colaterais.
+- Nenhum efeito de rede, arquivo ou processo no pacote (`package.json` só tem `@agentskit/core` como dependência, `:55-57`).
+- Variáveis de ambiente: nenhuma lida no código. A busca encontrou `process.env.FOO_API_KEY` em `packages/skills/src/technical-writer.ts:54`, mas é texto de exemplo dentro de uma string de skill, não código executado.
+- `onActivate` é o único gancho de comportamento e serve para montar ferramentas dinâmicas por usuário ou tenant (`CONVENTIONS.md:39`).
 
 ## Como mexer (para agentes)
 
-- **Comece por:** `apps/docs-next/content/docs/for-agents/skills.mdx`, `packages/skills/CONVENTIONS.md` e `packages/skills/src/index.ts`.
+- **Comece por:** `packages/skills/src/index.ts` (superfície pública), `packages/skills/CONVENTIONS.md` (regras e receita) e uma skill parecida ao que você quer criar (`researcher.ts`, `critic.ts` e `coder.ts`, indicadas em `CONVENTIONS.md:33`).
 - **Raiz de edição do handoff:** `packages/skills` (`.doc-bridge/index.json`, `handoffs.skills`).
-- **Invariantes:** Kebab-case for bundled multi-word `name` fields; all names must satisfy ADR 0005 S1. (`packages/skills/CONVENTIONS.md:1`).
-- **Testes encontrados:** `packages/skills/tests/adr-0005-contract.test.ts`, `packages/skills/tests/compose.test.ts`, `packages/skills/tests/discovery.test.ts`, `packages/skills/tests/extra-skills.test.ts`, `packages/skills/tests/marketplace.test.ts`, `packages/skills/tests/pr-reviewer.test.ts`, `packages/skills/tests/safety-boundary.test.ts`, `packages/skills/tests/skills.test.ts`.
-- **Validação indicada pelo índice:** `pnpm --filter @agentskit/skills test` e `pnpm --filter @agentskit/skills lint`. Não executados: `pnpm` não está instalado no ambiente.
-- **Armadilha:** não ampliar a responsabilidade do pacote nem introduzir quebra de contrato sem ler os ADRs relacionados.
+- **Invariantes** (`packages/skills/CONVENTIONS.md:35-45`, `:72`):
+  - Skill não tem `run` nem `execute`; se o modelo chama uma função, é ferramenta.
+  - Campos obrigatórios: `name`, `description` (uma linha) e `systemPrompt`.
+  - `tools` lista nomes de ferramentas, não definições inline (`CONVENTIONS.md:20`, `:59`).
+  - Exemplos são de turno único em v1 (`CONVENTIONS.md:60`).
+  - `name` precisa casar com `^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$` (`CONVENTIONS.md:72`).
+  - Sem `throw` ou `await` de topo na definição; efeitos vão para `onActivate` (`CONVENTIONS.md:62`).
+- **Testes:** todo skill embutida passa por `tests/adr-0005-contract.test.ts`; não criar um harness próprio menor (`CONVENTIONS.md:49`). Ao todo, `packages/skills/tests/` tem 13 arquivos ( entre eles `compose`, `discovery`, `marketplace`, `safety-boundary`, `pr-reviewer` e os `vertical*` de ecommerce, educação e imobiliário).
+- **Validação do pacote:** `pnpm --filter @agentskit/skills test` (`packages/skills/package.json:50`, `vitest run`) e `pnpm --filter @agentskit/skills lint` (`:52`, `tsc --noEmit`). Cobertura de linhas: 95%, sobretudo verificações estruturais (`CONVENTIONS.md:68`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Armadilhas** (`CONVENTIONS.md:57-63`): definições de ferramenta inline dentro da skill; exemplo multi-turno codificado como um par de entrada e saída; usar `onActivate` para inicialização geral; chamar a skill como função.
 
 ## Decisões e história
 
-ADRs relacionados identificados por busca no texto: [[agentskit ADR-0004 - Contrato de retriever]], [[agentskit ADR-0005 - Contrato de skill]], [[agentskit ADR-0009 - Regras de composição e dependência]]. Histórico recente (`git log --oneline -15 -- packages/skills`):
+ADRs que afetam este pacote: [[agentskit ADR-0005 - Contrato de skill]] e [[agentskit ADR-0009 - Regras de composição e dependência]] (`composeSkills`).
+
+Histórico recente (`git log --oneline -15 -- packages/skills`, listado na versão anterior e não refeito nesta auditoria):
 
 - `e8d42064 chore: version packages (#1757)`
 - `6b56e99b docs: add public JSDoc to tools, skills, mcp and cross-platform (DOC-03) (#1818)`
 - `bdd1cf10 chore: share tsup package defaults (#1796)`
-- `0743256f chore: version packages (#1753)`
-- `fa341bfa chore: version packages (#1699)`
-- `02ca0b8e chore: version packages`
-- `9226c833 chore: version packages (#1618)`
-- `08fce242 chore: retire public AKOS references (#1615)`
 
 > [!info]- Detalhe técnico
-> - `packages/skills/package.json:1` — manifesto, versão, dependências e scripts.
+> - `packages/skills/package.json:1` — manifesto, versão, `engines` (Node 22 ou superior), dependência e scripts.
 > - `packages/skills/src/index.ts:1` — entrada pública.
+> - `packages/skills/src/technical-writer.ts:54` — exemplo de texto com `FOO_API_KEY` (não é leitura de ambiente).
 > - `apps/docs-next/content/docs/for-agents/skills.mdx:1` — handoff documental de agentes.
 > - `packages/skills/CONVENTIONS.md:1` — invariantes e orientação de contribuição.

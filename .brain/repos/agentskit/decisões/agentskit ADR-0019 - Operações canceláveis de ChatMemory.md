@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0019 - Operações canceláveis de ChatMemory
 
 > [!tldr] Em linguagem comum
-> Cancellable ChatMemory operations.
+> Operações canceláveis de ChatMemory. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-Status não encontrado.; Data não encontrada..
+- **Status**: aceito (`Accepted` na fonte). **Data**: não consta na fonte.
 
 ## Decisão em linguagem comum
 
@@ -38,7 +38,9 @@ Server and edge request lifecycles have deadlines and disconnect signals, but `C
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0019-cancellable-chat-memory-operations.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]], [[agentskit-memory]], [[agentskit-runtime]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0001 - Contrato de adapter
 
 > [!tldr] Em linguagem comum
-> Adapter Contract.
+> Define o que um adaptador de modelo precisa cumprir: quatro tipos, invariantes A1–A10 e regras de versão.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-04-14.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-04-14.
 
 ## Decisão em linguagem comum
 
@@ -128,11 +128,15 @@ Today the contract is implicit in `packages/core/src/types/adapter.ts`. This ADR
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0001-adapter-contract.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] — define os tipos `AdapterFactory`, `AdapterRequest` e `StreamChunk`.
+- [[agentskit-adapters]] — implementa os provedores.
+- [[agentskit-runtime]] — consome o adaptador no laço.
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 
-- **Supersedes**: —
+- **Substitui**: —
 
 ## Fonte
 

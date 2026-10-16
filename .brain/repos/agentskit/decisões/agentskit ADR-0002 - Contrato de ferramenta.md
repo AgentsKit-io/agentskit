@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0002 - Contrato de ferramenta
 
 > [!tldr] Em linguagem comum
-> Tool Contract.
+> Contrato de ferramenta: o que uma ferramenta do AgentsKit precisa cumprir. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-04-14.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-04-14.
 
 ## Decisão em linguagem comum
 
@@ -129,7 +129,10 @@ The Tool contract must also align cleanly with MCP's tool spec so the bridge is 
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0002-tool-contract.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] — tipos `ToolDefinition` e `ToolCall`.
+- [[agentskit-runtime]], [[agentskit-tools]], [[agentskit-validation]], [[agentskit-mcp]], [[agentskit-sandbox]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

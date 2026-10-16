@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0005 - Contrato de skill
 
 > [!tldr] Em linguagem comum
-> Skill Contract.
+> Contrato de skill: o que uma skill (persona com instruções) precisa cumprir. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-04-14.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-04-14.
 
 ## Decisão em linguagem comum
 
@@ -101,7 +101,10 @@ A skill is also the right unit for the **MCP-aligned skill manifest spec** (#182
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0005-skill-contract.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] — tipo `SkillDefinition`.
+- [[agentskit-runtime]], [[agentskit-skills]], [[agentskit-mcp]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

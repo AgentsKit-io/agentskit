@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0023 - Perfil estrito de qualidade da documentação do ecossistema
 
 > [!tldr] Em linguagem comum
-> Strict ecosystem documentation quality profile.
+> Perfil estrito de qualidade da documentação do ecossistema. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-07-15.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-15.
 
 ## Decisão em linguagem comum
 
@@ -92,7 +92,9 @@ stable standard with stricter, fail-closed requirements.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0023-ecosystem-documentation-quality.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- Documentação do monorepo (`apps/docs-next`). Não é pacote npm; não mapeado nas notas de pacote.
+
+Lista derivada das notas desta auditoria; não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

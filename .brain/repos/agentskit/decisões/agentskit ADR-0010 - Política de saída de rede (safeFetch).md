@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0010 - Política de saída de rede (safeFetch)
 
 > [!tldr] Em linguagem comum
-> Network egress policy (safeFetch).
+> Política de saída de rede (safeFetch), para chamadas HTTP feitas em nome do agente. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-06-03.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-06-03.
 
 ## Decisão em linguagem comum
 
@@ -74,7 +74,9 @@ inline in one tool. There was no shared, default-deny wrapper that every tool
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0010-egress-policy.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-net]], [[agentskit-tools]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

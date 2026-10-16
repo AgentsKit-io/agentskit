@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0036 - Um pacote cuida da portabilidade de SO e runtime
 
 > [!tldr] Em linguagem comum
-> One package owns OS and runtime portability.
+> Um pacote cuida da portabilidade de sistema operacional e de runtime (`@agentskit/cross-platform`). Ainda proposto. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Proposed; - **Date**: 2026-09-27.
+- **Status**: proposto (`Proposed` na fonte). **Data**: 2026-09-27.
 
 ## Decisão em linguagem comum
 
@@ -81,7 +81,9 @@ differences.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0036-cross-platform-package.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-adapters]], [[agentskit-sandbox]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

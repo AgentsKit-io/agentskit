@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0025 - Snapshots da API pública e matriz de compatibilidade
 
 > [!tldr] Em linguagem comum
-> Public API snapshots and compatibility matrix.
+> Snapshots da API pública e portões de compatibilidade. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- Status: Accepted; - Date: 2026-07-16.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-16.
 
 ## Decisão em linguagem comum
 
@@ -81,7 +81,9 @@ other supported toolchain lines unprotected.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0025-public-api-and-compatibility-gates.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]], [[agentskit-runtime]] (snapshots em `scripts/check-public-api-snapshot.mjs`, raiz `package.json:60`).
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0004 - Contrato de retriever
 
 > [!tldr] Em linguagem comum
-> Retriever Contract.
+> Contrato de retriever: o que um recuperador de contexto precisa cumprir. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-04-14.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-04-14.
 
 ## Decisão em linguagem comum
 
@@ -123,7 +123,10 @@ composition seam independent of provider choice.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0004-retriever-contract.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] — tipos `Retriever` e `RetrieverRequest`.
+- [[agentskit-runtime]], [[agentskit-rag]], [[agentskit-skills]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0003 - Contrato de memória
 
 > [!tldr] Em linguagem comum
-> Memory Contract.
+> Contrato de memória: o que um backend de memória de chat ou vetorial precisa cumprir. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-04-14.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-04-14.
 
 ## Decisão em linguagem comum
 
@@ -131,7 +131,10 @@ Today the contracts live in `packages/core/src/types/memory.ts` and are implemen
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0003-memory-contract.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] — tipos `ChatMemory` e `VectorMemory`.
+- [[agentskit-adapters]] (embedders), [[agentskit-memory]], [[agentskit-rag]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

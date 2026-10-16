@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0009 - Regras de composição e dependência
 
 > [!tldr] Em linguagem comum
-> Composition & dependency rules.
+> Regras de composição e dependência entre pacotes. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-06-03.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-06-03.
 
 ## Decisão em linguagem comum
 
@@ -91,7 +91,9 @@ the dependency and duplication rules enforceable and unambiguous.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0009-composition-rules.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]], [[agentskit-runtime]], [[agentskit-sandbox]], [[agentskit-skills]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

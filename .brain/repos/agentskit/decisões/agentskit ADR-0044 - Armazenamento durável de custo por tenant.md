@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0044 - Armazenamento durável de custo por tenant
 
 > [!tldr] Em linguagem comum
-> Durable tenant cost store.
+> Armazenamento durável de custo por tenant. Ainda proposto (implementação autorizada; revisão de evidência fora do repositório). O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Proposed (implementation authorized; evidence review remains external); - **Date**: 2026-10-09.
+- **Status**: proposto (`Proposed (implementation authorized; evidence review remains external)` na fonte). **Data**: 2026-10-09.
 
 ## Decisão em linguagem comum
 
@@ -93,7 +93,9 @@ that is atomic under concurrency.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0044-durable-cost-store.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- Não mapeado a pacote nas notas de pacote desta auditoria.
+
+Lista derivada das notas desta auditoria; não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

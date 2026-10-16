@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0012 - Escopo e granularidade dos adapters de fornecedor
 
 > [!tldr] Em linguagem comum
-> Vendor adapter scope & granularity.
+> Escopo e granularidade dos adaptadores de fornecedor. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- Status: Accepted; - Date: 2026-06-10.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-06-10.
 
 ## Decisão em linguagem comum
 
@@ -94,7 +94,9 @@ and how finely they are split.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0012-vendor-adapter-scope.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-adapters]], [[agentskit-integrations]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0022 - Adapters de fornecedor consolidados nos pacotes donos
 
 > [!tldr] Em linguagem comum
-> Consolidate vendor adapters into owning packages.
+> Consolida os adaptadores de fornecedor nos pacotes donos. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-Status não encontrado.; Data não encontrada..
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-14.
 
 ## Decisão em linguagem comum
 
@@ -62,7 +62,9 @@ platform contract.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0022-public-package-consolidation.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-adapters]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

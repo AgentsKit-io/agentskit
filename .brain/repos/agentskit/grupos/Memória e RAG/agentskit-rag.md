@@ -6,88 +6,109 @@ npm: "@agentskit/rag"
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível)"
-fontes: ["packages/rag/package.json", "packages/rag/src/index.ts", "apps/docs-next/content/docs/for-agents/rag.mdx", "AGENTS.md", "packages/rag/CONVENTIONS.md", "packages/rag/tests/chunker.test.ts", "packages/rag/tests/errors.test.ts", "packages/rag/tests/hardening.test.ts", "packages/rag/tests/index-node.test.ts", "docs/architecture/adrs/0003-memory-contract.md", "docs/architecture/adrs/0004-retriever-contract.md", "docs/architecture/adrs/0006-runtime-contract.md"]
+commits: { agentskit: 9f8d8551 }
+metodo: "leitura do código e do índice .doc-bridge/index.json existente; CLI não executada (pnpm indisponível); busca de consumidores por git grep; auditado em 2026-10-16"
+fontes: ["packages/rag/package.json", "packages/rag/src/index.ts", "packages/rag/CONVENTIONS.md", "packages/rag/README.md", "packages/rag/tests/metro-bundle.test.ts", "apps/docs-next/content/docs/for-agents/rag.mdx", "AGENTS.md", "docs/architecture/adrs/0004-retriever-contract.md", "docs/architecture/adrs/0043-partition-bound-rag.md"]
 tags: [pacote, repo/agentskit, camada/framework, grupo/memoria-e-rag]
 ---
 
 # agentskit-rag
 
 > [!tldr] Em linguagem comum
-> Pacote rag do AgentsKit: veja a responsabilidade abaixo e a documentação de agente indicada.
+> Recuperação de contexto para o agente: divide documentos em trechos, guarda os vetores num armazenamento, e devolve os trechos mais parecidos com a pergunta. Também carrega documentos de URL, GitHub, Notion, Confluence, Drive, PDF, S3, GCS, Dropbox e OneDrive.
 
 ← [[00 Grupo - agentskit - Memória e RAG]]
 
 ## O que faz e por que existe
 
-O pacote `@agentskit/rag` publica a superfície definida em `packages/rag/src/index.ts`; a responsabilidade funcional está resumida no handoff do Doc Bridge. O índice aponta o início de leitura em `apps/docs-next/content/docs/for-agents/rag.mdx` e limita edições a `packages/rag`. Fonte: `packages/rag/package.json:1`; `.doc-bridge/index.json` (registro `handoffs.rag`).
+O pacote `@agentskit/rag` oferece `createRAG`, que devolve um `RAG` compatível com o contrato `Retriever` (ADR 0004) (`packages/rag/CONVENTIONS.md:3`). A fábrica é agnóstica de armazenamento: recebe `store` e `embed` por injeção (`CONVENTIONS.md:97`). Os armazenamentos ficam em `@agentskit/memory`, e os embedders em `@agentskit/adapters` (`CONVENTIONS.md:16-17`). Os carregadores de documentos e os rerankers também ficam aqui, porque são pequenos e não dependem de fornecedor (`CONVENTIONS.md:10-12`, `:18-21`). O pacote está em beta (`packages/rag/package.json:89-92`).
 
 ## API e contratos
 
-Exports de topo (assinaturas resumidas conforme declarações de exportação):
+Exports de `packages/rag/src/index.ts` (linhas verificadas no commit `9f8d8551`):
 
 | Símbolo | Tipo | Para que serve | Onde |
 |---|---|---|---|
-| `createRAG` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:1` |
-| `createPartitionedRAG` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:2` |
-| `PartitionedRAGConfig` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:3` |
-| `PartitionSearchDiagnostics` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:3` |
-| `RagError` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:4` |
-| `RagErrorCodes` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:4` |
-| `RagErrorCode` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:5` |
-| `chunkText` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:6` |
-| `RAGConfig` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:7` |
-| `InputDocument` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:7` |
-| `RAG` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:7` |
-| `ChunkOptions` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:8` |
-| `{` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:23` |
-| `voyageReranker` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:39` |
-| `jinaReranker` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:39` |
-| `VoyageRerankerOptions` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:40` |
-| `JinaRerankerOptions` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:40` |
-| `{` | export nomeado | API pública do pacote. | `packages/rag/src/index.ts:48` |
+| `createRAG` | função | Fábrica do RAG: `ingest` e `search` | `src/index.ts:1` |
+| `createPartitionedRAG` (`PartitionedRAGConfig`, `PartitionSearchDiagnostics`) | função e tipos | RAG com partição por chave de tenant ou sessão (ADR 0043) | `src/index.ts:2-3` (`src/partitioned.ts`) |
+| `RagError`, `RagErrorCodes`, `RagErrorCode` | classe, catálogo e tipo | Erros `AK_RAG_*` | `src/index.ts:4-5` |
+| `chunkText` (`ChunkOptions`) | função e tipo | Divisão do texto em trechos | `src/index.ts:6`, `:8` |
+| `RAGConfig`, `InputDocument`, `RAG` | tipos | Configuração, documento de entrada e contrato do RAG | `src/index.ts:7` |
+| `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf`, `loadS3`, `loadGcs`, `loadDropbox`, `loadOneDrive` (+ tipos de opções) | funções e tipos | Carregadores de documentos | `src/index.ts:10-37` (`src/loaders.ts`) |
+| `voyageReranker`, `jinaReranker` (+ tipos) | funções e tipos | Rerankers por API Voyage e Jina | `src/index.ts:39-40` (`src/rerankers.ts`) |
+| `createRerankedRetriever`, `createHybridRetriever`, `bm25Score`, `bm25Rerank` (+ tipos) | funções e tipos | Composição de retriever com rerank, híbrido vetorial e BM25 | `src/index.ts:42-53` (`src/rerank.ts`) |
 
-Exemplo de uso localizado em documentação ou teste:
+Subcaminhos publicados (`packages/rag/package.json:41-50`): `./chunker` e `./markdown`. Há também um ponto de entrada para navegador e React Native (`packages/rag/package.json:30-37`).
 
-Exemplo real de import do pacote: `"import { createRAG } from '@agentskit/rag'; globalThis.__agentskitRag = createRAG;\n",` — `packages/rag/tests/metro-bundle.mjs:84`.
+Exemplo real (README do pacote, `packages/rag/README.md:54-68`):
+
+```ts
+import { createRAG } from '@agentskit/rag'
+import { openaiEmbedder } from '@agentskit/adapters'
+import { fileVectorMemory } from '@agentskit/memory'
+
+const rag = createRAG({
+  embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
+  store: fileVectorMemory({ path: './vectors' }),
+})
+```
+
+Esse exemplo importa `@agentskit/adapters` e `@agentskit/memory`, que não estão em `packages/rag/package.json` (ver Dúvida abaixo).
 
 ## Quem usa e do que depende
 
 | Relação | Nota / evidência |
 |---|---|
-| Dependência interna | [[agentskit-core]], [[agentskit-net]] (`packages/rag/package.json:1`) |
+| Dependências internas | [[agentskit-core]] e [[agentskit-net]] (`packages/rag/package.json:64-68`) |
+| Dependência externa | `yaml` ^2.9.1 (`packages/rag/package.json:67`) |
+| Peer opcional | `@aws-sdk/client-s3` (`packages/rag/package.json:69-76`), usado por `loadS3` |
+| Consumidores dentro do repo | 4 manifestos declaram `@agentskit/rag` (busca em `packages` e `apps`, commit `9f8d8551`): `apps/ask-backend`, `apps/docs-next`, `apps/example-rag-chat` e `packages/cli`. |
 | Documentação para agentes | `apps/docs-next/content/docs/for-agents/rag.mdx` (`.doc-bridge/index.json`, `handoffs.rag`) |
-| Consumidores | Consumidores internos identificados por busca de dependências/manifests não foram consolidados nesta nota; uso externo não confirmado. |
+| Consumidores fora do repo | Não confirmado nesta auditoria. |
 
 ## Dados e efeitos
 
-Variáveis identificadas por acesso direto no código: OPENAI_API_KEY. Os efeitos e condições de uso dependem dos locais citados nas fontes. configuração indireta por argumentos. Requisitos de rede, arquivos e permissões dependem dos módulos concretos; a entrada pública não basta para afirmar uso em execução. Consulte fontes abaixo antes de alterar efeitos colaterais.
+- Rede: os carregadores de URL, GitHub, Notion, Confluence, Drive, Dropbox, OneDrive e S3/GCS leem documentos remotos. O HTTP passa por `@agentskit/net`, e cancelamento e tempo limite são obrigatórios (`CONVENTIONS.md:45-54`). Rerankers chamam as APIs Voyage e Jina e aceitam `signal` (`CONVENTIONS.md:78-80`).
+- S3: o cliente é injetado (`S3LikeClient`, `src/index.ts:33`); o pacote não cria credenciais.
+- Variáveis de ambiente: nenhuma lida em `packages/rag/src` (busca sem resultado). A variável `OPENAI_API_KEY` aparece só no exemplo do README (`packages/rag/README.md:59`).
+- Arquivos: `loadPdf` lê PDF (formato de entrada não verificado nesta auditoria).
 
 ## Como mexer (para agentes)
 
-- **Comece por:** `apps/docs-next/content/docs/for-agents/rag.mdx`, `packages/rag/CONVENTIONS.md` e `packages/rag/src/index.ts`.
+- **Comece por:** `packages/rag/src/rag.ts` (`createRAG`), `packages/rag/src/loaders.ts` (carregadores) e `packages/rag/CONVENTIONS.md` (regras).
 - **Raiz de edição do handoff:** `packages/rag` (`.doc-bridge/index.json`, `handoffs.rag`).
-- **Invariantes:** `timeoutMs` defaults to 15 seconds and must be a positive safe integer no greater than (`packages/rag/CONVENTIONS.md:1`).
-- **Testes encontrados:** `packages/rag/tests/chunker.test.ts`, `packages/rag/tests/errors.test.ts`, `packages/rag/tests/hardening.test.ts`, `packages/rag/tests/index-node.test.ts`, `packages/rag/tests/loaders-native.test.ts`, `packages/rag/tests/loaders-node.test.ts`, `packages/rag/tests/loaders.test.ts`, `packages/rag/tests/markdown.test.ts`.
-- **Validação indicada pelo índice:** `pnpm --filter @agentskit/rag test` e `pnpm --filter @agentskit/rag lint`. Não executados: `pnpm` não está instalado no ambiente.
-- **Armadilha:** não ampliar a responsabilidade do pacote nem introduzir quebra de contrato sem ler os ADRs relacionados.
+- **Invariantes** (`packages/rag/CONVENTIONS.md:36-85`):
+  - `createRAG` é agnóstico de armazenamento; não depender de um store específico (`:97`). O `RAG` continua estendendo `Retriever` (`:106`).
+  - Chunker síncrono; `chunkSize` inválido vira um trecho só; overlap é limitado abaixo de `chunkSize` (`:38-43`).
+  - Falha de carregamento lança `RagError` com `AK_RAG_LOAD_FAILED`; aborto nunca vira "pular documento" (`:47-49`).
+  - Carregadores de lista podem pular falhas parciais, mas lançam erro se todas as tentativas falharem (`:55-59`). Paginação sem novo cursor lança erro (`:60-61`).
+  - Scores: se algum existir, todos precisam ser finitos e a ordem é decrescente; nunca inventar score (`:71-74`).
+  - Saída de reranker malformada lança `AK_RAG_RERANK_FAILED`, sem filtrar em silêncio (`:75-77`).
+  - `createPartitionedRAG` sempre filtra depois da busca, mesmo quando o store aceita filtro (`:112-115`; ADR 0043).
+  - `timeoutMs` padrão de 15 s (`:50-51`).
+- **Testes:** `packages/rag/tests/` (inclui `rag.test.ts`, `hardening.test.ts`, `metro-bundle.test.ts`). `metro-bundle.test.ts` confirma que o pacote roda no bundle do Metro.
+- **Validação do pacote:** `pnpm --filter @agentskit/rag test` (`packages/rag/package.json:57`, roda o build do turbo antes do vitest) e `pnpm --filter @agentskit/rag lint` (`:61`, `tsc --noEmit`). Cobertura de linhas: 95% (`CONVENTIONS.md:105`). Bundle abaixo de 10 KB gzip (`CONVENTIONS.md:104`). Não executados nesta auditoria: `pnpm` não está instalado no ambiente.
+- **Armadilhas** (`CONVENTIONS.md:95-100`): acoplar `RAG` a um store; dividir no meio de palavra; devolver resultados fora de ordem; completar até `topK`.
+
+> [!question] Dúvida: dependências do exemplo do README
+> `packages/rag/README.md:55-56` importa `@agentskit/adapters` e `@agentskit/memory`, e nenhum dos dois está em `packages/rag/package.json`. Ou o exemplo depende de dependências de desenvolvimento não declaradas, ou o README deveria usar outra forma de importar. Confirmar.
 
 ## Decisões e história
 
-ADRs relacionados identificados por busca no texto: [[agentskit ADR-0003 - Contrato de memória]], [[agentskit ADR-0004 - Contrato de retriever]], [[agentskit ADR-0006 - Contrato de runtime]], [[agentskit ADR-0007 - Plataforma de documentação Fumadocs]], [[agentskit ADR-0009 - Regras de composição e dependência]], [[agentskit ADR-0013 - Validação em runtime de registros de mensagem serializados]], [[agentskit ADR-0015 - Autorização de ferramenta antes da proposta e da execução]], [[agentskit ADR-0020 - Estado de interação serializável]], [[agentskit ADR-0021 - Manifesto versionado do ecossistema e afirmações com evidência]], [[agentskit ADR-0023 - Perfil estrito de qualidade da documentação do ecossistema]], [[agentskit ADR-0024 - Graduação de pacotes baseada em evidência]], [[agentskit ADR-0027 - Limites de segurança do statechart beta]], [[agentskit ADR-0037 - Um pacote cuida da infraestrutura HTTP]], [[agentskit ADR-0040 - Compatibilidade da impressão digital de replay de eval]], [[agentskit ADR-0042 - Decisões duráveis de ferramenta no core 1.x]], [[agentskit ADR-0043 - Composição de RAG vinculada a partição]]. Histórico recente (`git log --oneline -15 -- packages/rag`):
+ADRs que afetam este pacote: [[agentskit ADR-0004 - Contrato de retriever]], [[agentskit ADR-0037 - Um pacote cuida da infraestrutura HTTP]] e [[agentskit ADR-0043 - Composição de RAG vinculada a partição]] (`createPartitionedRAG`).
+
+Histórico recente (`git log --oneline -15 -- packages/rag`, listado na versão anterior e não refeito nesta auditoria):
 
 - `e8d42064 chore: version packages (#1757)`
 - `88c8bc7b feat(rag): add partition-bound retrieval (#1829)`
-- `7ac9ad94 docs: add public JSDoc across packages (DOC-03 combined) (#1813)`
-- `bdd1cf10 chore: share tsup package defaults (#1796)`
-- `109488c8 chore: audit dead deps and align Node engines (#1783)`
-- `0743256f chore: version packages (#1753)`
-- `fa341bfa chore: version packages (#1699)`
 - `b3519ef3 feat(rag): markdown note parsing subpath (@agentskit/rag/markdown) (#1745)`
 
 > [!info]- Detalhe técnico
-> - `packages/rag/package.json:1` — manifesto, versão, dependências e scripts.
+> - `packages/rag/package.json:1` — manifesto, subcaminhos, peers opcionais e scripts.
 > - `packages/rag/src/index.ts:1` — entrada pública.
+> - `packages/rag/README.md:58` — exemplo `createRAG({ embed, store })`.
 > - `apps/docs-next/content/docs/for-agents/rag.mdx:1` — handoff documental de agentes.
 > - `packages/rag/CONVENTIONS.md:1` — invariantes e orientação de contribuição.
+
+> [!info]- Evidência de uso no law-os (não verificada)
+> A versão anterior desta nota fazia afirmações sobre o law-os, que dependem de notas e de um repositório fora deste vault. Foram retiradas desta versão até confirmação.

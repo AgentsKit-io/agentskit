@@ -3,7 +3,7 @@ tipo: adr
 repo: agentskit
 camada: framework
 visibilidade: publico
-status: aceito
+status: proposto
 verificado-em: 2026-10-16
 commits: { agentskit: 9b31c771 }
 metodo: "leitura integral da decisão fonte"
@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0041 - Serializar anexos na fronteira do provedor
 
 > [!tldr] Em linguagem comum
-> 0041 — Serialize attachments at the provider boundary.
+> Serializar anexos na fronteira do provedor. Ainda proposto, pronto para revisão do mantenedor. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-Status não encontrado.; Data não encontrada..
+- **Status**: proposto (`proposed` na fonte; "implementation ready for maintainer review"). **Data**: não consta na fonte.
 
 ## Decisão em linguagem comum
 
@@ -48,7 +48,9 @@ Não registrado na fonte.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0041-adapter-content-serialization.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-adapters]], [[agentskit-core]] (`ContentPart`, `src/index.ts:37-55`).
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

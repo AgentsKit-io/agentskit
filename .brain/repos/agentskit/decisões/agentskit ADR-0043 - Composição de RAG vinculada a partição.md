@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0043 - Composição de RAG vinculada a partição
 
 > [!tldr] Em linguagem comum
-> Partition-bound RAG composition.
+> Composição de RAG vinculada a partição, com `createPartitionedRAG`. Ainda proposto (implementação autorizada; revisão de evidência fora do repositório). O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Proposed (implementation authorized; evidence review remains external); - **Date**: 2026-10-07.
+- **Status**: proposto (`Proposed (implementation authorized; evidence review remains external)` na fonte). **Data**: 2026-10-07.
 
 ## Decisão em linguagem comum
 
@@ -51,7 +51,9 @@ recall requires an appropriate backend or physically separate stores.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0043-partition-bound-rag.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-rag]] (`createPartitionedRAG`), [[agentskit-memory]] (`VectorMemory` por partição).
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

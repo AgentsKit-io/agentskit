@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0037 - Um pacote cuida da infraestrutura HTTP
 
 > [!tldr] Em linguagem comum
-> One package owns HTTP plumbing.
+> Um pacote cuida da infraestrutura HTTP (`@agentskit/net`): retentativas, tempo limite, leitura limitada e SSE. Ainda proposto. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Proposed; - **Date**: 2026-09-28.
+- **Status**: proposto (`Proposed` na fonte). **Data**: 2026-09-28.
 
 ## Decisão em linguagem comum
 
@@ -73,7 +73,9 @@ each with its own bugs:
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0037-net-package.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-net]], [[agentskit-adapters]], [[agentskit-integrations]], [[agentskit-mcp]], [[agentskit-memory]], [[agentskit-rag]], [[agentskit-runtime]], [[agentskit-tools]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

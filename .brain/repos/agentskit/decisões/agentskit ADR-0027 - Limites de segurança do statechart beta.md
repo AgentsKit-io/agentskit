@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0027 - Limites de segurança do statechart beta
 
 > [!tldr] Em linguagem comum
-> Statechart beta safety boundaries.
+> Limites de segurança do statechart beta: entradas JavaScript hostis, como chaves sensíveis a protótipo, arrays esparsos e observadores assíncronos.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- Status: Accepted; - Date: 2026-07-17.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-17.
 
 ## Decisão em linguagem comum
 
@@ -53,7 +53,9 @@ Ordinary object maps mishandle valid keys such as `__proto__`. JSON serializatio
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0027-statechart-beta-boundaries.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-statechart]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

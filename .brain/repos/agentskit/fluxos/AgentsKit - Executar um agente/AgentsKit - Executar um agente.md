@@ -4,12 +4,9 @@ repo: agentskit
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits:
-  agentskit: 9b31c771
-  agentskit-chat: 8aeeffd
-  agentskit-registry: 49952c7
-metodo: "análise estática; índice .doc-bridge consultado; pnpm indisponível"
-fontes: ["agentskit/packages/runtime/src/runner.ts", "agentskit/packages/core/src/controller.ts"]
+commits: { agentskit: 9f8d8551 }
+metodo: "análise estática; índice .doc-bridge consultado; pnpm indisponível; auditado em 2026-10-16"
+fontes: ["packages/runtime/src/runner.ts", "packages/core/src/controller.ts"]
 tags: [fluxo, repo/agentskit, camada/framework]
 ---
 
@@ -34,17 +31,17 @@ flowchart LR
 
 | Passo | O que acontece | Quem atua |
 |---|---|---|
-| Aplicação | Escolhe adaptador, ferramentas, instruções e limites. | [[agentskit-runtime]] |
-| Laço | Monta mensagens, consome streaming e recolhe chamadas de ferramentas. | [[agentskit-core]] |
+| Aplicação | Chama `createRuntime(config).run(task, options)`; escolhe adaptador, ferramentas, instruções e limites. | [[agentskit-runtime]] |
+| Laço | Monta mensagens, consome streaming e recolhe chamadas de ferramentas. Sem chamadas de ferramenta, o laço termina. | [[agentskit-core]] |
 | Provedor | Traduz pedido e resposta para a API escolhida. | [[agentskit-adapters]] |
 | Ferramentas | Executa chamadas e devolve resultados para o próximo passo. | [[agentskit-tools]] |
 | Saída | Retorna conteúdo, mensagens e uso; observadores podem registrar os eventos. | [[agentskit-observability]] |
 
 ## Limites e dados
 
-O runner oferece cancelamento e limite de passos; o controlador de chat é outra entrada, consumida pelos bindings. Memória, observadores e ferramentas são opcionais. Os dados enviados ao provedor dependem da composição.
+O runner (`createRuntime`) oferece cancelamento e limite de passos. O controlador de chat (`createChatController`) é outra entrada, que o código deixa para os bindings de interface. Memória, observadores e ferramentas são opcionais. Os dados enviados ao provedor dependem da composição feita pela aplicação.
 
 > [!info]- Detalhe técnico
-> - `agentskit/packages/runtime/src/runner.ts:96` — createRuntime e limites do laço
-> - `agentskit/packages/core/src/controller.ts:27` — controlador de conversa distinto do runner
-> - `agentskit/packages/runtime/src/runner.ts:304` — ausência de chamadas de ferramentas encerra o laço
+> - `packages/runtime/src/runner.ts:96` — `createRuntime`, com os limites do laço.
+> - `packages/runtime/src/runner.ts:304-305` — sem chamadas de ferramenta, o agente termina (`break`).
+> - `packages/core/src/controller.ts:27` — `createChatController`, controlador de conversa separado do runner.

@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0014 - Proposta confiável de chamada de ferramenta pela aplicação
 
 > [!tldr] Em linguagem comum
-> Trusted application tool-call proposal.
+> Proposta de chamada de ferramenta pela aplicação, com identificador idempotente: repetir o mesmo id devolve a mesma chamada. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-Status não encontrado.; Data não encontrada..
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-11.
 
 ## Decisão em linguagem comum
 
@@ -49,7 +49,9 @@ Without a core seam, framework integrations must inject message state, encode hi
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0014-trusted-tool-call-proposal.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]], [[agentskit-integrations]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

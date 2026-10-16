@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0028 - Limites da ponte MCP beta
 
 > [!tldr] Em linguagem comum
-> MCP bridge beta boundaries.
+> Limites da ponte MCP beta: a construção do servidor valida ferramentas, formato do transporte e metadados, e congela a lista de ferramentas.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- Status: Accepted; - Date: 2026-07-17.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-17.
 
 ## Decisão em linguagem comum
 
@@ -51,7 +51,9 @@ MCP tool metadata crosses a model-controlled boundary. Tool-name collisions redu
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0028-mcp-beta-boundaries.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-mcp]], [[agentskit-tools]], [[agentskit-runtime]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

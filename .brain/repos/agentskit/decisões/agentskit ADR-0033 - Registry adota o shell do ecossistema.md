@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0033 - Registry adota o shell do ecossistema
 
 > [!tldr] Em linguagem comum
-> Registry adopts the ecosystem shell.
+> O Registry adota o shell web do ecossistema. Ainda proposto, aguardando revisão visual. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Proposed, pending visual review; - **Date**: 2026-09-25.
+- **Status**: proposto, aguardando revisão visual (`Proposed, pending visual review` na fonte). **Data**: 2026-09-25.
 
 ## Decisão em linguagem comum
 
@@ -47,7 +47,9 @@ Não registrado na fonte.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0033-registry-ecosystem-shell.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- Registry (`apps/registry`). Não mapeado a pacote npm nas notas desta auditoria.
+
+Lista derivada das notas desta auditoria; não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

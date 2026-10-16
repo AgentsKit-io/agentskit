@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0038 - Utilitários de JSON canônico e SHA-256
 
 > [!tldr] Em linguagem comum
-> Canonical JSON and SHA-256 helpers.
+> Utilitários de JSON canônico e SHA-256. O core os expõe pelo subcaminho `@agentskit/core/hash`. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-09-29.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-09-29.
 
 ## Decisão em linguagem comum
 
@@ -52,7 +52,9 @@ on fingerprints remaining stable across releases.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0038-canonical-json-hash.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] (`./hash`), [[agentskit-runtime]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

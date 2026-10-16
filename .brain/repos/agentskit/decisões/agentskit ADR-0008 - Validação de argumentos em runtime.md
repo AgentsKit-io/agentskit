@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0008 - Validação de argumentos em runtime
 
 > [!tldr] Em linguagem comum
-> Runtime argument validation.
+> Valida os argumentos das ferramentas em tempo de execução. Hoje o tipo só é convertido por cast, sem checagem (ver a seção de contexto).
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-06-03.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-06-03.
 
 ## Decisão em linguagem comum
 
@@ -55,7 +55,9 @@ The Agents Playbook lists "typed boundaries — all external inputs validated by
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0008-runtime-validation.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]], [[agentskit-runtime]], [[agentskit-validation]], [[agentskit-tools]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

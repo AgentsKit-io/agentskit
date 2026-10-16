@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0021 - Manifesto versionado do ecossistema e afirmações com evidência
 
 > [!tldr] Em linguagem comum
-> Versioned ecosystem manifest and evidence-backed claims.
+> Manifesto versionado do ecossistema e afirmações com evidência. Ainda proposto. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Proposed; - **Date**: 2026-07-13.
+- **Status**: proposto (`Proposed` na fonte). **Data**: 2026-07-13.
 
 ## Decisão em linguagem comum
 
@@ -118,7 +118,9 @@ whether marketing copy such as “300+ agents” is reproducible.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0021-ecosystem-manifest-and-claims.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- Não mapeado a pacote npm: é regra de evidência para as notas do vault (ver [[00 Hub - agentskit]]).
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

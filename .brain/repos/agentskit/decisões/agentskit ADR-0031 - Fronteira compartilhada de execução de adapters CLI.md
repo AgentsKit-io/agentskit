@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0031 - Fronteira compartilhada de execução de adapters CLI
 
 > [!tldr] Em linguagem comum
-> Shared CLI adapter execution boundary.
+> Fronteira compartilhada de execução dos adaptadores de CLI de desenvolvedor. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- Status: Accepted; - Date: 2026-08-30.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-08-30.
 
 ## Decisão em linguagem comum
 
@@ -176,7 +176,9 @@ Negative:
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0031-cli-adapter-execution-boundary.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-adapters]] (`src/cli`), [[agentskit-mcp]], [[agentskit-runtime]], [[agentskit-sandbox]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

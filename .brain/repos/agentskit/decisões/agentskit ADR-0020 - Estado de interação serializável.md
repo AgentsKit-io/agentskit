@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0020 - Estado de interação serializável
 
 > [!tldr] Em linguagem comum
-> Serializable interaction state.
+> Estado de interação serializável, base do pacote `statechart`. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- Status: Accepted; - Date: 2026-07-13.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-13.
 
 ## Decisão em linguagem comum
 
@@ -55,7 +55,9 @@ Putting this primitive in Core would expand Core's contract and bundle. Putting 
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0020-serializable-interaction-state.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-statechart]], [[agentskit-core]], [[agentskit-runtime]], [[agentskit-validation]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

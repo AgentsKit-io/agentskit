@@ -5,22 +5,22 @@ grupo: Provedores e ferramentas
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "manifestos, fontes e índice .doc-bridge/index.json; CLI indisponível porque pnpm não está instalado"
-fontes: ["packages/adapters/package.json", "packages/integrations/package.json", "packages/mcp/package.json", "packages/tools/package.json", "packages/skills/package.json", "packages/sandbox/package.json"]
+commits: { agentskit: 9f8d8551 }
+metodo: "manifestos, fontes e índice .doc-bridge/index.json; busca de dependentes em manifests; CLI indisponível porque pnpm não está instalado; auditado em 2026-10-16"
+fontes: ["packages/adapters/package.json", "packages/integrations/package.json", "packages/mcp/package.json", "packages/tools/package.json", "packages/skills/package.json", "packages/sandbox/package.json", "packages/cli/package.json"]
 tags: [grupo, repo/agentskit, camada/framework, grupo/provedores-e-ferramentas]
 ---
 
 # 00 Grupo - agentskit - Provedores e ferramentas
 
 > [!tldr] Em linguagem comum
-> Este grupo reúne `@agentskit/adapters`, `@agentskit/integrations`, `@agentskit/mcp`, `@agentskit/tools`, `@agentskit/skills`, `@agentskit/sandbox` para cobrir uma área do toolkit.
+> Os pacotes que dão ao agente acesso ao mundo: modelos de IA (`adapters`), serviços externos (`integrations`), ferramentas prontas (`tools`), a ponte MCP (`mcp`), personas (`skills`) e execução isolada de código (`sandbox`).
 
 ← [[00 Hub - agentskit]]
 
 ## Responsabilidade
 
-O grupo organiza pacotes por responsabilidade funcional e facilita a navegação para agentes. Cada pacote tem handoff, raízes de edição e checks no índice Doc Bridge versionado; os fatos da matriz foram conferidos nos manifests locais.
+O grupo reúne a camada que conecta o agente a fornecedores e ferramentas. Cada pacote tem handoff, raízes de edição e checks no índice Doc Bridge versionado. As relações abaixo foram conferidas nos `package.json` e em buscas por `git grep` no commit `9f8d8551`.
 
 ## Pacotes e relações internas
 
@@ -37,25 +37,26 @@ flowchart LR
   tools --> integrations
 ```
 
-| Nota | Pacote | Raiz |
-|---|---|---|
-| [[agentskit-adapters]] | `@agentskit/adapters` | `packages/adapters` |
-| [[agentskit-integrations]] | `@agentskit/integrations` | `packages/integrations` |
-| [[agentskit-mcp]] | `@agentskit/mcp` | `packages/mcp` |
-| [[agentskit-tools]] | `@agentskit/tools` | `packages/tools` |
-| [[agentskit-skills]] | `@agentskit/skills` | `packages/skills` |
-| [[agentskit-sandbox]] | `@agentskit/sandbox` | `packages/sandbox` |
+Relações com outros grupos, fora do diagrama: `adapters`, `tools` e `sandbox` dependem de `agentskit-cross-platform` (grupo Interfaces); `adapters`, `tools`, `integrations` e `mcp` dependem de `agentskit-net` e `agentskit-core` (grupo Núcleo). `skills` depende só de `core`. `sandbox` depende de `core` e `cross-platform`.
+
+| Nota | Pacote | Raiz | Estabilidade |
+|---|---|---|---|
+| [[agentskit-adapters]] | `@agentskit/adapters` | `packages/adapters` | beta |
+| [[agentskit-integrations]] | `@agentskit/integrations` | `packages/integrations` | beta |
+| [[agentskit-mcp]] | `@agentskit/mcp` | `packages/mcp` | beta |
+| [[agentskit-tools]] | `@agentskit/tools` | `packages/tools` | beta |
+| [[agentskit-skills]] | `@agentskit/skills` | `packages/skills` | beta |
+| [[agentskit-sandbox]] | `@agentskit/sandbox` | `packages/sandbox` | beta |
 
 ## Dependências de outros grupos
 
-| Grupo | Relação |
+| Grupo | Relação verificada |
 |---|---|
-| [[00 Grupo - agentskit - Núcleo]] | Contratos centrais usados por diversos pacotes do ecossistema. |
-| [[00 Grupo - agentskit - Provedores e ferramentas]] | Fornece adaptadores, ferramentas e integrações quando declarado nos manifests. |
-| [[00 Grupo - agentskit - Memória e RAG]] | Armazenamento e recuperação consumidos opcionalmente. |
-| [[00 Grupo - agentskit - Interfaces]] | Bindings que conectam controladores às plataformas de UI. |
-| [[00 Grupo - agentskit - Qualidade e observabilidade]] | Medição, observação e integrações de avaliação. |
-| [[00 Grupo - agentskit - Ferramentas de desenvolvimento]] | CLI e templates para criação de projetos. |
+| [[00 Grupo - agentskit - Núcleo]] | `core` é dependência de todos os seis pacotes. `net` é dependência de `adapters`, `integrations`, `mcp` e `tools`. |
+| [[00 Grupo - agentskit - Interfaces]] | `cross-platform` é dependência de `adapters`, `tools` e `sandbox`. |
+| [[00 Grupo - agentskit - Ferramentas de desenvolvimento]] | `packages/cli` depende de `adapters`, `tools` e `skills` (busca em `package.json`, commit `9f8d8551`). |
+
+Dependentes de `@agentskit/adapters` (10 manifestos, nota [[agentskit-adapters]]) e de `@agentskit/tools` (5) incluem o `apps/ask-backend`. O `@agentskit/mcp` não é declarado por nenhum manifesto do repositório. O `@agentskit/sandbox` é declarado só por `apps/docs-next`.
 
 ## ADRs
 
@@ -65,5 +66,9 @@ Consulte [[00 Decisões - agentskit]] para contratos e decisões que afetam os p
 
 Para editar um pacote, abra sua nota, siga `startHere`, leia `CONVENTIONS.md` e execute os comandos `checks` do handoff. Os checks não foram executados neste ambiente porque `pnpm` está ausente. Registro do grupo: `.doc-bridge/index.json`.
 
+> [!question] Dúvida: onde vive a camada de integrações
+> `packages/tools/CONVENTIONS.md:14` atribui as integrações a `@agentskit/tools/integrations`, mas os descritores estão em `@agentskit/integrations`, e `packages/tools/src/integrations/` é só uma camada de shims `@deprecated`. Ver a Dúvida em [[agentskit-tools]].
+
 > [!info]- Detalhe técnico
-> Relações internas: dependências `@agentskit/*` encontradas nos manifests listados em `fontes`; detalhes dos contratos e exemplos estão nas notas individuais.
+> - Dependências por manifesto: `packages/*/package.json` em `dependencies` (não `devDependencies`), salvo onde indicado nas notas de pacote.
+> - Dependentes por busca: `git grep -l '"@agentskit/<pacote>": '` em `packages` e `apps`.

@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0011 - Validação de requisições de entrada (gatilhos de chat)
 
 > [!tldr] Em linguagem comum
-> Inbound request validation (chat triggers).
+> Validação de requisições de entrada nos gatilhos de chat. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-06-03.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-06-03.
 
 ## Decisão em linguagem comum
 
@@ -69,7 +69,9 @@ mechanism.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0011-inbound-validation.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-runtime]] (`createChatTrigger`).
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

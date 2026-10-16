@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0035 - Poda da documentação e consolidação das rotas de referência da API
 
 > [!tldr] Em linguagem comum
-> Documentation pruning and API reference route consolidation.
+> Poda da documentação e consolidação das rotas de referência da API. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Accepted; - **Date**: 2026-09-25.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-09-25.
 
 ## Decisão em linguagem comum
 
@@ -75,7 +75,9 @@ duplicated a maintained guide:
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0035-docs-pruning-and-api-route-consolidation.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- Documentação do monorepo (`apps/docs-next`). Não é pacote npm; não mapeado nas notas de pacote.
+
+Lista derivada das notas desta auditoria; não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

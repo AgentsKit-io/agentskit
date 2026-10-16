@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0024 - Graduação de pacotes baseada em evidência
 
 > [!tldr] Em linguagem comum
-> Evidence-backed package graduation.
+> Graduação de pacotes baseada em evidência. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- Status: Accepted; - Date: 2026-07-16.
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-16.
 
 ## Decisão em linguagem comum
 
@@ -97,7 +97,9 @@ could mention several packages without committing one package's exact surface.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0024-package-graduation-evidence.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]], [[agentskit-runtime]] (e os pacotes em beta, pelo campo `agentskit.stability`).
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

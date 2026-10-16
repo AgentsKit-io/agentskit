@@ -4,12 +4,9 @@ repo: agentskit
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits:
-  agentskit: 9b31c771
-  agentskit-chat: 8aeeffd
-  agentskit-registry: 49952c7
-metodo: "análise estática; índice .doc-bridge consultado; pnpm indisponível"
-fontes: ["agentskit/apps/ask-backend/src/server.ts", "agentskit/apps/ask-backend/src/ask/handler.ts", "agentskit/railway.json"]
+commits: { agentskit: 9f8d8551 }
+metodo: "análise estática; índice .doc-bridge consultado; pnpm indisponível; auditado em 2026-10-16"
+fontes: ["apps/ask-backend/src/server.ts", "apps/ask-backend/src/ask/handler.ts", "apps/ask-backend/src/ask/cache.ts", "apps/ask-backend/src/ask/rate-limit.ts", "railway.json"]
 tags: [fluxo, repo/agentskit, camada/framework]
 ---
 
@@ -35,19 +32,19 @@ flowchart LR
 
 | Passo | O que acontece | Quem atua |
 |---|---|---|
-| Navegador | Widget e conhecimento determinístico evitam chamada remota para fatos exatos. | [[chat]] |
+| Navegador | Decide se a resposta exata pode vir do conhecimento local, sem chamada remota. A implementação do widget não está neste repositório. | (fora do repositório) |
 | Site | Docs e Registry escolhem o corpus e o endpoint. | [[agentskit-registry]] |
-| Servidor | Recebe /v1/ask, aplica limites e escolhe o handler do corpus. | [[agentskit-ask-backend]] |
-| Busca e geração | Consulta o corpus, monta contexto e transmite eventos NDJSON. | [[agentskit-rag]] |
-| Persistência | Cache de resposta e recuperação em memória e Redis/Upstash opcionais. | [[agentskit-ask-backend]] |
+| Servidor | Recebe `/v1/*`, aplica CORS e limites e escolhe o handler do corpus. | [[agentskit-ask-backend]] |
+| Busca e geração | Consulta o corpus, monta o contexto e transmite eventos NDJSON. | [[agentskit-rag]] |
+| Persistência | Cache de resposta e limite de requisições em memória, com Redis ou Upstash opcionais. | [[agentskit-ask-backend]] |
 
 ## Limites e dados
 
-O backend Hono roda de forma persistente no deploy Railway documentado. O índice de docs e fontes remotas alimentam corpora; não se deve confundir este backend concreto com a interface genérica de chat-server. `OPENROUTER_API_KEY`, `REDIS_URL` e as variáveis `UPSTASH_REDIS_REST_*` são configuração, não evidência de serviços ativos. O cache não é a implementação do pacote memory; é código próprio do app.
+O backend roda como serviço persistente no Railway, com uma réplica e verificação de saúde em `/health` (`railway.json:7-13`). Variáveis de configuração, verificadas em código: `OPENROUTER_API_KEY` (obrigatória, `apps/ask-backend/src/server.ts:37-39`), `ASK_CACHE_ENABLED` (`server.ts:183`), `ASK_CORS_ORIGINS` (`server.ts:235`), `REDIS_URL` e `ASK_REDIS_URL` (`apps/ask-backend/src/ask/rate-limit.ts:75`), e `UPSTASH_REDIS_REST_URL` e `UPSTASH_REDIS_REST_TOKEN` (`apps/ask-backend/src/ask/cache.ts:192-193`). Ter o nome na configuração não prova que o serviço está ativo. O cache de resposta é código do próprio app, não o pacote `@agentskit/memory`.
 
 > [!info]- Detalhe técnico
-> - `agentskit/apps/ask-backend/src/server.ts:183` — cache e configuração de corpora
-> - `agentskit/apps/ask-backend/src/server.ts:237` — CORS, limites e rotas
-> - `agentskit/apps/ask-backend/src/ask/handler.ts:183` — pipeline do handler
-> - `agentskit/apps/ask-backend/src/ask/handler.ts:394` — done e gravação de cache
-> - `agentskit/railway.json:1` — Docker, /health e uma réplica
+> - `apps/ask-backend/src/server.ts:183` — `ASK_CACHE_ENABLED` e criação do cache.
+> - `apps/ask-backend/src/server.ts:237` — CORS e rotas `/v1/*`.
+> - `apps/ask-backend/src/ask/handler.ts:183` — `createAskHandler`, o pipeline do handler.
+> - `apps/ask-backend/src/ask/handler.ts:394-395` — evento `done` e gravação do cache.
+> - `railway.json:1` — Dockerfile, `/health` e uma réplica.

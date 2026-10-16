@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0015 - Autorização de ferramenta antes da proposta e da execução
 
 > [!tldr] Em linguagem comum
-> Tool authorization before proposal and execution.
+> Autorização de ferramenta antes da proposta e da execução, pelo hook `ToolAuthorizer` do core. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-Status não encontrado.; Data não encontrada..
+- **Status**: aceito (`Accepted` na fonte). **Data**: 2026-07-11.
 
 ## Decisão em linguagem comum
 
@@ -43,7 +43,9 @@ Tool argument validation and human confirmation do not answer whether the curren
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0015-tool-authorization-hook.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] (`ToolAuthorizer`, `src/index.ts:83-86`).
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

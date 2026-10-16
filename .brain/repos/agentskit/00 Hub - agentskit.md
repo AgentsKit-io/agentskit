@@ -4,8 +4,8 @@ repo: agentskit
 camada: framework
 visibilidade: publico
 verificado-em: 2026-10-16
-commits: { agentskit: 9b31c771 }
-metodo: "leitura dos manifests, docs e índice .doc-bridge/index.json; CLI não executada porque pnpm indisponível"
+commits: { agentskit: 9f8d8551 }
+metodo: "leitura dos manifests, docs e índice .doc-bridge/index.json; CLI não executada porque pnpm indisponível; auditado em 2026-10-16"
 fontes: ["README.md", "pnpm-workspace.yaml", "package.json", "doc-bridge.config.json", ".doc-bridge/index.json"]
 tags: [repo, repo/agentskit, camada/framework]
 ---
@@ -56,18 +56,21 @@ O monorepo publica pacotes npm para equipes que constroem agentes e inclui docum
 ```mermaid
 flowchart TB
   U[Interfaces] --> C[Núcleo]
-  C --> R[Runtime]
-  R --> P[Provedores e ferramentas]
-  R --> M[Memória e RAG]
-  R --> Q[Qualidade e observabilidade]
+  P[Provedores e ferramentas] --> C
+  M[Memória e RAG] --> C
+  Q[Qualidade e observabilidade] --> C
   D[Ferramentas de desenvolvimento] --> C
+  R[Runtime, no Núcleo] --> C
 ```
+
+Relações de dependência declaradas nos `package.json` (commit `9f8d8551`). O runtime recebe adaptadores e ferramentas por contrato em tempo de execução, não por dependência de pacote, por isso não há seta do runtime para provedores.
 
 ## Como navegar como agente
 
 Antes de alterar um pacote, leia seu `CONVENTIONS.md`, o handoff correspondente em `.doc-bridge/index.json` e as fontes humanas indicadas. O handoff fornece `startHere`, `editRoots` e checks; a CLI não pôde ser consultada porque o ambiente não tem `pnpm`.
 
 > [!info]- Detalhe técnico
-> - `pnpm-workspace.yaml:1` — raízes do workspace.
-> - `package.json:1` — scripts do monorepo.
+> - `pnpm-workspace.yaml:1` — raízes do workspace (`packages/*`, `apps/*`).
+> - `package.json:6` — bloco `scripts` do monorepo (`build`, `test`, `check:all`, `docs:bridge:*`).
+> - `package.json:88` — `@agentskit/doc-bridge` 2.0.0, a CLI `ak-docs` usada pelos scripts `docs:bridge:*`.
 > - `doc-bridge.config.json:1` e `.doc-bridge/index.json` — configuração e snapshot de handoffs.

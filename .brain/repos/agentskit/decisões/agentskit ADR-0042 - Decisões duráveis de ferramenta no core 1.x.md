@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0042 - Decisões duráveis de ferramenta no core 1.x
 
 > [!tldr] Em linguagem comum
-> Durable tool decisions in core 1.x.
+> Decisões duráveis de ferramenta no core 1.x. Ainda proposto (implementação autorizada; revisão de evidência fora do repositório). O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Proposed (implementation authorized; evidence review remains external); - **Date**: 2026-10-06.
+- **Status**: proposto (`Proposed (implementation authorized; evidence review remains external)` na fonte). **Data**: 2026-10-06.
 
 ## Decisão em linguagem comum
 
@@ -42,7 +42,9 @@ Implementation is lazy-loaded to preserve the root import budget. Tests use inde
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0042-durable-tool-decisions.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] (`ToolDecisionStore`, `ToolDecisionRecord`), [[agentskit-runtime]].
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 

@@ -14,13 +14,13 @@ tags: [adr, repo/agentskit, camada/framework]
 # agentskit ADR-0040 - Compatibilidade da impressão digital de replay de eval
 
 > [!tldr] Em linguagem comum
-> Preserve eval replay fingerprint compatibility.
+> Preservar a compatibilidade da impressão digital de replay de avaliação. Ainda proposto. O texto da decisão está em inglês na fonte.
 
 ← [[00 Decisões - agentskit]]
 
 ## Status e datas
 
-- **Status**: Proposed; - **Date**: 2026-09-30.
+- **Status**: proposto (`Proposed` na fonte). **Data**: 2026-09-30.
 
 ## Decisão em linguagem comum
 
@@ -58,7 +58,9 @@ executable callbacks, which are not replay input.
 
 ## Pacotes afetados
 
-Consulte a fonte integral `docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md` para a lista de módulos abrangidos; só associe pacotes explicitamente mencionados no documento.
+- [[agentskit-core]] (`./eval-format` e `./hash`, `packages/core/package.json:96-100`, `:116-120`).
+
+Lista derivada das notas de pacote desta auditoria (seção "Decisões e história"); não é lista oficial do ADR.
 
 ## Substitui / substituído por
 
