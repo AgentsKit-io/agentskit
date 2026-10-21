@@ -24,7 +24,7 @@ test.beforeEach(async ({ page }) => {
 
 test('Registry answers exact facts locally and escalates semantic recommendations with context', async ({ page }) => {
   const backendBodies: unknown[] = []
-  await page.route('https://ask.agentskit.io/v1/ask?corpus=registry', async (route) => {
+  await page.route('https://ask.e2e.invalid/v1/ask?corpus=registry', async (route) => {
     backendBodies.push(route.request().postDataJSON())
     await route.fulfill({
       status: 200,
@@ -76,7 +76,7 @@ test('Registry retries local knowledge and never labels a failed backend respons
       await route.continue()
     }
   })
-  await page.route('https://ask.agentskit.io/v1/ask?corpus=registry', async (route) => {
+  await page.route('https://ask.e2e.invalid/v1/ask?corpus=registry', async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/x-ndjson',
