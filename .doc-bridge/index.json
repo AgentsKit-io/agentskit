@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "d52ecd9dd5e5571c517fa610b57907ef984d513558e2b59b23d1705b9da1e247",
+  "contentHash": "a70e2b13699e21d871de648658aebb949e37a95e59732c38647287794e0aec03",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-12T11:25:16.961Z",
+  "generatedAt": "2026-10-23T00:05:28.758Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -424,7 +424,7 @@
         "document",
         "project"
       ],
-      "contentHash": "13a5b8c2a23d497ac70a65b60c5e96c6a2d6b5e302b7d88d6479b30d00815b20"
+      "contentHash": "806ce39271c7d9c5f1289e38618d6c68057ad8fba9a81cec9daff22f5534539e"
     },
     {
       "id": "document:apps/docs-next/content/blog/hello-agentskit.mdx",
@@ -5070,6 +5070,18 @@
       "contentHash": "65639fc3e23b39a849c93f231ad6e1ab70a4fd3231ab97a58052415dccddb2c0"
     },
     {
+      "id": "document:apps/docs-next/content/docs/use-cases/repo-docs.mdx",
+      "type": "document",
+      "title": "repo-docs.mdx",
+      "path": "apps/docs-next/content/docs/use-cases/repo-docs.mdx",
+      "description": "Coding agents guess when repository docs are written only for humans. They edit the sibling package, run the wrong test, or miss the guide that already explains the rule.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "e2e81af76dd0f19afde9c1a651b47b67edd3e98d36f1c8b751e2c0f4f5500d00"
+    },
+    {
       "id": "document:apps/docs-next/content/docs/use-cases/research-agent.mdx",
       "type": "document",
       "title": "research-agent.mdx",
@@ -5127,7 +5139,7 @@
         "document",
         "project"
       ],
-      "contentHash": "09cad6996fecff6542b5cfd1bd6eacc42829e7545c699ed775c24e6e14f8668f"
+      "contentHash": "0363bc906888a3e2037287b3d5048f9c3360ab3a4d6adba4d69562652f1e7972"
     },
     {
       "id": "document:apps/docs-next/shell/README.md",
@@ -5331,7 +5343,7 @@
         "document",
         "project"
       ],
-      "contentHash": "bff85b5de2f6fd76479024149e525ae74f4f7c6ec5fe57d83d0bab1a7136f352"
+      "contentHash": "0eda1e7af31c228d3a8fc58cfab5f69d183f015334060f459a3a5589c82c4971"
     },
     {
       "id": "document:apps/registry/AGENTS.md",
@@ -5511,7 +5523,7 @@
         "document",
         "project"
       ],
-      "contentHash": "8e06bb4bd3317631a6301f111f9deb1543bd999999abcbe2d1b0f53b94d0b158"
+      "contentHash": "cce1c7349858e6b15d6166cc6c2ef4a26af271ae47bf318e23e1cb0d5ca8a654"
     },
     {
       "id": "document:apps/visual-react/README.md",
@@ -7694,7 +7706,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "06d903f61cd9ccd732aaacbbde5d4bdbba21edf576eafe6092cf6702ea289768"
+      "contentHash": "557fe9e3be553ab0e412989a288e3a53c5be29433cd5d02245bf099024af4c14"
     },
     {
       "id": "document:rfcs/0008-adapters-stable.md",
@@ -8350,7 +8362,7 @@
         "tsx",
         "(home)"
       ],
-      "contentHash": "449625aa14823227d1758bef10a5ad057e8639defed741c8282800c11a32dd45"
+      "contentHash": "dc0c2ded2408d37a3f1e87d7bbef3995aaff1511a65cbe457657e6e80d5aaa9b"
     },
     {
       "id": "module:apps/docs-next/app/(home)/page.tsx",
@@ -8399,6 +8411,21 @@
         "claims.json"
       ],
       "contentHash": "272d3c32bd884b26ee1e044d4fc54981c3adfede0bba595d8558dd59d086e937"
+    },
+    {
+      "id": "module:apps/docs-next/app/api/downloads/route.ts",
+      "type": "module",
+      "title": "route.ts",
+      "path": "apps/docs-next/app/api/downloads/route.ts",
+      "symbols": [
+        "GET"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "downloads"
+      ],
+      "contentHash": "bae05c85d348445b7d77f47eddfb7227e38207b4af599783bca09953c7ebd5a6"
     },
     {
       "id": "module:apps/docs-next/app/api/ecosystem.json/route.ts",
@@ -8599,7 +8626,53 @@
         "tsx",
         "docs"
       ],
-      "contentHash": "2abfafa9cb1372cae872b0047fe7c820f838844e036b54f54e00bfb2b2c84101"
+      "contentHash": "b0ed27af805d98b15a88f8fbe3dd62c093f34f20051a1fe800ac923a48560377"
+    },
+    {
+      "id": "module:apps/docs-next/app/downloads/downloads-dashboard.tsx",
+      "type": "module",
+      "title": "downloads-dashboard.tsx",
+      "path": "apps/docs-next/app/downloads/downloads-dashboard.tsx",
+      "symbols": [
+        "DownloadsDashboard"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "downloads"
+      ],
+      "contentHash": "26d0960a1596869a5123d7e1fa8dbf0b3b8d6944f0a2c8fa2fffe1a0af594ff1"
+    },
+    {
+      "id": "module:apps/docs-next/app/downloads/layout.tsx",
+      "type": "module",
+      "title": "layout.tsx",
+      "path": "apps/docs-next/app/downloads/layout.tsx",
+      "symbols": [
+        "DownloadsLayout"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "downloads"
+      ],
+      "contentHash": "9d4a01c5c819ff48da410f38f20991694bf31599a3f76ce2f458647a13e33681"
+    },
+    {
+      "id": "module:apps/docs-next/app/downloads/page.tsx",
+      "type": "module",
+      "title": "page.tsx",
+      "path": "apps/docs-next/app/downloads/page.tsx",
+      "symbols": [
+        "DownloadsPage",
+        "metadata"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "downloads"
+      ],
+      "contentHash": "7c635ea02bd62b05ebadd685192356fc602b63b46d3eb0b8eb5f70106fceb733"
     },
     {
       "id": "module:apps/docs-next/app/ecosystem-claims.js/route.ts",
@@ -11056,6 +11129,29 @@
       "contentHash": "cec0b68a6f1132f9ef62d34624ceb702182cb975eb128d014f6f6a365b627b14"
     },
     {
+      "id": "module:apps/docs-next/lib/npm-downloads.ts",
+      "type": "module",
+      "title": "npm-downloads.ts",
+      "path": "apps/docs-next/lib/npm-downloads.ts",
+      "symbols": [
+        "DailyCount",
+        "DownloadsData",
+        "FIRST_PUBLISHED_DAY",
+        "PACKAGE_NAMES",
+        "PackageCounts",
+        "PackageName",
+        "addDays",
+        "dateChunks",
+        "sumDays"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "lib"
+      ],
+      "contentHash": "c36f670b93f1cd4a7dfbf74073142d45c68268abfa0ea043f1e2b17117af57c2"
+    },
+    {
       "id": "module:apps/docs-next/lib/openrouter.ts",
       "type": "module",
       "title": "openrouter.ts",
@@ -11672,6 +11768,19 @@
         "tests"
       ],
       "contentHash": "fa871ad1b43f433d4eead422637f4f0047105d23f592debd1aebc576ac7c9c33"
+    },
+    {
+      "id": "module:apps/docs-next/tests/npm-downloads.test.ts",
+      "type": "module",
+      "title": "npm-downloads.test.ts",
+      "path": "apps/docs-next/tests/npm-downloads.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "5ed5c1554e838b24b40b78d9978b67d07a56b09beec5e12294a4a27103bca063"
     },
     {
       "id": "module:apps/docs-next/tests/public-resources.test.ts",
@@ -13383,7 +13492,7 @@
         "tsx",
         "components"
       ],
-      "contentHash": "7b2680fce3a782e1ab11c659ff41f527b3bbf6ed537463062706fb27800d2d40"
+      "contentHash": "ebdf830b8ee3e81f9ca8e827e9d4817e5c818dc15c5bf0610ca83a9781030713"
     },
     {
       "id": "module:apps/registry/components/ecosystem-footer.tsx",
@@ -37339,7 +37448,7 @@
         "test",
         "e2e"
       ],
-      "contentHash": "36474c69b15a886d463777dc328aca1e1f2cef1f2d3ae77d447f8cd4f6f8bba9"
+      "contentHash": "ce06f66f7292956cd9c99c4c352bc8bde68f5b5ff476ca904ccdc676d3ec3efe"
     },
     {
       "id": "module:tests/e2e/example-ink.spec.ts",
@@ -37422,7 +37531,7 @@
         "test",
         "e2e"
       ],
-      "contentHash": "ce710d97c249bfd15ba36906bbccbfe1229b19c5dc0e46155911f321992522bd"
+      "contentHash": "7f2e35ed59e93844e6e7cac430f54214bd68aeff86e5572829e8bcb9195114be"
     },
     {
       "id": "module:tests/interop.test.ts",
@@ -38588,8 +38697,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "ec642fbcb0d4dd5ad4adaba9c57f35682ed92f42f09f50d87f0308159de8098d",
-    "fileCount": 2649,
+    "hash": "e02aeaae9182f992472575df76c2879d6fae39600ae561f7564c2ac9fa6e3718",
+    "fileCount": 2656,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38611,9 +38720,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "dfe8567e4b2c7102037b95948d723b97b5d5c1297b819096c6de828102f48801",
+    "contentHash": "012c22c1d85f068efe8033dd2e275331465d288f60deec93d23db12027194a34",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "834617fa48b0946678f330675f0d97a43b7f6e43ec0020d9e65b42ac983b2cf2",
+    "snapshotHash": "ca03de4b1fcc049cada17746a88da1829dcbf0a264b0e91c0e6a3588e3e75d8b",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38633,7 +38742,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2518,
+      "documentCount": 2525,
       "fieldNames": [
         "aliases",
         "body",
@@ -38644,13 +38753,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.015488482922955,
-        "body": 61.772041302621126,
-        "headings": 4.016679904686259,
-        "path": 7.611993645750596,
-        "summary": 4.5472597299444,
-        "symbols": 7.505957108816521,
-        "title": 3.3788721207307386
+        "aliases": 3.0154455445544555,
+        "body": 61.715643564356434,
+        "headings": 4.009108910891089,
+        "path": 7.614257425742574,
+        "summary": 4.541782178217821,
+        "symbols": 7.50059405940594,
+        "title": 3.3786138613861385
       }
     },
     "entries": [
@@ -39046,7 +39155,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "db16d6e6aedd39af524b30cbbe07bf8224cfd08aecf940c59a6abe88485a2b25",
+        "contentHash": "424c0ef4d5090a15f978d863a7b95ef0d7d552fba5a9a2682b18e26750b1a371",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42277,7 +42386,7 @@
             }
           ]
         },
-        "contentHash": "13a5b8c2a23d497ac70a65b60c5e96c6a2d6b5e302b7d88d6479b30d00815b20",
+        "contentHash": "806ce39271c7d9c5f1289e38618d6c68057ad8fba9a81cec9daff22f5534539e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -66691,6 +66800,39 @@
         "confidence": "observed"
       },
       {
+        "id": "document:apps/docs-next/content/docs/use-cases/repo-docs.mdx",
+        "kind": "document",
+        "path": "apps/docs-next/content/docs/use-cases/repo-docs.mdx",
+        "title": "repo-docs.mdx",
+        "summary": "Coding agents guess when repository docs are written only for humans. They edit the sibling package, run the wrong test, or miss the guide that already explains the rule.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "repo-docs.mdx",
+          "headings": "When to use it Install and first commands Connect coding agents over MCP Related",
+          "path": "apps/docs-next/content/docs/use-cases/repo-docs.mdx",
+          "symbols": "",
+          "summary": "Coding agents guess when repository docs are written only for humans. They edit the sibling package, run the wrong test, or miss the guide that already explains the rule.",
+          "body": "Coding agents guess when repository docs are written only for humans. They edit the sibling package, run the wrong test, or miss the guide that already explains the rule. turns your existing docs into a deterministic index. For a package or area, it returns a handoff with the file to read first, the roots the agent may edit, the checks that prove the change, and the human doc for the same area. When to use it - Your repository has human docs (Fumadocs, Docusaurus, VitePress, Starlight, Nextra, or plain Markdown) and agents keep ignoring them. - You want agents to resolve ownership before they edit a package. - You want stale-index and broken human-guide-link gates in CI. The deterministic layer needs no LLM and no API key. Optional LLM remediation and chat are separate, opt-in features. Install and first commands Requires Node 22 or newer. The starter handoff proves the wiring, not real ownership. Replace the generated example with your repository's edit roots and checks, reindex, then query your real package. The full setup is in the . Useful follow-ups: Connect coding agents over MCP Add the ak-docs server to your MCP client (Cursor, Claude Desktop, or any MCP-compatible agent) from the repository root: Agents can then call handoff.resolve before editing, doc.search and doc.get to read indexed docs, and gate.status to check freshness. Run npx ak-docs index before starting the server in a fresh checkout and after doc changes. Related - - -",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "e2e81af76dd0f19afde9c1a651b47b67edd3e98d36f1c8b751e2c0f4f5500d00",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:apps/docs-next/content/docs/use-cases/research-agent.mdx",
         "kind": "document",
         "path": "apps/docs-next/content/docs/use-cases/research-agent.mdx",
@@ -66903,7 +67045,7 @@
           "path": "apps/docs-next/README.md",
           "symbols": "",
           "summary": "Profile: <code>public-app</code>",
-          "body": "docs-next Profile: <code public-app</code Verified proof - App package lives at apps/docs-next . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/docs-next Profile: <code public-app</code Canonical Fumadocs site for AgentsKit. The existing Vercel project agentskit-doc is rooted at apps/docs-next and currently serves www.agentskit.io , including the apex homepage, /docs , learning, blog, ecosystem, and machine-readable documentation surfaces. The standalone apps/landing app is not currently mapped to the public domain. Tracked by in the Phase 0 roadmap. What's here A minimal but real Fumadocs site demonstrating: - Next.js 16 app router with Fumadocs UI 16.x and Fumadocs MDX 14.x - Home page ( app/(home)/page.tsx ) with hero + 3-feature grid - Docs shell ( app/docs/layout.tsx ) with Fumadocs sidebar and search - Catch-all docs page renderer ( app/docs/[[...slug]]/page.tsx ) - Search API ( app/api/search/route.ts ) - Real content: index , getting-started/quickstart , getting-started/installation , concepts/mental-model , plus 6 concept stub pages Tailwind v4 + fumadocs-ui/css/preset.css + neutral theme. Why parallel to apps/docs The legacy Docusaurus app at apps/docs is not the canonical documentation surface. The current deployment has one public owner for / and /docs in this app; apps/landing remains a standalone alternate surface until routing is deliberately changed. Run locally Build: Decision criteria for migration Compare against apps/docs (Docusaurus): Criteria Docusaurus Fumadocs (this) --- --- --- Tech stack React + custom build Next.js 16 + Tailwind v4 MDX rendering OK Excellent (server components, streaming) Visual polish out-of-box Generic Modern, opinionated Search Algolia (paid for OSS via partner) Built-in (Fumadocs createFromSource ) Customization CSS hacks Tailwind + React, native Deploy target Static (anywhere) Vercel/Cloudflare Pages (Next.js-native) i18n Mature plugin DIY (acceptable trade) Build speed Slow on big sites Fast (Next.js + Turbopack) Node 25 compat Currently broken on main Works Next steps if approved 1. Port remaining sections from apps/docs (adapters, agents, chat-uis, components, data-layer, examples, hooks, infrastructure, packages, theming, contributing) 2. Decide i18n strategy (Crowdin? freeze pt-BR/es/zh-Hans until EN stabilizes?) 3. Set up docs.agentskit.io deployment on Vercel 4. Archive apps/docs 5. Add chat-with-docs (RAG over the docs themselves) — dogfooding moment Status Not wired into root pnpm dev / pnpm build yet — install + run manually until the approach is approved. See PR description.",
+          "body": "docs-next Profile: <code public-app</code Verified proof - App package lives at apps/docs-next . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/docs-next Profile: <code public-app</code Canonical Fumadocs site for AgentsKit. The Cloudflare Worker agentskit-docs , built from apps/docs-next with vinext, currently serves www.agentskit.io , including the homepage, /docs , learning, blog, ecosystem, and machine-readable documentation surfaces. The standalone apps/landing app is not mapped to the public domain. Tracked by in the Phase 0 roadmap. What's here A minimal but real Fumadocs site demonstrating: - Next.js 16 app router with Fumadocs UI 16.x and Fumadocs MDX 14.x - Home page ( app/(home)/page.tsx ) with hero + 3-feature grid - Docs shell ( app/docs/layout.tsx ) with Fumadocs sidebar and search - Catch-all docs page renderer ( app/docs/[[...slug]]/page.tsx ) - Search API ( app/api/search/route.ts ) - Real content: index , getting-started/quickstart , getting-started/installation , concepts/mental-model , plus 6 concept stub pages Tailwind v4 + fumadocs-ui/css/preset.css + neutral theme. Why parallel to apps/docs The legacy Docusaurus app at apps/docs is not the canonical documentation surface. The Cloudflare deployment has one public owner for / and /docs in this app; apps/landing remains a standalone alternate surface until routing is deliberately changed. The unlisted /downloads route shows npm download history for the 36 @agentskit packages. Its /api/downloads route fetches each scoped package from npm's public downloads API, caches responses for one hour, and splits history into non-overlapping windows within npm's 18-month limit. The route is intentionally absent from navigation and the sitemap. The dashboard excludes the current incomplete UTC day and treats packages published after the last completed day as awaiting data. Run locally Build: The public Cloudflare Worker uses the vinext build. Verify it locally with pnpm --filter @agentskit/docs-next build:vinext and pnpm --filter @agentskit/docs-next start:vinext ; deploy the merged revision with pnpm --filter @agentskit/docs-next deploy:vinext from the authorized Cloudflare account. The unlisted /downloads page reads all 36 scoped packages from npm's public downloads API. Its API route retries npm rate limits and caches a successful aggregate at the Cloudflare edge for up to 24 hours. The displayed through date identifies the latest complete npm day. Decision criteria for migration Compare against apps/docs (Docusaurus): Criteria Docusaurus Fumadocs (this) --- --- --- Tech stack React + custom build Next.js 16 + Tailwind v4 MDX rendering OK Excellent (server components, streaming) Visual polish out-of-box Generic Modern, opinionated Search Algolia (paid for OSS via partner) Built-in (Fumadocs createFromSource ) Customization CSS hacks Tailwind + React, native Deploy target Static (anywhere) Vercel/Cloudflare Pages (Next.js-native) i18n Mature plugin DIY (acceptable trade) Build speed Slow on big sites Fast (Next.js + Turbopack) Node 25 compat Currently broken on main Works Next steps if approved 1. Port remaining sections from apps/docs (adapters, agents, chat-uis, components, data-layer, examples, hooks, infrastructure, packages, theming, contributing) 2. Decide i18n strategy (Crowdin? freeze pt-BR/es/zh-Hans until EN stabilizes?) 3. Set up docs.agentskit.io deployment on Vercel 4. Archive apps/docs 5. Add chat-with-docs (RAG over the docs themselves) — dogfooding moment Status Not wired into root pnpm dev / pnpm build yet — install + run manually until the approach is approved. See PR description.",
           "aliases": "document project"
         },
         "graph": {
@@ -66945,7 +67087,7 @@
             }
           ]
         },
-        "contentHash": "09cad6996fecff6542b5cfd1bd6eacc42829e7545c699ed775c24e6e14f8668f",
+        "contentHash": "0363bc906888a3e2037287b3d5048f9c3360ab3a4d6adba4d69562652f1e7972",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -67768,7 +67910,7 @@
           "path": "apps/landing/README.md",
           "symbols": "",
           "summary": "Profile: <code>public-app</code>",
-          "body": "landing Profile: <code public-app</code Verified proof - App package lives at apps/landing . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/landing Profile: <code public-app</code Standalone Next.js 16 landing page for AgentsKit — issue (P0.19). Independent from apps/docs-next . Current deployment evidence shows that the existing Vercel project agentskit-doc , rooted at apps/docs-next , serves the public apex and /docs ; this standalone app is not currently mapped to www.agentskit.io . Treat apps/docs-next as the production owner until routing is deliberately changed. All LINKS.docs URLs use the /docs path. Stack - Next.js 16 (App Router, standalone output) - React 19 - Tailwind CSS v4 (PostCSS plugin) - Zero dependencies on workspace packages — pure marketing surface, no MDX, no SDK examples that drag the agent runtime into the bundle. Develop Opens on http://127.0.0.1:4180. Build / start Structure Add a new section by writing it under app/ components/ and dropping it into app/page.tsx . Keep the file count low; this surface is intentionally narrow. Design tokens Defined in app/globals.css under @theme : token value --- --- --color-bg 0a0a0b --color-bg-soft 131316 --color-fg f5f5f7 --color-accent 7c5cff --color-accent-soft a690ff Mirror updates here into apps/docs-next/styles/ if cross-surface visual consistency is needed. Deploy - Vercel (default): no extra flags. The vercel.json here installs with --frozen-lockfile and uses an ignoreCommand scoped to apps/landing + the workspace lockfile so unrelated commits don't trigger a rebuild. - Self-hosted (Cloudflare Pages, Node server, Docker): set NEXT OUTPUT STANDALONE=1 to switch Next to output: 'standalone' . Avoid this on Vercel — it bypasses ISR / Edge Functions / Image Optimization.",
+          "body": "landing Profile: <code public-app</code Verified proof - App package lives at apps/landing . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/landing Profile: <code public-app</code Standalone Next.js 16 landing page for AgentsKit — issue (P0.19). Independent from apps/docs-next . The Cloudflare Worker agentskit-docs , built from apps/docs-next with vinext, serves the public domain and /docs ; this standalone app is not mapped to www.agentskit.io . Treat apps/docs-next as the production owner until routing is deliberately changed. All LINKS.docs URLs use the /docs path. Stack - Next.js 16 (App Router, standalone output) - React 19 - Tailwind CSS v4 (PostCSS plugin) - Zero dependencies on workspace packages — pure marketing surface, no MDX, no SDK examples that drag the agent runtime into the bundle. Develop Opens on http://127.0.0.1:4180. Build / start Structure Add a new section by writing it under app/ components/ and dropping it into app/page.tsx . Keep the file count low; this surface is intentionally narrow. Design tokens Defined in app/globals.css under @theme : token value --- --- --color-bg 0a0a0b --color-bg-soft 131316 --color-fg f5f5f7 --color-accent 7c5cff --color-accent-soft a690ff Mirror updates here into apps/docs-next/styles/ if cross-surface visual consistency is needed. Deploy - Vercel (default): no extra flags. The vercel.json here installs with --frozen-lockfile and uses an ignoreCommand scoped to apps/landing + the workspace lockfile so unrelated commits don't trigger a rebuild. - Self-hosted (Cloudflare Pages, Node server, Docker): set NEXT OUTPUT STANDALONE=1 to switch Next to output: 'standalone' . Avoid this on Vercel — it bypasses ISR / Edge Functions / Image Optimization.",
           "aliases": "document project"
         },
         "graph": {
@@ -67810,7 +67952,7 @@
             }
           ]
         },
-        "contentHash": "bff85b5de2f6fd76479024149e525ae74f4f7c6ec5fe57d83d0bab1a7136f352",
+        "contentHash": "0eda1e7af31c228d3a8fc58cfab5f69d183f015334060f459a3a5589c82c4971",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68373,7 +68515,7 @@
           "path": "apps/registry/README.md",
           "symbols": "",
           "summary": "Profile: <code>public-app</code>",
-          "body": "registry Profile: <code public-app</code Verified proof - App package lives at apps/registry . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/registry-app Profile: <code public-app</code The fumadocs site for the AgentsKit agent registry — deployed to registry.agentskit.io . The app loads the shared AgentsKit shell ( /shell/v1.js and /shell/v1.css from NEXT PUBLIC AGENTSKIT SHELL ORIGIN , default https://www.agentskit.io ): the ecosystem bar and tour, a Registry-blue <agentskit-aurora on the home, and <agentskit-footer on every page. Registry keeps no copy of the shell; to review local shell changes, run docs-next on port 3000 and start Registry with NEXT PUBLIC AGENTSKIT SHELL ORIGIN=http://localhost:3000 . Fumadocs provides the local navigation and search; documentation routes keep a solid, calm background. - / — agent gallery with search, filters, ordering, and comparison selection, SSG. - /agents/[id] — per-agent page, generated at build from the committed index in the repo (raw GitHub). The agent source stays decoupled (RFC 0002). - /compare?agents=<id ,<id — temporary, shareable comparison workspace ( noindex ). - /docs/using , /docs/authoring , /docs/contributing — guides. Product analytics North star: weekly visitors who copy at least one agent install command. The Registry uses the shared PostHog project, but sends only explicit product events. Autocapture, session recording, exception capture, and person profiles are disabled. Captured URLs are reduced to their pathname before sending, so free-form search text never leaves the browser. Agent IDs and other structured catalog choices are sent only through the explicit events below. Event Trigger Decision it supports --- --- --- registry agent opened An agent detail page renders Which agents move discovery forward? registry catalog search used Search settles for 700 ms Does search return useful coverage? registry catalog filter changed A structured filter changes Which qualification paths matter? registry compare selection changed Comparison selection changes Where does comparison become difficult? registry comparison opened A valid comparison renders Which agents are evaluated together? registry install command copied An install command is copied Did the visit reach activation? registry agent feedback submitted A visitor rates an agent as helpful or not helpful Which opened agents need quality review? Search events contain only a coarse query-length bucket and result count, never the query. Suggested PostHog funnel: registry agent opened or registry comparison opened → registry install command copied , segmented by copy surface. Review this funnel weekly; use search zero-result counts and comparison drop-off to prioritize catalog improvements. Agent feedback contains only the agent ID and the structured response. Comments, issue bodies, and page query strings are never captured. Review the helpful rate alongside agent opens and install copies to prioritize investigation without treating low-volume agents as low-quality by default. Deploy (Vercel) Import the agentskit monorepo, set Root Directory = apps/registry , Framework = Next.js. Point registry.agentskit.io at the project. Local AgentsKit Chat dogfood The floating Ask Registry surface consumes the stable npm package @agentskit/chat at exact version 0.4.1 , using its /protocol and /react subpaths. This app owns only the registry corpus, NEXT PUBLIC ASK ENDPOINT , Registry branding, CTA, and React slots. AgentsKit Chat owns the Ask wire contract, streaming adapter, ordered content, standard source-list , memory migration, and application shell. AgentsKit owns controller lifecycle, messages, cancellation, retry, edit, and regenerate. Implementation: -",
+          "body": "registry Profile: <code public-app</code Verified proof - App package lives at apps/registry . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/registry-app Profile: <code public-app</code The fumadocs site for the AgentsKit agent registry — deployed to registry.agentskit.io . The app loads the shared AgentsKit shell ( /shell/v1.js and /shell/v1.css from NEXT PUBLIC AGENTSKIT SHELL ORIGIN , default https://www.agentskit.io ): the ecosystem bar and tour, a Registry-blue <agentskit-aurora on the home, and <agentskit-footer on every page. Registry keeps no copy of the shell; to review local shell changes, run docs-next on port 3000 and start Registry with NEXT PUBLIC AGENTSKIT SHELL ORIGIN=http://localhost:3000 . Fumadocs provides the local navigation and search; documentation routes keep a solid, calm background. - / — agent gallery with search, filters, ordering, and comparison selection, SSG. - /agents/[id] — per-agent page, generated at build from the committed index in the repo (raw GitHub). The agent source stays decoupled (RFC 0002). - /compare?agents=<id ,<id — temporary, shareable comparison workspace ( noindex ). - /docs/using , /docs/authoring , /docs/contributing — guides. Product analytics North star: weekly visitors who copy at least one agent install command. The Registry uses the shared PostHog project, but sends only explicit product events. Autocapture, session recording, exception capture, and person profiles are disabled. Captured URLs are reduced to their pathname before sending, so free-form search text never leaves the browser. Agent IDs and other structured catalog choices are sent only through the explicit events below. Event Trigger Decision it supports --- --- --- registry agent opened An agent detail page renders Which agents move discovery forward? registry catalog search used Search settles for 700 ms Does search return useful coverage? registry catalog filter changed A structured filter changes Which qualification paths matter? registry compare selection changed Comparison selection changes Where does comparison become difficult? registry comparison opened A valid comparison renders Which agents are evaluated together? registry install command copied An install command is copied Did the visit reach activation? registry agent feedback submitted A visitor rates an agent as helpful or not helpful Which opened agents need quality review? Search events contain only a coarse query-length bucket and result count, never the query. Suggested PostHog funnel: registry agent opened or registry comparison opened → registry install command copied , segmented by copy surface. Review this funnel weekly; use search zero-result counts and comparison drop-off to prioritize catalog improvements. Agent feedback contains only the agent ID and the structured response. Comments, issue bodies, and page query strings are never captured. Review the helpful rate alongside agent opens and install copies to prioritize investigation without treating low-volume agents as low-quality by default. Deploy (Vercel) Import the agentskit monorepo, set Root Directory = apps/registry , Framework = Next.js. Point registry.agentskit.io at the project. Local AgentsKit Chat dogfood The floating Ask Registry surface consumes the stable npm package @agentskit/chat at exact version 0.4.1 , using its /protocol and /react subpaths. This app owns only the registry corpus, NEXT PUBLIC ASK ENDPOINT (the widget is disabled when unset), Registry branding, CTA, and React slots. AgentsKit Chat owns the Ask wire contract, streaming adapter, ordered content, standard source-list , memory migration, and application shell. AgentsKit owns controller lifecycle, messages, cancellation, retry, edit",
           "aliases": "document project"
         },
         "graph": {
@@ -68405,7 +68547,7 @@
             }
           ]
         },
-        "contentHash": "8e06bb4bd3317631a6301f111f9deb1543bd999999abcbe2d1b0f53b94d0b158",
+        "contentHash": "cce1c7349858e6b15d6166cc6c2ef4a26af271ae47bf318e23e1cb0d5ca8a654",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -84207,7 +84349,7 @@
           "path": "rfcs/0007-central-ask-backend.md",
           "symbols": "",
           "summary": "Status: Proposed",
-          "body": "RFC 0007 — Central Ask backend (persistent, multi-corpus, public, MCP) - Status : Proposed - Date : 2026-06-18 - Author : @EmersonBraun - Related RFCs : (ecosystem cohesion), (the chat as a component; createAskHandler D5) - Related : the live Ask-the-docs chat ( apps/docs-next/lib/ask/ ), the registry MCP ( apps/registry/app/api/mcp ) Summary Move the AgentsKit AI/RAG workload off Vercel serverless into one persistent — from a single warm process, plus a public MCP endpoint. One embedding model + one LLM pool + the existing guards are loaded once at boot and shared across N per-property corpora , routed by a corpus parameter. The sites stay on Vercel (static + CDN) and call the backend over HTTP; the backend is public but protected (CORS + rate-limit + injection/scope guards; secrets server-side). The framework-neutral createAskHandler (RFC-0006 D5) drops straight into this backend unchanged — this is the \"hosted\" delivery the RFC anticipated. Motivation The Ask-the-docs chat runs a local ONNX embedder + RAG in a Vercel serverless function. That was the wrong substrate, and a production outage proved it: - Cold starts reload the ~30 MB model and the 21 MB index per cold container → the first query after idle is slow; warm is fast but low traffic keeps it cold. - Native binaries ( libonnxruntime.so.1 ) aren't traced into the function by default — a real prod failure that needed bespoke outputFileTracingIncludes . - No persistent memory — the model/index can't stay resident. + retrieval. Four serverless copies of a heavy embedder is wasteful and fragile. - MCP demand : agents want to query AgentsKit knowledge programmatically; the registry already ships an /api/mcp . A central knowledge MCP is the natural home. A persistent process fixes all of it: the model loads once and stays warm (no cold start, no tracing hacks), serves all properties, and exposes MCP — for the price of a small always-on instance. Resolved decisions (locked with the author) D1. Persistent backend on Railway, sites stay on Vercel A long-lived Hono (Node) server on Railway. Sites remain on Vercel (static/CDN/edge for docs); their chat widgets call the backend over HTTP. Not $0 — ~\\$5/mo for a small always-on instance — accepted for the reliability + speed win. D2. Multi-corpus from v1 (one model, N retrievers) The backend loads one shared embedder ( bge-small-en-v1.5 , 384-d, ONNX native), one LLM adapter (OpenRouter free pool + fallback), and the shared guards — then serves per-property corpora , each a committed index + retriever: Requests carry a corpus ; the backend picks that corpus's retriever and runs the shared handler. A new property = drop in its index + register the corpus. The model is shared (same embedding space) — adding corpora is cheap. v1 corpus = docs only — the one genuine knowledge base in this monorepo. The registry knowledge is the agents , which live in the separate agentskit-registry repo (not the apps/registry site's few pages), so registry is multi-corpus from day one (corpus registry + ?corpus= routing), but only docs has content at v1. F2 cross-repo sourcing : each property's repo CI builds its index (the same gen-ask-index step) and publishes it as an artifact the backend pulls on deploy (a committed index.json in a known location, or a small fetch on boot). Only the built index travels — no property's source lives in the backend's repo. D3. Public but protected The endpoint serves public docs knowledge → no end-user auth. Protected by: - CORS allow-list ( .agentskit.io + localhost dev), - per-IP rate-limit (Upstash durable; in-memory dev fallback), - the existing triage / injection / scope / sanitize guards, - body-size cap . Secrets ( OPENROUTER API KEY , UPSTASH ) live server-side, never exposed. The MCP endpoint is likewise public + read-only. D4. Custom domain + MCP early Served at ask.agentskit.io (Railway custom domain) — positioned as a product (\"AgentsKit knowledge API + MCP\"), not an internal URL. The MCP endpoint ships",
+          "body": "RFC 0007 — Central Ask backend (persistent, multi-corpus, public, MCP) - Status : Proposed - Date : 2026-06-18 - Author : @EmersonBraun - Related RFCs : (ecosystem cohesion), (the chat as a component; createAskHandler D5) - Related : the live Ask-the-docs chat ( apps/docs-next/lib/ask/ ), the registry MCP ( apps/registry/app/api/mcp ) Update 2026-10-21 : the ask.agentskit.io host referenced below is retired and its DNS removed. Sites now take the backend URL from NEXT PUBLIC ASK ENDPOINT ; the Ask widgets are disabled until it is set. Summary Move the AgentsKit AI/RAG workload off Vercel serverless into one persistent — from a single warm process, plus a public MCP endpoint. One embedding model + one LLM pool + the existing guards are loaded once at boot and shared across N per-property corpora , routed by a corpus parameter. The sites stay on Vercel (static + CDN) and call the backend over HTTP; the backend is public but protected (CORS + rate-limit + injection/scope guards; secrets server-side). The framework-neutral createAskHandler (RFC-0006 D5) drops straight into this backend unchanged — this is the \"hosted\" delivery the RFC anticipated. Motivation The Ask-the-docs chat runs a local ONNX embedder + RAG in a Vercel serverless function. That was the wrong substrate, and a production outage proved it: - Cold starts reload the ~30 MB model and the 21 MB index per cold container → the first query after idle is slow; warm is fast but low traffic keeps it cold. - Native binaries ( libonnxruntime.so.1 ) aren't traced into the function by default — a real prod failure that needed bespoke outputFileTracingIncludes . - No persistent memory — the model/index can't stay resident. + retrieval. Four serverless copies of a heavy embedder is wasteful and fragile. - MCP demand : agents want to query AgentsKit knowledge programmatically; the registry already ships an /api/mcp . A central knowledge MCP is the natural home. A persistent process fixes all of it: the model loads once and stays warm (no cold start, no tracing hacks), serves all properties, and exposes MCP — for the price of a small always-on instance. Resolved decisions (locked with the author) D1. Persistent backend on Railway, sites stay on Vercel A long-lived Hono (Node) server on Railway. Sites remain on Vercel (static/CDN/edge for docs); their chat widgets call the backend over HTTP. Not $0 — ~\\$5/mo for a small always-on instance — accepted for the reliability + speed win. D2. Multi-corpus from v1 (one model, N retrievers) The backend loads one shared embedder ( bge-small-en-v1.5 , 384-d, ONNX native), one LLM adapter (OpenRouter free pool + fallback), and the shared guards — then serves per-property corpora , each a committed index + retriever: Requests carry a corpus ; the backend picks that corpus's retriever and runs the shared handler. A new property = drop in its index + register the corpus. The model is shared (same embedding space) — adding corpora is cheap. v1 corpus = docs only — the one genuine knowledge base in this monorepo. The registry knowledge is the agents , which live in the separate agentskit-registry repo (not the apps/registry site's few pages), so registry is multi-corpus from day one (corpus registry + ?corpus= routing), but only docs has content at v1. F2 cross-repo sourcing : each property's repo CI builds its index (the same gen-ask-index step) and publishes it as an artifact the backend pulls on deploy (a committed index.json in a known location, or a small fetch on boot). Only the built index travels — no property's source lives in the backend's repo. D3. Public but protected The endpoint serves public docs knowledge → no end-user auth. Protected by: - CORS allow-list ( .agentskit.io + localhost dev), - per-IP rate-limit (Upstash durable; in-memory dev fallback), - the existing triage / injection / scope / sanitize guards, - body-size cap . Secrets ( OPENROUTER API KEY , UPSTASH ) live server-side, never exposed. The MCP endpoint is likewise p",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -84265,7 +84407,7 @@
             }
           ]
         },
-        "contentHash": "06d903f61cd9ccd732aaacbbde5d4bdbba21edf576eafe6092cf6702ea289768",
+        "contentHash": "557fe9e3be553ab0e412989a288e3a53c5be29433cd5d02245bf099024af4c14",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -87036,7 +87178,7 @@
             }
           ]
         },
-        "contentHash": "449625aa14823227d1758bef10a5ad057e8639defed741c8282800c11a32dd45",
+        "contentHash": "dc0c2ded2408d37a3f1e87d7bbef3995aaff1511a65cbe457657e6e80d5aaa9b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -87167,6 +87309,43 @@
           "outbound": []
         },
         "contentHash": "272d3c32bd884b26ee1e044d4fc54981c3adfede0bba595d8558dd59d086e937",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/app/api/downloads/route.ts",
+        "kind": "module",
+        "path": "apps/docs-next/app/api/downloads/route.ts",
+        "title": "route.ts",
+        "aliases": [],
+        "symbols": [
+          "GET"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "downloads"
+        ],
+        "fields": {
+          "title": "route.ts",
+          "headings": "",
+          "path": "apps/docs-next/app/api/downloads/route.ts",
+          "symbols": "GET",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts downloads"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "bae05c85d348445b7d77f47eddfb7227e38207b4af599783bca09953c7ebd5a6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -87671,7 +87850,137 @@
             }
           ]
         },
-        "contentHash": "2abfafa9cb1372cae872b0047fe7c820f838844e036b54f54e00bfb2b2c84101",
+        "contentHash": "b0ed27af805d98b15a88f8fbe3dd62c093f34f20051a1fe800ac923a48560377",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/app/downloads/downloads-dashboard.tsx",
+        "kind": "module",
+        "path": "apps/docs-next/app/downloads/downloads-dashboard.tsx",
+        "title": "downloads-dashboard.tsx",
+        "aliases": [],
+        "symbols": [
+          "DownloadsDashboard"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "downloads"
+        ],
+        "fields": {
+          "title": "downloads-dashboard.tsx",
+          "headings": "",
+          "path": "apps/docs-next/app/downloads/downloads-dashboard.tsx",
+          "symbols": "DownloadsDashboard",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx downloads"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/downloads/page.tsx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "26d0960a1596869a5123d7e1fa8dbf0b3b8d6944f0a2c8fa2fffe1a0af594ff1",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/app/downloads/layout.tsx",
+        "kind": "module",
+        "path": "apps/docs-next/app/downloads/layout.tsx",
+        "title": "layout.tsx",
+        "aliases": [],
+        "symbols": [
+          "DownloadsLayout"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "downloads"
+        ],
+        "fields": {
+          "title": "layout.tsx",
+          "headings": "",
+          "path": "apps/docs-next/app/downloads/layout.tsx",
+          "symbols": "DownloadsLayout",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx downloads"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/layout.config.tsx",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "9d4a01c5c819ff48da410f38f20991694bf31599a3f76ce2f458647a13e33681",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/app/downloads/page.tsx",
+        "kind": "module",
+        "path": "apps/docs-next/app/downloads/page.tsx",
+        "title": "page.tsx",
+        "aliases": [],
+        "symbols": [
+          "DownloadsPage",
+          "metadata"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "downloads"
+        ],
+        "fields": {
+          "title": "page.tsx",
+          "headings": "",
+          "path": "apps/docs-next/app/downloads/page.tsx",
+          "symbols": "DownloadsPage metadata",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx downloads"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/downloads/downloads-dashboard.tsx",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "7c635ea02bd62b05ebadd685192356fc602b63b46d3eb0b8eb5f70106fceb733",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -88005,6 +88314,11 @@
             {
               "kind": "imports",
               "id": "module:apps/docs-next/app/docs/layout.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/downloads/layout.tsx",
               "confidence": "observed"
             },
             {
@@ -94538,6 +94852,57 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/lib/npm-downloads.ts",
+        "kind": "module",
+        "path": "apps/docs-next/lib/npm-downloads.ts",
+        "title": "npm-downloads.ts",
+        "aliases": [],
+        "symbols": [
+          "DailyCount",
+          "DownloadsData",
+          "FIRST_PUBLISHED_DAY",
+          "PACKAGE_NAMES",
+          "PackageCounts",
+          "PackageName",
+          "addDays",
+          "dateChunks",
+          "sumDays"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "lib"
+        ],
+        "fields": {
+          "title": "npm-downloads.ts",
+          "headings": "",
+          "path": "apps/docs-next/lib/npm-downloads.ts",
+          "symbols": "DailyCount DownloadsData FIRST_PUBLISHED_DAY PACKAGE_NAMES PackageCounts PackageName addDays dateChunks sumDays",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/tests/npm-downloads.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "c36f670b93f1cd4a7dfbf74073142d45c68268abfa0ea043f1e2b17117af57c2",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/lib/openrouter.ts",
         "kind": "module",
         "path": "apps/docs-next/lib/openrouter.ts",
@@ -96388,6 +96753,47 @@
           ]
         },
         "contentHash": "fa871ad1b43f433d4eead422637f4f0047105d23f592debd1aebc576ac7c9c33",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/tests/npm-downloads.test.ts",
+        "kind": "module",
+        "path": "apps/docs-next/tests/npm-downloads.test.ts",
+        "title": "npm-downloads.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "npm-downloads.test.ts",
+          "headings": "",
+          "path": "apps/docs-next/tests/npm-downloads.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/lib/npm-downloads.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "5ed5c1554e838b24b40b78d9978b67d07a56b09beec5e12294a4a27103bca063",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -101526,7 +101932,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "7b2680fce3a782e1ab11c659ff41f527b3bbf6ed537463062706fb27800d2d40",
+        "contentHash": "ebdf830b8ee3e81f9ca8e827e9d4817e5c818dc15c5bf0610ca83a9781030713",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192236,7 +192642,7 @@
             }
           ]
         },
-        "contentHash": "36474c69b15a886d463777dc328aca1e1f2cef1f2d3ae77d447f8cd4f6f8bba9",
+        "contentHash": "ce06f66f7292956cd9c99c4c352bc8bde68f5b5ff476ca904ccdc676d3ec3efe",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192495,7 +192901,7 @@
             }
           ]
         },
-        "contentHash": "ce710d97c249bfd15ba36906bbccbfe1229b19c5dc0e46155911f321992522bd",
+        "contentHash": "7f2e35ed59e93844e6e7cac430f54214bd68aeff86e5572829e8bcb9195114be",
         "provenance": "observed",
         "confidence": "observed"
       },
