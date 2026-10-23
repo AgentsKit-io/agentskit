@@ -140,14 +140,16 @@ In the Railway dashboard:
    is also accepted by the rate limiter; use `?family=0` for Railway private
    networking when needed), optional `UPSTASH_REDIS_REST_URL` +
    `UPSTASH_REDIS_REST_TOKEN` fallback, `ASK_CORS_ORIGINS`.
-4. **Networking → Custom Domain** = `ask.agentskit.io`.
+4. **Networking → Domain**: use the Railway-generated domain (or your own custom
+   domain). The retired `ask.agentskit.io` host no longer resolves.
 
 The Dockerfile installs the workspace + builds the backend's lib closure; start =
 `pnpm --filter @agentskit/ask-backend start` (tsx). The persistent process means the
 model loads once at boot and stays warm — the writable Railway filesystem caches it
 (no `/tmp` hack needed; the Vercel-specific cache override doesn't fire here).
 
-Then point each site's chat widget at `https://ask.agentskit.io/v1/ask?corpus=<id>`.
+Then set `NEXT_PUBLIC_ASK_ENDPOINT=https://<your-backend-host>/v1/ask` for each
+site. The Ask widgets stay disabled until it is set.
 
 ## Runtime configuration
 
