@@ -1310,7 +1310,7 @@ importers:
         specifier: ^0.220.0 || ^0.221.0
         version: 0.221.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/sdk-trace-base':
-        specifier: ^2.12.0
+        specifier: ^2.9.0
         version: 2.12.0(@opentelemetry/api@1.9.1)
       '@types/node':
         specifier: ^25.9.9
@@ -1322,10 +1322,10 @@ importers:
         specifier: ^0.45.4
         version: 0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1)
       langfuse:
-        specifier: ^3.39.2
+        specifier: ^3.38.20
         version: 3.39.2
       langsmith:
-        specifier: ^0.8.12
+        specifier: ^0.8.1
         version: 0.8.12(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@4.6.7))(ws@8.22.0)
       pg:
         specifier: ^8.23.1
