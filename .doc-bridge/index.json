@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "a70e2b13699e21d871de648658aebb949e37a95e59732c38647287794e0aec03",
+  "contentHash": "5838199eb7b043e5aa48128d16e0b8c7f9d9a1ac632cae0ff459d226156b956c",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-23T00:05:28.758Z",
+  "generatedAt": "2026-10-23T04:00:33.793Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7851,18 +7851,6 @@
         "unclassified"
       ],
       "contentHash": "762356339ba5e546e7f6d1e52f5416ba97ae0f2edf5e477eec4c03820b14590d"
-    },
-    {
-      "id": "module:.github/scripts/pnpm-bulk-audit.mjs",
-      "type": "module",
-      "title": "pnpm-bulk-audit.mjs",
-      "path": ".github/scripts/pnpm-bulk-audit.mjs",
-      "tags": [
-        "module",
-        "mjs",
-        "scripts"
-      ],
-      "contentHash": "94073d1102119af54b7847da170f99bb1ab7836b9d9ca9833fa828ec0dc9c4ac"
     },
     {
       "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/agent.ts",
@@ -38697,8 +38685,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "e02aeaae9182f992472575df76c2879d6fae39600ae561f7564c2ac9fa6e3718",
-    "fileCount": 2656,
+    "hash": "90cc3ecb646e5c9abdf58e69af237de68d7445f7bb0fec392615d8755fdf375c",
+    "fileCount": 2655,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38720,9 +38708,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "012c22c1d85f068efe8033dd2e275331465d288f60deec93d23db12027194a34",
+    "contentHash": "f750ae90e9d5273914f50962a3f67e2adf2c1cb57c4d8501a3907e8ca7176346",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "ca03de4b1fcc049cada17746a88da1829dcbf0a264b0e91c0e6a3588e3e75d8b",
+    "snapshotHash": "14af85e0c9ac5c9f250fe93fce3341a2c1aeaa1fc50f3154ff9731ebde22964b",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38742,7 +38730,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2525,
+      "documentCount": 2523,
       "fieldNames": [
         "aliases",
         "body",
@@ -38753,61 +38741,16 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0154455445544555,
-        "body": 61.715643564356434,
-        "headings": 4.009108910891089,
-        "path": 7.614257425742574,
-        "summary": 4.541782178217821,
-        "symbols": 7.50059405940594,
-        "title": 3.3786138613861385
+        "aliases": 3.016250495441934,
+        "body": 61.764565992865634,
+        "headings": 4.012286959968292,
+        "path": 7.617122473246136,
+        "summary": 4.545382481173206,
+        "symbols": 7.50653983353151,
+        "title": 3.3789139912802217
       }
     },
     "entries": [
-      {
-        "id": "area:.github",
-        "kind": "area",
-        "path": ".github",
-        "title": ".github",
-        "aliases": [],
-        "tags": [
-          "area"
-        ],
-        "fields": {
-          "title": ".github",
-          "headings": "",
-          "path": ".github",
-          "symbols": "",
-          "summary": "",
-          "body": "",
-          "aliases": "area"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 2,
-          "coveredBy": [],
-          "mentionedBy": [
-            "document:docs/MASTER-EXECUTION-PLAN.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
-          ],
-          "packageId": "package:agentskit",
-          "inbound": [
-            {
-              "kind": "mentions",
-              "id": "document:docs/MASTER-EXECUTION-PLAN.md",
-              "confidence": "fuzzy"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-              "confidence": "fuzzy"
-            }
-          ],
-          "outbound": []
-        },
-        "contentHash": "c7a4f26e5fec76986a3433537a5eb0558ad48a76383d92ae5197c7e38ea90120",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
       {
         "id": "area:agents",
         "kind": "area",
@@ -74362,11 +74305,6 @@
               "kind": "links-to",
               "id": "document:docs/V1-READINESS-TRACKER.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:.github",
-              "confidence": "fuzzy"
             }
           ]
         },
@@ -74674,11 +74612,6 @@
               "kind": "links-to",
               "id": "document:docs/V1-READINESS-TRACKER.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:.github",
-              "confidence": "fuzzy"
             },
             {
               "kind": "mentions",
@@ -85529,46 +85462,6 @@
           ]
         },
         "contentHash": "762356339ba5e546e7f6d1e52f5416ba97ae0f2edf5e477eec4c03820b14590d",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "module:.github/scripts/pnpm-bulk-audit.mjs",
-        "kind": "module",
-        "path": ".github/scripts/pnpm-bulk-audit.mjs",
-        "title": "pnpm-bulk-audit.mjs",
-        "aliases": [],
-        "tags": [
-          "module",
-          "mjs",
-          "scripts"
-        ],
-        "fields": {
-          "title": "pnpm-bulk-audit.mjs",
-          "headings": "",
-          "path": ".github/scripts/pnpm-bulk-audit.mjs",
-          "symbols": "",
-          "summary": "",
-          "body": "",
-          "aliases": "module mjs scripts"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "areaId": "area:.github",
-          "packageId": "package:agentskit",
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "imports",
-              "id": "module:scripts/audit-prod-high.mjs",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "94073d1102119af54b7847da170f99bb1ab7836b9d9ca9833fa828ec0dc9c4ac",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -186885,13 +186778,7 @@
           "mentionedBy": [],
           "areaId": "area:scripts",
           "packageId": "package:agentskit",
-          "inbound": [
-            {
-              "kind": "imports",
-              "id": "module:.github/scripts/pnpm-bulk-audit.mjs",
-              "confidence": "observed"
-            }
-          ],
+          "inbound": [],
           "outbound": []
         },
         "contentHash": "6f6a568b444c3f5751ae9f77635bd16f05b4a5d5b3f976fbebb3793ba748b904",
@@ -200774,7 +200661,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4a6a7b16ebbe6064c7655c4699c38a006605535d48de45026ac341195f58ba91",
+        "contentHash": "468740a9462981e9ce5702a25a3a711c08d8b5ee2968d0ace11a630fd9f21a72",
         "provenance": "observed",
         "confidence": "observed"
       }
