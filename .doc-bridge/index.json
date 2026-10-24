@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "35abab49f6e3765c3bdcf3feec6e648bb31b7e53bfc8faaafa1b295ff35a0f69",
+  "contentHash": "b6351fcf99872702d677f6b229dcd85f31f7505647f67f0103b7ca01e67be325",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-24T23:12:48.756Z",
+  "generatedAt": "2026-10-24T23:38:13.007Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5343,7 +5343,7 @@
         "document",
         "project"
       ],
-      "contentHash": "0eda1e7af31c228d3a8fc58cfab5f69d183f015334060f459a3a5589c82c4971"
+      "contentHash": "55da277b50d15b655fcfd697943050cb5195300ea718e7d1f12cb5b8e952487e"
     },
     {
       "id": "document:apps/registry/AGENTS.md",
@@ -8753,7 +8753,7 @@
         "tsx",
         "app"
       ],
-      "contentHash": "d119bb168c72d8783095a01b6fa09040bd12cc580797ed295ac76cf041f9b44e"
+      "contentHash": "9b583020754f30951f9d6df28a8f2127f00abccb41dac537bc532e86472739ea"
     },
     {
       "id": "module:apps/docs-next/app/learn/[step]/page.tsx",
@@ -11326,7 +11326,7 @@
         "cjs",
         "docs-next"
       ],
-      "contentHash": "f5e332df7f307eacef92722bdab2e1672df50f3113cc63c134a7d7fe73106025"
+      "contentHash": "18517be3c097a54d708157120ec0f5ca52efd674317ec656eb2644a00952acae"
     },
     {
       "id": "module:apps/docs-next/mdx-components.tsx",
@@ -11356,7 +11356,7 @@
         "mjs",
         "docs-next"
       ],
-      "contentHash": "4070007b89bba20ef23e9ffe704f250fc2ea7b14a92608522b9f632fc936a3c2"
+      "contentHash": "5040b55fcf9c9c4373105d972b6c74968488e51ca735d5192a485d75d4a49b50"
     },
     {
       "id": "module:apps/docs-next/postcss.config.mjs",
@@ -11551,7 +11551,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "27923f62a33d5070420bdf3ab51ef80f8a53a21c8568624eec2478461d15724b"
+      "contentHash": "ed1f3f1c32128a4018255399f51f4b13559d6a4413091087d8ebfff38480c8d4"
     },
     {
       "id": "module:apps/docs-next/scripts/verify-api-consolidation.mjs",
@@ -12651,7 +12651,7 @@
         "mjs",
         "landing"
       ],
-      "contentHash": "c477543338ed21fe7ea804975cf3debd833c2ee817fd21b41e2e7c272af44f1b"
+      "contentHash": "e124a5fecd34cad98c897725389a241364d6241eee57e82dace63a2aa8e883c7"
     },
     {
       "id": "module:apps/landing/postcss.config.mjs",
@@ -37091,7 +37091,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "bafb72fd9c6baad700b7cda9b6f0ca8e1ac276a266f3cc2a86fa6b61981f011b"
+      "contentHash": "7a77ba534b17a087a3e801f17508c87fdf0a161c1e9109c70a49ef47f4163dd5"
     },
     {
       "id": "module:scripts/refresh-readme-standard.mjs",
@@ -38637,8 +38637,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "f6de49c9efc9bfc3afb71886c0cdc33958399ea464651c88f827bd255f67cc61",
-    "fileCount": 2651,
+    "hash": "6c90dcc4177e72e3d6a6f546157cccb13257cc8aa1e43cd6ff739eb82735019c",
+    "fileCount": 2648,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38660,9 +38660,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "bb29f20f8f9d022553e7e95c6e07401e134d0d198a2dff59e0f5ce8528a4cc83",
+    "contentHash": "176afabacf8050302785194f1c20798c53eb5ec40dd7fba7bdc470f273377e03",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "eedbccc873758536bb00ad25561fe146136e56346cab79c31c04fbb551b69b20",
+    "snapshotHash": "57a9eed7ddbdfb6bb1dac59719f0bf0a76337a0a428c31e7bce1a671ccaa0224",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38694,7 +38694,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0174603174603174,
-        "body": 60.709920634920636,
+        "body": 60.7015873015873,
         "headings": 3.888095238095238,
         "path": 7.616269841269841,
         "summary": 4.503571428571429,
@@ -67788,7 +67788,7 @@
           "path": "apps/landing/README.md",
           "symbols": "",
           "summary": "Profile: <code>public-app</code>",
-          "body": "landing Profile: <code public-app</code Verified proof - App package lives at apps/landing . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/landing Profile: <code public-app</code Standalone Next.js 16 landing page for AgentsKit — issue (P0.19). Independent from apps/docs-next . The Cloudflare Worker agentskit-docs , built from apps/docs-next with vinext, serves the public domain and /docs ; this standalone app is not mapped to www.agentskit.io . Treat apps/docs-next as the production owner until routing is deliberately changed. All LINKS.docs URLs use the /docs path. Stack - Next.js 16 (App Router, standalone output) - React 19 - Tailwind CSS v4 (PostCSS plugin) - Zero dependencies on workspace packages — pure marketing surface, no MDX, no SDK examples that drag the agent runtime into the bundle. Develop Opens on http://127.0.0.1:4180. Build / start Structure Add a new section by writing it under app/ components/ and dropping it into app/page.tsx . Keep the file count low; this surface is intentionally narrow. Design tokens Defined in app/globals.css under @theme : token value --- --- --color-bg 0a0a0b --color-bg-soft 131316 --color-fg f5f5f7 --color-accent 7c5cff --color-accent-soft a690ff Mirror updates here into apps/docs-next/styles/ if cross-surface visual consistency is needed. Deploy - Vercel (default): no extra flags. The vercel.json here installs with --frozen-lockfile and uses an ignoreCommand scoped to apps/landing + the workspace lockfile so unrelated commits don't trigger a rebuild. - Self-hosted (Cloudflare Pages, Node server, Docker): set NEXT OUTPUT STANDALONE=1 to switch Next to output: 'standalone' . Avoid this on Vercel — it bypasses ISR / Edge Functions / Image Optimization.",
+          "body": "landing Profile: <code public-app</code Verified proof - App package lives at apps/landing . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/landing Profile: <code public-app</code Standalone Next.js 16 landing page for AgentsKit — issue (P0.19). Independent from apps/docs-next . The Cloudflare Worker agentskit-docs , built from apps/docs-next with vinext, serves the public domain and /docs ; this standalone app is not mapped to www.agentskit.io . Treat apps/docs-next as the production owner until routing is deliberately changed. All LINKS.docs URLs use the /docs path. Stack - Next.js 16 (App Router, standalone output) - React 19 - Tailwind CSS v4 (PostCSS plugin) - Zero dependencies on workspace packages — pure marketing surface, no MDX, no SDK examples that drag the agent runtime into the bundle. Develop Opens on http://127.0.0.1:4180. Build / start Structure Add a new section by writing it under app/ components/ and dropping it into app/page.tsx . Keep the file count low; this surface is intentionally narrow. Design tokens Defined in app/globals.css under @theme : token value --- --- --color-bg 0a0a0b --color-bg-soft 131316 --color-fg f5f5f7 --color-accent 7c5cff --color-accent-soft a690ff Mirror updates here into apps/docs-next/styles/ if cross-surface visual consistency is needed. Deploy - Self-hosted (Node server, Docker): set NEXT OUTPUT STANDALONE=1 to switch Next to output: 'standalone' . - This app has no dedicated deploy configuration; the Cloudflare Worker built from apps/docs-next serves the public domain.",
           "aliases": "document project"
         },
         "graph": {
@@ -67830,7 +67830,7 @@
             }
           ]
         },
-        "contentHash": "0eda1e7af31c228d3a8fc58cfab5f69d183f015334060f459a3a5589c82c4971",
+        "contentHash": "55da277b50d15b655fcfd697943050cb5195300ea718e7d1f12cb5b8e952487e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -87526,7 +87526,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "d119bb168c72d8783095a01b6fa09040bd12cc580797ed295ac76cf041f9b44e",
+        "contentHash": "9b583020754f30951f9d6df28a8f2127f00abccb41dac537bc532e86472739ea",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -94724,7 +94724,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "f5e332df7f307eacef92722bdab2e1672df50f3113cc63c134a7d7fe73106025",
+        "contentHash": "18517be3c097a54d708157120ec0f5ca52efd674317ec656eb2644a00952acae",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -94812,7 +94812,7 @@
             }
           ]
         },
-        "contentHash": "4070007b89bba20ef23e9ffe704f250fc2ea7b14a92608522b9f632fc936a3c2",
+        "contentHash": "5040b55fcf9c9c4373105d972b6c74968488e51ca735d5192a485d75d4a49b50",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95381,7 +95381,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "27923f62a33d5070420bdf3ab51ef80f8a53a21c8568624eec2478461d15724b",
+        "contentHash": "ed1f3f1c32128a4018255399f51f4b13559d6a4413091087d8ebfff38480c8d4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -98730,7 +98730,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "c477543338ed21fe7ea804975cf3debd833c2ee817fd21b41e2e7c272af44f1b",
+        "contentHash": "e124a5fecd34cad98c897725389a241364d6241eee57e82dace63a2aa8e883c7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190469,7 +190469,7 @@
             }
           ]
         },
-        "contentHash": "bafb72fd9c6baad700b7cda9b6f0ca8e1ac276a266f3cc2a86fa6b61981f011b",
+        "contentHash": "7a77ba534b17a087a3e801f17508c87fdf0a161c1e9109c70a49ef47f4163dd5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -199517,7 +199517,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "221edd1fb17eebe70098632750db2641a57b69bedcfc9de8d55021c93583b8b9",
+        "contentHash": "2110cb6c4d4c7498b458089af97c0c4705d0932cd28c103ac8f04391d819bac4",
         "provenance": "observed",
         "confidence": "observed"
       }
