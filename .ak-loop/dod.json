@@ -1,0 +1,18 @@
+{
+  "project": [
+    {"id": "test-for-new-code", "status": "passed", "evidence": "scripts/reference-docs-vertical.test.mjs changed (Lighthouse test rewritten); vitest passes that test"},
+    {"id": "no-todo", "status": "passed", "evidence": "no src/** file changed; layout.tsx edit only removes lines"}
+  ],
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "git rm of .vercelignore and the three vercel.json files; no .vercel/ tracked"},
+    {"id": "o2", "status": "passed", "evidence": "git grep for vercel (deploy|pull|build|--) and docs:deploy over package.json .github scripts apps/*/package.json: no matches"},
+    {"id": "o3", "status": "partial", "evidence": "@vercel/analytics and speed-insights gone from package.json, layout.tsx and pnpm-lock.yaml; lockfile still has transitive @vercel/functions, og, postgres; docs-next next build is OOM-killed (137) in this sandbox, not verified"},
+    {"id": "o4", "status": "passed", "evidence": "no 'vercel' in lighthouse/docs/indexnow workflows; indexnow has schedule and workflow_dispatch"},
+    {"id": "o5", "status": "passed", "evidence": "no script reads vercel.json (only .doc-bridge index and landing README referenced it), no Cloudflare headers generator derives from it; nothing to diff"},
+    {"id": "o6", "status": "passed", "evidence": "vitest run scripts/reference-docs-vertical.test.mjs: Lighthouse tests pass; 3 other tests fail for missing built dist (environment). node --test cannot run this vitest file on origin/main either"},
+    {"id": "o7", "status": "passed", "evidence": "vercel-ai.ts and its docs untouched by this diff"},
+    {"id": "o8", "status": "partial", "evidence": "doc-bridge index regenerated with pnpm docs:bridge:index; check:quality-gates builds were OOM-killed here"},
+    {"id": "o9", "status": "partial", "evidence": "frozen install and lint ran; full build OOM-killed (exit 137) in docs-next next build"},
+    {"id": "o10", "status": "passed", "evidence": "commit header chore: remove Vercel deploy configuration"}
+  ]
+}

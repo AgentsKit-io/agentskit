@@ -1,0 +1,11 @@
+{
+  "ranAt": "2026-10-24T21:00:00Z",
+  "command": "pnpm install --frozen-lockfile && pnpm run lint && pnpm exec turbo run build",
+  "exitCode": 137,
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "vercel config files removed via git rm"},
+    {"id": "o2", "status": "passed", "evidence": "git grep: no matches"},
+    {"id": "o4", "status": "passed", "evidence": "git grep -i vercel on the three workflows: no matches"},
+    {"id": "o6", "status": "passed", "evidence": "Lighthouse audits the local production build only: pass"}
+  ]
+}
