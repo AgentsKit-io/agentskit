@@ -1,0 +1,56 @@
+{
+  "project": [
+    {
+      "id": "test-for-new-code",
+      "status": "passed",
+      "evidence": "scripts/reference-docs-vertical.test.mjs changed (Lighthouse contract test rewritten for the local-build-only workflow); the 'Lighthouse audits the local production build only' test passes under vitest."
+    },
+    {
+      "id": "no-todo",
+      "status": "passed",
+      "evidence": "No changed file under src/** (the diff touches none), so no TODO/FIXME can be introduced."
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "o1",
+      "status": "passed",
+      "evidence": "git ls-files matched against vercel.json|.vercelignore|.vercel/ returns nothing; the four files were removed with git rm."
+    },
+    {
+      "id": "o2",
+      "status": "passed",
+      "evidence": "git grep -niE vercel over .github/workflows and the four package.json files returns nothing. lighthouse.yml builds and starts docs-next locally; indexnow.yml keeps deployment_status and workflow_dispatch triggers."
+    },
+    {
+      "id": "o3",
+      "status": "passed",
+      "evidence": "git grep -l '@vercel/(analytics|speed-insights)' now matches only CHANGELOG.md (excluded as .md). 'pnpm install --frozen-lockfile' succeeded after the lockfile edit."
+    },
+    {
+      "id": "o4",
+      "status": "passed",
+      "evidence": "git grep 'vercel\\.json' finds no script, test or workflow reading it (only README prose and generated docs index). No Cloudflare _headers generator exists, so there is no generated Cloudflare output to change; nothing needed moving."
+    },
+    {
+      "id": "o5",
+      "status": "passed",
+      "evidence": "git diff --stat HEAD over the adapter source/test, the two vercel-ai docs and apps/docs-next/public/logos is empty. origin/main is not a ref in this worktree, so the check was run against HEAD (the base commit) instead."
+    },
+    {
+      "id": "o6",
+      "status": "failed",
+      "evidence": "lint and build exit 0. pnpm run test: all packages pass except docs-next legacy-redirects (52 /docs/api/* routes missing because generated API docs are absent locally); scripts/reference-docs-vertical.test.mjs has two failures (shell mobile-overflow CSS, core subpath docs). None touch changed files; not compared against origin/main because that ref is unavailable here. doc-bridge gate passes and README standard passes with reviewedOn/reviewDueOn unchanged."
+    },
+    {
+      "id": "o7",
+      "status": "failed",
+      "evidence": "Every gate in scripts/check-quality-gates.mjs passes when run individually, except check-no-nested-ternary.mjs which errors with 'Not a valid object name origin/main' because this worktree has no origin/main ref. The 14 vitest-based gate suites pass (144 tests)."
+    },
+    {
+      "id": "o8",
+      "status": "passed",
+      "evidence": "Single commit 'chore: remove Vercel deploy configuration' on top of the base commit; not pushed."
+    }
+  ]
+}
