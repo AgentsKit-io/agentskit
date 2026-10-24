@@ -163,4 +163,4 @@ tunnel-command.md
 - [ ] Add doc pages for `simulateStream`, `costGuard`, `edit`, `regenerate`
 - [ ] Consider whether the `@agentskit/core` major bump is the moment to publish v1.0 on core, or defer
 - [ ] Run `pnpm changeset version` locally and review the generated CHANGELOGs before `changeset publish`
-- [ ] Announce the release publicly (HN / Twitter / Discord) — per the pre-launch plan in `docs/MASTER-EXECUTION-PLAN.md`
+- [ ] Announce the release publicly (HN / Twitter / Discord)

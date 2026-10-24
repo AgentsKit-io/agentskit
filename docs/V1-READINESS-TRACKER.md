@@ -2,7 +2,7 @@
 
 > Living doc. Tracks the criteria in [`STABILITY.md`](./STABILITY.md) → "Until v1.0.0"
 > plus cross-framework parity. Update the status columns as work lands; the audit
-> + plan that seeded this lives in [`studies/v1-readiness-audit.md`](./studies/v1-readiness-audit.md).
+> was seeded by the v1 readiness audit (since removed; see git history).
 > Last updated: 2026-07-17.
 
 ## Project-level v1.0.0 criteria

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "dc9fe5e9beded7091d00c6a2e99f0629bd2f706d91a5fad443e20ef5a4e42e24",
+  "contentHash": "711a6ea190579a8658b55596e9243bd2effa11bd657a11419e1f2a9bba87adea",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-24T02:23:43.693Z",
+  "generatedAt": "2026-10-24T20:13:09.161Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -232,7 +232,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "4f40ddbaac82e38a451b0758f0eef3b7f3ad6532a4351b924e1659af3f650213"
+      "contentHash": "4d735017f417732a18dac3b82dbef99a078ce1ef5eac141e01ff049936d85422"
     },
     {
       "id": "document:.agent-memory/project_file-size-baselines.md",
@@ -287,12 +287,12 @@
       "type": "document",
       "title": "project_v1-readiness.md",
       "path": ".agent-memory/project_v1-readiness.md",
-      "description": "Fact: A full 24-package v1.0-readiness audit ran 2026-06-15 (findings + phased plan in docs/studies/v1-readiness-audit.md). Verdict: code quality is high; the blocker to a coherent v1.0 was governance drift, not code.",
+      "description": "Fact: A full 24-package v1.0-readiness audit ran 2026-06-15 (findings + phased plan, since removed; see git history). Verdict: code quality is high; the blocker to a coherent v1.0 was governance drift, not code.",
       "tags": [
         "document",
         "unclassified"
       ],
-      "contentHash": "bc17d98942323cf12a860d8d76c574e2c950388cb8d0b5be1550e13ebe64fcb3"
+      "contentHash": "040d72f09ebdbf406b86f96ef591294cc136f4b531b952f795bab24a2af2b245"
     },
     {
       "id": "document:.agent-memory/reference_cli-adapter-protocol-boundary.md",
@@ -6569,18 +6569,6 @@
       "contentHash": "ae834b1ffbb27f5ea59567eea85ee16dd60ef6f7785f3db970aa1d226b2b4f78"
     },
     {
-      "id": "document:docs/MASTER-EXECUTION-PLAN.md",
-      "type": "document",
-      "title": "AgentsKit — Master Execution Plan",
-      "path": "docs/MASTER-EXECUTION-PLAN.md",
-      "description": "Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: STABILITY.md (tier map) + V1-READINESS-TRACKER.md.",
-      "tags": [
-        "document",
-        "human"
-      ],
-      "contentHash": "275290371076d15e21d24346859d5b3390722228cea5fae9086a3ddc6c24a865"
-    },
-    {
       "id": "document:docs/memory-postgres-validation.md",
       "type": "document",
       "title": "PostgreSQL ChatMemory task contract and validation",
@@ -6605,30 +6593,6 @@
       "contentHash": "adbc4680481abff16b9d503be9912059b7b133fadb53d6886adea35e1381dfcc"
     },
     {
-      "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-      "type": "document",
-      "title": "Phase 0 — Execution Plan (P0 → P2)",
-      "path": "docs/PHASE-0-EXECUTION-PLAN.md",
-      "description": "Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: STABILITY.md (tier map) + V1-READINESS-TRACKER.md.",
-      "tags": [
-        "document",
-        "human"
-      ],
-      "contentHash": "8ca50f6f72a5a5e68102562bc9b562dddd06a4cd959ec75de68082d177cde484"
-    },
-    {
-      "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-      "type": "document",
-      "title": "AgentsKit — Phase 0: Foundation Hardening PRD",
-      "path": "docs/PHASE-0-FOUNDATION-PRD.md",
-      "description": "Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: STABILITY.md (tier map) + V1-READINESS-TRACKER.md.",
-      "tags": [
-        "document",
-        "human"
-      ],
-      "contentHash": "cfd23661c0e0a818a47d520e692b527d894c73dc106ffab8564058405f4b29b7"
-    },
-    {
       "id": "document:docs/PHASE-1-REVIEW.md",
       "type": "document",
       "title": "Phase 1 — Review Report",
@@ -6638,7 +6602,7 @@
         "document",
         "human"
       ],
-      "contentHash": "2af11930ab578e8fc5d3b7bd6fc0c9d7582a6566b55fc2a87162ba8de1608205"
+      "contentHash": "48aafacff5e33a67c3398a115919a15218e261b29bc36dd52e05e754bbe848a9"
     },
     {
       "id": "document:docs/PRIVATE-CONSUMER-POLICY.md",
@@ -6869,18 +6833,6 @@
       "contentHash": "543d1d45237233e0b03e4658dea39afe53a8ccbba4944b95099b773803953269"
     },
     {
-      "id": "document:docs/studies/v1-readiness-audit.md",
-      "type": "document",
-      "title": "v1.0 Readiness Audit — AgentsKit ecosystem",
-      "path": "docs/studies/v1-readiness-audit.md",
-      "description": "Audit date: 2026-06-15. Method: per-package audit of all 24 packages + cross-cutting guardrail/docs audit, measured against the project's own bar in docs/STABILITY.md.",
-      "tags": [
-        "document",
-        "human"
-      ],
-      "contentHash": "b2d1b0dcd5f67e1986a7a548345a1741d824a0f50a000c68dcb1ee85eb1c4162"
-    },
-    {
       "id": "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
       "type": "document",
       "title": "Adapter Embedders Implementation Plan",
@@ -6897,12 +6849,12 @@
       "type": "document",
       "title": "v1.0.0 ecosystem readiness tracker",
       "path": "docs/V1-READINESS-TRACKER.md",
-      "description": "Living doc. Tracks the criteria in STABILITY.md → \"Until v1.0.0\" plus cross-framework parity. Update the status columns as work lands; the audit",
+      "description": "Living doc. Tracks the criteria in STABILITY.md → \"Until v1.0.0\" plus cross-framework parity. Update the status columns as work lands; the audit was seeded by the v1 readiness audit (since removed; see git history). Last updated: 2026-07-17.",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "34ff838759d2f900689198ed593854e6061bfbf0d06da1dd6cbfcdbe5a647237"
+      "contentHash": "3f7a7ed05e07be41c4ee61cbaa51a0ce4f0b7e6d953bd058d5f34c39b8163426"
     },
     {
       "id": "document:GOVERNANCE.md",
@@ -38697,8 +38649,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "fa4605bea9f4a23139d346b229cbabf4cc9ab54384c273727d1cd4457486bb72",
-    "fileCount": 2656,
+    "hash": "5026866495cc4509b014ac2df8326f510dc68540beae4403079ba21633d7fceb",
+    "fileCount": 2652,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38720,9 +38672,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "9536373ff31af839d7fccf0726dfeb4637536faeaddca84f4121301096dc2026",
+    "contentHash": "f116175c8f2cb944a2e28746fdb37cc5b1f3d3e36371f856e985dd2022780aca",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "28866690406a74f4fb58bad1cbf5416231e0d9f4ab85dfa83d6d9cf80cad0e1a",
+    "snapshotHash": "ca928ecefcec23beb69b45cd81f928cd521b94aa7c0850c4ec4bb16350fc9f4d",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38742,7 +38694,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2525,
+      "documentCount": 2521,
       "fieldNames": [
         "aliases",
         "body",
@@ -38753,13 +38705,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0154455445544555,
-        "body": 61.715643564356434,
-        "headings": 4.009108910891089,
-        "path": 7.614257425742574,
-        "summary": 4.541782178217821,
-        "symbols": 7.50059405940594,
-        "title": 3.3786138613861385
+        "aliases": 3.017056723522412,
+        "body": 60.95715985719952,
+        "headings": 3.8936929789765964,
+        "path": 7.616422054740182,
+        "summary": 4.5101150337167795,
+        "symbols": 7.512495041650139,
+        "title": 3.3740579135263786
       }
     },
     "entries": [
@@ -38783,25 +38735,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 0,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:docs/MASTER-EXECUTION-PLAN.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
-          ],
+          "mentionedBy": [],
           "packageId": "package:agentskit",
-          "inbound": [
-            {
-              "kind": "mentions",
-              "id": "document:docs/MASTER-EXECUTION-PLAN.md",
-              "confidence": "fuzzy"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-              "confidence": "fuzzy"
-            }
-          ],
+          "inbound": [],
           "outbound": []
         },
         "contentHash": "c7a4f26e5fec76986a3433537a5eb0558ad48a76383d92ae5197c7e38ea90120",
@@ -38828,7 +38766,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 30,
+          "inboundLinks": 29,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
@@ -38837,7 +38775,6 @@
             "document:apps/registry/content/docs/index.mdx",
             "document:apps/registry/content/docs/quick-start.mdx",
             "document:apps/registry/content/docs/using.mdx",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/studies/ecosystem-documentation-quality-rollout.md",
             "document:docs/studies/grok-round2-editorial-review.md",
             "document:packages/adapters/README.md",
@@ -38892,11 +38829,6 @@
             {
               "kind": "mentions",
               "id": "document:apps/registry/content/docs/using.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
               "confidence": "observed"
             },
             {
@@ -39086,7 +39018,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 10,
+          "inboundLinks": 9,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/README.md",
@@ -39094,7 +39026,6 @@
             "document:CONTRIBUTING.md",
             "document:docs/architecture/adrs/0007-docs-platform-fumadocs.md",
             "document:docs/architecture/adrs/0034-ecosystem-shell-v1.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md",
             "document:docs/product/surfaces.md",
             "document:docs/studies/ecosystem-cohesion-plan.md",
             "document:rfcs/0001-i18n-strategy.md",
@@ -39126,11 +39057,6 @@
               "kind": "mentions",
               "id": "document:docs/architecture/adrs/0034-ecosystem-shell-v1.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-              "confidence": "fuzzy"
             },
             {
               "kind": "mentions",
@@ -39178,7 +39104,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/discord-bot.mdx"
@@ -39217,7 +39143,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/dspy.mdx"
@@ -39295,7 +39221,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/embedded.mdx"
@@ -39374,22 +39300,16 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
+            "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx"
           ],
           "packageId": "package:agentskit",
           "inbound": [
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
               "confidence": "observed"
             }
           ],
@@ -39419,22 +39339,16 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
+            "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx"
           ],
           "packageId": "package:agentskit",
           "inbound": [
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
               "confidence": "observed"
             }
           ],
@@ -39503,13 +39417,12 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 4,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx",
             "document:apps/docs-next/content/docs/get-started/migrating/from-vercel-ai-sdk.mdx",
-            "document:apps/example-webllm/README.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
+            "document:apps/example-webllm/README.md"
           ],
           "packageId": "package:agentskit",
           "inbound": [
@@ -39526,11 +39439,6 @@
             {
               "kind": "mentions",
               "id": "document:apps/example-webllm/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
               "confidence": "observed"
             }
           ],
@@ -39560,13 +39468,12 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 4,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx",
             "document:apps/example-embedded/README.md",
-            "document:apps/example-flow/README.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
+            "document:apps/example-flow/README.md"
           ],
           "packageId": "package:agentskit",
           "inbound": [
@@ -39583,11 +39490,6 @@
             {
               "kind": "mentions",
               "id": "document:apps/example-flow/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
               "confidence": "observed"
             }
           ],
@@ -39616,7 +39518,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/slack-bot.mdx"
@@ -39655,7 +39557,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/teams-bot.mdx"
@@ -39734,12 +39636,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 4,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/README.md",
             "document:apps/landing/README.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md",
             "document:docs/studies/ecosystem-cohesion-plan.md"
           ],
           "packageId": "package:agentskit",
@@ -39752,11 +39653,6 @@
             {
               "kind": "mentions",
               "id": "document:apps/landing/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
               "confidence": "observed"
             },
             {
@@ -40011,7 +39907,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx"
@@ -40126,7 +40022,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/cli/index.mdx"
@@ -40289,7 +40185,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/index.mdx"
@@ -40452,7 +40348,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002764,
+          "pagerank": 0.002757,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/eval-braintrust.mdx"
@@ -40536,7 +40432,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002764,
+          "pagerank": 0.002757,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -40575,7 +40471,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/replay.mdx"
@@ -40614,7 +40510,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002764,
+          "pagerank": 0.002757,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -40653,7 +40549,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002352,
+          "pagerank": 0.002346,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -40723,7 +40619,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002764,
+          "pagerank": 0.002757,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -40793,7 +40689,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/memory/index.mdx"
@@ -40832,7 +40728,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/loaders.mdx"
@@ -40871,7 +40767,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/rerank.mdx"
@@ -40910,7 +40806,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002352,
+          "pagerank": 0.002346,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -40949,7 +40845,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002764,
+          "pagerank": 0.002757,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/sandbox.mdx"
@@ -40988,7 +40884,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002352,
+          "pagerank": 0.002346,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -41027,7 +40923,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002352,
+          "pagerank": 0.002346,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -41097,7 +40993,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002764,
+          "pagerank": 0.002757,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -41187,7 +41083,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/observability/devtools.mdx"
@@ -41384,7 +41280,7 @@
           "path": ".agent-memory/MEMORY.md",
           "symbols": "",
           "summary": "In-repo institutional memory, versioned with the code. One line per memory; the body of each fact lives in its own file. Agents read this index first.",
-          "body": "Agent Memory Index In-repo institutional memory, versioned with the code. One line per memory; the body of each fact lives in its own file. Agents read this index first. - project playbook-alignment — repo is audited against playbook.agentskit.io; what conforms and what is intentionally adapted - feedback json-schema-canonical — JSON Schema is the single schema source of truth; never add Zod as a parallel canonical - feedback zero-dep-core — @agentskit/core takes zero runtime deps; heavy deps go in opt-in packages behind injection points - reference quality-gates — the structural gates, where they live, and how baselines work - project v1-readiness — 2026-06-15 24-pkg v1.0 audit; Phase 0 (honest tiers + stability gates) landed; plan in docs/studies/v1-readiness-audit.md - project file-size-baselines — oversized files pinned in check-file-size; shrink-only, never raise - reference security-surfaces — egress (safeFetch, ADR-0010) + inbound chat-trigger validation (ADR-0011); both opt-in, reuse ArgsValidator - reference models-catalog — models.dev-driven catalog ( 911): /catalog subpath isolation, no-runtime-fetch default, opt-in live pricing fallback, openaiCompatible signal caveat - project npm-publish-workspace-protocol — release publishes via npm OIDC which does not rewrite workspace: ; publish-with-npm.mjs resolves ranges + packs-and-checks; pnpm check:publish-manifests guards it - reference cli-adapter-protocol-boundary — exec-text vs exec-json output boundary in adapters/cli; Claude Code needs the system prompt via --append-system-prompt ( claudeCodeRequestArgs ), never raw JSON or [system] blocks on stdin; claude-code-json is the structured Claude Code path - reference langchain-bridge — AdapterFactory→BaseChatModel bridge is the @agentskit/adapters/langchain-bridge subpath (optional @langchain/core peer), never a new package; must return real AIMessage instances - project ignored-package-changesets-block-release — changesets naming only ignored packages (docs-next) are never consumed and must not count as pending; preflight + release.yml filter via listReleasableChangesets ; recover with recover unpublished dispatch",
+          "body": "Agent Memory Index In-repo institutional memory, versioned with the code. One line per memory; the body of each fact lives in its own file. Agents read this index first. - project playbook-alignment — repo is audited against playbook.agentskit.io; what conforms and what is intentionally adapted - feedback json-schema-canonical — JSON Schema is the single schema source of truth; never add Zod as a parallel canonical - feedback zero-dep-core — @agentskit/core takes zero runtime deps; heavy deps go in opt-in packages behind injection points - reference quality-gates — the structural gates, where they live, and how baselines work - project v1-readiness — 2026-06-15 24-pkg v1.0 audit; Phase 0 (honest tiers + stability gates) landed- project file-size-baselines — oversized files pinned in check-file-size; shrink-only, never raise - reference security-surfaces — egress (safeFetch, ADR-0010) + inbound chat-trigger validation (ADR-0011); both opt-in, reuse ArgsValidator - reference models-catalog — models.dev-driven catalog ( 911): /catalog subpath isolation, no-runtime-fetch default, opt-in live pricing fallback, openaiCompatible signal caveat - project npm-publish-workspace-protocol — release publishes via npm OIDC which does not rewrite workspace: ; publish-with-npm.mjs resolves ranges + packs-and-checks; pnpm check:publish-manifests guards it - reference cli-adapter-protocol-boundary — exec-text vs exec-json output boundary in adapters/cli; Claude Code needs the system prompt via --append-system-prompt ( claudeCodeRequestArgs ), never raw JSON or [system] blocks on stdin; claude-code-json is the structured Claude Code path - reference langchain-bridge — AdapterFactory→BaseChatModel bridge is the @agentskit/adapters/langchain-bridge subpath (optional @langchain/core peer), never a new package; must return real AIMessage instances - project ignored-package-changesets-block-release — changesets naming only ignored packages (docs-next) are never consumed and must not count as pending; preflight + release.yml filter via listReleasableChangesets ; recover with recover unpublished dispatch",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -41420,7 +41316,7 @@
             }
           ]
         },
-        "contentHash": "4f40ddbaac82e38a451b0758f0eef3b7f3ad6532a4351b924e1659af3f650213",
+        "contentHash": "4d735017f417732a18dac3b82dbef99a078ce1ef5eac141e01ff049936d85422",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -41634,7 +41530,7 @@
         "kind": "document",
         "path": ".agent-memory/project_v1-readiness.md",
         "title": "project_v1-readiness.md",
-        "summary": "Fact: A full 24-package v1.0-readiness audit ran 2026-06-15 (findings + phased plan in docs/studies/v1-readiness-audit.md). Verdict: code quality is high; the blocker to a coherent v1.0 was governance drift, not code.",
+        "summary": "Fact: A full 24-package v1.0-readiness audit ran 2026-06-15 (findings + phased plan, since removed; see git history). Verdict: code quality is high; the blocker to a coherent v1.0 was governance drift, not code.",
         "aliases": [],
         "tags": [
           "document",
@@ -41645,8 +41541,8 @@
           "headings": "",
           "path": ".agent-memory/project_v1-readiness.md",
           "symbols": "",
-          "summary": "Fact: A full 24-package v1.0-readiness audit ran 2026-06-15 (findings + phased plan in docs/studies/v1-readiness-audit.md). Verdict: code quality is high; the blocker to a coherent v1.0 was governance drift, not code.",
-          "body": "Fact: A full 24-package v1.0-readiness audit ran 2026-06-15 (findings + phased plan in docs/studies/v1-readiness-audit.md ). Verdict: code quality is high; the blocker to a coherent v1.0 was governance drift , not code. Phase 0 landed (truth + guardrails): - The 10 packages that claimed stable at 0.x with no promotion RFC were demoted to beta (honest path — semver 0.x ≠ stable). core stays the only stable /v1 package. Promote others later, deliberately, via an API-freeze RFC + 1.0.0 bump. - Reconciled package.json tier ↔ docs/STABILITY.md map ↔ README badges for all 24 packages. integrations experimental → alpha ; mcp got a tier; 4 missing README badges + the integrations README created. - Added gates [[reference quality-gates]]: check-stability-tier , check-readme-badge . Added the 5 missing packages to .size-limit.json . Phase 1 landed (correctness): orphaned exports re-exported from root (react TopologyGraphView ; ink TopologyGraphView + theme system) + for-agents docs; all 5 framework READMEs rewritten to real exports (no phantom components; angular init() ; vue reactive without .value ); for-agents/memory.mdx import fixed; rag bare throws → typed RagError ( AK RAG ), templates → core ConfigError , both removed from check-no-bare-throw allowlist; changeset added. 15/15 gates + react/ink/rag/templates tests green. Phase 2 landed (promotion discipline): check-coverage-floor gate (stable≥90, beta≥70, alpha≥50); raised core 80→90, observability 60→85, obs-langfuse 60→90, sandbox 60→85 (all backed by measured actual coverage). check-promotion-rfc gate — stable needs a promotion RFC (core exempt, ADR-backed); tripwire for future promotions. Now 17 quality gates . pre-push test/size wiring left CI-only (DX). Phase 3 started (parity + v1 tracking): vue promoted alpha→ beta as the reference binding — 7 headless primitives in vue/src/components.ts mirroring react's data-ak- contract, 100% component coverage. v1.0.0 criteria now tracked in docs/V1-READINESS-TRACKER.md (linked from STABILITY.md). Pattern to replicate: svelte → solid → react-native → angular, then promote each. Stale planning docs (ROADMAP-PRD, MASTER-EXECUTION-PLAN, PHASE-0- ) marked \"historical\" with banners → living sources STABILITY.md + V1-READINESS-TRACKER. svelte promoted to beta (2026-06-15): full headless component parity — 8 Svelte 5 .svelte components + sibling .svelte.d.ts . Build: added esbuild-svelte to tsup (dual ESM/CJS preserved); tests: @sveltejs/vite-plugin-svelte + @testing-library/svelte svelteTesting() in vitest (browser conditions). Two gates fixed generally to ignore .d.ts (check-named-exports — .svelte.d.ts need export default ; check-src-test-parity — declarations need no test). svelte threshold 60→70 (beta floor; .ts coverage 100%). Now bindings at beta: vue + svelte. solid + react-native promoted to beta (parallel, 2026-06-15): built concurrently in isolated git worktrees (opus agents), integrated by file-copy + one pnpm install . solid: Solid JSX + vite-plugin-solid / esbuild-plugin-solid + jsxImportSource . RN: RN primitives, testID -keyed headless (no DOM), vitest react-native mock alias, no new runtime deps. Both 8 components, 100% lines. 4/5 bindings at beta (vue, svelte, solid, react-native). Worktree gotcha: agents branch from committed HEAD, not the dirty working tree — integrate by copying package files + re-verifying with live gates, NOT git-merge. angular promoted to beta (2026-06-15): 8 standalone components, inline templates (JIT), TestBed tests, @angular/ devDeps pinned to core's exact 21.2.17 (peer-strict). Hardened ChatContainer MutationObserver for partial envs (happy-dom). AOT/ ng-packagr build is a tracked follow-up (components are JIT-only today). All 6 bindings now at beta parity (react, ink, vue, svelte, solid, react-native, angular). Landed 2026-06-15: RFC 0004 (Proposed) freezes the framework-binding stable surface (ChatReturn + 8 data-ak- components) — does NOT promote (beta soak not met; bindings became beta today).",
+          "summary": "Fact: A full 24-package v1.0-readiness audit ran 2026-06-15 (findings + phased plan, since removed; see git history). Verdict: code quality is high; the blocker to a coherent v1.0 was governance drift, not code.",
+          "body": "Fact: A full 24-package v1.0-readiness audit ran 2026-06-15 (findings + phased plan, since removed; see git history). Verdict: code quality is high; the blocker to a coherent v1.0 was governance drift , not code. Phase 0 landed (truth + guardrails): - The 10 packages that claimed stable at 0.x with no promotion RFC were demoted to beta (honest path — semver 0.x ≠ stable). core stays the only stable /v1 package. Promote others later, deliberately, via an API-freeze RFC + 1.0.0 bump. - Reconciled package.json tier ↔ docs/STABILITY.md map ↔ README badges for all 24 packages. integrations experimental → alpha ; mcp got a tier; 4 missing README badges + the integrations README created. - Added gates [[reference quality-gates]]: check-stability-tier , check-readme-badge . Added the 5 missing packages to .size-limit.json . Phase 1 landed (correctness): orphaned exports re-exported from root (react TopologyGraphView ; ink TopologyGraphView + theme system) + for-agents docs; all 5 framework READMEs rewritten to real exports (no phantom components; angular init() ; vue reactive without .value ); for-agents/memory.mdx import fixed; rag bare throws → typed RagError ( AK RAG ), templates → core ConfigError , both removed from check-no-bare-throw allowlist; changeset added. 15/15 gates + react/ink/rag/templates tests green. Phase 2 landed (promotion discipline): check-coverage-floor gate (stable≥90, beta≥70, alpha≥50); raised core 80→90, observability 60→85, obs-langfuse 60→90, sandbox 60→85 (all backed by measured actual coverage). check-promotion-rfc gate — stable needs a promotion RFC (core exempt, ADR-backed); tripwire for future promotions. Now 17 quality gates . pre-push test/size wiring left CI-only (DX). Phase 3 started (parity + v1 tracking): vue promoted alpha→ beta as the reference binding — 7 headless primitives in vue/src/components.ts mirroring react's data-ak- contract, 100% component coverage. v1.0.0 criteria now tracked in docs/V1-READINESS-TRACKER.md (linked from STABILITY.md). Pattern to replicate: svelte → solid → react-native → angular, then promote each. Stale planning docs (ROADMAP-PRD kept; the Phase 0 plans were deleted) marked \"historical\" with banners → living sources STABILITY.md + V1-READINESS-TRACKER. svelte promoted to beta (2026-06-15): full headless component parity — 8 Svelte 5 .svelte components + sibling .svelte.d.ts . Build: added esbuild-svelte to tsup (dual ESM/CJS preserved); tests: @sveltejs/vite-plugin-svelte + @testing-library/svelte svelteTesting() in vitest (browser conditions). Two gates fixed generally to ignore .d.ts (check-named-exports — .svelte.d.ts need export default ; check-src-test-parity — declarations need no test). svelte threshold 60→70 (beta floor; .ts coverage 100%). Now bindings at beta: vue + svelte. solid + react-native promoted to beta (parallel, 2026-06-15): built concurrently in isolated git worktrees (opus agents), integrated by file-copy + one pnpm install . solid: Solid JSX + vite-plugin-solid / esbuild-plugin-solid + jsxImportSource . RN: RN primitives, testID -keyed headless (no DOM), vitest react-native mock alias, no new runtime deps. Both 8 components, 100% lines. 4/5 bindings at beta (vue, svelte, solid, react-native). Worktree gotcha: agents branch from committed HEAD, not the dirty working tree — integrate by copying package files + re-verifying with live gates, NOT git-merge. angular promoted to beta (2026-06-15): 8 standalone components, inline templates (JIT), TestBed tests, @angular/ devDeps pinned to core's exact 21.2.17 (peer-strict). Hardened ChatContainer MutationObserver for partial envs (happy-dom). AOT/ ng-packagr build is a tracked follow-up (components are JIT-only today). All 6 bindings now at beta parity (react, ink, vue, svelte, solid, react-native, angular). Landed 2026-06-15: RFC 0004 (Proposed) freezes the framework-binding stable surface (ChatReturn + 8 data-ak- components) — does NOT promote (beta soak not met; bindings became beta today). doc",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -41664,11 +41560,6 @@
             {
               "kind": "mentions",
               "id": "document:docs/STABILITY.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -41708,7 +41599,7 @@
             }
           ]
         },
-        "contentHash": "bc17d98942323cf12a860d8d76c574e2c950388cb8d0b5be1550e13ebe64fcb3",
+        "contentHash": "040d72f09ebdbf406b86f96ef591294cc136f4b531b952f795bab24a2af2b245",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42013,7 +41904,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -42099,7 +41990,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -42152,14 +42043,13 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005786,
-          "inboundLinks": 7,
+          "pagerank": 0.005773,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:.github/copilot-instructions.md",
             "document:.kiro/steering/agentskit.md",
             "document:apps/docs-next/content/docs/for-agents/doc-bridge.mdx",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/studies/ecosystem-cohesion-plan.md",
             "document:docs/studies/grok-round2-editorial-review.md",
             "document:SUPPORT.md"
@@ -42194,11 +42084,6 @@
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/for-agents/doc-bridge.mdx",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "fuzzy"
             },
             {
               "kind": "mentions",
@@ -42348,7 +42233,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -44709,7 +44594,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -46753,7 +46638,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -46895,7 +46780,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -47574,7 +47459,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -48966,7 +48851,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50187,7 +50072,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002352,
+          "pagerank": 0.002346,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50805,7 +50690,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50859,7 +50744,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50905,7 +50790,7 @@
           "aliases": "adapters document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51161,7 +51046,7 @@
           "aliases": "angular document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51267,7 +51152,7 @@
           "aliases": "cli document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51413,7 +51298,7 @@
           "aliases": "core document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51584,7 +51469,7 @@
           "aliases": "cross-platform document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51700,7 +51585,7 @@
           "aliases": "doc-bridge document agent"
         },
         "graph": {
-          "pagerank": 0.002036,
+          "pagerank": 0.002032,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51747,7 +51632,7 @@
           "aliases": "eval-braintrust document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51808,7 +51693,7 @@
           "aliases": "eval document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52040,7 +51925,7 @@
           "aliases": "ink document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52151,7 +52036,7 @@
           "aliases": "integrations document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52292,7 +52177,7 @@
           "aliases": "mcp document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52378,7 +52263,7 @@
           "aliases": "memory document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52549,7 +52434,7 @@
           "aliases": "net document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52610,7 +52495,7 @@
           "aliases": "observability-langfuse document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52676,7 +52561,7 @@
           "aliases": "observability document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52817,7 +52702,7 @@
           "aliases": "rag document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52898,7 +52783,7 @@
           "aliases": "react-native document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52994,7 +52879,7 @@
           "aliases": "react document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53080,7 +52965,7 @@
           "aliases": "runtime document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53221,7 +53106,7 @@
           "aliases": "sandbox document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53302,7 +53187,7 @@
           "aliases": "skills document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53473,7 +53358,7 @@
           "aliases": "solid document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53549,7 +53434,7 @@
           "aliases": "statechart document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53625,7 +53510,7 @@
           "aliases": "svelte document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53711,7 +53596,7 @@
           "aliases": "templates document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53807,7 +53692,7 @@
           "aliases": "tools document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54113,7 +53998,7 @@
           "aliases": "validation document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54179,7 +54064,7 @@
           "aliases": "vue document agent"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54337,7 +54222,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55296,7 +55181,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55834,7 +55719,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56653,7 +56538,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57224,7 +57109,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57273,7 +57158,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57483,7 +57368,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57788,7 +57673,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58037,7 +57922,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58909,7 +58794,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58953,7 +58838,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59036,7 +58921,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59611,7 +59496,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59688,7 +59573,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59953,7 +59838,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60192,7 +60077,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60251,7 +60136,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60320,7 +60205,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60484,7 +60369,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60543,7 +60428,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60627,7 +60512,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60736,7 +60621,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60780,7 +60665,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60914,7 +60799,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60968,7 +60853,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61052,7 +60937,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61171,7 +61056,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61350,7 +61235,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61434,7 +61319,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61478,7 +61363,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61701,7 +61586,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61790,7 +61675,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61849,7 +61734,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61918,7 +61803,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61962,7 +61847,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62046,7 +61931,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62090,7 +61975,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62194,7 +62079,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62413,7 +62298,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -63198,7 +63083,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66173,7 +66058,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67049,7 +66934,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67211,7 +67096,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67256,7 +67141,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67914,7 +67799,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68519,7 +68404,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68631,20 +68516,14 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
-          "inboundLinks": 3,
+          "pagerank": 0.001935,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
-            "document:docs/PHASE-0-FOUNDATION-PRD.md",
             "document:packages/cli/ARCHITECTURE.md",
             "document:packages/cli/README.md"
           ],
           "inbound": [
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-              "confidence": "observed"
-            },
             {
               "kind": "mentions",
               "id": "document:packages/cli/ARCHITECTURE.md",
@@ -68915,7 +68794,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007647,
+          "pagerank": 0.00763,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -69016,7 +68895,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007493,
+          "pagerank": 0.007477,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -69067,7 +68946,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.029434,
+          "pagerank": 0.029368,
           "inboundLinks": 36,
           "coveredBy": [],
           "mentionedBy": [
@@ -69517,7 +69396,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003176,
+          "pagerank": 0.003169,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69561,7 +69440,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.02264,
+          "pagerank": 0.02259,
           "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69671,7 +69550,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.012746,
+          "pagerank": 0.012717,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69786,7 +69665,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.008712,
+          "pagerank": 0.008693,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69896,7 +69775,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005843,
+          "pagerank": 0.00583,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70021,7 +69900,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006111,
+          "pagerank": 0.006097,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70136,7 +70015,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005985,
+          "pagerank": 0.005972,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70276,7 +70155,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00217,
+          "pagerank": 0.002165,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70331,7 +70210,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002586,
+          "pagerank": 0.00258,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -70444,7 +70323,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013116,
+          "pagerank": 0.013423,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70529,7 +70408,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70609,7 +70488,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70679,7 +70558,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003019,
+          "pagerank": 0.003012,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70774,7 +70653,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70844,7 +70723,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70899,7 +70778,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70944,7 +70823,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70989,7 +70868,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004869,
+          "pagerank": 0.004858,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71069,7 +70948,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003928,
+          "pagerank": 0.00392,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71144,7 +71023,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71183,7 +71062,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71228,7 +71107,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.037121,
+          "pagerank": 0.038625,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71373,7 +71252,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.018806,
+          "pagerank": 0.019623,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71473,7 +71352,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004118,
+          "pagerank": 0.004108,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71588,7 +71467,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003417,
+          "pagerank": 0.003409,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71658,7 +71537,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003104,
+          "pagerank": 0.003097,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71733,7 +71612,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71778,7 +71657,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002829,
+          "pagerank": 0.002823,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71858,7 +71737,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71897,7 +71776,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71947,7 +71826,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72007,7 +71886,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002555,
+          "pagerank": 0.002549,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -72104,7 +71983,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002555,
+          "pagerank": 0.002549,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -72226,7 +72105,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72271,7 +72150,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72321,7 +72200,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72376,7 +72255,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002829,
+          "pagerank": 0.002823,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72426,7 +72305,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00271,
+          "pagerank": 0.002704,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72481,7 +72360,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002829,
+          "pagerank": 0.002823,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72525,7 +72404,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002005,
+          "pagerank": 0.002001,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72595,8 +72474,8 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003014,
-          "inboundLinks": 11,
+          "pagerank": 0.003007,
+          "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
             "document:.github/copilot-instructions.md",
@@ -72605,7 +72484,6 @@
             "document:apps/docs-next/content/docs/reference/stability.mdx",
             "document:ARCHITECTURE.md",
             "document:CONTRIBUTING.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:GOVERNANCE.md",
             "document:scripts/README.md"
           ],
@@ -72658,11 +72536,6 @@
             {
               "kind": "mentions",
               "id": "document:CONTRIBUTING.md",
-              "confidence": "fuzzy"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
               "confidence": "fuzzy"
             },
             {
@@ -72900,7 +72773,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74229,7 +74102,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74313,68 +74186,6 @@
         "confidence": "observed"
       },
       {
-        "id": "document:docs/MASTER-EXECUTION-PLAN.md",
-        "kind": "document",
-        "path": "docs/MASTER-EXECUTION-PLAN.md",
-        "title": "AgentsKit — Master Execution Plan",
-        "summary": "Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: STABILITY.md (tier map) + V1-READINESS-TRACKER.md.",
-        "audience": "human",
-        "aliases": [],
-        "tags": [
-          "document",
-          "human"
-        ],
-        "fields": {
-          "title": "AgentsKit — Master Execution Plan",
-          "headings": "AgentsKit — Master Execution Plan Overview Sprint structure Phase → Sprint → Issue mapping Critical dependencies Before anything in Phase 1 Feature-to-feature dependencies Capacity warnings Gates per phase (do not skip) Gate Phase 0 → Phase 1 Gate Phase 1 → Phase 2 Gate Phase 2 → Phase 3 Gate Phase 3 → Phase 4 Cadence & ceremonies Daily Weekly — every Friday at 5pm Bi-weekly — end of each sprint Monthly Quarterly Success metrics Phase 0 (3 months) Phase 1 (end of month 4) Phase 2 (end of month 7) Phase 3 (end of month 10) Phase 4 (end of year 1) Project Board — recommended configuration Concrete next actions (start today) This week (Sprint 1 start) Next week Week 3 Execution principles",
-          "path": "docs/MASTER-EXECUTION-PLAN.md",
-          "symbols": "",
-          "summary": "Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: STABILITY.md (tier map) + V1-READINESS-TRACKER.md.",
-          "body": "AgentsKit — Master Execution Plan Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: (tier map) + . Master execution plan for the 149 issues (Phase 0 + Phases 1–4). Sequence, dependencies, sprints, gates, and suggested order. Related documents: - — 97 product roadmap issues - — 52 foundation-hardening issues - — detailed P0→P2 plan - --- Overview Period Phase Issues Goal --- --- --- --- Weeks 1–6 Phase 0 (Foundation) 52 ( 212– 263) Solid base: contracts, narrative, Fumadocs, agentskit.io, quality Months 2–4 Phase 1 (Foundation UX) 20 ( 114– 133) DX that goes viral — init, doctor, dev, devtools, recipes Months 4–7 Phase 2 (Evolution) 31 ( 134– 164) Real technical differentiation — replay, router, memory, security Months 7–10 Phase 3 (Expansion) 34 ( 165– 198) Adapters, tools, MCP bridge, multi-framework, verticals Months 10–12 Phase 4 (Business) 12 ( 199– 210) Cloud, marketplace, enterprise, partnerships Total : ~12 months of a clear roadmap. Mandatory quarterly review to recalibrate. --- Sprint structure Sprints of 2 weeks . Over 12 months, ~26 sprints. Phase → Sprint → Issue mapping Sprint Weeks Phase Focus Target issues --- --- --- --- --- S1 1–2 Phase 0 Narrative + CI gates P0: 225, 226, 235, 217, 218, 224 S2 3–4 Phase 0 Contracts + Fumadocs start P0/P1: 214, 225→ 238 (Fumadocs spike) S3 5–6 Phase 0 Full Fumadocs + Concepts + package READMEs P1/P2: 238, 239, 228, READMEs S4 7–8 Phase 0 wrap Migration guides + E2E + Discord + LICENSE 241, 242, 243, 255, 261 S5 9–10 🚀 Launch + start of Phase 1 Coordinated announcement + init/doctor 263 (launch) + 114 115 116 S6 11–12 Phase 1 Dev server + tunnel + streaming 117 118 121 S7 13–14 Phase 1 useChat + cost guard + hot-swap 119 120 121 122 123 S8 15–16 Phase 1 Docs chat + decision tree + migration guides 124 125 126 127 128 S9 17–18 Phase 1 wrap Didactic errors + types + public roadmap 129 130 131 132 133 S10 19–20 Phase 2 Deterministic replay + snapshot + diff 134 135 136 S11 21–22 Phase 2 Time travel + token budget + speculative 137 138 139 S12 23–24 Phase 2 Progressive streaming + context + multi-modal 140 141 142 S13 25–26 Phase 2 Schema-first + agentskit ai + router adapter 143 144 145 S14 27–28 Phase 2 Ensemble + fallback + devtools 146 147 148 S15 29–30 Phase 2 Trace viewer + evals CI + A/B 149 150 151 S16 31–32 Phase 2 Hierarchical memory + summarization + RAG reranking 152 153 154 155 S17 33–34 Phase 2 wrap Durable + multi-agent + HITL + background 156 157 158 159 S18 35–36 Phase 2 security PII + prompt injection + audit + rate-limit + sandbox 160 161 162 163 164 S19 37–38 Phase 3 Major adapters (10+ providers) 165 166 S20 39–40 Phase 3 MCP bridge + tool composer 167 168 S21 41–42 Phase 3 Dev ecosystem tools (GitHub, Linear, Slack) 169 170 171 S22 43–44 Phase 3 Scraping/image/voice/maps tools 172 173 174 175 S23 45–46 Phase 3 Browser agent + self-debug + memory adapters 176 177 178 S24 47–48 Phase 3 Memory graph + encryption + skills 179 180 181 182 183 S25 49–50 Phase 3 Multi-framework UI (Vue/Svelte/Solid) + RN 184 185 186 S26 51–52 Phase 3 wrap Edge + Browser-only + verticals + A2A 187 188 189 190 191 192 193 194 195 196 197 198 S27+ 53+ Phase 4 Cloud, marketplace, enterprise 199– 210 Note: assumed capacity = 1–2 devs . With more people, compress sprints. --- Critical dependencies Before anything in Phase 1 - ✅ Contract ADRs ( 214) completed - ✅ Bundle/coverage gates ( 217 218) active - ✅ agentskit.io live ( 235) - ✅ Fumadocs migrated ( 238) - ✅ README + Manifesto + Origin ( 224 225 226) published - ✅ E2E Playwright on the examples ( 251) Feature-to-feature dependencies Capacity warnings - S16–S18 (memory + security + durability) are heavy — consider 3 sprints instead of 2 - S19 major adapters requires API keys for 10+ providers — line up budget/credentials first - S20 MCP bridge is architecturally heavy — allocate a senior dev --- Gates per phase (do not sk",
-          "aliases": "document human"
-        },
-        "graph": {
-          "pagerank": 0.001939,
-          "inboundLinks": 1,
-          "coveredBy": [],
-          "mentionedBy": [
-            "document:docs/PHASE-1-REVIEW.md"
-          ],
-          "inbound": [
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-1-REVIEW.md",
-              "confidence": "observed"
-            }
-          ],
-          "outbound": [
-            {
-              "kind": "links-to",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/STABILITY.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/V1-READINESS-TRACKER.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:.github",
-              "confidence": "fuzzy"
-            }
-          ]
-        },
-        "contentHash": "275290371076d15e21d24346859d5b3390722228cea5fae9086a3ddc6c24a865",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
         "id": "document:docs/memory-postgres-validation.md",
         "kind": "document",
         "path": "docs/memory-postgres-validation.md",
@@ -74396,7 +74207,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74465,7 +74276,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74479,280 +74290,6 @@
           "outbound": []
         },
         "contentHash": "adbc4680481abff16b9d503be9912059b7b133fadb53d6886adea35e1381dfcc",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-        "kind": "document",
-        "path": "docs/PHASE-0-EXECUTION-PLAN.md",
-        "title": "Phase 0 — Execution Plan (P0 → P2)",
-        "summary": "Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: STABILITY.md (tier map) + V1-READINESS-TRACKER.md.",
-        "audience": "human",
-        "aliases": [],
-        "tags": [
-          "document",
-          "human"
-        ],
-        "fields": {
-          "title": "Phase 0 — Execution Plan (P0 → P2)",
-          "headings": "Phase 0 — Execution Plan (P0 → P2) Sprint Overview Sprint 1 — P0 (Week 1) Day 1 — Base narrative (low effort, high visibility) Day 2 — Domain live Days 3–4 — Root README rewrite Day 5 — CI gates (unlocks future quality) Sprint 2 — P1 (Weeks 2–3) Formalized contracts — 6 ADRs Fumadocs migration Concepts Section Sprint 3 — P2 (Weeks 3–4) READMEs for the 14 packages Vercel AI SDK migration guide Playwright E2E Tracking Definition of Done per task Weekly checkpoint Known risks After Phase 0",
-          "path": "docs/PHASE-0-EXECUTION-PLAN.md",
-          "symbols": "",
-          "summary": "Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: STABILITY.md (tier map) + V1-READINESS-TRACKER.md.",
-          "body": "Phase 0 — Execution Plan (P0 → P2) Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: (tier map) + . Tactical plan for the 12 top-priority Phase 0 tasks. Covers 3–4 weeks. Linked to the . --- Sprint Overview Sprint Duration Goal Deliverables --- --- --- --- Sprint 1 (P0) 5 business days Narrative + infra foundation README, Manifesto, Origin, DNS, bundle/coverage gates, first ADRs Sprint 2 (P1) 5–7 business days Formalized contracts + docs migration 6 complete ADRs, Fumadocs migrated, Concepts section Sprint 3 (P2) 5–7 business days External polish + quality Rewritten READMEs for the 14 packages, Vercel AI migration guide, Playwright E2E Gate to start Phase 1 : all P0+P1 done + ≥80% of P2. --- Sprint 1 — P0 (Week 1) Day 1 — Base narrative (low effort, high visibility) Morning — 14 MANIFESTO.md (2–3h) - Create MANIFESTO.md at the root - 5–7 non-negotiable principles, 1 paragraph each: 1. Core < 10KB gzip, zero deps (eternal stability) 2. Plug-and-play: every package works on its own 3. Radical interop: arbitrary combination = zero friction 4. Zero lock-in: leaving is npm uninstall 5. Agent-first (not chat-first) 6. Strict TypeScript, no any 7. Docs are product, not an afterthought - Link at the top of the README Afternoon — 15 ORIGIN.md (2–3h) - Create ORIGIN.md at the root - 500–800 words, personal tone - Suggested structure: - \"On [date], I tried to build [X]. I found that…\" - Concrete pain (not abstract): \"LangChain was 200MB, Vercel AI SDK had no runtime, MCP had no UI\" - Decision: \"I created AgentsKit because…\" - Vision: \"My bet is JavaScript will be the language of agents because…\" Day 2 — Domain live 24 Configure agentskit.io (4–6h) - Add CNAME in the repo pointing at the domain - DNS: - agentskit.io → Vercel/Cloudflare Pages (future landing) OR temporary GitHub Pages - docs.agentskit.io → reserved for Fumadocs (Sprint 2) - Automatic SSL via Cloudflare - Redirect emersonbraun.github.io/agentskit/ → agentskit.io/ (preserve SEO) - Update the README with the new domain - Verify OG meta tags (title, description, image) pointing at the correct domain Days 3–4 — Root README rewrite 13 Rewritten root README (2 days) - New structure (inspired by Next.js, Vercel AI SDK, Bun): - Validate by reading it aloud — it must hit under 90 seconds of reading Day 5 — CI gates (unlocks future quality) Morning — 6 Bundle-size budget (3–4h) - Install size-limit + the gzip plugin - Create .size-limit.json at the root with one entry per package: - Workflow .github/workflows/size.yml running on every PR - Block merge on overrun Afternoon — 7 Coverage gate (2–3h) - Configure vitest --coverage with a per-package threshold - Minimums: core 85%, adapters 70%, others 60% - Publish a badge + report via Codecov or CodeClimate (free for OSS) - The workflow fails if the threshold isn't met --- Sprint 2 — P1 (Weeks 2–3) Formalized contracts — 6 ADRs 3 Core contract ADRs (5–7 days, 1 ADR/day) Create folder docs/architecture/adrs/ . Standard ADR template: Suggested order (most stable to most volatile): - 0001-adapter-contract.md — Adapter , streaming, tool calling - 0002-tool-contract.md — Tool schema, execute, validation - 0003-memory-contract.md — Memory , read/write, serialization - 0004-retriever-contract.md — Retriever , query, scoring - 0005-skill-contract.md — Skill manifest, prompt, examples - 0006-runtime-contract.md — Runtime , loop, lifecycle hooks Each ADR ships as a separate PR → forces discussion. Fumadocs migration 25 Docusaurus → Fumadocs migration (5–7 days) Plan: 1. Day 1 : Technical spike — Fumadocs scaffolding in branch docs-fumadocs , port the index 2. Days 2–3 : Migrate content from the 12 existing sections ( adapters , agents , chat-uis , components , data-layer , examples , getting-started , hooks , infrastructure , packages , theming , contributing ) 3. Day 4 : Decide the i18n strategy (Crowdin? freeze? LLM?) — short RFC 4",
-          "aliases": "document human"
-        },
-        "graph": {
-          "pagerank": 0.002489,
-          "inboundLinks": 1,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [
-            {
-              "kind": "links-to",
-              "id": "document:docs/MASTER-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            }
-          ],
-          "outbound": [
-            {
-              "kind": "links-to",
-              "id": "document:docs/STABILITY.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/V1-READINESS-TRACKER.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:agents",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:AGENTS.md",
-              "confidence": "fuzzy"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/architecture/adrs/README.md",
-              "confidence": "fuzzy"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:MANIFESTO.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:ORIGIN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/adapters",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/cli",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/core",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/eval",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/ink",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/memory",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/observability",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/rag",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/react",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/runtime",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/sandbox",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/skills",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/templates",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/tools",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:apps/docs-next/lib/stack-state.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/core/src/types/retrieval.ts",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "8ca50f6f72a5a5e68102562bc9b562dddd06a4cd959ec75de68082d177cde484",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-        "kind": "document",
-        "path": "docs/PHASE-0-FOUNDATION-PRD.md",
-        "title": "AgentsKit — Phase 0: Foundation Hardening PRD",
-        "summary": "Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: STABILITY.md (tier map) + V1-READINESS-TRACKER.md.",
-        "audience": "human",
-        "aliases": [],
-        "tags": [
-          "document",
-          "human"
-        ],
-        "fields": {
-          "title": "AgentsKit — Phase 0: Foundation Hardening PRD",
-          "headings": "AgentsKit — Phase 0: Foundation Hardening PRD Problem Statement Solution User Stories Track 1 — Contracts & Technical Governance Track 2 — Narrative & Identity Track 3 — Deep Documentation (Fumadocs migration) Track 4 — Quality & Community Implementation Decisions Closed decisions Modules to create/modify Deep modules — candidates for isolated tests Contracts / APIs Suggested prioritization (within 4–6 weeks) Breaking changes Testing Decisions What makes a good test here Modules with tests Prior art Out of Scope Further Notes How this PRD becomes issues Gates for Phase 1 to start Non-negotiable bets of the phase Principles (already in CLAUDE.md, reinforced)",
-          "path": "docs/PHASE-0-FOUNDATION-PRD.md",
-          "symbols": "",
-          "summary": "Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: STABILITY.md (tier map) + V1-READINESS-TRACKER.md.",
-          "body": "AgentsKit — Phase 0: Foundation Hardening PRD Status: historical planning artifact. Written in the 14-package / Phase 0–1 era; package counts, tiers, and \"future\" bindings here are point-in-time. Living sources: (tier map) + . Pre-roadmap. Before executing the 97 Master PRD issues ( 113), solidify technical bases, narrative, and public infrastructure. 4–6 weeks of focused work. Decisions already made: - Migration from Docusaurus → Fumadocs (Next.js-native, rich MDX, modern look, ideal for a JS library) - Own domain agentskit.io (already acquired) replacing emersonbraun.github.io/agentskit --- Problem Statement AgentsKit has 14 functional packages, CI, changesets, Docusaurus with i18n in 3 languages, and a Master PRD with 97 user stories roadmap-ed. But executing that roadmap on the current base will create technical debt and inconsistency because: - Contracts are not formally versioned (Adapter, Tool, Memory, Retriever). 10 new adapters diverging on subtleties break the \"plug-and-play\" promise. - No stability tiers — external developers don't know which packages are safe to adopt. - Bundle-size budget is not enforced in CI — the core <10KB promise can be silently broken. - External narrative is technical and generic — \"complete toolkit for AI agents\" doesn't sell a revolutionary product; there's no manifesto, origin story, strong visual identity, or honest comparison including when NOT to use. - Documentation is broad and shallow — 12 Docusaurus sections with no \"Concepts\" section, no deep Recipes/Cookbook, no troubleshooting, no migration guides from LangChain/Vercel AI. - READMEs of the 14 packages are uniformly generic (~50 lines) — each package is a product and needs its own pitch. - Docusaurus is an un-decided default — a better alternative exists (Fumadocs) for the Next/React ecosystem. Already decided to migrate. - Weak domain ( emersonbraun.github.io/agentskit ) hurts positioning. agentskit.io already acquired. - Immature governance — no CODEOWNERS, no Discord, no plural maintainers, no RFC process, no specific issue/PR templates. - Legal / business gaps — MIT license is fine for OSS but ambiguous for a future Cloud offering; trademark not registered; analytics missing from the docs. Solution Execute Phase 0 — Foundation Hardening across 4 parallel tracks before starting Phase 1 of the Master PRD: 1. Contracts & technical governance — ADRs, stability tiers, CI gates, RFC process. 2. Narrative & identity — manifesto, origin story, minimum visual identity, independent landing at agentskit.io , per-package READMEs with their own pitch. 3. Deep documentation — migration to Fumadocs , Concepts section, Recipes cookbook, troubleshooting/FAQ, LangChain and Vercel AI migration guides, linked examples. 4. Quality & community infrastructure — coverage/bundle gates, E2E for examples, CODEOWNERS, Discord, analytics, sponsors. Expected outcome: at the end of Phase 0, the project is ready to 10x without debt , with a narrative that \"sells itself\" and a technical base that supports 97 issues without chaos. --- User Stories Track 1 — Contracts & Technical Governance 1. As a maintainer, I want a root ARCHITECTURE.md explaining founding decisions (zero-deps core, independent packages, why not LangChain-style) to align contributors. 2. As a maintainer, I want an open RFC process with a template ( .github/RFC-TEMPLATE.md + rfcs/ folder), so technical proposals are discussed before becoming code. 3. As an external developer, I want a versioned ADR per core contract (Adapter, Tool, Memory, Retriever, Skill, Runtime), so I can adopt without fear of silent breaking changes. 4. As a developer, I want documented stability tiers (stable / beta / experimental) in each package.json and README, so I know what I can use in production. 5. As a maintainer, I want a written semver policy — what counts as breaking vs patch, when to bump major — so I can apply it consistently. 6. As a maintainer, I want a bundle-size budget enforced in CI (e.g. size-limi",
-          "aliases": "document human"
-        },
-        "graph": {
-          "pagerank": 0.001939,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "links-to",
-              "id": "document:docs/STABILITY.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/V1-READINESS-TRACKER.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:.github",
-              "confidence": "fuzzy"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:apps/docs-next",
-              "confidence": "fuzzy"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:apps/example-ink",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:apps/example-multi-agent",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:apps/example-react",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:apps/example-runtime",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "area:apps/landing",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:ARCHITECTURE.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:LICENSING.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:MANIFESTO.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:ORIGIN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/adapters/CONVENTIONS.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "module:playwright.config.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/ink",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/react",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "cfd23661c0e0a818a47d520e692b527d894c73dc106ffab8564058405f4b29b7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -74784,11 +74321,6 @@
           "mentionedBy": [],
           "inbound": [],
           "outbound": [
-            {
-              "kind": "mentions",
-              "id": "document:docs/MASTER-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
             {
               "kind": "mentions",
               "id": "document:README.md",
@@ -74956,7 +74488,7 @@
             }
           ]
         },
-        "contentHash": "2af11930ab578e8fc5d3b7bd6fc0c9d7582a6566b55fc2a87162ba8de1608205",
+        "contentHash": "48aafacff5e33a67c3398a115919a15218e261b29bc36dd52e05e754bbe848a9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -74982,7 +74514,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002642,
+          "pagerank": 0.002636,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -75295,7 +74827,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002036,
+          "pagerank": 0.002032,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75334,7 +74866,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.008475,
+          "pagerank": 0.010275,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75447,7 +74979,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003588,
+          "pagerank": 0.00358,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -75504,7 +75036,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75578,7 +75110,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002541,
+          "pagerank": 0.002535,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
@@ -75695,12 +75227,11 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.022741,
-          "inboundLinks": 4,
+          "pagerank": 0.029115,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
-            "document:.agent-memory/project_v1-readiness.md",
-            "document:docs/studies/v1-readiness-audit.md"
+            "document:.agent-memory/project_v1-readiness.md"
           ],
           "inbound": [
             {
@@ -75716,11 +75247,6 @@
             {
               "kind": "mentions",
               "id": "document:.agent-memory/project_v1-readiness.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             }
           ],
@@ -75812,8 +75338,8 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.076255,
-          "inboundLinks": 54,
+          "pagerank": 0.082152,
+          "inboundLinks": 50,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_v1-readiness.md",
@@ -75823,12 +75349,15 @@
             "document:CONTRIBUTING.md",
             "document:docs/architecture/adrs/0024-package-graduation-evidence.md",
             "document:docs/RELEASE-CORE-V1.md",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:GOVERNANCE.md",
             "document:packages/adapters/README.md",
             "document:packages/angular/README.md",
             "document:packages/cli/README.md",
-            "document:packages/core/README.md"
+            "document:packages/core/README.md",
+            "document:packages/cross-platform/README.md",
+            "document:packages/eval-braintrust/README.md",
+            "document:packages/eval/README.md",
+            "document:packages/ink/README.md"
           ],
           "inbound": [
             {
@@ -75849,21 +75378,6 @@
             {
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0024-package-graduation-evidence.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/MASTER-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
               "confidence": "observed"
             },
             {
@@ -76123,11 +75637,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/studies/v1-readiness-audit.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:GOVERNANCE.md",
               "confidence": "observed"
             },
@@ -76149,6 +75658,26 @@
             {
               "kind": "mentions",
               "id": "document:packages/core/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/cross-platform/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/eval-braintrust/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/eval/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/ink/README.md",
               "confidence": "observed"
             }
           ],
@@ -76366,7 +75895,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.020626,
+          "pagerank": 0.021776,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -76703,7 +76232,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76762,133 +76291,6 @@
           ]
         },
         "contentHash": "543d1d45237233e0b03e4658dea39afe53a8ccbba4944b95099b773803953269",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "document:docs/studies/v1-readiness-audit.md",
-        "kind": "document",
-        "path": "docs/studies/v1-readiness-audit.md",
-        "title": "v1.0 Readiness Audit — AgentsKit ecosystem",
-        "summary": "Audit date: 2026-06-15. Method: per-package audit of all 24 packages + cross-cutting guardrail/docs audit, measured against the project's own bar in docs/STABILITY.md.",
-        "audience": "human",
-        "aliases": [],
-        "tags": [
-          "document",
-          "human"
-        ],
-        "fields": {
-          "title": "v1.0 Readiness Audit — AgentsKit ecosystem",
-          "headings": "v1.0 Readiness Audit — AgentsKit ecosystem TL;DR State of the ecosystem A. Governance / cohesion (highest severity) B. Real correctness / doc bugs (confirmed) C. Guardrail gaps (no gate catches these today) D. Framework parity E. Project-level v1.0.0 criteria — untracked F. Stale planning docs Plan (phased) Phase 0 — Truth + guardrails (cheap, unblocks everything) Phase 1 — Honesty / correctness fixes ✅ DONE (2026-06-15) Phase 2 — Promotion discipline ✅ DONE (2026-06-15) Phase 3 — Parity + ecosystem v1.0 🟡 STARTED (2026-06-15) Phase 3 — closing artifacts (2026-06-15) Open decision (drives Phase 0–2)",
-          "path": "docs/studies/v1-readiness-audit.md",
-          "symbols": "",
-          "summary": "Audit date: 2026-06-15. Method: per-package audit of all 24 packages + cross-cutting guardrail/docs audit, measured against the project's own bar in docs/STABILITY.md.",
-          "body": "v1.0 Readiness Audit — AgentsKit ecosystem Audit date: 2026-06-15. Method: per-package audit of all 24 packages + cross-cutting guardrail/docs audit, measured against the project's own bar in docs/STABILITY.md . TL;DR The substrate is solid (code quality is high — near-zero any , no real tech debt in most packages, clean dep graph). The blocker to a coherent, future-proof v1.0 is governance drift , not code: the stability tiers, the policy doc, the README badges, and the version numbers all tell different stories. Three concrete correctness bugs and a set of doc/guardrail gaps round it out. State of the ecosystem Tier (package.json) Packages --- --- stable core ( 1.8.0 , only one truly past v1), adapters, cli, ink, memory, rag, react, runtime, skills, templates, tools beta eval, eval-braintrust, observability, observability-langfuse, validation, sandbox alpha angular, react-native, solid, svelte, vue experimental (invalid) integrations none declared mcp A. Governance / cohesion (highest severity) 1. docs/STABILITY.md tier map is stale. Lists 19 packages; repo has 24. - 5 absent: eval-braintrust, integrations, mcp, observability-langfuse, validation. - 12 of 19 entries contradict package.json (adapters/cli/ink/memory/react/runtime/skills/tools listed beta→actually stable; rag/templates listed alpha→actually stable; eval/sandbox listed alpha→actually beta). - Only 7 entries accurate. This is the primary consumer-trust document. 2. 10 packages declare stable at 0.x with no promotion RFC. Policy ( STABILITY.md ) requires beta→stable to have an RFC freezing the public API + ≥1 minor at beta without breaking. Only RFCs 0001-0003 exist; none are promotion RFCs. ( check:rfc-0007 from 3. Semver contradicts the stable claim for the 10 packages: 0.x signals pre-stable by npm convention. 4. mcp declares no tier (no agentskit field) — violates \"every package declares a tier\". 5. integrations uses experimental — not one of the 3 documented tiers. 6. Three-way mismatches (pkg.json ≠ STABILITY.md ≠ README badge): eval, sandbox, templates. B. Real correctness / doc bugs (confirmed) 1. react: TopologyGraphView orphaned — implemented + 12 tests, exported from src/components/index.ts but missing from src/index.ts . Unreachable from package root. 2. ink: InkThemeProvider , useInkTheme , defaultInkTheme , TopologyGraphView orphaned — same pattern; the entire theme system is unreachable from the package root. 3. All 5 framework-binding READMEs are broken : hardcoded stability-stable badge on alpha packages, and Quick-Start examples import phantom components ( Message , InputBar , ChatContainer ) that don't exist in src/index.ts . Copy-paste fails on import. Angular additionally documents configure() while the service exposes init() . 4. for-agents/memory.mdx imports createVirtualizedMemory from @agentskit/memory , but it lives in @agentskit/core — the documented example fails at runtime. 5. Empty CHANGELOGs across every package — all contain only Changelog . Zero auditability; cannot verify the \"≥1 minor at beta without breaking\" criterion for any package. 6. Bare throw new Error (no typed error) in rag (13, no RAGError type), templates validate.ts (7), cli (20). Gate-allowlisted in some paths, masking the gap. NOTE: an earlier draft flagged a dead-code dynamic-import bug in memory/src/turso.ts — false positive , verified the import is present and correct (turso.ts:31). Core's README \"5 KB gzipped\" claim should be re-measured against the dist, but the CI size-limit gate (10 KB) and RELEASE-CORE-V1.md (5.17 KB) suggest it is roughly accurate. C. Guardrail gaps (no gate catches these today) 1. No stability-tier gate — nothing asserts the tier exists, is a valid value, or matches STABILITY.md. (Would have caught mcp + integrations + all 12 drifts.) Highest ROI. 2. No coverage-floor ↔ tier link — core (stable) @80, tools (stable) @70; bars are hand-set. 3. No promotion-RFC gate — 10 stable packages have none. 4. No README-badge gate — badges hand-mainta",
-          "aliases": "document human"
-        },
-        "graph": {
-          "pagerank": 0.011941,
-          "inboundLinks": 2,
-          "coveredBy": [],
-          "mentionedBy": [
-            "document:.agent-memory/project_v1-readiness.md"
-          ],
-          "inbound": [
-            {
-              "kind": "links-to",
-              "id": "document:docs/V1-READINESS-TRACKER.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:.agent-memory/project_v1-readiness.md",
-              "confidence": "observed"
-            }
-          ],
-          "outbound": [
-            {
-              "kind": "mentions",
-              "id": "document:docs/SEMVER-COMMITMENT.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/STABILITY.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/V1-READINESS-TRACKER.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/core",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/integrations",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/mcp",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/memory",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/react-native",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:agentskit",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/core/src/errors.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/core/src/virtualized-memory.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/ink/src/components/theme.tsx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/rag/src/errors.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/react-native/tests/react-native.mock.tsx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/react/src/useReactive.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/react/src/useStream.ts",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "b2d1b0dcd5f67e1986a7a548345a1741d824a0f50a000c68dcb1ee85eb1c4162",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77051,7 +76453,7 @@
         "kind": "document",
         "path": "docs/V1-READINESS-TRACKER.md",
         "title": "v1.0.0 ecosystem readiness tracker",
-        "summary": "Living doc. Tracks the criteria in STABILITY.md → \"Until v1.0.0\" plus cross-framework parity. Update the status columns as work lands; the audit",
+        "summary": "Living doc. Tracks the criteria in STABILITY.md → \"Until v1.0.0\" plus cross-framework parity. Update the status columns as work lands; the audit was seeded by the v1 readiness audit (since removed; see git history). Last updated: 2026-07-17.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -77063,39 +76465,23 @@
           "headings": "v1.0.0 ecosystem readiness tracker Project-level v1.0.0 criteria Stability tiers (gate-enforced) MCP stabilization wave Statechart stabilization wave RAG stabilization wave Observability stabilization wave Eval stabilization wave Sandbox stabilization wave Templates stabilization wave Validation stabilization wave Cross-framework binding parity",
           "path": "docs/V1-READINESS-TRACKER.md",
           "symbols": "",
-          "summary": "Living doc. Tracks the criteria in STABILITY.md → \"Until v1.0.0\" plus cross-framework parity. Update the status columns as work lands; the audit",
-          "body": "v1.0.0 ecosystem readiness tracker Living doc. Tracks the criteria in → \"Until v1.0.0\" plus cross-framework parity. Update the status columns as work lands; the audit + plan that seeded this lives in . Last updated: 2026-07-17. Project-level v1.0.0 criteria Criterion (from STABILITY.md) Status Evidence / gap --- --- --- --- 1 All six core contracts have ≥1 external consumer outside this repo 🟡 signal, unconfirmed npm downloads (last month, verified 2026-06-15): core 1462, adapters 1098, runtime 935, react 488, vue 116 — non-zero external pull-through, but download counts can't confirm a named external consumer per contract (CI/mirrors/own apps included). Needs qualitative confirmation (GitHub dependents / real projects). 2 CI gates (bundle size, coverage) held two full sprints without regression 🟡 clock restarted 17 gates green today, but the gate set just expanded (this PR) — the 2-sprint no-regression window restarts from the first green sprint after merge. 3 Public semver commitment documented + honored 🟢 documented Ecosystem-wide statement at ; honored structurally by CI gates (tier/badge parity, coverage floors, promotion-RFC, bundle budget). \"Honored\" stays ongoing across releases. Legend: 🟢 done · 🟡 in progress · ⬜ not started. Stability tiers (gate-enforced) check-stability-tier , check-readme-badge , check-coverage-floor , and check-promotion-rfc keep package.json , the STABILITY.md map, README badges, coverage bars, and promotion RFCs in lockstep. See for the authoritative tier map. - stable (1): core - beta (24): adapters, cli, ink, memory, rag, react, runtime, skills, templates, tools, eval, eval-braintrust, observability, observability-langfuse, validation, sandbox, integrations, statechart, mcp, vue , svelte , solid , react-native , angular - alpha (0): none MCP stabilization wave @agentskit/mcp graduates from alpha to beta as an honestly scoped MCP tools bridge over @agentskit/tools/mcp , with stdio CLI and optional agent delegation. - Implemented: current MCP-compatible unique tool-name validation; immutable published tool lists; isolated sync/async observers; typed server and agent configuration failures; bounded tasks and steps; path-safe registry IDs; abortable, timed, byte-bounded hosted/raw reads; fail-closed testable CLI; privileged-tool opt-ins; secret-free diagnostics; real ESM/CJS/bin packaging; 100% package line coverage outside the thin bin entrypoint. - Still open: publish the next minor, gather public host compatibility evidence, complete ≥90 consecutive beta days, release a second distinct beta minor during that window, accept promotion evidence, and coordinate 1.0.0. - Tier: promoted to beta . This does not claim built-in HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, or persistence. Statechart stabilization wave @agentskit/statechart graduates from alpha to beta with deterministic hostile-input, snapshot, observer, and package boundaries while retaining zero runtime dependencies. - Implemented: null-prototype definition maps; exact JSON cloning that rejects sparse/decorated arrays, accessors, symbols, exotic prototypes, and non-finite numbers without invoking getters; total frozen rejection results for unknown snapshots; host-input and safe-revision validation; deep guard/reducer immutability; synchronous thenable-safe observer isolation; dual ESM/CJS packaging and adversarial coverage above the package's 95% line floor. - Still open: publish the next minor, exercise it through public downstream integrations, complete ≥90 consecutive beta days, release a second distinct beta minor during that window, accept promotion evidence, and coordinate 1.0.0. - Tier: promoted to beta . No stable claim is valid before every open gate above is complete. RAG stabilization wave @agentskit/rag now has contract, failure, cancellation, pagination, packaging, and Metro evidence for its current beta surface. The hardening line intentionally changes hybrid blending to min-max candidate norma",
+          "summary": "Living doc. Tracks the criteria in STABILITY.md → \"Until v1.0.0\" plus cross-framework parity. Update the status columns as work lands; the audit was seeded by the v1 readiness audit (since removed; see git history). Last updated: 2026-07-17.",
+          "body": "v1.0.0 ecosystem readiness tracker Living doc. Tracks the criteria in → \"Until v1.0.0\" plus cross-framework parity. Update the status columns as work lands; the audit was seeded by the v1 readiness audit (since removed; see git history). Last updated: 2026-07-17. Project-level v1.0.0 criteria Criterion (from STABILITY.md) Status Evidence / gap --- --- --- --- 1 All six core contracts have ≥1 external consumer outside this repo 🟡 signal, unconfirmed npm downloads (last month, verified 2026-06-15): core 1462, adapters 1098, runtime 935, react 488, vue 116 — non-zero external pull-through, but download counts can't confirm a named external consumer per contract (CI/mirrors/own apps included). Needs qualitative confirmation (GitHub dependents / real projects). 2 CI gates (bundle size, coverage) held two full sprints without regression 🟡 clock restarted 17 gates green today, but the gate set just expanded (this PR) — the 2-sprint no-regression window restarts from the first green sprint after merge. 3 Public semver commitment documented + honored 🟢 documented Ecosystem-wide statement at ; honored structurally by CI gates (tier/badge parity, coverage floors, promotion-RFC, bundle budget). \"Honored\" stays ongoing across releases. Legend: 🟢 done · 🟡 in progress · ⬜ not started. Stability tiers (gate-enforced) check-stability-tier , check-readme-badge , check-coverage-floor , and check-promotion-rfc keep package.json , the STABILITY.md map, README badges, coverage bars, and promotion RFCs in lockstep. See for the authoritative tier map. - stable (1): core - beta (24): adapters, cli, ink, memory, rag, react, runtime, skills, templates, tools, eval, eval-braintrust, observability, observability-langfuse, validation, sandbox, integrations, statechart, mcp, vue , svelte , solid , react-native , angular - alpha (0): none MCP stabilization wave @agentskit/mcp graduates from alpha to beta as an honestly scoped MCP tools bridge over @agentskit/tools/mcp , with stdio CLI and optional agent delegation. - Implemented: current MCP-compatible unique tool-name validation; immutable published tool lists; isolated sync/async observers; typed server and agent configuration failures; bounded tasks and steps; path-safe registry IDs; abortable, timed, byte-bounded hosted/raw reads; fail-closed testable CLI; privileged-tool opt-ins; secret-free diagnostics; real ESM/CJS/bin packaging; 100% package line coverage outside the thin bin entrypoint. - Still open: publish the next minor, gather public host compatibility evidence, complete ≥90 consecutive beta days, release a second distinct beta minor during that window, accept promotion evidence, and coordinate 1.0.0. - Tier: promoted to beta . This does not claim built-in HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, or persistence. Statechart stabilization wave @agentskit/statechart graduates from alpha to beta with deterministic hostile-input, snapshot, observer, and package boundaries while retaining zero runtime dependencies. - Implemented: null-prototype definition maps; exact JSON cloning that rejects sparse/decorated arrays, accessors, symbols, exotic prototypes, and non-finite numbers without invoking getters; total frozen rejection results for unknown snapshots; host-input and safe-revision validation; deep guard/reducer immutability; synchronous thenable-safe observer isolation; dual ESM/CJS packaging and adversarial coverage above the package's 95% line floor. - Still open: publish the next minor, exercise it through public downstream integrations, complete ≥90 consecutive beta days, release a second distinct beta minor during that window, accept promotion evidence, and coordinate 1.0.0. - Tier: promoted to beta . No stable claim is valid before every open gate above is complete. RAG stabilization wave @agentskit/rag now has contract, failure, cancellation, pagination, packaging, and Metro evidence for its current beta surface. The hardening line intentionally changes hybrid",
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.035319,
-          "inboundLinks": 11,
+          "pagerank": 0.0366,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_v1-readiness.md",
             "document:docs/architecture/adrs/0024-package-graduation-evidence.md",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:rfcs/0004-framework-binding-stability.md"
           ],
           "inbound": [
             {
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0024-package-graduation-evidence.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/MASTER-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
               "confidence": "observed"
             },
             {
@@ -77135,11 +76521,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/studies/v1-readiness-audit.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:rfcs/0004-framework-binding-stability.md",
               "confidence": "observed"
             }
@@ -77153,11 +76534,6 @@
             {
               "kind": "links-to",
               "id": "document:docs/STABILITY.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "links-to",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -77242,7 +76618,7 @@
             }
           ]
         },
-        "contentHash": "34ff838759d2f900689198ed593854e6061bfbf0d06da1dd6cbfcdbe5a647237",
+        "contentHash": "3f7a7ed05e07be41c4ee61cbaa51a0ce4f0b7e6d953bd058d5f34c39b8163426",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77267,7 +76643,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77441,18 +76817,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 0,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
-          ],
-          "inbound": [
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-              "confidence": "observed"
-            }
-          ],
+          "mentionedBy": [],
+          "inbound": [],
           "outbound": []
         },
         "contentHash": "5765135df1fb0c22116d7dcf16dde96a60a9718ff847e077d5ffb9cd47560f86",
@@ -77480,14 +76848,12 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.019258,
-          "inboundLinks": 8,
+          "pagerank": 0.020074,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:ARCHITECTURE.md",
-            "document:CONTRIBUTING.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
+            "document:CONTRIBUTING.md"
           ],
           "inbound": [
             {
@@ -77529,16 +76895,6 @@
               "kind": "mentions",
               "id": "document:CONTRIBUTING.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -77574,13 +76930,10 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002739,
-          "inboundLinks": 4,
+          "pagerank": 0.002733,
+          "inboundLinks": 2,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
-          ],
+          "mentionedBy": [],
           "inbound": [
             {
               "kind": "links-to",
@@ -77590,16 +76943,6 @@
             {
               "kind": "links-to",
               "id": "document:README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
               "confidence": "observed"
             }
           ],
@@ -77636,19 +76979,11 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
-          "inboundLinks": 1,
+          "pagerank": 0.001935,
+          "inboundLinks": 0,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
-          ],
-          "inbound": [
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-              "confidence": "observed"
-            }
-          ],
+          "mentionedBy": [],
+          "inbound": [],
           "outbound": [
             {
               "kind": "links-to",
@@ -77713,7 +77048,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78085,7 +77420,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002036,
+          "pagerank": 0.002032,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -78241,7 +77576,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002489,
+          "pagerank": 0.002483,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -78391,7 +77726,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78583,7 +77918,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002489,
+          "pagerank": 0.002483,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78921,7 +78256,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79143,7 +78478,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79250,7 +78585,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79407,7 +78742,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79619,7 +78954,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79834,7 +79169,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79927,7 +79262,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80001,7 +79336,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80293,7 +79628,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80480,7 +79815,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80543,7 +79878,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80617,7 +79952,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80770,7 +80105,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80889,7 +80224,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81131,7 +80466,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81259,7 +80594,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81358,7 +80693,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81511,7 +80846,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81585,7 +80920,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002036,
+          "pagerank": 0.002032,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -81751,7 +81086,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81825,7 +81160,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81953,7 +81288,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82022,7 +81357,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82214,7 +81549,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82375,7 +81710,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002764,
+          "pagerank": 0.002757,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82568,7 +81903,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82818,7 +82153,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002036,
+          "pagerank": 0.002032,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82942,7 +82277,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83001,7 +82336,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83318,7 +82653,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83465,7 +82800,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83594,7 +82929,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 9,
           "coveredBy": [],
           "mentionedBy": [
@@ -83923,7 +83258,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002049,
+          "pagerank": 0.002045,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83972,7 +83307,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004162,
+          "pagerank": 0.004152,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84051,7 +83386,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.003291,
+          "pagerank": 0.003283,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84180,7 +83515,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002049,
+          "pagerank": 0.002045,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84254,7 +83589,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.00292,
+          "pagerank": 0.002914,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84353,7 +83688,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002049,
+          "pagerank": 0.002045,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84432,7 +83767,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002049,
+          "pagerank": 0.002045,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84501,7 +83836,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004247,
+          "pagerank": 0.004238,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84585,7 +83920,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002049,
+          "pagerank": 0.002045,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84664,7 +83999,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002874,
+          "pagerank": 0.002867,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84738,7 +84073,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002049,
+          "pagerank": 0.002045,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84812,7 +84147,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005072,
+          "pagerank": 0.00506,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84901,7 +84236,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002874,
+          "pagerank": 0.002867,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84995,7 +84330,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002049,
+          "pagerank": 0.002045,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -85070,7 +84405,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -85214,7 +84549,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -85366,7 +84701,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.007493,
+          "pagerank": 0.007477,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -85490,7 +84825,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001939,
+          "pagerank": 0.001935,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -95501,7 +94836,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 12,
+          "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/agents/index.mdx",
@@ -95512,7 +94847,6 @@
             "document:apps/docs-next/content/docs/get-started/migrating/from-mastra.mdx",
             "document:apps/docs-next/content/docs/production/shipping-checklist.mdx",
             "document:docs/architecture/adrs/0003-memory-contract.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:ORIGIN.md",
             "document:packages/core/README.md",
             "document:packages/memory/README.md"
@@ -95558,11 +94892,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0003-memory-contract.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
               "confidence": "observed"
             },
             {
@@ -123550,7 +122879,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 29,
+          "inboundLinks": 28,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_playbook-alignment.md",
@@ -123574,7 +122903,6 @@
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
             "document:docs/studies/ecosystem-cohesion-plan.md",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:packages/core/README.md",
             "document:packages/cross-platform/README.md",
             "document:packages/net/README.md",
@@ -123783,11 +123111,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/studies/ecosystem-cohesion-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -128271,7 +127594,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 22,
+          "inboundLinks": 21,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0004-retriever-contract.md",
@@ -128291,7 +127614,6 @@
             "document:apps/docs-next/content/docs/reference/recipes/rag-chat.mdx",
             "document:apps/example-rag-chat/README.md",
             "document:ARCHITECTURE.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:packages/core/README.md",
             "document:packages/rag/CONVENTIONS.md",
             "document:packages/rag/README.md",
@@ -128398,11 +127720,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0004-retriever-contract.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
               "confidence": "observed"
             },
             {
@@ -129252,7 +128569,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/data/memory/index.mdx",
@@ -129260,7 +128577,6 @@
             "document:apps/docs-next/content/docs/for-agents/core.mdx",
             "document:apps/docs-next/content/docs/for-agents/memory.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/virtualized-memory.mdx",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:packages/memory/README.md"
           ],
           "packageId": "package:@agentskit/core",
@@ -129293,11 +128609,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/recipes/virtualized-memory.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -138156,12 +137467,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 4,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/for-agents/ink.mdx",
             "document:apps/docs-next/content/docs/ui/theming.mdx",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:rfcs/0004-framework-binding-stability.md"
           ],
           "areaId": "area:packages/ink/src/components",
@@ -138205,11 +137515,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/ui/theming.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -163122,14 +162427,13 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 8,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_v1-readiness.md",
             "document:apps/docs-next/content/docs/data/rag/loaders.mdx",
             "document:apps/docs-next/content/docs/for-agents/rag.mdx",
             "document:apps/docs-next/content/docs/reference/packages/core.mdx",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:packages/rag/CONVENTIONS.md",
             "document:packages/rag/README.md",
             "document:rfcs/0010-rag-stable.md"
@@ -163194,11 +162498,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/packages/core.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -165953,13 +165252,12 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/for-agents/react-native.mdx",
             "document:apps/docs-next/content/docs/ui/chat-container.mdx",
             "document:apps/docs-next/content/docs/ui/input-bar.mdx",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:packages/ink/CONVENTIONS.md",
             "document:packages/react-native/CONVENTIONS.md",
             "document:packages/react-native/README.md"
@@ -165979,11 +165277,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/ui/input-bar.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -166921,10 +166214,9 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:docs/studies/v1-readiness-audit.md",
             "document:packages/react/CONVENTIONS.md"
           ],
           "packageId": "package:@agentskit/react",
@@ -166932,11 +166224,6 @@
             {
               "kind": "imports",
               "id": "module:packages/react/tests/core/useReactive.test.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -166981,10 +166268,9 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:docs/studies/v1-readiness-audit.md",
             "document:packages/react/CONVENTIONS.md"
           ],
           "packageId": "package:@agentskit/react",
@@ -166992,11 +166278,6 @@
             {
               "kind": "imports",
               "id": "module:packages/react/tests/core/useStream.test.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -186833,22 +186114,16 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/visual-react/README.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md"
+            "document:apps/visual-react/README.md"
           ],
           "packageId": "package:agentskit",
           "inbound": [
             {
               "kind": "mentions",
               "id": "document:apps/visual-react/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
               "confidence": "observed"
             }
           ],
@@ -193355,7 +192630,7 @@
           "aliases": "adapters @agentskit/adapters package ownership"
         },
         "graph": {
-          "pagerank": 0.004412,
+          "pagerank": 0.004402,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
@@ -193418,12 +192693,12 @@
             "document:docs/architecture/adrs/0036-cross-platform-package.md",
             "document:docs/architecture/adrs/0037-net-package.md",
             "document:docs/ecosystem/external-contributions/contributions/ollama-openai-compat-smoke/evidence.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/ROADMAP-PRD.md",
             "document:docs/STABILITY.md",
-            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md"
+            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
+            "document:GOVERNANCE.md"
           ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
@@ -193719,11 +192994,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -193745,6 +193015,11 @@
             {
               "kind": "mentions",
               "id": "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:GOVERNANCE.md",
               "confidence": "observed"
             }
           ],
@@ -193780,7 +193055,7 @@
           "aliases": "angular @agentskit/angular package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 36,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/angular.mdx",
@@ -194043,8 +193318,8 @@
           "aliases": "cli @agentskit/cli package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
-          "inboundLinks": 27,
+          "pagerank": 0.005225,
+          "inboundLinks": 26,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx",
             "document:apps/docs-next/content/docs/reference/packages/cli.mdx"
@@ -194064,7 +193339,6 @@
             "document:apps/docs-next/content/docs/reference/recipes/agentskit-ai.mdx",
             "document:apps/docs-next/content/docs/reference/stability.mdx",
             "document:docs/architecture/adrs/0036-cross-platform-package.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/RELEASE-CORE-V1.md",
             "document:docs/STABILITY.md",
@@ -194161,11 +193435,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -194252,7 +193521,7 @@
           "aliases": "core @agentskit/core package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/core.mdx",
@@ -194677,7 +193946,7 @@
           "aliases": "cross-platform @agentskit/cross-platform package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 10,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
@@ -194784,8 +194053,8 @@
           "aliases": "eval @agentskit/eval package ownership"
         },
         "graph": {
-          "pagerank": 0.007709,
-          "inboundLinks": 42,
+          "pagerank": 0.007692,
+          "inboundLinks": 41,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
             "document:apps/docs-next/content/docs/for-agents/eval.mdx",
@@ -194818,7 +194087,6 @@
             "document:docs/architecture/adrs/0005-skill-contract.md",
             "document:docs/architecture/adrs/0012-vendor-adapter-scope.md",
             "document:docs/architecture/adrs/0036-cross-platform-package.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/ROADMAP-PRD.md",
@@ -194980,11 +194248,6 @@
             {
               "kind": "mentions",
               "id": "document:docs/architecture/adrs/0036-cross-platform-package.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
               "confidence": "observed"
             },
             {
@@ -195177,8 +194440,8 @@
           "aliases": "ink @agentskit/ink package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
-          "inboundLinks": 54,
+          "pagerank": 0.005225,
+          "inboundLinks": 52,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/ink.mdx",
             "document:apps/docs-next/content/docs/reference/packages/ink.mdx"
@@ -195212,8 +194475,6 @@
             "document:apps/docs-next/content/docs/reference/stability.mdx",
             "document:apps/docs-next/content/docs/ui/index.mdx",
             "document:ARCHITECTURE.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/STABILITY.md",
@@ -195393,16 +194654,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -195554,8 +194805,8 @@
           "aliases": "integrations @agentskit/integrations package ownership"
         },
         "graph": {
-          "pagerank": 0.003176,
-          "inboundLinks": 17,
+          "pagerank": 0.003169,
+          "inboundLinks": 16,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -195573,7 +194824,6 @@
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:docs/architecture/adrs/0037-net-package.md",
             "document:docs/STABILITY.md",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:packages/integrations/CONVENTIONS.md",
             "document:packages/integrations/README.md",
             "document:README.md",
@@ -195653,11 +194903,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/studies/v1-readiness-audit.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:packages/integrations/CONVENTIONS.md",
               "confidence": "observed"
             },
@@ -195709,8 +194954,8 @@
           "aliases": "mcp @agentskit/mcp package ownership"
         },
         "graph": {
-          "pagerank": 0.003176,
-          "inboundLinks": 19,
+          "pagerank": 0.003169,
+          "inboundLinks": 18,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -195726,7 +194971,6 @@
             "document:docs/architecture/adrs/0037-net-package.md",
             "document:docs/STABILITY.md",
             "document:docs/studies/registry-runner-projections-plan.md",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:docs/V1-READINESS-TRACKER.md",
             "document:packages/integrations/CONVENTIONS.md",
             "document:packages/mcp/README.md",
@@ -195799,11 +195043,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/studies/v1-readiness-audit.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/V1-READINESS-TRACKER.md",
               "confidence": "observed"
             },
@@ -195870,7 +195109,7 @@
           "aliases": "memory @agentskit/memory package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/memory.mdx",
@@ -195920,13 +195159,11 @@
             "document:docs/architecture/adrs/0004-retriever-contract.md",
             "document:docs/architecture/adrs/0006-runtime-contract.md",
             "document:docs/architecture/adrs/0037-net-package.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/RELEASE-CORE-V1.md",
             "document:docs/STABILITY.md",
             "document:docs/studies/ecosystem-cohesion-plan.md",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:GOVERNANCE.md",
             "document:packages/adapters/README.md",
             "document:packages/angular/README.md",
@@ -195938,7 +195175,9 @@
             "document:packages/rag/README.md",
             "document:packages/react-native/README.md",
             "document:packages/react/CONVENTIONS.md",
-            "document:packages/solid/README.md"
+            "document:packages/solid/README.md",
+            "document:packages/svelte/README.md",
+            "document:packages/vue/README.md"
           ],
           "packageId": "package:@agentskit/memory",
           "inbound": [
@@ -196169,11 +195408,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -196195,11 +195429,6 @@
             {
               "kind": "mentions",
               "id": "document:docs/studies/ecosystem-cohesion-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
@@ -196261,6 +195490,16 @@
               "kind": "mentions",
               "id": "document:packages/solid/README.md",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/svelte/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/vue/README.md",
+              "confidence": "observed"
             }
           ],
           "outbound": []
@@ -196295,7 +195534,7 @@
           "aliases": "net @agentskit/net package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 18,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
@@ -196450,8 +195689,8 @@
           "aliases": "observability @agentskit/observability package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
-          "inboundLinks": 53,
+          "pagerank": 0.005225,
+          "inboundLinks": 52,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability.mdx",
             "document:apps/docs-next/content/docs/reference/packages/observability.mdx"
@@ -196494,7 +195733,6 @@
             "document:ARCHITECTURE.md",
             "document:docs/architecture/adrs/0012-vendor-adapter-scope.md",
             "document:docs/architecture/adrs/0037-net-package.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/security/threat-model.md",
@@ -196709,11 +195947,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -196815,7 +196048,7 @@
           "aliases": "observability-langfuse @agentskit/observability-langfuse package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 8,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
@@ -196904,8 +196137,8 @@
           "aliases": "rag @agentskit/rag package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
-          "inboundLinks": 50,
+          "pagerank": 0.005225,
+          "inboundLinks": 49,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/rag.mdx",
             "document:apps/docs-next/content/docs/reference/packages/rag.mdx"
@@ -196943,7 +196176,6 @@
             "document:docs/architecture/adrs/0003-memory-contract.md",
             "document:docs/architecture/adrs/0004-retriever-contract.md",
             "document:docs/architecture/adrs/0037-net-package.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/STABILITY.md",
@@ -197135,11 +196367,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -197251,7 +196478,7 @@
           "aliases": "react @agentskit/react package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react.mdx",
@@ -197304,8 +196531,6 @@
             "document:apps/example-webllm/README.md",
             "document:apps/visual-react/README.md",
             "document:ARCHITECTURE.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
-            "document:docs/PHASE-0-FOUNDATION-PRD.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/ROADMAP-PRD.md",
@@ -197319,7 +196544,9 @@
             "document:packages/core/README.md",
             "document:packages/ink/CONVENTIONS.md",
             "document:packages/ink/README.md",
-            "document:packages/rag/README.md"
+            "document:packages/rag/README.md",
+            "document:packages/react-native/CONVENTIONS.md",
+            "document:packages/react-native/README.md"
           ],
           "packageId": "package:@agentskit/react",
           "inbound": [
@@ -197565,16 +196792,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-FOUNDATION-PRD.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -197642,6 +196859,16 @@
               "kind": "mentions",
               "id": "document:packages/rag/README.md",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/react-native/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/react-native/README.md",
+              "confidence": "observed"
             }
           ],
           "outbound": []
@@ -197676,8 +196903,8 @@
           "aliases": "react-native @agentskit/react-native package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
-          "inboundLinks": 34,
+          "pagerank": 0.005225,
+          "inboundLinks": 33,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react-native.mdx",
             "document:apps/docs-next/content/docs/reference/packages/react-native.mdx"
@@ -197701,7 +196928,6 @@
             "document:apps/docs-next/content/docs/reference/stability.mdx",
             "document:apps/docs-next/content/docs/ui/index.mdx",
             "document:docs/STABILITY.md",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:GOVERNANCE.md",
             "document:packages/angular/CONVENTIONS.md",
             "document:packages/angular/README.md",
@@ -197822,11 +197048,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/studies/v1-readiness-audit.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:GOVERNANCE.md",
               "confidence": "observed"
             },
@@ -197933,7 +197154,7 @@
           "aliases": "runtime @agentskit/runtime package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/runtime.mdx",
@@ -197996,12 +197217,12 @@
             "document:apps/example-slack-bot/README.md",
             "document:apps/example-teams-bot/README.md",
             "document:docs/architecture/adrs/0011-inbound-validation.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/STABILITY.md",
             "document:docs/studies/ecosystem-cohesion-plan.md",
-            "document:GOVERNANCE.md"
+            "document:GOVERNANCE.md",
+            "document:packages/adapters/README.md"
           ],
           "packageId": "package:@agentskit/runtime",
           "inbound": [
@@ -198297,11 +197518,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -198323,6 +197539,11 @@
             {
               "kind": "mentions",
               "id": "document:GOVERNANCE.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/adapters/README.md",
               "confidence": "observed"
             }
           ],
@@ -198358,8 +197579,8 @@
           "aliases": "sandbox @agentskit/sandbox package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
-          "inboundLinks": 39,
+          "pagerank": 0.005225,
+          "inboundLinks": 38,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
             "document:apps/docs-next/content/docs/reference/packages/sandbox.mdx"
@@ -198384,7 +197605,6 @@
             "document:ARCHITECTURE.md",
             "document:docs/architecture/adrs/0002-tool-contract.md",
             "document:docs/architecture/adrs/0036-cross-platform-package.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/security/threat-model.md",
@@ -198513,11 +197733,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -198639,8 +197854,8 @@
           "aliases": "skills @agentskit/skills package ownership"
         },
         "graph": {
-          "pagerank": 0.003588,
-          "inboundLinks": 29,
+          "pagerank": 0.00358,
+          "inboundLinks": 28,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
             "document:apps/docs-next/content/docs/reference/packages/skills.mdx"
@@ -198660,7 +197875,6 @@
             "document:apps/docs-next/content/docs/reference/recipes/skill-marketplace.mdx",
             "document:apps/docs-next/content/docs/reference/stability.mdx",
             "document:apps/docs-next/content/docs/use-cases/code-agent.mdx",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/STABILITY.md",
@@ -198755,11 +197969,6 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/use-cases/code-agent.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
               "confidence": "observed"
             },
             {
@@ -198860,7 +198069,7 @@
           "aliases": "solid @agentskit/solid package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 33,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/solid.mdx",
@@ -199105,7 +198314,7 @@
           "aliases": "statechart @agentskit/statechart package ownership"
         },
         "graph": {
-          "pagerank": 0.002764,
+          "pagerank": 0.002757,
           "inboundLinks": 11,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/statechart.mdx",
@@ -199224,7 +198433,7 @@
           "aliases": "svelte @agentskit/svelte package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 38,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
@@ -199499,8 +198708,8 @@
           "aliases": "templates @agentskit/templates package ownership"
         },
         "graph": {
-          "pagerank": 0.004412,
-          "inboundLinks": 21,
+          "pagerank": 0.004402,
+          "inboundLinks": 20,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/templates.mdx",
             "document:apps/docs-next/content/docs/reference/packages/templates.mdx"
@@ -199514,7 +198723,6 @@
             "document:apps/docs-next/content/docs/reference/packages/roadmap.mdx",
             "document:apps/docs-next/content/docs/reference/packages/templates.mdx",
             "document:apps/docs-next/content/docs/reference/stability.mdx",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/STABILITY.md",
             "document:docs/V1-READINESS-TRACKER.md",
@@ -199577,11 +198785,6 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/stability.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
               "confidence": "observed"
             },
             {
@@ -199672,7 +198875,7 @@
           "aliases": "tools @agentskit/tools package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 62,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
@@ -199720,7 +198923,6 @@
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:docs/architecture/adrs/0036-cross-platform-package.md",
             "document:docs/architecture/adrs/0037-net-package.md",
-            "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/STABILITY.md",
@@ -199740,7 +198942,8 @@
             "document:packages/runtime/README.md",
             "document:packages/sandbox/README.md",
             "document:packages/skills/CONVENTIONS.md",
-            "document:packages/skills/README.md"
+            "document:packages/skills/README.md",
+            "document:packages/solid/README.md"
           ],
           "packageId": "package:@agentskit/tools",
           "inbound": [
@@ -199961,11 +199164,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
               "confidence": "observed"
             },
@@ -200063,6 +199261,11 @@
               "kind": "mentions",
               "id": "document:packages/skills/README.md",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/solid/README.md",
+              "confidence": "observed"
             }
           ],
           "outbound": []
@@ -200097,7 +199300,7 @@
           "aliases": "validation @agentskit/validation package ownership"
         },
         "graph": {
-          "pagerank": 0.004,
+          "pagerank": 0.003991,
           "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/validation.mdx",
@@ -200216,7 +199419,7 @@
           "aliases": "vue @agentskit/vue package ownership"
         },
         "graph": {
-          "pagerank": 0.005237,
+          "pagerank": 0.005225,
           "inboundLinks": 38,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
@@ -200487,8 +199690,8 @@
           "aliases": "agentskit package"
         },
         "graph": {
-          "pagerank": 0.002352,
-          "inboundLinks": 46,
+          "pagerank": 0.002346,
+          "inboundLinks": 45,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
           ],
@@ -200506,7 +199709,6 @@
             "document:docs/RELEASE-RUNBOOK.md",
             "document:docs/STABILITY.md",
             "document:docs/studies/ecosystem-cohesion-plan.md",
-            "document:docs/studies/v1-readiness-audit.md",
             "document:packages/adapters/README.md",
             "document:packages/angular/README.md",
             "document:packages/cli/CONVENTIONS.md",
@@ -200609,11 +199811,6 @@
             {
               "kind": "mentions",
               "id": "document:docs/studies/ecosystem-cohesion-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
             {
