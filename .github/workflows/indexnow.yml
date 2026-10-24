@@ -1,6 +1,6 @@
 name: Ping search engines
 
-# After a production Vercel deploy succeeds, push the live sitemap URLs to
+# After a production deploy succeeds, push the live sitemap URLs to
 # IndexNow (Bing/Yandex/DuckDuckGo/Ecosia). Google is intentionally not
 # pinged: the org blocks service-account keys (iam.disableServiceAccount
 # KeyCreation) and Google recrawls the sitemap on its own anyway.
