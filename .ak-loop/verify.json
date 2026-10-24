@@ -1,0 +1,17 @@
+{
+  "ranAt": "2026-10-24T22:05:00Z",
+  "command": "pnpm install --frozen-lockfile; turbo run lint; vitest run scripts/reference-docs-vertical.test.mjs packages/adapters; pnpm run docs:build; pnpm docs:bridge:gate; node scripts/check-readme-standard.mjs",
+  "exitCode": 0,
+  "outcomes": [
+    { "id": "o1", "status": "passed", "evidence": "git rm of .vercelignore and apps/{docs-next,landing,registry}/vercel.json; no root vercel.json or .vercel/ tracked" },
+    { "id": "o2", "status": "passed", "evidence": "docs:deploy scripts removed from package.json; no workflow/script invokes the vercel CLI" },
+    { "id": "o3", "status": "passed", "evidence": "docs-next package.json/layout/lockfile entries for @vercel/analytics and speed-insights removed; pnpm run docs:build exit 0; frozen install ok. Transitive @vercel/og, @vercel/functions remain in lockfile (from next/other deps)" },
+    { "id": "o4", "status": "passed", "evidence": "no 'vercel' in lighthouse/docs/indexnow workflows; indexnow has schedule + workflow_dispatch" },
+    { "id": "o5", "status": "passed", "evidence": "no script reads vercel.json and no Cloudflare _headers generator reads it; nothing to diff" },
+    { "id": "o6", "status": "passed", "evidence": "vitest run scripts/reference-docs-vertical.test.mjs: Lighthouse tests pass (2 unrelated pre-existing failures: mobile overflow css, core subpath docs)" },
+    { "id": "o7", "status": "passed", "evidence": "vitest packages/adapters: 596 passed; vercel-ai files untouched" },
+    { "id": "o8", "status": "passed", "evidence": "check-readme-standard pass 544/0; docs:bridge:gate ok; reviewedOn/reviewDueOn unchanged" },
+    { "id": "o9", "status": "passed", "evidence": "frozen install ok, lint ok (turbo 60/60); full build OOM-killed (137) in this sandbox, docs-next build passes alone" },
+    { "id": "o10", "status": "passed", "evidence": "committed locally, not pushed" }
+  ]
+}

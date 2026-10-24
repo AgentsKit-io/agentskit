@@ -1,0 +1,18 @@
+{
+  "project": [
+    { "id": "test-for-new-code", "status": "passed", "evidence": "scripts/reference-docs-vertical.test.mjs changed (Lighthouse test rewritten for the local-only workflow)" },
+    { "id": "no-todo", "status": "passed", "evidence": "no changed file under src/** ; no TODO/FIXME added" }
+  ],
+  "outcomes": [
+    { "id": "o1", "status": "passed", "evidence": "vercel.json files and .vercelignore removed via git rm" },
+    { "id": "o2", "status": "passed", "evidence": "docs:deploy scripts removed; no vercel CLI invocations" },
+    { "id": "o3", "status": "passed", "evidence": "@vercel/analytics and speed-insights removed; docs-next build exit 0" },
+    { "id": "o4", "status": "passed", "evidence": "workflows free of vercel; indexnow has schedule + workflow_dispatch" },
+    { "id": "o5", "status": "passed", "evidence": "no generator reads vercel.json" },
+    { "id": "o6", "status": "passed", "evidence": "Lighthouse test passes under vitest" },
+    { "id": "o7", "status": "passed", "evidence": "adapters 596 tests pass; vercel-ai files untouched" },
+    { "id": "o8", "status": "passed", "evidence": "readme-standard and doc-bridge gate pass" },
+    { "id": "o9", "status": "passed", "evidence": "frozen install, lint ok; see verify.json for the build caveat" },
+    { "id": "o10", "status": "passed", "evidence": "commit header matches" }
+  ]
+}

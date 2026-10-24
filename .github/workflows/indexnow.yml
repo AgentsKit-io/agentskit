@@ -1,12 +1,13 @@
 name: Ping search engines
 
-# After a production Vercel deploy succeeds, push the live sitemap URLs to
-# IndexNow (Bing/Yandex/DuckDuckGo/Ecosia). Google is intentionally not
+# Daily (and on demand), push the live sitemap URLs to IndexNow
+# (Bing/Yandex/DuckDuckGo/Ecosia). Google is intentionally not
 # pinged: the org blocks service-account keys (iam.disableServiceAccount
 # KeyCreation) and Google recrawls the sitemap on its own anyway.
 
 on:
-  deployment_status:
+  schedule:
+    - cron: '17 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -14,11 +15,6 @@ permissions:
 
 jobs:
   ping:
-    # Only on a successful *production* deploy.
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      (github.event.deployment_status.state == 'success' &&
-       github.event.deployment_status.environment == 'Production')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
