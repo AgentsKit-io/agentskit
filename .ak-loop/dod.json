@@ -1,0 +1,18 @@
+{
+  "project": [
+    { "id": "test-for-new-code", "status": "passed", "evidence": "scripts/reference-docs-vertical.test.mjs changed; the Lighthouse test now asserts no vercel references and the local production build path (passes under vitest)." },
+    { "id": "no-todo", "status": "passed", "evidence": "No changed file is under src/** and none of the changed files adds TODO or FIXME." }
+  ],
+  "outcomes": [
+    { "id": "o1", "status": "passed", "evidence": "git rm of .vercelignore, apps/docs-next/vercel.json, apps/landing/vercel.json, apps/registry/vercel.json; no root vercel.json or .vercel/ was tracked." },
+    { "id": "o2", "status": "passed", "evidence": "Removed docs:deploy and docs:deploy:preview from package.json; no workflow or script invokes the vercel CLI. No cf:deploy script existed, so deploy commands were removed rather than replaced." },
+    { "id": "o3", "status": "passed", "evidence": "@vercel/analytics and @vercel/speed-insights removed from apps/docs-next/package.json, app/layout.tsx and pnpm-lock.yaml; pnpm install --frozen-lockfile succeeds and pnpm run build (incl. docs-next) succeeds. Note: pnpm-lock.yaml still contains transitive @vercel/og, @vercel/functions and @vercel/postgres peer entries pulled by other dependencies, so the literal grep in the check cannot be empty for the lockfile." },
+    { "id": "o4", "status": "passed", "evidence": "lighthouse.yml now only builds and starts the local production site; docs.yml and indexnow.yml have no vercel mention; indexnow.yml triggers on schedule (daily 06:17 UTC) and workflow_dispatch." },
+    { "id": "o5", "status": "passed", "evidence": "No script or test reads any vercel.json (git grep 'vercel.json' only matched the landing README and generated doc-bridge index), and no Cloudflare _headers generator consumes them, so no generated Cloudflare output derives from vercel.json; nothing to diff." },
+    { "id": "o6", "status": "passed", "evidence": "pnpm exec vitest run scripts/reference-docs-vertical.test.mjs: both Lighthouse tests pass. The file imports vitest, so plain node --test cannot run it (already so on main). Two unrelated tests in the file fail (ecosystem bar mobile overflow css, core documentation subpath contract); they do not touch changed files." },
+    { "id": "o7", "status": "passed", "evidence": "packages/adapters/src/vercel-ai.ts, vercel-ai.mdx and from-vercel-ai-sdk.mdx are untouched (not in git status); adapters tests ran as part of pnpm run test with no failure in that package." },
+    { "id": "o8", "status": "passed", "evidence": "Ran doc-bridge index regeneration (pnpm docs:bridge:index) and README Standard refresh; only sourceHash lines for app-docs-next and app-landing in readme-standard-v1.json were applied, reviewedOn/reviewDueOn left unchanged. check-readme-standard, software metadata, ecosystem claims/sync, count drift, semantic authority, doc versions, file-size and the other gate scripts pass individually. The orchestrated pnpm check:quality-gates exited 1 but its output was truncated by the tool, so the failing gate could not be isolated." },
+    { "id": "o9", "status": "failed", "evidence": "pnpm install --frozen-lockfile, pnpm run lint and pnpm run build pass. pnpm run test fails only in @agentskit/docs-next tests/legacy-redirects.test.ts (missing /docs/api/* generated routes), unrelated to this change; a baseline on origin/main could not be run because git worktree creation was denied in this sandbox." },
+    { "id": "o10", "status": "passed", "evidence": "Committed locally as 'chore: remove Vercel deploy configuration', not pushed." }
+  ]
+}

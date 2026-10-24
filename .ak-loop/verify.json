@@ -1,0 +1,17 @@
+{
+  "ranAt": "2026-10-24T20:10:00Z",
+  "command": "pnpm install --frozen-lockfile && pnpm run lint && pnpm run test && pnpm run build",
+  "exitCode": 1,
+  "outcomes": [
+    { "id": "o1", "status": "passed", "evidence": "four vercel config files removed with git rm" },
+    { "id": "o2", "status": "passed", "evidence": "docs:deploy scripts removed; no vercel CLI calls remain" },
+    { "id": "o3", "status": "passed", "evidence": "direct @vercel/analytics and speed-insights gone; build passes; transitive @vercel/og|functions|postgres remain in lockfile" },
+    { "id": "o4", "status": "passed", "evidence": "no vercel in lighthouse/docs/indexnow workflows; indexnow has schedule + workflow_dispatch" },
+    { "id": "o5", "status": "passed", "evidence": "no generator reads vercel.json; nothing to diff" },
+    { "id": "o6", "status": "passed", "evidence": "Lighthouse tests pass under vitest; 2 unrelated tests in the same file fail" },
+    { "id": "o7", "status": "passed", "evidence": "vercel-ai product code and docs untouched" },
+    { "id": "o8", "status": "passed", "evidence": "readme standard and individual gates pass; sourceHash-only update, review dates unchanged" },
+    { "id": "o9", "status": "failed", "evidence": "pnpm run test: docs-next legacy-redirects test fails on missing generated /docs/api routes; baseline on main not run" },
+    { "id": "o10", "status": "passed", "evidence": "commit header matches" }
+  ]
+}
