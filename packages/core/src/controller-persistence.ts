@@ -12,7 +12,7 @@ export function createControllerPersistence(
   callbacks: ControllerPersistenceCallbacks,
 ) {
   return {
-    async save(messages: Message[], correlation?: AgentEventContext): Promise<void> {
+    async save(messages: Message[], correlation?: AgentEventContext, strict = false): Promise<void> {
       const memory = getMemory()
       if (!memory) return
       try {
@@ -20,12 +20,14 @@ export function createControllerPersistence(
         if (correlation) callbacks.onSave(messages.length, correlation)
         else callbacks.onSave(messages.length)
       } catch (cause) {
-        callbacks.onError(new MemoryError({
+        const error = new MemoryError({
           code: ErrorCodes.AK_MEMORY_SAVE_FAILED,
           message: 'Chat memory save failed',
           hint: 'The completed response remains in memory, but durable persistence was not confirmed.',
           cause,
-        }))
+        })
+        callbacks.onError(error)
+        if (strict) throw error
       }
     },
 

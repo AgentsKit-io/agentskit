@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/svelte",
-  "version": "0.5.9",
+  "version": "0.6.0",
   "description": "Svelte 5 store + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
   "keywords": [
     "agentskit",
@@ -53,12 +53,12 @@
   },
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",
-    "@sveltejs/vite-plugin-svelte": "^7.3.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@testing-library/svelte": "^5.4.2",
-    "@types/node": "^25.9.5",
-    "svelte": "^5.57.0",
+    "@types/node": "^25.9.9",
+    "svelte": "^5.57.2",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "publishConfig": {
     "access": "public",

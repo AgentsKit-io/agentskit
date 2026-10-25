@@ -20,6 +20,7 @@ import {
   isPathInsidePackage,
   isUnsafeArchiveEntry,
   shouldTypecheckEntry,
+  selectPackedConsumerPackages,
   stripPackagePrefix,
   validateTarballEntries,
 } from './lib/packed-consumers.mjs'
@@ -347,5 +348,36 @@ describe('shebang and diagnostics', () => {
       }),
       '@agentskit/core · ./security · esm: import failed',
     )
+  })
+})
+
+describe('packed-consumer build scope', () => {
+  const packages = ['core', 'rag', 'cli', 'angular'].map((name) => ({
+    packageName: `@agentskit/${name}`,
+  }))
+  const buildTask = (name) => ({ task: 'build', package: `@agentskit/${name}` })
+
+  test('checks every public package when no scope is supplied', () => {
+    assert.deepEqual(selectPackedConsumerPackages(packages), packages)
+  })
+
+  test('uses build tasks including dependencies, not only directly affected packages', () => {
+    assert.deepEqual(selectPackedConsumerPackages(packages, {
+      packages: ['@agentskit/rag', '@agentskit/cli'],
+      tasks: [buildTask('rag'), buildTask('cli'), buildTask('core'), buildTask('rag'), buildTask('docs-next')],
+    }), packages.slice(0, 3))
+  })
+
+  test('allows an empty public scope for docs-only builds', () => {
+    assert.deepEqual(selectPackedConsumerPackages(packages, { tasks: [] }), [])
+    assert.deepEqual(selectPackedConsumerPackages(packages, { tasks: [buildTask('docs-next')] }), [])
+  })
+
+  test('rejects malformed plans instead of silently skipping validation', () => {
+    for (const plan of [null, {}, { tasks: null }, { tasks: [null] },
+      { tasks: [{ task: 'test', package: '@agentskit/rag' }] },
+      { tasks: [{ task: 'build' }] }, { tasks: [{ task: 'build', package: '' }] }]) {
+      assert.throws(() => selectPackedConsumerPackages(packages, plan), /scope/)
+    }
   })
 })

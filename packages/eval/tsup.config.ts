@@ -5,6 +5,7 @@ export default defineConfig({
   ...sharedTsupOptions,
   entry: {
     index: 'src/index.ts',
+    provenance: 'src/result-record.ts',
     replay: 'src/replay/index.ts',
     'replay.browser': 'src/replay/universal.ts',
     'replay-io': 'src/replay/io.ts',

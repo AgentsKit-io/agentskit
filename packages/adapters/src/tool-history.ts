@@ -1,4 +1,5 @@
 import type { Message } from '@agentskit/core'
+import { providerParts } from './content-parts'
 
 /** Normalize tool-call args for provider wire formats. */
 function toolInput(args: unknown): Record<string, unknown> {
@@ -43,13 +44,15 @@ export function toAnthropicMessages(
   const knownNames = new Map<string, string>()
   const output: Array<{ role: string; content: unknown }> = []
 
+  const warning = { emitted: false }
   for (const message of messages) {
+    const parts = providerParts(message, 'anthropic', true, warning)
     if (message.role === 'system') continue
 
     if (message.role === 'assistant' && message.toolCalls && message.toolCalls.length > 0) {
       for (const tc of message.toolCalls) knownNames.set(tc.id, tc.name)
-      const blocks: Array<Record<string, unknown>> = []
-      if (message.content) {
+      const blocks: Array<Record<string, unknown>> = [...(parts ?? [])]
+      if (!parts && message.content) {
         blocks.push({ type: 'text', text: message.content })
       }
       for (const tc of message.toolCalls) {
@@ -87,16 +90,16 @@ export function toAnthropicMessages(
       continue
     }
 
-    if (message.role === 'assistant' && !message.content) continue
+    if (message.role === 'assistant' && !message.content && !parts) continue
 
     const previous = output[output.length - 1]
     if (message.role === 'user' && previous?.role === 'user') {
       const previousBlocks = Array.isArray(previous.content)
         ? previous.content
         : [{ type: 'text', text: previous.content }]
-      previous.content = [...previousBlocks, { type: 'text', text: message.content }]
+      previous.content = [...previousBlocks, ...(parts ?? [{ type: 'text', text: message.content }])]
     } else {
-      output.push({ role: message.role, content: message.content })
+      output.push({ role: message.role, content: parts ?? message.content })
     }
   }
 
@@ -115,12 +118,13 @@ export function toGeminiContents(
   const output: Array<{ role: string; parts: Array<Record<string, unknown>> }> = []
 
   for (const message of messages) {
+    const contentParts = providerParts(message, 'gemini')
     if (message.role === 'system') continue
 
     if (message.role === 'assistant' && message.toolCalls && message.toolCalls.length > 0) {
       for (const tc of message.toolCalls) knownNames.set(tc.id, tc.name)
-      const parts: Array<Record<string, unknown>> = []
-      if (message.content) {
+      const parts: Array<Record<string, unknown>> = [...(contentParts ?? [])]
+      if (!contentParts && message.content) {
         parts.push({ text: message.content })
       }
       for (const tc of message.toolCalls) {
@@ -159,14 +163,14 @@ export function toGeminiContents(
       continue
     }
 
-    if (message.role === 'assistant' && !message.content) continue
+    if (message.role === 'assistant' && !message.content && !contentParts) continue
 
     const role = message.role === 'assistant' ? 'model' : 'user'
     const previous = output[output.length - 1]
     if (previous?.role === role) {
-      previous.parts.push({ text: message.content })
+      previous.parts.push(...(contentParts ?? [{ text: message.content }]))
     } else {
-      output.push({ role, parts: [{ text: message.content }] })
+      output.push({ role, parts: contentParts ?? [{ text: message.content }] })
     }
   }
 

@@ -106,3 +106,11 @@ The core `createRAG` is intentionally small. Keep it that way.
 - [ ] `RAG` still extends `Retriever`
 - [ ] New features added by composition where possible
 - [ ] Chunker changes are backward-compatible (existing indexed docs still retrieve)
+
+## Partition composition
+
+`createPartitionedRAG` wraps a `VectorMemory` and reuses `createRAG` unchanged.
+Reserved `_akPartition` metadata plus namespaced chunk IDs isolate reads and
+replacement deletion. Always post-filter, even if the store accepts filters.
+Bound candidates and report potentially reduced recall via required diagnostics.
+See [ADR 0043](../../docs/architecture/adrs/0043-partition-bound-rag.md).

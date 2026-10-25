@@ -11,6 +11,8 @@ export type {
   ChatMemory, VectorDocument, VectorMemory, EmbedFn,
   VectorSearchOptions, VectorFilter, VectorFilterCompound, VectorFilterOperator, VectorFilterPredicate, VectorFilterPrimitive,
   RetrievedDocument, RetrieverRequest, Retriever,
+  ToolDecisionRecord,
+  ToolDecisionStore,
   ChatConfig, ChatState, ChatController, ChatReturn, EditOptions,
   SkillDefinition,
   AgentEvent, AgentEventContext, Observer,

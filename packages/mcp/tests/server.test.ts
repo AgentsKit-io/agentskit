@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mockAdapter } from '@agentskit/adapters'
 import { ErrorCodes, type ToolDefinition } from '@agentskit/core'
-import { createInMemoryTransportPair, type JsonRpcMessage } from '@agentskit/tools/mcp'
+import { createInMemoryTransportPair, createMcpClient, type JsonRpcMessage } from '@agentskit/tools/mcp'
 import { createAgentTool, createTypedAgentTool } from '../src/agent-tool'
 import { createAgentsKitMcpServer } from '../src/index'
 
@@ -15,6 +15,62 @@ const echo: ToolDefinition = {
 const flush = () => new Promise((r) => setTimeout(r, 0))
 
 describe('createAgentsKitMcpServer', () => {
+  it.each(['absent', 'allow', 'deny', 'throw', 'reject'] as const)(
+    'preserves confirmation policy with an %s authorization hook', async policy => {
+      const execute = vi.fn(() => 'confirmed')
+      const authorizeToolCall = policy === 'absent' ? undefined : vi.fn(async () => {
+        if (policy === 'throw') throw new Error('policy failure')
+        if (policy === 'reject') return Promise.reject(new Error('policy failure'))
+        return policy === 'allow'
+      })
+      const [a, b] = createInMemoryTransportPair()
+      const server = createAgentsKitMcpServer({
+        transport: b, authorizeToolCall,
+        tools: [{ ...echo, requiresConfirmation: true, execute }],
+      })
+      const client = createMcpClient({ transport: a })
+      const result = await client.callTool('echo', { text: 'hi' })
+      if (policy === 'allow') {
+        expect(result.content[0]?.text).toBe('confirmed')
+        expect(execute).toHaveBeenCalledOnce()
+      } else {
+        expect(result.isError).toBe(true)
+        expect(execute).not.toHaveBeenCalled()
+      }
+      if (authorizeToolCall) expect(authorizeToolCall).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'echo', requiresConfirmation: true }), { text: 'hi' },
+      )
+      await client.close()
+      await server.close()
+    },
+  )
+
+  it('does not authorize ordinary calls and validates args before confirmation', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    const authorizeToolCall = vi.fn(() => false)
+    const execute = vi.fn(() => 'ok')
+    const server = createAgentsKitMcpServer({ transport: b, authorizeToolCall, tools: [
+      { ...echo, execute }, { ...echo, name: 'confirmed', requiresConfirmation: true, execute },
+    ] })
+    const client = createMcpClient({ transport: a })
+    expect((await client.callTool('echo', { text: 'hi' })).isError).toBeUndefined()
+    expect((await client.callTool('confirmed', {})).isError).toBe(true)
+    expect(authorizeToolCall).not.toHaveBeenCalled()
+    expect(execute).toHaveBeenCalledOnce()
+    await client.close()
+    await server.close()
+  })
+
+  it('preserves metadata through the wrapper listing', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    const metadata = { title: 'Echo display', annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false } }
+    const server = createAgentsKitMcpServer({ transport: b, tools: [{ ...echo, ...metadata }] })
+    const client = createMcpClient({ transport: a })
+    expect((await client.listTools()).tools[0]).toMatchObject(metadata)
+    await client.close()
+    await server.close()
+  })
+
   it('lists and calls exposed tools over an MCP transport', async () => {
     const [client, server] = createInMemoryTransportPair()
     const srv = createAgentsKitMcpServer({ tools: [echo], transport: server })

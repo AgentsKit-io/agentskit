@@ -6,6 +6,10 @@
 - **Related RFCs**: [0002](./0002-agent-registry-and-ecosystem-cohesion.md) (ecosystem cohesion), [0006](./0006-ui-component-registry.md) (the chat as a component; `createAskHandler` D5)
 - **Related**: the live Ask-the-docs chat (`apps/docs-next/lib/ask/*`), the registry MCP (`apps/registry/app/api/mcp`)
 
+> **Update 2026-10-21**: the `ask.agentskit.io` host referenced below is retired and its
+> DNS removed. Sites now take the backend URL from `NEXT_PUBLIC_ASK_ENDPOINT`; the Ask
+> widgets are disabled until it is set.
+
 ## Summary
 
 Move the AgentsKit AI/RAG workload off Vercel serverless into **one persistent

@@ -1,4 +1,5 @@
 import { ConfigError, ErrorCodes, type AgentEvent, type Observer } from '@agentskit/core'
+import { durableSpendRecorder, type CostGuardStoreOptions } from './cost-guard-store'
 
 /**
  * Dollar cost per 1K tokens for input and output.
@@ -49,7 +50,9 @@ export const DEFAULT_PRICES: Record<string, TokenPrice> = {
 }
 
 /** Configuration for an observer that tracks cumulative token spend. */
-export interface CostGuardOptions {
+export interface CostGuardOptions extends CostGuardStoreOptions {
+  /** Tenant the spend is recorded under in `store`. Default `'default'`. */
+  tenant?: string
   /** Hard budget in USD. Aborts the run when exceeded. */
   budgetUsd: number
   /**
@@ -320,6 +323,21 @@ export function costGuard(options: CostGuardOptions): Observer & {
   let cost = 0
   let exceededOnce = false
 
+  const tenant = options.tenant ?? 'default'
+  const durable = durableSpendRecorder('costGuard', options, err => reportCostGuardError(onError, err))
+
+  const trip = (costUsd: number) => {
+    if (exceededOnce) return
+    // Mark + abort synchronously before any potentially hostile onExceeded.
+    exceededOnce = true
+    try {
+      controller.abort()
+    } catch (err) {
+      reportCostGuardError(onError, err)
+    }
+    invokeCostGuardCallback(() => onExceeded?.({ costUsd, budgetUsd }), onError)
+  }
+
   const update = (deltaPrompt: number, deltaCompletion: number) => {
     prompt += deltaPrompt
     completion += deltaCompletion
@@ -334,10 +352,8 @@ export function costGuard(options: CostGuardOptions): Observer & {
       return
     }
     // Incremental: price only the tokens from this event with the active model.
-    cost += computeCost(
-      { promptTokens: deltaPrompt, completionTokens: deltaCompletion },
-      price,
-    )
+    const delta = computeCost({ promptTokens: deltaPrompt, completionTokens: deltaCompletion }, price)
+    cost += delta
 
     invokeCostGuardCallback(() => {
       return onCost?.({
@@ -348,18 +364,9 @@ export function costGuard(options: CostGuardOptions): Observer & {
       })
     }, onError)
 
-    if (cost > budgetUsd && !exceededOnce) {
-      // Mark + abort synchronously before any potentially hostile onExceeded.
-      exceededOnce = true
-      try {
-        controller.abort()
-      } catch (err) {
-        reportCostGuardError(onError, err)
-      }
-      invokeCostGuardCallback(() => {
-        return onExceeded?.({ costUsd: cost, budgetUsd })
-      }, onError)
-    }
+    if (cost > budgetUsd) trip(cost)
+    durable?.({ tenant, model: currentModel, promptTokens: deltaPrompt, completionTokens: deltaCompletion, costUsd: delta },
+      window => { if (window.spentUsd > budgetUsd) trip(window.spentUsd) })
   }
 
   return {

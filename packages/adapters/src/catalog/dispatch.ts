@@ -1,19 +1,19 @@
 import type { AdapterFactory } from '@agentskit/core'
-import { openai } from '../openai'
-import type { RetryOptions } from '../utils'
+import { openai, type OpenAIConfig } from '../openai'
 import { getProvider } from './loader'
 import type { CatalogProvider } from './types'
 
 /**
  * Provider, model, credentials, and optional transport settings for catalog-based dispatch.
  */
-export interface CatalogDispatchConfig {
+export interface CatalogDispatchConfig extends OpenAIConfig {
   provider: string
   model: string
   apiKey: string
   /** Override the catalog base URL (e.g. proxy / self-hosted gateway). */
   baseUrl?: string
-  retry?: RetryOptions
+  /** Explicit values for catalog URL placeholders; never reads process.env. */
+  env?: Record<string, string>
 }
 
 /**
@@ -22,14 +22,14 @@ export interface CatalogDispatchConfig {
 export class CatalogDispatchError extends Error {
   constructor(
     message: string,
-    readonly code: 'UNKNOWN_PROVIDER' | 'NOT_OPENAI_COMPATIBLE' | 'NO_BASE_URL',
+    readonly code: 'UNKNOWN_PROVIDER' | 'NOT_OPENAI_COMPATIBLE' | 'NO_BASE_URL' | 'MISSING_URL_VARIABLE',
   ) {
     super(message)
     this.name = 'CatalogDispatchError'
   }
 }
 
-function resolveBaseUrl(provider: CatalogProvider, override?: string): string {
+function resolveBaseUrl(provider: CatalogProvider, override?: string, env: Record<string, string> = {}): string {
   const baseUrl = override ?? provider.baseUrl
   if (!baseUrl) {
     throw new CatalogDispatchError(
@@ -37,7 +37,11 @@ function resolveBaseUrl(provider: CatalogProvider, override?: string): string {
       'NO_BASE_URL',
     )
   }
-  return baseUrl
+  return baseUrl.replace(/\$\{([A-Z_][A-Z_0-9]*)\}/g, (_match, name: string) => {
+    const value = env[name]
+    if (!value) throw new CatalogDispatchError(`missing catalog URL variable ${name}`, 'MISSING_URL_VARIABLE')
+    return encodeURIComponent(value)
+  })
 }
 
 /**
@@ -63,9 +67,9 @@ export function dispatchFromCatalog(config: CatalogDispatchConfig): AdapterFacto
     )
   }
   return openai({
-    apiKey: config.apiKey,
+    ...config,
     model: config.model,
-    baseUrl: resolveBaseUrl(provider, config.baseUrl),
+    baseUrl: resolveBaseUrl(provider, config.baseUrl, config.env),
     retry: config.retry,
   })
 }

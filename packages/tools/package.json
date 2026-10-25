@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/tools",
-  "version": "0.13.14",
+  "version": "0.13.16",
   "description": "Reusable executable tools for AgentsKit agents.",
   "keywords": [
     "agentskit",
@@ -79,11 +79,11 @@
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/json-schema": "^7.0.15",
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "better-sqlite3": "^13.0.3",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "peerDependencies": {
     "better-sqlite3": "^11.0.0 || ^12.0.0 || ^13.0.0"

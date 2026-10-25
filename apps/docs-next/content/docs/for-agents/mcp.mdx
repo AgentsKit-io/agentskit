@@ -56,13 +56,13 @@ tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` +
 ## Install
 
 ```bash
-npm install @agentskit/mcp@0.4.10
+npm install @agentskit/mcp@0.5.1
 ```
 
 ## Primary exports
 
-- `createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport? })` —
-  expose `ToolDefinition[]` as an MCP server. Defaults to stdio over the current
+- `createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport?, authorizeToolCall? })` —
+  expose `McpToolDefinition[]` as an MCP server. Defaults to stdio over the current
   process; pass `transport` to override (tests / custom hosts).
 - `processStdio()` — adapt the Node process into the `StdioLikeProcess` the
   transport expects (server receives on stdin, sends on stdout).
@@ -77,9 +77,30 @@ npm install @agentskit/mcp@0.4.10
   (hosted index, raw-GitHub fallback); `null` for tool-composing agents. An
   optional third argument controls abort, timeout, and response-byte limits.
 
+Pass `authorizeToolCall` to `createAgentsKitMcpServer` to obtain host approval
+for tools marked `requiresConfirmation`. It has the same type as
+`McpServerOptions['authorizeToolCall']`: `(tool, args) => boolean | Promise<boolean>`.
+Arguments are validated first. Only confirmation-required tools invoke the
+hook; absent hooks, denied approvals, throws, and rejected promises prevent
+execution. The host must obtain the required human confirmation before
+returning `true`; annotations do not replace that decision.
+
+`McpToolDefinition` (from `@agentskit/tools/mcp`) extends the core tool
+shape with optional `title` and `annotations`: `title`, `readOnlyHint`,
+`destructiveHint`, `idempotentHint`, and `openWorldHint`. Server listing and
+client import preserve these fields, including explicit `false` hints.
+Imported titles use the existing `maxDescriptionBytes` UTF-8 limit; malformed
+metadata is rejected. Hints remain untrusted advisory data and never grant
+confirmation or alter execution policy.
+
+These fields follow the [MCP tool metadata specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
+They are optional descriptor extensions on the existing `2024-11-05` bridge;
+older clients may ignore unknown fields. This does not add negotiation or
+other features from newer protocol revisions.
+
 ## Bin
 
-`agentskit-mcp` — `npx -y @agentskit/mcp@0.4.10 --tools fetch,search`. Expose whole agents
+`agentskit-mcp` — `npx -y @agentskit/mcp@0.5.1 --tools fetch,search`. Expose whole agents
 with `--agents <ids> --provider <p>` (any of ~20 providers + catalog OpenAI-compatible). Flags: `--tools`,
 `--fs-root`, `--sqlite`, `--allow-shell`, `--model`, `--max-steps`, `--api-key`,
 `--base-url`. Unknown, duplicate, or valueless flags fail closed. stdout is the

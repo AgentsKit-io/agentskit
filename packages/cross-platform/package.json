@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/cross-platform",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "One place for OS and runtime portability in the AgentsKit ecosystem: spawn, paths, line endings and filesystem that behave the same on Windows, macOS and Linux under Node, Bun and Deno.",
   "keywords": [
     "agentskit",
@@ -69,12 +69,12 @@
   "devDependencies": {
     "@types/cross-spawn": "^6.0.6",
     "@types/graceful-fs": "^4.1.9",
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "@types/which": "^2.0.2",
-    "std-env": "^4.1.0",
+    "std-env": "^4.3.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "agentskit": {
     "stability": "beta",

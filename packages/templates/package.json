@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/templates",
-  "version": "0.5.9",
+  "version": "0.5.10",
   "description": "Extension toolkit for creating custom AgentsKit skills, tools, and adapters.",
   "keywords": [
     "agentskit",
@@ -50,10 +50,10 @@
     "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "agentskit": {
     "stability": "beta",

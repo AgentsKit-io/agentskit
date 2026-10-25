@@ -1,3 +1,4 @@
+import type { ContentPart } from './content'
 import type { MaybePromise } from './common'
 import type { StreamStatus, TokenUsage } from './stream'
 import type { Message } from './message'
@@ -7,6 +8,27 @@ import type { ChatMemory } from './memory'
 import type { Retriever } from './retrieval'
 import type { SkillDefinition } from './skill'
 import type { AgentEventContext, Observer } from './agent'
+
+/** A persisted decision, scoped by the application to one authorized conversation. */
+export interface ToolDecisionRecord {
+  toolCallId: string
+  messages: Message[]
+  status: 'pending' | 'claimed' | 'complete' | 'failed' | 'denied'
+  decision?: 'approve' | 'deny'
+  reason?: string
+  outcome?: ToolCall
+}
+
+/** Durable, linearizable admission boundary. Never reset claimed or terminal records. */
+export interface ToolDecisionStore {
+  /** Insert only if absent; a duplicate must not overwrite the original snapshot. */
+  putPending: (record: ToolDecisionRecord) => Promise<void>
+  get: (toolCallId: string) => Promise<ToolDecisionRecord | undefined>
+  /** Atomic pending → claimed transition; only the winner receives the stored snapshot. */
+  claim: (toolCallId: string, decision: 'approve' | 'deny', reason?: string) => Promise<ToolDecisionRecord | undefined>
+  /** Persist the winner's terminal outcome; reject writes without a matching claim. */
+  settle: (record: ToolDecisionRecord) => Promise<void>
+}
 
 /** Configuration for a headless chat controller and its integrations.
  * @example
@@ -25,6 +47,8 @@ export interface ChatConfig {
   tools?: ToolDefinition[]
   skills?: SkillDefinition[]
   memory?: ChatMemory
+  /** Required by decide; scope this store to the authorized conversation. */
+  decisionStore?: ToolDecisionStore
   retriever?: Retriever
   initialMessages?: Message[]
   /**
@@ -76,7 +100,7 @@ export interface EditOptions {
 export interface ChatController {
   getState: () => ChatState
   subscribe: (listener: () => void) => () => void
-  send: (text: string) => Promise<void>
+  send: (text: string | ContentPart[]) => Promise<void>
   stop: () => void
   retry: () => Promise<void>
   /**
@@ -96,13 +120,17 @@ export interface ChatController {
   clear: () => Promise<void>
   updateConfig: (config: Partial<ChatConfig>) => void
   proposeToolCall: (proposal: Pick<ToolCall, 'id' | 'name' | 'args'>) => Promise<ToolCall>
+  /** Resume a durable confirmation; terminal replay does not call tool or model again. */
+  decide: (toolCallId: string, decision: 'approve' | 'deny', reason?: string) => Promise<ToolCall>
+  /** @deprecated Generation-local only. Use decide with a decisionStore for durable decisions. */
   approve: (toolCallId: string) => Promise<void>
+  /** @deprecated Generation-local only. Use decide for durable decisions. */
   deny: (toolCallId: string, reason?: string) => Promise<void>
 }
 
 /** Chat state combined with the actions exposed by framework bindings. */
 export interface ChatReturn extends ChatState {
-  send: (text: string) => Promise<void>
+  send: ChatController['send']
   stop: () => void
   retry: () => Promise<void>
   edit: (messageId: string, newContent: string, opts?: EditOptions) => Promise<void>

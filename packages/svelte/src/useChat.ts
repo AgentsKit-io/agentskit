@@ -12,6 +12,7 @@ export interface SvelteChatStore extends Readable<ChatState> {
   setInput: ChatController['setInput']
   clear: ChatController['clear']
   proposeToolCall: ChatReturn['proposeToolCall']
+  decide: ChatController['decide']
   approve: ChatController['approve']
   deny: ChatController['deny']
   /** Unsubscribe from controller updates and stop the active response. */
@@ -58,7 +59,7 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
 
   return {
     subscribe: store.subscribe,
-    send: rejected((text: string) => controller.send(text)),
+    send: rejected(controller.send),
     stop: () => { if (!destroyed) controller.stop() },
     retry: rejected(() => controller.retry()),
     edit: rejected((messageId: string, newContent: string, opts?: Parameters<ChatController['edit']>[2]) => controller.edit(messageId, newContent, opts)),
@@ -66,6 +67,7 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
     setInput: (value: string) => { if (!destroyed) controller.setInput(value) },
     clear: rejected(() => controller.clear()),
     proposeToolCall: rejected((proposal: Parameters<ChatController['proposeToolCall']>[0]) => controller.proposeToolCall(proposal)),
+    decide: rejected(controller.decide),
     approve: rejected((toolCallId: string) => controller.approve(toolCallId)),
     deny: rejected((toolCallId: string, reason?: string) => controller.deny(toolCallId, reason)),
     destroy,

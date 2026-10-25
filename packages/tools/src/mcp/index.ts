@@ -18,6 +18,8 @@ export type {
   JsonRpcSuccess,
   JsonRpcError,
   McpToolDescriptor,
+  McpToolDefinition,
+  McpToolAnnotations,
   McpToolsListResult,
   McpCallToolResult,
   McpContentText,

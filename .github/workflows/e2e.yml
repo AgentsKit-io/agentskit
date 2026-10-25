@@ -46,9 +46,13 @@ jobs:
 
       - name: Build the production docs app for docs E2E
         run: pnpm --filter @agentskit/docs-next build
+        env:
+          NEXT_PUBLIC_ASK_ENDPOINT: https://ask.e2e.invalid/v1/ask
 
       - name: Build the production Registry app for Registry E2E
         run: pnpm --filter @agentskit/registry-app build
+        env:
+          NEXT_PUBLIC_ASK_ENDPOINT: https://ask.e2e.invalid/v1/ask
 
       - run: pnpm exec playwright test
 

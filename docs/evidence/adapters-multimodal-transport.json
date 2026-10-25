@@ -1,0 +1,139 @@
+{
+  "sourceRevision": "f78b492b0345684c920c1ce2245248cccb21cc46",
+  "adapterTree": "e7eb02cdeaef97f042f7c7b81e288431d89c9855",
+  "scope": "local transport serialization; no live provider inference",
+  "http": {
+    "command": "pnpm --filter @agentskit/adapters exec vitest run tests/multimodal-http.test.ts --maxWorkers=2 --reporter=json",
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "multimodal HTTP contract openai preserves ordered parts, detail and files",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal HTTP contract openai-compatible preserves ordered parts, detail and files",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal HTTP contract Anthropic sends image and PDF blocks",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal HTTP contract gemini sends inlineData and fileData",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal HTTP contract vertex sends inlineData and fileData",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal HTTP contract Ollama sends images without the data URL prefix",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal HTTP contract rejects unsupported modalities before network I/O",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal HTTP contract custom gateway path/headers/fetch preserves streaming and usage without Bearer",
+        "status": "passed"
+      },
+      {
+        "name": "OpenAI-compatible presets routes OpenRouter, AI Gateway and Workers AI with documented headers",
+        "status": "passed"
+      },
+      {
+        "name": "OpenAI-compatible presets catalog interpolates explicit Cloudflare account id and rejects missing variables",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal boundaries and history sends URL image sources and provider file identifiers",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal boundaries and history rejects unknown sources, missing MIME types, and unsupported audio/video without sending",
+        "status": "passed"
+      },
+      {
+        "name": "multimodal boundaries and history keeps parts on assistant tool calls and merged user turns",
+        "status": "passed"
+      },
+      {
+        "name": "keeps the generated capability table and recipe aligned with HTTP cases",
+        "status": "passed"
+      },
+      {
+        "name": "encodes inline text documents and Ollama image file parts",
+        "status": "passed"
+      },
+      {
+        "name": "honors case-insensitive caller authentication overrides",
+        "status": "passed"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "name": "regressions-original",
+      "command": "pnpm --filter @agentskit/adapters exec vitest run tests/multimodal-http.test.ts",
+      "result": "expected failure: 8/8 on original source",
+      "logSha256": "349d391a5c38a754122a82a038c72018f05d7dbd4b403f7f562797a785b1ea67"
+    },
+    {
+      "name": "adapters-current",
+      "command": "pnpm --filter @agentskit/adapters exec vitest run --maxWorkers=2",
+      "result": "passed: 53 files, 584 tests",
+      "logSha256": "776211ae74ef31ebb4d87cb1a0d4a17aab88666c19f3e9050b7a482e8b0367f6"
+    },
+    {
+      "name": "global-test-1",
+      "command": "pnpm test",
+      "result": "failed: integrations HTTP deadline assertion",
+      "logSha256": "a4270411fdb8d3af7bf772fa061d78ec9521ce1a835ecae600613d6a1628dc1a"
+    },
+    {
+      "name": "global-test-2",
+      "command": "pnpm test",
+      "result": "failed: sandbox process exit assertion",
+      "logSha256": "67dc185aa3baa398a1c1a85b345a88bc3e494c016121879408be9cffa6224d13"
+    },
+    {
+      "name": "global-test-3",
+      "command": "pnpm exec turbo run test --concurrency=1",
+      "result": "failed: eval bundler interop timeout 90000ms",
+      "logSha256": "8c49160fe54d4b9c75d1eafa081da4d7ef7e602187a133aeb07bfca14bafbd4e"
+    },
+    {
+      "name": "mdx",
+      "command": "pnpm --filter @agentskit/docs-next lint:mdx",
+      "result": "passed: 417 files, 87 warnings",
+      "logSha256": "2e821e8dfa885f4b2b27148bcbab27ad3661e08e0ab56862206b95bc44671f42"
+    },
+    {
+      "name": "handoff",
+      "command": "pnpm exec ak-docs query package adapters --agent",
+      "result": "blocked: index stale",
+      "logSha256": "05dfff1e17a1cc2f318c8a71eae16f3b00e8bf72aedcc37f5cf7114a67d899e2"
+    },
+    {
+      "name": "package-build",
+      "command": "pnpm --filter @agentskit/adapters build",
+      "result": "passed: ESM, CJS and DTS",
+      "logSha256": "5a5caf33ec4cd92fa25e16d542a69d48770a1ae055c2c24bde70c048b9061161"
+    },
+    {
+      "name": "package-lint",
+      "command": "pnpm --filter @agentskit/adapters lint",
+      "result": "passed: source and test typecheck, including required credential types",
+      "logSha256": "9fafd74610b7358c7a0059fe6127a94c3c761fd15f15b95ca7d7811832217fcd"
+    },
+    {
+      "name": "built-api",
+      "command": "node built ESM/CJS export and deferred-I/O assertions",
+      "result": "passed",
+      "logSha256": "9277aa1c312e66758234daa2522a69fead1268b28ccd63e104a6084c7d9ed7ee"
+    }
+  ]
+}

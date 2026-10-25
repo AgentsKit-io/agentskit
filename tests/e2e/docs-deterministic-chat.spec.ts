@@ -13,7 +13,7 @@ test.afterAll(async () => {
 
 test('docs chat answers locally, then escalates an unknown query with context intact', async ({ page }) => {
   const backendBodies: unknown[] = []
-  await page.route('https://ask.agentskit.io/v1/ask', async route => {
+  await page.route('https://ask.e2e.invalid/v1/ask', async route => {
     backendBodies.push(route.request().postDataJSON())
     await route.fulfill({ status: 200, contentType: 'text/plain', body: 'Backend grounded answer.' })
   })

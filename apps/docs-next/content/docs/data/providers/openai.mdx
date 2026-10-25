@@ -16,9 +16,13 @@ const adapter = openai({
 
 | Option | Type | Default |
 |---|---|---|
-| `apiKey` | `string` | required |
+| `apiKey` | `string` | required for `openai`; optional for `openaiCompatible` and Cloudflare presets |
 | `model` | `string` | required |
 | `baseUrl` | `string` | `https://api.openai.com` |
+| `path` | `string` | `/v1/chat/completions`; custom path appended to `baseUrl` |
+| `headers` | `HeadersInit` | additional headers; override defaults case-insensitively |
+| `fetch` | `typeof fetch` | global fetch |
+| `capabilities` | `Partial<AdapterCapabilities>` | model-name defaults; override for compatible models |
 | `retry` | `RetryOptions` | package default |
 | `includeUsage` | `boolean` | `true` for the canonical OpenAI host |
 
@@ -36,10 +40,55 @@ const adapter = openai({
 
 - Streaming via SSE; emits `text` + `tool-call` + `done` chunks.
 - Parallel tool calling enabled by default.
-- Multimodal: pass `{ type: 'image', url }` content parts.
+- Images: pass `message.parts` entries `{ type: 'image', source }` (HTTPS/data URL), with optional `detail`. Files accept data URLs or uploaded `file-*` IDs. See the [tested modality matrix](/docs/reference/recipes/multi-modal).
+- Unsupported modalities/sources raise `CAPABILITY_UNSUPPORTED` when multimodal input is enabled. Text-only models and assistant messages with binary parts use text parts and short attachment markers, omitting binary data and data URLs, with at most one warning per request, preserving older conversations. Explicit `capabilities.multiModal` overrides model-name heuristics (GPT-4/5, o-series, vision, Gemini and Claude 3+, including provider prefixes); set it for custom models or differing provider support.
+- `openaiCompatible()` uses the same transport, with optional `apiKey`; omitting it sends no automatic Bearer header. Existing `openrouter()` remains available, with `openRouter()` as an alias.
+- With the default path, trailing `/v1` on `baseUrl` is normalized. With an explicit `path`, the base URL is preserved (apart from the trailing slash).
 - Azure OpenAI users should use [azureOpenAIAdapter](https://github.com/AgentsKit-io/agentskit/issues/428) — different routing.
 
 ## Related
 
 - [Providers overview](./) · [Hosted](./hosted) · [Embedders](./embedders) — `openaiEmbedder`
 - Recipe: [custom-adapter](/docs/reference/recipes/custom-adapter)
+
+## Gateway presets
+
+```ts
+import { cloudflareAiGateway, workersAi, openRouter } from '@agentskit/adapters'
+
+const gateway = cloudflareAiGateway({
+  accountId: 'your-account', gatewayId: 'your-gateway',
+  gatewayToken: process.env.CF_AIG_TOKEN,
+  model: 'openrouter/google/gemini-2.5-flash-lite',
+  capabilities: { multiModal: true },
+})
+const workers = workersAi({
+  accountId: 'your-account', apiKey: process.env.CLOUDFLARE_API_TOKEN!,
+  model: '@cf/your-model',
+})
+const router = openRouter({
+  apiKey: process.env.OPENROUTER_API_KEY!,
+  model: 'google/gemini-2.5-flash-lite',
+  capabilities: { multiModal: true },
+  headers: { 'HTTP-Referer': 'https://example.com', 'X-Title': 'Example' },
+})
+```
+
+`cloudflareAiGateway()` targets
+`https://gateway.ai.cloudflare.com/v1/{accountId}/{gatewayId}/compat/chat/completions`
+and adds `cf-aig-authorization: Bearer {gatewayToken}` when supplied.
+A provider `apiKey` is optional for gateway-managed keys. `workersAi()` targets
+`https://api.cloudflare.com/client/v4/accounts/{accountId}/ai/v1/chat/completions`
+with the supplied API token as Bearer, using REST without runtime bindings.
+`openRouter()` targets `https://openrouter.ai/api/v1/chat/completions`.
+All presets support `baseUrl`, `path`, `headers`, `fetch` and capability overrides.
+
+For catalog dispatch, pass URL variables explicitly:
+`env: { CLOUDFLARE_ACCOUNT_ID: 'your-account' }`. Missing placeholders raise
+`MISSING_URL_VARIABLE`; no environment variables are read implicitly.
+
+URL/header contracts were tested through local HTTP capture. Authenticated live
+OpenRouter, AI Gateway and Workers AI calls remain pending and require separate authorization.
+See [Cloudflare Unified API](https://developers.cloudflare.com/ai-gateway/usage/chat-completion/),
+[Workers AI REST](https://developers.cloudflare.com/ai-gateway/get-started/), and
+[OpenRouter API](https://openrouter.ai/docs/api_reference/overview).

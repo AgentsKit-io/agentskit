@@ -4,6 +4,11 @@ import { openai, anthropic, gemini, ollama, mockAdapter, vercelAI } from '../src
 import { chunkText, simulateStream } from '../src/utils'
 
 describe('adapter capabilities', () => {
+  it.each(['meta-llama/llama-vision', 'google/gemini-2.5-flash', 'anthropic/claude-3.5-sonnet', 'anthropic/claude-sonnet-4-6', 'openai/gpt-4o', 'openai/o3'])('detects compatible multimodal model %s and honors explicit overrides', model => {
+    expect(openai({ apiKey: 'x', model }).capabilities?.multiModal).toBe(true)
+    expect(openai({ apiKey: 'x', model, capabilities: { multiModal: false } }).capabilities?.multiModal).toBe(false)
+    expect(openai({ apiKey: 'x', model: 'custom', capabilities: { multiModal: true } }).capabilities?.multiModal).toBe(true)
+  })
   it('openai advertises streaming, tools, usage', () => {
     const adapter = openai({ apiKey: 'x', model: 'gpt-4o' })
     expect(adapter.capabilities?.streaming).toBe(true)

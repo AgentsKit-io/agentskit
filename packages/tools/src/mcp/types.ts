@@ -1,4 +1,5 @@
 import type { JSONSchema7 } from 'json-schema'
+import type { ToolDefinition } from '@agentskit/core'
 
 /** MCP protocol version implemented by the tools bridge. */
 export const MCP_PROTOCOL_VERSION = '2024-11-05' as const
@@ -45,8 +46,25 @@ export type JsonRpcMessage =
   | JsonRpcSuccess
   | JsonRpcError
 
+/** Advisory tool behavior hints; never a substitute for authorization. */
+export interface McpToolAnnotations {
+  title?: string
+  readOnlyHint?: boolean
+  destructiveHint?: boolean
+  idempotentHint?: boolean
+  openWorldHint?: boolean
+}
+
+/** Core tool definition with optional MCP display and behavior metadata. */
+export interface McpToolDefinition extends ToolDefinition {
+  title?: string
+  annotations?: McpToolAnnotations
+}
+
 /** Tool name, description, and JSON Schema advertised by an MCP server. */
 export interface McpToolDescriptor {
+  title?: string
+  annotations?: McpToolAnnotations
   name: string
   description?: string
   inputSchema: JSONSchema7

@@ -221,7 +221,7 @@ test('provider recipe and canonical docs stay aligned with adapter configuration
   assert.match(recipe, /adapter compatibility matrix/)
 
   const unsupportedOptions = {
-    openai: ['organization', 'project', 'fetch'],
+    openai: ['organization', 'project'],
     anthropic: ['version', 'fetch'],
     gemini: ['apiVersion', 'fetch'],
     openrouter: ['appUrl', 'appName', 'fetch'],

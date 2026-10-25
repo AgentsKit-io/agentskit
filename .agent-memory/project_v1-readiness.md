@@ -41,8 +41,8 @@ react's `data-ak-*` contract, 100% component coverage. v1.0.0 criteria now track
 in `docs/V1-READINESS-TRACKER.md` (linked from STABILITY.md). Pattern to replicate:
 svelte → solid → react-native → angular, then promote each.
 
-Stale planning docs (ROADMAP-PRD, MASTER-EXECUTION-PLAN, PHASE-0-*) marked
-"historical" with banners → living sources STABILITY.md + V1-READINESS-TRACKER.
+Stale planning docs (ROADMAP-PRD marked "historical"; the master and phase-0
+plans since deleted, see git history) → living sources STABILITY.md + V1-READINESS-TRACKER.
 
 **svelte promoted to beta (2026-06-15):** full headless component parity — 8
 Svelte 5 `.svelte` components + sibling `.svelte.d.ts`. Build: added `esbuild-svelte`

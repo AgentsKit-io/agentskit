@@ -85,6 +85,42 @@ console.log(`Passed: ${result.passed}/${result.totalCases}`)
 - CI exit codes — non-zero on failure for pipeline gating
 - Pair with `@agentskit/observability` to trace failed cases
 
+## Result records
+
+Use `@agentskit/eval/provenance` to preserve benchmark identity and metrics without running an agent:
+
+```ts
+import { createResultRecord, serializeResultRecord, verifyResultRecord, precisionRecall } from '@agentskit/eval/provenance'
+
+const record = createResultRecord({
+  suiteId: 'baseline',
+  caseSetDigest: 'a'.repeat(64), // SHA-256 of the frozen cases
+  subject: { revision: 'revision-1', digest: 'b'.repeat(64) },
+  runnerVersion: '1',
+  metrics: { measured: 2, unavailable: 1, invalid: 0, ...precisionRecall({ tp: 3, fp: 1, fn: 2 }) },
+})
+const saved = serializeResultRecord(record)
+verifyResultRecord(JSON.parse(saved)) // true
+```
+
+`ResultRecordInput` requires non-empty `suiteId`, `subject.revision`, and `runnerVersion`,
+lowercase 64-character SHA-256 `caseSetDigest` and `subject.digest`, and a JSON metrics
+object (`ResultMetric` supports nested arrays and objects). Creation snapshots the input.
+`ResultRecord` adds `digest`: SHA-256 of the UTF-8 RFC 8785 canonical JSON of all input
+fields except `timestamp`. Serialization includes the digest and optional timestamp.
+Omit the timestamp for byte-identical reruns; changing it does not invalidate the digest.
+Core's canonical JSON semantics apply: undefined object fields are omitted, undefined
+array entries become null, and non-finite numbers and cycles are rejected.
+
+`verifyResultRecord(unknown)` returns false for malformed provenance or a mismatched
+digest, without throwing. It checks integrity, not authenticity or whether the supplied
+revision and digests correspond to real artifacts. A party able to rewrite the record
+and its digest can produce another valid record.
+
+`precisionRecall({ tp, fp, fn })` accepts non-negative safe integers and returns
+`{ precision, recall }` in `[0, 1]`. A zero denominator yields zero. Counts and per-unit
+results can be stored directly in metrics; these helpers do not run or judge cases.
+
 ## Deterministic replay
 
 Import recording, replay, cassette serialization, time travel, and comparison APIs from `@agentskit/eval/replay`. That entry is safe for Node, browsers, Expo, and React Native; browser and native package conditions exclude filesystem code.

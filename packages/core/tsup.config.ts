@@ -21,6 +21,7 @@ export default defineConfig({
     'eval-format': 'src/eval-format.ts',
     'memory-validation': 'src/memory-validation.ts',
     'tool-proposal': 'src/tool-proposal.ts',
+    'controller-decision-internal': 'src/controller-decision-internal.ts',
     'tool-proposal-internal': 'src/tool-proposal-internal.ts',
     'tool-authorization-internal': 'src/tool-authorization-internal.ts',
     rules: 'src/rules.ts',
@@ -28,7 +29,7 @@ export default defineConfig({
   },
   clean: false,
   minify: true,
-  external: ['./tool-proposal-internal.js', './tool-authorization-internal.js', './memory-validation.js'],
+  external: ['./controller-decision-internal.js', './tool-proposal-internal.js', './tool-authorization-internal.js', './memory-validation.js'],
   noExternal: ['canonicalize', '@noble/hashes'],
   // tsup ships .ts entrypoints only; copy bundled JSON assets manually.
   async onSuccess() {

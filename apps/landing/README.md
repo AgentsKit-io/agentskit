@@ -7,6 +7,8 @@ Profile: <code>public-app</code>
 - App package lives at `apps/landing`.
 - Root claims: [ecosystem-claims.json](../../ecosystem-claims.json)
 
+![AgentsKit landing is standalone while docs serve the public domain](../../.github/assets/app-surfaces.svg)
+
 ## Install / run
 
 <!-- readme-command:install -->
@@ -44,7 +46,7 @@ Profile: <code>public-app</code>
 
 Standalone Next.js 16 landing page for AgentsKit — issue [#230](https://github.com/AgentsKit-io/agentskit/issues/230) (P0.19).
 
-Independent from `apps/docs-next`. Current deployment evidence shows that the existing Vercel project `agentskit-doc`, rooted at `apps/docs-next`, serves the public apex and `/docs`; this standalone app is not currently mapped to `www.agentskit.io`. Treat `apps/docs-next` as the production owner until routing is deliberately changed. All `LINKS.docs` URLs use the `/docs` path.
+Independent from `apps/docs-next`. The Cloudflare Worker `agentskit-docs`, built from `apps/docs-next` with vinext, serves the public domain and `/docs`; this standalone app is not mapped to `www.agentskit.io`. Treat `apps/docs-next` as the production owner until routing is deliberately changed. All `LINKS.docs` URLs use the `/docs` path.
 
 ## Stack
 
@@ -106,5 +108,5 @@ Mirror updates here into `apps/docs-next/styles/` if cross-surface visual consis
 
 ## Deploy
 
-- **Vercel** (default): no extra flags. The `vercel.json` here installs with `--frozen-lockfile` and uses an `ignoreCommand` scoped to `apps/landing` + the workspace lockfile so unrelated commits don't trigger a rebuild.
-- **Self-hosted** (Cloudflare Pages, Node server, Docker): set `NEXT_OUTPUT_STANDALONE=1` to switch Next to `output: 'standalone'`. Avoid this on Vercel — it bypasses ISR / Edge Functions / Image Optimization.
+- **Self-hosted** (Node server, Docker): set `NEXT_OUTPUT_STANDALONE=1` to switch Next to `output: 'standalone'`.
+- This app has no dedicated deploy configuration; the Cloudflare Worker built from `apps/docs-next` serves the public domain.
