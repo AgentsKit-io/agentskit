@@ -1,0 +1,15 @@
+{
+  "ranAt": "2026-10-25T02:00:00Z",
+  "command": "pnpm exec ak-docs index && pnpm exec ak-docs doctor --json",
+  "exitCode": 0,
+  "outcomes": [
+    { "id": "o1", "status": "passed", "evidence": "grading.unmet = [], grade A, score 96, reachability 100%, connectivity 86% (52/57 areas)" },
+    { "id": "o2", "status": "failed", "evidence": "bench hit@3 0.8, MRR 0.732566 (passes) but the existing suite has 60 cases, outside the 20-40 range; trimming would delete cases, which the contract forbids" },
+    { "id": "o3", "status": "passed", "evidence": "Only for-agents docs for cli/adapters/cross-platform/core edited; each cited directory was read and the description matches its contents" },
+    { "id": "o4", "status": "passed", "evidence": "git diff origin/main: no baseline file, no reviewedOn/reviewDueOn changes" },
+    { "id": "o5", "status": "passed", "evidence": "pnpm docs:bridge:gate ok (index fresh d5e6547e...), pnpm check:ecosystem-doc-quality no findings, check:readme-standard PASS" },
+    { "id": "o6", "status": "failed", "evidence": "turbo build of @agentskit/adapters is OOM-killed (exit 137) in this sandbox, so lint/test/build could not be completed; change is docs-only" },
+    { "id": "o7", "status": "failed", "evidence": "pnpm check:quality-gates aborts at the package build precondition (same exit 137); doc-related gates run individually passed: for-agents coverage, intl parity, count drift, doc package versions, readme standard, ecosystem doc quality" },
+    { "id": "o8", "status": "passed", "evidence": "2 conventional commits, headers under 72 chars, nothing pushed" }
+  ]
+}
