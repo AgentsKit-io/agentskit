@@ -4,6 +4,8 @@ description: Provider adapters (OpenAI-compatible + native) + router + ensemble 
 docbridge:
   covers:
     - package:@agentskit/adapters
+    - area:packages/adapters/src/catalog
+    - area:packages/adapters/src/cli
 ---
 
 ## Purpose
@@ -223,6 +225,16 @@ opens a draft refresh PR when the source changes and checks freshness.
   transport coverage.
 - `catalogSnapshotSchema` (JSON Schema, public contract),
   `catalogSource()` (provenance + `generatedAt` for staleness).
+
+### Source layout
+
+- `packages/adapters/src/catalog/` — the catalog subpath: loader, schema, pricing,
+  overrides, `dispatch.ts` (`dispatchFromCatalog`), `drift.ts`
+  (`detectCatalogDrift`, `classifyCatalogProvider`) and the committed
+  `snapshot.json`.
+- `packages/adapters/src/cli/` — the `@agentskit/adapters/cli` subpath: process
+  spawning, JSON response parsing, prompt serialization, `manifests.ts` and the
+  Claude Code output parser.
 
 ## Minimal example
 

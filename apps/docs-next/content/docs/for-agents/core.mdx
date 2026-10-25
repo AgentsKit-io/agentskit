@@ -4,6 +4,7 @@ description: Zero-dependency foundation. Contracts, chat controller, primitives,
 docbridge:
   covers:
     - package:@agentskit/core
+    - area:packages/core/src/types
 ---
 
 ## Purpose
@@ -91,6 +92,10 @@ import { canonicalJson, sha256Hex } from '@agentskit/core/hash'
 
 const digest = sha256Hex(canonicalJson({ model: 'example', options: { temperature: 0 } }))
 ```
+
+The shared contract and message types (adapter, agent, chat, memory, message,
+retrieval, skill, stream, tool, eval, finding) are declared in
+`packages/core/src/types/`.
 
 ## Minimal example
 
