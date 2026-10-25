@@ -4,6 +4,11 @@ description: agentskit CLI — init, chat, run, dev, doctor, ai, tunnel, rag, co
 docbridge:
   covers:
     - package:@agentskit/cli
+    - area:packages/cli/src/app
+    - area:packages/cli/src/components
+    - area:packages/cli/src/extensibility
+    - area:packages/cli/src/rules
+    - area:packages/cli/src/runtime
 ---
 
 # @agentskit/cli
@@ -55,6 +60,22 @@ above can be driven from your own code.
   `defaultPolicy`, `evaluatePolicy`, `applyPolicyToTool`,
   `applyPolicyToTools`.
 - `@agentskit/cli/ai` — `scaffoldAgent`, `writeScaffold`, `createAdapterPlanner`.
+
+## Source layout
+
+Where the code behind the commands lives under `packages/cli/src/`:
+
+- `packages/cli/src/app/` — `ChatApp.tsx`, the Ink chat UI behind `agentskit chat`
+  (`ChatApp`, `renderChatHeader`, `groupIntoTurns`).
+- `packages/cli/src/runtime/` — React hooks that wire a chat to the runtime:
+  `useRuntime`, `useSessionMeta`, `useToolPermissions`.
+- `packages/cli/src/extensibility/` — hooks, MCP, permissions, plugins, RAG and
+  telemetry (the helpers listed under Programmatic helpers).
+- `packages/cli/src/components/` — registry component install: manifest fetch and
+  checksum verification, minisign signature checks, project scanning, and the
+  path-containment guard with transactional writes.
+- `packages/cli/src/rules/` — agent rule file templates for Claude Code, Codex,
+  Cursor and Windsurf.
 
 ## Related
 
