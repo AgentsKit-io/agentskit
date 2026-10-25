@@ -3,6 +3,7 @@ import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { elevenlabsActions } from './actions'
 
+/** Descriptor for the ElevenLabs service integration. */
 export const elevenlabsIntegration = defineIntegration({
   name: 'elevenlabs',
   displayName: 'ElevenLabs',

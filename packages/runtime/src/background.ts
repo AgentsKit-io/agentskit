@@ -22,6 +22,9 @@ export interface CronJob<TContext = unknown> {
   runOnStart?: boolean
 }
 
+/**
+ * Job, schedule, context, and clock options for a cron scheduler.
+ */
 export interface CronSchedulerOptions<TContext = unknown> {
   jobs: CronJob<TContext>[]
   /** Observability hook. */
@@ -99,6 +102,12 @@ function isAnyField(field: string): boolean {
   return field.split(',').some(segment => segment === '*' || segment.startsWith('*/'))
 }
 
+/**
+ * Parse a five-field cron expression or `every:<milliseconds>` schedule.
+ * @param schedule Schedule string to parse.
+ * @returns Parsed schedule fields for matching.
+ * @throws {Error} When the schedule syntax is invalid.
+ */
 export function parseSchedule(schedule: string): ParsedSchedule {
   const trimmed = schedule.trim()
   if (trimmed.startsWith('every:')) {
@@ -132,6 +141,12 @@ export function parseSchedule(schedule: string): ParsedSchedule {
   }
 }
 
+/**
+ * Check whether a parsed cron schedule matches a date.
+ * @param schedule Parsed five-field cron schedule.
+ * @param now Date to check.
+ * @returns Whether every cron field matches the date.
+ */
 export function cronMatches(schedule: ParsedCron, now: Date): boolean {
   if (!schedule.minute.has(now.getMinutes()) || !schedule.hour.has(now.getHours()) || !schedule.month.has(now.getMonth() + 1)) return false
   const domMatch = schedule.dom.has(now.getDate())
@@ -144,6 +159,9 @@ export function cronMatches(schedule: ParsedCron, now: Date): boolean {
   return dayMatch
 }
 
+/**
+ * Controls for starting and stopping scheduled job execution.
+ */
 export interface CronScheduler {
   start: () => void
   stop: () => void
@@ -151,6 +169,11 @@ export interface CronScheduler {
   tick: (now?: Date) => Promise<void>
 }
 
+/**
+ * Create a scheduler that dispatches a job when its cron or interval schedule is due.
+ * @param options Schedule, job callback, clock, and error handling options.
+ * @returns A scheduler with start and stop controls.
+ */
 export function createCronScheduler<TContext = unknown>(
   options: CronSchedulerOptions<TContext>,
 ): CronScheduler {
@@ -219,17 +242,26 @@ export function createCronScheduler<TContext = unknown>(
 // Webhook handler
 // ---------------------------------------------------------------------------
 
+/**
+ * Normalized incoming webhook method, headers, and body.
+ */
 export interface WebhookRequest {
   headers?: Record<string, string | string[] | undefined>
   body?: string | Record<string, unknown>
 }
 
+/**
+ * HTTP status, headers, and body returned by a webhook handler.
+ */
 export interface WebhookResponse {
   status: number
   body: string
   headers?: Record<string, string>
 }
 
+/**
+ * Configuration for adapting incoming webhook requests to agent execution.
+ */
 export interface WebhookOptions<TContext = unknown> {
   agent: AgentHandle<TContext>
   /**
@@ -252,6 +284,9 @@ function defaultExtract(req: WebhookRequest): string {
   return JSON.stringify(req.body ?? '')
 }
 
+/**
+ * Async function that handles one webhook request and returns a response.
+ */
 export type WebhookHandler = (req: WebhookRequest) => Promise<WebhookResponse>
 
 /**

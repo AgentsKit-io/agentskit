@@ -62,6 +62,7 @@ export function jaroWinkler(a: string, b: string, opts: { caseSensitive?: boolea
   return j + prefix * 0.1 * (1 - j)
 }
 
+/** Candidate value and similarity score returned by fuzzy matching. */
 export interface FuzzyMatch {
   candidate: string
   score: number

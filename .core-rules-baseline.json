@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "include": [
+    "packages"
+  ],
+  "exclude": [],
+  "scope": "packages/*/src",
+  "entries": {
+    "packages/angular/src/chat.service.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/cli/src/ai/planner.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/cli/src/commands/flow.ts": {
+      "no-raw-error-boundary": 3
+    },
+    "packages/cli/src/components/marker.ts": {
+      "no-local-canonical-json": 1
+    },
+    "packages/cli/src/config.ts": {
+      "no-raw-error-boundary": 3
+    },
+    "packages/cli/src/dev.ts": {
+      "no-raw-error-boundary": 2
+    },
+    "packages/cli/src/extensibility/plugins/loader.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/cli/src/extensibility/rag/embedders.ts": {
+      "no-raw-error-boundary": 2
+    },
+    "packages/cli/src/extensibility/rag/runner.ts": {
+      "no-raw-error-boundary": 2
+    },
+    "packages/cli/src/init-writer.ts": {
+      "no-raw-error-boundary": 3
+    },
+    "packages/cli/src/init.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/cli/src/providers.ts": {
+      "no-raw-error-boundary": 3
+    },
+    "packages/cli/src/registry.ts": {
+      "no-raw-error-boundary": 13
+    },
+    "packages/cli/src/rules/cursor.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/cli/src/rules/windsurf.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/cli/src/run.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/cli/src/sessions.ts": {
+      "no-raw-error-boundary": 2
+    },
+    "packages/core/src/a2a.ts": {
+      "no-raw-error-boundary": 6
+    },
+    "packages/core/src/agent-schema.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/core/src/budget.ts": {
+      "no-raw-error-boundary": 3
+    },
+    "packages/core/src/compose-tool.ts": {
+      "no-raw-error-boundary": 2
+    },
+    "packages/core/src/eval-format.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/core/src/generative-ui.ts": {
+      "no-raw-error-boundary": 4
+    },
+    "packages/core/src/hitl.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/core/src/manifest.ts": {
+      "no-raw-error-boundary": 2
+    },
+    "packages/core/src/progressive.ts": {
+      "no-raw-error-boundary": 2
+    },
+    "packages/core/src/prompt-experiments.ts": {
+      "no-raw-error-boundary": 2
+    },
+    "packages/core/src/security/injection.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/core/src/security/rate-limit.ts": {
+      "no-raw-error-boundary": 2
+    },
+    "packages/core/src/self-debug.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/eval/src/replay/io.ts": {
+      "no-math-random-id": 1
+    },
+    "packages/eval/src/snapshot/snapshot.ts": {
+      "no-math-random-id": 1
+    },
+    "packages/observability/src/cost-guard-alert-sinks.ts": {
+      "no-raw-error-boundary": 1
+    },
+    "packages/observability/src/devtools.ts": {
+      "no-math-random-id": 1
+    },
+    "packages/runtime/src/flow.ts": {
+      "no-math-random-id": 1
+    },
+    "packages/templates/src/blueprints/embedder.ts": {
+      "no-raw-error-boundary": 4
+    },
+    "packages/templates/src/blueprints/flow.ts": {
+      "no-raw-error-boundary": 3
+    }
+  }
+}

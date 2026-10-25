@@ -34,7 +34,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter "./packages/*" build
+      - run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
 
       - run: pnpm test:coverage
 

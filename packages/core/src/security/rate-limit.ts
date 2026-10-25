@@ -1,3 +1,4 @@
+/** Capacity, refill amount, and interval for a token-bucket policy. */
 export interface RateLimitBucket {
   /** Tokens available per window. */
   capacity: number
@@ -7,6 +8,7 @@ export interface RateLimitBucket {
   windowMs: number
 }
 
+/** Allow/deny result and remaining capacity for one rate-limit check. */
 export interface RateLimitDecision {
   allowed: boolean
   remaining: number
@@ -16,6 +18,7 @@ export interface RateLimitDecision {
   bucket: string
 }
 
+/** Key extraction, bucket selection, clock, and memory bounds for a limiter. */
 export interface RateLimiterOptions<TContext = unknown> {
   /** Extract the key to bucket against — user id, IP, API key, etc. */
   keyOf: (context: TContext) => string
@@ -39,6 +42,7 @@ export interface RateLimiterOptions<TContext = unknown> {
   ttlMs?: number
 }
 
+/** In-memory token-bucket operations for checking and inspecting limits. */
 export interface RateLimiter<TContext = unknown> {
   check: (context: TContext) => RateLimitDecision
   /** Drop bucket state for a specific key (e.g. on logout). */

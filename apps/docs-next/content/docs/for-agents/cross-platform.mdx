@@ -4,6 +4,8 @@ description: One place for OS and runtime portability. Spawn, paths, line ending
 docbridge:
   covers:
     - package:@agentskit/cross-platform
+    - area:packages/cross-platform/src/lint
+    - area:packages/cross-platform/src/process
   relations:
     - from: package:@agentskit/cross-platform
       to: package:@agentskit/core
@@ -56,6 +58,12 @@ Options: `cwd`, `env`, `input` (written to stdin, then closed), `stdin`/`stdout`
 
 - `removePath` (rm -rf with retries), `renamePath` (graceful-fs retries on Windows locks), `writeFileAtomic` (temp file on the same volume, then rename), `createSymlink` (junction/copy fallback without Windows symlink privilege), `copyPath`, `setFileMode` (no-op on Windows; returns false).
 
+### Testing helpers
+
+Import `createFetchStub`, `jsonResponse`, and `withTempDir` from
+`@agentskit/cross-platform/testing`. They have no test-runner dependency;
+`withTempDir` uses this package's OS temp-directory and retrying cleanup helpers.
+
 ### Runtime and errors
 
 - `getRuntimeInfo()` → `{ runtime, os, platform, isServer }`; `isWindows`, `isMacOS`, `isLinux`, `isBun`, `isDeno` (std-env).
@@ -63,7 +71,15 @@ Options: `cwd`, `env`, `input` (written to stdin, then closed), `stdin`/`stdout`
 
 ### Guardrail
 
-- `PORTABILITY_RULES`, `scanText`, `scanRepository`, `countFindings`, `compareToBaseline`, `tightenBaseline`, `runCli` — back the `agentskit-cross-platform check` bin (ratchet baseline in `.cross-platform-baseline.json`; `cross-platform-ignore: <reason>` allows an exception).
+- `PORTABILITY_RULES`, `scanText`, `scanRepository`, `countFindings`, `compareToBaseline`, `tightenBaseline`, `runCli` — back the `agentskit-cross-platform check` bin (ratchet baseline in `.cross-platform-baseline.json`; `runCli` accepts optional `{ rules, filter }` for custom ratchets; `cross-platform-ignore: <reason>` skips every rule on the line, and `<rule-id>-ignore: <reason>` skips only that rule).
+
+### Source layout
+
+- `packages/cross-platform/src/process/` — spawn, run, kill, command resolution and
+  the Node, Bun and Deno adapters behind `spawnProcess`, `runCommand` and
+  `killProcessTree`.
+- `packages/cross-platform/src/lint/` — the guardrail: `rules.ts`, `scan.ts`,
+  `baseline.ts` and the `cli.ts` behind `agentskit-cross-platform check`.
 
 ## Usage
 

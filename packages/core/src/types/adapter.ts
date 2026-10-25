@@ -3,6 +3,7 @@ import type { StreamSource } from './stream'
 import type { ToolDefinition } from './tool'
 import type { AgentEventContext } from './agent'
 
+/** Optional model settings and metadata supplied with an adapter request. */
 export interface AdapterContext {
   systemPrompt?: string
   temperature?: number
@@ -11,6 +12,7 @@ export interface AdapterContext {
   metadata?: Record<string, unknown>
 }
 
+/** Messages and context passed to an adapter when creating a stream. */
 export interface AdapterRequest {
   messages: Message[]
   context?: AdapterContext
@@ -46,6 +48,10 @@ export interface AdapterCapabilities {
   extensions?: Record<string, unknown>
 }
 
+/** Factory that turns a request into a stream of model output.
+ * @param request Messages and model context for the response.
+ * @returns The response stream and its abort method.
+ */
 export type AdapterFactory = {
   createSource: (request: AdapterRequest) => StreamSource
   /** Optional capabilities hint. See AdapterCapabilities. */

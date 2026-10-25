@@ -1,5 +1,5 @@
 import type { StreamChunk } from '@agentskit/core'
-import { readSSELines } from './stream-lines'
+import { parseSSE } from '@agentskit/net'
 import { adapterErrorChunk, parseCompleteToolArgs } from './stream-errors'
 
 const SUCCESS_FINISH_REASONS = new Set(['stop', 'tool_calls', 'function_call'])
@@ -37,7 +37,7 @@ export async function* parseOpenAIStream(stream: ReadableStream): AsyncIterableI
     return true
   }
 
-  for await (const data of readSSELines(stream)) {
+  for await (const { data } of parseSSE(stream)) {
     if (data === '[DONE]') {
       if (finishReason !== undefined && !SUCCESS_FINISH_REASONS.has(finishReason)) {
         pendingToolCalls.clear()

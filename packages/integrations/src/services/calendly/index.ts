@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { calendlyActions } from './actions'
 
+/** Descriptor for the Calendly service integration. */
 export const calendlyIntegration = defineIntegration({
   name: 'calendly',
   displayName: 'Calendly',

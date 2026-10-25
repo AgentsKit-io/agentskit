@@ -6,8 +6,15 @@
 // (`AgentEvent`, `TraceSpan`, or a host application's own event union) without
 // coupling the replay driver to a specific schema.
 
+/** Asynchronous or synchronous consumer invoked for each replayed event. */
 export type ReplayHandler<E> = (event: E) => void | Promise<void>
 
+/**
+ * Replay events sequentially through each handler in registration order.
+ * @param events Ordered event history to replay.
+ * @param handlers Consumers invoked for each event.
+ * @returns A promise that resolves after every handler completes.
+ */
 export const replayEvents = async <E>(
   events: readonly E[],
   handlers: readonly ReplayHandler<E>[],

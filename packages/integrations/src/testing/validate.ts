@@ -21,6 +21,11 @@ function isObjectSchema(schema: JSONSchema7 | undefined): boolean {
   return !!schema && schema.type === 'object'
 }
 
+/** Checks an action descriptor and returns every shape problem found.
+ * @param action Action descriptor to inspect.
+ * @param path Dotted path used as the problem location prefix.
+ * @returns Problems found, or an empty array when the action is valid.
+ */
 export function validateAction(action: IntegrationAction, path: string): ValidationProblem[] {
   const problems: ValidationProblem[] = []
   if (!ACTION_NAME_RE.test(action.name)) {
@@ -38,6 +43,11 @@ export function validateAction(action: IntegrationAction, path: string): Validat
   return problems
 }
 
+/** Checks a trigger descriptor and returns every shape problem found.
+ * @param trigger Trigger descriptor to inspect.
+ * @param path Dotted path used as the problem location prefix.
+ * @returns Problems found, or an empty array when the trigger is valid.
+ */
 export function validateTrigger(trigger: IntegrationTrigger, path: string): ValidationProblem[] {
   const problems: ValidationProblem[] = []
   if (!trigger.name?.trim()) {

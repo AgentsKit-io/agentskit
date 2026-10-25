@@ -6,6 +6,17 @@ import { useEffect, useRef, useSyncExternalStore } from 'react'
 import { createChatController } from '@agentskit/core'
 import type { ChatConfig, ChatController, ChatReturn } from '@agentskit/core'
 
+/**
+ * Create or reuse a chat controller and expose its state and actions.
+ *
+ * @param config The configuration supplied to the core chat controller.
+ * @returns Chat state and the controller's send, stop, retry, and tool actions.
+ * @example
+ * ```tsx
+ * const chat = useChat({ adapter })
+ * return <InputBar chat={chat} />
+ * ```
+ */
 export function useChat(config: ChatConfig): ChatReturn {
   const controllerRef = useRef<ChatController | null>(null)
 

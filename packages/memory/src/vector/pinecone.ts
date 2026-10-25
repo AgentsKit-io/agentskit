@@ -1,6 +1,7 @@
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
 import { remoteJson, type RemoteHttpConfig } from './http'
 
+/** Index URL, API key, namespace, and search settings for Pinecone. */
 export interface PineconeConfig extends RemoteHttpConfig {
   /** Full index URL, e.g. `https://<idx>-<project>.svc.<region>.pinecone.io`. */
   indexUrl: string
@@ -22,6 +23,10 @@ async function call<T>(config: PineconeConfig, path: string, body: unknown): Pro
   })
 }
 
+/** Creates a vector memory backed by the Pinecone vector API.
+ * @param config Index endpoint, API key, and optional namespace and result limit.
+ * @returns A vector memory backed by the configured Pinecone index.
+ */
 export function pinecone(config: PineconeConfig): VectorMemory {
   const defaultTopK = Math.max(1, config.topK ?? 10)
   const namespace = config.namespace ?? ''

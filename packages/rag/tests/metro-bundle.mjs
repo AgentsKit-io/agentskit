@@ -23,6 +23,7 @@ async function verifyLazyNodePeer() {
     await cp(resolve(packageRoot, 'dist'), join(installedRag, 'dist'), { recursive: true })
     await cp(resolve(packageRoot, 'package.json'), join(installedRag, 'package.json'))
     await linkPackage(projectRoot, '@agentskit/core', resolve(repositoryRoot, 'packages/core'))
+    await linkPackage(projectRoot, '@agentskit/net', resolve(repositoryRoot, 'packages/net'))
 
     const sdkRoot = join(projectRoot, 'node_modules/@aws-sdk/client-s3')
     await mkdir(sdkRoot, { recursive: true })

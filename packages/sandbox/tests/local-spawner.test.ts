@@ -2,6 +2,34 @@ import { describe, expect, it } from 'vitest'
 import { nodeSpawner } from '../src/index'
 
 describe('nodeSpawner', () => {
+  it('spawns a process and terminates it through the returned handle', async () => {
+    const spawner = await nodeSpawner()
+    const handle = await spawner.spawn({
+      command: process.execPath,
+      args: ['-e', 'setInterval(() => {}, 1000)'],
+    })
+    try {
+      await handle.kill()
+      const exited = await new Promise<boolean>((resolve) => {
+        const deadline = Date.now() + 2_000
+        const check = () => {
+          try {
+            process.kill(handle.pid, 0)
+          } catch {
+            resolve(true)
+            return
+          }
+          if (Date.now() >= deadline) resolve(false)
+          else setTimeout(check, 10)
+        }
+        check()
+      })
+      expect(exited).toBe(true)
+    } finally {
+      await handle.kill()
+    }
+  })
+
   it('execs a command to completion capturing stdout + exit code', async () => {
     const spawner = await nodeSpawner()
     const res = await spawner.exec!({

@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { createServer } from 'node:http'
 import { createOpenAiEmbedder } from '../src/extensibility/rag/embedders'
 
 const realFetch = globalThis.fetch
@@ -59,5 +60,32 @@ describe('createOpenAiEmbedder', () => {
     ) as unknown as typeof fetch
     const embed = createOpenAiEmbedder({ apiKey: 'sk-test' })
     await expect(embed('hi')).rejects.toThrow(/missing data/)
+  })
+
+  it('bounds streamed localhost responses and accepts a normal response', async () => {
+    let requests = 0
+    const server = createServer((request, response) => {
+      if (requests++ > 0) {
+        response.writeHead(200)
+        response.write(Buffer.alloc(16 * 1024 * 1024 + 1, 0x61))
+        response.end()
+        return
+      }
+      response.writeHead(200, { 'content-type': 'application/json' })
+      response.write('{"data":')
+      response.end('[{"embedding":[0.4,0.5]}]}')
+    })
+    await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+    const address = server.address()
+    if (!address || typeof address === 'string') throw new Error('Expected a localhost TCP address')
+    try {
+      const embed = createOpenAiEmbedder({ apiKey: 'sk-test', baseUrl: `http://127.0.0.1:${address.port}` })
+      await expect(embed('ok')).resolves.toEqual([0.4, 0.5])
+      await expect(embed('too large')).rejects.toMatchObject({
+        cause: { code: 'AK_NET_BODY_TOO_LARGE' },
+      })
+    } finally {
+      await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()))
+    }
   })
 })

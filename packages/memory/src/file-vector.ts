@@ -3,6 +3,7 @@ import type { VectorMemory, VectorDocument, RetrievedDocument } from '@agentskit
 import type { VectorStore } from './vector-store'
 import { matchesFilter } from './vector/filter'
 
+/** On-disk path and optional vector-store adapter for file vector memory. */
 export interface FileVectorMemoryConfig {
   path: string
   store?: VectorStore
@@ -90,6 +91,16 @@ function createVectraStore(dirPath: string): VectorStore {
   }
 }
 
+/** Creates a persistent vector memory backed by a local Vectra index.
+ * @param config Index path and optional vector-store adapter.
+ * @returns A vector memory that stores and searches local embeddings.
+ * @throws {MemoryError} When the optional `vectra` dependency is unavailable.
+ * @example
+ * ```ts
+ * const memory = fileVectorMemory({ path: './vectors' })
+ * await memory.store([{ id: 'guide', content: 'Guide text', embedding }])
+ * ```
+ */
 export function fileVectorMemory(config: FileVectorMemoryConfig): VectorMemory {
   const store = config.store ?? createVectraStore(config.path)
   const contentCache = new Map<string, string>()

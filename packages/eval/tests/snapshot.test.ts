@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mkdtempSync, rmSync } from 'node:fs'
-import { readFile } from 'node:fs/promises'
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import {
@@ -102,7 +102,7 @@ describe('matchPromptSnapshot', () => {
       const r = await matchPromptSnapshot('hello', path)
       expect(r.matched).toBe(true)
       expect(r.reason).toBe('snapshot created')
-      expect(await readFile(path, 'utf8')).toBe('hello')
+      expect(await readFile(path)).toEqual(Buffer.from('hello', 'utf8'))
     } finally {
       rmSync(dir, { recursive: true, force: true })
     }
@@ -139,6 +139,22 @@ describe('matchPromptSnapshot', () => {
     const dir = mkdtempSync(join(tmpdir(), 'ak-snap-'))
     try {
       await expect(matchPromptSnapshot('hello', dir)).rejects.toThrow()
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('preserves a directory target when snapshot creation fails', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ak-snap-'))
+    try {
+      const path = join(dir, 'snapshot.txt')
+      await mkdir(path)
+      await writeFile(join(path, 'previous'), 'preserved')
+
+      await expect(matchPromptSnapshot('hello', path)).rejects.toThrow()
+
+      expect(await readFile(join(path, 'previous'), 'utf8')).toBe('preserved')
+      expect((await readdir(dir)).filter(name => name.endsWith('.tmp'))).toEqual([])
     } finally {
       rmSync(dir, { recursive: true, force: true })
     }

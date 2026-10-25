@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill, TOOLS } from './utils'
 
+/** Skill for web research that anchors non-trivial claims to source URLs. */
 export const researcher: SkillDefinition = defineSkill(
   'researcher',
   'Citation-first web researcher. Every claim is anchored to a source URL; uncited claims are flagged or dropped.',

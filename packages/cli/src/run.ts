@@ -3,6 +3,10 @@ import type { AgentEvent, Observer } from '@agentskit/core'
 import { resolveChatProvider } from './providers'
 import { resolveTools, resolveSkill, resolveSkills, resolveMemory } from './resolve'
 
+/**
+ * Provider and agent runtime options accepted by the CLI run command.
+
+ */
 export interface RunCommandOptions {
   provider: string
   model?: string
@@ -41,6 +45,15 @@ function formatEvent(event: AgentEvent): string {
   }
 }
 
+/**
+ * Runs one agent task with the selected provider, tools, skills, and memory.
+ * @param task User task to run.
+ * @param options Provider and runtime settings.
+ * @returns A promise that resolves when the run completes.
+ * @throws {Error} If mutually exclusive skill options are both set or provider configuration is invalid.
+ * @example
+ * await runAgent('Say hello', { provider: 'demo' })
+ */
 export async function runAgent(task: string, options: RunCommandOptions): Promise<void> {
   if (options.skill && options.skills) {
     throw new Error('--skill and --skills are mutually exclusive. Use one or the other.')

@@ -6,6 +6,7 @@ import {
   type LifecycleObserver,
 } from './http-batch-sink'
 
+/** Datadog API key, site, service tags, and batch settings. */
 export interface DatadogSinkConfig extends HttpBatchOptions {
   apiKey: string
   /** Datadog site, defaults to `datadoghq.com` (US1). Use `datadoghq.eu`, `us5.datadoghq.com`, etc. */
@@ -16,6 +17,7 @@ export interface DatadogSinkConfig extends HttpBatchOptions {
   env?: string
 }
 
+/** Lifecycle observer returned by `datadogSink`. */
 export type DatadogSinkObserver = LifecycleObserver
 
 function siteEndpoint(site = 'datadoghq.com'): string {
@@ -48,8 +50,9 @@ function spanToLog(
 }
 
 /**
- * Datadog Logs sink. Batches span start/end as JSON log entries to Datadog's
- * HTTP intake. Failures are isolated — observability never breaks the main loop.
+ * Create a batched HTTP sink that exports span events as JSON logs to Datadog; failures are isolated.
+ * @param config API key, Datadog site, service tags, and batch settings.
+ * @returns A lifecycle observer with `flush` and `shutdown` methods.
  */
 export function datadogSink(config: DatadogSinkConfig): DatadogSinkObserver {
   return createHttpBatchSink({

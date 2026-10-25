@@ -12,9 +12,11 @@
  * Network access is injected (`FetchLike`) so the whole client is unit-testable
  * with no real requests.
  */
-import { createHash } from 'node:crypto'
+import { sha256Hex } from '@agentskit/core/hash'
 import type { ComponentPort, ComponentsConfig, RegistryComponent } from './types'
 import { IntegrityError, type FileToWrite } from './install'
+
+export { sha256Hex }
 
 /** Highest registry `schemaVersion` this CLI understands. */
 export const SUPPORTED_SCHEMA_VERSION = 1
@@ -109,11 +111,6 @@ export function resolveAuthHeader(
     }
   }
   return {}
-}
-
-/** Lowercase hex SHA-256 of a string. */
-export function sha256Hex(content: string): string {
-  return createHash('sha256').update(content, 'utf8').digest('hex')
 }
 
 /** Throw {@link IntegrityError} listing every file whose content fails its sha256. */

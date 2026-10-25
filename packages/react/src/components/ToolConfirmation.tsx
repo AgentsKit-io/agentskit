@@ -1,12 +1,18 @@
 import React from 'react'
 import type { ToolCall } from '@agentskit/core'
 
+/** Props for approving or denying a tool call that requires confirmation. */
 export interface ToolConfirmationProps {
   toolCall: ToolCall
   onApprove: (toolCallId: string) => void
   onDeny: (toolCallId: string, reason?: string) => void
 }
 
+/**
+ * Render approval controls only while the tool call needs confirmation.
+ * @param props The tool call and its approval and denial callbacks.
+ * @returns The confirmation element or `null`.
+ */
 export function ToolConfirmation({ toolCall, onApprove, onDeny }: ToolConfirmationProps) {
   if (toolCall.status !== 'requires_confirmation') return null
 

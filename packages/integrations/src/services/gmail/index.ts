@@ -3,6 +3,7 @@ import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { gmailActions } from './actions'
 
+/** Descriptor for the Gmail service integration. */
 export const gmailIntegration = defineIntegration({
   name: 'gmail',
   displayName: 'Gmail',

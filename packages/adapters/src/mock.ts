@@ -7,8 +7,14 @@ import type {
 } from '@agentskit/core'
 import { abortableSleep, adapterErrorChunk, isAbortError } from './stream-errors'
 
+/**
+ * A mock response emitted by a mock adapter.
+ */
 export type MockResponse = StreamChunk[] | ((request: AdapterRequest) => StreamChunk[])
 
+/**
+ * Configuration options for the mock and recording adapters.
+ */
 export interface MockAdapterOptions {
   /**
    * Static chunks, a request-aware function, or a sequence of responses
@@ -149,6 +155,9 @@ function resolve(
 // Recording / replay
 // ============================================================================
 
+/**
+ * One recorded request and response turn.
+ */
 export interface RecordedTurn {
   /** ISO timestamp when this turn was recorded. */
   recordedAt: string
@@ -158,8 +167,14 @@ export interface RecordedTurn {
   chunks: StreamChunk[]
 }
 
+/**
+ * Recorded turns used to replay adapter responses.
+ */
 export type RecordingFixture = RecordedTurn[]
 
+/**
+ * Sink that stores recorded adapter turns.
+ */
 export interface RecordingSink {
   push(turn: RecordedTurn): void | Promise<void>
 }

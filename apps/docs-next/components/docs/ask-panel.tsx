@@ -196,7 +196,7 @@ function AskInput({ chat, placeholder, disabled }: ComponentProps<NonNullable<Ag
         rows={2}
         placeholder={placeholder}
         disabled={disabled}
-        className="flex-1 resize-none rounded-md border border-ak-border bg-ak-surface p-2 font-mono text-xs text-ak-foam outline-none transition-colors focus:border-ak-blue"
+        className="flex-1 resize-none rounded-md border border-ak-border bg-ak-surface p-2 font-mono text-xs text-ak-foam placeholder:text-ak-foam placeholder:opacity-100 outline-none transition-colors focus:border-ak-blue"
       />
       <button type="submit" disabled={disabled || !chat.input.trim()} data-ak-send="" className="rounded-md bg-ak-foam px-3 font-mono text-xs font-semibold text-ak-midnight disabled:opacity-40">send</button>
     </form>
@@ -346,7 +346,7 @@ export function AskDocsPanel({
             <button type="button" onClick={onClose} aria-label="Close" className="text-ak-graphite">✕</button>
           </div>
         </header>
-        <div className="min-h-0 flex-1 overflow-hidden p-3 [&>[data-ak-app-chat]]:flex [&>[data-ak-app-chat]]:h-full [&>[data-ak-app-chat]]:min-h-0 [&>[data-ak-app-chat]]:flex-col [&>[data-ak-app-chat]>[role=log]]:flex [&>[data-ak-app-chat]>[role=log]]:min-h-0 [&>[data-ak-app-chat]>[role=log]]:flex-1 [&>[data-ak-app-chat]>[role=log]]:overflow-hidden">
+        <div className="min-h-0 flex-1 overflow-hidden p-3 [&>[data-ak-app-chat]]:flex [&>[data-ak-app-chat]]:h-full [&>[data-ak-app-chat]]:min-h-0 [&>[data-ak-app-chat]]:flex-col [&>[data-ak-app-chat]>[role=log]]:flex [&>[data-ak-app-chat]>[role=log]]:min-h-0 [&>[data-ak-app-chat]>[role=log]]:flex-1 [&>[data-ak-app-chat]>[role=log]]:overflow-hidden [&>[data-ak-app-chat]>[aria-label='Response_actions']]:flex [&>[data-ak-app-chat]>[aria-label='Response_actions']]:flex-wrap [&>[data-ak-app-chat]>[aria-label='Response_actions']]:gap-2 [&>[data-ak-app-chat]>[aria-label='Response_actions']>button]:min-h-8 [&>[data-ak-app-chat]>[aria-label='Response_actions']>button]:rounded [&>[data-ak-app-chat]>[aria-label='Response_actions']>button]:px-2 [&>[data-ak-app-chat]>[aria-label='Response_actions']>button]:py-1 [&>[data-ak-app-chat]>[aria-label='Response_actions']>button]:text-xs [&>[data-ak-app-chat]>[aria-label='Response_actions']>button]:focus-visible:outline-2 [&>[data-ak-app-chat]>[aria-label='Response_actions']>button]:focus-visible:outline-offset-2 [&>[data-ak-app-chat]>[aria-label='Response_actions']>button]:focus-visible:outline-ak-blue">
           <AgentChat
             key={effectiveStorageKey}
             definition={definition}

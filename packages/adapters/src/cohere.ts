@@ -1,6 +1,9 @@
 import type { AdapterFactory } from '@agentskit/core'
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the adapter support.
+ */
 export interface CohereConfig extends OpenAICompatibleConfig {}
 
 const COHERE_BASE_URL = 'https://api.cohere.com/compatibility/v1'

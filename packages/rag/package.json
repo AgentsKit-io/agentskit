@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/rag",
-  "version": "0.5.9",
+  "version": "0.7.1",
   "description": "Plug-and-play retrieval-augmented generation for AgentsKit.",
   "keywords": [
     "agentskit",
@@ -42,6 +42,11 @@
       "types": "./dist/chunker.d.ts",
       "import": "./dist/chunker.js",
       "require": "./dist/chunker.cjs"
+    },
+    "./markdown": {
+      "types": "./dist/markdown.d.ts",
+      "import": "./dist/markdown.js",
+      "require": "./dist/markdown.cjs"
     }
   },
   "files": [
@@ -50,14 +55,16 @@
   "scripts": {
     "build": "tsup",
     "test": "pnpm test:prepare && vitest run",
-    "test:prepare": "pnpm --filter @agentskit/core build && pnpm build",
+    "test:prepare": "pnpm exec turbo run build --filter=@agentskit/rag --concurrency=2",
     "test:metro": "pnpm test:prepare && vitest run tests/metro-bundle.test.ts",
     "test:coverage": "pnpm test:prepare && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/net": "workspace:*",
+    "yaml": "^2.9.1"
   },
   "peerDependencies": {
     "@aws-sdk/client-s3": "^3.0.0"
@@ -68,12 +75,12 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
-    "metro": "0.87.0",
-    "metro-runtime": "0.87.0",
+    "@types/node": "^25.9.9",
+    "metro": "0.87.1",
+    "metro-runtime": "0.87.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "publishConfig": {
     "access": "public",
@@ -93,5 +100,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=20.19"
+  }
 }

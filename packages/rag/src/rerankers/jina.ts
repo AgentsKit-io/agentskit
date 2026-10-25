@@ -3,6 +3,7 @@ import type { RetrievedDocument } from '@agentskit/core'
 import type { RerankFn } from '../rerank'
 import { doFetch, readResponseJson, readResponseText } from '../loaders/shared'
 
+/** Credentials and request settings for the Jina reranker. */
 export interface JinaRerankerOptions {
   apiKey: string
   /** Default `jina-reranker-v2-base-multilingual`. */
@@ -30,6 +31,9 @@ function rerankFailed(message: string, cause?: unknown): RagError {
 /**
  * Jina AI cross-encoder reranker. Drop-in `RerankFn` for
  * `createRerankedRetriever`.
+ * @param options API key, model, and optional request settings.
+ * @returns A reranking function for retrieved documents.
+ * @throws {RagError} When the request fails or the response is invalid.
  */
 export function jinaReranker(options: JinaRerankerOptions): RerankFn {
   const fetchImpl = options.fetch ?? globalThis.fetch
@@ -57,7 +61,7 @@ export function jinaReranker(options: JinaRerankerOptions): RerankFn {
     if (!response.ok) {
       let text = ''
       try {
-        text = await readResponseText(response, 'jina rerank', options.maxResponseBytes, options.timeoutMs)
+        text = await readResponseText(response, 'jina rerank', options.maxResponseBytes, options.timeoutMs, options.signal)
       } catch (cause) {
         throw rerankFailed(`jina rerank: ${response.status} (failed to read error body)`, cause)
       }
@@ -66,7 +70,7 @@ export function jinaReranker(options: JinaRerankerOptions): RerankFn {
 
     let data: JinaRerankResponse
     try {
-      data = await readResponseJson<JinaRerankResponse>(response, 'jina rerank', options.maxResponseBytes, options.timeoutMs)
+      data = await readResponseJson<JinaRerankResponse>(response, 'jina rerank', options.maxResponseBytes, options.timeoutMs, options.signal)
     } catch (cause) {
       throw rerankFailed('jina rerank: invalid JSON response', cause)
     }

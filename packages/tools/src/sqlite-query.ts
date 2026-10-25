@@ -1,6 +1,7 @@
 import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
 import type { ToolDefinition } from '@agentskit/core'
 
+/** Read-only database path and row limit for {@link sqliteQueryTool}. */
 export interface SqliteQueryConfig {
   path: string
   /** Reserved for v2; only `true` is accepted today. */
@@ -39,6 +40,19 @@ async function openDatabase(path: string): Promise<SqliteDb> {
 
 const WRITE_KEYWORDS = /\b(?:insert|update|delete|drop|create|alter|attach|detach|replace|reindex|vacuum|pragma)\b/i
 
+/** Create a read-only SQLite query tool backed by optional `better-sqlite3`.
+ *
+ * @param config Database file path, read-only flag, and maximum returned rows.
+ * @returns A `sqlite_query` tool definition.
+ * @throws {ConfigError} With code AK_CONFIG_INVALID for an unsupported `readOnly` value or invalid `maxRows`.
+ * @throws {ToolError} During execution when `better-sqlite3` is unavailable or the query is not read-only.
+ * @example
+ * ```ts
+ * import { sqliteQueryTool } from '@agentskit/tools'
+ *
+ * const tool = sqliteQueryTool({ path: './data.db', maxRows: 50 })
+ * ```
+ */
 export function sqliteQueryTool(config: SqliteQueryConfig): ToolDefinition {
   if (config.readOnly !== undefined && config.readOnly !== true) {
     throw new ConfigError({

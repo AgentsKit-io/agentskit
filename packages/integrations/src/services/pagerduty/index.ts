@@ -5,6 +5,7 @@ import { OAUTH_SPECS } from '../../oauth-specs'
 import { pagerdutyActions } from './actions'
 import { pagerdutyTriggers } from './triggers'
 
+/** Descriptor for the PagerDuty service integration. */
 export const pagerdutyIntegration = defineIntegration({
   name: 'pagerduty',
   displayName: 'PagerDuty',

@@ -31,8 +31,9 @@ npm install @agentskit/integrations
 One descriptor per service (`Integration`) that every consumer layer projects from —
 agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings.
 Eliminates the per-service duplication that otherwise spreads across `@agentskit/tools`
-and host runtimes. Dependency-light: only `@agentskit/core`, with `fetch` + `node:crypto`
-at runtime. Ships the canonical descriptor + registry + projection contract, a
+and host runtimes. Dependency-light: `@agentskit/core` and `@agentskit/net`;
+runtime uses `fetch` + `node:crypto`. Ships the canonical descriptor + registry +
+projection contract, a
 **bundled ~50-service fetch-only catalog** (ADR-0012), auth/actions/triggers, and a
 **beta** — not yet stable.
 

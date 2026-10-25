@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/runtime",
-  "version": "0.10.19",
+  "version": "0.11.3",
   "description": "Standalone agent runtime with ReAct loop for AgentsKit.",
   "keywords": [
     "agentskit",
@@ -50,13 +50,14 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/net": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "publishConfig": {
     "access": "public",
@@ -76,5 +77,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=20.19"
+  }
 }

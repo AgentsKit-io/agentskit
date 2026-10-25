@@ -1,5 +1,7 @@
+/** Child process stream mode supported by the process adapters. */
 export type StdioMode = 'pipe' | 'inherit' | 'ignore'
 
+/** Working directory, environment, streams, timeout, and abort settings for a child process. */
 export interface SpawnOptions {
   cwd?: string
   /**
@@ -22,8 +24,10 @@ export interface SpawnOptions {
   windowsHide?: boolean
 }
 
+/** Reason a process was terminated by this package. */
 export type TerminationReason = 'timeout' | 'aborted' | 'killed'
 
+/** Exit code and signal reported by a child process. */
 export interface ExitStatus {
   code: number | null
   signal: string | null

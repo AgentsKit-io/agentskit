@@ -6,7 +6,10 @@ function resolveGlobalFetch(): typeof fetch | undefined {
   return typeof candidate === 'function' ? (candidate as typeof fetch) : undefined
 }
 
-/** Console alert sink — `[cost:<type>] <tenant> <window> $<cost>/$<budget>`. */
+/**
+ * Create an alert sink that writes cost alert details to stderr.
+ * @returns A sink that formats one concise line for each alert.
+ */
 export function consoleAlertSink(): CostAlertSink {
   return event => {
     const line = `[${event.type}] tenant=${event.tenant} window=${event.window} ` +
@@ -18,6 +21,7 @@ export function consoleAlertSink(): CostAlertSink {
   }
 }
 
+/** HTTP and retry settings for `webhookAlertSink`. */
 export interface WebhookAlertSinkOptions {
   url: string
   /** Override fetch (tests / custom clients). */
@@ -26,7 +30,11 @@ export interface WebhookAlertSinkOptions {
   headers?: Record<string, string>
 }
 
-/** Generic webhook sink — POSTs the event JSON. Rejects on HTTP !ok. */
+/**
+ * Create a sink that posts cost alerts as JSON to a webhook endpoint.
+ * @param options Endpoint and optional fetch implementation and headers.
+ * @returns An async sink that rejects when the HTTP response is not successful.
+ */
 export function webhookAlertSink(options: WebhookAlertSinkOptions): CostAlertSink {
   // Prefer injected fetch; fall back to globalThis so missing global never ReferenceErrors.
   const fetchImpl = options.fetch ?? resolveGlobalFetch()
@@ -44,8 +52,12 @@ export function webhookAlertSink(options: WebhookAlertSinkOptions): CostAlertSin
 }
 
 /**
- * Throttle wrapper — at most one alert per (tenant, window, type)
- * per `windowMs`. Wrap any sink to bound emit rate.
+ * Throttle alerts by tenant, window, type, and threshold for the given interval.
+ * @param sink Sink to wrap.
+ * @param windowMs Minimum interval between matching alerts.
+ * @param now Clock used to compare alert times; defaults to `Date.now`.
+ * @returns A sink that forwards at most one matching alert per interval.
+ * @throws {ConfigError} When `windowMs` is not finite and positive.
  */
 export function throttle(
   sink: CostAlertSink,

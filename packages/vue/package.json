@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/vue",
-  "version": "0.5.7",
+  "version": "0.5.10",
   "description": "Vue 3 composable + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
   "keywords": [
     "agentskit",
@@ -41,8 +41,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "pnpm build && vitest run",
-    "test:coverage": "pnpm build && vitest run --coverage",
+    "test": "pnpm exec turbo run build --filter=@agentskit/vue --concurrency=2 && vitest run",
+    "test:coverage": "pnpm exec turbo run build --filter=@agentskit/vue --concurrency=2 && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
@@ -53,12 +53,12 @@
     "vue": "^3.4.0"
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "happy-dom": "^20.14.5",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11",
-    "vue": "^3.5.42"
+    "vitest": "^4.1.12",
+    "vue": "^3.5.44"
   },
   "publishConfig": {
     "access": "public",
@@ -78,5 +78,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=20.19"
+  }
 }

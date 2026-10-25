@@ -14,6 +14,7 @@ export function stripBom(text: string): string {
   return text.charCodeAt(0) === 0xfeff ? text.slice(1) : text
 }
 
+/** Options for splitting text into lines with normalized line endings. */
 export interface SplitLinesOptions {
   /** Drop a final empty line produced by a trailing newline. Default true. */
   dropTrailingEmpty?: boolean
@@ -26,6 +27,7 @@ export function splitLines(text: string, options: SplitLinesOptions = {}): strin
   return lines
 }
 
+/** Frontmatter metadata and body returned by `splitFrontmatter`. */
 export interface Frontmatter {
   /** Raw frontmatter block without the `---` fences, or null when absent. */
   frontmatter: string | null

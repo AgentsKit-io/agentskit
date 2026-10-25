@@ -3,6 +3,7 @@ import type { ChatMemory, Message } from '@agentskit/core'
 
 type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
+/** Search and indexing operations for the recall tier of hierarchical memory. */
 export interface HierarchicalRecall {
   /**
    * Index a message for later retrieval. Called once per message as
@@ -20,6 +21,7 @@ export interface HierarchicalRecall {
   clear?: () => void | Promise<void>
 }
 
+/** Working, recall, and archival stores used by hierarchical memory. */
 export interface HierarchicalMemoryOptions {
   /** Hot window — the messages always loaded in full. */
   working: ChatMemory
@@ -42,6 +44,7 @@ export interface HierarchicalMemoryOptions {
   recallTopK?: number
 }
 
+/** Tiered chat memory with accessors for archival history and the working window. */
 export interface HierarchicalMemory extends ChatMemory {
   /** Full archival history. Always the source of truth. */
   archival: () => Promise<Message[]>
@@ -67,6 +70,8 @@ function mergeChronological(a: Message[], b: Message[]): Message[] {
  *
  * On every `load`, the hub returns working + up to `recallTopK`
  * messages surfaced by the recall tier, spliced chronologically.
+ * @param options Working and archival memories plus optional recall settings.
+ * @returns A chat memory that keeps an archival history and bounded working window.
  */
 export function createHierarchicalMemory(
   options: HierarchicalMemoryOptions,

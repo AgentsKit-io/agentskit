@@ -2,10 +2,14 @@ import { useEffect, useRef, useSyncExternalStore } from 'react'
 import { createChatController } from '@agentskit/core'
 import type { ChatConfig, ChatController, ChatReturn } from '@agentskit/core'
 
-/**
- * React Native / Expo `useChat`. Identical contract to
- * `@agentskit/react` — imported from a pure-React module so it stays
- * Metro / Hermes safe (no DOM).
+/** Bind the core chat controller to React Native state without DOM imports.
+ * @param config Controller and adapter configuration.
+ * @returns Chat state and actions matching the shared `ChatReturn` contract.
+ * @example
+ * ```tsx
+ * const chat = useChat({ adapter })
+ * return <InputBar chat={chat} />
+ * ```
  */
 export function useChat(config: ChatConfig): ChatReturn {
   const controllerRef = useRef<ChatController | null>(null)

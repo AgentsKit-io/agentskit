@@ -1,6 +1,7 @@
 import type { ToolCall, ToolDefinition, ToolExecutionContext } from './types/tool'
 import type { Message } from './types/message'
 
+/** Parsed top-level JSON field emitted as soon as its value is complete. */
 export interface ProgressiveFieldEvent {
   /** Top-level field name whose value just finished being streamed. */
   field: string
@@ -12,6 +13,7 @@ export interface ProgressiveFieldEvent {
   offset: number
 }
 
+/** Incremental parser state and methods for streamed tool-argument JSON. */
 export interface ProgressiveArgParser {
   /** Append a new chunk of JSON text. Emits `onField` for each top-level field that completes. */
   push: (chunk: string) => ProgressiveFieldEvent[]
@@ -201,6 +203,7 @@ export function createProgressiveArgParser(): ProgressiveArgParser {
   }
 }
 
+/** Callbacks and field requirements for progressive tool execution. */
 export interface ProgressiveExecOptions {
   /** Start executing after these fields have been received. Default: first field. */
   triggerFields?: string[]
@@ -208,6 +211,7 @@ export interface ProgressiveExecOptions {
   onField?: (event: ProgressiveFieldEvent) => void
 }
 
+/** Parsed fields and execution promise returned by progressive execution. */
 export interface ProgressiveExecResult {
   fields: ProgressiveFieldEvent[]
   finalArgs: Record<string, unknown>

@@ -1,10 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
+import { jsonResponse, withTempDir } from '@agentskit/cross-platform/testing'
+import { createServer } from 'node:http'
 import { addAgent, fetchAgent, resolveSystemPrompt } from '../src/registry'
 import type { RegistryAgent } from '../src/registry'
 
-function jsonResponse(body: unknown): Response {
-  return new Response(JSON.stringify(body), { status: 200, headers: { 'content-type': 'application/json' } })
-}
 function textResponse(body: string): Response {
   return new Response(body, { status: 200 })
 }
@@ -52,6 +51,37 @@ describe('fetchAgent', () => {
     }) as unknown as typeof fetch
     const agent = await fetchAgent('research', { fetchImpl })
     expect(agent.sources).toEqual([{ path: 'agent.ts', content: 'export const y = 2' }])
+  })
+
+  it('bounds streamed localhost responses and reads normal JSON and text', async () => {
+    const server = createServer((request, response) => {
+      if (request.url === '/oversized') {
+        response.writeHead(200)
+        response.write(Buffer.alloc(2 * 1024 * 1024 + 1, 0x61))
+        response.end()
+      } else if (request.url === '/meta') {
+        response.writeHead(200, { 'content-type': 'application/json' })
+        response.write('{"id":"research",')
+        response.end('"title":"Research Agent","description":"d","category":"research","packages":[],"files":["agent.ts"]}')
+      } else {
+        response.writeHead(200, { 'content-type': 'text/plain' })
+        response.write('export const ')
+        response.end('y = 2')
+      }
+    })
+    await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+    const address = server.address()
+    if (!address || typeof address === 'string') throw new Error('Expected a localhost TCP address')
+    const paths = ['/oversized', '/meta', '/source']
+    let index = 0
+    const fetchImpl = ((url: string) => fetch(`http://127.0.0.1:${address.port}${paths[index++]}`)) as typeof fetch
+    try {
+      const agent = await fetchAgent('research', { fetchImpl })
+      expect(agent.sources).toEqual([{ path: 'agent.ts', content: 'export const y = 2' }])
+      expect(index).toBe(3)
+    } finally {
+      await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()))
+    }
   })
 })
 
@@ -139,12 +169,9 @@ describe('addAgent', () => {
   })
 
   it('rejects a symlinked destination ancestor before writing', async () => {
-    const { mkdtemp, symlink, rm } = await import('node:fs/promises')
+    const { symlink } = await import('node:fs/promises')
     const { join } = await import('node:path')
-    const { tmpdir } = await import('node:os')
-    const root = await mkdtemp(join(tmpdir(), 'agentskit-registry-link-'))
-    const outside = await mkdtemp(join(tmpdir(), 'agentskit-registry-outside-'))
-    try {
+    await withTempDir(async (root) => withTempDir(async (outside) => {
       await symlink(outside, join(root, 'agents'), 'dir')
       const hosted = { ...META, sources: [{ path: 'agent.ts', content: 'CODE' }] }
       const fetchImpl = vi.fn(async () => jsonResponse(hosted)) as unknown as typeof fetch
@@ -153,10 +180,7 @@ describe('addAgent', () => {
         outDir: join(root, 'agents'),
         writeFileImpl: async () => {},
       })).rejects.toThrow(/symlink ancestor/)
-    } finally {
-      await rm(root, { recursive: true, force: true })
-      await rm(outside, { recursive: true, force: true })
-    }
+    }, 'agentskit-registry-outside-'), 'agentskit-registry-link-')
   })
 })
 

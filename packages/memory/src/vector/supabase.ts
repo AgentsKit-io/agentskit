@@ -1,6 +1,7 @@
 import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorMemory, VectorSearchOptions } from '@agentskit/core'
 
+/** Supabase client and table settings for vector memory. */
 export interface SupabaseVectorStoreConfig {
   /** Supabase project URL, e.g. `https://xyz.supabase.co`. */
   url: string
@@ -75,6 +76,10 @@ function throwOnError(result: SupabaseResult<unknown>, operation: string): void 
  * Supabase-hosted pgvector using direct PostgREST mutations and one
  * purpose-specific similarity-search RPC. The service-role key stays
  * server-side and `@supabase/supabase-js` is loaded lazily.
+ */
+/** Creates a vector memory backed by a Supabase table and RPC search function.
+ * @param config Supabase client, table, and optional search settings.
+ * @returns A vector memory backed by the configured Supabase schema.
  */
 export function supabaseVectorStore(config: SupabaseVectorStoreConfig): VectorMemory {
   const table = config.table ?? 'agentskit_vectors'

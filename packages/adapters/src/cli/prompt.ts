@@ -43,6 +43,9 @@ export function serializeCliPrompt(request: AdapterRequest, options: SerializeCl
   return `${blocks.join('\n\n')}\n`
 }
 
+/**
+ * Options controlling whether system instructions and tool descriptions are included in a serialized CLI prompt.
+ */
 export interface SerializeCliPromptOptions {
   /** Include the `[system]` block and `system` messages. Default `true`. */
   system?: boolean

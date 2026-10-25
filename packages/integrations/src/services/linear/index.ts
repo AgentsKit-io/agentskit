@@ -4,6 +4,7 @@ import { OAUTH_SPECS } from '../../oauth-specs'
 import { linearActions } from './actions'
 import { linearTriggers } from './triggers'
 
+/** Descriptor for the Linear service integration. */
 export const linearIntegration = defineIntegration({
   name: 'linear',
   displayName: 'Linear',

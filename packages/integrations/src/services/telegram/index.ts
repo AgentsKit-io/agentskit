@@ -4,6 +4,7 @@ import { registerIntegration } from '../../registry'
 import { telegramActions } from './actions'
 import { telegramTriggers } from './triggers'
 
+/** Descriptor for the Telegram service integration. */
 export const telegramIntegration = defineIntegration({
   name: 'telegram',
   displayName: 'Telegram',

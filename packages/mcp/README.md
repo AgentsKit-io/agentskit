@@ -31,7 +31,7 @@ Docs: [MCP package guide](https://www.agentskit.io/docs/agents/tools/mcp) · [ag
 
 <!-- readme-command:install -->
 ```bash
-npx -y @agentskit/mcp@0.4.8 --tools fetch,search
+npx -y @agentskit/mcp@0.5.1 --tools fetch,search
 ```
 
 Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and
@@ -42,7 +42,7 @@ Claude Desktop or Cursor (`mcpServers` / `.cursor/mcp.json`):
 ```json
 {
   "mcpServers": {
-    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp@0.4.8", "--tools", "fetch,search"] }
+    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp@0.5.1", "--tools", "fetch,search"] }
   }
 }
 ```
@@ -52,7 +52,7 @@ Codex (`~/.codex/config.toml`):
 ```toml
 [mcp_servers.agentskit]
 command = "npx"
-args = ["-y", "@agentskit/mcp@0.4.8", "--tools", "fetch,search"]
+args = ["-y", "@agentskit/mcp@0.5.1", "--tools", "fetch,search"]
 ```
 
 OpenClaw:
@@ -61,7 +61,7 @@ OpenClaw:
 openclaw mcp add agentskit \
   --command npx \
   --arg -y \
-  --arg @agentskit/mcp@0.4.8 \
+  --arg @agentskit/mcp@0.5.1 \
   --arg --tools \
   --arg fetch,search
 openclaw mcp doctor agentskit --probe
@@ -101,13 +101,34 @@ createAgentsKitMcpServer({ tools: [fetchUrl()] }) // stdio by default
 
 Pass `transport` to use a custom MCP transport (e.g. in-memory for tests).
 
+Pass `authorizeToolCall` to `createAgentsKitMcpServer` to obtain host approval
+for tools marked `requiresConfirmation`. It has the same type as
+`McpServerOptions['authorizeToolCall']`: `(tool, args) => boolean | Promise<boolean>`.
+Arguments are validated first. Only confirmation-required tools invoke the
+hook; absent hooks, denied approvals, throws, and rejected promises prevent
+execution. The host must obtain the required human confirmation before
+returning `true`; annotations do not replace that decision.
+
+`McpToolDefinition` (from `@agentskit/tools/mcp`) extends the core tool
+shape with optional `title` and `annotations`: `title`, `readOnlyHint`,
+`destructiveHint`, `idempotentHint`, and `openWorldHint`. Server listing and
+client import preserve these fields, including explicit `false` hints.
+Imported titles use the existing `maxDescriptionBytes` UTF-8 limit; malformed
+metadata is rejected. Hints remain untrusted advisory data and never grant
+confirmation or alter execution policy.
+
+These fields follow the [MCP tool metadata specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
+They are optional descriptor extensions on the existing `2024-11-05` bridge;
+older clients may ignore unknown fields. This does not add negotiation or
+other features from newer protocol revisions.
+
 ## Expose whole agents (agents as MCP tools)
 
 Run a registry agent server-side and expose it as a single MCP tool — the host
 delegates a specialized job instead of orchestrating primitives:
 
 ```bash
-npx @agentskit/mcp@0.4.8 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
+npx @agentskit/mcp@0.5.1 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
 ```
 
 `--provider` covers the first-class adapters (openai, anthropic, gemini, ollama)
@@ -124,6 +145,23 @@ createAgentsKitMcpServer({ tools: [createAgentTool({ id, description, systemProm
 Typed Registry projections use `fetchAgent` + `createTypedAgentTool`; their
 input/output JSON Schemas are preserved. `fetchAgentSkill` intentionally
 rejects typed projections so they cannot be flattened into a text tool.
+
+`fetchAgent` and `fetchAgentSkill` try the hosted registry first and may fall
+back to raw registry files when hosted data is unavailable or unreadable. Each
+response is limited to 131072 bytes and each request to 10000 ms by default.
+Set `maxResponseBytes` (1–1048576) or `timeoutMs` (1–120000) to adjust those
+bounds, or pass an `AbortSignal`; aborting stops later fallback requests.
+Oversized bodies are cancelled and treated as a failed source. Calls resolve to
+`null` for invalid IDs or options, aborted operations, typed projections passed
+to `fetchAgentSkill`, or when neither source provides a supported result.
+Network error codes are not exposed by these APIs.
+
+```ts
+import { fetchAgent, fetchAgentSkill } from '@agentskit/mcp'
+
+const agent = await fetchAgent('legal-contract-reviewer', fetch, { maxResponseBytes: 131072 })
+const skill = await fetchAgentSkill('legal-contract-reviewer')
+```
 
 ## Quick start
 

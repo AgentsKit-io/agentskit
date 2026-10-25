@@ -21,6 +21,7 @@ export interface SkillPackage {
   skill: SkillDefinition
 }
 
+/** Optional filters for listing skill packages in a registry. */
 export interface SkillRegistryQuery {
   name?: string
   publisher?: string
@@ -29,6 +30,7 @@ export interface SkillRegistryQuery {
   versionRange?: string
 }
 
+/** Publish, query, install, and optionally remove versioned skill packages. */
 export interface SkillRegistry {
   publish: (pkg: SkillPackage) => Promise<SkillPackage>
   list: (query?: SkillRegistryQuery) => Promise<SkillPackage[]>
@@ -139,6 +141,13 @@ function comparePrerelease(a: string[] | null, b: string[] | null): number {
   return 0
 }
 
+/**
+ * Compare two semantic versions, including prerelease precedence.
+ * @param a First version.
+ * @param b Second version.
+ * @returns A negative, zero, or positive number by version order.
+ * @throws SkillError when either version is invalid.
+ */
 export function compareSemver(a: string, b: string): number {
   const pa = parseSemverFull(a)
   const pb = parseSemverFull(b)
@@ -245,8 +254,13 @@ function validateSkillPackage(pkg: unknown): asserts pkg is SkillPackage {
 }
 
 /**
- * In-memory skill registry — tests, demos, private marketplaces.
- * Map-based storage is prototype-safe and allows names like "__proto__".
+ * Create an in-memory skill registry that validates and clones published skill packages.
+ * Map-based storage is prototype-safe and allows names like `"__proto__"`.
+ * @example
+ * const registry = createSkillRegistry()
+ * await registry.publish({ version: '1.0.0', skill })
+ * @param initial Packages to validate and preload.
+ * @returns An in-memory skill registry.
  */
 export function createSkillRegistry(initial: SkillPackage[] = []): SkillRegistry {
   if (!Array.isArray(initial)) throw skillInvalid('initial skill packages must be an array')

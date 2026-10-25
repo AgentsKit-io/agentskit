@@ -15,6 +15,10 @@ function scoreDocument(document: RetrievedDocument, query: string): number {
   ), 0)
 }
 
+/** Create a retriever that returns configured documents for each query.
+ * @param config Documents to expose through the retriever.
+ * @returns A retriever that returns the configured documents.
+ */
 export function createStaticRetriever(config: StaticRetrieverConfig): Retriever {
   const { documents, limit = 4 } = config
 
@@ -32,6 +36,10 @@ export function createStaticRetriever(config: StaticRetrieverConfig): Retriever 
   }
 }
 
+/** Format retrieved documents into text suitable for a model prompt.
+ * @param documents Retrieved content and metadata to format.
+ * @returns A labeled text block containing the document contents.
+ */
 export function formatRetrievedDocuments(documents: RetrievedDocument[]): string {
   if (documents.length === 0) return ''
 

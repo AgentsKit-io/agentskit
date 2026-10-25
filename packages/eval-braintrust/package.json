@@ -1,7 +1,7 @@
 {
   "name": "@agentskit/eval-braintrust",
   "private": true,
-  "version": "0.2.25",
+  "version": "0.2.28",
   "description": "Braintrust scoring pipeline for AgentsKit. Quality and robustness scorers, optional experiment upload, and CI regression alerts.",
   "keywords": [
     "agentskit",
@@ -51,15 +51,14 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*",
-    "@agentskit/eval": "workspace:*"
+    "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
-    "braintrust": "^3.33.0",
+    "@types/node": "^25.9.9",
+    "braintrust": "^3.39.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "agentskit": {
     "stability": "beta",

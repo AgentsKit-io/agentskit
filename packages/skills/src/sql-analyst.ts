@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill } from './utils'
 
+/** Skill for investigating relational data with safe read-only queries and plain-language findings. */
 export const sqlAnalyst: SkillDefinition = defineSkill(
   'sql-analyst',
   'Investigates a relational database in plain English. Discovers schema, writes safe read-only queries, explains results.',

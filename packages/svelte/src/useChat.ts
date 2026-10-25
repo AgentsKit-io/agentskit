@@ -2,6 +2,7 @@ import { writable, type Readable } from 'svelte/store'
 import { ConfigError, ErrorCodes, createChatController } from '@agentskit/core'
 import type { ChatConfig, ChatController, ChatReturn, ChatState } from '@agentskit/core'
 
+/** A Svelte-readable chat state store with controller actions and cleanup. */
 export interface SvelteChatStore extends Readable<ChatState> {
   send: ChatController['send']
   stop: ChatController['stop']
@@ -11,14 +12,26 @@ export interface SvelteChatStore extends Readable<ChatState> {
   setInput: ChatController['setInput']
   clear: ChatController['clear']
   proposeToolCall: ChatReturn['proposeToolCall']
+  decide: ChatController['decide']
   approve: ChatController['approve']
   deny: ChatController['deny']
+  /** Unsubscribe from controller updates and stop the active response. */
   destroy: () => void
 }
 
 /**
- * Svelte 5 store. Same shape as `@agentskit/react`'s hook return,
- * exposed as a `Readable<ChatState>` + action methods.
+ * Create a Svelte-readable chat store with the shared chat actions.
+ *
+ * @param config The chat configuration passed to the core controller.
+ * @returns A readable state store with send, control, and cleanup methods.
+ * @example
+ * ```ts
+ * import { onDestroy } from 'svelte'
+ * import { createChatStore } from '@agentskit/svelte'
+ *
+ * const chat = createChatStore(config)
+ * onDestroy(chat.destroy)
+ * ```
  */
 export function createChatStore(config: ChatConfig): SvelteChatStore {
   const controller = createChatController(config)
@@ -46,7 +59,7 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
 
   return {
     subscribe: store.subscribe,
-    send: rejected((text: string) => controller.send(text)),
+    send: rejected(controller.send),
     stop: () => { if (!destroyed) controller.stop() },
     retry: rejected(() => controller.retry()),
     edit: rejected((messageId: string, newContent: string, opts?: Parameters<ChatController['edit']>[2]) => controller.edit(messageId, newContent, opts)),
@@ -54,6 +67,7 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
     setInput: (value: string) => { if (!destroyed) controller.setInput(value) },
     clear: rejected(() => controller.clear()),
     proposeToolCall: rejected((proposal: Parameters<ChatController['proposeToolCall']>[0]) => controller.proposeToolCall(proposal)),
+    decide: rejected(controller.decide),
     approve: rejected((toolCallId: string) => controller.approve(toolCallId)),
     deny: rejected((toolCallId: string, reason?: string) => controller.deny(toolCallId, reason)),
     destroy,

@@ -2,6 +2,11 @@ import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '
 import type { GenericAdapterConfig } from './types'
 import { isAbortError, raceAbort } from './stream-errors'
 
+/**
+ * Creates an adapter from a generic request sender.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export function generic(config: GenericAdapterConfig): AdapterFactory {
   return {
     createSource: (request: AdapterRequest): StreamSource => {

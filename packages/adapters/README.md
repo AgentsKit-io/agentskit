@@ -40,6 +40,27 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/adapters)
 - **CLI-backed agents** — `@agentskit/adapters/cli` normalizes text, JSON, and ACP-based local LLM CLIs
 - **LangChain bridge** — `@agentskit/adapters/langchain-bridge` turns any adapter into a LangChain `BaseChatModel` for `createAgent`
 
+## Gateway and multimodal transport
+
+`openaiCompatible({ model, baseUrl, path, headers, fetch })` supports custom
+OpenAI-compatible endpoints; `apiKey` is optional and headers override defaults.
+`openRouter` aliases `openrouter`; `cloudflareAiGateway` and `workersAi` supply
+Cloudflare REST URLs without runtime bindings. Catalog URL variables are supplied
+explicitly through `env`, including `CLOUDFLARE_ACCOUNT_ID`.
+
+OpenAI-compatible, Anthropic, Gemini/Vertex and Ollama serializers read
+`message.parts`. Unsupported sources/modalities raise `CapabilityUnsupportedError`
+with `code: CAPABILITY_UNSUPPORTED` when multimodal input is enabled. Models
+without multimodal capability fall back to text parts and short attachment markers,
+omitting binary data and data URLs, and log at most one warning per request.
+OpenAI and Anthropic assistant binary parts also use this text fallback.
+Explicit `capabilities.multiModal` takes precedence over model-name heuristics
+(GPT-4/5, o-series, vision, Gemini and Claude 3+ names, including provider prefixes).
+Set it explicitly for custom models or providers whose capabilities differ.
+See the [tested modality matrix](../../docs/adapter-modalities.md) and
+[configuration guide](../../apps/docs-next/content/docs/data/providers/openai.mdx).
+These are local wire-format tests; live provider acceptance remains unverified.
+
 ## Install
 
 <!-- readme-command:install -->
@@ -258,6 +279,8 @@ const agent = createAgent({ model, tools: [add] })
 ## Stream guarantees
 
 - A stream terminates exactly once with `done` or `error`; terminal errors carry an `Error` in `metadata.error`.
+- Fetch retries use `@agentskit/net` backoff and `Retry-After` parsing; the `fetchWithRetry` and adapter `retry` options keep their 3-attempt defaults. `readSSELines` remains as a deprecated compatibility wrapper; new parsers should consume `parseSSE` events directly.
+- SSE event data preserves whitespace and joins multiple `data:` fields with newlines. NDJSON readers flush a final UTF-8 chunk and accept a last record without a newline.
 - Provider streams that close before their native completion marker are treated as truncated, not successful.
 - `abort(reason)` propagates to active fetch readers and SDK requests and terminates with the same error semantics.
 - Native tool histories preserve call/result correlation. Parallel tool results are encoded in a single provider turn where required.

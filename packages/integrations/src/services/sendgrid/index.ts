@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { sendgridActions } from './actions'
 
+/** Descriptor for the SendGrid service integration. */
 export const sendgridIntegration = defineIntegration({
   name: 'sendgrid',
   displayName: 'SendGrid',

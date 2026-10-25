@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { readerActions } from './actions'
 
+/** Descriptor for the Jina Reader service integration. */
 export const readerIntegration = defineIntegration({
   name: 'reader',
   displayName: 'Jina Reader',

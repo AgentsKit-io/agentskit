@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { bigcommerceActions } from './actions'
 
+/** Descriptor for the BigCommerce service integration. */
 export const bigcommerceIntegration = defineIntegration({
   name: 'bigcommerce',
   displayName: 'BigCommerce',

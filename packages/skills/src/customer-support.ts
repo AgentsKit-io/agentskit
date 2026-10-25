@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill, TOOLS } from './utils'
 
+/** Skill for diagnosing customer issues, resolving them, or escalating them. */
 export const customerSupport: SkillDefinition = defineSkill(
   'customer-support',
   'First-line customer support. Diagnoses, resolves, or escalates. Always polite, never apologetic for things outside its control.',

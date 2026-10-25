@@ -17,6 +17,7 @@ import type {
   SqliteOpener,
 } from './kv-store-types'
 
+/** Error raised when a requested key-value memory backend is not implemented. */
 export class MemoryBackendNotImplementedError extends Error {
   readonly code = 'MEMORY_BACKEND_NOT_IMPLEMENTED'
   readonly backend: KvMemoryConfig['backend']
@@ -29,8 +30,10 @@ export class MemoryBackendNotImplementedError extends Error {
   }
 }
 
+/** Availability status reported for a key-value memory backend. */
 export type MemoryBackendStatus = 'supported' | 'planned'
 
+/** Current support status for each key-value memory backend. */
 export const MEMORY_BACKEND_SUPPORT: Readonly<Record<KvMemoryConfig['backend'], MemoryBackendStatus>> = {
   'in-memory': 'supported',
   file: 'supported',
@@ -40,9 +43,14 @@ export const MEMORY_BACKEND_SUPPORT: Readonly<Record<KvMemoryConfig['backend'], 
   localstorage: 'supported',
 }
 
+/** Reports whether a key-value backend is currently supported.
+ * @param backend Backend discriminator to check.
+ * @returns `true` when the factory can construct that backend.
+ */
 export const isMemoryBackendSupported = (backend: KvMemoryConfig['backend']): boolean =>
   MEMORY_BACKEND_SUPPORT[backend] === 'supported'
 
+/** Options and injected drivers for creating a configured KV memory store. */
 export interface CreateKvMemoryFromConfigOpts {
   readonly config: KvMemoryConfig
   readonly sqlite?: SqliteOpener
@@ -52,6 +60,16 @@ export interface CreateKvMemoryFromConfigOpts {
   readonly embedder?: MemoryEmbedderLike
 }
 
+/** Creates a KV store for the selected backend using supplied dependencies.
+ * @param options Backend config and optional database, cache, vector, and embedding adapters.
+ * @returns A store implementing asynchronous `get` and `set`.
+ * @throws {MemoryError} When a selected external backend lacks a required adapter.
+ * @example
+ * ```ts
+ * const store = createKvMemoryFromConfig({ config: { backend: 'in-memory' } })
+ * await store.set('job:42', { status: 'ready' })
+ * ```
+ */
 export const createKvMemoryFromConfig = ({
   config,
   sqlite,
@@ -109,6 +127,11 @@ export const createKvMemoryFromConfig = ({
   throw new MemoryBackendNotImplementedError((exhausted as { backend: KvMemoryConfig['backend'] }).backend)
 }
 
+/** Creates a KV store and lazy-loads the optional SQLite or Redis driver.
+ * @param config Backend discriminator and settings.
+ * @returns A store implementing asynchronous `get` and `set`.
+ * @throws {MemoryError} When an optional driver is missing or vector adapters are not injected.
+ */
 export const createKvMemoryFromConfigAuto = async (config: KvMemoryConfig): Promise<AgentskitMemoryStore> => {
   if (config.backend === 'sqlite') {
     const sqlite = await tryDefaultSqliteOpener()

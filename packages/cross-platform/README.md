@@ -72,6 +72,12 @@ console.log(toPosix('C:\\repo\\src\\index.ts'))
 - **Deno permissions**: a missing `--allow-*` flag raises `AK_PLATFORM_PERMISSION_DENIED` naming the flag. It never prompts.
 - **Built on**: `cross-spawn` (Windows command resolution and cmd.exe escaping), `tree-kill`, `pathe`, `std-env`, `graceful-fs`, `which`.
 
+## Test helpers
+
+Import `createFetchStub`, `jsonResponse`, and `withTempDir` from
+`@agentskit/cross-platform/testing`. The subpath has no test-runner dependency;
+`withTempDir` uses this package's OS temp-directory lookup and retrying cleanup.
+
 ## Guardrail
 
 ```bash
@@ -80,7 +86,9 @@ npx agentskit-cross-platform check          # fail on any new finding
 npx agentskit-cross-platform check --update # lower the baseline after a fix
 ```
 
-The baseline is a ratchet: counts only go down. Allow a justified exception with a `cross-platform-ignore: <reason>` comment on the line or the line above.
+The baseline is a ratchet: counts only go down. Allow a justified exception with a `cross-platform-ignore: <reason>` comment on the line or the line above. A `<rule-id>-ignore: <reason>` comment suppresses only that rule.
+
+Repository guardrails can reuse the exported `runCli` with custom `rules` and an optional `filter` to apply the shared scan and baseline logic to a narrower source set.
 
 ## Ecosystem
 

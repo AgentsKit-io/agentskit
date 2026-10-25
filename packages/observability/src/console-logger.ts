@@ -1,6 +1,7 @@
 import type { AgentEvent, Observer } from '@agentskit/core'
 import { safeSnapshot } from './trace-tracker'
 
+/** Output format for the console event logger. */
 export interface ConsoleLoggerConfig {
   format?: 'human' | 'json'
 }
@@ -76,6 +77,11 @@ function formatJSON(event: AgentEvent): string {
   return JSON.stringify(base)
 }
 
+/**
+ * Create an observer that writes agent events to stdout in human or JSON form.
+ * @param config Optional output format; defaults to the human-readable format.
+ * @returns An observer that writes one formatted line per event.
+ */
 export function consoleLogger(config: ConsoleLoggerConfig = {}): Observer {
   const { format = 'human' } = config
   const formatter = format === 'json' ? formatJSON : formatHuman

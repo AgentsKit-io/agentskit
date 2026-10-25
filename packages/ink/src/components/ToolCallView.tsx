@@ -3,6 +3,7 @@ import { Box, Text } from 'ink'
 import type { ToolCall } from '@agentskit/core'
 import { useInkTheme } from './theme'
 
+/** Tool call and preview settings for its terminal representation. */
 export interface ToolCallViewProps {
   toolCall: ToolCall
   expanded?: boolean
@@ -28,6 +29,14 @@ function previewArgs(args: unknown, max: number): string {
   }
 }
 
+/** Render a tool call status and, when expanded, previews of its data.
+ * @param props The call and optional preview limits.
+ * @returns The terminal tool call view.
+ * @example
+ * ```tsx
+ * <ToolCallView toolCall={call} expanded />
+ * ```
+ */
 export function ToolCallView({
   toolCall,
   expanded = false,
@@ -46,6 +55,18 @@ export function ToolCallView({
   }, [isRunning])
 
   const icon = isRunning ? SPINNER[frame] : meta.icon
+  let resultContent: React.ReactNode = null
+  if (toolCall.result) {
+    resultContent = <Text>{truncate(toolCall.result, resultPreviewChars)}</Text>
+  }
+  let errorContent: React.ReactNode = null
+  if (toolCall.error) {
+    errorContent = (
+      <Text color={theme.toolStatus.error.color}>
+        {truncate(toolCall.error, resultPreviewChars)}
+      </Text>
+    )
+  }
 
   return (
     <Box flexDirection="column" borderStyle="round" borderColor={meta.color} paddingX={1}>
@@ -59,12 +80,8 @@ export function ToolCallView({
       {expanded ? (
         <Box flexDirection="column" marginTop={0}>
           <Text dimColor>args: {previewArgs(toolCall.args, argsPreviewChars)}</Text>
-          {toolCall.result ? (
-            <Text>{truncate(toolCall.result, resultPreviewChars)}</Text>
-          ) : null}
-          {toolCall.error ? (
-            <Text color={theme.toolStatus.error.color}>{truncate(toolCall.error, resultPreviewChars)}</Text>
-          ) : null}
+          {resultContent}
+          {errorContent}
         </Box>
       ) : null}
     </Box>

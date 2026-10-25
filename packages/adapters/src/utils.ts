@@ -1,5 +1,8 @@
-import type { Message, StreamChunk, StreamSource } from '@agentskit/core'
-import { readNDJSONLines, readSSELines } from './stream-lines'
+import { type Message, type StreamChunk, type StreamSource } from '@agentskit/core'
+import { parseSSE, sleep as netSleep } from '@agentskit/net'
+import { providerParts } from './content-parts'
+import { fetchWithRetry, type RetryOptions } from './retry'
+import { readNDJSONLines } from './stream-lines'
 import {
   abortableSleep,
   adapterErrorChunk,
@@ -8,11 +11,13 @@ import {
   parseCompleteToolArgs,
 } from './stream-errors'
 
+export { fetchWithRetry }
+export type { RetryOptions }
 export { parseOpenAIStream } from './openai-stream'
 export { readNDJSONLines, readSSELines } from './stream-lines'
 export type { StreamParser } from './stream-types'
 
-export function toProviderMessages(messages: Message[]) {
+export function toProviderMessages(messages: Message[], multiModal = true) {
   // Track which tool_call ids were declared by preceding assistant turns so
   // we can drop orphan tool messages — the OpenAI Chat Completions API
   // rejects a tool message whose tool_call_id isn't bound to a previous
@@ -20,14 +25,17 @@ export function toProviderMessages(messages: Message[]) {
   const knownToolCallIds = new Set<string>()
   const output: Array<Record<string, unknown>> = []
 
+  const warning = { emitted: false }
   for (const message of messages) {
+    const parts = providerParts(message, 'openai', multiModal, warning)
+    const content = parts ?? message.content
     if (message.role === 'tool') {
       const id = message.toolCallId
       // Orphan (no id, or id not declared) — skip; it would 400 the API.
       if (!id || !knownToolCallIds.has(id)) continue
       output.push({
         role: 'tool' as const,
-        content: message.content,
+        content,
         tool_call_id: id,
       })
       continue
@@ -37,7 +45,7 @@ export function toProviderMessages(messages: Message[]) {
       for (const tc of message.toolCalls) knownToolCallIds.add(tc.id)
       output.push({
         role: 'assistant' as const,
-        content: message.content || null,
+        content: content || null,
         tool_calls: message.toolCalls.map(tc => ({
           id: tc.id,
           type: 'function' as const,
@@ -55,9 +63,9 @@ export function toProviderMessages(messages: Message[]) {
     // and the placeholder assistant message never received content —
     // sending `{role:'assistant', content:''}` back to the provider either
     // 400s or confuses the model into silence on the next turn.
-    if (message.role === 'assistant' && !message.content) continue
+    if (message.role === 'assistant' && !message.content && !parts) continue
 
-    output.push({ role: message.role, content: message.content })
+    output.push({ role: message.role, content })
   }
 
   return output
@@ -85,7 +93,7 @@ export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterab
     return true
   }
 
-  for await (const data of readSSELines(stream)) {
+  for await (const { data } of parseSSE(stream)) {
     if (data === '[DONE]') continue
 
     try {
@@ -185,7 +193,7 @@ const GEMINI_SUCCESS_FINISH = new Set([
 export async function* parseGeminiStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
   let finishReason: string | undefined
 
-  for await (const data of readSSELines(stream)) {
+  for await (const { data } of parseSSE(stream)) {
     try {
       const event = JSON.parse(data) as {
         usageMetadata?: {
@@ -345,121 +353,6 @@ export async function* parseOllamaStream(stream: ReadableStream): AsyncIterableI
 }
 
 /**
- * Retry knobs for adapter fetches. Tunable per call to createStreamSource.
- *
- * Default behavior:
- *   - 3 attempts total (1 initial + 2 retries)
- *   - exponential backoff: 500ms, 1000ms, 2000ms ... (capped at maxDelayMs)
- *   - full jitter on each delay
- *   - retry on HTTP 408, 429, 500, 502, 503, 504
- *   - retry on network errors (fetch throws)
- *   - DO NOT retry on 4xx other than 408/429 (those are bad requests / auth)
- *   - retries only the initial fetch — never mid-stream
- *   - respects Retry-After header when present
- */
-export interface RetryOptions {
-  maxAttempts?: number
-  baseDelayMs?: number
-  maxDelayMs?: number
-  jitter?: boolean
-  retryOn?: (info: { error?: unknown; response?: Response; attempt: number }) => boolean
-  /** Hook for tests + logging. Called after every failed attempt. */
-  onRetry?: (info: { attempt: number; delayMs: number; reason: string }) => void
-  /** Sleep override for tests. Defaults to setTimeout. */
-  sleep?: (ms: number) => Promise<void>
-}
-
-const DEFAULT_RETRY: Required<Omit<RetryOptions, 'onRetry' | 'sleep' | 'retryOn'>> & {
-  retryOn: NonNullable<RetryOptions['retryOn']>
-} = {
-  maxAttempts: 3,
-  baseDelayMs: 500,
-  maxDelayMs: 8000,
-  jitter: true,
-  retryOn: ({ error, response }) => {
-    if (response) {
-      return [408, 429, 500, 502, 503, 504].includes(response.status)
-    }
-    if (isAbortError(error)) return false
-    // Network error: TypeError from fetch, AbortError from upstream timeout, etc.
-    return true
-  },
-}
-
-function defaultSleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
-function computeDelay(attempt: number, opts: Required<Pick<RetryOptions, 'baseDelayMs' | 'maxDelayMs' | 'jitter'>>): number {
-  const exp = Math.min(opts.maxDelayMs, opts.baseDelayMs * Math.pow(2, attempt - 1))
-  if (!opts.jitter) return exp
-  return Math.floor(Math.random() * exp)
-}
-
-function parseRetryAfter(value: string | null, maxDelayMs: number): number | undefined {
-  if (!value) return undefined
-  const n = Number(value)
-  if (Number.isFinite(n) && n >= 0) return Math.min(n * 1000, maxDelayMs)
-  const date = Date.parse(value)
-  if (!Number.isNaN(date)) return Math.min(maxDelayMs, Math.max(0, date - Date.now()))
-  return undefined
-}
-
-/**
- * Run a fetch with retries on transient failures. Returns the final
- * Response (whether successful or not — caller decides), or throws if
- * the AbortSignal fires or all attempts fail with a thrown error.
- */
-export async function fetchWithRetry(
-  doFetch: (signal: AbortSignal) => Promise<Response>,
-  signal: AbortSignal,
-  retryOpt: RetryOptions = {},
-): Promise<Response> {
-  const opts = {
-    ...DEFAULT_RETRY,
-    ...retryOpt,
-  }
-  const sleep = retryOpt.sleep ?? defaultSleep
-  let lastError: unknown
-
-  for (let attempt = 1; attempt <= opts.maxAttempts; attempt++) {
-    if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
-
-    try {
-      const response = await doFetch(signal)
-
-      // Success or non-retryable failure → return.
-      if (response.ok) return response
-      if (attempt >= opts.maxAttempts || !opts.retryOn({ response, attempt })) {
-        return response
-      }
-
-      const retryAfterMs = parseRetryAfter(response.headers.get('retry-after'), opts.maxDelayMs)
-      const delay = retryAfterMs ?? computeDelay(attempt, opts)
-      retryOpt.onRetry?.({ attempt, delayMs: delay, reason: `HTTP ${response.status}` })
-      // Drain the body so the connection can be reused / does not leak.
-      await cancelBody(response.body)
-      await abortableSleep(delay, signal, sleep)
-    } catch (err) {
-      lastError = err
-      if (isAbortError(err)) throw err
-      if (attempt >= opts.maxAttempts || !opts.retryOn({ error: err, attempt })) throw err
-
-      const delay = computeDelay(attempt, opts)
-      retryOpt.onRetry?.({
-        attempt,
-        delayMs: delay,
-        reason: err instanceof Error ? err.message : String(err),
-      })
-      await abortableSleep(delay, signal, sleep)
-    }
-  }
-
-  // Unreachable, but the TS narrowing needs it.
-  throw lastError ?? new Error('fetchWithRetry: exhausted attempts')
-}
-
-/**
  * Chunk-splitter that turns one large string into N streamable text chunks.
  * Useful when a provider returns the full response in one shot and you
  * want to feed it to a UI that expects streaming.
@@ -531,7 +424,7 @@ export function simulateStream(
         for (const chunk of chunks) {
           if (abortController === null || controller.signal.aborted) return
           if (delayMs > 0) {
-            await abortableSleep(delayMs, controller.signal, defaultSleep)
+            await abortableSleep(delayMs, controller.signal, netSleep)
           }
           yield { type: 'text', content: chunk }
         }

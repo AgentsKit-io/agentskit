@@ -1,8 +1,46 @@
 # scripts/
 
-Repo-level CI helpers. Each script is dependency-free Node ESM, runnable
-from the repo root. They run on every PR + push to `main` via
-`.github/workflows/ci.yml` and a husky `pre-push` hook.
+Repo-level CI helpers, runnable from the repo root. Most scripts use only Node
+ESM; the bundle-size helper also uses the already installed `esbuild`
+dependency. They run on every PR + push to `main` via `.github/workflows/ci.yml`
+and a husky `pre-push` hook.
+
+## Bundle size targets per public ESM export
+
+`gen-size-limit-subpaths.mjs --check` compares every published package's
+JavaScript `exports` entry with `.size-limit.json`, so a newly added ESM
+subpath cannot miss its own budget. Run `pnpm size` to bundle those entries
+with package dependencies and peer dependencies external, then apply gzip
+budgets through size-limit. New targets get 10% headroom rounded up to the
+next 0.5 kB (decimal); existing limits are left as configured. Use
+`node scripts/gen-size-limit-subpaths.mjs --update` after building packages
+to add targets for newly published ESM exports. The Svelte entry is measured
+directly because its consumer's Svelte compiler processes component imports.
+Non-JavaScript exports, such as CSS assets, do not have an ESM bundle target.
+
+## Build prerequisites and timings
+
+CI and coverage build packages with `pnpm exec turbo run build --filter='./packages/*' --concurrency=2`.
+The quality gates use the same Turbo graph for adapters, MCP and cross-platform,
+so shared prerequisites build once and subsequent commands reuse their outputs.
+Root TypeScript configuration and shared scripts invalidate the build cache.
+The orchestrator prints elapsed seconds for each gate; all checks still execute
+sequentially and test concurrency is unchanged. No cross-run cache is added.
+
+CI runs `Quality gates` and `Test, Build` on independent runners, each with
+its own checkout and package build. Generated files cannot race between jobs.
+The existing required `Lint, Test, Build` check aggregates both results and
+fails if either job fails, is cancelled, or is skipped. Coverage remains a
+separate workflow. This trades an additional package build for overlapping
+the gate and test durations; compare wall time and runner time separately.
+
+Package-test build prefixes also use Turbo, so both standalone and aggregate
+test commands reuse the same build graph and cache. Test commands and coverage
+thresholds are unchanged; this also applies to coverage tasks.
+
+After building cross-platform, run `node --test scripts/ci-build-cache.test.mjs` to exercise a real cache miss,
+hit and invalidation after a shared script changes. It removes its temporary
+script and isolated cache afterward.
 
 ## `check-quality-gates.mjs` (orchestrator)
 
@@ -67,6 +105,24 @@ hold bare throws: `errors.ts` itself, files where the bare `Error` is
 caught and rewrapped (embedder `fetchAvailableModels`), and CLI/leaf
 modules whose conversions are queued in the enterprise-readiness
 backlog. The list shrinks as those conversions land.
+
+## `check-core-rules.mjs`
+
+Applies `CORE_RULES` from `@agentskit/core/rules` to `packages/*/src` with the
+cross-platform scanner and a shrink-only baseline in `.core-rules-baseline.json`.
+`<rule-id>-ignore: <reason>` on the line or the line above suppresses that rule.
+`--update` lowers counts and refuses to raise them. This gate does not replace
+`check-no-bare-throw.mjs`.
+
+The `no-math-random-id` rule catches base-36 random strings and template IDs,
+tokens, and temporary paths. Use `createId()` from `@agentskit/core` or
+`crypto.randomUUID()` instead. Sampling and backoff jitter remain allowed; the
+focused rule test covers both identifier and non-identifier examples.
+
+```bash
+node scripts/check-core-rules.mjs
+pnpm exec vitest run scripts/math-random-id-rule.test.mjs
+```
 
 ## `check-core-no-deps.mjs`
 
@@ -300,6 +356,31 @@ Pure helpers: `scripts/lib/public-api-snapshot.mjs`. Unit tests:
 pnpm test:public-api-snapshot
 # or: node --test scripts/public-api-snapshot.test.mjs
 ```
+
+## `check-jsdoc-coverage.mjs`
+
+Checks JSDoc coverage against the exported symbols in
+`docs/stability/public-api-v1.json`. It reads built declarations through the
+TypeScript checker, including symbols reached through package exports and
+re-exports. A symbol counts as documented when it has a description or at
+least one JSDoc tag. The per-package baseline at
+`docs/stability/jsdoc-coverage-v1.json` records the undocumented symbols;
+new missing documentation fails, and `--update` can only remove entries.
+Asset-only exports are not TypeScript symbols and are excluded.
+
+```bash
+pnpm check:jsdoc-coverage
+pnpm test:jsdoc-coverage
+pnpm check:jsdoc-coverage:update
+```
+
+The repository's existing API docs use `@example` for a representative happy
+path (see `packages/templates/CONVENTIONS.md`), `@deprecated` for deprecated
+exports with the replacement or migration guidance where available (see
+`packages/cli/ARCHITECTURE.md`), `@since` to identify an API's introduction,
+and `@throws` to describe typed errors and their conditions. The coverage gate
+checks that a public symbol has documentation; it does not infer whether each
+of these tags is semantically required for a particular declaration.
 
 Wired in CI after `packages/*` build, and in release after build /
 `check:publication-surface` and before publish.

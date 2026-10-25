@@ -26,6 +26,8 @@ const FLOOR = { stable: 90, beta: 70, alpha: 50 }
 const SHARED_DEFAULT = 90
 
 const errors = []
+const packages = []
+const json = process.argv.includes('--json')
 let checked = 0
 
 for (const name of readdirSync(pkgsDir)) {
@@ -47,6 +49,7 @@ for (const name of readdirSync(pkgsDir)) {
   }
 
   const floor = FLOOR[tier]
+  packages.push({ name: pkg.name, tier, floor, threshold, passed: threshold >= floor })
   if (threshold < floor) {
     errors.push(`${pkg.name}: ${tier} requires linesThreshold ≥ ${floor}, found ${threshold}`)
   }
@@ -54,6 +57,10 @@ for (const name of readdirSync(pkgsDir)) {
 }
 
 if (errors.length > 0) {
+  if (json) {
+    process.stdout.write(`${JSON.stringify({ schemaVersion: 1, passed: false, checkedPackages: checked, floors: FLOOR, packages, errors }, null, 2)}\n`)
+    process.exit(1)
+  }
   console.error(
     '\nCoverage-floor check failed (raise the threshold and the actual coverage, or lower the tier):\n' +
       errors.map(e => `  - ${e}`).join('\n') +
@@ -61,4 +68,8 @@ if (errors.length > 0) {
   )
   process.exit(1)
 }
-console.log(`coverage thresholds meet their tier floor across ${checked} packages ✓`)
+if (json) {
+  process.stdout.write(`${JSON.stringify({ schemaVersion: 1, passed: true, checkedPackages: checked, floors: FLOOR, packages, errors }, null, 2)}\n`)
+} else {
+  console.log(`coverage thresholds meet their tier floor across ${checked} packages ✓`)
+}

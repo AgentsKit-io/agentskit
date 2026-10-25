@@ -3,6 +3,7 @@ import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { dropboxActions } from './actions'
 
+/** Descriptor for the Dropbox service integration. */
 export const dropboxIntegration = defineIntegration({
   name: 'dropbox',
   displayName: 'Dropbox',

@@ -2,6 +2,7 @@ import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit
 import { remoteJson, type RemoteHttpConfig } from './http'
 import { validateIdentifier } from './validation'
 
+/** Endpoint, class, credentials, and search settings for Weaviate. */
 export interface WeaviateConfig extends RemoteHttpConfig {
   /** Cluster URL, e.g. `https://my-cluster.weaviate.network`. */
   url: string
@@ -28,6 +29,10 @@ async function call<T>(
   })
 }
 
+/** Creates a vector memory backed by a Weaviate class.
+ * @param config Weaviate endpoint, class, and optional credentials and result limit.
+ * @returns A vector memory backed by the configured class.
+ */
 export function weaviateVectorStore(config: WeaviateConfig): VectorMemory {
   const defaultTopK = Math.max(1, config.topK ?? 10)
   const className = validateIdentifier(config.className, 'className')

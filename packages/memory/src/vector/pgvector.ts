@@ -9,6 +9,7 @@ import { validateIdentifier } from './validation'
  * `metadata jsonb`.
  */
 
+/** Async SQL query adapter used by the pgvector backend. */
 export interface PgVectorRunner {
   query: <T = Record<string, unknown>>(
     sql: string,
@@ -16,6 +17,7 @@ export interface PgVectorRunner {
   ) => Promise<{ rows: T[] }>
 }
 
+/** SQL runner, table, and search defaults for pgvector memory. */
 export interface PgVectorConfig {
   runner: PgVectorRunner
   /** Table name. Default 'agentskit_vectors'. */
@@ -28,6 +30,10 @@ function formatVector(embedding: number[]): string {
   return `[${embedding.join(',')}]`
 }
 
+/** Creates a vector memory backed by a PostgreSQL pgvector table.
+ * @param config SQL runner and optional table and result limit.
+ * @returns A vector memory that upserts and searches the configured table.
+ */
 export function pgvector(config: PgVectorConfig): VectorMemory {
   const table = validateIdentifier(config.table ?? 'agentskit_vectors', 'table')
   const defaultTopK = Math.max(1, config.topK ?? 10)

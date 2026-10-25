@@ -17,7 +17,12 @@ function git(...args) {
 }
 
 function changedSourceFiles() {
-  const output = git('diff', '--name-only', '--diff-filter=AM', base, '--')
+  // Compare against the merge base so files changed on the base branch after this
+  // branch diverged are not attributed to the branch (a stale branch would otherwise
+  // "touch" unrelated files). The working tree is included so the pre-push hook sees
+  // uncommitted edits too.
+  const mergeBase = git('merge-base', base, 'HEAD')
+  const output = git('diff', '--name-only', '--diff-filter=AM', mergeBase, '--')
   return output
     .split('\n')
     .filter((file) => /\.(?:ts|tsx|mts|cts|mjs|js)$/.test(file))

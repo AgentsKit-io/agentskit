@@ -54,7 +54,21 @@ describe('loadUrl', () => {
       fetch,
       allowedOrigins: ['https://x'],
       maxResponseBytes: 3,
-    })).rejects.toMatchObject({ code: 'AK_RAG_LOAD_FAILED' })
+    })).rejects.toMatchObject({
+      code: 'AK_RAG_LOAD_FAILED',
+      message: 'loadUrl: response exceeds 3 bytes',
+      cause: expect.objectContaining({ code: 'AK_NET_BODY_TOO_LARGE' }),
+    })
+  })
+
+  it('rejects timeouts beyond the platform timer range without starting a request', async () => {
+    const { fetch } = makeFetch([[200, 'unused', 'text']])
+    await expect(loadUrl('https://x', {
+      fetch,
+      allowedOrigins: ['https://x'],
+      timeoutMs: 2_147_483_648,
+    })).rejects.toThrow(/no greater than 2147483647/)
+    expect(fetch).not.toHaveBeenCalled()
   })
 })
 

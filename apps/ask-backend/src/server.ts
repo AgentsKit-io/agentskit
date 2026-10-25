@@ -31,7 +31,7 @@ import { UI_TOOLS } from './ask/protocol'
 import { createRemoteCorpusRetriever } from './ask/remote-corpus'
 import { embed } from '../../docs-next/lib/rag/embed'
 import { createDocsRetriever, formatCitedContext } from '../../docs-next/lib/rag/retrieve'
-import { FREE_MODELS } from '../../docs-next/lib/openrouter'
+import { ASK_MODELS } from '../../docs-next/lib/openrouter'
 import { docsAssistant } from '../../docs-next/lib/ask/skill'
 
 const apiKey = process.env.OPENROUTER_API_KEY
@@ -40,9 +40,9 @@ if (!apiKey) {
   process.exit(1)
 }
 
-/** Shared $0 free-model fallback chain — one adapter for every corpus. */
+/** Shared ZDR-capable fallback chain (free first) — one adapter for every corpus. */
 const adapter = createFallbackAdapter(
-  FREE_MODELS.map((model) => ({
+  ASK_MODELS.map((model) => ({
     id: model,
     adapter: openrouter({ apiKey, model, retry: { maxAttempts: 2, baseDelayMs: 400 } }),
   })),
@@ -201,7 +201,7 @@ for (const [id, c] of Object.entries(corpora)) {
     temperature: c.temperature,
     uiTools: UI_TOOLS,
     richUi: process.env.ASK_RICH_UI === '1',
-    modelLabel: FREE_MODELS[0],
+    modelLabel: ASK_MODELS[0],
     formatContext: c.formatContext,
     rateLimiter: async (req) => rateLimit(clientIp(req)),
     security: { maxBodyBytes: MAX_BODY_BYTES },

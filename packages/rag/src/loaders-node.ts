@@ -27,6 +27,11 @@ async function loadS3Sdk(): Promise<S3Commands> {
   return cachedS3Sdk
 }
 
+/** Loads eligible objects from S3 using injected commands or the optional AWS SDK.
+ * @param options Bucket, client or commands, filtering, and loader limits.
+ * @returns Successfully loaded objects; fails if every eligible download fails.
+ * @throws {RagError} When listing fails or all eligible downloads fail.
+ */
 export async function loadS3(options: S3LoaderOptions): Promise<InputDocument[]> {
   const commands = options.commands ?? await loadS3Sdk()
   return loadS3Universal({ ...options, commands })

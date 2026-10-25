@@ -3,6 +3,7 @@ import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { googleDriveActions } from './actions'
 
+/** Descriptor for the Google Drive service integration. */
 export const googleDriveIntegration = defineIntegration({
   name: 'google-drive',
   displayName: 'Google Drive',

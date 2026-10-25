@@ -2,6 +2,7 @@ import { isAbsolute, resolve, relative, sep } from 'node:path'
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import type { ToolDefinition } from '@agentskit/core'
 
+/** Workspace root and symlink policy for {@link filesystem}. */
 export interface FilesystemConfig {
   basePath: string
   /**
@@ -115,6 +116,17 @@ async function realJailPath(
   return real
 }
 
+/** Create jailed file read, write, and directory-listing tools.
+ *
+ * @param config Workspace root and symlink policy.
+ * @returns The `read_file`, confirmation-gated `write_file`, and `list_directory` tools.
+ * @example
+ * ```ts
+ * import { filesystem } from '@agentskit/tools'
+ *
+ * const tools = filesystem({ basePath: './workspace' })
+ * ```
+ */
 export function filesystem(config: FilesystemConfig): ToolDefinition[] {
   const basePath = resolve(config.basePath)
   const denySymlinks = config.denySymlinks ?? true

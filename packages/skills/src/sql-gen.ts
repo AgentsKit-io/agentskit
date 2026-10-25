@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill, TOOLS } from './utils'
 
+/** Skill for turning natural-language data questions into parameterized SQL. */
 export const sqlGen: SkillDefinition = defineSkill(
   'sql-gen',
   'Translates natural-language data questions into parameterized, safe SQL.',

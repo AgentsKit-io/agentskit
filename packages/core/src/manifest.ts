@@ -6,9 +6,11 @@
  */
 
 import type { JSONSchema7 } from 'json-schema'
+import { isRecord } from './primitives'
 
 export const MANIFEST_VERSION = '2026-04'
 
+/** Tool metadata and optional input schema in a distributable manifest. */
 export interface ManifestTool {
   name: string
   description?: string
@@ -19,6 +21,7 @@ export interface ManifestTool {
   requiresConfirmation?: boolean
 }
 
+/** Skill prompt, tool requirements, delegation targets, and examples. */
 export interface ManifestSkill {
   name: string
   description?: string
@@ -31,6 +34,7 @@ export interface ManifestSkill {
   examples?: Array<{ input: string; output: string }>
 }
 
+/** Versioned package document for distributing AgentsKit tools and skills. */
 export interface Manifest {
   manifestVersion: typeof MANIFEST_VERSION
   name: string
@@ -42,10 +46,6 @@ export interface Manifest {
   skills?: ManifestSkill[]
   /** Free-form metadata (license, repo, compatibility). */
   metadata?: Record<string, unknown>
-}
-
-function isRecord(v: unknown): v is Record<string, unknown> {
-  return typeof v === 'object' && v !== null && !Array.isArray(v)
 }
 
 function assert(cond: unknown, msg: string): asserts cond {
@@ -112,6 +112,12 @@ function assertSchema(raw: unknown, path: string, active = new Set<object>(), de
   active.delete(raw)
 }
 
+/**
+ * Validate an untrusted manifest and its nested tool schemas.
+ * @param raw Value to validate.
+ * @returns The validated manifest.
+ * @throws {Error} If required fields or nested schema constraints are invalid.
+ */
 export function validateManifest(raw: unknown): Manifest {
   assert(isRecord(raw), 'root must be an object')
   assert(raw.manifestVersion === MANIFEST_VERSION, `manifestVersion must be "${MANIFEST_VERSION}"`)

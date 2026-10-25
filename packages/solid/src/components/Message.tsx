@@ -1,12 +1,17 @@
 import { Show, type JSX } from 'solid-js'
 import type { Message as MessageType } from '@agentskit/core'
 
+/** Props accepted by the headless chat message component. */
 export interface MessageProps {
   message: MessageType
   avatar?: JSX.Element
   actions?: JSX.Element
 }
 
+/** Render a message with optional avatar and action content.
+ * @param props The message and optional content slots.
+ * @returns The headless chat message element.
+ */
 export function Message(props: MessageProps): JSX.Element {
   return (
     <div

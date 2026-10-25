@@ -6,6 +6,7 @@ import { defineSkill } from './utils'
  * for agents. Both refuse fair-housing-prohibited filters.
  */
 
+/** Skill for helping buyers or renters compare listings and arrange follow-up. */
 export const listingConcierge: SkillDefinition = defineSkill(
   'listing-concierge',
   'Helps buyers / renters narrow listings by criteria, schedule tours, and request more info. Hard fair-housing rails.',
@@ -42,6 +43,7 @@ Want me to start with 3-bed under $600k within 10 miles of [zip], sorted by lot 
   ['listings_search', 'comps_lookup', 'tour_scheduler'],
 )
 
+/** Skill for real-estate agents analyzing local market information and trends. */
 export const marketAnalyst: SkillDefinition = defineSkill(
   'real-estate-market-analyst',
   'Pulls comps, computes price-per-sqft, and produces buyer / seller market briefs for a named area. No predictions — describes only.',

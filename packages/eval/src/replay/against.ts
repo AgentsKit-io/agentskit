@@ -2,6 +2,7 @@ import { ConfigError, ErrorCodes, type AdapterFactory, type StreamChunk } from '
 import { defensiveSnapshot } from './clone'
 import type { Cassette } from './types'
 
+/** Comparison of one recorded turn with the candidate adapter's response. */
 export interface ReplayAgainstResult {
   turn: number
   input: string
@@ -11,6 +12,7 @@ export interface ReplayAgainstResult {
   similarity: number
 }
 
+/** Limits and concurrency settings for {@link replayAgainst}. */
 export interface ReplayAgainstOptions {
   /** Max concurrent candidate turns. Default 1 (sequential, safer). */
   concurrency?: number
@@ -53,11 +55,17 @@ function assertNonNegativeInt(value: unknown, name: string): number {
   return value
 }
 
-/**
- * Re-run every recorded turn in `cassette` through a different
- * `candidate` adapter and return a per-turn comparison. Fast way to
- * A/B a production trace against a cheaper or newer model without
- * touching real users.
+/** Replay recorded turns through another adapter and compare concatenated text output.
+ *
+ * @param cassette Recorded turns to replay.
+ * @param candidate Adapter factory to evaluate against the recorded turns.
+ * @param options Optional turn limit and maximum candidate concurrency.
+ * @returns One comparison result for each selected cassette entry.
+ * @throws ConfigError when `limit` or `concurrency` is not a non-negative integer.
+ * @example
+ * ```ts
+ * const turns = await replayAgainst(cassette, candidate, { limit: 10 })
+ * ```
  */
 export async function replayAgainst(
   cassette: Cassette,
@@ -112,8 +120,10 @@ export async function replayAgainst(
   return results
 }
 
-/**
- * Summary metric over a list of `replayAgainst` turns.
+/** Summarize similarity and candidate errors across replay comparisons.
+ *
+ * @param turns Results returned by {@link replayAgainst}.
+ * @returns Mean and minimum similarity, error count, and turn count.
  */
 export function summarizeReplay(turns: ReplayAgainstResult[]): {
   avgSimilarity: number

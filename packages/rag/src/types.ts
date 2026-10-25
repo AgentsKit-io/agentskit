@@ -6,6 +6,7 @@ import type {
   VectorMemory,
 } from '@agentskit/core'
 
+/** A source document supplied to or returned from a RAG pipeline. */
 export interface InputDocument {
   id?: string
   content: string
@@ -13,6 +14,7 @@ export interface InputDocument {
   metadata?: Record<string, unknown>
 }
 
+/** Configuration for a store-backed retrieval-augmented generation pipeline. */
 export interface RAGConfig {
   embed: EmbedFn
   store: VectorMemory
@@ -23,6 +25,7 @@ export interface RAGConfig {
   threshold?: number
 }
 
+/** A retriever that can ingest documents into its configured vector store. */
 export interface RAG extends Retriever {
   ingest: (documents: InputDocument[]) => Promise<void>
   retrieve: (request: RetrieverRequest) => Promise<RetrievedDocument[]>

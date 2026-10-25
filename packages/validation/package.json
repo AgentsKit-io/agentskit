@@ -1,7 +1,7 @@
 {
   "name": "@agentskit/validation",
   "private": true,
-  "version": "0.2.20",
+  "version": "0.2.23",
   "description": "Opt-in runtime validation of tool-call arguments against their JSON Schema for AgentsKit. Wraps Ajv; plugs into the core ArgsValidator contract (ADR-0008).",
   "keywords": [
     "agentskit",
@@ -44,10 +44,10 @@
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.15",
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "agentskit": {
     "stability": "beta",

@@ -34,6 +34,7 @@ export interface CostSample {
   costUsd?: number
 }
 
+/** Fields supported as chargeback report grouping keys. */
 export type ChargebackGroupKey =
   | 'tenant'
   | 'user'
@@ -45,6 +46,7 @@ export type ChargebackGroupKey =
   | 'tenant+tool'
   | 'tenant+model'
 
+/** Grouping, pricing, and inclusive time-window options for a chargeback report. */
 export interface ChargebackReportOptions {
   /** Group key. Default `'tenant'`. */
   groupBy?: ChargebackGroupKey
@@ -58,6 +60,7 @@ export interface ChargebackReportOptions {
   to?: string
 }
 
+/** Aggregated token and spend totals for one chargeback group. */
 export interface ChargebackRow {
   /** Composite group key, joined with '/' for multi-field groups. */
   group: string
@@ -72,6 +75,7 @@ export interface ChargebackRow {
   lastAt: string
 }
 
+/** Aggregated chargeback rows and totals for the requested window. */
 export interface ChargebackReport {
   groupBy: ChargebackGroupKey
   rows: ChargebackRow[]
@@ -130,6 +134,13 @@ function validateSample(sample: CostSample, index: number): void {
   }
 }
 
+/**
+ * Group call samples and calculate token and dollar totals.
+ * @param samples Per-call usage records to aggregate.
+ * @param options Grouping, price overrides, and time-window filters.
+ * @returns Rows sorted by descending spend, plus report totals.
+ * @throws {ConfigError} When a sample has invalid identity, token, or cost fields.
+ */
 export function chargebackReport(
   samples: CostSample[],
   options: ChargebackReportOptions = {},
@@ -204,6 +215,11 @@ function escapeCsv(field: string | number): string {
   return s
 }
 
+/**
+ * Serialize a chargeback report as CSV, including a final totals row.
+ * @param report Aggregated report to serialize.
+ * @returns CSV text with a trailing newline.
+ */
 export function chargebackReportToCsv(report: ChargebackReport): string {
   const lines = [CSV_HEADERS.join(',')]
   const renderRow = (cells: Array<string | number>): string =>

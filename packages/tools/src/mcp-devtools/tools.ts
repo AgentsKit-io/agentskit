@@ -18,10 +18,18 @@ import type { RuntimeInspector } from './inspector'
  * with the credential check before passing it to `createMcpServer`.
  */
 
+/** Runtime inspector adapter used to build the available MCP devtools. */
 export interface DevtoolsToolsOptions {
   inspector: RuntimeInspector
 }
 
+/** Build MCP inspection and control tools for the inspector capabilities supplied.
+ * @example
+ * const tools = devtoolsTools({ inspector })
+
+ *
+ * @param options Runtime inspector adapter.
+ * @returns Tools for implemented inspector methods. */
 export function devtoolsTools(options: DevtoolsToolsOptions): ToolDefinition[] {
   if (!options.inspector) {
     throw new ConfigError({

@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from 'react'
 import type { MessageRole, ToolCallStatus } from '@agentskit/core'
 
+/** Colors, labels, and icons used by Ink chat components. */
 export interface InkTheme {
   roles: Record<MessageRole, { icon: string; label: string; color: string }>
   toolStatus: Record<ToolCallStatus, { icon: string; color: string; label: string }>
@@ -18,6 +19,7 @@ export interface InkTheme {
   }
 }
 
+/** Default role, tool, prompt, and status colors used by Ink components. */
 export const defaultInkTheme: InkTheme = {
   roles: {
     user: { icon: '❯', label: 'you', color: 'green' },
@@ -48,6 +50,16 @@ export const defaultInkTheme: InkTheme = {
 
 const ThemeContext = createContext<InkTheme>(defaultInkTheme)
 
+/** Provide a partial theme override to descendant Ink components.
+ * @param props Optional theme overrides and child components.
+ * @returns A context provider containing the merged theme.
+ * @example
+ * ```tsx
+ * <InkThemeProvider theme={{ prompt: { active: 'green', busy: 'gray' } }}>
+ *   <ChatContainer>…</ChatContainer>
+ * </InkThemeProvider>
+ * ```
+ */
 export function InkThemeProvider({
   theme,
   children,
@@ -59,6 +71,9 @@ export function InkThemeProvider({
   return <ThemeContext.Provider value={merged}>{children}</ThemeContext.Provider>
 }
 
+/** Read the active Ink theme, including the default when no provider is present.
+ * @returns The current theme values.
+ */
 export function useInkTheme(): InkTheme {
   return useContext(ThemeContext)
 }

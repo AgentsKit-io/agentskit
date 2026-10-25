@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Box, Text, useInput } from 'ink'
 import type { ToolCall } from '@agentskit/core'
 
+/** Tool call and decision callbacks for terminal confirmation. */
 export interface ToolConfirmationProps {
   toolCall: ToolCall
   onApprove: (toolCallId: string) => void
@@ -29,6 +30,14 @@ const OPTIONS: Option[] = [
   { key: 'deny', label: 'No', hint: 'deny and tell the model why', color: 'red' },
 ]
 
+/** Render keyboard controls for approving or denying a pending tool call.
+ * @param props The pending call and approval and denial callbacks.
+ * @returns The confirmation prompt, or `null` unless confirmation is required.
+ * @example
+ * ```tsx
+ * <ToolConfirmation toolCall={call} onApprove={approve} onDeny={deny} />
+ * ```
+ */
 export function ToolConfirmation({
   toolCall,
   onApprove,

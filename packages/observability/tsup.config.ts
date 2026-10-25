@@ -1,20 +1,22 @@
 import { defineConfig } from 'tsup'
+import { sharedTsupOptions } from '../../tsup.shared'
 
 export default defineConfig({
+  ...sharedTsupOptions,
   entry: {
     index: 'src/index.ts',
     'trace-tracker': 'src/trace-tracker.ts',
     'cost-guard': 'src/cost-guard.ts',
+    postgres: 'src/postgres.ts',
+    'cost-store-contract': 'src/cost-store-contract.ts',
     langfuse: '../observability-langfuse/src/index.ts',
   },
-  format: ['esm', 'cjs'],
-  dts: { compilerOptions: { ignoreDeprecations: '6.0' } },
-  sourcemap: true,
   clean: true,
   minify: true,
-  treeshake: true,
   external: [
     '@agentskit/observability',
+    'drizzle-orm',
+    'pg',
     'langfuse',
     'langsmith',
     '@opentelemetry/api',

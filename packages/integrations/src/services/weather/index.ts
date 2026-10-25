@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { weatherActions } from './actions'
 
+/** Descriptor for the Weather (OpenWeatherMap) service integration. */
 export const weatherIntegration = defineIntegration({
   name: 'weather',
   displayName: 'Weather (OpenWeatherMap)',

@@ -31,8 +31,14 @@ export function isPublicAddress(address: string): boolean {
 
 const BLOCKED_HOST_SUFFIXES = ['.localhost', '.local', '.internal', '.localdomain', '.home.arpa']
 
+/** Resolve a hostname to the IP addresses that should be checked for public access.
+ *
+ * @param hostname Hostname to resolve.
+ * @returns Resolved IP address strings.
+ */
 export type LookupFn = (hostname: string) => Promise<readonly string[]>
 
+/** Protocol, DNS lookup, and exact-host allowlist settings for {@link assertPublicUrl}. */
 export interface AssertPublicUrlOptions {
   /** Allowed URL protocols. Default `http:` and `https:`. */
   protocols?: readonly string[]
@@ -59,6 +65,18 @@ function blocked(url: URL, reason: string): NetError {
  * (or resolves to) public addresses only. Returns the parsed URL and the
  * addresses checked. Resolve-then-fetch can still race a DNS rebinding;
  * pin the returned address when the transport allows it.
+ *
+ * @param input URL string or URL object to validate.
+ * @param options Protocol allowlist, optional resolver, and trusted host allowlist.
+ * @returns The parsed URL and all resolved addresses that were checked.
+ * @throws {NetError} With code AK_NET_INVALID_INPUT for malformed URLs.
+ * @throws {NetError} With code AK_NET_BLOCKED_ADDRESS for a disallowed protocol, local host, or non-public address.
+ * @example
+ * ```ts
+ * import { assertPublicUrl } from '@agentskit/net'
+ *
+ * const { url } = await assertPublicUrl('https://example.com')
+ * ```
  */
 export async function assertPublicUrl(
   input: string | URL,

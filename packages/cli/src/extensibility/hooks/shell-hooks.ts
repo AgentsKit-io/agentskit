@@ -3,6 +3,10 @@ import type { HookEvent, HookHandler, HookPayload, HookResult } from '../plugins
 
 const MAX_HOOK_STDOUT_BYTES = 64 * 1024
 
+/**
+ * Shell command and optional matcher and timeout for a configured lifecycle hook.
+
+ */
 export interface ConfigHookEntry {
   /**
    * Command to run through the platform shell (`sh -c` on POSIX, `cmd.exe /d /s /c`
@@ -15,6 +19,10 @@ export interface ConfigHookEntry {
   timeout?: number
 }
 
+/**
+ * Configured shell hooks keyed by lifecycle event.
+
+ */
 export type ConfigHooksMap = Partial<Record<HookEvent, ConfigHookEntry[]>>
 
 /**

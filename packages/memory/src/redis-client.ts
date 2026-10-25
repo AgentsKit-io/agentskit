@@ -5,6 +5,7 @@ import { ErrorCodes, MemoryError } from '@agentskit/core'
  * Abstracts the underlying Redis library so it can be swapped
  * (e.g., from `redis` to `ioredis`) without changing consumers.
  */
+/** Redis client operations used by the chat and vector memory backends. */
 export interface RedisClientAdapter {
   get(key: string): Promise<string | null>
   set(key: string, value: string): Promise<void>
@@ -14,11 +15,17 @@ export interface RedisClientAdapter {
   call(command: string, ...args: (string | number | Buffer)[]): Promise<unknown>
 }
 
+/** Connection URL and optional injected Redis adapter. */
 export interface RedisConnectionConfig {
   url: string
   client?: RedisClientAdapter
 }
 
+/** Creates a node-redis adapter and connects it to the supplied URL.
+ * @param url Redis connection URL.
+ * @returns A connected Redis client adapter.
+ * @throws {MemoryError} When the optional Redis dependency is missing.
+ */
 export async function createRedisClientAdapter(url: string): Promise<RedisClientAdapter> {
   let redis: typeof import('redis')
   try {

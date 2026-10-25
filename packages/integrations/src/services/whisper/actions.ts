@@ -1,6 +1,6 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import { defineAction } from '../../contract'
-import { readResponseBytes } from '../../http'
+import { readResponseBytes, readResponseText } from '../../http'
 
 interface WhisperRuntimeConfig {
   apiKey: string
@@ -47,7 +47,7 @@ export const whisperTranscribe = defineAction({
       signal,
       redirect: 'error',
     })
-    const text = await response.text()
+    const text = await readResponseText(response, responseLimit)
     if (!response.ok) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `whisper ${response.status}: ${text.slice(0, 200)}` })
     }

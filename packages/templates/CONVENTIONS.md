@@ -71,6 +71,13 @@ beta minor will document a migration if scopes are added.
 - `tsconfig` does not force `types: ['node']`
 - `memory-chat` uses the real `MemoryRecord` shape (`{ version: 1, messages }`)
 
+The embedder, flow, and vector-memory blueprints return source strings; their
+HTTP reads do not run inside `@agentskit/templates`. Generated packages depend
+on `@agentskit/core` (and `@agentskit/runtime` for flows), not
+`@agentskit/net`. The NET checker matches in those strings are intentional
+baseline exceptions for this package. If a generated blueprint starts depending
+on `@agentskit/net`, add it to that scaffold's manifest in the same change.
+
 ## Factories & validators
 
 - `name` / `description` / `systemPrompt` — trim non-empty

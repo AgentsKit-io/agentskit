@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { firecrawlActions } from './actions'
 
+/** Descriptor for the Firecrawl service integration. */
 export const firecrawlIntegration = defineIntegration({
   name: 'firecrawl',
   displayName: 'Firecrawl',

@@ -18,6 +18,7 @@ type InferZodOutput<T> = T extends ZodLike<infer O> ? O : never
 // defineZodTool — Zod-based tool definition with automatic type inference
 // ---------------------------------------------------------------------------
 
+/** Configuration for {@link defineZodTool}, including its runtime and JSON Schema adapters. */
 export interface DefineZodToolConfig<TSchema extends ZodLike> {
   name: string
   description?: string
@@ -46,6 +47,8 @@ export interface DefineZodToolConfig<TSchema extends ZodLike> {
  * callback lets you convert the Zod schema to JSON Schema for the adapter
  * (e.g. using `zod-to-json-schema`).
  *
+ * @param config Tool metadata, Zod schema, and optional schema-conversion and execution callbacks.
+ * @returns A `ToolDefinition` whose execution arguments are inferred from the schema.
  * @example
  * ```ts
  * import { z } from 'zod'

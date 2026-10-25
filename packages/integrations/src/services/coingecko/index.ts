@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { coingeckoActions } from './actions'
 
+/** Descriptor for the CoinGecko service integration. */
 export const coingeckoIntegration = defineIntegration({
   name: 'coingecko',
   displayName: 'CoinGecko',

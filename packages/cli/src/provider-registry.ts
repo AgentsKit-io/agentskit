@@ -157,7 +157,7 @@ export const PROVIDER_REGISTRY = [
     catalogId: 'fireworks-ai',
     env: { status: 'required', keys: ['FIREWORKS_API_KEY'] },
     reachability: { status: 'supported', url: 'https://api.fireworks.ai/inference/v1/models' },
-    defaultModel: { status: 'known', id: 'accounts/fireworks/models/deepseek-v4-flash-0731' },
+    defaultModel: { status: 'known', id: 'accounts/fireworks/models/deepseek-v4p1-flash' },
   },
   {
     id: 'huggingface',

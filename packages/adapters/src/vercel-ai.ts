@@ -1,9 +1,12 @@
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
+import { parseSSE } from '@agentskit/net'
 import type { RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
-import { readSSELines } from './stream-lines'
 import { adapterErrorChunk } from './stream-errors'
 
+/**
+ * Configuration options for the Vercel AI SDK adapter.
+ */
 export interface VercelAIConfig {
   api: string
   headers?: Record<string, string>
@@ -42,7 +45,7 @@ async function* parseVercelTextStream(stream: ReadableStream): AsyncIterableIter
 async function* parseVercelUiMessageStreamV1(
   stream: ReadableStream,
 ): AsyncIterableIterator<StreamChunk> {
-  for await (const data of readSSELines(stream)) {
+  for await (const { data } of parseSSE(stream)) {
     if (data === '[DONE]') {
       yield { type: 'done' }
       return
@@ -105,6 +108,14 @@ export async function* parseVercelStream(
   yield* parseVercelTextStream(stream)
 }
 
+/**
+ * Creates an adapter for the Vercel AI SDK.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = vercelAI({ api: 'https://example.com/chat' })
+ */
 export function vercelAI(config: VercelAIConfig): AdapterFactory {
   const { api, headers = {}, retry } = config
 

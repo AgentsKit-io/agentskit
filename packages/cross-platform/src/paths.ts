@@ -44,6 +44,7 @@ export function isWindowsStylePath(path: string): boolean {
   return WINDOWS_STYLE.test(path)
 }
 
+/** Case and separator rules used when comparing paths. */
 export interface PathCompareOptions {
   /**
    * Compare case-insensitively. Defaults to true on Windows hosts or when

@@ -6,6 +6,7 @@ import type { IntegrationHttp } from './http'
 // Side effects — lets a host enforce an autonomy/approval gate per action.
 // ---------------------------------------------------------------------------
 
+/** Declared blast radius of an integration action. */
 export type SideEffect = 'none' | 'read' | 'write' | 'destructive' | 'external'
 
 // ---------------------------------------------------------------------------
@@ -27,10 +28,12 @@ export interface OAuth2ProviderSpec {
   extraAuthParams?: Record<string, string>
 }
 
+/** OAuth2 authorization configuration for a service integration. */
 export interface OAuth2AuthSpec extends OAuth2ProviderSpec {
   kind: 'oauth2'
 }
 
+/** Header-based API key authentication configuration. */
 export interface ApiKeyAuthSpec {
   kind: 'apiKey'
   /** Header the credential is sent in (e.g. `authorization`). */
@@ -41,16 +44,19 @@ export interface ApiKeyAuthSpec {
   envHint?: string
 }
 
+/** Authentication configuration for verifying inbound webhook signatures. */
 export interface WebhookSecretAuthSpec {
   kind: 'webhookSecret'
   /** Signature scheme used to verify inbound webhooks. */
   scheme: 'hmac-sha256' | 'ed25519' | 'custom'
 }
 
+/** Authentication marker for integrations that require no credentials. */
 export interface NoAuthSpec {
   kind: 'none'
 }
 
+/** Supported declarative authentication configurations for integrations. */
 export type AuthSpec =
   | OAuth2AuthSpec
   | ApiKeyAuthSpec
@@ -86,6 +92,7 @@ export interface IntegrationActionContext {
   config: unknown
 }
 
+/** An executable provider operation that can be projected into a tool. */
 export interface IntegrationAction {
   /** Stable, namespaced id, e.g. `slack_post_message`. */
   name: string
@@ -107,6 +114,7 @@ export interface IntegrationAction {
 // canonical normalized event a host trigger layer can consume.
 // ---------------------------------------------------------------------------
 
+/** Request data supplied to a trigger's webhook verifier. */
 export interface WebhookInput {
   /** Verification secret (signing secret / shared token). */
   secret: string
@@ -118,6 +126,7 @@ export interface WebhookInput {
   requestUrl?: string
 }
 
+/** Result returned by an integration webhook signature verifier. */
 export type VerifyResult = { ok: true } | { ok: false; reason: string }
 
 /** External thread reference — basis for session stitching across turns. */
@@ -136,6 +145,7 @@ export interface NormalizedEvent {
   raw?: unknown
 }
 
+/** Webhook trigger that verifies and normalizes provider events. */
 export interface IntegrationTrigger {
   /** Stable id, e.g. `slack.message`. */
   name: string
@@ -174,6 +184,7 @@ export interface ConfigField {
   placeholder?: string
 }
 
+/** Complete service descriptor shared by integration projections. */
 export interface Integration {
   /** Service slug, e.g. `slack`. */
   name: string

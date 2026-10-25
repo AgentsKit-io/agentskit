@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/tools",
-  "version": "0.13.12",
+  "version": "0.13.16",
   "description": "Reusable executable tools for AgentsKit agents.",
   "keywords": [
     "agentskit",
@@ -64,7 +64,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "pnpm --filter @agentskit/core build && pnpm --filter @agentskit/integrations build && pnpm run build && vitest run",
+    "test": "pnpm exec turbo run build --filter=@agentskit/tools --concurrency=2 && vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
@@ -73,16 +73,17 @@
     "@agentskit/core": "workspace:*",
     "@agentskit/cross-platform": "workspace:*",
     "@agentskit/integrations": "workspace:*",
+    "@agentskit/net": "workspace:*",
     "ajv": "^8.20.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/json-schema": "^7.0.15",
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "better-sqlite3": "^13.0.3",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "peerDependencies": {
     "better-sqlite3": "^11.0.0 || ^12.0.0 || ^13.0.0"
@@ -106,5 +107,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=20.19"
+  }
 }

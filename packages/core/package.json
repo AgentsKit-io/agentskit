@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/core",
-  "version": "1.13.0",
+  "version": "1.15.0",
   "description": "Portable AgentsKit runtime for chat orchestration, tools, memory, and retrieval.",
   "keywords": [
     "agentskit",
@@ -130,13 +130,13 @@
     "dev": "tsup --watch"
   },
   "devDependencies": {
-    "@noble/hashes": "^2.2.0",
+    "@noble/hashes": "^2.4.0",
     "@types/json-schema": "^7.0.15",
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "canonicalize": "^4.0.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "publishConfig": {
     "access": "public",
@@ -156,5 +156,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=20.19"
+  }
 }

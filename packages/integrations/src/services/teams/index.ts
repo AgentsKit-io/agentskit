@@ -3,6 +3,7 @@ import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { teamsActions } from './actions'
 
+/** Descriptor for the Microsoft Teams service integration. */
 export const teamsIntegration = defineIntegration({
   name: 'teams',
   displayName: 'Microsoft Teams',

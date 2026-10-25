@@ -1,3 +1,6 @@
+/**
+ * Per-execution language, timeout, network, memory hint, and output limit.
+ */
 export interface ExecuteOptions {
   language?: 'javascript' | 'python'
   timeout?: number
@@ -16,6 +19,9 @@ export interface ExecuteOptions {
   maxOutputBytes?: number
 }
 
+/**
+ * Captured stdout and stderr, process exit code, and execution duration.
+ */
 export interface ExecuteResult {
   stdout: string
   stderr: string
@@ -23,6 +29,9 @@ export interface ExecuteResult {
   durationMs: number
 }
 
+/**
+ * Backend contract for executing code and optionally disposing backend resources.
+ */
 export interface SandboxBackend {
   execute(code: string, options: ExecuteOptions): Promise<ExecuteResult>
   dispose?(): Promise<void>

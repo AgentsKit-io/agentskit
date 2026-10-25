@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/eval",
-  "version": "0.6.10",
+  "version": "0.7.0",
   "description": "Agent evaluation and benchmarking for AgentsKit.",
   "keywords": [
     "agentskit",
@@ -83,6 +83,11 @@
       "types": "./dist/braintrust-ci.d.ts",
       "import": "./dist/braintrust-ci.js",
       "require": "./dist/braintrust-ci.cjs"
+    },
+    "./provenance": {
+      "types": "./dist/provenance.d.ts",
+      "import": "./dist/provenance.js",
+      "require": "./dist/provenance.cjs"
     }
   },
   "files": [
@@ -95,7 +100,7 @@
   "scripts": {
     "build": "tsup",
     "test": "pnpm test:prepare && vitest run",
-    "test:prepare": "pnpm --filter @agentskit/core build && pnpm build",
+    "test:prepare": "pnpm exec turbo run build --filter=@agentskit/eval --concurrency=2",
     "test:interop": "pnpm test:prepare && vitest run tests/bundler-interop.test.ts",
     "test:coverage": "pnpm test:prepare && vitest run --coverage",
     "lint": "tsc --noEmit",
@@ -114,14 +119,14 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
-    "braintrust": "^3.33.0",
-    "metro": "0.87.0",
-    "metro-runtime": "0.87.0",
+    "@types/node": "^25.9.9",
+    "braintrust": "^3.39.0",
+    "metro": "0.87.1",
+    "metro-runtime": "0.87.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vite": "^8.3.0",
-    "vitest": "^4.1.11"
+    "vite": "^8.3.5",
+    "vitest": "^4.1.12"
   },
   "agentskit": {
     "stability": "beta",
@@ -137,5 +142,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=20.19"
+  }
 }

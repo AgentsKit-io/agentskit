@@ -1,17 +1,19 @@
-import { ErrorCodes, ToolError } from '@agentskit/core'
+import { ErrorCodes, isRecord, ToolError } from '@agentskit/core'
 import type { ArgsValidator, ToolDefinition } from '@agentskit/core'
 import type { JSONSchema7 } from 'json-schema'
 import type {
   JsonRpcMessage,
   JsonRpcRequest,
   McpTransport,
+  McpToolDefinition,
 } from './types'
 import { MCP_PROTOCOL_VERSION } from './types'
 import { createAjvValidator } from '../../../validation/src/ajv-validator'
 
+/** Transport, tools, and policy hooks used to create an MCP server. */
 export interface McpServerOptions {
   transport: McpTransport
-  tools: ToolDefinition[]
+  tools: McpToolDefinition[]
   serverInfo?: { name: string; version: string }
   /** Observability hook. */
   onEvent?: (event: { type: 'call' | 'error' | 'list'; tool?: string; error?: string }) => void
@@ -23,15 +25,18 @@ export interface McpServerOptions {
   exposeErrors?: boolean
 }
 
+/** Handle for closing a running MCP server. */
 export interface McpServer {
   close: () => Promise<void>
 }
 
-/**
- * Expose a set of AgentsKit tools as an MCP server over any
- * `McpTransport`. Implements the three methods most MCP hosts need:
- * `initialize`, `tools/list`, `tools/call`.
- */
+/** Expose AgentsKit tools over an MCP transport using initialize, tools/list, and tools/call.
+ * @example
+ * const server = createMcpServer({ transport, tools })
+
+ *
+ * @param options Transport, tools, and optional authorization and validation hooks.
+ * @returns A handle for closing the server. */
 export function createMcpServer(options: McpServerOptions): McpServer {
   const { transport, tools } = options
   const serverInfo = options.serverInfo ?? { name: 'agentskit-mcp-server', version: '0.1.0' }
@@ -94,6 +99,8 @@ export function createMcpServer(options: McpServerOptions): McpServer {
           result: {
             tools: tools.map(t => ({
               name: t.name,
+              ...(t.title === undefined ? {} : { title: t.title }),
+              ...(t.annotations === undefined ? {} : { annotations: t.annotations }),
               description: t.description,
               inputSchema: t.schema ?? EMPTY_ARGS_SCHEMA,
             })),
@@ -193,10 +200,6 @@ const EMPTY_ARGS_SCHEMA: JSONSchema7 = {
   type: 'object',
   properties: {},
   additionalProperties: false,
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
 function isValidId(value: unknown): value is string | number {

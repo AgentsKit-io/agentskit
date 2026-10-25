@@ -8,12 +8,15 @@ import {
   runtime as detectedRuntime,
 } from 'std-env'
 
-/** JavaScript runtime the code is executing in. */
+/** JavaScript runtime the code is executing in.
+ * Runtime names recognized by the portability helpers. */
 export type RuntimeName = 'node' | 'bun' | 'deno' | 'browser' | 'edge' | 'unknown'
 
-/** Operating system family. `unknown` in browsers and edge workers. */
+/** Operating system family. `unknown` in browsers and edge workers.
+ * Operating system names recognized by the portability helpers. */
 export type OsName = 'windows' | 'macos' | 'linux' | 'unknown'
 
+/** Detected JavaScript runtime and operating system. */
 export interface RuntimeInfo {
   runtime: RuntimeName
   os: OsName

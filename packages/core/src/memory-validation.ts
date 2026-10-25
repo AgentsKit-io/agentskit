@@ -20,6 +20,7 @@ function invalidRecord(): never {
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
+  // Memory records are cloned JSON and intentionally reject class instances.
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return false
   const prototype = Object.getPrototypeOf(value) as unknown
   return prototype === Object.prototype || prototype === null
@@ -124,6 +125,12 @@ function projectMessage(message: SerializedMessage): SerializedMessage {
   }
 }
 
+/**
+ * Validate an untrusted versioned memory record and return its known fields.
+ * @param input Value to validate.
+ * @returns A JSON-safe memory record.
+ * @throws {Error} If the version or record fields are invalid.
+ */
 export function validateMemoryRecord(input: unknown): MemoryRecord {
   const snapshot = cloneJsonRecord(input, invalidRecord, Infinity, false)
   if (snapshot.version !== 1 || !Array.isArray(snapshot.messages)) invalidRecord()

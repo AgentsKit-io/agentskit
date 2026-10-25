@@ -2,6 +2,9 @@ import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/co
 import { parseOpenAIStream, toProviderMessages, type RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
 
+/**
+ * Configuration options for the Azure OpenAI chat adapter.
+ */
 export interface AzureOpenAIConfig {
   apiKey: string
   /** Resource endpoint, e.g. `https://my-resource.openai.azure.com`. */
@@ -17,6 +20,14 @@ export interface AzureOpenAIConfig {
 
 const DEFAULT_API_VERSION = '2024-10-21'
 
+/**
+ * Creates an adapter for Azure OpenAI chat completions.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = azureOpenAI({ apiKey: '…', endpoint: 'https://example.openai.azure.com', deployment: 'chat' })
+ */
 export function azureOpenAI(config: AzureOpenAIConfig): AdapterFactory {
   const { apiKey, endpoint, deployment, apiVersion = DEFAULT_API_VERSION, retry } = config
   const includeUsage = config.includeUsage ?? true
@@ -63,4 +74,9 @@ export function azureOpenAI(config: AzureOpenAIConfig): AdapterFactory {
   }
 }
 
+/**
+ * Creates an adapter for Azure OpenAI chat completions.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export const azureOpenAIAdapter = azureOpenAI

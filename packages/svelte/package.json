@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/svelte",
-  "version": "0.5.7",
+  "version": "0.6.0",
   "description": "Svelte 5 store + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
   "keywords": [
     "agentskit",
@@ -40,8 +40,8 @@
   ],
   "scripts": {
     "build": "svelte-package -i src -o dist",
-    "test": "pnpm build && vitest run && vitest run --config vitest.ssr.config.ts",
-    "test:coverage": "pnpm build && vitest run --coverage",
+    "test": "pnpm exec turbo run build --filter=@agentskit/svelte --concurrency=2 && vitest run && vitest run --config vitest.ssr.config.ts",
+    "test:coverage": "pnpm exec turbo run build --filter=@agentskit/svelte --concurrency=2 && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "svelte-package -i src -o dist --watch"
   },
@@ -53,13 +53,12 @@
   },
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",
-    "@sveltejs/vite-plugin-svelte": "^7.3.0",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@testing-library/svelte": "^5.4.2",
-    "@types/node": "^25.9.5",
-    "svelte": "^5.57.0",
+    "@types/node": "^25.9.9",
+    "svelte": "^5.57.2",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "publishConfig": {
     "access": "public",
@@ -79,5 +78,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=20.19"
+  }
 }

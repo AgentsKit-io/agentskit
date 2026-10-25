@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/integrations",
-  "version": "0.7.5",
+  "version": "0.8.3",
   "description": "Unified, plug-and-play service integrations for AgentsKit agents — one descriptor per service projected into tools, connectors, triggers, and auth.",
   "keywords": [
     "agentskit",
@@ -46,20 +46,21 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "pnpm --filter @agentskit/core build && vitest run",
+    "test": "pnpm exec turbo run build --filter=@agentskit/integrations --concurrency=2 && vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/net": "workspace:*"
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.15",
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "agentskit": {
     "stability": "beta",
@@ -75,5 +76,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=20.19"
+  }
 }

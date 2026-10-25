@@ -7,6 +7,7 @@
  */
 import { lstat, mkdir, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
+import { NetError, NetErrorCodes, readBody, readJson, readText } from '@agentskit/net'
 
 const RAW_BASE = 'https://raw.githubusercontent.com/AgentsKit-io/agentskit-registry/main'
 // The committed, prebuilt index (fast path) — served straight from the repo, no
@@ -74,11 +75,16 @@ async function fetchWithLimits(url: string, fetchImpl: typeof fetch): Promise<Re
   try {
     const response = await fetchImpl(url, { signal: controller.signal })
     if (!response.ok) throw new Error(`${response.status} ${response.statusText}`)
-    const body = await response.arrayBuffer()
-    if (body.byteLength > MAX_RESPONSE_BYTES) {
-      throw new Error(`Registry response exceeded ${MAX_RESPONSE_BYTES} bytes`)
+    let body: Uint8Array
+    try {
+      body = await readBody(response, { maxBytes: MAX_RESPONSE_BYTES })
+    } catch (error) {
+      if (error instanceof NetError && error.code === NetErrorCodes.AK_NET_BODY_TOO_LARGE) {
+        throw Object.assign(new Error(`Registry response exceeded ${MAX_RESPONSE_BYTES} bytes`), { cause: error })
+      }
+      throw error
     }
-    return new Response(body, { status: response.status, headers: response.headers })
+    return new Response(Uint8Array.from(body), { status: response.status, headers: response.headers })
   } finally {
     clearTimeout(timer)
   }
@@ -124,12 +130,12 @@ export interface FetchOptions {
 
 async function getJson(url: string, fetchImpl: typeof fetch): Promise<unknown> {
   const res = await fetchWithLimits(url, fetchImpl)
-  return JSON.parse(await res.text())
+  return readJson(res, { maxBytes: MAX_RESPONSE_BYTES })
 }
 
 async function getText(url: string, fetchImpl: typeof fetch): Promise<string> {
   const res = await fetchWithLimits(url, fetchImpl)
-  return res.text()
+  return readText(res, { maxBytes: MAX_RESPONSE_BYTES })
 }
 
 /** Fetch an agent descriptor with inlined file sources, hosted first then raw GitHub. */

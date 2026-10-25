@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Text } from 'ink'
 import { useInkTheme } from './theme'
 
+/** Optional session details shown in the terminal chat header. */
 export interface StatusHeaderProps {
   title?: string
   provider?: string
@@ -12,6 +13,14 @@ export interface StatusHeaderProps {
   sessionId?: string
 }
 
+/** Render a title and available provider, model, tool, and session details.
+ * @param props Header labels and optional session metadata.
+ * @returns A bordered terminal status header.
+ * @example
+ * ```tsx
+ * <StatusHeader provider="openai" model="gpt-4o" mode="live" />
+ * ```
+ */
 export function StatusHeader({
   title = 'AgentsKit CLI',
   provider,
@@ -44,13 +53,17 @@ export function StatusHeader({
       </Text>
       {segments.length > 0 ? (
         <Text wrap="truncate-end">
-          {segments.map((seg, i) => (
-            <React.Fragment key={seg.label}>
-              {i > 0 ? <Text dimColor>  ·  </Text> : null}
-              <Text dimColor>{seg.label}=</Text>
-              <Text color={seg.color ?? 'white'}>{seg.value}</Text>
-            </React.Fragment>
-          ))}
+          {segments.map((seg, i) => {
+            let separator: React.ReactNode = null
+            if (i > 0) separator = <Text dimColor>  ·  </Text>
+            return (
+              <React.Fragment key={seg.label}>
+                {separator}
+                <Text dimColor>{seg.label}=</Text>
+                <Text color={seg.color ?? 'white'}>{seg.value}</Text>
+              </React.Fragment>
+            )
+          })}
         </Text>
       ) : null}
     </Box>

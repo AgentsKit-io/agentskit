@@ -1,7 +1,7 @@
 name: Docs build
 
 # Build-only validation for apps/docs-next (Fumadocs).
-# Deployment is handled by Vercel's GitHub integration.
+# Deployment to Cloudflare happens outside this workflow.
 
 on:
   push:
@@ -39,6 +39,9 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      - name: Generate Doc Bridge artifacts for this checkout
+        run: pnpm docs:bridge:index
 
       - run: pnpm --filter "./packages/*" build
 

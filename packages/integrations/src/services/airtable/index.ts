@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { airtableActions } from './actions'
 
+/** Descriptor for the Airtable service integration. */
 export const airtableIntegration = defineIntegration({
   name: 'airtable',
   displayName: 'Airtable',

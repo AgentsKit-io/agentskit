@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/statechart",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Deterministic, serializable interaction state for AgentsKit applications.",
   "keywords": [
     "agentskit",
@@ -42,10 +42,10 @@
     "dev": "tsup --watch"
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "agentskit": {
     "stability": "beta",

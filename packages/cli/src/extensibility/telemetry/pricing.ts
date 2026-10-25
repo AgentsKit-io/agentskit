@@ -23,10 +23,21 @@ const builtinPricing: Record<string, ModelPricing> = {
 
 const customPricing: Record<string, ModelPricing> = {}
 
+/**
+ * Registers or replaces per-million-token prices for a model in this process.
+ * @param model Model identifier to register.
+ * @param pricing Input and output prices in USD per million tokens.
+ * @returns Nothing.
+ */
 export function registerPricing(model: string, pricing: ModelPricing): void {
   customPricing[model] = pricing
 }
 
+/**
+ * Looks up registered model pricing by exact id or provider-prefixed model id.
+ * @param model Model identifier to look up.
+ * @returns Pricing for the model, or `undefined` when it is unknown.
+ */
 export function getPricing(model: string | undefined): ModelPricing | undefined {
   if (!model) return undefined
   if (customPricing[model]) return customPricing[model]
@@ -36,11 +47,19 @@ export function getPricing(model: string | undefined): ModelPricing | undefined 
   return customPricing[short] ?? builtinPricing[short]
 }
 
+/**
+ * Prompt and completion token counts used for cost calculation.
+
+ */
 export interface TokenUsageLike {
   promptTokens: number
   completionTokens: number
 }
 
+/**
+ * Estimated input, output, and total cost for one model response.
+
+ */
 export interface ComputedCost {
   model: string
   inputUsd: number

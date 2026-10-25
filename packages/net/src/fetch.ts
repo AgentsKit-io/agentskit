@@ -4,6 +4,7 @@ import { timeoutSignal } from './timeout'
 
 const IDEMPOTENT_METHODS = ['GET', 'HEAD', 'OPTIONS', 'PUT', 'DELETE', 'TRACE']
 
+/** Retry, timeout, and fetch implementation settings for {@link fetchWithRetry}. */
 export interface FetchWithRetryOptions extends BackoffOptions {
   /** Retries after the first attempt. Default 3. */
   retries?: number
@@ -40,6 +41,18 @@ function isReplayableBody(body: BodyInit | null | undefined): boolean {
  * response is returned as-is (a non-2xx status is not an error); network
  * failures after the last attempt reject. Streaming request bodies are never
  * retried because they cannot be replayed.
+ *
+ * @param input URL, URL string, or request to send.
+ * @param init Standard fetch request options.
+ * @param options Retry, timeout, and fetch implementation settings.
+ * @returns The final response, including non-2xx responses.
+ * @throws {NetError} With code AK_NET_INVALID_INPUT when no fetch implementation is available.
+ * @example
+ * ```ts
+ * import { fetchWithRetry } from '@agentskit/net'
+ *
+ * const response = await fetchWithRetry('https://api.example.com/data')
+ * ```
  */
 export async function fetchWithRetry(
   input: string | URL | Request,

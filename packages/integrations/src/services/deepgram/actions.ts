@@ -1,5 +1,6 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import { defineAction } from '../../contract'
+import { readResponseText } from '../../http'
 
 interface DeepgramRuntimeConfig {
   apiKey: string
@@ -20,7 +21,7 @@ export const deepgramTranscribe = defineAction({
     },
     required: ['url'],
   },
-  async execute(args, { fetch, signal, config }) {
+  async execute(args, { fetch, signal, maxResponseBytes, config }) {
     const cfg = config as DeepgramRuntimeConfig
     const baseUrl = cfg.baseUrl ?? 'https://api.deepgram.com/v1'
     const response = await fetch(`${baseUrl}/listen`, {
@@ -30,7 +31,7 @@ export const deepgramTranscribe = defineAction({
       signal,
       redirect: 'error',
     })
-    const text = await response.text()
+    const text = await readResponseText(response, maxResponseBytes ?? 2 * 1024 * 1024)
     if (!response.ok) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `deepgram ${response.status}: ${text.slice(0, 200)}` })
     }

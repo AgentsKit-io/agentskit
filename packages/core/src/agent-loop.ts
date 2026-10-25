@@ -14,6 +14,10 @@ import type {
 
 // --- buildToolMap ---
 
+/** Combine tool lists into a name-keyed map; later definitions replace earlier ones.
+ * @param sources Tool lists in replacement precedence order.
+ * @returns A map containing the last definition for each name.
+ */
 export function buildToolMap(
   ...sources: Array<ToolDefinition[] | undefined>
 ): Map<string, ToolDefinition> {
@@ -27,11 +31,17 @@ export function buildToolMap(
 
 // --- activateSkills ---
 
+/** System prompt and tools produced while activating chat skills. */
 export interface ActivateSkillsResult {
   systemPrompt: string | undefined
   skillTools: ToolDefinition[]
 }
 
+/** Add skill prompts and activation-provided tools to a chat configuration.
+ * @param skills Skills whose prompts and activation hooks should be applied.
+ * @param prompt Optional base system prompt.
+ * @returns The combined system prompt and tools returned by activation hooks.
+ */
 export async function activateSkills(
   skills: SkillDefinition[],
   prompt?: string,
@@ -57,6 +67,7 @@ export async function activateSkills(
 
 // --- executeSafeTool ---
 
+/** Outcome and duration of one safe tool execution attempt. */
 export interface ToolExecResult {
   status: 'complete' | 'error' | 'skipped'
   result?: string
@@ -64,6 +75,7 @@ export interface ToolExecResult {
   durationMs: number
 }
 
+/** Dependencies and callbacks used to execute and report a tool call. */
 export interface ExecuteSafeToolOptions {
   tool: ToolDefinition | undefined
   toolCall: ToolCall
@@ -84,6 +96,10 @@ export async function auth(fn: ToolAuthorizer | undefined, call: ToolCall, conte
 }
 
 
+/** Validate, authorize, and execute a tool while reporting its lifecycle.
+ * @param options Tool call and lifecycle dependencies, validators, and callbacks.
+ * @returns The execution status, result or error text, and elapsed time.
+ */
 export async function executeSafeTool(
   options: ExecuteSafeToolOptions,
 ): Promise<ToolExecResult> {

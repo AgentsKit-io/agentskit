@@ -1,7 +1,9 @@
 import { copyFile } from 'node:fs/promises'
 import { defineConfig } from 'tsup'
+import { sharedTsupOptions } from '../../tsup.shared'
 
 export default defineConfig({
+  ...sharedTsupOptions,
   entry: {
     index: 'src/index.ts',
     'agent-schema': 'src/agent-schema.ts',
@@ -19,18 +21,15 @@ export default defineConfig({
     'eval-format': 'src/eval-format.ts',
     'memory-validation': 'src/memory-validation.ts',
     'tool-proposal': 'src/tool-proposal.ts',
+    'controller-decision-internal': 'src/controller-decision-internal.ts',
     'tool-proposal-internal': 'src/tool-proposal-internal.ts',
     'tool-authorization-internal': 'src/tool-authorization-internal.ts',
     rules: 'src/rules.ts',
     hash: 'src/hash.ts',
   },
-  format: ['esm', 'cjs'],
-  dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
-  sourcemap: true,
   clean: false,
   minify: true,
-  treeshake: true,
-  external: ['./tool-proposal-internal.js', './tool-authorization-internal.js', './memory-validation.js'],
+  external: ['./controller-decision-internal.js', './tool-proposal-internal.js', './tool-authorization-internal.js', './memory-validation.js'],
   noExternal: ['canonicalize', '@noble/hashes'],
   // tsup ships .ts entrypoints only; copy bundled JSON assets manually.
   async onSuccess() {

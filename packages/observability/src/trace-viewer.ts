@@ -1,6 +1,7 @@
 import type { TraceSpan } from './trace-tracker'
 import { ConfigError, ErrorCodes } from '@agentskit/core'
 
+/** Summary metrics and spans for one trace, used by JSON and HTML exporters. */
 export interface TraceReport {
   traceId: string
   startTime: number
@@ -93,6 +94,7 @@ ${rows}
 `
 }
 
+/** Span collector with a disk flush operation that writes JSON and optional HTML. */
 export interface FileTraceSink {
   /** Observer-compatible span callbacks. Plug into `createTraceTracker`. */
   onSpanStart: (span: TraceSpan) => void
@@ -104,10 +106,14 @@ export interface FileTraceSink {
 }
 
 /**
- * Collect spans in memory and write them to disk on demand. The
- * default layout under `dir` is:
- *   <traceId>.json   — TraceReport (JSON)
- *   <traceId>.html   — offline viewer page (when html !== false)
+ * Collect spans in memory and write a JSON report and optional offline HTML viewer to a directory.
+ * @param dir Destination directory created on the first flush.
+ * @returns Span callbacks, a copy of collected spans, and an async flush method.
+ * @example
+ * ```ts
+ * const sink = createFileTraceSink('./traces')
+ * const paths = await sink.flush({ traceId: 'run-42' })
+ * ```
  */
 export function createFileTraceSink(dir: string): FileTraceSink {
   const spans: TraceSpan[] = []

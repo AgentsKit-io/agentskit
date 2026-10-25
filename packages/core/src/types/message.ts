@@ -1,9 +1,12 @@
 import type { ContentPart } from './content'
 import type { ToolCall } from './tool'
 
+/** Role assigned to a message in a conversation. */
 export type MessageRole = 'user' | 'assistant' | 'system' | 'tool'
+/** Lifecycle state of a message while it is created or processed. */
 export type MessageStatus = 'pending' | 'streaming' | 'complete' | 'error'
 
+/** Conversation message with optional tool calls and multi-modal parts. */
 export interface Message {
   id: string
   role: MessageRole
@@ -22,6 +25,7 @@ export interface Message {
   createdAt: Date
 }
 
+/** Versioned JSON-safe representation of messages stored by a memory backend. */
 export interface MemoryRecord {
   version: 1
   messages: Array<Omit<Message, 'createdAt'> & { createdAt: string }>

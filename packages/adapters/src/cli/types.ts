@@ -5,6 +5,9 @@ import type {
   TokenUsage,
 } from '@agentskit/core'
 
+/**
+ * Process environment policy applied when launching a CLI adapter.
+ */
 export type CliSecurityMode = 'review-safe' | 'trusted-local' | 'restricted-environment'
 /**
  * Transport protocol of a CLI manifest. The protocol bounds what the adapter
@@ -31,8 +34,14 @@ export interface CliProtocolCapabilityKeys {
 
 /** The subset of `CliCapabilityRequirements` that protocol `P` supports. */
 export type CliCapabilitiesFor<P extends CliProtocol> = Pick<CliCapabilityRequirements, CliProtocolCapabilityKeys[P]>
+/**
+ * Reason a CLI child process stopped before normal completion.
+ */
 export type CliTerminationReason = 'aborted' | 'timeout' | 'output-limit'
 
+/**
+ * Capabilities a CLI adapter must support before starting a process.
+ */
 export interface CliCapabilityRequirements {
   streaming?: boolean
   structuredOutput?: boolean
@@ -44,6 +53,9 @@ export interface CliCapabilityRequirements {
   nativeAuth?: boolean
 }
 
+/**
+ * Availability, version, exit status, and lifecycle details reported for a CLI process.
+ */
 export interface CliDiagnostic {
   available?: boolean
   success?: boolean
@@ -59,6 +71,9 @@ export interface CliDiagnostic {
   error?: string
 }
 
+/**
+ * Executable, input, environment, limits, and diagnostics for a CLI child process.
+ */
 export interface CliProcessOptions {
   /** Executable path or an explicit executable name resolved by the OS. */
   command: string
@@ -88,6 +103,9 @@ export interface CliProcessOptions {
   requiredCapabilities?: CliCapabilityRequirements
 }
 
+/**
+ * Process settings and request/response mapping for a text CLI adapter.
+ */
 export interface CliAdapterOptions extends CliProcessOptions {
   /** Defaults to a newline-terminated JSON representation of AdapterRequest. */
   serializeRequest?: (request: AdapterRequest) => string | Uint8Array
@@ -97,12 +115,18 @@ export interface CliAdapterOptions extends CliProcessOptions {
   capabilities?: AdapterCapabilities
 }
 
+/**
+ * Tool call parsed from a CLI structured response.
+ */
 export interface CliToolCall {
   id: string
   name: string
   args: string
 }
 
+/**
+ * Normalized text, reasoning, tool calls, usage, or metadata parsed from CLI JSON output.
+ */
 export interface CliJsonResponse {
   text?: string
   reasoning?: string
@@ -111,8 +135,16 @@ export interface CliJsonResponse {
   metadata?: Record<string, unknown>
 }
 
+/**
+ * Maps a decoded CLI JSON value to AgentsKit stream chunks.
+ * @param value Decoded JSON value from the CLI.
+ * @returns Normalized stream chunks for the response.
+ */
 export type CliJsonParser = (value: unknown) => readonly StreamChunk[]
 
+/**
+ * Process settings and JSON decoding hooks for a structured-output CLI adapter.
+ */
 export interface CliJsonAdapterOptions extends CliAdapterOptions {
   /** Maps one schema-validated JSON response to normalized stream chunks. */
   parse?: CliJsonParser
@@ -120,11 +152,17 @@ export interface CliJsonAdapterOptions extends CliAdapterOptions {
   parseOutput?: (stdout: string) => unknown
 }
 
+/**
+ * Client identity sent when initializing an Agent Client Protocol session.
+ */
 export interface AcpClientInfo {
   name: string
   version: string
 }
 
+/**
+ * Process and client settings for an Agent Client Protocol CLI adapter.
+ */
 export interface AcpCliAdapterOptions extends CliProcessOptions {
   protocolVersion?: 1
   clientInfo?: AcpClientInfo

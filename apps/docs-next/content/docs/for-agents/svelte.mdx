@@ -22,7 +22,7 @@ npm install svelte
 
 ## Primary exports
 
-- `createChatStore(config): SvelteChatStore` — `Readable<ChatState>` + action methods + `destroy()`.
+- `createChatStore(config): SvelteChatStore` — `Readable<ChatState>` + action methods + `destroy()`. `send` accepts `string | ContentPart[]`; `decide(id, 'approve' | 'deny', reason?)` forwards durable decisions to core with a configured `decisionStore`. Both actions reject after `destroy()`.
 - Headless components (Svelte 5, with Svelte-specific props; not full React parity, `data-ak-*` only): `ChatContainer`, `Message`, `InputBar`, `Markdown`, `CodeBlock`, `ToolCallView`, `ThinkingIndicator`, `ToolConfirmation`.
 
 ## Minimal example

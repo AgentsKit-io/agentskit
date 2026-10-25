@@ -3,6 +3,7 @@ import type { RetrievedDocument } from '@agentskit/core'
 import type { RerankFn } from '../rerank'
 import { doFetch, readResponseJson, readResponseText } from '../loaders/shared'
 
+/** Credentials and request settings for the Voyage reranker. */
 export interface VoyageRerankerOptions {
   apiKey: string
   /** Default `rerank-2`. Pass `rerank-2-lite` for cheaper / faster runs. */
@@ -31,6 +32,9 @@ function rerankFailed(message: string, cause?: unknown): RagError {
 /**
  * Voyage AI cross-encoder reranker. Drop-in `RerankFn` for
  * `createRerankedRetriever`.
+ * @param options API key, model, and optional request settings.
+ * @returns A reranking function for retrieved documents.
+ * @throws {RagError} When the request fails or the response is invalid.
  */
 export function voyageReranker(options: VoyageRerankerOptions): RerankFn {
   const fetchImpl = options.fetch ?? globalThis.fetch
@@ -58,7 +62,7 @@ export function voyageReranker(options: VoyageRerankerOptions): RerankFn {
     if (!response.ok) {
       let text = ''
       try {
-        text = await readResponseText(response, 'voyage rerank', options.maxResponseBytes, options.timeoutMs)
+        text = await readResponseText(response, 'voyage rerank', options.maxResponseBytes, options.timeoutMs, options.signal)
       } catch (cause) {
         throw rerankFailed(`voyage rerank: ${response.status} (failed to read error body)`, cause)
       }
@@ -67,7 +71,7 @@ export function voyageReranker(options: VoyageRerankerOptions): RerankFn {
 
     let data: VoyageRerankResponse
     try {
-      data = await readResponseJson<VoyageRerankResponse>(response, 'voyage rerank', options.maxResponseBytes, options.timeoutMs)
+      data = await readResponseJson<VoyageRerankResponse>(response, 'voyage rerank', options.maxResponseBytes, options.timeoutMs, options.signal)
     } catch (cause) {
       throw rerankFailed('voyage rerank: invalid JSON response', cause)
     }

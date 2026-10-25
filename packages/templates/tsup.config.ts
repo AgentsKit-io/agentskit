@@ -1,10 +1,8 @@
 import { defineConfig } from 'tsup'
+import { sharedTsupOptions } from '../../tsup.shared'
 
 export default defineConfig({
+  ...sharedTsupOptions,
   entry: { index: 'src/index.ts' },
-  format: ['esm', 'cjs'],
-  dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
-  sourcemap: true,
   clean: true,
-  treeshake: true,
 })

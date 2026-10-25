@@ -1,3 +1,4 @@
+import { readJson } from '@agentskit/net'
 import { catalog, getModel } from './loader'
 import type { CatalogModelCost } from './types'
 
@@ -8,6 +9,9 @@ import type { CatalogModelCost } from './types'
  */
 const LIVE_URL = 'https://models.dev/api.json'
 
+/**
+ * Options for resolving model pricing from the local catalog or live source.
+ */
 export interface ResolveCostOptions {
   /**
    * Opt in to a live fetch. Default `false` keeps the runtime offline and
@@ -21,6 +25,9 @@ export interface ResolveCostOptions {
   fetchImpl?: typeof fetch
 }
 
+/**
+ * Model pricing together with its source and cache freshness.
+ */
 export interface ResolvedCost {
   cost?: CatalogModelCost
   /** Where the returned cost came from. */
@@ -30,6 +37,7 @@ export interface ResolvedCost {
 }
 
 const STALE_AFTER_MS = 30 * 24 * 60 * 60 * 1000
+const MAX_PRICING_RESPONSE_BYTES = 16 * 1024 * 1024
 
 function cachedCost(providerId: string, modelId: string, now: number): ResolvedCost {
   const cost = getModel(providerId, modelId)?.cost
@@ -75,7 +83,11 @@ export async function resolveCost(
   try {
     const res = await fetchImpl(LIVE_URL, { signal: controller.signal })
     if (!res.ok) return cachedCost(providerId, modelId, now)
-    const cost = liveCostFrom(await res.json(), providerId, modelId)
+    const cost = liveCostFrom(
+      await readJson<unknown>(res, { maxBytes: MAX_PRICING_RESPONSE_BYTES }),
+      providerId,
+      modelId,
+    )
     if (!cost) return cachedCost(providerId, modelId, now)
     return { cost, source: 'live', stale: false }
   } catch {

@@ -1,5 +1,6 @@
 import { NetError, NetErrorCodes, invalidInput } from './errors'
 
+/** Byte limit used when buffering a response body. */
 export interface ReadBodyOptions {
   /** Refuse bodies larger than this many bytes. */
   maxBytes: number
@@ -17,6 +18,18 @@ function tooLarge(maxBytes: number, seen: string): NetError {
  * Read a response body into memory, failing fast when it is larger than
  * `maxBytes`: a declared `Content-Length` is checked first, then bytes are
  * counted while streaming and the stream is cancelled on overflow.
+ *
+ * @param response Response whose body should be buffered.
+ * @param options Maximum buffered byte count.
+ * @returns The body bytes.
+ * @throws {NetError} With code AK_NET_INVALID_INPUT when `maxBytes` is not a non-negative integer.
+ * @throws {NetError} With code AK_NET_BODY_TOO_LARGE when the body exceeds `maxBytes`.
+ * @example
+ * ```ts
+ * import { readText } from '@agentskit/net'
+ *
+ * const text = await readText(response, { maxBytes: 1_000_000 })
+ * ```
  */
 export async function readBody(response: Response, options: ReadBodyOptions): Promise<Uint8Array> {
   const { maxBytes } = options

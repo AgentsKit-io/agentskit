@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { figmaActions } from './actions'
 
+/** Descriptor for the Figma service integration. */
 export const figmaIntegration = defineIntegration({
   name: 'figma',
   displayName: 'Figma',

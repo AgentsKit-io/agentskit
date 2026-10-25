@@ -9,6 +9,9 @@ import type {
 } from '@agentskit/core'
 import { isAbortError, raceAbort } from './stream-errors'
 
+/**
+ * A candidate used by model routing.
+ */
 export interface RouterCandidate {
   id: string
   adapter: AdapterFactory
@@ -38,6 +41,9 @@ export interface RouterCandidate {
   gCO2PerKtok?: number
 }
 
+/**
+ * Policy used to select an adapter routing candidate.
+ */
 export type RouterPolicy =
   | 'cheapest'
   | 'fastest'
@@ -46,6 +52,9 @@ export type RouterPolicy =
   | 'capability-match'
   | ((input: { request: AdapterRequest; candidates: RouterCandidate[] }) => string | Promise<string>)
 
+/**
+ * Configuration options for the model routing.
+ */
 export interface RouterOptions {
   candidates: RouterCandidate[]
   /** Require all selected adapters to match this data-residency region. */

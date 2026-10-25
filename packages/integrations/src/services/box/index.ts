@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { boxActions } from './actions'
 
+/** Descriptor for the Box service integration. */
 export const boxIntegration = defineIntegration({
   name: 'box',
   displayName: 'Box',

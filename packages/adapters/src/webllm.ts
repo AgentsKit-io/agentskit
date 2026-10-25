@@ -24,6 +24,9 @@ export interface WebLlmConfig {
   onProgress?: (info: { progress: number; text: string }) => void
 }
 
+/**
+ * Data type used by the WebLLM chat adapter.
+ */
 export interface WebLlmEngineLike {
   reload(model: string, opts?: { initProgressCallback?: (i: { progress: number; text: string }) => void }): Promise<void>
   chat: {
@@ -59,6 +62,14 @@ async function loadSdk(): Promise<WebLlmModule> {
   return cachedSdk
 }
 
+/**
+ * Creates an adapter for WebLLM chat generation.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = webllm({ model: 'Llama-3.1-8B-Instruct-q4f16_1-MLC' })
+ */
 export function webllm(config: WebLlmConfig): AdapterFactory {
   let enginePromise: Promise<WebLlmEngineLike> | null = null
   const getEngine = (): Promise<WebLlmEngineLike> => {
@@ -141,4 +152,9 @@ export function webllm(config: WebLlmConfig): AdapterFactory {
   }
 }
 
+/**
+ * Creates an adapter for WebLLM chat generation.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export const webllmAdapter = webllm

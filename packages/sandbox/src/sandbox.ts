@@ -4,6 +4,9 @@ import type { E2BConfig } from './e2b-backend'
 
 const SUPPORTED_LANGUAGES = new Set(['javascript', 'python'] as const)
 
+/**
+ * Backend or E2B credentials and default language, timeout, network, and memory hint.
+ */
 export interface SandboxConfig {
   apiKey?: string
   backend?: SandboxBackend
@@ -20,6 +23,9 @@ export interface SandboxConfig {
   memoryLimit?: string
 }
 
+/**
+ * Facade for executing code and disposing the configured backend.
+ */
 export interface Sandbox {
   execute(code: string, options?: ExecuteOptions): Promise<ExecuteResult>
   dispose(): Promise<void>

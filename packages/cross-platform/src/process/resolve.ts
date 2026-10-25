@@ -25,11 +25,17 @@ const parse = (crossSpawn as unknown as { _parse: CrossSpawnParse })._parse
 // %APPDATA%\npm) makes cmd.exe parse the arguments twice, so `&`, `|`, `^`, `"`
 // must be escaped twice. cross-spawn only does that for node_modules\.bin;
 // apply it to every batch file so `x&y` never runs `y` as a command.
+/** Escape a Windows batch command and arguments for cmd.exe invocation.
+ *
+ * @param command Command path.
+ * @param args Arguments passed to the batch file.
+ * @returns cmd.exe `/d /s /c` arguments. */
 export function batchCommandLine(command: string, args: readonly string[]): string[] {
   const line = [escape.command(normalize(command)), ...args.map(arg => escape.argument(arg, true))].join(' ')
   return ['/d', '/s', '/c', `"${line}"`]
 }
 
+/** Executable invocation after PATH lookup and platform-specific argument escaping. */
 export interface ResolvedCommand {
   command: string
   args: string[]
@@ -90,6 +96,7 @@ function resolvePosix(command: string, args: readonly string[], env: Record<stri
   return file === null ? { ...passthrough, found: false } : { ...passthrough, command: file }
 }
 
+/** Search path and executable extensions used when locating a command. */
 export interface WhichOptions {
   /** Search path. Defaults to the `PATH` of the current environment. */
   path?: string

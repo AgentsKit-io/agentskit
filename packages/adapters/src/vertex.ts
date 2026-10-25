@@ -3,6 +3,9 @@ import { parseGeminiStream, type RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
 import { toGeminiContents } from './tool-history'
 
+/**
+ * Configuration options for the Vertex AI chat adapter.
+ */
 export interface VertexConfig {
   /** GCP project id. */
   project: string
@@ -22,6 +25,14 @@ export interface VertexConfig {
   retry?: RetryOptions
 }
 
+/**
+ * Creates an adapter for Vertex AI Gemini streaming.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = vertex({ project: 'my-project', region: 'us-central1', model: 'gemini-2.5-pro' })
+ */
 export function vertex(config: VertexConfig): AdapterFactory {
   const { project, region, model, accessToken, publisher = 'google', retry } = config
   const url = `https://${region}-aiplatform.googleapis.com/v1/projects/${project}/locations/${region}/publishers/${publisher}/models/${model}:streamGenerateContent?alt=sse`
@@ -73,4 +84,9 @@ export function vertex(config: VertexConfig): AdapterFactory {
   }
 }
 
+/**
+ * Creates an adapter for Vertex AI Gemini streaming.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export const vertexAdapter = vertex

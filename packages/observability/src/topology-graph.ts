@@ -1,8 +1,4 @@
-/**
- * Mirrors the `TopologyLogEvent` shape from `@agentskit/runtime`. We
- * redefine it here to avoid a runtime → observability dependency
- * cycle; the contract is stable (defined alongside topologies.ts).
- */
+/** Runtime topology event mirrored here to avoid an observability-to-runtime dependency cycle. */
 export interface TopologyLogEvent {
   topology: string
   phase: 'dispatch' | 'agent:start' | 'agent:end' | 'merge' | 'done'
@@ -27,6 +23,7 @@ export interface TopologyLogEvent {
  * Closes issue #785.
  */
 
+/** Agent node and activity counters in a topology graph. */
 export interface TopologyNode {
   id: string
   /** Display label. Defaults to the agent id. */
@@ -41,6 +38,7 @@ export interface TopologyNode {
   lastActiveAt: number
 }
 
+/** Directed communication edge between agents in a topology graph. */
 export interface TopologyEdge {
   /** `from→to` (stable id). */
   id: string
@@ -53,6 +51,7 @@ export interface TopologyEdge {
   lastResult?: string
 }
 
+/** Mutable topology graph with serializers and change subscriptions. */
 export interface TopologyGraph {
   nodes: Map<string, TopologyNode>
   edges: Map<string, TopologyEdge>
@@ -73,6 +72,7 @@ export interface TopologyGraph {
   reset: () => void
 }
 
+/** JSON-serializable node and edge snapshot with update time. */
 export interface TopologyGraphSnapshot {
   nodes: TopologyNode[]
   edges: TopologyEdge[]
@@ -80,6 +80,7 @@ export interface TopologyGraphSnapshot {
   updatedAt: string
 }
 
+/** Snippet length and clock overrides for topology graph creation. */
 export interface TopologyGraphOptions {
   /** Truncation length for task/result tooltips. Default 80. */
   snippetLength?: number
@@ -94,6 +95,16 @@ function trim(value: string | undefined, max: number): string | undefined {
 
 const ROOT = '__root__'
 
+/**
+ * Create an in-memory graph for topology dispatch and agent activity events.
+ * @param options Optional snippet length and clock override.
+ * @returns A mutable graph with JSON, Mermaid, ASCII, and subscription APIs.
+ * @example
+ * ```ts
+ * const graph = createTopologyGraph()
+ * graph.ingest({ topology: 'swarm', phase: 'agent:start', agent: 'writer' })
+ * ```
+ */
 export function createTopologyGraph(options: TopologyGraphOptions = {}): TopologyGraph {
   const snippet = options.snippetLength ?? 80
   const now = options.now ?? (() => Date.now())
@@ -208,7 +219,10 @@ export function createTopologyGraph(options: TopologyGraphOptions = {}): Topolog
       for (const edge of childEdges) {
         const child = nodes.get(edge.to)
         if (!child) continue
-        const tag = child.errorCount > 0 ? '✗' : child.endCount > 0 ? '✓' : '…'
+        let tag: string
+        if (child.errorCount > 0) tag = '✗'
+        else if (child.endCount > 0) tag = '✓'
+        else tag = '…'
         lines.push(`  ├─ ${tag} ${child.label} (${child.startCount} starts, ${child.endCount} done)`)
       }
       return lines.join('\n')

@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { hubspotActions } from './actions'
 
+/** Descriptor for the HubSpot service integration. */
 export const hubspotIntegration = defineIntegration({
   name: 'hubspot',
   displayName: 'HubSpot',

@@ -1,6 +1,7 @@
 import { createHash, createHmac } from 'node:crypto'
 import type { PIIRedactionHit } from '@agentskit/core/security'
 
+/** Signed, sequence-numbered audit record linked to its predecessor. */
 export interface AuditEntry<TPayload = unknown> {
   /** Monotonic sequence within a log. Starts at 1. */
   seq: number
@@ -14,6 +15,7 @@ export interface AuditEntry<TPayload = unknown> {
   signature: string
 }
 
+/** Append-only storage operations required by the signed audit log. */
 export interface AuditLogStore {
   append: (entry: AuditEntry) => Promise<void>
   list: () => Promise<AuditEntry[]>
@@ -21,6 +23,7 @@ export interface AuditLogStore {
   clear?: () => Promise<void>
 }
 
+/** Secret, storage, and clock settings for a signed audit log. */
 export interface AuditLogOptions {
   /** HMAC secret — rotate out-of-band. */
   secret: string
@@ -29,12 +32,14 @@ export interface AuditLogOptions {
   now?: () => Date
 }
 
+/** Caller-supplied values for one audit record. */
 export interface AppendAuditInput<TPayload = unknown> {
   actor: string
   action: string
   payload: TPayload
 }
 
+/** Result of validating audit entry signatures and hash links. */
 export interface AuditVerifyResult {
   ok: boolean
   /** First entry where the chain broke, or null when ok. */
@@ -42,14 +47,17 @@ export interface AuditVerifyResult {
   entryCount: number
 }
 
+/** Operations exposed by a signed hash-chained audit log. */
 export interface SignedAuditLog {
   append: <TPayload>(input: AppendAuditInput<TPayload>) => Promise<AuditEntry<TPayload>>
   verify: () => Promise<AuditVerifyResult>
   list: () => Promise<AuditEntry[]>
 }
 
+/** Audit action names emitted for PII redaction and reveal events. */
 export type PiiAuditAction = 'pii:redact' | 'pii:reveal' | 'pii:reveal-denied'
 
+/** PII scan details converted to signed audit records. */
 export interface PiiAuditInput {
   actor: string
   action: PiiAuditAction
@@ -58,6 +66,7 @@ export interface PiiAuditInput {
   reason?: string
 }
 
+/** PII match metadata stored in an audit record without matched text. */
 export interface PiiAuditPayload {
   subjectId?: string
   rule: string
@@ -149,6 +158,12 @@ export function createSignedAuditLog(options: AuditLogOptions): SignedAuditLog {
   }
 }
 
+/**
+ * Append one audit record for each PII hit, storing offsets but no matched text.
+ * @param log Signed audit log that receives the records.
+ * @param input Actor, action, subject, hits, and optional reason to record.
+ * @returns The appended records in hit order.
+ */
 export async function appendPiiAuditEvents(
   log: SignedAuditLog,
   input: PiiAuditInput,
@@ -175,7 +190,10 @@ export async function appendPiiAuditEvents(
   return entries
 }
 
-/** In-memory `AuditLogStore` — tests, demos, transient deployments. */
+/**
+ * Create a transient in-memory audit store for tests, demos, or short-lived deployments.
+ * @returns An empty store implementing the audit log storage contract.
+ */
 export function createInMemoryAuditStore(): AuditLogStore {
   const entries: AuditEntry[] = []
   return {

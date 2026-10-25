@@ -16,6 +16,17 @@ describe('memory trust boundaries', () => {
     await expect(store.search([1])).rejects.toMatchObject({ code: 'AK_MEMORY_REMOTE_HTTP' })
   })
 
+  it('requires positive safe integer remote HTTP limits', async () => {
+    const fetch = vi.fn(async () => new Response('{}')) as unknown as typeof globalThis.fetch
+    for (const value of [0, 1.5, Number.NaN, Number.POSITIVE_INFINITY, Number.MAX_SAFE_INTEGER + 1]) {
+      await expect(qdrant({ url: 'https://qdrant', collection: 'docs', fetch, timeoutMs: value }).search([1]))
+        .rejects.toThrow(/timeoutMs must be a positive safe integer/)
+      await expect(qdrant({ url: 'https://qdrant', collection: 'docs', fetch, maxResponseBytes: value }).search([1]))
+        .rejects.toThrow(/maxResponseBytes must be a positive safe integer/)
+    }
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
   it('enforces a deadline even when an injected fetch ignores AbortSignal', async () => {
     const fetch = vi.fn(() => new Promise<Response>(() => {})) as unknown as typeof globalThis.fetch
     const store = qdrant({ url: 'https://qdrant', collection: 'docs', fetch, timeoutMs: 5 })

@@ -38,4 +38,8 @@ jobs:
 
       - run: node scripts/size-core-closure.mjs
 
+      - run: node scripts/gen-size-limit-subpaths.mjs --check
+
+      - run: node scripts/gen-size-limit-subpaths.mjs --build
+
       - run: pnpm exec size-limit

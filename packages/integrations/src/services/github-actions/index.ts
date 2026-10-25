@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { githubActionsActions } from './actions'
 
+/** Descriptor for the GitHub Actions service integration. */
 export const githubActionsIntegration = defineIntegration({
   name: 'github-actions',
   displayName: 'GitHub Actions',

@@ -11,12 +11,18 @@ import {
   validateKvRetention,
 } from './kv-store-types'
 
+/** Dependencies for creating a vector-backed key-value store. */
 export interface CreateVectorStoreOpts {
   readonly config: VectorKvConfig
   readonly vectorStore: MemoryVectorStoreLike
   readonly embedder: MemoryEmbedderLike
 }
 
+/** Creates a key-value store that embeds keys and stores values in a vector store.
+ * @param options Vector config, store, and embedder.
+ * @returns A key-value store with a similarity-based `recall` method.
+ * @throws {MemoryError} When the embedder returns no vector.
+ */
 export const createVectorStore = ({
   config,
   vectorStore,

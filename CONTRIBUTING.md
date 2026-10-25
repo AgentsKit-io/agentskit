@@ -108,6 +108,12 @@ pnpm --filter @agentskit/core test            # run one package's tests
 pnpm --filter @agentskit/core test:coverage   # with coverage report
 ```
 
+Use the shared, framework-agnostic helpers from `@agentskit/cross-platform/testing`
+for fetch stubs, JSON responses, and temporary directories. When you touch an
+older test that defines one of these helpers locally, migrate it to the shared
+surface in that change. Avoid broad test rewrites; untouched tests can move in
+later slices.
+
 ### 4. Type-check, gates, and bundle-check
 
 ```bash
@@ -121,6 +127,15 @@ exports, no `any`, file-size budgets, src↔test parity, for-agents coverage,
 ADR/RFC index sync, locale parity). `pnpm check:all` adds typecheck + build +
 test. Husky runs the commit-message check before each commit and the gates +
 typecheck + build before each push.
+
+The packed-consumer and public API snapshot gates check every public package by
+default, including in release builds. For an affected-only build, set `PACKED_CONSUMERS_BUILD_PLAN`
+to the JSON file produced by `pnpm exec turbo run build --filter='...[origin/main]' --dry=json`
+and use that same filter for the build. Both gates check every public package in
+the task graph, including dependency builds; missing dist outputs still fail.
+The snapshot gate logs packages skipped outside the plan and compares only the
+checked packages. Its `--update` mode always requires every public package and
+rewrites the full baseline, regardless of the build plan.
 
 `@agentskit/core` is capped at **10KB gzipped** by [Manifesto principle 1](./MANIFESTO.md). The `size` workflow blocks PRs that exceed any package's budget.
 

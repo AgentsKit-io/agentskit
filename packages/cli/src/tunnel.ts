@@ -1,5 +1,9 @@
 import kleur from 'kleur'
 
+/**
+ * Local port and optional host, subdomain, callbacks, and tunnel provider override.
+
+ */
 export interface TunnelOptions {
   /** Local port to expose. Required. */
   port: number
@@ -15,12 +19,20 @@ export interface TunnelOptions {
   onReady?: (url: string) => void
 }
 
+/**
+ * Tunnel provider handle with its public URL and lifecycle methods.
+
+ */
 export interface TunnelLike {
   url: string
   on(event: 'request' | 'error' | 'close', listener: (...args: unknown[]) => void): unknown
   close(): void
 }
 
+/**
+ * Public tunnel URL, completion promise, stop action, and request count.
+
+ */
 export interface TunnelController {
   /** The public URL once ready. */
   url: string

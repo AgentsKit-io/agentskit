@@ -1,22 +1,6 @@
 import { ConfigError, ErrorCodes, type AgentEvent, type Observer } from '@agentskit/core'
 
-/**
- * Production agent control surface. Devtools (#35) is dev-only; this
- * is the auth-gated production counterpart that lets ops:
- *
- *   - pause an agent loop
- *   - step a paused loop one iteration
- *   - inject tool overrides for the next call to a tool
- *   - snapshot the current state for support tickets
- *   - replay from a previously-captured snapshot
- *
- * Designed as a transport-agnostic engine — the same `ControlSurface`
- * sits behind an HTTP endpoint, an MCP server, or in-process tests.
- * `httpHandler()` ships a bearer-token-gated REST surface so a
- * default deployment is one `createServer(handler)` call.
- *
- * Closes issue #784.
- */
+/** Auth-gated, transport-agnostic controls for pausing runs, overriding tools, and capturing or restoring snapshots. */
 
 export interface ToolOverride {
   /** Tool to override on the next call. */
@@ -33,6 +17,7 @@ export interface ToolOverride {
   reason?: string
 }
 
+/** Captured paused state, retained events, and pending tool overrides for a run. */
 export interface RunSnapshot {
   runId: string
   /** ISO timestamp. */
@@ -48,6 +33,7 @@ export interface RunSnapshot {
   metadata?: Record<string, unknown>
 }
 
+/** Retention, run correlation, audit, and HTTP authentication settings. */
 export interface ControlSurfaceOptions {
   /** Max events retained per run for snapshots. Default 200. */
   snapshotBufferSize?: number
@@ -72,6 +58,7 @@ export interface ControlSurfaceOptions {
   maxRuns?: number
 }
 
+/** Audit record for a production control action. */
 export interface ControlAuditEntry {
   /** ISO timestamp. */
   at: string
@@ -83,6 +70,7 @@ export interface ControlAuditEntry {
   payload?: Record<string, unknown>
 }
 
+/** Runtime hooks and administrative controls returned by `createControlSurface`. */
 export interface ControlSurface {
   /** Plug into `createRuntime({ observers: [control.observer] })`. */
   observer: Observer
@@ -197,6 +185,17 @@ function assertRunId(runId: string): void {
   }
 }
 
+/**
+ * Create a transport-agnostic control surface for pausing, stepping, and inspecting runs.
+ * @param options Event retention, run-id resolution, audit, and optional bearer-token settings.
+ * @returns Observer and control methods for runtime hooks or an HTTP handler.
+ * @throws {ConfigError} When configured limits are not positive integers or a run id is invalid.
+ * @example
+ * ```ts
+ * const control = createControlSurface({ defaultRunId: 'run-1' })
+ * await control.awaitResume('run-1')
+ * ```
+ */
 export function createControlSurface(options: ControlSurfaceOptions = {}): ControlSurface {
   if (options.snapshotBufferSize !== undefined) {
     assertPositiveInteger('snapshotBufferSize', options.snapshotBufferSize)

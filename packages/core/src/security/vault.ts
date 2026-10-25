@@ -16,6 +16,7 @@ import type { PIIRule } from './pii'
  * Closes the reveal-by-role half of issue #791.
  */
 
+/** Identity and roles checked when revealing tokenized PII. */
 export interface RevealActor {
   /** Stable identity (email, OIDC subject, service-account name). */
   id: string
@@ -23,6 +24,7 @@ export interface RevealActor {
   roles: string[]
 }
 
+/** Stored original value, permitted roles, timestamp, and audit metadata. */
 export interface VaultEntry {
   /** ISO 8601 timestamp the value was tokenized. */
   storedAt: string
@@ -34,6 +36,7 @@ export interface VaultEntry {
   metadata?: Record<string, unknown>
 }
 
+/** Async storage contract for originals hidden behind redaction tokens. */
 export interface RedactionVault {
   put: (token: string, entry: VaultEntry) => Promise<void>
   /** Returns the entry with no role-check; reveal() does the check. */
@@ -41,6 +44,7 @@ export interface RedactionVault {
   delete?: (token: string) => Promise<void>
 }
 
+/** Audit record emitted when values are tokenized or revealed. */
 export interface RedactionAuditEvent {
   type: 'pii:redact' | 'pii:reveal' | 'pii:reveal-denied'
   /** ISO 8601 timestamp. */
@@ -55,8 +59,10 @@ export interface RedactionAuditEvent {
   context?: Record<string, unknown>
 }
 
+/** Callback that records a PII tokenization or reveal audit event. */
 export type RedactionAuditSink = (event: RedactionAuditEvent) => void | Promise<void>
 
+/** PII rules, vault, reveal roles, and audit settings for tokenization. */
 export interface TokenizeOptions {
   /**
    * Rules driving the match. Same shape as `PIIRedactor`'s rules; pass
@@ -79,6 +85,7 @@ export interface TokenizeOptions {
   context?: Record<string, unknown>
 }
 
+/** Vault, actor, and audit settings for restoring tokenized values. */
 export interface RevealOptions {
   vault: RedactionVault
   actor: RevealActor

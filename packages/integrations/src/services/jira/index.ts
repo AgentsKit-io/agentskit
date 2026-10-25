@@ -4,6 +4,7 @@ import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { jiraActions } from './actions'
 
+/** Descriptor for the Jira service integration. */
 export const jiraIntegration = defineIntegration({
   name: 'jira',
   displayName: 'Jira',

@@ -1,3 +1,4 @@
+/** Prompt value and relative allocation weight for one experiment choice. */
 export interface PromptVariant<TResult = string> {
   /** Variant id — matches a feature-flag payload / flag value. */
   id: string
@@ -7,6 +8,7 @@ export interface PromptVariant<TResult = string> {
   weight?: number
 }
 
+/** Optional subject identifier and metadata passed into variant resolution. */
 export interface PromptExperimentContext {
   /**
    * Opaque stable identifier used for sticky assignment — user id,
@@ -18,11 +20,13 @@ export interface PromptExperimentContext {
   metadata?: Record<string, unknown>
 }
 
+/** Function that selects a configured variant or returns a known variant id. */
 export type PromptResolver<TResult = string> = (
   variants: PromptVariant<TResult>[],
   context: PromptExperimentContext,
 ) => PromptVariant<TResult> | Promise<PromptVariant<TResult>> | string | Promise<string>
 
+/** Named experiment configuration with variant resolution and exposure hook. */
 export interface PromptExperiment<TResult = string> {
   /** Experiment name — used by analytics / flag providers as the key. */
   name: string
@@ -43,6 +47,7 @@ export interface PromptExperiment<TResult = string> {
   }) => void
 }
 
+/** Selected prompt variant and whether the resolver used its fallback. */
 export interface PromptDecision<TResult = string> {
   name: string
   variantId: string

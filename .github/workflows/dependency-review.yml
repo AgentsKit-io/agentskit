@@ -6,7 +6,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 concurrency:
   # Supersede in-flight runs for the same PR; pushes to main always finish.
@@ -16,30 +15,22 @@ concurrency:
 jobs:
   review:
     name: Review new dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Dependency Review
-        # actions/dependency-review-action v5.0.0
-        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294
-        with:
-          fail-on-severity: high
-          comment-summary-in-pr: on-failure
-          deny-licenses: GPL-2.0, GPL-3.0, AGPL-1.0, AGPL-3.0
+    uses: AgentsKit-io/.github/.github/workflows/dependency-review.yml@5a584290feaaa0a800a28d24583d16f15102bea1 # main
+    with:
+      fail-on-severity: high
+      deny-licenses: GPL-2.0, GPL-3.0, AGPL-1.0, AGPL-3.0
+    permissions:
+      contents: read
+      pull-requests: read
 
   audit:
     name: pnpm audit
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
-      # actions/setup-node v7
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      # pnpm 10.x still calls retired npm audit endpoints (HTTP 410 as of 2026-07-15).
-      # Keep the high+ production gate via the Bulk Advisory API (fail closed).
-      - name: Audit production dependencies (high+)
-        run: node scripts/audit-prod-high.mjs
+    uses: AgentsKit-io/.github/.github/workflows/audit.yml@5a584290feaaa0a800a28d24583d16f15102bea1 # main
+    with:
+      package-manager: pnpm
+      working-directories: '["."]'
+      audit-level: high
+      production-only: true
+      use-pnpm-bulk-api: true
+    permissions:
+      contents: read

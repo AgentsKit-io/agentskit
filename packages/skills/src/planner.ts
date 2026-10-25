@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill } from './utils'
 
+/** Skill for decomposing complex work into sequenced steps and specialist assignments. */
 export const planner: SkillDefinition = defineSkill(
   'planner',
   'Strategic planner that breaks complex tasks into steps, identifies dependencies, and coordinates specialist agents.',

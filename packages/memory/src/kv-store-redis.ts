@@ -8,11 +8,18 @@ interface RedisEnvelope {
   readonly insertedAt: number
 }
 
+/** Redis store settings and injected Redis client. */
 export interface CreateRedisStoreOpts {
   readonly config: RedisKvConfig
   readonly client: RedisLike
 }
 
+/** Creates a Redis key-value store using the supplied client.
+ * @param options Redis configuration and client.
+ * @returns A key-value store backed by the configured Redis prefix.
+ * @throws {ConfigError} When retention limits are invalid.
+ * @throws {MemoryError} When Redis commands fail.
+ */
 export const createRedisStore = ({ config, client }: CreateRedisStoreOpts): AgentskitMemoryStore => {
   validateKvRetention(config)
   const prefix = config.prefix
@@ -70,7 +77,10 @@ export const createRedisStore = ({ config, client }: CreateRedisStoreOpts): Agen
   }
 }
 
-/** Bridge an `ioredis`-style client to the {@link RedisLike} options-object shape. */
+/** Bridges an ioredis-style client to the {@link RedisLike} options-object shape.
+ * @param io Client with positional Redis command options.
+ * @returns A client using the memory package's Redis contract.
+ */
 export const adaptIoredis = (io: {
   get(key: string): Promise<string | null>
   set(key: string, value: string, mode?: string, ttl?: number): Promise<unknown>
@@ -84,7 +94,11 @@ export const adaptIoredis = (io: {
   keys: (pattern) => io.keys(pattern),
 })
 
-/** Lazy-import `redis` (node-redis v4), connect, and return a client; `undefined` if absent. */
+/** Loads and connects node-redis, returning `undefined` when it is unavailable.
+ * @param url Redis connection URL.
+ * @returns A connected client, or `undefined` when the optional package is absent.
+ * @throws {MemoryError} When the client cannot connect.
+ */
 export const tryDefaultRedisClient = async (url: string): Promise<RedisLike | undefined> => {
   try {
     const moduleId = 'redis'

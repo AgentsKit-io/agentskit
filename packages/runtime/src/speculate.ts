@@ -1,6 +1,9 @@
 import { ConfigError, ErrorCodes, RuntimeError } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
 
+/**
+ * Adapter candidate and cancellation policy for a speculative request.
+ */
 export interface SpeculativeCandidate {
   /** Human label used in results. */
   id: string
@@ -9,6 +12,9 @@ export interface SpeculativeCandidate {
   abortOnLoser?: boolean
 }
 
+/**
+ * Stream text, chunks, latency, and failure or abort status for one candidate.
+ */
 export interface SpeculativeResult {
   id: string
   chunks: StreamChunk[]
@@ -18,8 +24,14 @@ export interface SpeculativeResult {
   aborted?: boolean
 }
 
+/**
+ * Select a candidate identifier from completed speculative results.
+ */
 export type SpeculatePicker = (results: SpeculativeResult[]) => string | Promise<string>
 
+/**
+ * Candidates, adapter request, winner selection policy, and optional timeout.
+ */
 export interface SpeculateInput {
   candidates: SpeculativeCandidate[]
   request: AdapterRequest
@@ -37,6 +49,9 @@ export interface SpeculateInput {
   timeoutMs?: number
 }
 
+/**
+ * Winning result, losing results, and the full set of speculative results.
+ */
 export interface SpeculateOutput {
   winner: SpeculativeResult
   losers: SpeculativeResult[]

@@ -1,3 +1,4 @@
+/** Options for splitting text into chunks. */
 export interface ChunkOptions {
   chunkSize: number
   chunkOverlap: number
@@ -19,6 +20,7 @@ function resolveChunkOverlap(chunkOverlap: number, chunkSize: number): number {
   return Math.min(overlap, Math.max(0, chunkSize - 1))
 }
 
+/** Splits text into non-empty chunks using an optional custom splitter. */
 export function chunkText(text: string, options: ChunkOptions): string[] {
   if (!text) return []
 

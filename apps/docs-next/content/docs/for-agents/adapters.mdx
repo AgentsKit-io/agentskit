@@ -4,6 +4,8 @@ description: Provider adapters (OpenAI-compatible + native) + router + ensemble 
 docbridge:
   covers:
     - package:@agentskit/adapters
+    - area:packages/adapters/src/catalog
+    - area:packages/adapters/src/cli
 ---
 
 ## Purpose
@@ -151,6 +153,16 @@ npm install @agentskit/adapters
 `createOpenAICompatibleAdapter` base; each exposes a default
 `baseUrl` and accepts an override.
 
+`openaiCompatible` accepts an explicit endpoint, path, headers and fetch
+transport with optional Bearer authentication. `openRouter` aliases
+`openrouter`; `cloudflareAiGateway` and `workersAi` provide Cloudflare REST
+presets without runtime bindings. Ordered image/file parts are serialized at
+the provider boundary; unsupported inputs throw `CapabilityUnsupportedError`
+before transport I/O when multimodal input is enabled. Text-only models fall
+back to `message.content` with a warning; OpenAI assistant binary parts do the
+same. Explicit `capabilities.multiModal` overrides model-name heuristics.
+See the [modality limits](/docs/reference/recipes/provider-swap).
+
 ### Composition
 
 - `createRouter({ candidates, policy, classify, onRoute })` — pick
@@ -213,6 +225,16 @@ opens a draft refresh PR when the source changes and checks freshness.
   transport coverage.
 - `catalogSnapshotSchema` (JSON Schema, public contract),
   `catalogSource()` (provenance + `generatedAt` for staleness).
+
+### Source layout
+
+- `packages/adapters/src/catalog/` — the catalog subpath: loader, schema, pricing,
+  overrides, `dispatch.ts` (`dispatchFromCatalog`), `drift.ts`
+  (`detectCatalogDrift`, `classifyCatalogProvider`) and the committed
+  `snapshot.json`.
+- `packages/adapters/src/cli/` — the `@agentskit/adapters/cli` subpath: process
+  spawning, JSON response parsing, prompt serialization, `manifests.ts` and the
+  Claude Code output parser.
 
 ## Minimal example
 

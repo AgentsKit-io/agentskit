@@ -3,6 +3,7 @@ import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { googleCalendarActions } from './actions'
 
+/** Descriptor for the Google Calendar service integration. */
 export const googleCalendarIntegration = defineIntegration({
   name: 'google-calendar',
   displayName: 'Google Calendar',

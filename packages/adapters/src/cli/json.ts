@@ -1,11 +1,15 @@
-import { AdapterError, ErrorCodes, type StreamChunk } from '@agentskit/core'
+import { AdapterError, ErrorCodes, isRecord, type StreamChunk } from '@agentskit/core'
+
+export { isRecord } from '@agentskit/core'
 
 export const cliError = (message: string, cause?: unknown): AdapterError => new AdapterError({ code: ErrorCodes.AK_ADAPTER_STREAM_FAILED, message, cause })
 
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
-
+/**
+ * Converts a normalized CLI JSON response object to AgentsKit stream chunks.
+ * @param value Parsed JSON response value.
+ * @returns Stream chunks for its text, reasoning, tool calls, usage, and metadata.
+ * @throws {Error} If the value or a nested response field is malformed.
+ */
 export function parseCliJsonResponse(value: unknown): readonly StreamChunk[] {
   if (!isRecord(value)) throw cliError('CLI JSON response must be an object')
   const chunks: StreamChunk[] = []
@@ -40,4 +44,3 @@ export function parseCliJsonResponse(value: unknown): readonly StreamChunk[] {
   if (chunks.length === 0) throw cliError('CLI JSON response contains no semantic output')
   return chunks
 }
-

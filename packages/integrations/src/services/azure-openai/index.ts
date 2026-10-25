@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { azureOpenaiActions } from './actions'
 
+/** Descriptor for the Azure OpenAI service integration. */
 export const azureOpenaiIntegration = defineIntegration({
   name: 'azure-openai',
   displayName: 'Azure OpenAI',

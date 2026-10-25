@@ -92,6 +92,7 @@ async function consumeStreamWithAbort(
   }
 }
 
+/** Create a headless agent runtime. @param config Runtime defaults, overridden by supported run options. @returns A `run(task, options?)` agent runner. @example `const result = await createRuntime({ adapter }).run('Summarize this report')` */
 export function createRuntime(config: RuntimeConfig) {
   const emitter = createEventEmitter()
 

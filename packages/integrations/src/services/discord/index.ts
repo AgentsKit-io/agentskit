@@ -4,6 +4,7 @@ import { OAUTH_SPECS } from '../../oauth-specs'
 import { discordActions } from './actions'
 import { discordTriggers } from './triggers'
 
+/** Descriptor for the Discord service integration. */
 export const discordIntegration = defineIntegration({
   name: 'discord',
   displayName: 'Discord',

@@ -30,8 +30,14 @@ export interface ToolQuota {
   dryRunRequiredIn?: string[]
 }
 
+/**
+ * Tool names mapped to their per-run, sliding-window, or dry-run limits.
+ */
 export type QuotaMap = Record<string, ToolQuota>
 
+/**
+ * Details of a tool quota that rejected an invocation.
+ */
 export interface QuotaExceededEvent {
   tool: string
   /** Which limit fired. */
@@ -44,6 +50,9 @@ export interface QuotaExceededEvent {
   at: string
 }
 
+/**
+ * Quota rules and optional environment, event sink, and clock.
+ */
 export interface QuotaTrackerOptions {
   quotas: QuotaMap
   /** Active environment tag (`'production'`, `'staging'`, …). */
@@ -54,6 +63,9 @@ export interface QuotaTrackerOptions {
   now?: () => number
 }
 
+/**
+ * Admission, accounting, reset, and inspection methods for tool quotas.
+ */
 export interface QuotaTracker {
   /** Throws and reserves one admission when the tool is over budget. */
   check: (tool: string, runId: string) => void
@@ -67,11 +79,19 @@ export interface QuotaTracker {
   snapshot: () => QuotaSnapshot
 }
 
+/**
+ * Current per-run counters and timestamps in the sliding-window counters.
+ */
 export interface QuotaSnapshot {
   perRun: Record<string, Record<string, number>>
   perWindow: Record<string, number[]>
 }
 
+/**
+ * Create per-run and sliding-window quota counters for tools.
+ * @param options Quota limits, environment, event callback, and optional clock.
+ * @returns Tracker methods for admission checks, recording, release, reset, and snapshots.
+ */
 export function createQuotaTracker(options: QuotaTrackerOptions): QuotaTracker {
   const now = options.now ?? (() => Date.now())
   const perRun = new Map<string, Map<string, number>>()

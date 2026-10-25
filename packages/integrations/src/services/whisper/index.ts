@@ -3,6 +3,7 @@ import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { whisperActions } from './actions'
 
+/** Descriptor for the OpenAI Whisper service integration. */
 export const whisperIntegration = defineIntegration({
   name: 'whisper',
   displayName: 'OpenAI Whisper',

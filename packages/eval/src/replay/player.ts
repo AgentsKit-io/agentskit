@@ -23,12 +23,16 @@ function resolveMode(mode: ReplayOptions['mode']): 'strict' | 'sequential' | 'lo
   return mode
 }
 
-/**
- * Build an AdapterFactory that replays a previously recorded cassette.
- * Matching modes:
- *  - strict: require exact fingerprint match
- *  - sequential: pop next unused entry
- *  - loose: match by last user message content
+/** Create an adapter factory that replays chunks from a recorded cassette.
+ *
+ * @param cassette Recorded requests and stream chunks to replay.
+ * @param options Request matching mode; strict matching is the default.
+ * @returns An adapter factory that yields the matched cassette entry's chunks.
+ * @throws ConfigError when the replay mode is invalid; RuntimeError when no entry matches or sequential replay is exhausted.
+ * @example
+ * ```ts
+ * const replay = createReplayAdapter(cassette, { mode: 'strict' })
+ * ```
  */
 export function createReplayAdapter(cassette: Cassette, options: ReplayOptions = {}): AdapterFactory {
   const mode = resolveMode(options.mode)
