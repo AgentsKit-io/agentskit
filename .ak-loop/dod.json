@@ -1,0 +1,15 @@
+{
+  "project": [
+    { "id": "test-for-new-code", "status": "failed", "evidence": "dev-dependency-only change; no test file changed because no behaviour changed" },
+    { "id": "no-todo", "status": "passed", "evidence": "no file under src/** changed" }
+  ],
+  "outcomes": [
+    { "id": "o1", "status": "passed", "evidence": "six package.json files at ^21.0.4, no other occurrences" },
+    { "id": "o2", "status": "passed", "evidence": "frozen-lockfile install ok; no happy-dom@20 in pnpm-lock.yaml" },
+    { "id": "o3", "status": "failed", "evidence": "pnpm audit blocked by sandbox network allowlist" },
+    { "id": "o4", "status": "failed", "evidence": "5 of 6 packages pass; cli not verifiable (adapters dist cannot be built, OOM 137)" },
+    { "id": "o5", "status": "failed", "evidence": "adapters DTS build OOM-killed in sandbox" },
+    { "id": "o6", "status": "failed", "evidence": "quality gates need the build, which OOMs in sandbox" },
+    { "id": "o7", "status": "passed", "evidence": "changeset present; commit limits followed" }
+  ]
+}

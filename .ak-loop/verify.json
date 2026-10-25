@@ -1,0 +1,14 @@
+{
+  "ranAt": "2026-10-25T23:00:00Z",
+  "command": "pnpm exec turbo run test --filter=@agentskit/react --filter=@agentskit/vue --filter=@agentskit/angular --filter=@agentskit/solid --filter=@agentskit/react-native --only",
+  "exitCode": 0,
+  "outcomes": [
+    { "id": "o1", "status": "passed", "evidence": "all six package.json files declare happy-dom ^21.0.4; no other occurrence in the workspace" },
+    { "id": "o2", "status": "passed", "evidence": "pnpm install --frozen-lockfile succeeded; grep -c 'happy-dom@20' pnpm-lock.yaml = 0" },
+    { "id": "o3", "status": "failed", "evidence": "pnpm audit not run: network blocked by sandbox allowlist; lockfile no longer contains happy-dom 20.x" },
+    { "id": "o4", "status": "failed", "evidence": "react, vue, angular, solid, react-native tests pass (turbo: 5 successful); cli tests not verifiable: adapters build is OOM-killed (137) so dist is absent" },
+    { "id": "o5", "status": "failed", "evidence": "lint/build run fails with exit 137 at @agentskit/adapters#build (DTS OOM) in this sandbox; adapters is unchanged by this PR" },
+    { "id": "o6", "status": "failed", "evidence": "check:quality-gates builds packages first and hits the same adapters OOM (137)" },
+    { "id": "o7", "status": "passed", "evidence": "changeset .changeset/happy-dom-21.md exists; lockfile diff only touches happy-dom resolution; hosted action cannot run locally" }
+  ]
+}
