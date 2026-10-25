@@ -84,7 +84,7 @@ held 2 sprints without regression; public semver commitment). None are tracked a
 
 ## F. Stale planning docs
 
-`RELEASE-CORE-V1.md`, `ROADMAP-PRD.md`, `MASTER-EXECUTION-PLAN.md` reference the 14-package era
+`RELEASE-CORE-V1.md`, `ROADMAP-PRD.md` and the since-deleted master execution plan reference the 14-package era
 and are 10+ packages out of date with no living-doc update process. Mark historical or refresh.
 
 ---
@@ -162,9 +162,9 @@ working tree), so integration was file-copy + re-verify with the live gates, not
 - Gated / not fabricated: **angular AOT** (breaks the tsup/dual-CJS-ESM convention → needs an
   exception decision); **beta→stable promotions** (await beta soak); **external consumers**
   + **2-sprint gate hold** (require real adoption + elapsed time — cannot be manufactured).
-- ✅ Stale planning docs marked historical: `ROADMAP-PRD`, `MASTER-EXECUTION-PLAN`,
-  `PHASE-0-FOUNDATION-PRD`, `PHASE-0-EXECUTION-PLAN` got a "historical planning artifact"
-  banner pointing to the living sources (STABILITY.md + V1-READINESS-TRACKER);
+- ✅ Stale planning docs handled: `ROADMAP-PRD` got a "historical planning artifact"
+  banner pointing to the living sources (STABILITY.md + V1-READINESS-TRACKER); the master and
+  phase-0 plans were later deleted (git history keeps them);
   `RELEASE-CORE-V1` got a point-in-time note.
 
 **Binding-parity infra blocker (decision needed):** the other 4 bindings are NOT a

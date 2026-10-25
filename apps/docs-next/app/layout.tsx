@@ -3,8 +3,6 @@ import { RootProvider } from 'fumadocs-ui/provider/next'
 import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import type { ReactNode } from 'react'
 import type { Viewport } from 'next'
-import { Analytics } from '@vercel/analytics/next'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import { alternatesFor } from '@/lib/locales'
 import { AttributionCapture } from '@/components/analytics/attribution-capture'
 import { AccessibleSearch } from '@/components/accessible-search'
@@ -122,8 +120,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </RootProvider>
         <EcosystemFooter />
         <AttributionCapture />
-        <Analytics />
-        <SpeedInsights />
         <script src={SHELL_SCRIPT_SRC} defer data-current="agentskit" data-current-repo="AgentsKit-io/agentskit" data-ak-fonts="self" />
       </body>
     </html>

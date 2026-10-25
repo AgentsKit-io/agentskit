@@ -108,5 +108,5 @@ Mirror updates here into `apps/docs-next/styles/` if cross-surface visual consis
 
 ## Deploy
 
-- **Vercel** (default): no extra flags. The `vercel.json` here installs with `--frozen-lockfile` and uses an `ignoreCommand` scoped to `apps/landing` + the workspace lockfile so unrelated commits don't trigger a rebuild.
-- **Self-hosted** (Cloudflare Pages, Node server, Docker): set `NEXT_OUTPUT_STANDALONE=1` to switch Next to `output: 'standalone'`. Avoid this on Vercel — it bypasses ISR / Edge Functions / Image Optimization.
+- **Self-hosted** (Node server, Docker): set `NEXT_OUTPUT_STANDALONE=1` to switch Next to `output: 'standalone'`.
+- This app has no dedicated deploy configuration; the Cloudflare Worker built from `apps/docs-next` serves the public domain.
