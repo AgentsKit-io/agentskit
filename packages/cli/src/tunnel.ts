@@ -1,3 +1,4 @@
+import { ConfigError } from '@agentskit/core'
 import kleur from 'kleur'
 
 /**
@@ -44,6 +45,38 @@ export interface TunnelController {
   requests: () => number
 }
 
+type TunnelOpenOptions = { port: number; subdomain?: string; local_host?: string }
+
+/** Install hint shown when the optional `localtunnel` provider is missing. */
+export const TUNNEL_PROVIDER_HINT =
+  'The tunnel command needs the optional "localtunnel" package. Install it with: npm install localtunnel (or pnpm add localtunnel)'
+
+/**
+ * Lazily load the optional `localtunnel` peer. The specifier is a variable so
+ * neither the bundler nor tsc requires the package to be installed.
+ */
+export async function loadLocaltunnel(
+  opts: TunnelOpenOptions,
+  importer: (specifier: string) => Promise<unknown> = (s) => import(s),
+): Promise<TunnelLike> {
+  let mod: unknown
+  try {
+    mod = await importer('localtunnel')
+  } catch (err) {
+    const code = (err as { code?: string } | null)?.code
+    if (code === 'ERR_MODULE_NOT_FOUND' || code === 'MODULE_NOT_FOUND') {
+      throw new ConfigError({
+        code: 'AK_CONFIG_TUNNEL_PROVIDER_MISSING',
+        message: TUNNEL_PROVIDER_HINT,
+        cause: err,
+      })
+    }
+    throw err
+  }
+  const lt = (mod as { default?: unknown }).default ?? mod
+  return (await (lt as (o: TunnelOpenOptions) => Promise<unknown>)(opts)) as TunnelLike
+}
+
 /**
  * Open a public tunnel to a local port.
  *
@@ -56,10 +89,7 @@ export async function startTunnel(options: TunnelOptions): Promise<TunnelControl
   const stdout = options.stdout ?? process.stdout
   const open =
     options.open ??
-    (async (opts) => {
-      const lt = (await import('localtunnel')).default
-      return (await lt(opts)) as TunnelLike
-    })
+    ((opts) => loadLocaltunnel(opts))
 
   const banner = (msg: string, color: 'green' | 'yellow' | 'red' | 'cyan' = 'green') => {
     const time = new Date().toTimeString().slice(0, 8)

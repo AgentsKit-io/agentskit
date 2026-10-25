@@ -43,7 +43,7 @@ importers:
         version: link:packages/core
       '@agentskit/doc-bridge':
         specifier: 2.4.0
-        version: 2.4.0(@agentskit/adapters@0.19.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.3.0(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))(ws@8.22.0))(@mlc-ai/web-llm@0.2.86))(@agentskit/core@packages+core)(@agentskit/memory@0.12.0(drizzle-orm@0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@aws-sdk/credential-provider-node@3.972.88)(@huggingface/transformers@4.3.1(@types/node@26.6.5))(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76)))(@agentskit/rag@0.7.0(@aws-sdk/client-s3@3.1124.0))(@types/react@19.3.0)(graphology-types@0.24.8)(react-devtools-core@6.1.5)
+        version: 2.4.0(@agentskit/adapters@0.19.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.3.0(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))(ws@8.22.0))(@mlc-ai/web-llm@0.2.86))(@agentskit/core@packages+core)(@agentskit/memory@0.12.1(drizzle-orm@0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@aws-sdk/credential-provider-node@3.972.88)(@huggingface/transformers@4.3.1(@types/node@26.6.5))(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76)))(@agentskit/rag@0.7.1(@aws-sdk/client-s3@3.1124.0))(@types/react@19.3.0)(graphology-types@0.24.8)(react-devtools-core@6.1.5)
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
@@ -968,9 +968,6 @@ importers:
       '@testing-library/react':
         specifier: ^16.3.3
         version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@types/localtunnel':
-        specifier: ^2.0.4
-        version: 2.0.4
       '@types/node':
         specifier: ^25.9.9
         version: 25.9.9
@@ -1734,8 +1731,8 @@ packages:
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
 
-  '@agentskit/adapters@0.19.0':
-    resolution: {integrity: sha512-nX0ZiXP5X4Ps5dWaU87kTBSdhLbKkrRQ5W6EpOzgeR9w4FQ/tMBiZAY6zZRTpawC1qtUy1OvXfxB8NJ20Lolog==}
+  '@agentskit/adapters@0.19.1':
+    resolution: {integrity: sha512-K8wzViRAVHWUyc+F10PtSXohIX/R6+mZIazYippGXWJPJ3tBhxap1VUY+5+n0/IKAqgXdzo1NGSC1VW815efWA==}
     engines: {node: '>=20.19'}
     peerDependencies:
       '@aws-sdk/client-bedrock-runtime': ^3.0.0
@@ -1869,8 +1866,8 @@ packages:
       vectra:
         optional: true
 
-  '@agentskit/memory@0.12.0':
-    resolution: {integrity: sha512-lsHzCUwJxJGWskDU8t4fbEixbqpNaU5s96/2Fy5jEdwgkuFNUu9e/2ouKFKt+0XO3q8v+9Z4w3upgnn5AlPoaA==}
+  '@agentskit/memory@0.12.1':
+    resolution: {integrity: sha512-Hy9P6CLhEC2XXleXfX8bgEHtnX7mSfus9ZTN8MrD1Zid4T6JHBjrdleOq8WFEBIxBp6mCeiSNfhQ4PZCjPT+uQ==}
     engines: {node: '>=20.19'}
     peerDependencies:
       drizzle-orm: ^0.44.0 || ^0.45.3
@@ -1892,8 +1889,12 @@ packages:
     resolution: {integrity: sha512-/i+yoCbFjs+hp7Qs8ygRJDmJRpMIgbNSvl9mjIl2NRH4DHv4YPBclFzmY3t13AHePY/svQvGMLM9DNY3dY046w==}
     engines: {node: '>=20.19'}
 
-  '@agentskit/rag@0.7.0':
-    resolution: {integrity: sha512-SR6uXS4xl/dkLZ/1Cs18W8xafqiHYA9XFGoR7tNnI/GXz56Io037SH4rNDXhey6IxyjSrLLFCoXUE9KX3NV2Gg==}
+  '@agentskit/net@0.2.4':
+    resolution: {integrity: sha512-yMtjSm8BerXSaerMVVwSPMxgmBZtLKi7ts+L+SAtP7J1bhVQ9IaqKBJ/5ZKp5aMMpz4dgrdKeV+d1KaezoUgVw==}
+    engines: {node: '>=20.19'}
+
+  '@agentskit/rag@0.7.1':
+    resolution: {integrity: sha512-hFaZ8suJSY5VlsTKNbH5WzOOhAoebJ7NwySiFjy28mhelgB1dYp5NakVnplLQ89pfv9+PKEfLVWX+ZiF+IZMmw==}
     engines: {node: '>=20.19'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.0.0
@@ -4940,9 +4941,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/localtunnel@2.0.4':
-    resolution: {integrity: sha512-7WM5nlEfEKp8MpwthPa2utdy+f/7ZBxMPzu8qw6EijFFTcpzh5CXgt2YoncxWAZNOPNieMofXCKFudtDEY4bag==}
 
   '@types/marked-terminal@6.1.1':
     resolution: {integrity: sha512-DfoUqkmFDCED7eBY9vFUhJ9fW8oZcMAK5EwRDQ9drjTbpQa+DnBTQQCwWhTFVf4WsZ6yYcJTI8D91wxTWXRZZQ==}
@@ -10158,11 +10156,11 @@ snapshots:
 
   '@adobe/css-tools@4.5.0': {}
 
-  '@agentskit/adapters@0.19.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.3.0(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))(ws@8.22.0))(@mlc-ai/web-llm@0.2.86)':
+  '@agentskit/adapters@0.19.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.3.0(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))(ws@8.22.0))(@mlc-ai/web-llm@0.2.86)':
     dependencies:
       '@agentskit/core': 1.15.0
       '@agentskit/cross-platform': 0.3.0
-      '@agentskit/net': 0.2.3
+      '@agentskit/net': 0.2.4
     optionalDependencies:
       '@aws-sdk/client-bedrock-runtime': 3.1068.0
       '@langchain/core': 1.3.0(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))(ws@8.22.0)
@@ -10217,7 +10215,7 @@ snapshots:
       which: 2.0.2
     optional: true
 
-  '@agentskit/doc-bridge@2.4.0(@agentskit/adapters@0.19.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.3.0(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))(ws@8.22.0))(@mlc-ai/web-llm@0.2.86))(@agentskit/core@packages+core)(@agentskit/memory@0.12.0(drizzle-orm@0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@aws-sdk/credential-provider-node@3.972.88)(@huggingface/transformers@4.3.1(@types/node@26.6.5))(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76)))(@agentskit/rag@0.7.0(@aws-sdk/client-s3@3.1124.0))(@types/react@19.3.0)(graphology-types@0.24.8)(react-devtools-core@6.1.5)':
+  '@agentskit/doc-bridge@2.4.0(@agentskit/adapters@0.19.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.3.0(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))(ws@8.22.0))(@mlc-ai/web-llm@0.2.86))(@agentskit/core@packages+core)(@agentskit/memory@0.12.1(drizzle-orm@0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@aws-sdk/credential-provider-node@3.972.88)(@huggingface/transformers@4.3.1(@types/node@26.6.5))(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76)))(@agentskit/rag@0.7.1(@aws-sdk/client-s3@3.1124.0))(@types/react@19.3.0)(graphology-types@0.24.8)(react-devtools-core@6.1.5)':
     dependencies:
       '@agentskit/cross-platform': 0.2.1
       '@agentskit/harness': 0.22.3(@types/react@19.3.0)(react-devtools-core@6.1.5)
@@ -10249,10 +10247,10 @@ snapshots:
       yaml: 2.9.1
       zod: 4.6.7
     optionalDependencies:
-      '@agentskit/adapters': 0.19.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.3.0(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))(ws@8.22.0))(@mlc-ai/web-llm@0.2.86)
+      '@agentskit/adapters': 0.19.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.3.0(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.12.0(@opentelemetry/api@1.9.1))(openai@6.49.0(@aws-sdk/credential-provider-node@3.972.88)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))(ws@8.22.0))(@mlc-ai/web-llm@0.2.86)
       '@agentskit/core': link:packages/core
-      '@agentskit/memory': 0.12.0(drizzle-orm@0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@aws-sdk/credential-provider-node@3.972.88)(@huggingface/transformers@4.3.1(@types/node@26.6.5))(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))
-      '@agentskit/rag': 0.7.0(@aws-sdk/client-s3@3.1124.0)
+      '@agentskit/memory': 0.12.1(drizzle-orm@0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@aws-sdk/credential-provider-node@3.972.88)(@huggingface/transformers@4.3.1(@types/node@26.6.5))(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))
+      '@agentskit/rag': 0.7.1(@aws-sdk/client-s3@3.1124.0)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -10313,10 +10311,10 @@ snapshots:
     optionalDependencies:
       vectra: 0.15.0(@aws-sdk/credential-provider-node@3.972.88)(@huggingface/transformers@4.3.1(@types/node@26.6.5))(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@4.6.7)
 
-  '@agentskit/memory@0.12.0(drizzle-orm@0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@aws-sdk/credential-provider-node@3.972.88)(@huggingface/transformers@4.3.1(@types/node@26.6.5))(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))':
+  '@agentskit/memory@0.12.1(drizzle-orm@0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1))(pg@8.23.1)(vectra@0.15.0(@aws-sdk/credential-provider-node@3.972.88)(@huggingface/transformers@4.3.1(@types/node@26.6.5))(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76))':
     dependencies:
       '@agentskit/core': 1.15.0
-      '@agentskit/net': 0.2.3
+      '@agentskit/net': 0.2.4
     optionalDependencies:
       drizzle-orm: 0.45.4(@cloudflare/workers-types@4.20260702.1)(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.39.0)(better-sqlite3@13.0.3)(pg@8.23.1)
       pg: 8.23.1
@@ -10335,10 +10333,17 @@ snapshots:
       eventsource-parser: 4.1.2
       ipaddr.js: 2.5.0
 
-  '@agentskit/rag@0.7.0(@aws-sdk/client-s3@3.1124.0)':
+  '@agentskit/net@0.2.4':
     dependencies:
       '@agentskit/core': 1.15.0
-      '@agentskit/net': 0.2.3
+      eventsource-parser: 4.1.2
+      ipaddr.js: 2.5.0
+    optional: true
+
+  '@agentskit/rag@0.7.1(@aws-sdk/client-s3@3.1124.0)':
+    dependencies:
+      '@agentskit/core': 1.15.0
+      '@agentskit/net': 0.2.4
       yaml: 2.9.1
     optionalDependencies:
       '@aws-sdk/client-s3': 3.1124.0
@@ -13483,10 +13488,6 @@ snapshots:
       '@types/istanbul-lib-report': 3.0.3
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/localtunnel@2.0.4':
-    dependencies:
-      '@types/node': 25.9.9
 
   '@types/marked-terminal@6.1.1':
     dependencies:
