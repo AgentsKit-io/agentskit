@@ -1,0 +1,9 @@
+{ "ranAt": "2026-10-25T23:30:00Z", "command": "pnpm install --frozen-lockfile --offline; pnpm exec turbo run test (6 happy-dom packages); pnpm exec turbo run lint", "exitCode": 0, "outcomes": [
+  { "id": "o1", "status": "passed", "evidence": "all six package.json declare \"happy-dom\": \"^21.0.4\"" },
+  { "id": "o2", "status": "passed", "evidence": "lockfile has no happy-dom 20.x; `pnpm install --frozen-lockfile --offline` exit 0 (Lockfile is up to date)" },
+  { "id": "o3", "status": "passed", "evidence": "turbo run test for react, vue, angular, solid, cli, react-native: 23 successful, 23 total" },
+  { "id": "o4", "status": "failed", "evidence": "lint passed (60 successful); full test/build run is OOM-killed (137) in docs-next next build, an environment limit" },
+  { "id": "o5", "status": "failed", "evidence": "only models.dev snapshot freshness failed locally (36 days old), date-based and unrelated; other gates were not isolated" },
+  { "id": "o6", "status": "failed", "evidence": "pnpm audit is not permitted in this sandbox; not verified" },
+  { "id": "o7", "status": "passed", "evidence": "no reviewedOn/reviewDueOn changes; no changeset needed (devDependency-only); commit limits met" }
+] }
