@@ -1,3 +1,4 @@
+import { ConfigError } from '@agentskit/core'
 import kleur from 'kleur'
 
 /**
@@ -64,7 +65,11 @@ export async function loadLocaltunnel(
   } catch (err) {
     const code = (err as { code?: string } | null)?.code
     if (code === 'ERR_MODULE_NOT_FOUND' || code === 'MODULE_NOT_FOUND') {
-      throw new Error(TUNNEL_PROVIDER_HINT)
+      throw new ConfigError({
+        code: 'AK_CONFIG_TUNNEL_PROVIDER_MISSING',
+        message: TUNNEL_PROVIDER_HINT,
+        cause: err,
+      })
     }
     throw err
   }
