@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "05dc2c4b768c931c53fbb5f22552714d61bb632dff26be030254f23beb340447",
+  "contentHash": "57c222e09a24a8e87e212f1c28c631ac225916130a5bac69c04e40af2e89e20a",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-25T02:03:14.162Z",
+  "generatedAt": "2026-10-26T00:00:29.477Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2895,7 +2895,7 @@
         "document",
         "human"
       ],
-      "contentHash": "39780ba32959768725bd0b77a0281cf3b39871989a80733565b32588a00a7fd6"
+      "contentHash": "f9b1f7cd8d6e5656f5101dbf3a0e7d826b8e67b4986b025c13e2eafeda9fba39"
     },
     {
       "id": "document:apps/docs-next/content/docs/production/cli/run.mdx",
@@ -3687,7 +3687,7 @@
         "document",
         "human"
       ],
-      "contentHash": "3ff4b8ff39bcce16a904a132c116f1d30fc899dde6fae02000f8b1379e168c80"
+      "contentHash": "1e107454c5fa0f54110bc915259c48b901683e8b46f2527b502dcd1ac60f2708"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/angular.mdx",
@@ -3711,7 +3711,7 @@
         "document",
         "human"
       ],
-      "contentHash": "f728d0c891342cd8be36f3400d774933e6ad73070a7f19791e0993a7e7441ec9"
+      "contentHash": "1bc553e29b29a959ff5557cabd190cc297cef8fd0944f3c1f01a5449a5123a54"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/core.mdx",
@@ -4131,7 +4131,7 @@
         "document",
         "human"
       ],
-      "contentHash": "ee1dcbe26fcf142d8aa62f32e0e032217afc0786f937ffdaf42897907999df18"
+      "contentHash": "6736ffb90012643f0eed764b6dbd210751352fb960250e2de860bb37637195ca"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/confirmation-gated-tool.mdx",
@@ -4395,7 +4395,7 @@
         "document",
         "human"
       ],
-      "contentHash": "87e367e28522fd2c6d7a7bd0716742f568605c00e9309cfebc627a247a3ac2c4"
+      "contentHash": "158035314ad2d61bfb6c1caedc9edd8ed704d8460611331147398ab112197f03"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/more-integrations.mdx",
@@ -6158,7 +6158,7 @@
         "document",
         "human"
       ],
-      "contentHash": "fbf1841972e46865b886fe0aa039ad81f492678c35e313a793cf9f52a7aaacb5"
+      "contentHash": "f31d9cd196903c30fd57d65a4568d1cbb5c598321873f72d7d513834fcbaf9fa"
     },
     {
       "id": "document:docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/community-post.md",
@@ -6170,7 +6170,7 @@
         "document",
         "human"
       ],
-      "contentHash": "97001ba4b10d435b1a03a1ed1bb4332b3e414ea6a70797c4830f0da6aba4d006"
+      "contentHash": "3b4ea8671440895045c7ddb3c02fae6ae1495bc953d3ade97da542c903e813a9"
     },
     {
       "id": "document:docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/docs.mdx",
@@ -6182,7 +6182,7 @@
         "document",
         "human"
       ],
-      "contentHash": "365844b46e9f099f336b615e0f97a8bbd479e49c6f235de8952ff1f5387ef4ab"
+      "contentHash": "78174831a1db4c2d84a24293435e6642345b5e39921150e365dc11d620cddd1c"
     },
     {
       "id": "document:docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/review.md",
@@ -6218,7 +6218,7 @@
         "document",
         "human"
       ],
-      "contentHash": "133be1d53d4e9e4d3e472a06b74bb8e42c8d1002c684ab47091bb5c2ee42f7dd"
+      "contentHash": "81bd4315a1685812b6ce39c0582dc74153fc858af8099d51e04a74547d8b317a"
     },
     {
       "id": "document:docs/ecosystem/content-pipeline/atoms/first-agent/carousel-storyboard.md",
@@ -7142,7 +7142,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "14297baf3a07ff4d8347117b0d7d415dfb6af26fe5797716c5299676b40cfb23"
+      "contentHash": "6cd60b3e9bfee02d043f4fcea42bcedddc699c1e78ccf298bc173304a721f034"
     },
     {
       "id": "document:packages/mcp/README.md",
@@ -7154,7 +7154,7 @@
         "document",
         "project"
       ],
-      "contentHash": "ef58a7a4a8b3ce1d07d1feb14502cae2dce5126e4e4973d7a0b1c0f1a424ee03"
+      "contentHash": "8e4ccb4f045fd25eae6ed19dad5f41c5b8f4515c656ca90f7d569bfcfff6e35a"
     },
     {
       "id": "document:packages/memory/CONVENTIONS.md",
@@ -18010,9 +18010,11 @@
       "title": "tunnel.ts",
       "path": "packages/cli/src/tunnel.ts",
       "symbols": [
+        "TUNNEL_PROVIDER_HINT",
         "TunnelController",
         "TunnelLike",
         "TunnelOptions",
+        "loadLocaltunnel",
         "startTunnel"
       ],
       "tags": [
@@ -18020,7 +18022,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "ab918ab229b433c63d3d4f31195a6e94539e2a5f6fa8de7fb8f231ec4710de4c"
+      "contentHash": "beadfc6c79dc4011c9cc307ad3b37fdb7f1774c4d55fa3e258d0524121d829e5"
     },
     {
       "id": "module:packages/cli/tests/ai.test.ts",
@@ -18773,7 +18775,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "3d609c713ec98b599a19bf9a7705916671e9f6fac3471920cbda1cb332f051f0"
+      "contentHash": "2bf81f41ce605da8e925721f3d0c19baab45a8ac759ea9abb6b42db760eae90f"
     },
     {
       "id": "module:packages/cli/tsup.config.ts",
@@ -25771,7 +25773,7 @@
         "ts",
         "fixtures"
       ],
-      "contentHash": "74f23a8b95de178f9bb21f4ab5f5c2215b55a0f2424ecceb4031abd68abdce5a"
+      "contentHash": "3a58763836b145b7691ed976fcb99dc01f6cfd1007a3c59c7cb4bf957d99eeee"
     },
     {
       "id": "module:packages/mcp/fixtures/readme-quickstart.ts",
@@ -25807,7 +25809,7 @@
         "mjs",
         "fixtures"
       ],
-      "contentHash": "afa66632292bba93cde0d67fcdc5345b724c3bf658a831789ca170be4c599438"
+      "contentHash": "ad4f4ed29923c802abebaee49fdd7d3f7696e964a4c58de8d9715656f317acf2"
     },
     {
       "id": "module:packages/mcp/src/agent-tool.ts",
@@ -25951,7 +25953,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "ef16725b19a0c44869285ca1470147612427bed3f3ba439a6833dc3982a03f3b"
+      "contentHash": "5ba734ee7b23c37fd01d65ba77cdddbe6266e24ad413cd4cf87ef05cb3a53892"
     },
     {
       "id": "module:packages/mcp/tests/package-manifest.test.ts",
@@ -38637,7 +38639,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "6d24a7a5b279d3311a409673f0b37ac634fa168e1288811acbb9d60099727d14",
+    "hash": "780441f561c123904d7928216f1fde6bb0317f68b1b8598416f210367c13e04a",
     "fileCount": 2648,
     "projectionVersion": 2
   },
@@ -38660,9 +38662,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "13f5d82ce7f36b31ebc80dba97cd66f871932f510846e3741c60cb83acf2fd07",
+    "contentHash": "280b2cbb958161aea20c5c720daa5c4551b09c26bd92389863125d9a2254ddbc",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "b96462fdbae857fb500a4915bf32b771b1ca5b15e8e01610737c9e89b517792a",
+    "snapshotHash": "d760e004f956e204798b7ea4906835ad505369edcfbfe8a6d55b8bb837b6370e",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38694,11 +38696,11 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0174603174603174,
-        "body": 60.787301587301585,
+        "body": 60.786904761904765,
         "headings": 3.892857142857143,
         "path": 7.616269841269841,
         "summary": 4.503571428571429,
-        "symbols": 7.515476190476191,
+        "symbols": 7.518253968253968,
         "title": 3.3753968253968254
       }
     },
@@ -52316,7 +52318,7 @@
           "path": "apps/docs-next/content/docs/for-agents/mcp.mdx",
           "symbols": "",
           "summary": "Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).",
-          "body": "Purpose Serve AgentsKit tools to an MCP host that supports the documented 2024-11-05 tools bridge. A thin bridge over @agentskit/tools/mcp ( createMcpServer + createStdioTransport ). Install Primary exports - createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport?, authorizeToolCall? }) — expose McpToolDefinition[] as an MCP server. Defaults to stdio over the current process; pass transport to override (tests / custom hosts). - processStdio() — adapt the Node process into the StdioLikeProcess the transport expects (server receives on stdin, sends on stdout). - createAgentTool({ id, description, systemPrompt, adapter, maxSteps? }) — wrap a whole agent as one MCP tool. The host calls it with a task ; the agent runs server-side on the given adapter and returns the result (\"agents as MCP tools\"). - createTypedAgentTool(config) — typed variant of createAgentTool for an agent input/output contract. - fetchAgent(id, fetchImpl?) — fetch a registry agent definition without executing its source. - fetchAgentSkill(id, fetchImpl?) — fetch a registry agent's runnable skill (hosted index, raw-GitHub fallback); null for tool-composing agents. An optional third argument controls abort, timeout, and response-byte limits. Pass authorizeToolCall to createAgentsKitMcpServer to obtain host approval for tools marked requiresConfirmation . It has the same type as McpServerOptions['authorizeToolCall'] : (tool, args) = boolean Promise<boolean . Arguments are validated first. Only confirmation-required tools invoke the hook; absent hooks, denied approvals, throws, and rejected promises prevent execution. The host must obtain the required human confirmation before returning true ; annotations do not replace that decision. McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Bin agentskit-mcp — npx -y @agentskit/mcp@0.5.1 --tools fetch,search . Expose whole agents with --agents <ids --provider <p (any of ~20 providers + catalog OpenAI-compatible). Flags: --tools , --fs-root , --sqlite , --allow-shell , --model , --max-steps , --api-key , --base-url . Unknown, duplicate, or valueless flags fail closed. stdout is the JSON-RPC channel; diagnostics and help go to stderr. Pinned coding-agent configs and their evidence levels live in the . Host config fixtures cover Codex, Claude Code/Desktop, Cursor, Cline, and Continue. The local-build and published-package smoke scripts both initialize the shared STDIO path and require the tool list to equal fetch url,web search . Beta boundaries - Tool names are unique and follow the current MCP 1–128 character interoperability grammar. - Server configuration and agent-tool configuration fail with typed AgentsKit diagnostics. - Published tool definitions are snapshotted; observer failures cannot alter protocol behavior. - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded. - Registry source is treated as data and never executed. - The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities. Supported protocol matrix Protocol revision Lifecycle Transports Methods Not included --- --- --- --- --- 2024-11-05 Exact-version initialize ; tools/list ; tools/call ; close settles pending calls stdio, in-memory",
+          "body": "Purpose Serve AgentsKit tools to an MCP host that supports the documented 2024-11-05 tools bridge. A thin bridge over @agentskit/tools/mcp ( createMcpServer + createStdioTransport ). Install Primary exports - createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport?, authorizeToolCall? }) — expose McpToolDefinition[] as an MCP server. Defaults to stdio over the current process; pass transport to override (tests / custom hosts). - processStdio() — adapt the Node process into the StdioLikeProcess the transport expects (server receives on stdin, sends on stdout). - createAgentTool({ id, description, systemPrompt, adapter, maxSteps? }) — wrap a whole agent as one MCP tool. The host calls it with a task ; the agent runs server-side on the given adapter and returns the result (\"agents as MCP tools\"). - createTypedAgentTool(config) — typed variant of createAgentTool for an agent input/output contract. - fetchAgent(id, fetchImpl?) — fetch a registry agent definition without executing its source. - fetchAgentSkill(id, fetchImpl?) — fetch a registry agent's runnable skill (hosted index, raw-GitHub fallback); null for tool-composing agents. An optional third argument controls abort, timeout, and response-byte limits. Pass authorizeToolCall to createAgentsKitMcpServer to obtain host approval for tools marked requiresConfirmation . It has the same type as McpServerOptions['authorizeToolCall'] : (tool, args) = boolean Promise<boolean . Arguments are validated first. Only confirmation-required tools invoke the hook; absent hooks, denied approvals, throws, and rejected promises prevent execution. The host must obtain the required human confirmation before returning true ; annotations do not replace that decision. McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Bin agentskit-mcp — npx -y @agentskit/mcp@0.5.2 --tools fetch,search . Expose whole agents with --agents <ids --provider <p (any of ~20 providers + catalog OpenAI-compatible). Flags: --tools , --fs-root , --sqlite , --allow-shell , --model , --max-steps , --api-key , --base-url . Unknown, duplicate, or valueless flags fail closed. stdout is the JSON-RPC channel; diagnostics and help go to stderr. Pinned coding-agent configs and their evidence levels live in the . Host config fixtures cover Codex, Claude Code/Desktop, Cursor, Cline, and Continue. The local-build and published-package smoke scripts both initialize the shared STDIO path and require the tool list to equal fetch url,web search . Beta boundaries - Tool names are unique and follow the current MCP 1–128 character interoperability grammar. - Server configuration and agent-tool configuration fail with typed AgentsKit diagnostics. - Published tool definitions are snapshotted; observer failures cannot alter protocol behavior. - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded. - Registry source is treated as data and never executed. - The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities. Supported protocol matrix Protocol revision Lifecycle Transports Methods Not included --- --- --- --- --- 2024-11-05 Exact-version initialize ; tools/list ; tools/call ; close settles pending calls stdio, in-memory",
           "aliases": "mcp document agent"
         },
         "graph": {
@@ -52378,7 +52380,7 @@
             }
           ]
         },
-        "contentHash": "b844382873964b2cb7cc43b5905069be77bc478d00db8072e8d73fcbfcfb598f",
+        "contentHash": "c6f4a45955ab8871e73a5f9c337a0a239bb37f9f319b2d0cefcd625aa2a1e138",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -56922,7 +56924,7 @@
             }
           ]
         },
-        "contentHash": "39780ba32959768725bd0b77a0281cf3b39871989a80733565b32588a00a7fd6",
+        "contentHash": "f9b1f7cd8d6e5656f5101dbf3a0e7d826b8e67b4986b025c13e2eafeda9fba39",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -59977,7 +59979,7 @@
           "path": "apps/docs-next/content/docs/reference/packages/adapters.mdx",
           "symbols": "",
           "summary": "@agentskit/adapters is usually the first package you touch after core. It is the provider seam for the entire ecosystem: UI, runtime, memory, evals, and recipes all plug into this layer.",
-          "body": "@agentskit/adapters is usually the first package you touch after core . It is the provider seam for the entire ecosystem: UI, runtime, memory, evals, and recipes all plug into this layer. When to reach for it - You need to talk to a hosted LLM (Anthropic, OpenAI, Gemini, Mistral, Cohere, Groq, Together, Fireworks, OpenRouter, Hugging Face, …). - You want local-only (Ollama, LM Studio, vLLM, llama.cpp). - You want to compose multiple candidates ( createRouter , createEnsembleAdapter , createFallbackAdapter ). - You want to test agents without hitting a real LLM ( mockAdapter , recordingAdapter , replayAdapter ). Best fit - Start here if your main concern is provider flexibility. - Pair with if you are shipping a chat product. - Pair with if the model needs to act over multiple steps. - Pair with if you want to compare providers over the same workload. Install Hello world The important part is not the constructor itself, but that the rest of your stack does not have to care which provider you chose. Catalog The @agentskit/adapters/catalog subpath: data-driven provider/model metadata adapted from into AgentsKit's own JSON Schema and cached as a committed snapshot. Broad, current coverage lands via a version bump instead of bespoke per-provider code. The snapshot is large (thousands of models), so it ships only via the ./catalog subpath — the main @agentskit/adapters bundle is unaffected. Provider and model counts are regenerated from the artifact rather than hand-maintained. No runtime fetch. The runtime loads the committed snapshot; it never calls models.dev . If models.dev ever disappears, the last snapshot keeps working. Refresh it with pnpm sync:models ; the snapshot includes a normalized content hash and upstream ETag. A scheduled workflow compares the committed hash with the normalized source and opens a draft refresh PR when the catalog changes; it also fails when the snapshot is older than 35 days: The snapshot carries generatedAt + a pinned source.version ( catalogSource() ) so you can reason about staleness. Pricing/limits are advisory cached metadata , not a hard contract. Pricing with optional live fallback. resolveCost() is cache-only by default (offline, deterministic). Opt in to a live lookup that falls back to the cached snapshot on any failure — it never throws on a network problem: Policy overrides ( applyOverrides ) constrain the catalog without forking it (allowed/disabled providers, per-provider model allow-lists). Drift ( detectCatalogDrift ) flags any snapshot provider that is neither first-class nor OpenAI-compatible — wire it into CI so a regenerated snapshot can't ship an unroutable provider silently. classifyCatalogProvider(provider) exposes the explicit native / openai-compatible / unsupported matrix so catalog breadth is never confused with transport coverage. The catalog schema ( catalogSnapshotSchema , JSON Schema) is the public contract; the snapshot is validated against it at build time. Surface Hosted: anthropic · openai · gemini · grok · deepseek · kimi · mistral · cohere · together · groq · fireworks · openrouter · huggingface · langchain · langgraph · vercelAI · generic Local: ollama · lmstudio · vllm · llamacpp Embedders: openaiEmbedder · geminiEmbedder · ollamaEmbedder · deepseekEmbedder · grokEmbedder · kimiEmbedder · createOpenAICompatibleEmbedder Higher-order: createRouter · createEnsembleAdapter · createFallbackAdapter Testing: mockAdapter · recordingAdapter · replayAdapter · inMemorySink · simulateStream · chunkText · fetchWithRetry Recipes - - - - - - Stability - Version: 0.19.1 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - - Source npm: · repo:",
+          "body": "@agentskit/adapters is usually the first package you touch after core . It is the provider seam for the entire ecosystem: UI, runtime, memory, evals, and recipes all plug into this layer. When to reach for it - You need to talk to a hosted LLM (Anthropic, OpenAI, Gemini, Mistral, Cohere, Groq, Together, Fireworks, OpenRouter, Hugging Face, …). - You want local-only (Ollama, LM Studio, vLLM, llama.cpp). - You want to compose multiple candidates ( createRouter , createEnsembleAdapter , createFallbackAdapter ). - You want to test agents without hitting a real LLM ( mockAdapter , recordingAdapter , replayAdapter ). Best fit - Start here if your main concern is provider flexibility. - Pair with if you are shipping a chat product. - Pair with if the model needs to act over multiple steps. - Pair with if you want to compare providers over the same workload. Install Hello world The important part is not the constructor itself, but that the rest of your stack does not have to care which provider you chose. Catalog The @agentskit/adapters/catalog subpath: data-driven provider/model metadata adapted from into AgentsKit's own JSON Schema and cached as a committed snapshot. Broad, current coverage lands via a version bump instead of bespoke per-provider code. The snapshot is large (thousands of models), so it ships only via the ./catalog subpath — the main @agentskit/adapters bundle is unaffected. Provider and model counts are regenerated from the artifact rather than hand-maintained. No runtime fetch. The runtime loads the committed snapshot; it never calls models.dev . If models.dev ever disappears, the last snapshot keeps working. Refresh it with pnpm sync:models ; the snapshot includes a normalized content hash and upstream ETag. A scheduled workflow compares the committed hash with the normalized source and opens a draft refresh PR when the catalog changes; it also fails when the snapshot is older than 35 days: The snapshot carries generatedAt + a pinned source.version ( catalogSource() ) so you can reason about staleness. Pricing/limits are advisory cached metadata , not a hard contract. Pricing with optional live fallback. resolveCost() is cache-only by default (offline, deterministic). Opt in to a live lookup that falls back to the cached snapshot on any failure — it never throws on a network problem: Policy overrides ( applyOverrides ) constrain the catalog without forking it (allowed/disabled providers, per-provider model allow-lists). Drift ( detectCatalogDrift ) flags any snapshot provider that is neither first-class nor OpenAI-compatible — wire it into CI so a regenerated snapshot can't ship an unroutable provider silently. classifyCatalogProvider(provider) exposes the explicit native / openai-compatible / unsupported matrix so catalog breadth is never confused with transport coverage. The catalog schema ( catalogSnapshotSchema , JSON Schema) is the public contract; the snapshot is validated against it at build time. Surface Hosted: anthropic · openai · gemini · grok · deepseek · kimi · mistral · cohere · together · groq · fireworks · openrouter · huggingface · langchain · langgraph · vercelAI · generic Local: ollama · lmstudio · vllm · llamacpp Embedders: openaiEmbedder · geminiEmbedder · ollamaEmbedder · deepseekEmbedder · grokEmbedder · kimiEmbedder · createOpenAICompatibleEmbedder Higher-order: createRouter · createEnsembleAdapter · createFallbackAdapter Testing: mockAdapter · recordingAdapter · replayAdapter · inMemorySink · simulateStream · chunkText · fetchWithRetry Recipes - - - - - - Stability - Version: 0.19.2 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - - Source npm: · repo:",
           "aliases": "document human"
         },
         "graph": {
@@ -60194,7 +60196,7 @@
             }
           ]
         },
-        "contentHash": "3ff4b8ff39bcce16a904a132c116f1d30fc899dde6fae02000f8b1379e168c80",
+        "contentHash": "1e107454c5fa0f54110bc915259c48b901683e8b46f2527b502dcd1ac60f2708",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -60275,7 +60277,7 @@
           "path": "apps/docs-next/content/docs/reference/packages/cli.mdx",
           "symbols": "",
           "summary": "@agentskit/cli is the operational front door to the ecosystem. It is how you bootstrap a project, run an agent, inspect your setup, and keep moving without writing scaffolding code first.",
-          "body": "@agentskit/cli is the operational front door to the ecosystem. It is how you bootstrap a project, run an agent, inspect your setup, and keep moving without writing scaffolding code first. When to reach for it - You want to scaffold a new agent project. - You want to chat / run an agent from a terminal. - You want agentskit ai \"<description \" to generate a typed scaffold from plain language. Best fit - Start here when you want proof of the ecosystem before wiring packages by hand. - Use init when you want a runnable starter. - Use chat , run , and dev when you want a fast operator workflow around the same stack. - Use doctor when setup friction is slowing the team down. Install Commands Command Purpose --- --- agentskit init Scaffold a new project (react / ink / runtime / multi-agent). agentskit chat Interactive chat in the terminal (Ink). agentskit run \"<task \" Run an agent once. agentskit dev Dev server with hot-reload. agentskit doctor Diagnose env (providers, keys, tooling). agentskit ai \"<description \" NL → typed AgentSchema + scaffolded project. agentskit tunnel ngrok-style tunnel for webhooks. agentskit rag Local RAG helpers (ingest / search). agentskit config Read / write local config. Why it matters The CLI makes AgentsKit feel like a product, not just a pile of packages. It shortens the path from “I want to try this” to “I have a working agent project” more than any single reference page can. Programmatic helpers - @agentskit/cli/ai — scaffoldAgent · writeScaffold · createAdapterPlanner . Recipes - Stability - Version: 0.13.48 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - - Source npm: · repo:",
+          "body": "@agentskit/cli is the operational front door to the ecosystem. It is how you bootstrap a project, run an agent, inspect your setup, and keep moving without writing scaffolding code first. When to reach for it - You want to scaffold a new agent project. - You want to chat / run an agent from a terminal. - You want agentskit ai \"<description \" to generate a typed scaffold from plain language. Best fit - Start here when you want proof of the ecosystem before wiring packages by hand. - Use init when you want a runnable starter. - Use chat , run , and dev when you want a fast operator workflow around the same stack. - Use doctor when setup friction is slowing the team down. Install Commands Command Purpose --- --- agentskit init Scaffold a new project (react / ink / runtime / multi-agent). agentskit chat Interactive chat in the terminal (Ink). agentskit run \"<task \" Run an agent once. agentskit dev Dev server with hot-reload. agentskit doctor Diagnose env (providers, keys, tooling). agentskit ai \"<description \" NL → typed AgentSchema + scaffolded project. agentskit tunnel ngrok-style tunnel for webhooks. agentskit rag Local RAG helpers (ingest / search). agentskit config Read / write local config. Why it matters The CLI makes AgentsKit feel like a product, not just a pile of packages. It shortens the path from “I want to try this” to “I have a working agent project” more than any single reference page can. Programmatic helpers - @agentskit/cli/ai — scaffoldAgent · writeScaffold · createAdapterPlanner . Recipes - Stability - Version: 0.14.0 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - - Source npm: · repo:",
           "aliases": "document human"
         },
         "graph": {
@@ -60322,7 +60324,7 @@
             }
           ]
         },
-        "contentHash": "f728d0c891342cd8be36f3400d774933e6ad73070a7f19791e0993a7e7441ec9",
+        "contentHash": "1bc553e29b29a959ff5557cabd190cc297cef8fd0944f3c1f01a5449a5123a54",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -63085,7 +63087,7 @@
             }
           ]
         },
-        "contentHash": "ee1dcbe26fcf142d8aa62f32e0e032217afc0786f937ffdaf42897907999df18",
+        "contentHash": "6736ffb90012643f0eed764b6dbd210751352fb960250e2de860bb37637195ca",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -64094,7 +64096,7 @@
             }
           ]
         },
-        "contentHash": "87e367e28522fd2c6d7a7bd0716742f568605c00e9309cfebc627a247a3ac2c4",
+        "contentHash": "158035314ad2d61bfb6c1caedc9edd8ed704d8460611331147398ab112197f03",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73097,7 +73099,7 @@
           "path": "docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/carousel-storyboard.md",
           "symbols": "",
           "summary": "Format: 5-frame carousel / 15s silent GIF",
-          "body": "Storyboard — Connect AgentsKit to your coding agent Format: 5-frame carousel / 15s silent GIF 1. Hook — \"Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.\" 2. Install — show codex mcp add agentskit -- npx -y @agentskit/mcp@0.5.1 --tools fetch,search 3. Copy fixture — show the agent.ts path 4. Run — terminal output includes the expected ready line 5. Next step — point to Registry / Playbook / Chat without inventing counts Accessibility: every frame needs alt text; prefer reduced-motion static frames. No auto-publish — storyboard is a draft for human design review.",
+          "body": "Storyboard — Connect AgentsKit to your coding agent Format: 5-frame carousel / 15s silent GIF 1. Hook — \"Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.\" 2. Install — show codex mcp add agentskit -- npx -y @agentskit/mcp@0.5.2 --tools fetch,search 3. Copy fixture — show the agent.ts path 4. Run — terminal output includes the expected ready line 5. Next step — point to Registry / Playbook / Chat without inventing counts Accessibility: every frame needs alt text; prefer reduced-motion static frames. No auto-publish — storyboard is a draft for human design review.",
           "aliases": "document human"
         },
         "graph": {
@@ -73108,7 +73110,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "fbf1841972e46865b886fe0aa039ad81f492678c35e313a793cf9f52a7aaacb5",
+        "contentHash": "f31d9cd196903c30fd57d65a4568d1cbb5c598321873f72d7d513834fcbaf9fa",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73147,7 +73149,7 @@
             }
           ]
         },
-        "contentHash": "97001ba4b10d435b1a03a1ed1bb4332b3e414ea6a70797c4830f0da6aba4d006",
+        "contentHash": "3b4ea8671440895045c7ddb3c02fae6ae1495bc953d3ade97da542c903e813a9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73180,7 +73182,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "365844b46e9f099f336b615e0f97a8bbd479e49c6f235de8952ff1f5387ef4ab",
+        "contentHash": "78174831a1db4c2d84a24293435e6642345b5e39921150e365dc11d620cddd1c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73268,7 +73270,7 @@
           "path": "docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/social-thread.md",
           "symbols": "",
           "summary": "1/ Connect AgentsKit to your coding agent",
-          "body": "1/ Connect AgentsKit to your coding agent Why it exists: Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host. 2/ The path: 1. codex mcp add agentskit -- npx -y @agentskit/mcp@0.5.1 --tools fetch,search 2. claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.5.1 --tools fetch,search 3. pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts 4. pnpm --filter @agentskit/mcp smoke:published 3/ Claims (generated, not hand-typed): - 22 packages - 50 integrations 4/ Next products: - AgentsKit: Build agents without gluing many libraries together. - AgentsKit Registry: Copy ready-made agents and own the source. - AgentsKit Chat: Define one agent experience and deliver it across interfaces. 5/ This thread is a draft atom. Publishing requires explicit human approval.",
+          "body": "1/ Connect AgentsKit to your coding agent Why it exists: Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host. 2/ The path: 1. codex mcp add agentskit -- npx -y @agentskit/mcp@0.5.2 --tools fetch,search 2. claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.5.2 --tools fetch,search 3. pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts 4. pnpm --filter @agentskit/mcp smoke:published 3/ Claims (generated, not hand-typed): - 22 packages - 50 integrations 4/ Next products: - AgentsKit: Build agents without gluing many libraries together. - AgentsKit Registry: Copy ready-made agents and own the source. - AgentsKit Chat: Define one agent experience and deliver it across interfaces. 5/ This thread is a draft atom. Publishing requires explicit human approval.",
           "aliases": "document human"
         },
         "graph": {
@@ -73279,7 +73281,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "133be1d53d4e9e4d3e472a06b74bb8e42c8d1002c684ab47091bb5c2ee42f7dd",
+        "contentHash": "81bd4315a1685812b6ce39c0582dc74153fc858af8099d51e04a74547d8b317a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -79077,7 +79079,7 @@
             }
           ]
         },
-        "contentHash": "14297baf3a07ff4d8347117b0d7d415dfb6af26fe5797716c5299676b40cfb23",
+        "contentHash": "6cd60b3e9bfee02d043f4fcea42bcedddc699c1e78ccf298bc173304a721f034",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -79171,7 +79173,7 @@
             }
           ]
         },
-        "contentHash": "ef58a7a4a8b3ce1d07d1feb14502cae2dce5126e4e4973d7a0b1c0f1a424ee03",
+        "contentHash": "8e4ccb4f045fd25eae6ed19dad5f41c5b8f4515c656ca90f7d569bfcfff6e35a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -118758,9 +118760,11 @@
         "title": "tunnel.ts",
         "aliases": [],
         "symbols": [
+          "TUNNEL_PROVIDER_HINT",
           "TunnelController",
           "TunnelLike",
           "TunnelOptions",
+          "loadLocaltunnel",
           "startTunnel"
         ],
         "tags": [
@@ -118772,7 +118776,7 @@
           "title": "tunnel.ts",
           "headings": "",
           "path": "packages/cli/src/tunnel.ts",
-          "symbols": "TunnelController TunnelLike TunnelOptions startTunnel",
+          "symbols": "TUNNEL_PROVIDER_HINT TunnelController TunnelLike TunnelOptions loadLocaltunnel startTunnel",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -118815,7 +118819,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "ab918ab229b433c63d3d4f31195a6e94539e2a5f6fa8de7fb8f231ec4710de4c",
+        "contentHash": "beadfc6c79dc4011c9cc307ad3b37fdb7f1774c4d55fa3e258d0524121d829e5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121388,7 +121392,7 @@
             }
           ]
         },
-        "contentHash": "3d609c713ec98b599a19bf9a7705916671e9f6fac3471920cbda1cb332f051f0",
+        "contentHash": "2bf81f41ce605da8e925721f3d0c19baab45a8ac759ea9abb6b42db760eae90f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -149789,7 +149793,7 @@
             }
           ]
         },
-        "contentHash": "74f23a8b95de178f9bb21f4ab5f5c2215b55a0f2424ecceb4031abd68abdce5a",
+        "contentHash": "3a58763836b145b7691ed976fcb99dc01f6cfd1007a3c59c7cb4bf957d99eeee",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -149896,7 +149900,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "afa66632292bba93cde0d67fcdc5345b724c3bf658a831789ca170be4c599438",
+        "contentHash": "ad4f4ed29923c802abebaee49fdd7d3f7696e964a4c58de8d9715656f317acf2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -150388,7 +150392,7 @@
             }
           ]
         },
-        "contentHash": "ef16725b19a0c44869285ca1470147612427bed3f3ba439a6833dc3982a03f3b",
+        "contentHash": "5ba734ee7b23c37fd01d65ba77cdddbe6266e24ad413cd4cf87ef05cb3a53892",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192772,7 +192776,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "7b52a55ab78371e1ff29f05049a71b87c58875818b7c1961e6fa62dca2c7f1a9",
+        "contentHash": "d1db49c45a02118ba38ecccc92c5af2c7940b495fa97051976e3516600a8df27",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "adapters"
@@ -193232,7 +193236,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3523aae5d39c039b74fcf3f7beddfb933377e900405dd780ba7bac9ec369b583",
+        "contentHash": "4f019a26a6d82d5eba658917b310ebf063b19af95c25d6ee59111bf75bb325f4",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "cli"
@@ -194685,7 +194689,7 @@
           "path": "packages/mcp",
           "symbols": "",
           "summary": "Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).",
-          "body": "Purpose Serve AgentsKit tools to an MCP host that supports the documented 2024-11-05 tools bridge. A thin bridge over @agentskit/tools/mcp ( createMcpServer + createStdioTransport ). Install Primary exports - createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport?, authorizeToolCall? }) — expose McpToolDefinition[] as an MCP server. Defaults to stdio over the current process; pass transport to override (tests / custom hosts). - processStdio() — adapt the Node process into the StdioLikeProcess the transport expects (server receives on stdin, sends on stdout). - createAgentTool({ id, description, systemPrompt, adapter, maxSteps? }) — wrap a whole agent as one MCP tool. The host calls it with a task ; the agent runs server-side on the given adapter and returns the result (\"agents as MCP tools\"). - createTypedAgentTool(config) — typed variant of createAgentTool for an agent input/output contract. - fetchAgent(id, fetchImpl?) — fetch a registry agent definition without executing its source. - fetchAgentSkill(id, fetchImpl?) — fetch a registry agent's runnable skill (hosted index, raw-GitHub fallback); null for tool-composing agents. An optional third argument controls abort, timeout, and response-byte limits. Pass authorizeToolCall to createAgentsKitMcpServer to obtain host approval for tools marked requiresConfirmation . It has the same type as McpServerOptions['authorizeToolCall'] : (tool, args) = boolean Promise<boolean . Arguments are validated first. Only confirmation-required tools invoke the hook; absent hooks, denied approvals, throws, and rejected promises prevent execution. The host must obtain the required human confirmation before returning true ; annotations do not replace that decision. McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Bin agentskit-mcp — npx -y @agentskit/mcp@0.5.1 --tools fetch,search . Expose whole agents with --agents <ids --provider <p (any of ~20 providers + catalog OpenAI-compatible). Flags: --tools , --fs-root , --sqlite , --allow-shell , --model , --max-steps , --api-key , --base-url . Unknown, duplicate, or valueless flags fail closed. stdout is the JSON-RPC channel; diagnostics and help go to stderr. Pinned coding-agent configs and their evidence levels live in the . Host config fixtures cover Codex, Claude Code/Desktop, Cursor, Cline, and Continue. The local-build and published-package smoke scripts both initialize the shared STDIO path and require the tool list to equal fetch url,web search . Beta boundaries - Tool names are unique and follow the current MCP 1–128 character interoperability grammar. - Server configuration and agent-tool configuration fail with typed AgentsKit diagnostics. - Published tool definitions are snapshotted; observer failures cannot alter protocol behavior. - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded. - Registry source is treated as data and never executed. - The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities. Supported protocol matrix Protocol revision Lifecycle Transports Methods Not included --- --- --- --- --- 2024-11-05 Exact-version initialize ; tools/list ; tools/call ; close settles pending calls stdio, in-memory",
+          "body": "Purpose Serve AgentsKit tools to an MCP host that supports the documented 2024-11-05 tools bridge. A thin bridge over @agentskit/tools/mcp ( createMcpServer + createStdioTransport ). Install Primary exports - createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport?, authorizeToolCall? }) — expose McpToolDefinition[] as an MCP server. Defaults to stdio over the current process; pass transport to override (tests / custom hosts). - processStdio() — adapt the Node process into the StdioLikeProcess the transport expects (server receives on stdin, sends on stdout). - createAgentTool({ id, description, systemPrompt, adapter, maxSteps? }) — wrap a whole agent as one MCP tool. The host calls it with a task ; the agent runs server-side on the given adapter and returns the result (\"agents as MCP tools\"). - createTypedAgentTool(config) — typed variant of createAgentTool for an agent input/output contract. - fetchAgent(id, fetchImpl?) — fetch a registry agent definition without executing its source. - fetchAgentSkill(id, fetchImpl?) — fetch a registry agent's runnable skill (hosted index, raw-GitHub fallback); null for tool-composing agents. An optional third argument controls abort, timeout, and response-byte limits. Pass authorizeToolCall to createAgentsKitMcpServer to obtain host approval for tools marked requiresConfirmation . It has the same type as McpServerOptions['authorizeToolCall'] : (tool, args) = boolean Promise<boolean . Arguments are validated first. Only confirmation-required tools invoke the hook; absent hooks, denied approvals, throws, and rejected promises prevent execution. The host must obtain the required human confirmation before returning true ; annotations do not replace that decision. McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Bin agentskit-mcp — npx -y @agentskit/mcp@0.5.2 --tools fetch,search . Expose whole agents with --agents <ids --provider <p (any of ~20 providers + catalog OpenAI-compatible). Flags: --tools , --fs-root , --sqlite , --allow-shell , --model , --max-steps , --api-key , --base-url . Unknown, duplicate, or valueless flags fail closed. stdout is the JSON-RPC channel; diagnostics and help go to stderr. Pinned coding-agent configs and their evidence levels live in the . Host config fixtures cover Codex, Claude Code/Desktop, Cursor, Cline, and Continue. The local-build and published-package smoke scripts both initialize the shared STDIO path and require the tool list to equal fetch url,web search . Beta boundaries - Tool names are unique and follow the current MCP 1–128 character interoperability grammar. - Server configuration and agent-tool configuration fail with typed AgentsKit diagnostics. - Published tool definitions are snapshotted; observer failures cannot alter protocol behavior. - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded. - Registry source is treated as data and never executed. - The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities. Supported protocol matrix Protocol revision Lifecycle Transports Methods Not included --- --- --- --- --- 2024-11-05 Exact-version initialize ; tools/list ; tools/call ; close settles pending calls stdio, in-memory",
           "aliases": "mcp @agentskit/mcp package ownership"
         },
         "graph": {
@@ -194820,7 +194824,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f8047fddd68ac5c998366ccc233b14f8a1155438a349e2e681bf98952b8e8ae2",
+        "contentHash": "7c7bcb1b58d2d51d3c8365350f6bf7594d600db4e06aa41ce9bb077f0461b9bb",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "mcp"
