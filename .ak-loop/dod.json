@@ -1,0 +1,17 @@
+{
+  "project": [
+    { "id": "test-for-new-code", "status": "passed", "evidence": "scripts/packed-consumers.test.mjs changed (matches **/*.test.mjs); 30 tests pass" },
+    { "id": "no-todo", "status": "passed", "evidence": "no changed file under src/** ; changed files contain no TODO/FIXME additions" }
+  ],
+  "outcomes": [
+    { "id": "o1", "status": "passed", "evidence": "types first on exports['.'] plus top-level types" },
+    { "id": "o2", "status": "passed", "evidence": "node --test scripts/packed-consumers.test.mjs: 30 pass" },
+    { "id": "o3", "status": "passed", "evidence": "guard tests assert TS7016/TS2307 failure without types under bundler and node16" },
+    { "id": "o4", "status": "passed", "evidence": "26 angular tests pass" },
+    { "id": "o5", "status": "passed", "evidence": "publication-surface and public-api-snapshot pass" },
+    { "id": "o6", "status": "passed", "evidence": "patch changeset for @agentskit/angular only" },
+    { "id": "o7", "status": "passed", "evidence": "lint, packages build and tests pass; root-wide docs/examples tests not run (memory)" },
+    { "id": "o8", "status": "passed", "evidence": "docs:bridge:index run, outputs committed" },
+    { "id": "o9", "status": "passed", "evidence": "single commit, not pushed" }
+  ]
+}
