@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "dc9fe5e9beded7091d00c6a2e99f0629bd2f706d91a5fad443e20ef5a4e42e24",
+  "contentHash": "2222d362e2f37ac22bb3b842d6f0599825b77b5148483e8786f2acefe8b22ad0",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-24T02:23:43.693Z",
+  "generatedAt": "2026-10-26T14:53:10.496Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -36749,7 +36749,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "e4f0d8e0a4fe066894e3497d6c46646b3697b313820aed9b9593416817cc246c"
+      "contentHash": "7c84eb49d103835ba2180f1d062a5a3d165e2f81ad2215aefd6d29310b366e48"
     },
     {
       "id": "module:scripts/lib/packed-consumers.mjs",
@@ -37048,7 +37048,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "428c0de6bfc559c09b799c7e4d14afee5bebcab4002271ce83869083c10018d2"
+      "contentHash": "ee0c5653e554bf3693ac3ebb1b1eb6c32d8e0ec0b38c2f0445d3cd03c43ef322"
     },
     {
       "id": "module:scripts/pattern-lab.test.mjs",
@@ -38697,7 +38697,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "fa4605bea9f4a23139d346b229cbabf4cc9ab54384c273727d1cd4457486bb72",
+    "hash": "68d9eee747443202bccac313e5b877097385f54b277b9a74292dc6b72207ad54",
     "fileCount": 2656,
     "projectionVersion": 2
   },
@@ -38720,9 +38720,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "9536373ff31af839d7fccf0726dfeb4637536faeaddca84f4121301096dc2026",
+    "contentHash": "48cbc619cb7abc2230780bf459a77d62b47055ca641a43d9e600ebce82e711ef",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "28866690406a74f4fb58bad1cbf5416231e0d9f4ab85dfa83d6d9cf80cad0e1a",
+    "snapshotHash": "9c8eee60e831c284e539a82b7f6e6a346b477b76217bf8c496a75bdad7d937e4",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -190436,7 +190436,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "e4f0d8e0a4fe066894e3497d6c46646b3697b313820aed9b9593416817cc246c",
+        "contentHash": "7c84eb49d103835ba2180f1d062a5a3d165e2f81ad2215aefd6d29310b366e48",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191280,7 +191280,7 @@
             }
           ]
         },
-        "contentHash": "428c0de6bfc559c09b799c7e4d14afee5bebcab4002271ce83869083c10018d2",
+        "contentHash": "ee0c5653e554bf3693ac3ebb1b1eb6c32d8e0ec0b38c2f0445d3cd03c43ef322",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -194013,7 +194013,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5d4074bbc7b9b0858b7587188900470df5b2b86081054628685c6915d766daf0",
+        "contentHash": "689e688a2867484fe0896dc3bd3d508667f8bae15d3e0a78ee36e76e47ccf0f0",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "angular"

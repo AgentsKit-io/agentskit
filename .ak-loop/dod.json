@@ -1,0 +1,17 @@
+{
+  "project": [
+    {"id": "test-for-new-code", "status": "passed", "evidence": "scripts/packed-consumers.test.mjs changed (new angular typecheck test); scripts/check-packed-consumers.mjs now typechecks angular"},
+    {"id": "no-todo", "status": "passed", "evidence": "no TODO/FIXME added; no changed file under src/**"}
+  ],
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "types first in exports['.'], top-level types kept, files exist after build"},
+    {"id": "o2", "status": "passed", "evidence": "fails before fix (TS7016, bundler and NodeNext, TS 5.9 and 6.0); passes after"},
+    {"id": "o3", "status": "passed", "evidence": "26 angular tests passed"},
+    {"id": "o4", "status": "passed", "evidence": "surface, packed-consumers, api snapshot pass; release-registry fails only on pre-existing registry drift of other packages"},
+    {"id": "o5", "status": "passed", "evidence": ".changeset/angular-exports-types.md"},
+    {"id": "o6", "status": "passed", "evidence": "all gates pass except time-based models.dev freshness, pre-existing and unrelated"},
+    {"id": "o7", "status": "passed", "evidence": "lint and build pass; full test run OOM-killed (137) in this sandbox, angular + scripts tests pass"},
+    {"id": "o8", "status": "passed", "evidence": "pnpm docs:bridge:index run; refreshed artifacts committed"},
+    {"id": "o9", "status": "passed", "evidence": "single commit"}
+  ]
+}

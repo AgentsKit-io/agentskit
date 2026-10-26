@@ -324,6 +324,19 @@ describe('exception handling and mode derivation', () => {
       modes: [{ mode: 'angular-apf' }],
     }), false)
   })
+
+  test('angular packed types are typechecked (bundler + NodeNext need a types condition)', () => {
+    const plan = buildValidationPlan('@agentskit/angular', {
+      exports: {
+        '.': {
+          types: './dist/types/agentskit-angular.d.ts',
+          import: './dist/fesm2022/agentskit-angular.mjs',
+        },
+      },
+    })
+    assert.deepEqual(plan[0].modes.map((mode) => mode.mode), ['angular-apf', 'types'])
+    assert.equal(shouldTypecheckEntry(plan[0]), true)
+  })
 })
 
 // ---------------------------------------------------------------------------

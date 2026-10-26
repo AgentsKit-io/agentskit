@@ -45,9 +45,8 @@ export const PACKED_CONSUMER_EXCEPTIONS = Object.freeze([
     modes: ['angular-apf', 'types'],
     skipEsm: true,
     skipCjs: true,
-    skipTypecheck: true,
     reason:
-      'Angular APF package: artifact/types checks only. No generic Node runtime import and no CJS expectation.',
+      'Angular APF package: no generic Node runtime import and no CJS expectation; packed types are typechecked under bundler + NodeNext.',
   },
   {
     id: 'svelte-esm-only',
@@ -119,7 +118,6 @@ export const PACKED_CONSUMER_EXCEPTIONS = Object.freeze([
 /** Framework packages whose typed surfaces are grouped/exempt in consumer tsc fixtures. */
 export const TYPECHECK_EXEMPT_PACKAGES = Object.freeze(
   new Set([
-    '@agentskit/angular',
     '@agentskit/svelte',
     '@agentskit/react-native',
   ]),

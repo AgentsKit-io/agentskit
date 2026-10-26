@@ -1,0 +1,16 @@
+{
+  "ranAt": "2026-10-26T15:10:00Z",
+  "command": "node scripts/check-packed-consumers.mjs",
+  "exitCode": 0,
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "angular build ok; exports['.'] = {types: ./dist/types/agentskit-angular.d.ts, import: ...}; top-level types kept; packed-consumer target existence check passed"},
+    {"id": "o2", "status": "passed", "evidence": "before fix: 4 failures, TS 5.9/6.0 x bundler/NodeNext, TS7016 'could not be resolved when respecting package.json exports'; after fix: typecheck=74 (TS 5.9:bundler=ok,NodeNext=ok; TS 6.0:bundler=ok,NodeNext=ok)"},
+    {"id": "o3", "status": "passed", "evidence": "pnpm --filter @agentskit/angular test: 3 files, 26 tests passed"},
+    {"id": "o4", "status": "partial", "evidence": "publication-surface passed, packed-consumers passed, public-api-snapshot baseline updated for angular types condition; check-release-registry fails on pre-existing live registry drift (adapters, cli, mcp behind registry), unrelated"},
+    {"id": "o5", "status": "passed", "evidence": ".changeset/angular-exports-types.md: '@agentskit/angular': patch"},
+    {"id": "o6", "status": "partial", "evidence": "only models.dev snapshot freshness (36 days old, time-based, pre-existing) fails; other gates run individually pass"},
+    {"id": "o7", "status": "partial", "evidence": "lint ok, build ok; full pnpm run test killed (exit 137, resource limit) in sandbox; angular and scripts tests pass"},
+    {"id": "o8", "status": "passed", "evidence": "pnpm docs:bridge:index (doc-bridge-index.yml) regenerated; .doc-bridge/index.json and capabilities.json committed"},
+    {"id": "o9", "status": "passed", "evidence": "single commit with required subject, nothing pushed"}
+  ]
+}
