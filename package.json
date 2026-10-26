@@ -40,8 +40,6 @@
     "dev": "turbo run dev --parallel",
     "docs": "pnpm --filter @agentskit/docs-next dev",
     "docs:build": "pnpm --filter @agentskit/docs-next build",
-    "docs:deploy": "pnpm --filter @agentskit/docs-next exec vercel deploy --prod --yes",
-    "docs:deploy:preview": "pnpm --filter @agentskit/docs-next exec vercel deploy --yes",
     "docs:bridge:index": "ak-docs index && node scripts/sync-repo-llms.mjs",
     "docs:bridge:gate": "ak-docs gate run",
     "docs:bridge:freshness": "ak-docs gate run index-freshness",
