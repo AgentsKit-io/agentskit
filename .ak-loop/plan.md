@@ -1,0 +1,1 @@
+Bump vitest, then typescript, refresh lockfile with --lockfile-only. Blocked on install: pnpm wants a TTY to purge node_modules and every workaround is denied by the task allowlist, so no verification ran.
