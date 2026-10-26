@@ -20,3 +20,6 @@ jobs:
       (github.event_name == 'issues' && github.event.label.name == 'agent:go') ||
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude'))
     uses: AgentsKit-io/.github/.github/workflows/agent.yml@main
+    with:
+      hosted: true  # public repository: GitHub-hosted runner joins Tailscale (tag:ci) to reach the pool
+    secrets: inherit
