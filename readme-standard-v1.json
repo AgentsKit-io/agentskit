@@ -285,7 +285,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:c1d12f117c66dcd88beab19771d4b66f4ed5cab3509aa8420375d2092c17c0a2"
+        "sourceHash": "sha256:415696d0ce28faa2a5fe89791dbc7e3cbbf99a5d69da0c301fcb9fbfbb4cf9f2"
       },
       "exceptions": []
     },
@@ -441,7 +441,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:f03f05dfb7c7c17566a75ae7227c504c28b240301a810ac6727485ea884a2120"
+        "sourceHash": "sha256:c442d4e33a56276b4bd7d65e08599b5637a3ba73122abb7f0b3d8c05b92f888f"
       },
       "exceptions": []
     },
@@ -886,7 +886,7 @@
       "commands": [
         {
           "id": "install",
-          "command": "npx -y @agentskit/mcp@0.5.1 --tools fetch,search",
+          "command": "npx -y @agentskit/mcp@0.5.2 --tools fetch,search",
           "test": "packages/mcp/tests/server.test.ts",
           "testCommand": "pnpm --filter @agentskit/mcp test"
         }
@@ -909,7 +909,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:efa08725014c871a28bf92af4a51911e1d96c894ee16b03b0ac29d0fa147c717"
+        "sourceHash": "sha256:c3ded8b247baa1a98648ad7f42e5c541e8f5e08e54253d2c2c0dfabd8d60f36b"
       },
       "exceptions": []
     },
