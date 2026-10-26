@@ -4,12 +4,12 @@
  */
 
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { after, before, describe, test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { runCommand } from '../packages/cross-platform/dist/index.js'
 import {
   buildValidationPlan,
   collectExportTargets,
@@ -399,14 +399,18 @@ describe('@agentskit/angular packed type declarations', () => {
   let workDir
   let packedManifest
 
-  const runTsc = (project) => {
-    try {
-      execFileSync(process.execPath, [tsc, '-p', project, '--noEmit'], { encoding: 'utf8', stdio: 'pipe' })
-      return { ok: true, output: '' }
-    } catch (error) {
-      return { ok: false, output: `${error.stdout ?? ''}${error.stderr ?? ''}` }
-    }
+  const run = async (command, args, cwd) => {
+    const result = await runCommand(command, args, { cwd })
+    return { ok: result.code === 0, output: `${result.stdout}${result.stderr}` }
   }
+
+  const runOrThrow = async (command, args, cwd) => {
+    const result = await run(command, args, cwd)
+    assert.ok(result.ok, `${command} ${args.join(' ')} failed:\n${result.output}`)
+    return result
+  }
+
+  const runTsc = (project) => run(process.execPath, [tsc, '-p', project, '--noEmit'], repoRoot)
 
   /** Lay out a consumer project whose node_modules holds the extracted tarball. */
   const createConsumer = (name, resolution, manifest) => {
@@ -448,20 +452,17 @@ describe('@agentskit/angular packed type declarations', () => {
     return root
   }
 
-  before(() => {
+  before(async () => {
     if (!existsSync(path.join(angularRoot, 'dist', 'types', 'agentskit-angular.d.ts'))) {
-      execFileSync('pnpm', ['exec', 'turbo', 'run', 'build', '--filter=@agentskit/angular', '--concurrency=2'], {
-        cwd: repoRoot,
-        stdio: 'pipe',
-      })
+      await runOrThrow('pnpm', ['exec', 'turbo', 'run', 'build', '--filter=@agentskit/angular', '--concurrency=2'], repoRoot)
     }
     workDir = mkdtempSync(path.join(tmpdir(), 'agentskit-angular-consumer-'))
     const packDir = path.join(workDir, 'pack')
     mkdirSync(packDir)
-    execFileSync('pnpm', ['pack', '--pack-destination', packDir], { cwd: angularRoot, stdio: 'pipe' })
+    await runOrThrow('pnpm', ['pack', '--pack-destination', packDir], angularRoot)
     const tarball = readdirSync(packDir).find((file) => file.endsWith('.tgz'))
     mkdirSync(path.join(workDir, 'extract'))
-    execFileSync('tar', ['-xzf', path.join(packDir, tarball), '-C', path.join(workDir, 'extract')])
+    await runOrThrow('tar', ['-xzf', path.join(packDir, tarball), '-C', path.join(workDir, 'extract')], repoRoot)
     packedManifest = JSON.parse(readFileSync(path.join(workDir, 'extract', 'package', 'package.json'), 'utf8'))
   })
 
@@ -477,15 +478,15 @@ describe('@agentskit/angular packed type declarations', () => {
   })
 
   for (const resolution of ['bundler', 'node16']) {
-    test(`type-checks the public API under moduleResolution ${resolution}`, () => {
-      const result = runTsc(createConsumer(`ok-${resolution}`, resolution, packedManifest))
+    test(`type-checks the public API under moduleResolution ${resolution}`, async () => {
+      const result = await runTsc(createConsumer(`ok-${resolution}`, resolution, packedManifest))
       assert.ok(result.ok, result.output)
     })
 
-    test(`guard: fails with unresolved types under ${resolution} when exports omit types`, () => {
+    test(`guard: fails with unresolved types under ${resolution} when exports omit types`, async () => {
       const { types: _types, ...withoutTypes } = packedManifest.exports['.']
       const stripped = { ...packedManifest, exports: { '.': withoutTypes } }
-      const result = runTsc(createConsumer(`stripped-${resolution}`, resolution, stripped))
+      const result = await runTsc(createConsumer(`stripped-${resolution}`, resolution, stripped))
       assert.equal(result.ok, false, 'consumer unexpectedly type-checked without a types condition')
       assert.match(result.output, /TS7016|TS2307/)
     })
