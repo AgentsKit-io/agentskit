@@ -4,6 +4,22 @@
  */
 
 import assert from 'node:assert/strict'
+import { execFileSync, spawnSync } from 'node:child_process'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  realpathSync,
+  renameSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { describe, test } from 'node:test'
 import {
   buildValidationPlan,
@@ -378,6 +394,104 @@ describe('packed-consumer build scope', () => {
       { tasks: [{ task: 'test', package: '@agentskit/rag' }] },
       { tasks: [{ task: 'build' }] }, { tasks: [{ task: 'build', package: '' }] }]) {
       assert.throws(() => selectPackedConsumerPackages(packages, plan), /scope/)
+    }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// @agentskit/angular: the real packed tarball must expose types to TS consumers
+// ---------------------------------------------------------------------------
+
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const ANGULAR_ROOT = path.join(REPO_ROOT, 'packages', 'angular')
+
+function linkDep(nodeModules, name, source) {
+  const dest = path.join(nodeModules, name)
+  mkdirSync(path.dirname(dest), { recursive: true })
+  symlinkSync(realpathSync(source), dest, 'dir')
+}
+
+/** Pack angular, extract the tarball, optionally strip `types`, and tsc a consumer under both resolutions. */
+function typecheckPackedAngular({ stripTypes }) {
+  const work = mkdtempSync(path.join(tmpdir(), 'agentskit-angular-consumer-'))
+  try {
+    const tarballs = path.join(work, 'tarballs')
+    mkdirSync(tarballs)
+    execFileSync('pnpm', ['pack', '--pack-destination', tarballs], { cwd: ANGULAR_ROOT, stdio: 'pipe' })
+    const tgz = readdirSync(tarballs).find((name) => name.endsWith('.tgz'))
+    assert.ok(tgz, 'pnpm pack produced no tarball')
+
+    const extract = path.join(work, 'extract')
+    mkdirSync(extract)
+    execFileSync('tar', ['-xzf', path.join(tarballs, tgz), '-C', extract])
+
+    const consumer = path.join(work, 'consumer')
+    const nodeModules = path.join(consumer, 'node_modules')
+    mkdirSync(path.join(nodeModules, '@agentskit'), { recursive: true })
+    const pkgDir = path.join(nodeModules, '@agentskit', 'angular')
+    renameSync(path.join(extract, 'package'), pkgDir)
+
+    if (stripTypes) {
+      const manifestPath = path.join(pkgDir, 'package.json')
+      const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+      // Top-level `types` stays: bundler/node16 ignore it once `exports` exists (the 0.5.10 regression).
+      for (const condition of Object.values(manifest.exports ?? {})) {
+        if (condition && typeof condition === 'object') delete condition.types
+      }
+      writeFileSync(manifestPath, JSON.stringify(manifest, null, 2))
+    }
+
+    // Dependencies of the packed package come from the workspace install (hermetic, no registry).
+    const angularNm = path.join(ANGULAR_ROOT, 'node_modules')
+    linkDep(nodeModules, '@agentskit/core', path.join(REPO_ROOT, 'packages', 'core'))
+    for (const dep of ['@angular/core', 'rxjs', 'tslib']) linkDep(nodeModules, dep, path.join(angularNm, dep))
+
+    writeFileSync(
+      path.join(consumer, 'consumer.mts'),
+      "import { AgentskitChat } from '@agentskit/angular'\nexport const chat: typeof AgentskitChat = AgentskitChat\n",
+    )
+
+    const tsc = path.join(REPO_ROOT, 'node_modules', 'typescript', 'lib', 'tsc.js')
+    const results = {}
+    for (const [label, args] of [
+      ['bundler', ['--module', 'ESNext', '--moduleResolution', 'bundler']],
+      ['node16', ['--module', 'Node16', '--moduleResolution', 'node16']],
+    ]) {
+      const run = spawnSync(
+        process.execPath,
+        [tsc, '--noEmit', '--strict', '--target', 'ES2022', '--skipLibCheck', ...args, 'consumer.mts'],
+        { cwd: consumer, encoding: 'utf8' },
+      )
+      results[label] = { status: run.status, output: run.stdout + run.stderr }
+    }
+    return results
+  } finally {
+    rmSync(work, { recursive: true, force: true })
+  }
+}
+
+describe('@agentskit/angular packed tarball type resolution', () => {
+  test('ensures the angular dist exists', () => {
+    if (!existsSync(path.join(ANGULAR_ROOT, 'dist', 'types', 'agentskit-angular.d.ts'))) {
+      execFileSync('pnpm', ['exec', 'turbo', 'run', 'build', '--filter=@agentskit/angular', '--concurrency=2'], {
+        cwd: REPO_ROOT,
+        stdio: 'pipe',
+      })
+    }
+  })
+
+  test('resolves types under moduleResolution bundler and node16', () => {
+    const results = typecheckPackedAngular({ stripTypes: false })
+    for (const [label, result] of Object.entries(results)) {
+      assert.equal(result.status, 0, `${label}: ${result.output}`)
+    }
+  })
+
+  test('guard: fails with TS7016 when types are removed from the packed manifest', () => {
+    const results = typecheckPackedAngular({ stripTypes: true })
+    for (const [label, result] of Object.entries(results)) {
+      assert.notEqual(result.status, 0, `${label} unexpectedly type-checked without types`)
+      assert.match(result.output, /TS7016/, label)
     }
   })
 })

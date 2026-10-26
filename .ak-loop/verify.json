@@ -1,0 +1,15 @@
+{
+  "ranAt": "2026-10-26T16:00:00Z",
+  "command": "node --test scripts/packed-consumers.test.mjs; pnpm --filter @agentskit/angular test; pnpm check:publication-surface && pnpm check:public-api-snapshot; pnpm run lint; turbo test ./packages/* --concurrency=1",
+  "exitCode": 0,
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "exports['.'] has types first -> ./dist/types/agentskit-angular.d.ts, which exists after build; top-level types present"},
+    {"id": "o2", "status": "passed", "evidence": "node --test scripts/packed-consumers.test.mjs: 28 pass; guard test: with exports types stripped from packed manifest, bundler and node16 both fail with TS7016; with fix both pass"},
+    {"id": "o3", "status": "passed", "evidence": "pnpm --filter @agentskit/angular test: 26 tests passed"},
+    {"id": "o4", "status": "passed", "evidence": "publication surface check passed: 24 public, 3 private; public-api-snapshot: ok"},
+    {"id": "o5", "status": "passed", "evidence": ".changeset/angular-publish-types-exports.md names only @agentskit/angular: patch"},
+    {"id": "o6", "status": "passed", "evidence": "lint passed; package tests passed with turbo --concurrency=1 (54/54); full root test with concurrency=2 was killed exit 137 (docs/apps builds), so not run to completion"},
+    {"id": "o7", "status": "passed", "evidence": "pnpm docs:bridge:index ran; refreshed .doc-bridge committed"},
+    {"id": "o8", "status": "passed", "evidence": "single commit with required title; not pushed"}
+  ]
+}

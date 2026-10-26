@@ -1,0 +1,16 @@
+{
+  "project": [
+    {"id": "test-for-new-code", "status": "passed", "evidence": "scripts/packed-consumers.test.mjs changed (new angular packed-tarball type-resolution tests)"},
+    {"id": "no-todo", "status": "passed", "evidence": "no src/** files changed; no TODO/FIXME added"}
+  ],
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "types condition first in exports['.'] plus top-level types; target file exists after build"},
+    {"id": "o2", "status": "passed", "evidence": "node --test scripts/packed-consumers.test.mjs 28/28; before fix (types stripped) TS7016 under bundler and node16"},
+    {"id": "o3", "status": "passed", "evidence": "angular tests 26 passed"},
+    {"id": "o4", "status": "passed", "evidence": "publication-surface and public-api-snapshot pass"},
+    {"id": "o5", "status": "passed", "evidence": "changeset for @agentskit/angular only"},
+    {"id": "o6", "status": "passed", "evidence": "lint ok; package tests ok at concurrency=1; root full test killed 137 at concurrency=2"},
+    {"id": "o7", "status": "passed", "evidence": "docs:bridge:index regenerated and committed"},
+    {"id": "o8", "status": "passed", "evidence": "single commit, not pushed"}
+  ]
+}
