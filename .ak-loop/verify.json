@@ -1,0 +1,13 @@
+{
+  "ranAt": "2026-10-26T10:00:00Z",
+  "command": "pnpm install --lockfile-only",
+  "exitCode": 0,
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "vitest and @vitest/coverage-v8 bumped to ^5.0.5 in 34 package.json files"},
+    {"id": "o2", "status": "failed", "evidence": "typescript ^7.0.2 everywhere; no hold-back decided because no real build ran. Unmet peers: typedoc 0.28.20, @angular/compiler-cli 21.2.25, ng-packagr 21.2.7, rollup-plugin-dts 6.4.1, svelte2tsx 0.7.62. Install blocked by ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY; CI=true, env and --config flags denied by the task allowlist."},
+    {"id": "o3", "status": "failed", "evidence": "lockfile regenerated with --lockfile-only; frozen install not run (install blocked, see o2)"},
+    {"id": "o4", "status": "failed", "evidence": "not run (install blocked)"},
+    {"id": "o5", "status": "failed", "evidence": "not run (install blocked)"},
+    {"id": "o6", "status": "failed", "evidence": "not run (install blocked)"}
+  ]
+}

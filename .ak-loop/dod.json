@@ -1,0 +1,10 @@
+{
+  "project": [
+    {"id": "test-for-new-code", "status": "failed", "evidence": "no test file changed; toolchain could not be installed to verify"},
+    {"id": "no-todo", "status": "passed", "evidence": "only package.json files and pnpm-lock.yaml changed; no src files touched"}
+  ],
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "34 package.json files at ^5.0.5"},
+    {"id": "o9", "status": "passed", "evidence": "no changeset added; devDependencies only"}
+  ]
+}
