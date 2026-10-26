@@ -1,0 +1,9 @@
+fix(angular): publish type declarations in package exports
+
+Add a types condition first on the angular root export so TypeScript
+consumers on moduleResolution bundler or node16 resolve its declarations.
+Guard it with a packed-tarball consumer test that fails with TS7016 when
+the types condition is removed. Refresh the public API snapshot and the
+doc-bridge index. Refs #1874.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
