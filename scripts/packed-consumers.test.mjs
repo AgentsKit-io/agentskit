@@ -240,6 +240,29 @@ describe('exception handling and mode derivation', () => {
     assert.ok(!modes.some((m) => m.mode === 'esm' || m.mode === 'cjs'))
   })
 
+  test('angular root export is typechecked by the consumer fixtures', () => {
+    const plan = buildValidationPlan('@agentskit/angular', {
+      exports: {
+        '.': {
+          types: './dist/types/agentskit-angular.d.ts',
+          import: './dist/fesm2022/agentskit-angular.mjs',
+        },
+      },
+    })
+    assert.equal(shouldTypecheckEntry(plan[0]), true)
+  })
+
+  test('angular source manifest declares types first in every export', async () => {
+    const { readFile } = await import('node:fs/promises')
+    const manifest = JSON.parse(
+      await readFile(new URL('../packages/angular/package.json', import.meta.url), 'utf8'),
+    )
+    assert.equal(typeof manifest.types, 'string')
+    for (const [subpath, entry] of Object.entries(manifest.exports)) {
+      assert.equal(Object.keys(entry)[0], 'types', `${subpath} must list types first`)
+    }
+  })
+
   test('svelte is structural in Node; optional peer eval subpaths remain import-checked', () => {
     const svelteModes = deriveModesForExport(
       { types: './dist/index.d.ts', import: './dist/index.js', svelte: './dist/index.js' },

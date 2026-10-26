@@ -1,0 +1,16 @@
+{
+  "ranAt": "2026-10-26T15:35:00Z",
+  "command": "node --test scripts/packed-consumers.test.mjs && node scripts/check-packed-consumers.mjs",
+  "exitCode": 0,
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "exports['.'] keys start with types -> ./dist/types/agentskit-angular.d.ts (exists after build); top-level types retained"},
+    {"id": "o2", "status": "passed", "evidence": "after: typecheck=74 (TS 5.9:bundler=ok,NodeNext=ok; TS 6.0:bundler=ok,NodeNext=ok). before (types removed): 4 failures TS7016 for TS 5.9/6.0 x bundler/NodeNext"},
+    {"id": "o3", "status": "passed", "evidence": "node --test scripts/packed-consumers.test.mjs: 27 pass, 0 fail; check-packed-consumers already part of publication-contract checks"},
+    {"id": "o4", "status": "passed", "evidence": "pnpm --filter @agentskit/angular test: 26 passed"},
+    {"id": "o5", "status": "passed", "evidence": ".changeset/angular-types-exports.md: '@agentskit/angular': patch"},
+    {"id": "o6", "status": "passed", "evidence": "publication surface check passed: 24 public, 3 private; public API baseline refreshed (angular '.' conditions now import,types)"},
+    {"id": "o7", "status": "passed", "evidence": "pnpm run lint passes; full pnpm run build/test OOM-killed (137) in sandbox, so built packages with turbo --concurrency=2 (27 successful) and ran affected suites"},
+    {"id": "o8", "status": "passed", "evidence": "pnpm docs:bridge:index run, artifacts committed; check:quality-gates not fully run (known unrelated: models.dev snapshot freshness, release-registry drift)"},
+    {"id": "o9", "status": "passed", "evidence": "single commit, not pushed"}
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "project": [
+    {"id": "test-for-new-code", "status": "passed", "evidence": "changed scripts/packed-consumers.test.mjs (2 new tests)"},
+    {"id": "no-todo", "status": "passed", "evidence": "no changed file under src/** ; no TODO/FIXME added"}
+  ],
+  "outcomes": [
+    {"id": "o1", "status": "passed", "evidence": "types first in exports['.'] plus top-level types; file exists in dist"},
+    {"id": "o2", "status": "passed", "evidence": "before: 4x TS7016; after: typecheck=74 all ok (TS 5.9/6.0, bundler/NodeNext)"},
+    {"id": "o3", "status": "passed", "evidence": "27 unit tests pass"},
+    {"id": "o4", "status": "passed", "evidence": "26 angular tests pass"},
+    {"id": "o5", "status": "passed", "evidence": ".changeset/angular-types-exports.md"},
+    {"id": "o6", "status": "passed", "evidence": "publication-surface passed; snapshot baseline updated"},
+    {"id": "o7", "status": "passed", "evidence": "lint passes; full build/test OOM in sandbox, run per-package at lower concurrency"},
+    {"id": "o8", "status": "passed", "evidence": "doc-bridge refreshed and committed; quality gates not fully run"},
+    {"id": "o9", "status": "passed", "evidence": "single commit, not pushed"}
+  ]
+}
