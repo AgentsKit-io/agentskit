@@ -1,0 +1,17 @@
+{
+  "ranAt": "2026-10-26T05:00:00Z",
+  "command": "pnpm install --lockfile-only --no-frozen-lockfile",
+  "exitCode": 0,
+  "outcomes": [
+    {"id": "o1", "status": "failed", "evidence": "Manifests bumped to typescript ^7.0.2 and vitest/@vitest/coverage-v8 ^5.0.5. pnpm reports unmet typescript 7 peers from typedoc 0.28.20, @angular/compiler-cli 21.2.25, ng-packagr 21.2.7, rollup-plugin-dts 6.4.1, svelte2tsx 0.7.62; hold-backs not evaluated because nothing could be built."},
+    {"id": "o2", "status": "failed", "evidence": "NOT RUN: pnpm install aborts with ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY; task allowlist denies rm of node_modules, CI=true prefix and --config.* flags. Lockfile regenerated with --lockfile-only only."},
+    {"id": "o3", "status": "failed", "evidence": "NOT RUN: no installable node_modules (see o2)."},
+    {"id": "o4", "status": "failed", "evidence": "NOT RUN: no installable node_modules (see o2)."},
+    {"id": "o5", "status": "failed", "evidence": "NOT RUN: no installable node_modules (see o2)."},
+    {"id": "o6", "status": "failed", "evidence": "NOT RUN: no installable node_modules (see o2)."},
+    {"id": "o7", "status": "failed", "evidence": "NOT RUN: no installable node_modules (see o2)."},
+    {"id": "o8", "status": "passed", "evidence": "No tsconfig, test or source files changed; diff only touches package.json files and pnpm-lock.yaml."},
+    {"id": "o9", "status": "passed", "evidence": "Commits: chore(deps): typescript 7; chore(deps): vitest 5. No changeset (devDependencies only). Nothing pushed."},
+    {"id": "o10", "status": "failed", "evidence": "Report incomplete: no verification possible."}
+  ]
+}

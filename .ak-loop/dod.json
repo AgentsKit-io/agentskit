@@ -1,0 +1,10 @@
+{
+  "project": [
+    {"id": "test-for-new-code", "status": "failed", "evidence": "No test file changed; dependency bump only, unverified."},
+    {"id": "no-todo", "status": "passed", "evidence": "No files under src/ changed."}
+  ],
+  "outcomes": [
+    {"id": "o8", "status": "passed", "evidence": "Diff touches only package.json files and pnpm-lock.yaml."},
+    {"id": "o9", "status": "passed", "evidence": "Two conventional commits, no changeset, nothing pushed."}
+  ]
+}
