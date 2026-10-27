@@ -6,8 +6,7 @@ metadata:
   type: project
 ---
 
-**Fact:** A full 24-package v1.0-readiness audit ran 2026-06-15 (findings +
-phased plan in `docs/studies/v1-readiness-audit.md`). Verdict: code quality is
+**Fact:** A full 24-package v1.0-readiness audit ran 2026-06-15. Verdict: code quality is
 high; the blocker to a coherent v1.0 was **governance drift**, not code.
 
 **Phase 0 landed (truth + guardrails):**
@@ -41,8 +40,8 @@ react's `data-ak-*` contract, 100% component coverage. v1.0.0 criteria now track
 in `docs/V1-READINESS-TRACKER.md` (linked from STABILITY.md). Pattern to replicate:
 svelte → solid → react-native → angular, then promote each.
 
-Stale planning docs (ROADMAP-PRD, MASTER-EXECUTION-PLAN, PHASE-0-*) marked
-"historical" with banners → living sources STABILITY.md + V1-READINESS-TRACKER.
+Stale planning docs were deleted (history keeps them); ROADMAP-PRD is marked
+"historical" → living sources STABILITY.md + V1-READINESS-TRACKER.
 
 **svelte promoted to beta (2026-06-15):** full headless component parity — 8
 Svelte 5 `.svelte` components + sibling `.svelte.d.ts`. Build: added `esbuild-svelte`
