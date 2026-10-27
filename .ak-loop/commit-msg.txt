@@ -1,0 +1,13 @@
+chore: remove Vercel deploy configuration
+
+Cloudflare serves every live site, so the Vercel deploy config is dead.
+
+Removes the vercel.json files, .vercelignore, the docs:deploy scripts, the
+Vercel preview and bypass handling in the Lighthouse workflow, and the
+@vercel/analytics and @vercel/speed-insights packages from docs-next.
+indexnow now runs on a daily schedule or manual dispatch. Doc Bridge index
+and README-standard source hashes are regenerated; review dates unchanged.
+
+Refs #1854
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
