@@ -44,22 +44,41 @@ export interface TunnelController {
   requests: () => number
 }
 
+type TunnelOpen = NonNullable<TunnelOptions['open']>
+
+/**
+ * Lazily load the optional `localtunnel` peer. Throws an install hint
+ * (not a stack trace) when it is not installed.
+ *
+ * @param importer module loader, overridable for tests
+ */
+export async function loadLocaltunnel(
+  importer: (specifier: string) => Promise<unknown> = (s) => import(s),
+): Promise<TunnelOpen> {
+  let mod: { default?: unknown }
+  try {
+    mod = (await importer('localtunnel')) as { default?: unknown }
+  } catch {
+    throw new Error(
+      'The tunnel command needs the optional "localtunnel" package. ' +
+        'Install it with: npm install -g localtunnel (or pnpm add localtunnel in your project).',
+    )
+  }
+  const lt = mod.default as (opts: unknown) => Promise<TunnelLike>
+  return (opts) => lt(opts)
+}
+
 /**
  * Open a public tunnel to a local port.
  *
- * Uses `localtunnel` by default — no account required, free, URL is
- * something like `https://word-word-12345.loca.lt`. First-time visitors
- * may see a `loca.lt` interstitial click-through; that's a known
- * provider quirk, not an AgentsKit issue.
+ * Uses `localtunnel` (optional peer, loaded lazily) by default — no account
+ * required, free, URL is something like `https://word-word-12345.loca.lt`.
+ * First-time visitors may see a `loca.lt` interstitial click-through; that's
+ * a known provider quirk, not an AgentsKit issue.
  */
 export async function startTunnel(options: TunnelOptions): Promise<TunnelController> {
   const stdout = options.stdout ?? process.stdout
-  const open =
-    options.open ??
-    (async (opts) => {
-      const lt = (await import('localtunnel')).default
-      return (await lt(opts)) as TunnelLike
-    })
+  const open = options.open ?? (await loadLocaltunnel())
 
   const banner = (msg: string, color: 'green' | 'yellow' | 'red' | 'cyan' = 'green') => {
     const time = new Date().toTimeString().slice(0, 8)

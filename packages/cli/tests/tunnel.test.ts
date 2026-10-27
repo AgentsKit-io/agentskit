@@ -1,6 +1,22 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { EventEmitter } from 'node:events'
-import { startTunnel, type TunnelLike } from '../src/tunnel'
+import { loadLocaltunnel, startTunnel, type TunnelLike } from '../src/tunnel'
+
+describe('loadLocaltunnel', () => {
+  it('throws an install hint when localtunnel is missing', async () => {
+    const importer = vi.fn().mockRejectedValue(new Error('Cannot find package'))
+    await expect(loadLocaltunnel(importer)).rejects.toThrow(/npm install -g localtunnel/)
+    expect(importer).toHaveBeenCalledWith('localtunnel')
+  })
+
+  it('lazily loads the provider and forwards options', async () => {
+    const fake = { url: 'https://x.loca.lt', on: vi.fn(), close: vi.fn() }
+    const lt = vi.fn().mockResolvedValue(fake)
+    const open = await loadLocaltunnel(async () => ({ default: lt }))
+    await expect(open({ port: 1 })).resolves.toBe(fake)
+    expect(lt).toHaveBeenCalledWith({ port: 1 })
+  })
+})
 
 class FakeTunnel extends EventEmitter implements TunnelLike {
   url: string
