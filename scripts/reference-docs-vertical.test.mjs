@@ -77,27 +77,21 @@ test('the shared ecosystem bar derives the six public products from PROPS', () =
   assert.doesNotMatch(props, /playbook/)
 })
 
-test('Lighthouse keeps the Vercel bypass out of audited URLs', () => {
+test('Lighthouse audits the local production build without a deploy preview', () => {
   const workflow = read('.github/workflows/lighthouse.yml')
-  const config = read('apps/docs-next/lighthouserc.cjs')
 
-  assert.doesNotMatch(workflow, /x-vercel-protection-bypass=\$\{BYPASS\}/)
-  assert.match(workflow, /configPath: \.\/apps\/docs-next\/lighthouserc\.cjs/)
-  assert.match(workflow, /if: always\(\) && steps\.target\.outputs\.url != ''/)
+  assert.doesNotMatch(workflow, /vercel/i)
   assert.match(workflow, /pnpm --filter @agentskit\/docs-next\.\.\. build/)
   assert.match(workflow, /http:\/\/127\.0\.0\.1:3000/)
-  assert.match(workflow, /Preview protection did not preserve the expected origin/)
-  assert.match(workflow, /steps\.usable_preview\.outputs\.url == ''/)
-  assert.match(workflow, /EXPECTED_ORIGIN: \$\{\{ steps\.target\.outputs\.url \}\}/)
+  assert.match(workflow, /if: always\(\) && steps\.local\.outputs\.url != ''/)
+  assert.match(workflow, /EXPECTED_ORIGIN: \$\{\{ steps\.local\.outputs\.url \}\}/)
   assert.match(workflow, /Lighthouse did not produce a report manifest/)
-  assert.match(config, /'x-vercel-protection-bypass': bypass/)
-  assert.match(config, /extraHeaders/)
 })
 
 test('Lighthouse rejects authentication redirects and empty manifests', () => {
   const reports = new Map([
     ['/tmp/site.json', JSON.stringify({ finalUrl: 'https://preview.example/docs' })],
-    ['/tmp/login.json', JSON.stringify({ finalUrl: 'https://vercel.com/login?secret=redacted' })],
+    ['/tmp/login.json', JSON.stringify({ finalUrl: 'https://login.example/login?secret=redacted' })],
   ])
   const readReport = (path) => reports.get(path)
 
@@ -112,7 +106,7 @@ test('Lighthouse rejects authentication redirects and empty manifests', () => {
     readReport,
   ), {
     expectedOrigin: 'https://preview.example',
-    actualOrigins: ['https://vercel.com'],
+    actualOrigins: ['https://login.example'],
     valid: false,
   })
   assert.throws(() => validateLighthouseManifest([], 'https://preview.example', readReport), /manifest is empty/)

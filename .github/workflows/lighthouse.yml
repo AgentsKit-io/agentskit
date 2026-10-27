@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  deployments: read
   pull-requests: write
 
 concurrency:
@@ -23,78 +22,21 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      # Vercel previews may have Deployment Protection enabled. Read the URL
-      # from the deployments API, then let Lighthouse send the automation
-      # bypass as a header so report artifacts never retain the secret.
-      - name: Resolve Vercel preview URL
-        id: preview
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          set -eu
-          for i in $(seq 1 12); do
-            deployment=$(gh api "repos/${GITHUB_REPOSITORY}/deployments?sha=${SHA}&per_page=50" \
-              --jq '[.[] | select((.environment // "") | test("[Pp]review"))] | .[0]' 2>/dev/null || echo '{}')
-            statuses_url=$(printf '%s' "$deployment" | jq -r '.statuses_url // empty')
-            if [ -n "$statuses_url" ]; then
-              target=$(gh api "$statuses_url" \
-                --jq '[.[] | select(.state=="success") | .environment_url] | .[0] // empty' 2>/dev/null || echo "")
-              if [ -n "$target" ]; then
-                echo "url=$target" >> "$GITHUB_OUTPUT"
-                echo "found preview: $target"
-                exit 0
-              fi
-            fi
-            echo "attempt $i: preview not ready yet"
-            sleep 10
-          done
-          echo "::notice::No Vercel preview deployment resolved within 2 minutes — using a local production build."
-
-      - name: Verify preview accessibility
-        id: usable_preview
-        env:
-          PREVIEW_URL: ${{ steps.preview.outputs.url }}
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-        run: |
-          set -eu
-          if [ -z "$PREVIEW_URL" ]; then
-            exit 0
-          fi
-          headers=()
-          if [ -n "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
-            headers+=(--header "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET")
-            headers+=(--header "x-vercel-set-bypass-cookie: true")
-          fi
-          final=$(curl --location --silent --show-error --output /dev/null --write-out '%{url_effective}' "${headers[@]}" "$PREVIEW_URL" || true)
-          expected_origin=$(node -e 'console.log(new URL(process.argv[1]).origin)' "$PREVIEW_URL")
-          actual_origin=$(node -e 'try { console.log(new URL(process.argv[1]).origin) } catch { console.log("invalid-origin") }' "$final")
-          if [ "$actual_origin" = "$expected_origin" ]; then
-            echo "url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
-          else
-            echo "::notice::Preview protection did not preserve the expected origin — using a local production build."
-          fi
-
       - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v4
-        if: steps.usable_preview.outputs.url == ''
 
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
-        if: steps.usable_preview.outputs.url == ''
         with:
           node-version: 22
           cache: pnpm
 
-      - name: Install dependencies for local fallback
-        if: steps.usable_preview.outputs.url == ''
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build local production fallback
-        if: steps.usable_preview.outputs.url == ''
+      - name: Build local production bundle
         run: pnpm --filter @agentskit/docs-next... build
 
-      - name: Start local production fallback
+      - name: Start local production server
         id: local
-        if: steps.usable_preview.outputs.url == ''
         run: |
           set -eu
           pnpm --filter @agentskit/docs-next exec next start --hostname 127.0.0.1 --port 3000 > "$RUNNER_TEMP/docs-next.log" 2>&1 &
@@ -108,17 +50,10 @@ jobs:
           cat "$RUNNER_TEMP/docs-next.log"
           exit 1
 
-      - name: Select Lighthouse target
-        id: target
-        env:
-          PREVIEW_URL: ${{ steps.usable_preview.outputs.url }}
-          LOCAL_URL: ${{ steps.local.outputs.url }}
-        run: echo "url=${PREVIEW_URL:-$LOCAL_URL}" >> "$GITHUB_OUTPUT"
-
       - name: Build Lighthouse URL list
         id: urls
         env:
-          BASE: ${{ steps.target.outputs.url }}
+          BASE: ${{ steps.local.outputs.url }}
         run: |
           set -eu
           paths="/ /docs /docs/get-started/getting-started/quickstart /stack /showcase"
@@ -133,25 +68,22 @@ jobs:
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
         id: lhci
-        env:
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         with:
           urls: ${{ steps.urls.outputs.urls }}
-          configPath: ./apps/docs-next/lighthouserc.cjs
           runs: 1
           uploadArtifacts: true
           temporaryPublicStorage: true
 
       - name: Validate audited destinations
         id: destinations
-        if: always() && steps.target.outputs.url != ''
+        if: always() && steps.local.outputs.url != ''
         env:
-          EXPECTED_ORIGIN: ${{ steps.target.outputs.url }}
+          EXPECTED_ORIGIN: ${{ steps.local.outputs.url }}
           LH_MANIFEST: ${{ steps.lhci.outputs.manifest }}
         run: node scripts/validate-lighthouse-manifest.mjs
 
       - name: Post Lighthouse summary
-        if: always() && steps.target.outputs.url != ''
+        if: always() && steps.local.outputs.url != ''
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           LH_MANIFEST: ${{ steps.lhci.outputs.manifest }}
@@ -164,9 +96,9 @@ jobs:
                 '## Lighthouse',
                 '',
                 manifest
-                  ? 'Audit rejected: the collected page did not remain on the selected Lighthouse target origin.'
+                  ? 'Audit rejected: the collected page did not remain on the local production origin.'
                   : 'Audit rejected: Lighthouse did not produce a report manifest.',
-                'Check the preview protection or local production fallback, then rerun this workflow.',
+                'Check the production build and server log in this run, then rerun this workflow.',
               ].join('\n')
               const prNumber = context.payload.pull_request?.number
               if (!prNumber) return
@@ -185,11 +117,10 @@ jobs:
               console.log('Could not parse manifest:', err.message)
               return
             }
-            const redact = (u) => String(u).replace(/([?&])x-vercel-protection-bypass=[^&]+/g, '$1x-vercel-protection-bypass=<redacted>')
             const pct = (n) => (typeof n === 'number' ? Math.round(n * 100) : '—')
             const rows = entries.map((e) => {
               const s = e.summary ?? {}
-              return `| ${redact(e.url)} | ${pct(s.performance)} | ${pct(s.accessibility)} | ${pct(s['best-practices'])} | ${pct(s.seo)} |`
+              return `| ${e.url} | ${pct(s.performance)} | ${pct(s.accessibility)} | ${pct(s['best-practices'])} | ${pct(s.seo)} |`
             })
             const body = [
               '## Lighthouse',

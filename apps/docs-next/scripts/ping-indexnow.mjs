@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Pushes every sitemap URL to IndexNow (Bing, Yandex, DuckDuckGo, Ecosia, ...).
-// Runs after the Vercel deploy lands so the live sitemap reflects the new build.
+// Runs from .github/workflows/indexnow.yml to push the live sitemap to IndexNow.
 //
 // Env:
 //   SITE          override site origin (default https://www.agentskit.io)

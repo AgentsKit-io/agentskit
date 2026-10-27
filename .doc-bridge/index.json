@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "dc9fe5e9beded7091d00c6a2e99f0629bd2f706d91a5fad443e20ef5a4e42e24",
+  "contentHash": "7a1214abf40cb67f7f5389aff236da748b4673cc60c408cbd90fa7d4cf227efc",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-24T02:23:43.693Z",
+  "generatedAt": "2026-10-24T21:11:01.652Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5343,7 +5343,7 @@
         "document",
         "project"
       ],
-      "contentHash": "0eda1e7af31c228d3a8fc58cfab5f69d183f015334060f459a3a5589c82c4971"
+      "contentHash": "092379b99872a0e2f586b383bacb39136b9cba9ff885b5beddc773b61352b285"
     },
     {
       "id": "document:apps/registry/AGENTS.md",
@@ -5523,7 +5523,7 @@
         "document",
         "project"
       ],
-      "contentHash": "cce1c7349858e6b15d6166cc6c2ef4a26af271ae47bf318e23e1cb0d5ca8a654"
+      "contentHash": "f3024501ac068795e05969896f8315d96f93319ae7a67ce97f28fc04f7ac4cbe"
     },
     {
       "id": "document:apps/visual-react/README.md",
@@ -7838,7 +7838,7 @@
         "document",
         "project"
       ],
-      "contentHash": "b8251f0e141bdd1e28ebd41982e3f3fc7ad479313c152820ff5472c6e36203b5"
+      "contentHash": "450e8ee623728dcc9d5290d3b5b297b283a5cb1424de5f74471f98a67a95f9d8"
     },
     {
       "id": "document:SUPPORT.md",
@@ -8813,7 +8813,7 @@
         "tsx",
         "app"
       ],
-      "contentHash": "d119bb168c72d8783095a01b6fa09040bd12cc580797ed295ac76cf041f9b44e"
+      "contentHash": "9b583020754f30951f9d6df28a8f2127f00abccb41dac537bc532e86472739ea"
     },
     {
       "id": "module:apps/docs-next/app/learn/[step]/page.tsx",
@@ -11377,18 +11377,6 @@
       "contentHash": "44b0cd98004cf041ff004be7dcecd1f5707020e5d64e09d9df492c0ac718d799"
     },
     {
-      "id": "module:apps/docs-next/lighthouserc.cjs",
-      "type": "module",
-      "title": "lighthouserc.cjs",
-      "path": "apps/docs-next/lighthouserc.cjs",
-      "tags": [
-        "module",
-        "cjs",
-        "docs-next"
-      ],
-      "contentHash": "f5e332df7f307eacef92722bdab2e1672df50f3113cc63c134a7d7fe73106025"
-    },
-    {
       "id": "module:apps/docs-next/mdx-components.tsx",
       "type": "module",
       "title": "mdx-components.tsx",
@@ -11416,7 +11404,7 @@
         "mjs",
         "docs-next"
       ],
-      "contentHash": "4070007b89bba20ef23e9ffe704f250fc2ea7b14a92608522b9f632fc936a3c2"
+      "contentHash": "e29e38ea5f55de1e40459e59f472abd83316e854738f40387e618c4e8c02c8c3"
     },
     {
       "id": "module:apps/docs-next/postcss.config.mjs",
@@ -11611,7 +11599,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "27923f62a33d5070420bdf3ab51ef80f8a53a21c8568624eec2478461d15724b"
+      "contentHash": "395d460f064b824806b39dd7d51e3594b7c7b09b30e3214bbd7a84ab4695b023"
     },
     {
       "id": "module:apps/docs-next/scripts/verify-api-consolidation.mjs",
@@ -12711,7 +12699,7 @@
         "mjs",
         "landing"
       ],
-      "contentHash": "c477543338ed21fe7ea804975cf3debd833c2ee817fd21b41e2e7c272af44f1b"
+      "contentHash": "a045f2b62dc869852b3134f55df6ea3d9695fb4b25f5bec00d1233eab3e86538"
     },
     {
       "id": "module:apps/landing/postcss.config.mjs",
@@ -37151,7 +37139,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "bafb72fd9c6baad700b7cda9b6f0ca8e1ac276a266f3cc2a86fa6b61981f011b"
+      "contentHash": "1e68a6ed84ddcb6a88d0b67fc8a1b1ee5eafb183ad2a7ee2dd878947dbbff492"
     },
     {
       "id": "module:scripts/refresh-readme-standard.mjs",
@@ -37411,7 +37399,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "2a67fdbbed54b19ff27bff6f4e3666e4a75917592c724374d1419716b84c2821"
+      "contentHash": "cb1d0e56a47e9d3760b53b879c70ebcadfc3ce8d98529c26bcf44c2f181a202e"
     },
     {
       "id": "module:scripts/verify-launch-demo.mjs",
@@ -38697,8 +38685,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "fa4605bea9f4a23139d346b229cbabf4cc9ab54384c273727d1cd4457486bb72",
-    "fileCount": 2656,
+    "hash": "2f67bbadac501dc63d0ebdcdb156009429b1d30003bd3d63eaa403323d74b2fa",
+    "fileCount": 2652,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38720,9 +38708,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "9536373ff31af839d7fccf0726dfeb4637536faeaddca84f4121301096dc2026",
+    "contentHash": "a6b1865c289abdbc3f5007522fba55eb1fb546e18911e0bc98100fa61c04e21d",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "28866690406a74f4fb58bad1cbf5416231e0d9f4ab85dfa83d6d9cf80cad0e1a",
+    "snapshotHash": "39734dee2512a2252b031d6a8cd2037fd7fe31b344dae2bc69213549fcfd8091",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38742,7 +38730,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2525,
+      "documentCount": 2524,
       "fieldNames": [
         "aliases",
         "body",
@@ -38753,13 +38741,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0154455445544555,
-        "body": 61.715643564356434,
-        "headings": 4.009108910891089,
-        "path": 7.614257425742574,
-        "summary": 4.541782178217821,
-        "symbols": 7.50059405940594,
-        "title": 3.3786138613861385
+        "aliases": 3.0146592709984152,
+        "body": 61.72622820919176,
+        "headings": 4.009904912836767,
+        "path": 7.614896988906498,
+        "summary": 4.543581616481775,
+        "symbols": 7.503565768621236,
+        "title": 3.379160063391442
       }
     },
     "entries": [
@@ -39155,7 +39143,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "424c0ef4d5090a15f978d863a7b95ef0d7d552fba5a9a2682b18e26750b1a371",
+        "contentHash": "d3c183fed7797bc923e975af4d17770a640aa8a41baf3534a67d5d56133d6795",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -67910,7 +67898,7 @@
           "path": "apps/landing/README.md",
           "symbols": "",
           "summary": "Profile: <code>public-app</code>",
-          "body": "landing Profile: <code public-app</code Verified proof - App package lives at apps/landing . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/landing Profile: <code public-app</code Standalone Next.js 16 landing page for AgentsKit — issue (P0.19). Independent from apps/docs-next . The Cloudflare Worker agentskit-docs , built from apps/docs-next with vinext, serves the public domain and /docs ; this standalone app is not mapped to www.agentskit.io . Treat apps/docs-next as the production owner until routing is deliberately changed. All LINKS.docs URLs use the /docs path. Stack - Next.js 16 (App Router, standalone output) - React 19 - Tailwind CSS v4 (PostCSS plugin) - Zero dependencies on workspace packages — pure marketing surface, no MDX, no SDK examples that drag the agent runtime into the bundle. Develop Opens on http://127.0.0.1:4180. Build / start Structure Add a new section by writing it under app/ components/ and dropping it into app/page.tsx . Keep the file count low; this surface is intentionally narrow. Design tokens Defined in app/globals.css under @theme : token value --- --- --color-bg 0a0a0b --color-bg-soft 131316 --color-fg f5f5f7 --color-accent 7c5cff --color-accent-soft a690ff Mirror updates here into apps/docs-next/styles/ if cross-surface visual consistency is needed. Deploy - Vercel (default): no extra flags. The vercel.json here installs with --frozen-lockfile and uses an ignoreCommand scoped to apps/landing + the workspace lockfile so unrelated commits don't trigger a rebuild. - Self-hosted (Cloudflare Pages, Node server, Docker): set NEXT OUTPUT STANDALONE=1 to switch Next to output: 'standalone' . Avoid this on Vercel — it bypasses ISR / Edge Functions / Image Optimization.",
+          "body": "landing Profile: <code public-app</code Verified proof - App package lives at apps/landing . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/landing Profile: <code public-app</code Standalone Next.js 16 landing page for AgentsKit — issue (P0.19). Independent from apps/docs-next . The Cloudflare Worker agentskit-docs , built from apps/docs-next with vinext, serves the public domain and /docs ; this standalone app is not mapped to www.agentskit.io . Treat apps/docs-next as the production owner until routing is deliberately changed. All LINKS.docs URLs use the /docs path. Stack - Next.js 16 (App Router, standalone output) - React 19 - Tailwind CSS v4 (PostCSS plugin) - Zero dependencies on workspace packages — pure marketing surface, no MDX, no SDK examples that drag the agent runtime into the bundle. Develop Opens on http://127.0.0.1:4180. Build / start Structure Add a new section by writing it under app/ components/ and dropping it into app/page.tsx . Keep the file count low; this surface is intentionally narrow. Design tokens Defined in app/globals.css under @theme : token value --- --- --color-bg 0a0a0b --color-bg-soft 131316 --color-fg f5f5f7 --color-accent 7c5cff --color-accent-soft a690ff Mirror updates here into apps/docs-next/styles/ if cross-surface visual consistency is needed. Deploy - Self-hosted (Cloudflare Pages, Node server, Docker): set NEXT OUTPUT STANDALONE=1 to switch Next to output: 'standalone' .",
           "aliases": "document project"
         },
         "graph": {
@@ -67952,7 +67940,7 @@
             }
           ]
         },
-        "contentHash": "0eda1e7af31c228d3a8fc58cfab5f69d183f015334060f459a3a5589c82c4971",
+        "contentHash": "092379b99872a0e2f586b383bacb39136b9cba9ff885b5beddc773b61352b285",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68511,11 +68499,11 @@
         ],
         "fields": {
           "title": "registry",
-          "headings": "registry Verified proof Install / run Quick start Maturity and compatibility Contributing Ecosystem @agentskit/registry-app Product analytics Deploy (Vercel) Local AgentsKit Chat dogfood",
+          "headings": "registry Verified proof Install / run Quick start Maturity and compatibility Contributing Ecosystem @agentskit/registry-app Product analytics Local AgentsKit Chat dogfood",
           "path": "apps/registry/README.md",
           "symbols": "",
           "summary": "Profile: <code>public-app</code>",
-          "body": "registry Profile: <code public-app</code Verified proof - App package lives at apps/registry . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/registry-app Profile: <code public-app</code The fumadocs site for the AgentsKit agent registry — deployed to registry.agentskit.io . The app loads the shared AgentsKit shell ( /shell/v1.js and /shell/v1.css from NEXT PUBLIC AGENTSKIT SHELL ORIGIN , default https://www.agentskit.io ): the ecosystem bar and tour, a Registry-blue <agentskit-aurora on the home, and <agentskit-footer on every page. Registry keeps no copy of the shell; to review local shell changes, run docs-next on port 3000 and start Registry with NEXT PUBLIC AGENTSKIT SHELL ORIGIN=http://localhost:3000 . Fumadocs provides the local navigation and search; documentation routes keep a solid, calm background. - / — agent gallery with search, filters, ordering, and comparison selection, SSG. - /agents/[id] — per-agent page, generated at build from the committed index in the repo (raw GitHub). The agent source stays decoupled (RFC 0002). - /compare?agents=<id ,<id — temporary, shareable comparison workspace ( noindex ). - /docs/using , /docs/authoring , /docs/contributing — guides. Product analytics North star: weekly visitors who copy at least one agent install command. The Registry uses the shared PostHog project, but sends only explicit product events. Autocapture, session recording, exception capture, and person profiles are disabled. Captured URLs are reduced to their pathname before sending, so free-form search text never leaves the browser. Agent IDs and other structured catalog choices are sent only through the explicit events below. Event Trigger Decision it supports --- --- --- registry agent opened An agent detail page renders Which agents move discovery forward? registry catalog search used Search settles for 700 ms Does search return useful coverage? registry catalog filter changed A structured filter changes Which qualification paths matter? registry compare selection changed Comparison selection changes Where does comparison become difficult? registry comparison opened A valid comparison renders Which agents are evaluated together? registry install command copied An install command is copied Did the visit reach activation? registry agent feedback submitted A visitor rates an agent as helpful or not helpful Which opened agents need quality review? Search events contain only a coarse query-length bucket and result count, never the query. Suggested PostHog funnel: registry agent opened or registry comparison opened → registry install command copied , segmented by copy surface. Review this funnel weekly; use search zero-result counts and comparison drop-off to prioritize catalog improvements. Agent feedback contains only the agent ID and the structured response. Comments, issue bodies, and page query strings are never captured. Review the helpful rate alongside agent opens and install copies to prioritize investigation without treating low-volume agents as low-quality by default. Deploy (Vercel) Import the agentskit monorepo, set Root Directory = apps/registry , Framework = Next.js. Point registry.agentskit.io at the project. Local AgentsKit Chat dogfood The floating Ask Registry surface consumes the stable npm package @agentskit/chat at exact version 0.4.1 , using its /protocol and /react subpaths. This app owns only the registry corpus, NEXT PUBLIC ASK ENDPOINT (the widget is disabled when unset), Registry branding, CTA, and React slots. AgentsKit Chat owns the Ask wire contract, streaming adapter, ordered content, standard source-list , memory migration, and application shell. AgentsKit owns controller lifecycle, messages, cancellation, retry, edit",
+          "body": "registry Profile: <code public-app</code Verified proof - App package lives at apps/registry . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/registry-app Profile: <code public-app</code The fumadocs site for the AgentsKit agent registry — deployed to registry.agentskit.io . The app loads the shared AgentsKit shell ( /shell/v1.js and /shell/v1.css from NEXT PUBLIC AGENTSKIT SHELL ORIGIN , default https://www.agentskit.io ): the ecosystem bar and tour, a Registry-blue <agentskit-aurora on the home, and <agentskit-footer on every page. Registry keeps no copy of the shell; to review local shell changes, run docs-next on port 3000 and start Registry with NEXT PUBLIC AGENTSKIT SHELL ORIGIN=http://localhost:3000 . Fumadocs provides the local navigation and search; documentation routes keep a solid, calm background. - / — agent gallery with search, filters, ordering, and comparison selection, SSG. - /agents/[id] — per-agent page, generated at build from the committed index in the repo (raw GitHub). The agent source stays decoupled (RFC 0002). - /compare?agents=<id ,<id — temporary, shareable comparison workspace ( noindex ). - /docs/using , /docs/authoring , /docs/contributing — guides. Product analytics North star: weekly visitors who copy at least one agent install command. The Registry uses the shared PostHog project, but sends only explicit product events. Autocapture, session recording, exception capture, and person profiles are disabled. Captured URLs are reduced to their pathname before sending, so free-form search text never leaves the browser. Agent IDs and other structured catalog choices are sent only through the explicit events below. Event Trigger Decision it supports --- --- --- registry agent opened An agent detail page renders Which agents move discovery forward? registry catalog search used Search settles for 700 ms Does search return useful coverage? registry catalog filter changed A structured filter changes Which qualification paths matter? registry compare selection changed Comparison selection changes Where does comparison become difficult? registry comparison opened A valid comparison renders Which agents are evaluated together? registry install command copied An install command is copied Did the visit reach activation? registry agent feedback submitted A visitor rates an agent as helpful or not helpful Which opened agents need quality review? Search events contain only a coarse query-length bucket and result count, never the query. Suggested PostHog funnel: registry agent opened or registry comparison opened → registry install command copied , segmented by copy surface. Review this funnel weekly; use search zero-result counts and comparison drop-off to prioritize catalog improvements. Agent feedback contains only the agent ID and the structured response. Comments, issue bodies, and page query strings are never captured. Review the helpful rate alongside agent opens and install copies to prioritize investigation without treating low-volume agents as low-quality by default. Local AgentsKit Chat dogfood The floating Ask Registry surface consumes the stable npm package @agentskit/chat at exact version 0.4.1 , using its /protocol and /react subpaths. This app owns only the registry corpus, NEXT PUBLIC ASK ENDPOINT (the widget is disabled when unset), Registry branding, CTA, and React slots. AgentsKit Chat owns the Ask wire contract, streaming adapter, ordered content, standard source-list , memory migration, and application shell. AgentsKit owns controller lifecycle, messages, cancellation, retry, edit, and regenerate. Implementation: - components/ask-widget.tsx — native Registry shell, renderer slots, corpus, endpoint, and canonical storage identi",
           "aliases": "document project"
         },
         "graph": {
@@ -68547,7 +68535,7 @@
             }
           ]
         },
-        "contentHash": "cce1c7349858e6b15d6166cc6c2ef4a26af271ae47bf318e23e1cb0d5ca8a654",
+        "contentHash": "f3024501ac068795e05969896f8315d96f93319ae7a67ce97f28fc04f7ac4cbe",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -85362,7 +85350,7 @@
           "path": "SECURITY.md",
           "symbols": "",
           "summary": "AgentsKit packages are versioned and released independently. Security fixes are provided for the latest version published to npm of each @agentskit/* package. Older versions stop receiving security fixes when a newer version of that package is published.",
-          "body": "Security Policy Supported Versions AgentsKit packages are versioned and released independently. Security fixes are provided for the latest version published to npm of each @agentskit/ package. Older versions stop receiving security fixes when a newer version of that package is published. Package maturity and compatibility guarantees are documented in . Stable packages follow the documented deprecation cycle for API changes; that cycle does not extend security support to superseded versions. Reporting a Vulnerability Please report security issues through GitHub's private vulnerability reporting: → <https://github.com/AgentsKit-io/agentskit/security/advisories/new If that channel is unavailable, email emersonfbraun@gmail.com with [agentskit-security] in the subject. Please include: - Affected package(s) + version(s) - Reproduction steps or a minimal proof of concept - Suspected severity (see SLA below) - Whether the issue has been disclosed elsewhere Please do not file a public issue or PR for security reports. Disclosure SLA Severity First response Patch target Public advisory ---------- ---------------- -------------- ----------------- Critical (RCE, sandbox escape, credential exfiltration) 24 h 7 days within 7 days of patch High (SSRF, auth bypass, data exfiltration) 48 h 14 days within 14 days of patch Medium (DoS, info leak, hardening gap) 5 days next minor release with release notes Low (best-practice, defense-in-depth) best effort next minor release with release notes The patch target is \"design + implement + test + publish to npm\". For ecosystem-wide issues we coordinate with downstream maintainers before public advisory. Scope Covered by this policy: - All @agentskit/ npm packages published to the npm registry - The agentskit CLI binary - This repository's GitHub Actions workflows Out of scope (best-effort only): - Example apps under apps/example- - Third-party adapters published outside the @agentskit scope - The docs site ( apps/docs-next ) hosted on Vercel Dual-use components The following packages and modules ship intentionally powerful primitives. They are designed for sandboxed / supervised use; running them against untrusted input without the documented hardening is itself a misconfiguration, not a vulnerability. - @agentskit/tools — shell , filesystem , fetchUrl , sqliteQueryTool , mcp client - @agentskit/sandbox — code execution backends - @agentskit/core/security — PII vault, injection detector, rate limiter Each module's README documents the recommended deployment posture (allowlists, sandbox wrapping, audit sinks). Vulnerability reports about these modules should describe how the documented guarantees were broken, not that the underlying capability exists. Supply chain - All third-party GitHub Actions are pinned to commit SHAs. - actions/dependency-review-action runs on every PR; high-severity vulnerabilities or copyleft-licensed deps fail the build. - node scripts/audit-prod-high.mjs runs in CI against npm's Bulk Advisory API and fails closed on high or critical production advisories. (The legacy pnpm audit endpoint is retired in the current pnpm/npm registry path.) - CodeQL (security-and-quality query pack) runs on every PR plus a weekly schedule. - SBOMs are generated on release; ask if you need a specific format. Coordinated disclosure We follow standard 90-day coordinated disclosure unless severity or exposure justifies a shorter window. Reporters are credited in the advisory unless they request otherwise.",
+          "body": "Security Policy Supported Versions AgentsKit packages are versioned and released independently. Security fixes are provided for the latest version published to npm of each @agentskit/ package. Older versions stop receiving security fixes when a newer version of that package is published. Package maturity and compatibility guarantees are documented in . Stable packages follow the documented deprecation cycle for API changes; that cycle does not extend security support to superseded versions. Reporting a Vulnerability Please report security issues through GitHub's private vulnerability reporting: → <https://github.com/AgentsKit-io/agentskit/security/advisories/new If that channel is unavailable, email emersonfbraun@gmail.com with [agentskit-security] in the subject. Please include: - Affected package(s) + version(s) - Reproduction steps or a minimal proof of concept - Suspected severity (see SLA below) - Whether the issue has been disclosed elsewhere Please do not file a public issue or PR for security reports. Disclosure SLA Severity First response Patch target Public advisory ---------- ---------------- -------------- ----------------- Critical (RCE, sandbox escape, credential exfiltration) 24 h 7 days within 7 days of patch High (SSRF, auth bypass, data exfiltration) 48 h 14 days within 14 days of patch Medium (DoS, info leak, hardening gap) 5 days next minor release with release notes Low (best-practice, defense-in-depth) best effort next minor release with release notes The patch target is \"design + implement + test + publish to npm\". For ecosystem-wide issues we coordinate with downstream maintainers before public advisory. Scope Covered by this policy: - All @agentskit/ npm packages published to the npm registry - The agentskit CLI binary - This repository's GitHub Actions workflows Out of scope (best-effort only): - Example apps under apps/example- - Third-party adapters published outside the @agentskit scope - The docs site ( apps/docs-next ) hosted on Cloudflare Dual-use components The following packages and modules ship intentionally powerful primitives. They are designed for sandboxed / supervised use; running them against untrusted input without the documented hardening is itself a misconfiguration, not a vulnerability. - @agentskit/tools — shell , filesystem , fetchUrl , sqliteQueryTool , mcp client - @agentskit/sandbox — code execution backends - @agentskit/core/security — PII vault, injection detector, rate limiter Each module's README documents the recommended deployment posture (allowlists, sandbox wrapping, audit sinks). Vulnerability reports about these modules should describe how the documented guarantees were broken, not that the underlying capability exists. Supply chain - All third-party GitHub Actions are pinned to commit SHAs. - actions/dependency-review-action runs on every PR; high-severity vulnerabilities or copyleft-licensed deps fail the build. - node scripts/audit-prod-high.mjs runs in CI against npm's Bulk Advisory API and fails closed on high or critical production advisories. (The legacy pnpm audit endpoint is retired in the current pnpm/npm registry path.) - CodeQL (security-and-quality query pack) runs on every PR plus a weekly schedule. - SBOMs are generated on release; ask if you need a specific format. Coordinated disclosure We follow standard 90-day coordinated disclosure unless severity or exposure justifies a shorter window. Reporters are credited in the advisory unless they request otherwise.",
           "aliases": "document project"
         },
         "graph": {
@@ -85465,7 +85453,7 @@
             }
           ]
         },
-        "contentHash": "b8251f0e141bdd1e28ebd41982e3f3fc7ad479313c152820ff5472c6e36203b5",
+        "contentHash": "450e8ee623728dcc9d5290d3b5b297b283a5cb1424de5f74471f98a67a95f9d8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -88413,7 +88401,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "d119bb168c72d8783095a01b6fa09040bd12cc580797ed295ac76cf041f9b44e",
+        "contentHash": "9b583020754f30951f9d6df28a8f2127f00abccb41dac537bc532e86472739ea",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95588,40 +95576,6 @@
         "confidence": "observed"
       },
       {
-        "id": "module:apps/docs-next/lighthouserc.cjs",
-        "kind": "module",
-        "path": "apps/docs-next/lighthouserc.cjs",
-        "title": "lighthouserc.cjs",
-        "aliases": [],
-        "tags": [
-          "module",
-          "cjs",
-          "docs-next"
-        ],
-        "fields": {
-          "title": "lighthouserc.cjs",
-          "headings": "",
-          "path": "apps/docs-next/lighthouserc.cjs",
-          "symbols": "",
-          "summary": "",
-          "body": "",
-          "aliases": "module cjs docs-next"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "areaId": "area:apps/docs-next",
-          "packageId": "package:agentskit",
-          "inbound": [],
-          "outbound": []
-        },
-        "contentHash": "f5e332df7f307eacef92722bdab2e1672df50f3113cc63c134a7d7fe73106025",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
         "id": "module:apps/docs-next/mdx-components.tsx",
         "kind": "module",
         "path": "apps/docs-next/mdx-components.tsx",
@@ -95705,7 +95659,7 @@
             }
           ]
         },
-        "contentHash": "4070007b89bba20ef23e9ffe704f250fc2ea7b14a92608522b9f632fc936a3c2",
+        "contentHash": "e29e38ea5f55de1e40459e59f472abd83316e854738f40387e618c4e8c02c8c3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96274,7 +96228,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "27923f62a33d5070420bdf3ab51ef80f8a53a21c8568624eec2478461d15724b",
+        "contentHash": "395d460f064b824806b39dd7d51e3594b7c7b09b30e3214bbd7a84ab4695b023",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -99623,7 +99577,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "c477543338ed21fe7ea804975cf3debd833c2ee817fd21b41e2e7c272af44f1b",
+        "contentHash": "a045f2b62dc869852b3134f55df6ea3d9695fb4b25f5bec00d1233eab3e86538",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191624,7 +191578,7 @@
             }
           ]
         },
-        "contentHash": "bafb72fd9c6baad700b7cda9b6f0ca8e1ac276a266f3cc2a86fa6b61981f011b",
+        "contentHash": "1e68a6ed84ddcb6a88d0b67fc8a1b1ee5eafb183ad2a7ee2dd878947dbbff492",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192528,7 +192482,7 @@
             }
           ]
         },
-        "contentHash": "2a67fdbbed54b19ff27bff6f4e3666e4a75917592c724374d1419716b84c2821",
+        "contentHash": "cb1d0e56a47e9d3760b53b879c70ebcadfc3ce8d98529c26bcf44c2f181a202e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -200774,7 +200728,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "221edd1fb17eebe70098632750db2641a57b69bedcfc9de8d55021c93583b8b9",
+        "contentHash": "2110cb6c4d4c7498b458089af97c0c4705d0932cd28c103ac8f04391d819bac4",
         "provenance": "observed",
         "confidence": "observed"
       }

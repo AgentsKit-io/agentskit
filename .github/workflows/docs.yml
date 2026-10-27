@@ -1,7 +1,6 @@
 name: Docs build
 
-# Build-only validation for apps/docs-next (Fumadocs).
-# Deployment is handled by Vercel's GitHub integration.
+# Build-only validation for apps/docs-next (Fumadocs). This workflow does not deploy.
 
 on:
   push:

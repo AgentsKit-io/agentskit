@@ -56,7 +56,7 @@ Out of scope (best-effort only):
 
 - Example apps under `apps/example-*`
 - Third-party adapters published outside the `@agentskit` scope
-- The docs site (`apps/docs-next`) hosted on Vercel
+- The docs site (`apps/docs-next`) hosted on Cloudflare
 
 ## Dual-use components
 

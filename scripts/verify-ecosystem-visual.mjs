@@ -279,12 +279,6 @@ async function runJob(browser, helper, { site, page: pageKind, theme, viewport }
       await route.fulfill({ response, headers: { ...response.headers(), 'access-control-allow-origin': '*' } })
     })
   }
-  if (siteOrigins.has(site.id)) {
-    // Vercel injects /_vercel/(speed-)insights/script.js only on its own deployments; a local
-    // `next start` answers 404, which is not a page defect. Serve them empty for local builds.
-    const origin = siteOrigins.get(site.id)
-    await context.route((url) => url.origin === origin && url.pathname.startsWith('/_vercel/'), (route) => route.fulfill({ status: 200, contentType: 'text/javascript', body: '' }))
-  }
   const page = await context.newPage()
   const errors = []
   page.on('console', (message) => { if (message.type() === 'error') errors.push({ text: message.text(), url: message.location().url ?? '' }) })

@@ -90,11 +90,6 @@ zero-result counts and comparison drop-off to prioritize catalog improvements.
 Agent feedback contains only the agent ID and the structured response. Comments, issue bodies, and
 page query strings are never captured. Review the helpful rate alongside agent opens and install
 copies to prioritize investigation without treating low-volume agents as low-quality by default.
-## Deploy (Vercel)
-
-Import the **`agentskit`** monorepo, set **Root Directory = `apps/registry`**,
-Framework = Next.js. Point `registry.agentskit.io` at the project.
-
 ## Local
 
 ```bash

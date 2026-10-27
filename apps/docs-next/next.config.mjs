@@ -129,8 +129,8 @@ const config = {
   // node_modules in the function (via output file tracing) at runtime instead.
   serverExternalPackages: ['@huggingface/transformers'],
   // The ask-docs embedder uses onnxruntime-node, whose native `.so`/`.node`
-  // binaries are loaded via dlopen and therefore NOT picked up by Vercel's
-  // (static) output file tracing — the function then fails at query time with
+  // binaries are loaded via dlopen and therefore NOT picked up by static
+  // output file tracing — the function then fails at query time with
   // "libonnxruntime.so.1: cannot open shared object file". Force the Linux
   // binaries into the function. `outputFileTracingRoot` points at the monorepo
   // root so the pnpm store path resolves.
