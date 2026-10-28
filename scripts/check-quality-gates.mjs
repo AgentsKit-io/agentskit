@@ -41,6 +41,8 @@ const GATES = [
   ['models.dev refresh workflow contract', 'models-dev-workflow.test.mjs', [], 'vitest'],
   ['models.dev snapshot freshness', 'check-models-dev-freshness.mjs'],
   ['verified recipe factory', 'check-content-pipeline.mjs'],
+  ['compatibility matrix tests', 'check-compatibility-matrix.test.mjs', [], 'vitest'],
+  ['compatibility matrix + page drift', 'check-compatibility-matrix.mjs', ['--check']],
   ['ecosystem contract tests', 'ecosystem-contract.test.mjs', [], 'vitest'],
   ['ecosystem visual check helpers', 'ecosystem-visual.test.mjs', [], 'vitest'],
   ['software metadata tests', 'software-metadata.test.mjs', [], 'vitest'],
