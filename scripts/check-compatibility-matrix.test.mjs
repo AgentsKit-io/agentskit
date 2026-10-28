@@ -52,6 +52,6 @@ describe('compatibility matrix gate', () => {
   it('renders every entry into the page', () => {
     const matrix = loadMatrix(root)
     const page = renderPage(matrix)
-    expect(page.split('\n').filter((l) => l.startsWith('| ') && l.includes('`@agentskit/'))).toHaveLength(matrix.entries.length)
+    expect(page.match(/^\| .*`@agentskit\/.*$/gm) ?? []).toHaveLength(matrix.entries.length)
   })
 })
