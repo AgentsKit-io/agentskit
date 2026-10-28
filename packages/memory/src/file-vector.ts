@@ -58,6 +58,11 @@ function createVectraStore(dirPath: string): VectorStore {
       // results on slow CI disks).
       await idx.beginUpdate()
       try {
+        // Upsert by id (ADR 0003 VM1): drop prior items carrying the same id.
+        const incoming = new Set(docs.map(doc => doc.id))
+        for (const item of await idx.listItems()) {
+          if (incoming.has(String(item.metadata._id ?? item.id))) await idx.deleteItem(item.id)
+        }
         for (const doc of docs) {
           await idx.insertItem({
             vector: doc.vector,
