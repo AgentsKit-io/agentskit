@@ -4,6 +4,8 @@
  */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
+  // Snapshot commit the factory line records when an agent leaves work uncommitted.
+  ignores: [(message) => message.startsWith('wip(factory):')],
   rules: {
     'header-max-length': [2, 'always', 72],
     'type-enum': [
