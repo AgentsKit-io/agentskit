@@ -8,7 +8,7 @@
     {
       "id": "claim.catalog-models",
       "kind": "restricted-faq",
-      "label": "7870 models",
+      "label": "8900 models",
       "match": {
         "type": "exact",
         "values": [
@@ -18,7 +18,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **7870 models**. The public conservative floor is 7000.",
+        "markdown": "The verified AgentsKit ledger currently reports **8900 models**. The public conservative floor is 8000.",
         "citations": [
           {
             "id": "claim-catalog-models",
@@ -31,7 +31,7 @@
     {
       "id": "claim.catalog-providers",
       "kind": "restricted-faq",
-      "label": "222 providers",
+      "label": "232 providers",
       "match": {
         "type": "exact",
         "values": [
@@ -41,7 +41,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **222 providers**. The public conservative floor is 220.",
+        "markdown": "The verified AgentsKit ledger currently reports **232 providers**. The public conservative floor is 230.",
         "citations": [
           {
             "id": "claim-catalog-providers",
@@ -100,7 +100,7 @@
     {
       "id": "claim.integrations",
       "kind": "restricted-faq",
-      "label": "50 integrations",
+      "label": "52 integrations",
       "match": {
         "type": "exact",
         "values": [
@@ -110,7 +110,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **50 integrations**. The public conservative floor is 50.",
+        "markdown": "The verified AgentsKit ledger currently reports **52 integrations**. The public conservative floor is 52.",
         "citations": [
           {
             "id": "claim-integrations",
@@ -2444,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:131edf7d35dd2646cd567cb15eda02cc7503b1fb59614d4ac7e73392b7aec1f7"
+  "contentHash": "sha256:c182e88394a830e5a2855e47c75f284e05f1533457ea4834706944c70c402436"
 }
