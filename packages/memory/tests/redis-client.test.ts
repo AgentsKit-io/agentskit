@@ -7,8 +7,7 @@ afterEach(() => {
 
 describe('createRedisClientAdapter', () => {
   it('throws MemoryError with peer hint when redis is not installed', async () => {
-    // Simulate the dynamic import failing
-    vi.mock('redis', () => { throw new Error('Cannot find module') })
+    vi.doMock('redis', () => { throw new Error('Cannot find module') })
 
     // We need to use doMock to intercept the dynamic import
     const { createRedisClientAdapter: create } = await import('../src/redis-client')
