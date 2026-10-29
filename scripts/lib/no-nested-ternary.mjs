@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
-import ts from 'typescript'
+// Root `typescript` is v7 (no JS compiler API); use the 5.9 alias.
+import ts from 'typescript-5-9'
 
 export function findNestedTernaries(fileName, sourceText) {
   const sourceFile = ts.createSourceFile(
