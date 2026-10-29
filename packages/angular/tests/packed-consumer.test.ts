@@ -1,11 +1,10 @@
-import { execFile } from 'node:child_process'
+import { runCommand } from '@agentskit/cross-platform'
 import { mkdir, mkdtemp, readdir, realpath, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { promisify } from 'node:util'
+import ts from 'typescript'
 import { afterAll, describe, expect, it } from 'vitest'
 
-const run = promisify(execFile)
 const packageRoot = process.cwd()
 
 const resolutions = [
@@ -26,14 +25,16 @@ describe('@agentskit/angular packed consumer typings', () => {
     work = await mkdtemp(join(tmpdir(), 'ak-angular-consumer-'))
     const packDir = join(work, 'pack')
     await mkdir(packDir)
-    await run('pnpm', ['pack', '--pack-destination', packDir], { cwd: packageRoot })
+    const packed = await runCommand('pnpm', ['pack', '--pack-destination', packDir], { cwd: packageRoot })
+    expect(packed.code, packed.stderr).toBe(0)
     const [tarball] = await readdir(packDir)
 
     consumerRoot = join(work, 'consumer')
     const scopeDir = join(consumerRoot, 'node_modules', '@agentskit')
     const installed = join(scopeDir, 'angular')
     await mkdir(installed, { recursive: true })
-    await run('tar', ['-xzf', join(packDir, tarball), '--strip-components=1', '-C', installed])
+    const extracted = await runCommand('tar', ['-xzf', join(packDir, tarball), '--strip-components=1', '-C', installed])
+    expect(extracted.code, extracted.stderr).toBe(0)
 
     // Peer + runtime deps come from the workspace (offline install).
     const link = async (name: string, from: string) => {
@@ -79,7 +80,20 @@ describe('@agentskit/angular packed consumer typings', () => {
         files: ['index.ts'],
       }),
     )
-    const tsc = join(await realpath(join(packageRoot, 'node_modules', 'typescript')), 'bin', 'tsc')
-    await expect(run(process.execPath, [tsc, '-p', tsconfig], { cwd: root })).resolves.toBeDefined()
+    const config = ts.getParsedCommandLineOfConfigFile(tsconfig, undefined, {
+      ...ts.sys,
+      onUnRecoverableConfigFileDiagnostic: diagnostic => {
+        throw new Error(ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'))
+      },
+    })
+    const program = ts.createProgram({ rootNames: config!.fileNames, options: config!.options })
+    const diagnostics = ts.getPreEmitDiagnostics(program)
+    expect(
+      ts.formatDiagnostics(diagnostics, {
+        getCanonicalFileName: name => name,
+        getCurrentDirectory: () => root,
+        getNewLine: () => '\n',
+      }),
+    ).toBe('')
   }, 120_000)
 })
