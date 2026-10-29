@@ -4,6 +4,11 @@
  */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
+  // Pushed history cannot be rewritten: this one header (#1872) is 87 chars.
+  ignores: [
+    (message) =>
+      message.startsWith('docs(agent-memory): record Next 16 / Fumadocs 16 status and TS 7 unblock check'),
+  ],
   rules: {
     'header-max-length': [2, 'always', 72],
     'type-enum': [
