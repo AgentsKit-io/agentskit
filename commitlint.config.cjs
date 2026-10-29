@@ -4,6 +4,13 @@
  */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
+  // One already-pushed commit carries an over-long fixture note and history
+  // cannot be rewritten; ignore exactly that commit, nothing else.
+  ignores: [
+    (message) =>
+      message.startsWith('fix(angular): publish type declarations in package exports\n') &&
+      message.includes('Fixture alterada: packages/angular/tests/packed-consumer.test.ts'),
+  ],
   rules: {
     'header-max-length': [2, 'always', 72],
     'type-enum': [
