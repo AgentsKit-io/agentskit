@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "$comment": "Canonical release-train manifest. Each group is a coordinated dependency set that moves together in one proposed PR. `current` is the version the workspace targets; `minimum` is the oldest version consumers are promised to work with. scripts/release-train.mjs proposes updates; a human reviews, merges and publishes.",
+  "humanControlled": true,
+  "groups": [
+    {
+      "id": "typescript-toolchain",
+      "packages": {
+        "typescript": { "current": "6.0.3", "minimum": "5.4.0" },
+        "tsup": { "current": "8.5.1", "minimum": "8.0.0" },
+        "vitest": { "current": "4.1.12", "minimum": "3.0.0" }
+      }
+    },
+    {
+      "id": "react",
+      "packages": {
+        "react": { "current": "19.3.1", "minimum": "18.0.0" },
+        "react-dom": { "current": "19.3.1", "minimum": "18.0.0" },
+        "@types/react": { "current": "19.3.0", "minimum": "18.0.0" }
+      }
+    }
+  ]
+}
