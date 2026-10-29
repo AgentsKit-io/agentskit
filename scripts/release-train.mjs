@@ -11,6 +11,7 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { readJson as readBoundedJson } from '@agentskit/net'
 import { applyToManifest, applyToPackageJson, findDrift, findPeerViolations, planUpdates, renderChangeset, renderProposal, validateManifest } from './lib/release-train.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -34,7 +35,7 @@ async function latestVersions(names) {
   for (const name of names) {
     const response = await fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}/latest`, { signal: AbortSignal.timeout(10_000) })
     if (!response.ok) throw new Error(`${name}: registry returned HTTP ${response.status}`)
-    latest[name] = (await response.json()).version
+    latest[name] = (await readBoundedJson(response, { maxBytes: 1_000_000 })).version
   }
   return latest
 }
