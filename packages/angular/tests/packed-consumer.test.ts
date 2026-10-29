@@ -46,6 +46,8 @@ describe('@agentskit/angular packed consumer typings', () => {
     await link('rxjs', 'rxjs')
     await link('tslib', 'tslib')
 
+    // The package is ESM-only; an ESM consumer is the supported node16 case.
+    await writeFile(join(consumerRoot, 'package.json'), JSON.stringify({ type: 'module' }))
     await writeFile(
       join(consumerRoot, 'index.ts'),
       [
