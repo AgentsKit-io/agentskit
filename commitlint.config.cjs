@@ -4,6 +4,8 @@
  */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
+  // Factory-line bot commits wrap a conventional message in a `factory: ` prefix.
+  ignores: [(message) => /^factory: (feat|fix|chore|ci|docs|refactor|test|build|perf)(\([^)]*\))?!?: /.test(message)],
   rules: {
     'header-max-length': [2, 'always', 72],
     'type-enum': [
