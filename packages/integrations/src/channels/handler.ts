@@ -53,6 +53,10 @@ export function createChannelHandler(
       if (seen.size > 1000) seen.delete(seen.values().next().value as string)
       return false
     })
+  // A failed delivery must stay retryable: drop its id so the provider's retry is processed.
+  const forget = (m: InboundMessage) => {
+    if (m.id) seen.delete(`${m.channel}:${m.id}`)
+  }
   return async (request) => {
     if (request.method === 'GET') {
       return channel.handshake ? channel.handshake(request.query ?? {}) : { status: 404, body: 'not found' }
@@ -61,15 +65,14 @@ export function createChannelHandler(
     if (!verified.ok) return { status: 401, body: verified.reason }
     const challenge = channel.challenge?.(request.rawBody)
     if (challenge !== undefined) return { status: 200, body: challenge }
-    // Slack re-delivers after 3s without an ack; the first delivery is already being handled.
-    if (request.headers['x-slack-retry-num'] !== undefined) return { status: 200, body: 'ok' }
-    const messages = channel.receive(request.rawBody)
+    const messages = await channel.receive(request.rawBody)
     for (const message of messages) {
       if (!filter(message) || isDuplicate(message)) continue
       try {
         const text = await agent.run(message.text, message)
         await channel.send({ conversationId: message.conversationId, threadId: message.threadId, text })
       } catch (error) {
+        forget(message)
         options.onError?.(error, message)
       }
     }

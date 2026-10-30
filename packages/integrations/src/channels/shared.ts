@@ -32,7 +32,7 @@ export async function postJson(
     headers: { 'content-type': 'application/json', ...headers },
     body: JSON.stringify(body),
   })
-    if (!res.ok) {
+  if (!res.ok) {
     throw new ToolError({
       code: ErrorCodes.AK_TOOL_EXEC_FAILED,
       message: `${channel}: send failed with HTTP ${res.status}`,

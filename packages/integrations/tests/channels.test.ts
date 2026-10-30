@@ -138,13 +138,32 @@ describe('email channel', () => {
     expect(em().verify({ headers: multi, rawBody: body }).ok).toBe(true)
     expect(verifySvix({ secret: SVIX_SECRET, rawBody: body, headers: { ...sign(body), 'svix-signature': 'v2,x' }, nowSeconds: NOW }).ok).toBe(false)
   })
-  it('parses an inbound email', () => {
-    const [m] = em().receive(fixture('email-received.json'))
+  it('fetches the body from the Received Emails API, not just the subject', async () => {
+    const f = vi.fn(async () => new Response(fixture('email-received-api.json'), { status: 200 }))
+    const [m] = await em(f).receive(fixture('email-received.json'))
+    const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit]
+    expect(url).toBe('https://api.resend.com/emails/receiving/em_123')
+    expect((init.headers as Record<string, string>).authorization).toBe('Bearer re_key')
+    expect(m.text).toBe('Onde está meu pedido?')
+    const run = vi.fn(async () => 'ok')
+    const body = fixture('email-received.json')
+    await createChannelHandler(em(f), { run })({ headers: sign(body), rawBody: body })
+    expect(run.mock.calls[0][0]).toBe('Onde está meu pedido?')
+  })
+  it('falls back to stripped html, then subject', async () => {
+    const html = vi.fn(async () => new Response('{"html":"<p>Oi <b>mundo</b></p>"}', { status: 200 }))
+    expect((await em(html).receive(fixture('email-received.json')))[0].text).toBe('Oi mundo')
+    const down = vi.fn(async () => new Response('x', { status: 500 }))
+    expect((await em(down).receive(fixture('email-received.json')))[0].text).toBe('Pedido 42')
+  })
+  it('parses an inbound email', async () => {
+    const f = vi.fn(async () => new Response(fixture('email-received-api.json'), { status: 200 }))
+    const [m] = await em(f).receive(fixture('email-received.json'))
     expect(m).toMatchObject({ id: 'em_123', from: { id: 'carla@example.com', name: 'Carla Dias' }, conversationId: 'carla@example.com', text: 'Onde está meu pedido?' })
     expect(m.attachments).toEqual([{ id: 'att_1', name: 'nota.pdf', contentType: 'application/pdf' }])
   })
-  it('ignores other event types', () => {
-    expect(em().receive('{"type":"email.sent","data":{}}')).toEqual([])
+  it('ignores other event types', async () => {
+    expect(await em().receive('{"type":"email.sent","data":{}}')).toEqual([])
   })
   it('sends through Resend', async () => {
     const f = okFetch()
@@ -208,6 +227,16 @@ describe('channel handshakes, retries and empty secrets', () => {
     expect(await h({ method: 'GET', headers: {}, rawBody: '', query: q })).toEqual({ status: 200, body: '1158201444' })
     expect((await h({ method: 'GET', headers: {}, rawBody: '', query: { ...q, 'hub.verify_token': 'no' } })).status).toBe(403)
     expect((await h({ method: 'GET', headers: {}, rawBody: '', query: { 'hub.challenge': 'c' } })).status).toBe(403)
+  })
+  it('processes a slack retry when the first delivery failed', async () => {
+    const body = fixture('slack-message.json')
+    const run = vi.fn().mockRejectedValueOnce(new Error('boom')).mockResolvedValue('x')
+    const onError = vi.fn()
+    const h = createChannelHandler(sl(), { run }, { onError })
+    await h({ headers: slSign(body), rawBody: body })
+    expect(onError).toHaveBeenCalledTimes(1)
+    await h({ headers: { ...slSign(body), 'x-slack-retry-num': '1' }, rawBody: body })
+    expect(run).toHaveBeenCalledTimes(2)
   })
   it('does not run the agent twice for a retried slack event', async () => {
     const body = fixture('slack-message.json')

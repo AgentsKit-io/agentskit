@@ -48,8 +48,8 @@ export interface Channel {
   name: string
   /** Verify the webhook signature against the raw body. */
   verify(input: Omit<WebhookInput, 'secret'>): VerifyResult
-  /** Parse a raw webhook body into zero or more messages (status callbacks yield none). */
-  receive(rawBody: string): InboundMessage[]
+  /** Parse a raw webhook body into zero or more messages (status callbacks yield none). May be async when the body must be fetched (email). */
+  receive(rawBody: string): InboundMessage[] | Promise<InboundMessage[]>
   send(message: OutboundMessage): Promise<void>
   /** After verification, answer provider handshakes that carry no message (Slack `url_verification`). Returns the response body, or undefined when the body is not a handshake. */
   challenge?(rawBody: string): string | undefined

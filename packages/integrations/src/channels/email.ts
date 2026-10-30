@@ -1,6 +1,7 @@
 import { verifySvix } from '../webhook-verify'
 import type { Channel, ChannelOptionsBase } from './types'
-import { arr, parseBody, postJson, rec, str, withSecret } from './shared'
+import { readResponseText } from '../http-body'
+import { arr, parseBody, postJson, rec, str, withSecret, type Rec } from './shared'
 
 /** Credentials and transport for {@link emailChannel}. */
 export interface EmailChannelOptions extends ChannelOptionsBase {
@@ -23,26 +24,52 @@ function parseSender(sender: string): { address: string; name?: string } {
   return { address: trimmed.slice(open + 1, -1), name: name || undefined }
 }
 
+/** Crude tag stripper (no regex: input is attacker-controlled). */
+function stripHtml(html: string): string {
+  let out = ''
+  let inTag = false
+  for (const ch of html) {
+    if (ch === '<') inTag = true
+    else if (ch === '>') inTag = false
+    else if (!inTag) out += ch
+  }
+  return out.trim()
+}
+
 /** Email channel: inbound via Resend `email.received` webhook, outbound via Resend. */
 export function emailChannel(options: EmailChannelOptions): Channel {
   const fetchImpl = options.fetch ?? globalThis.fetch
+  const fetchReceived = async (emailId: string): Promise<Rec | undefined> => {
+    try {
+      const res = await fetchImpl(`https://api.resend.com/emails/receiving/${encodeURIComponent(emailId)}`, {
+        headers: { authorization: `Bearer ${options.resendApiKey}` },
+      })
+      return res.ok ? parseBody(await readResponseText(res)) : undefined
+    } catch {
+      return undefined
+    }
+  }
   return {
     name: 'email',
     verify: (input) =>
       withSecret(options.webhookSecret, () => verifySvix({ nowSeconds: options.nowSeconds?.(), ...input, secret: options.webhookSecret })),
-    receive: (rawBody) => {
+    receive: async (rawBody) => {
       const body = parseBody(rawBody)
       const data = rec(body?.data)
       if (body?.type !== 'email.received' || !data) return []
       const sender = str(data.from) ?? ''
       const { address, name } = parseSender(sender)
+      const emailId = str(data.email_id)
+      // The webhook only carries metadata; the body lives in the Received Emails API.
+      const full = emailId ? await fetchReceived(emailId) : undefined
+      const text = str(full?.text)?.trim() || stripHtml(str(full?.html) ?? '') || str(data.subject) || ''
       return [{
         channel: 'email',
         id: str(data.email_id) ?? str(data.message_id) ?? '',
         from: { id: address, name },
         conversationId: address,
         threadId: str(data.message_id),
-        text: str(data.text) ?? str(data.subject) ?? '',
+        text,
         attachments: arr(data.attachments).map((a) => ({
           id: str(a.id),
           name: str(a.filename),
