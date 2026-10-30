@@ -15,7 +15,6 @@
  * a consumer in production or homolog, green CI on the default branch, no breaking change in the
  * last four changelog versions, and docs (README plus reference page).
  */
-import { execFileSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -94,11 +93,16 @@ export function renderMatrix(rows, ci) {
     const status = row.supported ? 'supported' : 'experimental'
     const consumers = row.consumers.length ? row.consumers.join(', ') : '—'
     const cells = row.supported
-      ? [...Object.values(row.criteria).map(mark), row.stable ? '1.x' : row.eligible ? '✅ eligible' : 'not yet']
+      ? [...Object.values(row.criteria).map(mark), oneZeroCell(row)]
       : ['—', '—', '—', '—', '—']
     lines.push(`| \`${row.name}\` | ${row.version} | ${status} | ${consumers} | ${cells.join(' | ')} |`)
   }
   return `${lines.join('\n')}\n`
+}
+
+function oneZeroCell(row) {
+  if (row.stable) return '1.x'
+  return row.eligible ? '✅ eligible' : 'not yet'
 }
 
 /** Renders the README block listing experimental packages. */
@@ -174,33 +178,35 @@ function loadWorkspaceConsumers(root) {
   return out
 }
 
-function ghJson(args) {
-  return JSON.parse(execFileSync('gh', ['api', ...args], { encoding: 'utf8' }))
+async function gh(args) {
+  const { runCommand } = await import('../packages/cross-platform/dist/index.js')
+  const result = await runCommand('gh', args)
+  if (result.code !== 0) throw new Error(`gh ${args.join(' ')} failed: ${result.stderr}`)
+  return JSON.parse(result.stdout)
 }
 
-function refreshSnapshot(snapshot) {
-  const consumers = snapshot.consumers.map((consumer) => {
+async function refreshSnapshot(snapshot) {
+  const consumers = []
+  for (const consumer of snapshot.consumers) {
     const names = new Set()
     for (const path of consumer.manifests) {
-      const file = ghJson([`repos/${consumer.repo}/contents/${path}`])
+      const file = await gh(['api', `repos/${consumer.repo}/contents/${path}`])
       const manifest = JSON.parse(Buffer.from(file.content, 'base64').toString('utf8'))
       for (const name of agentskitDependencies(manifest)) names.add(name)
     }
-    return { ...consumer, dependencies: [...names].sort() }
-  })
-  const [run] = JSON.parse(
-    execFileSync('gh', ['run', 'list', '--repo', 'AgentsKit-io/agentskit', '--branch', 'main', '--workflow', 'ci.yml', '--status', 'completed', '--limit', '1', '--json', 'conclusion'], { encoding: 'utf8' }),
-  )
+    consumers.push({ ...consumer, dependencies: [...names].sort() })
+  }
+  const [run] = await gh(['run', 'list', '--repo', 'AgentsKit-io/agentskit', '--branch', 'main', '--workflow', 'ci.yml', '--status', 'completed', '--limit', '1', '--json', 'conclusion'])
   return { ...snapshot, consumers, ci: { status: run?.conclusion === 'success' ? 'green' : 'red' } }
 }
 
-function main() {
+async function main() {
   const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
   const args = new Set(process.argv.slice(2))
   const snapshotPath = join(root, 'docs', 'support-consumers.json')
   let snapshot = readJson(snapshotPath)
   if (args.has('--refresh')) {
-    snapshot = refreshSnapshot(snapshot)
+    snapshot = await refreshSnapshot(snapshot)
     writeFileSync(snapshotPath, `${JSON.stringify(snapshot, null, 2)}\n`)
   }
   const packages = loadPackages(root)
@@ -242,4 +248,4 @@ function main() {
   }
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main()
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main()
