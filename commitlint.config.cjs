@@ -4,12 +4,6 @@
  */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
-  // Two headers already in the #1889 branch history, which cannot be rewritten.
-  ignores: [
-    (message) => message.startsWith('wip(factory): changes the agent left uncommitted'),
-    (message) =>
-      message.startsWith('chore(deps): typescript 7 stays scoped to root and apps;'),
-  ],
   rules: {
     'header-max-length': [2, 'always', 72],
     'type-enum': [

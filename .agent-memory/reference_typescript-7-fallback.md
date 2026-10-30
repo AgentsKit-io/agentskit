@@ -19,3 +19,10 @@ ng-packagr, svelte2tsx.
 
 **How to apply:** retry only once tsup/rollup-plugin-dts supports TS 7 (or the build moves off tsup dts).
 Keep the `typescript-5-9` alias as is.
+
+Declared `typescript` peer ranges (npm registry, checked 2026-10-30) that exclude `^7`:
+
+- typedoc (apps/docs-next): `5.0.x || ... || 5.9.x || 6.0.x`
+- @angular/compiler-cli (packages/angular): `>=6.0 <6.1`
+- ng-packagr (packages/angular): `>=6.0 <6.1`
+- svelte2tsx (packages/svelte): `^4.9.4 || ^5.0.0 || ^6.0.0`
