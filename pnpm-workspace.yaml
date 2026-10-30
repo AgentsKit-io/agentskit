@@ -2,6 +2,7 @@ packages:
   - packages/*
   - apps/*
 allowBuilds:
+  # v13 ships prebuilt binaries; the implicit node-gyp rebuild fails without node-gyp
   better-sqlite3: false
   core-js: false
   core-js-pure: false
