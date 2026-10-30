@@ -86,6 +86,8 @@ export function renderMatrix(rows, ci) {
     '',
     `CI on the default branch: **${ci}**.`,
     '',
+    '> **Known limitation:** NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to `docs/support-consumers.json` (follow-up: consumer repositories of NoxCodeSolutions).',
+    '',
     '| Package | Version | Status | Internal consumers | Consumer live | CI green | No breaking (4 versions) | Docs | 1.0 |',
     '| --- | --- | --- | --- | --- | --- | --- | --- | --- |',
   ]
