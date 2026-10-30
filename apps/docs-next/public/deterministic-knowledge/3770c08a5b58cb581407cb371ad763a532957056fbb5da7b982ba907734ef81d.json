@@ -100,7 +100,7 @@
     {
       "id": "claim.integrations",
       "kind": "restricted-faq",
-      "label": "50 integrations",
+      "label": "51 integrations",
       "match": {
         "type": "exact",
         "values": [
@@ -110,7 +110,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **50 integrations**. The public conservative floor is 50.",
+        "markdown": "The verified AgentsKit ledger currently reports **51 integrations**. The public conservative floor is 51.",
         "citations": [
           {
             "id": "claim-integrations",
@@ -2444,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:2875855d35c9e39dca26014b4b522fc6b2b6f5ba1402206cf72c9483b5228e81"
+  "contentHash": "sha256:3770c08a5b58cb581407cb371ad763a532957056fbb5da7b982ba907734ef81d"
 }
