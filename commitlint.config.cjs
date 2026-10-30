@@ -4,8 +4,6 @@
  */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
-  // Factory snapshot commits are squashed away on merge.
-  ignores: [(message) => message.startsWith('wip(factory):')],
   rules: {
     'header-max-length': [2, 'always', 72],
     'type-enum': [
