@@ -22,6 +22,7 @@ export interface TursoChatMemoryConfig {
 
 interface LibsqlClient {
   execute(args: { sql: string; args?: unknown[] }): Promise<{ rows: Array<Record<string, unknown>> }>
+  close?(): void | Promise<void>
 }
 
 interface LibsqlModule {
@@ -42,7 +43,10 @@ async function loadSdk(): Promise<LibsqlModule> {
           hint: 'tursoChatMemory uses the optional peer "@libsql/client".',
         })
       }
-    })()
+    })().catch(error => {
+      cachedSdk = null
+      throw error
+    })
   }
   return cachedSdk
 }
@@ -72,11 +76,19 @@ export function tursoChatMemory(config: TursoChatMemoryConfig): ChatMemory {
       clientPromise = (async () => {
         const sdk = await loadSdk()
         const client = sdk.createClient({ url: config.url, authToken: config.authToken })
-        await client.execute({
-          sql: 'CREATE TABLE IF NOT EXISTS conversations (id TEXT PRIMARY KEY, messages TEXT NOT NULL)',
-        })
-        return client
-      })()
+        try {
+          await client.execute({
+            sql: 'CREATE TABLE IF NOT EXISTS conversations (id TEXT PRIMARY KEY, messages TEXT NOT NULL)',
+          })
+          return client
+        } catch (error) {
+          try { await client.close?.() } catch { /* preserve the initialization error */ }
+          throw error
+        }
+      })().catch(error => {
+        clientPromise = null
+        throw error
+      })
     }
     return clientPromise
   }
