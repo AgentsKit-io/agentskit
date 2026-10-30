@@ -1,7 +1,7 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import { verifySlack } from '../webhook-verify'
 import type { Channel, ChannelOptionsBase } from './types'
-import { arr, parseBody, postJson, rec, str } from './shared'
+import { arr, parseBody, postJson, rec, str, withSecret } from './shared'
 
 /** Credentials and transport for {@link slackChannel}. */
 export interface SlackChannelOptions extends ChannelOptionsBase {
@@ -15,7 +15,11 @@ export function slackChannel(options: SlackChannelOptions): Channel {
   return {
     name: 'slack',
     verify: (input) =>
-      verifySlack({ nowSeconds: options.nowSeconds?.(), ...input, secret: options.signingSecret }),
+      withSecret(options.signingSecret, () => verifySlack({ nowSeconds: options.nowSeconds?.(), ...input, secret: options.signingSecret })),
+    challenge: (rawBody) => {
+      const env = parseBody(rawBody)
+      return env?.type === 'url_verification' ? str(env.challenge) : undefined
+    },
     receive: (rawBody) => {
       const env = parseBody(rawBody)
       const e = rec(env?.event)

@@ -1,11 +1,13 @@
 import { verifyHmacSha256Body } from '../webhook-verify'
 import type { Channel, ChannelAttachment, ChannelOptionsBase } from './types'
-import { arr, parseBody, postJson, rec, str } from './shared'
+import { arr, parseBody, postJson, rec, str, withSecret } from './shared'
 
 /** Credentials and transport for {@link whatsappChannel}. */
 export interface WhatsAppChannelOptions extends ChannelOptionsBase {
   /** Meta app secret used to sign webhooks (`x-hub-signature-256`). */
   appSecret: string
+  /** Token you set in the Meta dashboard for the webhook subscription (GET `hub.verify_token`). */
+  verifyToken?: string
   accessToken: string
   phoneNumberId: string
   apiVersion?: string
@@ -19,7 +21,12 @@ export function whatsappChannel(options: WhatsAppChannelOptions): Channel {
   const base = `https://graph.facebook.com/${options.apiVersion ?? 'v21.0'}/${options.phoneNumberId}/messages`
   return {
     name: 'whatsapp',
-    verify: (input) => verifyHmacSha256Body({ ...input, secret: options.appSecret }, 'x-hub-signature-256', 'sha256='),
+    verify: (input) =>
+      withSecret(options.appSecret, () => verifyHmacSha256Body({ ...input, secret: options.appSecret }, 'x-hub-signature-256', 'sha256=')),
+    handshake: (query) =>
+      options.verifyToken && query['hub.mode'] === 'subscribe' && query['hub.verify_token'] === options.verifyToken && query['hub.challenge'] !== undefined
+        ? { status: 200, body: query['hub.challenge'] }
+        : { status: 403, body: 'forbidden' },
     receive: (rawBody) => {
       const body = parseBody(rawBody)
       const out = []

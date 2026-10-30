@@ -51,6 +51,10 @@ export interface Channel {
   /** Parse a raw webhook body into zero or more messages (status callbacks yield none). */
   receive(rawBody: string): InboundMessage[]
   send(message: OutboundMessage): Promise<void>
+  /** After verification, answer provider handshakes that carry no message (Slack `url_verification`). Returns the response body, or undefined when the body is not a handshake. */
+  challenge?(rawBody: string): string | undefined
+  /** Answer a provider's GET subscription check (WhatsApp `hub.challenge`). */
+  handshake?(query: Record<string, string>): { status: number; body: string }
 }
 
 /** Options shared by every channel adapter. */

@@ -10,7 +10,7 @@ import {
   whatsappChannel,
   type Channel,
 } from '../src/channels'
-import { verifySvix } from '../src/webhook-verify'
+import { verifySvix, verifyTelegram } from '../src/webhook-verify'
 
 const fixture = (name: string): string => readFileSync(join(__dirname, 'fixtures/channels', name), 'utf8')
 const hmac = (secret: string | Buffer, payload: string, enc: 'hex' | 'base64' = 'hex') =>
@@ -185,5 +185,46 @@ describe('createChannelHandler', () => {
     const res = await createChannelHandler(boom, { run: async () => { throw new Error('boom') } }, { onError })({ headers: {}, rawBody: fixture('telegram-text.json') })
     expect(res.status).toBe(200)
     expect(onError).toHaveBeenCalledOnce()
+  })
+})
+
+describe('channel handshakes, retries and empty secrets', () => {
+  const slSign = (body: string) => ({
+    'x-slack-request-timestamp': String(NOW),
+    'x-slack-signature': 'v0=' + hmac('sl-secret', `v0:${NOW}:${body}`),
+  })
+  it('answers a signed slack url_verification with the challenge', async () => {
+    const body = JSON.stringify({ type: 'url_verification', challenge: 'abc123', token: 'x' })
+    const run = vi.fn(async () => 'x')
+    const res = await createChannelHandler(sl(), { run })({ headers: slSign(body), rawBody: body })
+    expect(res).toEqual({ status: 200, body: 'abc123' })
+    expect(run).not.toHaveBeenCalled()
+    expect((await createChannelHandler(sl(), { run })({ headers: {}, rawBody: body })).status).toBe(401)
+  })
+  it('answers the whatsapp GET subscription handshake', async () => {
+    const ch = whatsappChannel({ appSecret: 's', accessToken: 't', phoneNumberId: '1', verifyToken: 'vt' })
+    const h = createChannelHandler(ch, { run: async () => 'x' })
+    const q = { 'hub.mode': 'subscribe', 'hub.verify_token': 'vt', 'hub.challenge': '1158201444' }
+    expect(await h({ method: 'GET', headers: {}, rawBody: '', query: q })).toEqual({ status: 200, body: '1158201444' })
+    expect((await h({ method: 'GET', headers: {}, rawBody: '', query: { ...q, 'hub.verify_token': 'no' } })).status).toBe(403)
+    expect((await h({ method: 'GET', headers: {}, rawBody: '', query: { 'hub.challenge': 'c' } })).status).toBe(403)
+  })
+  it('does not run the agent twice for a retried slack event', async () => {
+    const body = fixture('slack-message.json')
+    const run = vi.fn(async () => 'x')
+    const h = createChannelHandler(sl(), { run })
+    await h({ headers: slSign(body), rawBody: body })
+    const retry = await h({ headers: { ...slSign(body), 'x-slack-retry-num': '1' }, rawBody: body })
+    expect(retry.status).toBe(200)
+    expect(run).toHaveBeenCalledTimes(1)
+    // same event id without the retry header is deduped too
+    await h({ headers: slSign(body), rawBody: body })
+    expect(run).toHaveBeenCalledTimes(1)
+  })
+  it('rejects an empty secret with an empty header', () => {
+    const empty = telegramChannel({ botToken: 'B', secretToken: '' })
+    expect(empty.verify({ headers: { 'x-telegram-bot-api-secret-token': '' }, rawBody: '{}' }).ok).toBe(false)
+    expect(verifyTelegram({ headers: { 'x-telegram-bot-api-secret-token': '' }, rawBody: '{}', secret: '' }).ok).toBe(false)
+    expect(whatsappChannel({ appSecret: '', accessToken: 't', phoneNumberId: '1' }).verify({ headers: { 'x-hub-signature-256': 'sha256=' + hmac('', '{}') }, rawBody: '{}' }).ok).toBe(false)
   })
 })

@@ -1,4 +1,5 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
+import type { VerifyResult } from '../contract'
 import { parseJsonRecord } from '../normalize'
 import { readResponseText } from '../http-body'
 
@@ -38,4 +39,9 @@ export async function postJson(
     })
   }
   return parseBody(await readResponseText(res)) ?? {}
+}
+
+/** Guard so an unset (empty) secret never verifies anything. */
+export function withSecret(secret: string, verify: () => VerifyResult): VerifyResult {
+  return secret ? verify() : { ok: false, reason: 'channel secret is not configured' }
 }

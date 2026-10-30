@@ -1,6 +1,6 @@
 import { verifySvix } from '../webhook-verify'
 import type { Channel, ChannelOptionsBase } from './types'
-import { arr, parseBody, postJson, rec, str } from './shared'
+import { arr, parseBody, postJson, rec, str, withSecret } from './shared'
 
 /** Credentials and transport for {@link emailChannel}. */
 export interface EmailChannelOptions extends ChannelOptionsBase {
@@ -28,7 +28,8 @@ export function emailChannel(options: EmailChannelOptions): Channel {
   const fetchImpl = options.fetch ?? globalThis.fetch
   return {
     name: 'email',
-    verify: (input) => verifySvix({ nowSeconds: options.nowSeconds?.(), ...input, secret: options.webhookSecret }),
+    verify: (input) =>
+      withSecret(options.webhookSecret, () => verifySvix({ nowSeconds: options.nowSeconds?.(), ...input, secret: options.webhookSecret })),
     receive: (rawBody) => {
       const body = parseBody(rawBody)
       const data = rec(body?.data)

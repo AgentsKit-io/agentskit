@@ -113,6 +113,7 @@ export function verifyDiscord(input: WebhookInput): VerifyResult {
 
 /** Telegram: compare the configured secret token with the webhook header. */
 export function verifyTelegram(input: WebhookInput): VerifyResult {
+  if (!input.secret) return { ok: false, reason: 'empty secret' }
   const token = headerValue(input.headers, 'x-telegram-bot-api-secret-token')
   if (token === undefined) return { ok: false, reason: 'missing x-telegram-bot-api-secret-token' }
   return safeEqual(token, input.secret)

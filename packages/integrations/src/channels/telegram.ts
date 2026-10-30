@@ -1,6 +1,6 @@
 import { verifyTelegram } from '../webhook-verify'
 import type { Channel, ChannelAttachment, ChannelOptionsBase } from './types'
-import { arr, parseBody, postJson, rec, str } from './shared'
+import { arr, parseBody, postJson, rec, str, withSecret } from './shared'
 
 /** Credentials and transport for {@link telegramChannel}. */
 export interface TelegramChannelOptions extends ChannelOptionsBase {
@@ -14,7 +14,7 @@ export function telegramChannel(options: TelegramChannelOptions): Channel {
   const fetchImpl = options.fetch ?? globalThis.fetch
   return {
     name: 'telegram',
-    verify: (input) => verifyTelegram({ ...input, secret: options.secretToken }),
+    verify: (input) => withSecret(options.secretToken, () => verifyTelegram({ ...input, secret: options.secretToken })),
     receive: (rawBody) => {
       const update = parseBody(rawBody)
       const m = rec(update?.message) ?? rec(update?.edited_message)
