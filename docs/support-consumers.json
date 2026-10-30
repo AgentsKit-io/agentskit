@@ -1,0 +1,26 @@
+{
+  "$comment": "Internal consumers of @agentskit/* packages. Refresh the manifests with `node scripts/gen-support-matrix.mjs --refresh` (needs gh auth with read access); `environment` is set by hand: production, homolog or development. `ci` is the state of the default branch. Add NoxCodeSolutions repositories here (org, repo, environment, manifests) once their repository names are confirmed.",
+  "ci": {
+    "status": "unknown"
+  },
+  "consumers": [
+    {
+      "org": "AgentsKit-io",
+      "repo": "AgentsKit-io/agentskit-chat",
+      "environment": "production",
+      "manifests": [
+        "package.json"
+      ],
+      "dependencies": []
+    },
+    {
+      "org": "AgentsKit-io",
+      "repo": "AgentsKit-io/agentskit-registry",
+      "environment": "production",
+      "manifests": [
+        "package.json"
+      ],
+      "dependencies": []
+    }
+  ]
+}
