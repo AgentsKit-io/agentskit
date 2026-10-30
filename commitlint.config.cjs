@@ -6,6 +6,7 @@ const UNREWRITABLE_HEADERS = new Set([
   'wip(factory): changes the agent left uncommitted',
   'fix(memory): use vi.doMock for in-test redis mock (vitest 5 hoisting check)',
   'fix(deps): skip better-sqlite3 source build, v13 ships prebuilt binaries',
+  'ci: let commitlint skip three unrewritable vitest 5 branch headers',
 ])
 
 module.exports = {
