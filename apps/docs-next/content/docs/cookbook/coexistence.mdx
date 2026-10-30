@@ -1,0 +1,76 @@
+---
+title: Coexistence recipes
+description: Three executable recipes for using AgentsKit next to your own UI, the Vercel AI SDK, or an MCP host. Each one runs offline in CI.
+---
+
+AgentsKit is built to compose with what you already have. These recipes are not
+a migration path: each one keeps your existing choice and adds AgentsKit beside
+it. Every recipe is a fixture that imports only public package names, needs no
+network and no API key, and is run by `pnpm test:coexistence`.
+
+## Your own UI on the same agent
+
+Use `@agentskit/react` for one surface and a hand-written UI for another, both
+driven by one agent. The own UI uses only `createChatController` from
+`@agentskit/core`; the test sends the same turns through both and asserts the
+same history and the same text on screen.
+
+```ts
+import { createChatController } from '@agentskit/core'
+
+const chat = createChatController({ adapter })
+chat.subscribe(() => render(chat.getState().messages))
+await chat.send('hello')
+```
+
+- Code and test: [`coexistence-custom-ui`](https://github.com/AgentsKit-io/agentskit/tree/main/apps/docs-next/fixtures/coexistence-custom-ui)
+- Limitations: the two UIs share an agent definition, not a live session. State
+  is per controller; share memory (`createInMemoryMemory` or a persistent
+  store) if both must see one conversation.
+
+## Vercel AI SDK on the server
+
+Keep your `streamText` route and point the `vercelAI` adapter at it. The
+fixture runs the AI SDK's own mock model (`MockLanguageModelV3` from
+`ai/test`) through a route that has a tool, and checks that the tool ran and
+that text streamed into the controller.
+
+```ts
+import { vercelAI } from '@agentskit/adapters'
+
+const adapter = vercelAI({ api: '/api/chat' })
+```
+
+- Code and test: [`coexistence-vercel-ai`](https://github.com/AgentsKit-io/agentskit/tree/main/apps/docs-next/fixtures/coexistence-vercel-ai)
+- Limitations: the adapter reads text and reasoning parts of the UI Message
+  Stream. Tool calls execute on the AI SDK side and are not surfaced as
+  AgentsKit tool calls. The adapter sends role and content only, so non-text
+  message parts are not forwarded.
+
+## An MCP host calling AgentsKit tools
+
+Expose AgentsKit tools with `@agentskit/mcp` and call them from a real MCP
+client (`@modelcontextprotocol/sdk`). The test lists the tools, calls one, and
+calls another that throws, which comes back as `isError: true`.
+
+```ts
+import { createAgentsKitMcpServer } from '@agentskit/mcp'
+
+createAgentsKitMcpServer({ tools, transport })
+```
+
+- Code and test: [`coexistence-mcp-host`](https://github.com/AgentsKit-io/agentskit/tree/main/apps/docs-next/fixtures/coexistence-mcp-host)
+- Limitations: the test runs over an in-memory transport, not a spawned stdio
+  process. The server negotiates only protocol revision `2024-11-05`, and the
+  current SDK client offers a newer one first, so the fixture pins the revision
+  the host asks for. Without that pin, `initialize` fails with
+  `unsupported protocol version`. The host sees a generic
+  `tool execution failed` message, not the original error text.
+
+## Run them
+
+```bash
+pnpm install --frozen-lockfile
+pnpm build
+pnpm test:coexistence
+```
