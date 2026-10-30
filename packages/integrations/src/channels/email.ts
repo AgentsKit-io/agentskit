@@ -24,6 +24,16 @@ function parseSender(sender: string): { address: string; name?: string } {
   return { address: trimmed.slice(open + 1, -1), name: name || undefined }
 }
 
+/** Resend ids are UUIDs; reject anything else before it reaches a request URL. */
+function isSafeEmailId(id: string): boolean {
+  if (id.length === 0 || id.length > 128) return false
+  for (const ch of id) {
+    const ok = (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch === '-' || ch === '_'
+    if (!ok) return false
+  }
+  return true
+}
+
 /** Crude tag stripper (no regex: input is attacker-controlled). */
 function stripHtml(html: string): string {
   let out = ''
@@ -61,7 +71,7 @@ export function emailChannel(options: EmailChannelOptions): Channel {
       const { address, name } = parseSender(sender)
       const emailId = str(data.email_id)
       // The webhook only carries metadata; the body lives in the Received Emails API.
-      const full = emailId ? await fetchReceived(emailId) : undefined
+      const full = emailId && isSafeEmailId(emailId) ? await fetchReceived(emailId) : undefined
       const text = str(full?.text)?.trim() || stripHtml(str(full?.html) ?? '') || str(data.subject) || ''
       return [{
         channel: 'email',
