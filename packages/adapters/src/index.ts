@@ -131,3 +131,6 @@ export { openRouter } from './openrouter'
 export { cloudflareAiGateway, workersAi } from './cloudflare'
 export type { CloudflareAiGatewayConfig, WorkersAiConfig } from './cloudflare'
 export { CapabilityUnsupportedError } from './content-parts'
+
+export { createModelGateway, createCostBudget, BudgetExceededError } from './gateway'
+export type { ModelGatewayConfig, GatewayProvider, GatewayPricing, GatewayUsage, CostBudget, BudgetScope } from './gateway'
