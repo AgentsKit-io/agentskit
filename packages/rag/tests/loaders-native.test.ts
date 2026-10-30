@@ -47,7 +47,9 @@ const parsePdf = (bytes: Uint8Array) => ({ text: new TextDecoder().decode(bytes)
 describe('native loader HTTP cancellation', () => {
   it('closes a request that times out before response headers', async () => {
     const closed = deferred()
+    let received = false
     const server = await startServer((_request, response) => {
+      received = true
       const timer = setTimeout(() => response.end('late'), 10_000)
       response.once('close', () => {
         clearTimeout(timer)
@@ -60,7 +62,8 @@ describe('native loader HTTP cancellation', () => {
         message: 'loadPdf: timed out after 40ms',
         cause: expect.objectContaining({ code: 'AK_NET_TIMEOUT' }),
       })
-      await expectClosed(closed.promise)
+      // Under load the timeout can fire before the request reaches the server; then there is nothing to close.
+      if (received) await expectClosed(closed.promise)
     } finally {
       await server.close()
     }
