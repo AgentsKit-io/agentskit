@@ -60,7 +60,10 @@ export function copilotKitRunner(options: CopilotKitRunnerOptions): AgentRunner 
         return { status: 'completed', output, artifacts, trace: trace.spans(), costUsd }
       } catch (err) {
         const aborted = task.signal?.aborted === true
-        const error = aborted ? 'aborted' : controller.signal.aborted ? 'timeout exceeded' : err instanceof Error ? err.message : String(err)
+        let error: string
+        if (aborted) error = 'aborted'
+        else if (controller.signal.aborted) error = 'timeout exceeded'
+        else error = err instanceof Error ? err.message : String(err)
         trace.end(call, 'error', { error })
         trace.end(trace.root, 'error')
         return { status: aborted ? 'aborted' : 'failed', output: '', artifacts: [], trace: trace.spans(), error }
