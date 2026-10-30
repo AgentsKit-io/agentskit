@@ -15,7 +15,10 @@ export interface RunnerBudget {
   timeoutMs?: number
   /** Maximum agent turns, when the backend supports it. */
   maxTurns?: number
-  /** Maximum spend in USD, when the backend supports it. */
+  /**
+   * Maximum spend in USD. Accepted for forward compatibility but not enforced by any
+   * current adapter; only `costUsd` is reported back on the result.
+   */
   maxCostUsd?: number
 }
 

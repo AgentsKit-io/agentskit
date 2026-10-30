@@ -79,7 +79,7 @@ function createCliRunner(spec: CliSpec, options: CliRunnerOptions): AgentRunner 
   }
 }
 
-/** Claude Code CLI (`claude -p`). Maps allowed tools, turn budget and cost budget onto its flags. */
+/** Claude Code CLI (`claude -p`). Maps allowed tools and the turn budget onto its flags; `maxCostUsd` is not enforced. */
 export function claudeCodeRunner(options: CliRunnerOptions = {}): AgentRunner {
   return createCliRunner({
     id: 'claude-code',
