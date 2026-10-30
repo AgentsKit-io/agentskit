@@ -9,8 +9,10 @@ export function parseBody(rawBody: string): Rec | undefined {
   return parsed.ok ? parsed.value : undefined
 }
 
-export const str = (v: unknown): string | undefined =>
-  typeof v === 'string' ? v : typeof v === 'number' ? String(v) : undefined
+export const str = (v: unknown): string | undefined => {
+  if (typeof v === 'string') return v
+  return typeof v === 'number' ? String(v) : undefined
+}
 
 export const rec = (v: unknown): Rec | undefined =>
   v && typeof v === 'object' && !Array.isArray(v) ? (v as Rec) : undefined

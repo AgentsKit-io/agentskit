@@ -50,3 +50,4 @@ when you adapt the result into one.
 - [`/docs/agents/durable`](https://www.agentskit.io/docs/agents/durable)
 - [`/docs/agents/speculate`](https://www.agentskit.io/docs/agents/speculate)
 - [`apps/example-flow`](../example-flow) — the flow + durable runner counterpart.
+- [`apps/example-channels`](../example-channels) — the same runtime behind WhatsApp, Telegram, Slack and email webhooks.
