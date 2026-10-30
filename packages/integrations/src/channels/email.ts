@@ -12,6 +12,17 @@ export interface EmailChannelOptions extends ChannelOptionsBase {
   from: string
 }
 
+/** Splits `Name <addr>` without regexes (inbound `from` is attacker-controlled). */
+function parseSender(sender: string): { address: string; name?: string } {
+  const trimmed = sender.trim()
+  const open = trimmed.lastIndexOf('<')
+  if (!trimmed.endsWith('>') || open < 0) return { address: sender }
+  let name = trimmed.slice(0, open).trim()
+  if (name.startsWith('"')) name = name.slice(1)
+  if (name.endsWith('"')) name = name.slice(0, -1)
+  return { address: trimmed.slice(open + 1, -1), name: name || undefined }
+}
+
 /** Email channel: inbound via Resend `email.received` webhook, outbound via Resend. */
 export function emailChannel(options: EmailChannelOptions): Channel {
   const fetchImpl = options.fetch ?? globalThis.fetch
@@ -23,12 +34,11 @@ export function emailChannel(options: EmailChannelOptions): Channel {
       const data = rec(body?.data)
       if (body?.type !== 'email.received' || !data) return []
       const sender = str(data.from) ?? ''
-      const match = /^(.*?)\s*<([^>]+)>$/.exec(sender)
-      const address = match?.[2] ?? sender
+      const { address, name } = parseSender(sender)
       return [{
         channel: 'email',
         id: str(data.email_id) ?? str(data.message_id) ?? '',
-        from: { id: address, name: match?.[1]?.replace(/^"|"$/g, '') || undefined },
+        from: { id: address, name },
         conversationId: address,
         threadId: str(data.message_id),
         text: str(data.text) ?? str(data.subject) ?? '',

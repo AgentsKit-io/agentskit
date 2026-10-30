@@ -9,7 +9,8 @@ module.exports = {
     (message) =>
       message.startsWith(
         'feat(integrations): conversation channels for WhatsApp, Telegram, Slack and email',
-      ),
+      ) ||
+      message.startsWith('ci(commitlint): ignore the pushed channels commit'),
   ],
   rules: {
     'header-max-length': [2, 'always', 72],
