@@ -4,12 +4,6 @@
  */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
-  // Station-generated snapshot commits of uncommitted agent work.
-  ignores: [
-    (message) => message.startsWith('wip(factory):'),
-    // Pre-merge header of #1889 that exceeds 72 chars; history is not rewritten.
-    (message) => message.startsWith('chore(deps): typescript 7 stays scoped to root and apps;'),
-  ],
   rules: {
     'header-max-length': [2, 'always', 72],
     'type-enum': [
