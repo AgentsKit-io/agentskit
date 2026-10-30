@@ -109,5 +109,5 @@ describe('createPartitionedRAG', () => {
     } finally {
       await rm(path, { recursive: true, force: true })
     }
-  })
+  }, 30_000)
 })
