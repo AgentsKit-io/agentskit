@@ -4,6 +4,8 @@
  */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
+  // Station-generated snapshot commits of uncommitted agent work.
+  ignores: [(message) => message.startsWith('wip(factory):')],
   rules: {
     'header-max-length': [2, 'always', 72],
     'type-enum': [
