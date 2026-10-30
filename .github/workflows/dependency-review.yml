@@ -15,7 +15,7 @@ concurrency:
 jobs:
   review:
     name: Review new dependencies
-    uses: AgentsKit-io/.github/.github/workflows/dependency-review.yml@5a584290feaaa0a800a28d24583d16f15102bea1 # main
+    uses: AgentsKit-io/.github/.github/workflows/dependency-review.yml@c6bd249105846030586215250506ce1c3cdb58b8 # main
     with:
       fail-on-severity: high
       deny-licenses: GPL-2.0, GPL-3.0, AGPL-1.0, AGPL-3.0
@@ -25,7 +25,7 @@ jobs:
 
   audit:
     name: pnpm audit
-    uses: AgentsKit-io/.github/.github/workflows/audit.yml@5a584290feaaa0a800a28d24583d16f15102bea1 # main
+    uses: AgentsKit-io/.github/.github/workflows/audit.yml@c6bd249105846030586215250506ce1c3cdb58b8 # main
     with:
       package-manager: pnpm
       working-directories: '["."]'
