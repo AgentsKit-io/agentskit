@@ -1,0 +1,49 @@
+name: Release train
+
+# Proposes coordinated dependency updates from release-train.json as a DRAFT PR.
+# It never merges and never publishes: a maintainer reviews, merges and releases.
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/release-train.mjs --check
+      - name: Apply coordinated updates
+        run: node scripts/release-train.mjs --apply --body "$RUNNER_TEMP/release-train-body.md"
+      - name: Refresh lockfile and generated surfaces
+        run: |
+          pnpm install --no-frozen-lockfile
+          pnpm build
+      - name: Compatibility and security checks
+        run: |
+          pnpm check:packed-consumers
+          pnpm check:release-train
+          pnpm test
+          node scripts/audit-prod-high.mjs
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: release-train/update
+          title: 'chore(deps): release-train update'
+          body-path: ${{ runner.temp }}/release-train-body.md
+          commit-message: 'chore(deps): release-train update'
+          draft: true
