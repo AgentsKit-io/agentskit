@@ -124,8 +124,9 @@ in input order. Older insert-only shims keep their insert behavior and cannot
 promise repeated-ID replacement.
 
 The Vectra file adapter uses stable native IDs when the installed Vectra
-version provides `upsertItem`. Older versions use insert-only writes, so
-legacy random-ID duplicates are not automatically removed. Adapter-owned
+version provides `upsertItem`. Re-storing an ID also removes rows written for
+that ID under random Vectra IDs by earlier versions, in the same index update;
+rows for IDs that are never re-stored are left as they are. Adapter-owned
 `_id` and `content` metadata values take precedence over caller metadata with
 those names. Core `VectorSearchOptions.filter` is not yet translated by every
 remote vector adapter; consult the adapter implementation before relying on a

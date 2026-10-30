@@ -147,18 +147,37 @@ describe('fileVectorMemory with vectra', () => {
     expect(results.find(result => result.id === doc1.id)?.content).toBe('new')
   }, VECTRA_TIMEOUT)
 
-  it('keeps legacy random-ID duplicates while adding the stable-ID row', async () => {
+  it('collapses legacy random-ID rows into the stable-ID row when the id is re-stored', async () => {
     const { LocalIndex } = await import('vectra')
     const index = new LocalIndex(dirPath)
     await index.createIndex()
     await index.insertItem({ vector: doc1.embedding, metadata: { _id: doc1.id, content: 'legacy one' } })
     await index.insertItem({ vector: doc1.embedding, metadata: { _id: doc1.id, content: 'legacy two' } })
+    await index.insertItem({ vector: doc2.embedding, metadata: { _id: doc2.id, content: 'legacy other' } })
 
     const memory = fileVectorMemory({ path: dirPath })
     await memory.store([{ ...doc1, content: 'canonical' }])
     const reopened = fileVectorMemory({ path: dirPath })
-    const duplicates = (await reopened.search(doc1.embedding, { topK: 10 })).filter(result => result.id === doc1.id)
-    expect(duplicates).toHaveLength(3)
-    expect(duplicates.map(result => result.content)).toContain('canonical')
+    const results = await reopened.search(doc1.embedding, { topK: 10 })
+    const matches = results.filter(result => result.id === doc1.id)
+    expect(matches).toHaveLength(1)
+    expect(matches[0]?.content).toBe('canonical')
+    expect(results.find(result => result.id === doc2.id)?.content).toBe('legacy other')
+  }, VECTRA_TIMEOUT)
+
+  it('rolls back legacy row removal when the batch fails', async () => {
+    const { LocalIndex } = await import('vectra')
+    const index = new LocalIndex(dirPath)
+    await index.createIndex()
+    await index.insertItem({ vector: doc1.embedding, metadata: { _id: doc1.id, content: 'legacy' } })
+
+    const memory = fileVectorMemory({ path: dirPath })
+    await expect(memory.store([
+      { ...doc1, content: 'canonical' },
+      { id: 'broken', content: 'no vector', embedding: undefined as unknown as number[] },
+    ])).rejects.toThrow()
+    const reopened = fileVectorMemory({ path: dirPath })
+    const matches = (await reopened.search(doc1.embedding, { topK: 10 })).filter(result => result.id === doc1.id)
+    expect(matches.map(result => result.content)).toEqual(['legacy'])
   }, VECTRA_TIMEOUT)
 })

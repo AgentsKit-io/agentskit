@@ -59,6 +59,15 @@ function createVectraStore(dirPath: string): VectorStore {
       // results on slow CI disks).
       await idx.beginUpdate()
       try {
+        // Indexes written before stable IDs hold rows under random Vectra IDs;
+        // drop them so re-storing an id replaces it instead of leaving stale hits.
+        const ids = new Set(docs.map(doc => doc.id))
+        for (const item of await idx.listItems()) {
+          const publicId = item.metadata._id
+          if (typeof publicId === 'string' && ids.has(publicId) && item.id !== publicId) {
+            await idx.deleteItem(item.id)
+          }
+        }
         for (const doc of docs) {
           const metadata = { ...doc.metadata, _id: doc.id }
           if (idx.upsertItem) {
