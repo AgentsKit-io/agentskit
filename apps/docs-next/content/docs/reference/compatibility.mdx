@@ -1,0 +1,158 @@
+---
+title: Compatibility matrix
+description: What each AgentsKit adapter, memory backend, retriever, UI binding and protocol supports, with the test that proves it.
+---
+
+{/* Generated from docs/interop/compatibility.json by scripts/check-compatibility-matrix.mjs --write. Do not edit by hand. */}
+
+Every claim points at a test file that exists in this repository. A capability without a test is `planned` or `unsupported`.
+The entry format is [`docs/interop/capability-evidence.schema.json`](https://github.com/AgentsKit-io/agentskit/blob/main/docs/interop/capability-evidence.schema.json) (v1).
+
+| State | Meaning | Entries |
+| --- | --- | --- |
+| verified | A test exercises the capability | 68 |
+| partial | Tested with the limitations listed | 32 |
+| planned | Intended, no test yet | 12 |
+| unsupported | Not supported | 0 |
+
+## provider
+
+| Subject | Package | Capability | State | Evidence | Limitations | Expires |
+| --- | --- | --- | --- | --- | --- | --- |
+| openai | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| openai | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| openai | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| anthropic | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| anthropic | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| anthropic | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| gemini | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| gemini | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| gemini | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| grok | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| grok | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| grok | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| deepseek | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| deepseek | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| deepseek | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| kimi | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| kimi | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| kimi | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| mistral | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| mistral | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| mistral | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| cohere | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| cohere | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| cohere | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| together | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| together | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| together | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| groq | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| groq | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| groq | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| fireworks | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| fireworks | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| fireworks | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| openrouter | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| openrouter | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| openrouter | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| huggingface | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| huggingface | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| huggingface | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| ollama | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| ollama | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| ollama | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| lmstudio | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| lmstudio | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| lmstudio | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| vllm | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| vllm | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| vllm | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| llamacpp | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| llamacpp | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| llamacpp | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| cerebras | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| cerebras | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| cerebras | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| bail | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| bail | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| bail | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| azureOpenAI | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/contract.test.ts` | — | 2027-04-28 |
+| azureOpenAI | `@agentskit/adapters` | cancellation | verified | `packages/adapters/tests/contract.test.ts` | Contract case A6 (abort before, after and mid-stream). | 2027-04-28 |
+| azureOpenAI | `@agentskit/adapters` | retries | partial | `packages/adapters/tests/retry.test.ts` | Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. | 2027-04-28 |
+| openai | `@agentskit/adapters` | tool-calling | partial | `packages/adapters/tests/tool-history.test.ts` | Tool-history encoding is tested; a live tool-call round trip per provider is not. | 2027-04-28 |
+| openai | `@agentskit/adapters` | multimodal-input | partial | `packages/adapters/tests/multimodal-http.test.ts` | Request encoding verified against stubbed HTTP only. | 2027-04-28 |
+| openai | `@agentskit/adapters` | structured-output | planned | — | No contract case yet. | 2027-04-28 |
+| anthropic | `@agentskit/adapters` | tool-calling | partial | `packages/adapters/tests/tool-history.test.ts` | Tool-history encoding is tested; a live tool-call round trip per provider is not. | 2027-04-28 |
+| anthropic | `@agentskit/adapters` | multimodal-input | partial | `packages/adapters/tests/multimodal-http.test.ts` | Request encoding verified against stubbed HTTP only. | 2027-04-28 |
+| anthropic | `@agentskit/adapters` | structured-output | planned | — | No contract case yet. | 2027-04-28 |
+| gemini | `@agentskit/adapters` | tool-calling | partial | `packages/adapters/tests/tool-history.test.ts` | Tool-history encoding is tested; a live tool-call round trip per provider is not. | 2027-04-28 |
+| gemini | `@agentskit/adapters` | multimodal-input | partial | `packages/adapters/tests/multimodal-http.test.ts` | Request encoding verified against stubbed HTTP only. | 2027-04-28 |
+| gemini | `@agentskit/adapters` | structured-output | planned | — | No contract case yet. | 2027-04-28 |
+| openai-embedder | `@agentskit/adapters` | embeddings | verified | `packages/adapters/tests/embedders/openai.test.ts` | Stubbed HTTP only. | 2027-04-28 |
+| gemini-embedder | `@agentskit/adapters` | embeddings | verified | `packages/adapters/tests/embedders/gemini.test.ts` | Stubbed HTTP only. | 2027-04-28 |
+| ollama-embedder | `@agentskit/adapters` | embeddings | verified | `packages/adapters/tests/embedders/ollama.test.ts` | Stubbed HTTP only. | 2027-04-28 |
+| openai-compatible-embedder | `@agentskit/adapters` | embeddings | verified | `packages/adapters/tests/embedders/openai-compatible.test.ts` | Stubbed HTTP only. | 2027-04-28 |
+
+## ui
+
+| Subject | Package | Capability | State | Evidence | Limitations | Expires |
+| --- | --- | --- | --- | --- | --- | --- |
+| react | `@agentskit/react` | streaming | verified | `packages/react/tests/core/useChat.test.ts` | — | 2027-04-28 |
+| vue | `@agentskit/vue` | streaming | verified | `packages/vue/tests/useChat.test.ts` | — | 2027-04-28 |
+| svelte | `@agentskit/svelte` | streaming | verified | `packages/svelte/tests/store.test.ts` | — | 2027-04-28 |
+| angular | `@agentskit/angular` | streaming | verified | `packages/angular/tests/service.test.ts` | — | 2027-04-28 |
+| solid | `@agentskit/solid` | streaming | verified | `packages/solid/tests/useChat.test.ts` | — | 2027-04-28 |
+| ink | `@agentskit/ink` | streaming | verified | `packages/ink/tests/useChat-sync.test.ts` | — | 2027-04-28 |
+| react-native | `@agentskit/react-native` | streaming | verified | `packages/react-native/tests/useChat.test.ts` | — | 2027-04-28 |
+| ink | `@agentskit/ink` | human-approval | verified | `packages/ink/tests/ToolConfirmation.test.tsx` | — | 2027-04-28 |
+| react | `@agentskit/react` | human-approval | planned | — | No approval-UI test in this binding. | 2027-04-28 |
+| vue | `@agentskit/vue` | human-approval | planned | — | No approval-UI test in this binding. | 2027-04-28 |
+| svelte | `@agentskit/svelte` | human-approval | planned | — | No approval-UI test in this binding. | 2027-04-28 |
+| angular | `@agentskit/angular` | human-approval | planned | — | No approval-UI test in this binding. | 2027-04-28 |
+| solid | `@agentskit/solid` | human-approval | planned | — | No approval-UI test in this binding. | 2027-04-28 |
+| react-native | `@agentskit/react-native` | human-approval | planned | — | No approval-UI test in this binding. | 2027-04-28 |
+
+## runtime
+
+| Subject | Package | Capability | State | Evidence | Limitations | Expires |
+| --- | --- | --- | --- | --- | --- | --- |
+| runtime | `@agentskit/runtime` | tool-calling | verified | `packages/runtime/tests/runner.test.ts` | — | 2027-04-28 |
+| runtime | `@agentskit/runtime` | cancellation | partial | `packages/runtime/tests/runner.test.ts` | Abort handling in the runner loop only. | 2027-04-28 |
+| runtime | `@agentskit/runtime` | human-approval | partial | `packages/core/tests/hitl.test.ts` | Approval primitive tested in core; not an end-to-end runtime suite. | 2027-04-28 |
+| runtime | `@agentskit/runtime` | structured-output | planned | — | No test. | 2027-04-28 |
+| tools | `@agentskit/tools` | tool-calling | verified | `packages/tools/tests/discovery.test.ts` | Discovery and registration; individual tools have their own suites. | 2027-04-28 |
+
+## memory
+
+| Subject | Package | Capability | State | Evidence | Limitations | Expires |
+| --- | --- | --- | --- | --- | --- | --- |
+| file-chat | `@agentskit/memory` | persistent-memory | verified | `packages/memory/tests/file-chat.test.ts` | — | 2027-04-28 |
+| sqlite | `@agentskit/memory` | persistent-memory | verified | `packages/memory/tests/sqlite.test.ts` | — | 2027-04-28 |
+| redis | `@agentskit/memory` | persistent-memory | verified | `packages/memory/tests/redis.test.ts` | Exercised against an injected client, not a live service. | 2027-04-28 |
+| web-storage | `@agentskit/memory` | persistent-memory | verified | `packages/memory/tests/web-storage.test.ts` | — | 2027-04-28 |
+| turso | `@agentskit/memory` | persistent-memory | verified | `packages/memory/tests/turso.test.ts` | Exercised against an injected client, not a live service. | 2027-04-28 |
+| supabase | `@agentskit/memory` | persistent-memory | verified | `packages/memory/tests/supabase.test.ts` | Exercised against an injected client, not a live service. | 2027-04-28 |
+| postgres | `@agentskit/memory` | persistent-memory | partial | `packages/memory/tests/postgres.integration.test.ts` | Integration suite needs a Postgres instance and is skipped without one. | 2027-04-28 |
+| file-vector | `@agentskit/memory` | embeddings | verified | `packages/memory/tests/file-vector.test.ts` | — | 2027-04-28 |
+| vector | `@agentskit/memory` | embeddings | verified | `packages/memory/tests/vector.test.ts` | — | 2027-04-28 |
+| memory-cancellation | `@agentskit/memory` | cancellation | partial | `packages/memory/tests/cancellation.test.ts` | Covers the memory operations in that suite, not every backend. | 2027-04-28 |
+
+## retriever
+
+| Subject | Package | Capability | State | Evidence | Limitations | Expires |
+| --- | --- | --- | --- | --- | --- | --- |
+| createRAG | `@agentskit/rag` | embeddings | verified | `packages/rag/tests/rag.test.ts` | Retriever contract case; embedder is a test double. | 2027-04-28 |
+| createRAG | `@agentskit/rag` | cancellation | planned | — | No retriever cancellation contract suite yet. | 2027-04-28 |
+
+## protocol
+
+| Subject | Package | Capability | State | Evidence | Limitations | Expires |
+| --- | --- | --- | --- | --- | --- | --- |
+| mcp | `@agentskit/tools` | tool-calling | verified | `packages/tools/tests/mcp.test.ts` | Client-side tool bridge; see the mcp-bridge recipe. | 2027-04-28 |
+| mcp-server | `@agentskit/mcp` | tool-calling | verified | `packages/mcp/tests/server.test.ts` | — | 2027-04-28 |
+| a2a | `@agentskit/core` | tool-calling | partial | `packages/core/tests/a2a.test.ts` | Agent card validation and version only; no task exchange transport. | 2027-04-28 |
+| a2a | `@agentskit/core` | streaming | planned | — | No streaming transport. | 2027-04-28 |
+| langchain | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/langchain.test.ts` | Coexistence recipe: from-langchain migration guide. | 2027-04-28 |
+| langchain-bridge | `@agentskit/adapters` | tool-calling | partial | `packages/adapters/tests/langchain-bridge.test.ts` | AdapterFactory to BaseChatModel bridge. | 2027-04-28 |
+| vercel-ai | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/vercel-ai.test.ts` | Coexistence recipe: from-vercel-ai-sdk migration guide. | 2027-04-28 |
+| langgraph | `@agentskit/adapters` | streaming | verified | `packages/adapters/tests/langchain.test.ts` | Stream and streamEvents modes exercised with stubbed graphs. | 2027-04-28 |
