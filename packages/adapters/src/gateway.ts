@@ -128,7 +128,7 @@ const estimateInputTokens = (request: AdapterRequest): number =>
  * breach `maxCostUsd` or a named budget. The error is thrown from `stream()`.
  */
 export function createModelGateway(config: ModelGatewayConfig): AdapterFactory {
-  const budgets = config.budget === undefined ? [] : Array.isArray(config.budget) ? config.budget : [config.budget]
+  const budgets = [config.budget ?? []].flat()
   const { pricing, maxCostUsd } = config
   if ((maxCostUsd !== undefined || budgets.length > 0) && !pricing) {
     throw new ConfigError({
