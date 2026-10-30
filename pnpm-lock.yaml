@@ -1479,6 +1479,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/cross-platform':
+        specifier: workspace:*
+        version: link:../cross-platform
       '@agentskit/net':
         specifier: workspace:*
         version: link:../net

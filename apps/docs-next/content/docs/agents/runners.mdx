@@ -1,0 +1,49 @@
+---
+title: Agent runners
+description: "One runner interface for Hermes Agent (ACP), CopilotKit/OpenBot, Claude Code and Codex — task in, result, artifacts and trace out."
+---
+
+`@agentskit/runtime/runners` gives every external agent backend the same contract, so a factory or a product can swap the backend through configuration.
+
+```ts
+interface AgentRunner {
+  id: string
+  run(task: RunnerTask): Promise<RunnerResult>
+}
+
+// task: { prompt, cwd?, allowedTools?, budget?: { timeoutMs?, maxTurns?, maxCostUsd? }, signal? }
+// result: { status: 'completed' | 'failed' | 'aborted', output, artifacts, trace, costUsd?, error? }
+```
+
+`run` never throws for agent failures: a missing binary, non-zero exit, timeout, abort or HTTP error all come back as `status: 'failed' | 'aborted'` with `error` set.
+
+## Adapters
+
+| Factory | Backend | How it talks |
+| --- | --- | --- |
+| `hermesAcpRunner()` | Hermes Agent | Agent Client Protocol (JSON-RPC over stdio, `hermes acp`) |
+| `copilotKitRunner({ url })` | CopilotKit / OpenBot | HTTP POST; JSON `{ output, artifacts?, costUsd? }` or plain text |
+| `claudeCodeRunner()` | Claude Code | `claude -p --output-format json`, maps `allowedTools` and `maxTurns` |
+| `codexRunner()` | Codex | `codex exec`; no per-tool allow list, so `allowedTools` is not forwarded |
+
+## Trace
+
+`result.trace` is a list of spans with the same shape as `TraceSpan` in `@agentskit/observability` (`id`, `name`, `parentId`, `startTime`, `endTime`, `attributes`, `status`). The first span is the run (`runner:<id>`, `parentId: null`); the others are its children.
+
+## Choosing the runner
+
+Select by id from configuration instead of importing a backend directly:
+
+```ts
+import { claudeCodeRunner, codexRunner, createRunnerRegistry } from '@agentskit/runtime/runners'
+
+const runners = createRunnerRegistry([claudeCodeRunner(), codexRunner()])
+const result = await runners.get(process.env.AGENT_RUNNER ?? 'claude-code').run({
+  prompt: 'Fix the failing test',
+  cwd: repoDir,
+  allowedTools: ['Read', 'Edit'],
+  budget: { timeoutMs: 600_000, maxTurns: 20 },
+})
+```
+
+Custom backends implement `AgentRunner` and are registered the same way. Use the contract in `packages/runtime/tests/runners.test.ts` (`assertRunnerContract`) against a fake runner to test code that depends on a runner without spawning anything.

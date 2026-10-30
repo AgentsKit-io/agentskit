@@ -10090,6 +10090,141 @@
             }
           ]
         },
+        "./runners": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "AcpTransport",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "AgentRunner",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "claudeCodeRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CliOutcome",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliRunnerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "codexRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "copilotKitRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CopilotKitRunnerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "createRunnerRegistry",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createTraceRecorder",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "execCli",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "hermesAcpRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "HermesAcpRunnerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerArtifact",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerBudget",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerRegistry",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerResult",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerTask",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerTraceRecorder",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerTraceSpan",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "spawnAcpTransport",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
         "./shared-context": {
           "conditions": [
             "import",

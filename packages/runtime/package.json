@@ -33,6 +33,11 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./runners": {
+      "types": "./dist/runners.d.ts",
+      "import": "./dist/runners.js",
+      "require": "./dist/runners.cjs"
+    },
     "./shared-context": {
       "types": "./dist/shared-context.d.ts",
       "import": "./dist/shared-context.js",
@@ -51,6 +56,7 @@
   },
   "dependencies": {
     "@agentskit/core": "workspace:*",
+    "@agentskit/cross-platform": "workspace:*",
     "@agentskit/net": "workspace:*"
   },
   "devDependencies": {
