@@ -47,7 +47,7 @@
         },
         {
           "id": "integrations",
-          "value": 50,
+          "value": 51,
           "noun": "integrations",
           "evidence": {
             "type": "repository-derivation",
@@ -55,7 +55,7 @@
             "path": "scripts/compute-stats.mjs",
             "summary": "Service directories in the integrations catalog."
           },
-          "conservativeFloor": 50
+          "conservativeFloor": 51
         },
         {
           "id": "catalog-providers",
