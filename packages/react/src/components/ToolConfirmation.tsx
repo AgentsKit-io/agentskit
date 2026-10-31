@@ -1,7 +1,7 @@
 import React from 'react'
 import type { ToolCall } from '@agentskit/core'
 
-/** Props for approving or denying a tool call that requires confirmation. */
+/** Text overrides for the tool confirmation controls. */
 export interface ToolConfirmationLabels {
   approve?: string
   deny?: string
@@ -9,6 +9,7 @@ export interface ToolConfirmationLabels {
   undo?: string
 }
 
+/** Props for approving or denying a tool call that requires confirmation. */
 export interface ToolConfirmationProps {
   toolCall: ToolCall
   onApprove: (toolCallId: string) => void
