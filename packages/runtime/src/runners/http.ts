@@ -17,6 +17,9 @@ export interface CopilotKitRunnerOptions {
 /**
  * CopilotKit / OpenBot over HTTP. POSTs `{ prompt, cwd, allowedTools, budget }` and expects
  * JSON `{ output, artifacts?, costUsd? }` (plain-text bodies are taken as the output).
+ *
+ * This is a custom JSON shape, not the CopilotKit runtime / AG-UI protocol: `url` must point to a
+ * thin adapter in front of your CopilotKit / OpenBot agent that accepts this body.
  */
 export function copilotKitRunner(options: CopilotKitRunnerOptions): AgentRunner {
   return {
