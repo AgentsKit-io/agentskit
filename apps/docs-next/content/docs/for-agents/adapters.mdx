@@ -248,6 +248,7 @@ const adapter = openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o-min
 
 - Rank candidates by cost and fall back on errors: compose `createRouter` with `createFallbackAdapter`.
 - A/B providers without users: [`speculate`](/docs/reference/recipes/speculative-execution) or [`replayAgainst`](/docs/reference/recipes/replay-different-model).
+- One entry point for several providers with usage, cost and spending ceilings: `createModelGateway`; share a named allowance across gateways with `createCostBudget`, and catch `BudgetExceededError` when a ceiling is hit.
 - Test without keys: pair `recordingAdapter` + `replayAdapter` ([deterministic replay](/docs/reference/recipes/deterministic-replay)).
 
 ## Related packages

@@ -95,6 +95,19 @@
               ]
             },
             {
+              "name": "BudgetExceededError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "BudgetScope",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "CapabilityUnsupportedError",
               "kinds": [
                 "type",
@@ -162,6 +175,12 @@
               ]
             },
             {
+              "name": "CostBudget",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "createAdapter",
               "kinds": [
                 "value"
@@ -174,6 +193,12 @@
               ]
             },
             {
+              "name": "createCostBudget",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "createEnsembleAdapter",
               "kinds": [
                 "value"
@@ -181,6 +206,12 @@
             },
             {
               "name": "createFallbackAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createModelGateway",
               "kinds": [
                 "value"
               ]
@@ -319,6 +350,24 @@
             },
             {
               "name": "FireworksConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "GatewayPricing",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "GatewayProvider",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "GatewayUsage",
               "kinds": [
                 "type"
               ]
@@ -523,6 +572,12 @@
             },
             {
               "name": "ModelDeprecation",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelGatewayConfig",
               "kinds": [
                 "type"
               ]

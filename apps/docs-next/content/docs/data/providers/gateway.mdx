@@ -1,0 +1,74 @@
+---
+title: Model gateway
+description: One adapter for OpenRouter, Anthropic, OpenAI and CLIProxyAPI, with per-call usage, cost in USD and hard spending ceilings.
+---
+
+`createModelGateway` is a single door to four providers. Switching provider is a config change; every call reports tokens and estimated cost, and can be refused when it would exceed a ceiling.
+
+```ts
+import { createModelGateway } from '@agentskit/adapters'
+
+const adapter = createModelGateway({
+  provider: 'openrouter', // 'openrouter' | 'anthropic' | 'openai' | 'cliproxyapi'
+  model: 'anthropic/claude-sonnet-4-6',
+  apiKey: process.env.OPENROUTER_API_KEY!,
+  pricing: { input: 3, output: 15 }, // USD per 1M tokens
+  onUsage: u => console.log(u.totalTokens, u.costUsd),
+})
+```
+
+| Option | Notes |
+|---|---|
+| `provider` | Selects the endpoint and wire format. `cliproxyapi` talks to any OpenAI-compatible base URL (default `http://localhost:8317`, `apiKey` optional). |
+| `baseUrl` | Override the endpoint (self-hosted CLIProxyAPI, proxies). |
+| `pricing` | `{ input, output }` USD per 1M tokens. `getModel(...)?.cost` from `@agentskit/adapters/catalog` has the same shape. Required with a ceiling. |
+| `maxCostUsd` | Per-call ceiling. |
+| `budget` | A named `CostBudget` (or an array) charged by every call. |
+| `maxTokens` | Output ceiling used for the pre-flight worst-case check. |
+
+## Usage and cost
+
+Each call ends with one `usage` chunk: `chunk.usage` holds `promptTokens` / `completionTokens` / `totalTokens` and `chunk.metadata.costUsd` the estimated cost. `onUsage` receives the same data.
+
+## Ceilings and typed refusal
+
+A refusal is a `BudgetExceededError` (`code: 'AK_BUDGET_EXCEEDED'`, with `scope: 'call' | 'budget'`, `budget`, `limitUsd`, `costUsd`) thrown from `stream()`:
+
+- **Before the request** — when a budget is already spent, or when the worst case (estimated input + `maxTokens` output) exceeds the cap. Nothing is sent, nothing is billed.
+- **After the response** — when the actual cost went over the cap. Usage is still recorded on the budget.
+
+## Cap per client
+
+Create one named budget per client and share it across every gateway that serves them:
+
+```ts
+import { createCostBudget, createModelGateway, BudgetExceededError } from '@agentskit/adapters'
+
+const budgets = new Map<string, ReturnType<typeof createCostBudget>>()
+const budgetFor = (clientId: string) => {
+  let b = budgets.get(clientId)
+  if (!b) budgets.set(clientId, (b = createCostBudget(`client:${clientId}`, 5))) // $5 per client
+  return b
+}
+
+const adapterFor = (clientId: string) =>
+  createModelGateway({
+    provider: 'anthropic',
+    model: 'claude-sonnet-4-6',
+    apiKey: process.env.ANTHROPIC_API_KEY!,
+    pricing: { input: 3, output: 15 },
+    maxCostUsd: 0.25, // per call
+    maxTokens: 2048,
+    budget: budgetFor(clientId), // per client
+  })
+
+try {
+  for await (const chunk of adapterFor('acme').createSource(request).stream()) { /* ... */ }
+} catch (e) {
+  if (e instanceof BudgetExceededError && e.scope === 'budget') {
+    // respond 402 / tell the client their allowance is spent
+  }
+}
+```
+
+Budgets live in memory; persist `spentUsd` yourself (or use the observability cost guard) if you need it to survive restarts.

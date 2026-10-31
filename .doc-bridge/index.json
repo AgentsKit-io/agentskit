@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "57c222e09a24a8e87e212f1c28c631ac225916130a5bac69c04e40af2e89e20a",
+  "contentHash": "88ccafa605e6b80e231e560ed1c163eb7ae519ace3a4311a643fbb5888b78c9d",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-26T00:00:29.477Z",
+  "generatedAt": "2026-10-30T01:52:07.293Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2033,6 +2033,18 @@
         "human"
       ],
       "contentHash": "3677d458fdac02828c28b8fffe1043aba48020019032652079aeb19e5946a11c"
+    },
+    {
+      "id": "document:apps/docs-next/content/docs/data/providers/gateway.mdx",
+      "type": "document",
+      "title": "gateway.mdx",
+      "path": "apps/docs-next/content/docs/data/providers/gateway.mdx",
+      "description": "createModelGateway is a single door to four providers. Switching provider is a config change; every call reports tokens and estimated cost, and can be refused when it would exceed a ceiling.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "4fa0bd5ea2b8e7268f0c542e81369fc621e2411fceeba72ecf8a608554127c1e"
     },
     {
       "id": "document:apps/docs-next/content/docs/data/providers/gemini-embedder.mdx",
@@ -4558,12 +4570,12 @@
       "type": "document",
       "title": "provider-swap.mdx",
       "path": "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
-      "description": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers.",
+      "description": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences.",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "828c847f0e669ab6035de8aa2e5d248cedf409a5337d9b0c969cf71455864670"
+      "contentHash": "d7e9ab75569ee51e63abaacbdd5270338f3d0624af38b6f52a90d8eb19b1e8e6"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/rag-chat.mdx",
@@ -14169,7 +14181,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "bb6a07e39c6dbe3f1c6bbcec23e69e7df5b0fa1e6795b521ed7a30971f737fc9"
+      "contentHash": "0d44954857c1ab742559e683e4d700f1f0dd6a20246cfce69c9669dbc6b6661b"
     },
     {
       "id": "module:packages/adapters/src/azure-openai.ts",
@@ -14930,6 +14942,29 @@
       "contentHash": "711c1be1530a07d1c559d516b08adfe4a65f6a495267da49c486f199b16b3ffa"
     },
     {
+      "id": "module:packages/adapters/src/gateway.ts",
+      "type": "module",
+      "title": "gateway.ts",
+      "path": "packages/adapters/src/gateway.ts",
+      "symbols": [
+        "BudgetExceededError",
+        "BudgetScope",
+        "CostBudget",
+        "GatewayPricing",
+        "GatewayProvider",
+        "GatewayUsage",
+        "ModelGatewayConfig",
+        "createCostBudget",
+        "createModelGateway"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "d1018d64e6dc10e4871e62e8bd630fc9404112f3f94f6cfb559a062a87b06dfc"
+    },
+    {
       "id": "module:packages/adapters/src/gemini.ts",
       "type": "module",
       "title": "gemini.ts",
@@ -15021,11 +15056,14 @@
         "BailConfig",
         "BedrockConfig",
         "BedrockRuntimeClientLike",
+        "BudgetExceededError",
+        "BudgetScope",
         "CapabilityUnsupportedError",
         "CarbonTable",
         "CerebrasConfig",
         "CloudflareAiGatewayConfig",
         "CohereConfig",
+        "CostBudget",
         "CreateAdapterConfig",
         "CredentialRefreshable",
         "DEFAULT_CARBON_TABLE",
@@ -15042,6 +15080,9 @@
         "FallbackCandidate",
         "FallbackOptions",
         "FireworksConfig",
+        "GatewayPricing",
+        "GatewayProvider",
+        "GatewayUsage",
         "GeminiConfig",
         "GeminiEmbedderConfig",
         "GenericAdapterConfig",
@@ -15059,6 +15100,7 @@
         "MockAdapterOptions",
         "MockResponse",
         "ModelDeprecation",
+        "ModelGatewayConfig",
         "OllamaConfig",
         "OllamaEmbedderConfig",
         "OpenAICompatibleConfig",
@@ -15101,8 +15143,10 @@
         "cohere",
         "cohereAdapter",
         "createAdapter",
+        "createCostBudget",
         "createEnsembleAdapter",
         "createFallbackAdapter",
+        "createModelGateway",
         "createOpenAICompatibleEmbedder",
         "createRotatingCredentials",
         "createRouter",
@@ -15158,7 +15202,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "fc0b76056685ae8b01ec4c33e2d89fddebf702733de3993b9477b5af0d6f920a"
+      "contentHash": "5b57b059fc9a62b9c44106db15b08df576106ac424fec3d4c0f67f0f6da0f5bd"
     },
     {
       "id": "module:packages/adapters/src/kimi.ts",
@@ -16033,6 +16077,19 @@
         "tests"
       ],
       "contentHash": "cb7ac059b1f0aa928142ea6359d62c57c7355221b4c97656ee51589a15b3dc6c"
+    },
+    {
+      "id": "module:packages/adapters/tests/gateway.test.ts",
+      "type": "module",
+      "title": "gateway.test.ts",
+      "path": "packages/adapters/tests/gateway.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "91ffcf346a90f8db7278ba13b659d2919246131f2d36c1f34111f8ce4a202d5a"
     },
     {
       "id": "module:packages/adapters/tests/gemini.test.ts",
@@ -38639,8 +38696,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "780441f561c123904d7928216f1fde6bb0317f68b1b8598416f210367c13e04a",
-    "fileCount": 2648,
+    "hash": "acad98cd60d00d5ad171763ed2864660288e4c45252ba624bd7fcb3c28de16e3",
+    "fileCount": 2651,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38662,9 +38719,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "280b2cbb958161aea20c5c720daa5c4551b09c26bd92389863125d9a2254ddbc",
+    "contentHash": "24ef70a1b817d5668dfd03823b9ca41ccee2c8ee6f872c35df8d039ed5b83144",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "d760e004f956e204798b7ea4906835ad505369edcfbfe8a6d55b8bb837b6370e",
+    "snapshotHash": "602337b387d72ab6df9d67649dde82e0ffb0f9bbb9857031e09a7cf11529eef1",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38684,7 +38741,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2520,
+      "documentCount": 2523,
       "fieldNames": [
         "aliases",
         "body",
@@ -38695,13 +38752,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0174603174603174,
-        "body": 60.786904761904765,
-        "headings": 3.892857142857143,
-        "path": 7.616269841269841,
-        "summary": 4.503571428571429,
-        "symbols": 7.518253968253968,
-        "title": 3.3753968253968254
+        "aliases": 3.017439556084027,
+        "body": 60.80657946888625,
+        "headings": 3.8910027744748317,
+        "path": 7.6159334126040426,
+        "summary": 4.513674197384066,
+        "symbols": 7.533888228299643,
+        "title": 3.374157748711851
       }
     },
     "entries": [
@@ -49023,6 +49080,45 @@
         "confidence": "observed"
       },
       {
+        "id": "document:apps/docs-next/content/docs/data/providers/gateway.mdx",
+        "kind": "document",
+        "path": "apps/docs-next/content/docs/data/providers/gateway.mdx",
+        "title": "gateway.mdx",
+        "summary": "createModelGateway is a single door to four providers. Switching provider is a config change; every call reports tokens and estimated cost, and can be refused when it would exceed a ceiling.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "gateway.mdx",
+          "headings": "Usage and cost Ceilings and typed refusal Cap per client",
+          "path": "apps/docs-next/content/docs/data/providers/gateway.mdx",
+          "symbols": "",
+          "summary": "createModelGateway is a single door to four providers. Switching provider is a config change; every call reports tokens and estimated cost, and can be refused when it would exceed a ceiling.",
+          "body": "createModelGateway is a single door to four providers. Switching provider is a config change; every call reports tokens and estimated cost, and can be refused when it would exceed a ceiling. Option Notes --- --- provider Selects the endpoint and wire format. cliproxyapi talks to any OpenAI-compatible base URL (default http://localhost:8317 , apiKey optional). baseUrl Override the endpoint (self-hosted CLIProxyAPI, proxies). pricing { input, output } USD per 1M tokens. getModel(...)?.cost from @agentskit/adapters/catalog has the same shape. Required with a ceiling. maxCostUsd Per-call ceiling. budget A named CostBudget (or an array) charged by every call. maxTokens Output ceiling used for the pre-flight worst-case check. Usage and cost Each call ends with one usage chunk: chunk.usage holds promptTokens / completionTokens / totalTokens and chunk.metadata.costUsd the estimated cost. onUsage receives the same data. Ceilings and typed refusal A refusal is a BudgetExceededError ( code: 'AK BUDGET EXCEEDED' , with scope: 'call' 'budget' , budget , limitUsd , costUsd ) thrown from stream() : - Before the request — when a budget is already spent, or when the worst case (estimated input + maxTokens output) exceeds the cap. Nothing is sent, nothing is billed. - After the response — when the actual cost went over the cap. Usage is still recorded on the budget. Cap per client Create one named budget per client and share it across every gateway that serves them: Budgets live in memory; persist spentUsd yourself (or use the observability cost guard) if you need it to survive restarts.",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/adapters/src/gateway.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "4fa0bd5ea2b8e7268f0c542e81369fc621e2411fceeba72ecf8a608554127c1e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:apps/docs-next/content/docs/data/providers/gemini-embedder.mdx",
         "kind": "document",
         "path": "apps/docs-next/content/docs/data/providers/gemini-embedder.mdx",
@@ -51103,7 +51199,7 @@
             }
           ]
         },
-        "contentHash": "d738bbad8715322edf89245b1d8a142c59f1692e0f99ac2623495849e9610697",
+        "contentHash": "f100526fb968f5a58d844b5e62cbc9e07cd0cd9a2225e6d561a96f5e154e8d7d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -64670,7 +64766,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
         "title": "provider-swap.mdx",
-        "summary": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers.",
+        "summary": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -64682,8 +64778,8 @@
           "headings": "Install Copy the verified fixture Provider compatibility Run without credentials Switch providers What the automated proof covers See also",
           "path": "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
           "symbols": "",
-          "summary": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers.",
-          "body": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers. Install Copy the verified fixture The complete runnable source is committed at . The application path has no provider-specific branch: Only selectAdapter knows which provider factory, credential, and default model to use. Provider compatibility AGENT PROVIDER Credential Default model Transport --- --- --- --- openai OPENAI API KEY gpt-4o-mini Hosted anthropic ANTHROPIC API KEY claude-sonnet-4-6 Hosted gemini GOOGLE API KEY gemini-2.5-flash Hosted openrouter OPENROUTER API KEY openrouter/free Hosted router groq GROQ API KEY openai/gpt-oss-120b Hosted ollama none llama3.2 Local Set AGENT MODEL to override any default. Set OLLAMA BASE URL when Ollama is not listening at http://localhost:11434 . For streaming, tools, multimodal, reasoning, usage, and self-hosting details, use the canonical . Run without credentials The fixture defaults to a deterministic demo adapter so you can verify installation and the runtime path without network access: Expected prefix: Switch providers Hosted providers require only their documented environment variable: For local Ollama: The task, runtime construction, and result handling remain identical for every command. What the automated proof covers - all six adapters execute the same runTask function; - provider-native SSE or NDJSON is parsed through a deterministic HTTP mock, with no live API call; - hosted credentials are validated before transport work; - Ollama needs no API key and accepts model/base URL overrides; - OpenRouter uses the explicit openrouter/free model; - unknown provider names fail before adapter construction; - the credential-free demo remains executable in CI. Live calls remain optional because provider availability, accounts, rate limits, and local model installation are external state. Tests never inspect or print credential values. See also - - - -",
+          "summary": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences.",
+          "body": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences. Install Copy the verified fixture The complete runnable source is committed at . The application path has no provider-specific branch: Only selectAdapter knows which provider factory, credential, and default model to use. Provider compatibility AGENT PROVIDER Credential Default model Transport --- --- --- --- openai OPENAI API KEY gpt-4o-mini Hosted anthropic ANTHROPIC API KEY claude-sonnet-4-6 Hosted gemini GOOGLE API KEY gemini-2.5-flash Hosted openrouter OPENROUTER API KEY openrouter/free Hosted router groq GROQ API KEY openai/gpt-oss-120b Hosted ollama none llama3.2 Local Set AGENT MODEL to override any default. Set OLLAMA BASE URL when Ollama is not listening at http://localhost:11434 . For streaming, tools, multimodal, reasoning, usage, and self-hosting details, use the canonical . Run without credentials The fixture defaults to a deterministic demo adapter so you can verify installation and the runtime path without network access: Expected prefix: Switch providers Hosted providers require only their documented environment variable: For local Ollama: The task, runtime construction, and result handling remain identical for every command. What the automated proof covers - all six adapters execute the same runTask function; - provider-native SSE or NDJSON is parsed through a deterministic HTTP mock, with no live API call; - hosted credentials are validated before transport work; - Ollama needs no API key and accepts model/base URL overrides; - OpenRouter uses the explicit openrouter/free model; - unknown provider names fail before adapter construction; - the credential-free demo remains executable in CI. Live calls remain optional because provider availability, accounts, rate limits, and local model installation are external state. Tests never inspect or print credential values. See also - - - -",
           "aliases": "document human"
         },
         "graph": {
@@ -64735,7 +64831,7 @@
             }
           ]
         },
-        "contentHash": "828c847f0e669ab6035de8aa2e5d248cedf409a5337d9b0c969cf71455864670",
+        "contentHash": "d7e9ab75569ee51e63abaacbdd5270338f3d0624af38b6f52a90d8eb19b1e8e6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -103304,6 +103400,11 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/gateway.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
               "confidence": "observed"
             },
@@ -103446,7 +103547,7 @@
             }
           ]
         },
-        "contentHash": "bb6a07e39c6dbe3f1c6bbcec23e69e7df5b0fa1e6795b521ed7a30971f737fc9",
+        "contentHash": "0d44954857c1ab742559e683e4d700f1f0dd6a20246cfce69c9669dbc6b6661b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -106589,6 +106690,89 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/src/gateway.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/gateway.ts",
+        "title": "gateway.ts",
+        "aliases": [],
+        "symbols": [
+          "BudgetExceededError",
+          "BudgetScope",
+          "CostBudget",
+          "GatewayPricing",
+          "GatewayProvider",
+          "GatewayUsage",
+          "ModelGatewayConfig",
+          "createCostBudget",
+          "createModelGateway"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "gateway.ts",
+          "headings": "",
+          "path": "packages/adapters/src/gateway.ts",
+          "symbols": "BudgetExceededError BudgetScope CostBudget GatewayPricing GatewayProvider GatewayUsage ModelGatewayConfig createCostBudget createModelGateway",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/data/providers/gateway.mdx"
+          ],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/tests/gateway.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/data/providers/gateway.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/adapters/src/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/anthropic.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/openai-compatible.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/openai.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/utils.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "d1018d64e6dc10e4871e62e8bd630fc9404112f3f94f6cfb559a062a87b06dfc",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/src/gemini.ts",
         "kind": "module",
         "path": "packages/adapters/src/gemini.ts",
@@ -107161,11 +107345,14 @@
           "BailConfig",
           "BedrockConfig",
           "BedrockRuntimeClientLike",
+          "BudgetExceededError",
+          "BudgetScope",
           "CapabilityUnsupportedError",
           "CarbonTable",
           "CerebrasConfig",
           "CloudflareAiGatewayConfig",
           "CohereConfig",
+          "CostBudget",
           "CreateAdapterConfig",
           "CredentialRefreshable",
           "DEFAULT_CARBON_TABLE",
@@ -107182,6 +107369,9 @@
           "FallbackCandidate",
           "FallbackOptions",
           "FireworksConfig",
+          "GatewayPricing",
+          "GatewayProvider",
+          "GatewayUsage",
           "GeminiConfig",
           "GeminiEmbedderConfig",
           "GenericAdapterConfig",
@@ -107199,6 +107389,7 @@
           "MockAdapterOptions",
           "MockResponse",
           "ModelDeprecation",
+          "ModelGatewayConfig",
           "OllamaConfig",
           "OllamaEmbedderConfig",
           "OpenAICompatibleConfig",
@@ -107241,8 +107432,10 @@
           "cohere",
           "cohereAdapter",
           "createAdapter",
+          "createCostBudget",
           "createEnsembleAdapter",
           "createFallbackAdapter",
+          "createModelGateway",
           "createOpenAICompatibleEmbedder",
           "createRotatingCredentials",
           "createRouter",
@@ -107302,7 +107495,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/adapters/src/index.ts",
-          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CapabilityUnsupportedError CarbonTable CerebrasConfig CloudflareAiGatewayConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation OllamaConfig OllamaEmbedderConfig OpenAICompatibleConfig OpenAICompatibleEmbedderConfig OpenAICompatibleTransportConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike WorkersAiConfig anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cloudflareAiGateway cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openRouter openai openaiCompatible openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy workersAi",
+          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike BudgetExceededError BudgetScope CapabilityUnsupportedError CarbonTable CerebrasConfig CloudflareAiGatewayConfig CohereConfig CostBudget CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GatewayPricing GatewayProvider GatewayUsage GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation ModelGatewayConfig OllamaConfig OllamaEmbedderConfig OpenAICompatibleConfig OpenAICompatibleEmbedderConfig OpenAICompatibleTransportConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike WorkersAiConfig anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cloudflareAiGateway cohere cohereAdapter createAdapter createCostBudget createEnsembleAdapter createFallbackAdapter createModelGateway createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openRouter openai openaiCompatible openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy workersAi",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -107419,6 +107612,11 @@
             {
               "kind": "re-exports",
               "id": "module:packages/adapters/src/fireworks.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/adapters/src/gateway.ts",
               "confidence": "observed"
             },
             {
@@ -107543,7 +107741,7 @@
             }
           ]
         },
-        "contentHash": "fc0b76056685ae8b01ec4c33e2d89fddebf702733de3993b9477b5af0d6f920a",
+        "contentHash": "5b57b059fc9a62b9c44106db15b08df576106ac424fec3d4c0f67f0f6da0f5bd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -108435,6 +108633,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/gateway.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/src/grok.ts",
               "confidence": "observed"
             },
@@ -108644,6 +108847,11 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/src/catalog/dispatch.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/gateway.ts",
               "confidence": "observed"
             },
             {
@@ -109798,6 +110006,11 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/src/azure-openai.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/gateway.ts",
               "confidence": "observed"
             },
             {
@@ -111628,6 +111841,46 @@
           ]
         },
         "contentHash": "cb7ac059b1f0aa928142ea6359d62c57c7355221b4c97656ee51589a15b3dc6c",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/adapters/tests/gateway.test.ts",
+        "kind": "module",
+        "path": "packages/adapters/tests/gateway.test.ts",
+        "title": "gateway.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "gateway.test.ts",
+          "headings": "",
+          "path": "packages/adapters/tests/gateway.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/gateway.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "91ffcf346a90f8db7278ba13b659d2919246131f2d36c1f34111f8ce4a202d5a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193039,7 +193292,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5d4074bbc7b9b0858b7587188900470df5b2b86081054628685c6915d766daf0",
+        "contentHash": "ebe491960b5b404df093a23c11a374037462843be12620a1081f1791eb455baa",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "angular"
@@ -193236,7 +193489,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4f019a26a6d82d5eba658917b310ebf063b19af95c25d6ee59111bf75bb325f4",
+        "contentHash": "c7a0860de93e899b2d7336c2bc2f8b6ad8071d7342f5f26b5eab0f992a0755d5",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "cli"
@@ -196606,7 +196859,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3b0a54df5624549ca6f3df23cc47805e2614ec8631351d52b91d66c38c77219d",
+        "contentHash": "0253217e004eef164f380e52b2ba397ffc1a46e43e528eda38f6ff9f30b85e90",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react"
@@ -196863,7 +197116,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f90766dd68444699b8fb0234463437c78ffa6117408992f951ec03619c160fd1",
+        "contentHash": "6ded3c44eafa2ed0c9f389db2d78c480d6d24c23ffa0b5686d897939129b227d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react-native"
@@ -198011,7 +198264,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5a3e7442e46c90febc22f245a45c9cf84475295afd921726da90fa11194bf028",
+        "contentHash": "b7d52462c1447335ba0a4ff29cb238958d6e1a3a80dd6d743c63d16b4733ddd8",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "solid"
@@ -199385,7 +199638,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "fb932dbcde04c77f9f40b5d205168e38b160f981e4de959d5e61c54adc2cba10",
+        "contentHash": "7df80cd457b4152609a799033c0851820f66cd5772b68771f8d9d7cf1a0e632d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "vue"
