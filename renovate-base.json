@@ -8,7 +8,7 @@
   "prConcurrentLimit": 5,
   "packageRules": [
     {
-      "description": "Group all minor and patch updates into one weekly PR; automerge when CI is green",
+      "description": "Group all minor and patch updates into one weekly PR; automerge is opt-in per dependency type below",
       "matchUpdateTypes": [
         "minor",
         "patch",
@@ -19,9 +19,22 @@
       "schedule": [
         "before 6am on monday"
       ],
+      "automerge": false,
+      "platformAutomerge": false
+    },
+    {
+      "description": "Automerge (Renovate-side, only after CI is green) minor/patch/digest of devDependencies; production dependencies stay manual until branch protection requires CI checks",
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
       "automerge": true,
       "automergeType": "pr",
-      "platformAutomerge": true
+      "platformAutomerge": false
     },
     {
       "description": "Group all major updates into one monthly PR; never automerge",
