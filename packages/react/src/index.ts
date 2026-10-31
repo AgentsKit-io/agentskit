@@ -118,6 +118,7 @@ export type {
   ToolCallViewProps,
   ThinkingIndicatorProps,
   ToolConfirmationProps,
+  ToolConfirmationLabels,
   TopologyGraphViewProps,
   TopologyGraphViewNode,
   TopologyGraphViewEdge,
