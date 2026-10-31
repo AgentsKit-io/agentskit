@@ -1,0 +1,25 @@
+# The factory's agent (AgentsKit-io/.github): an issue labelled `agent:go` by the PM is implemented, opened as a PR and
+# auto-merged when the required checks pass (`risco` waits for a human). "@claude" from a member continues the work.
+name: agent
+
+on:
+  issues:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  agent:
+    if: >-
+      (github.event_name == 'issues' && github.event.label.name == 'agent:go') ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude'))
+    uses: AgentsKit-io/.github/.github/workflows/agent.yml@main
+    with:
+      hosted: true  # public repository: GitHub-hosted runner joins Tailscale (tag:ci) to reach the pool
+    secrets: inherit
