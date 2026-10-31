@@ -492,10 +492,18 @@ export function findMissingBuildOutputs(packages, fsApi) {
  */
 export function loadTypeScript(fromFilename = fileURLToPath(import.meta.url)) {
   const req = createRequire(fromFilename)
+  // Root `typescript` is v7 (native, no JS compiler API); the alias keeps the API.
+  for (const name of ['typescript-5-9', 'typescript']) {
+    try {
+      return req(name)
+    } catch {
+      // try the next candidate
+    }
+  }
+  // Fall back to repo-root resolution from this library file
   try {
-    return req('typescript')
+    return require('typescript-5-9')
   } catch {
-    // Fall back to repo-root resolution from this library file
     return require('typescript')
   }
 }
