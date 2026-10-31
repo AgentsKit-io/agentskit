@@ -8,33 +8,33 @@ Packages without a consumer are **experimental** (community-maintained): they ca
 A supported package is **eligible for 1.0** when it has a consumer in production or homolog, green CI on the default branch,
 no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves.
 
-CI on the default branch: **unknown**.
+CI on the default branch: **green**.
 
 > **Known limitation:** NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to `docs/support-consumers.json` (follow-up: consumer repositories of NoxCodeSolutions).
 
 | Package | Version | Status | Internal consumers | Consumer live | CI green | No breaking (4 versions) | Docs | 1.0 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `@agentskit/adapters` | 0.19.2 | supported | apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm | ✅ | ❌ | ✅ | ✅ | not yet |
+| `@agentskit/adapters` | 0.19.2 | supported | apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/angular` | 0.5.10 | experimental | — | — | — | — | — | — |
 | `@agentskit/cli` | 0.14.0 | experimental | — | — | — | — | — | — |
-| `@agentskit/core` | 1.15.0 | supported | apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react | ✅ | ❌ | ✅ | ✅ | 1.x |
-| `@agentskit/cross-platform` | 0.3.0 | supported | apps/docs-next | ✅ | ❌ | ✅ | ✅ | not yet |
-| `@agentskit/eval` | 0.7.0 | supported | apps/docs-next, apps/example-dspy | ✅ | ❌ | ✅ | ✅ | not yet |
-| `@agentskit/ink` | 0.10.16 | supported | apps/example-ink | ❌ | ❌ | ✅ | ✅ | not yet |
+| `@agentskit/core` | 1.15.0 | supported | apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-registry | ✅ | ✅ | ✅ | ✅ | 1.x |
+| `@agentskit/cross-platform` | 0.3.0 | supported | apps/docs-next, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
+| `@agentskit/eval` | 0.7.0 | supported | apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-registry | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
+| `@agentskit/ink` | 0.10.16 | supported | apps/example-ink | ❌ | ✅ | ✅ | ✅ | not yet |
 | `@agentskit/integrations` | 0.8.3 | experimental | — | — | — | — | — | — |
 | `@agentskit/mcp` | 0.5.2 | experimental | — | — | — | — | — | — |
-| `@agentskit/memory` | 0.12.1 | supported | apps/docs-next, apps/example-ink | ✅ | ❌ | ✅ | ✅ | not yet |
-| `@agentskit/net` | 0.2.4 | supported | apps/docs-next | ✅ | ❌ | ✅ | ✅ | not yet |
-| `@agentskit/observability` | 0.13.1 | supported | apps/docs-next | ✅ | ❌ | ✅ | ✅ | not yet |
-| `@agentskit/rag` | 0.7.1 | supported | apps/ask-backend, apps/docs-next, apps/example-rag-chat | ✅ | ❌ | ✅ | ✅ | not yet |
-| `@agentskit/react` | 0.8.10 | supported | apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react | ✅ | ❌ | ✅ | ✅ | not yet |
+| `@agentskit/memory` | 0.12.1 | supported | apps/docs-next, apps/example-ink | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
+| `@agentskit/net` | 0.2.4 | supported | apps/docs-next | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
+| `@agentskit/observability` | 0.13.1 | supported | apps/docs-next | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
+| `@agentskit/rag` | 0.7.1 | supported | apps/ask-backend, apps/docs-next, apps/example-rag-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
+| `@agentskit/react` | 0.8.10 | supported | apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/react-native` | 0.5.10 | experimental | — | — | — | — | — | — |
-| `@agentskit/runtime` | 0.11.3 | supported | apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot | ✅ | ❌ | ✅ | ✅ | not yet |
-| `@agentskit/sandbox` | 0.6.13 | supported | apps/docs-next | ✅ | ❌ | ✅ | ✅ | not yet |
-| `@agentskit/skills` | 0.9.10 | supported | apps/docs-next, apps/example-multi-agent, apps/example-runtime | ✅ | ❌ | ✅ | ✅ | not yet |
+| `@agentskit/runtime` | 0.11.3 | supported | apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
+| `@agentskit/sandbox` | 0.6.13 | supported | apps/docs-next | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
+| `@agentskit/skills` | 0.9.10 | supported | apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/solid` | 0.5.10 | experimental | — | — | — | — | — | — |
 | `@agentskit/statechart` | 0.3.2 | experimental | — | — | — | — | — | — |
 | `@agentskit/svelte` | 0.6.0 | experimental | — | — | — | — | — | — |
 | `@agentskit/templates` | 0.5.10 | experimental | — | — | — | — | — | — |
-| `@agentskit/tools` | 0.13.16 | supported | apps/ask-backend, apps/docs-next | ✅ | ❌ | ✅ | ✅ | not yet |
+| `@agentskit/tools` | 0.13.16 | supported | apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/vue` | 0.5.10 | experimental | — | — | — | — | — | — |

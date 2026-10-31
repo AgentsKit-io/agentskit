@@ -1,7 +1,6 @@
 packages:
   - packages/*
   - apps/*
-# better-sqlite3 >=13 ships prebuilds; skip the implicit node-gyp rebuild
 allowBuilds:
   better-sqlite3: false
   core-js: false
