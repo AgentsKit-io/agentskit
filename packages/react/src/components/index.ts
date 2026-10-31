@@ -22,3 +22,7 @@ export type {
   TopologyGraphViewSnapshot,
   TopologyGraphSource,
 } from './TopologyGraphView'
+export { UsageMeter } from './UsageMeter'
+export type { UsageMeterProps, UsageMeterWindow, UsageMeterState } from './UsageMeter'
+export { ConfirmUndoCard } from './ConfirmUndoCard'
+export type { ConfirmUndoCardProps } from './ConfirmUndoCard'

@@ -22,7 +22,7 @@ npm install @agentskit/react
 - `useChat(config): ChatReturn` — shared state/action contract with the other framework bindings.
 - `useStream(source)` — low-level streaming hook for any `AsyncIterable<StreamChunk>`.
 - `useReactive(controller)` — reactive state adapter when you already hold a controller.
-- `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ToolConfirmation>`, `<ThinkingIndicator>`, `<CodeBlock>`, `<Markdown>`.
+- `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ToolConfirmation>`, `<ConfirmUndoCard>` (approve/deny, then time-limited undo), `<UsageMeter>` (cost-window usage bar; warning at 80%, out at 100%), `<ThinkingIndicator>`, `<CodeBlock>`, `<Markdown>`.
 - `<TopologyGraphView>` — render a multi-agent topology snapshot (nodes + edges) as SVG.
 - Re-exports `createChatController`, all `@agentskit/core` types, and helpers.
 - `@agentskit/react/theme` — CSS variable theme.
