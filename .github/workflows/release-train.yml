@@ -41,6 +41,8 @@ jobs:
         run: |
           pnpm install --no-frozen-lockfile
           pnpm build
+          node scripts/check-doc-package-versions.mjs --fix
+          pnpm metadata:generate
       - name: Compatibility and security checks
         run: |
           pnpm check:packed-consumers
