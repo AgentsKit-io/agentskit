@@ -75,6 +75,7 @@ describe('runner contract', () => {
       let notify: (m: string, p: unknown) => void = () => undefined
       return {
         onNotification: h => { notify = h },
+        onRequest: () => undefined,
         close: () => undefined,
         async request(method) {
           methods.push(method)

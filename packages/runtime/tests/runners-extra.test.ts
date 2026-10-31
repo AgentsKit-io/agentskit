@@ -11,6 +11,7 @@ import { hermesAcpRunner, spawnAcpTransport } from '../src/runners/acp'
 
 const hangingTransport = (): AcpTransport => ({
   onNotification: () => undefined,
+  onRequest: () => undefined,
   close: () => undefined,
   request: () => new Promise(() => undefined),
 })
@@ -36,6 +37,7 @@ describe('hermes ACP limits and errors', () => {
       let notify: (m: string, p: unknown) => void = () => undefined
       return {
         onNotification: h => { notify = h },
+        onRequest: () => undefined,
         close: () => undefined,
         async request(method) {
           if (method === 'session/new') return { sessionId: 's' }
@@ -84,6 +86,76 @@ describe('spawnAcpTransport', () => {
       await expect(transport.request('boom', {})).rejects.toThrow('nope')
       expect(notes.length).toBeGreaterThan(0)
       await expect(transport.request('quit', {})).rejects.toThrow('ACP agent exited')
+    } finally {
+      transport.close()
+    }
+  })
+})
+
+describe('hermes ACP agent-to-client requests', () => {
+  const permission = {
+    toolCall: { title: 'Edit' },
+    options: [
+      { optionId: 'no', kind: 'reject_once' },
+      { optionId: 'yes', kind: 'allow_once' },
+    ],
+  }
+
+  const run = async (allowedTools: string[] | undefined, method = 'session/request_permission') => {
+    const replies: unknown[] = []
+    const connect = (): AcpTransport => {
+      let onRequest: (m: string, p: unknown) => unknown = () => undefined
+      return {
+        onNotification: () => undefined,
+        onRequest: h => { onRequest = h },
+        close: () => undefined,
+        async request(m) {
+          if (m === 'session/new') return { sessionId: 's' }
+          if (m === 'session/prompt') {
+            try { replies.push(await onRequest(method, permission)) } catch (e) { replies.push({ code: (e as { code?: number }).code }) }
+          }
+          return {}
+        },
+      }
+    }
+    const result = await hermesAcpRunner({ connect }).run({ prompt: 'x', allowedTools })
+    return { result, reply: replies[0] }
+  }
+
+  it('allows listed tools and rejects the rest', async () => {
+    expect((await run(['Edit'])).reply).toEqual({ outcome: { outcome: 'selected', optionId: 'yes' } })
+    expect((await run(undefined)).reply).toEqual({ outcome: { outcome: 'selected', optionId: 'yes' } })
+    expect((await run(['Read'])).reply).toEqual({ outcome: { outcome: 'selected', optionId: 'no' } })
+  })
+
+  it('replies -32601 to unknown methods', async () => {
+    expect((await run(undefined, 'fs/read_text_file')).reply).toEqual({ code: -32601 })
+  })
+
+  it('answers a request whose id collides with a pending client id, over stdio', async () => {
+    const script = `
+      let buf = '', held
+      process.stdin.on('data', d => {
+        buf += d
+        let i
+        while ((i = buf.indexOf('\\n')) >= 0) {
+          const msg = JSON.parse(buf.slice(0, i)); buf = buf.slice(i + 1)
+          if (msg.method === 'hi') {
+            held = msg.id
+            process.stdout.write(JSON.stringify({ id: msg.id, method: 'session/request_permission', params: ${JSON.stringify(permission)} }) + '\\n')
+          } else if (msg.method === undefined) {
+            process.stdout.write(JSON.stringify({ id: held, result: { permission: msg.result, id: msg.id } }) + '\\n')
+          }
+        }
+      })
+    `
+    const transport = spawnAcpTransport(process.execPath, ['-e', script])
+    try {
+      transport.onRequest(() => ({ outcome: { outcome: 'selected', optionId: 'yes' } }))
+      expect(await transport.request('hi', {})).toEqual({
+        permission: { outcome: { outcome: 'selected', optionId: 'yes' } },
+        id: 1,
+      })
     } finally {
       transport.close()
     }
