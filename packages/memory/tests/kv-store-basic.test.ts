@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { rm } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import {
@@ -45,7 +45,43 @@ describe('createInMemoryStore', () => {
 describe('createFileStore', () => {
   const paths: string[] = []
   afterEach(async () => {
-    await Promise.all(paths.splice(0).map((p) => rm(p, { force: true })))
+    await Promise.all(paths.splice(0).map((p) => rm(p, { force: true, recursive: true })))
+  })
+
+  it('does not replace a corrupt regular file or leave a temp file on failed writes', async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'ak-kv-'))
+    const path = join(directory, 'memory.json')
+    paths.push(directory)
+    const original = '{"broken":'
+    await writeFile(path, original, 'utf8')
+    const store = createFileStore({ backend: 'file', path })
+    await expect(store.get('broken')).rejects.toThrow()
+    await expect(store.set('new', 'value')).rejects.toThrow()
+    expect(await readFile(path, 'utf8')).toBe(original)
+    expect(await readdir(directory)).toEqual(['memory.json'])
+  })
+
+  it('preserves valid sibling entries when atomic file replacement fails', async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'ak-kv-'))
+    const path = join(directory, 'memory.json')
+    paths.push(directory)
+    const original = JSON.stringify({ keep: { value: 'unrelated', insertedAt: 1 } })
+    await writeFile(path, original, 'utf8')
+    vi.resetModules()
+    vi.doMock('node:fs/promises', async () => {
+      const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+      return { ...actual, rename: vi.fn(async () => { throw new Error('injected rename failure') }) }
+    })
+    try {
+      const { createFileStore: create } = await import('../src/kv-store-basic')
+      const store = create({ backend: 'file', path })
+      await expect(store.set('new', 'value')).rejects.toThrow('injected rename failure')
+      expect(await readFile(path, 'utf8')).toBe(original)
+      expect(await readdir(directory)).toEqual(['memory.json'])
+    } finally {
+      vi.doUnmock('node:fs/promises')
+      vi.resetModules()
+    }
   })
 
   it('persists across instances', async () => {
@@ -67,6 +103,21 @@ describe('createFileStore', () => {
     await Promise.all([a.set('a', 1), b.set('b', 2)])
     expect(await a.get('a')).toBe(1)
     expect(await b.get('b')).toBe(2)
+  })
+
+  it('keeps an existing destination intact and removes the temp file when atomic rename fails', async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'ak-kv-rename-'))
+    const path = join(directory, 'memory.json')
+    paths.push(directory)
+    await mkdir(path, { recursive: true })
+    await writeFile(join(path, 'keep.txt'), 'existing destination', 'utf8')
+
+    const store = createFileStore({ backend: 'file', path })
+    await expect(store.set('new', 'value')).rejects.toThrow()
+
+    expect(await readFile(join(path, 'keep.txt'), 'utf8')).toBe('existing destination')
+    expect(await readdir(directory)).toEqual(['memory.json'])
+    expect(await readdir(path)).toEqual(['keep.txt'])
   })
 
   it('rejects invalid retention settings', () => {
@@ -102,7 +153,7 @@ describe('createFileStore', () => {
 describe('createLocalStorageStore', () => {
   const paths: string[] = []
   afterEach(async () => {
-    await Promise.all(paths.splice(0).map((p) => rm(p, { force: true })))
+    await Promise.all(paths.splice(0).map((p) => rm(p, { force: true, recursive: true })))
   })
 
   it('persists through an injected storage', async () => {
@@ -148,6 +199,44 @@ describe('createLocalStorageStore', () => {
       await s.set('k', 'v')
       vi.advanceTimersByTime(2000)
       expect(await s.get('k')).toBeUndefined()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('preserves distinct concurrent writes to synchronous storage', async () => {
+    const backing = new Map<string, string>()
+    const storage: LocalStorageLike = {
+      getItem: k => backing.get(k) ?? null,
+      setItem: (k, v) => { backing.set(k, v) },
+    }
+    const a = createLocalStorageStore({ config: { backend: 'localstorage', key: 'shared' }, storage })
+    const b = createLocalStorageStore({ config: { backend: 'localstorage', key: 'shared' }, storage })
+    await Promise.all(Array.from({ length: 100 }, (_, i) => (i % 2 ? a : b).set(`k${i}`, i)))
+    await Promise.all(Array.from({ length: 100 }, async (_, i) => {
+      expect(await a.get(`k${i}`)).toBe(i)
+    }))
+  })
+
+  it('does not lose a new localStorage write when another instance purges an expired key', async () => {
+    vi.useFakeTimers()
+    try {
+      const backing = new Map<string, string>()
+      const storage: LocalStorageLike = {
+        getItem: k => backing.get(k) ?? null,
+        setItem: (k, v) => { backing.set(k, v) },
+      }
+      const a = createLocalStorageStore({ config: { backend: 'localstorage', key: 'shared-expiry', ttlSeconds: 1 }, storage })
+      const b = createLocalStorageStore({ config: { backend: 'localstorage', key: 'shared-expiry', ttlSeconds: 1 }, storage })
+      await a.set('expired', 'old')
+      vi.advanceTimersByTime(2000)
+
+      const expiredRead = a.get('expired')
+      const concurrentWrite = b.set('new', 'live')
+      await Promise.all([expiredRead, concurrentWrite])
+
+      expect(await a.get('expired')).toBeUndefined()
+      expect(await a.get('new')).toBe('live')
     } finally {
       vi.useRealTimers()
     }

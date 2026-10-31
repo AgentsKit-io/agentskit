@@ -19,7 +19,7 @@ describe('createRedisClientAdapter', () => {
   })
 
   it('creates adapter methods when redis is available', async () => {
-    const commands: string[] = []
+    const commands: Array<Array<string | Buffer>> = []
     const store = new Map<string, string>()
 
     const fakeClient = {
@@ -32,8 +32,8 @@ describe('createRedisClientAdapter', () => {
         return [...store.keys()].filter(k => k.startsWith(prefix))
       }),
       close: vi.fn().mockResolvedValue(undefined),
-      sendCommand: vi.fn(async (args: string[]) => {
-        commands.push(args[0]!)
+      sendCommand: vi.fn(async (args: Array<string | Buffer>) => {
+        commands.push(args)
         return 'OK'
       }),
     }
@@ -74,6 +74,9 @@ describe('createRedisClientAdapter', () => {
     const result = await adapter.call('PING')
     expect(fakeClient.sendCommand).toHaveBeenCalled()
     expect(result).toBe('OK')
+    const vector = Buffer.from([0, 1, 2, 255])
+    await adapter.call('HSET', 'key', 'embedding', vector)
+    expect(commands.at(-1)?.at(-1)).toEqual(vector)
   })
 
   it('del with empty array is a no-op', async () => {
@@ -93,5 +96,53 @@ describe('createRedisClientAdapter', () => {
     const adapter = await create('redis://localhost')
     await adapter.del([])
     expect(fakeClient.del).not.toHaveBeenCalled()
+  })
+
+  it('preserves the connection error when destroying an owned failed client also throws', async () => {
+    const connectionError = new Error('connect failed')
+    const fakeClient = {
+      connect: vi.fn().mockRejectedValue(connectionError),
+      destroy: vi.fn(() => { throw new Error('destroy failed') }),
+    }
+    vi.doMock('redis', () => ({ createClient: vi.fn(() => fakeClient) }))
+    const { createRedisClientAdapter: create } = await import('../src/redis-client')
+
+    await expect(create('redis://localhost')).rejects.toBe(connectionError)
+    expect(fakeClient.destroy).toHaveBeenCalledOnce()
+  })
+
+  it('preserves Float32 vector bytes through the default Redis adapter for store and search', async () => {
+    const calls: Array<{ args: Array<string | Buffer> }> = []
+    const fakeClient = {
+      connect: vi.fn().mockResolvedValue(undefined),
+      close: vi.fn().mockResolvedValue(undefined),
+      sendCommand: vi.fn(async (args: Array<string | Buffer>) => {
+        calls.push({ args })
+        return args[0] === 'FT.SEARCH' ? [0] : 'OK'
+      }),
+      destroy: vi.fn(),
+    }
+    vi.doMock('redis', () => ({ createClient: vi.fn(() => fakeClient) }))
+    const { redisVectorMemory } = await import('../src/redis-vector')
+    const memory = redisVectorMemory({ url: 'redis://synthetic.invalid', dimensions: 3 })
+    const expected = Buffer.alloc(12)
+    ;[0.1, 0.2, 0.3].forEach((value, index) => expected.writeFloatLE(value, index * 4))
+
+    await memory.store([{ id: 'vector-1', content: 'synthetic', embedding: [0.1, 0.2, 0.3] }])
+    await memory.search([0.1, 0.2, 0.3])
+
+    const hset = calls.find(({ args }) => args[0] === 'HSET')?.args
+    const search = calls.find(({ args }) => args[0] === 'FT.SEARCH')?.args
+    const storedEmbedding = hset?.at(-1)
+    expect(Buffer.isBuffer(storedEmbedding)).toBe(true)
+    expect((storedEmbedding as Buffer).byteLength).toBe(12)
+    expect(storedEmbedding).toEqual(expected)
+    const searchVectorIndex = search?.indexOf('vec') ?? -1
+    expect(searchVectorIndex).toBeGreaterThanOrEqual(0)
+    const searchedEmbedding = search?.[searchVectorIndex + 1]
+    expect(Buffer.isBuffer(searchedEmbedding)).toBe(true)
+    expect((searchedEmbedding as Buffer).byteLength).toBe(12)
+    expect(searchedEmbedding).toEqual(expected)
+    expect(fakeClient.destroy).not.toHaveBeenCalled()
   })
 })
