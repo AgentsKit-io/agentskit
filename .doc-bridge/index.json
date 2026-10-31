@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "57c222e09a24a8e87e212f1c28c631ac225916130a5bac69c04e40af2e89e20a",
+  "contentHash": "7480096c911b58b01da34e8f6ec7f367350a325ff88ba6d4bce696665a5c9ba8",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-26T00:00:29.477Z",
+  "generatedAt": "2026-10-30T02:08:02.388Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -4558,12 +4558,12 @@
       "type": "document",
       "title": "provider-swap.mdx",
       "path": "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
-      "description": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers.",
+      "description": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences.",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "828c847f0e669ab6035de8aa2e5d248cedf409a5337d9b0c969cf71455864670"
+      "contentHash": "d7e9ab75569ee51e63abaacbdd5270338f3d0624af38b6f52a90d8eb19b1e8e6"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/rag-chat.mdx",
@@ -5154,6 +5154,18 @@
       "contentHash": "999a601feb5663df9c88719f4a7c354efc2dad3a1439d204afe61174dc3dcd02"
     },
     {
+      "id": "document:apps/example-channels/README.md",
+      "type": "document",
+      "title": "@agentskit/example-channels",
+      "path": "apps/example-channels/README.md",
+      "description": "Connects a conversation channel (Telegram here; WhatsApp Cloud API, Slack and email via Resend work the same) to an AgentsKit runtime agent using @agentskit/integrations channels.",
+      "tags": [
+        "document",
+        "project"
+      ],
+      "contentHash": "fc3cdaa628e44b2465aa5622ecc154fbc5b33e628fb499370b794710373638af"
+    },
+    {
       "id": "document:apps/example-discord-bot/README.md",
       "type": "document",
       "title": "@agentskit/example-discord-bot",
@@ -5295,7 +5307,7 @@
         "document",
         "project"
       ],
-      "contentHash": "b149b8804e108fcaafe2d9e01b8d571f82403866d56877777e153b943e8a3b58"
+      "contentHash": "5b8b6cc78a02a256abcf84fa1cf0ea7cc9855877b6dda3ae01b8ded6d925475d"
     },
     {
       "id": "document:apps/example-slack-bot/README.md",
@@ -11828,6 +11840,47 @@
         "docs-next"
       ],
       "contentHash": "4e3ab7850a23ef0d072c80a032eed0f65c7bc299a1cff80d117a5aac9c160ceb"
+    },
+    {
+      "id": "module:apps/example-channels/src/app.ts",
+      "type": "module",
+      "title": "app.ts",
+      "path": "apps/example-channels/src/app.ts",
+      "symbols": [
+        "createChannelApp",
+        "demoAdapter"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "b9203aae758c2570b175f0ebdb13a0a3da0e78fb1e992d538520750dbef401e7"
+    },
+    {
+      "id": "module:apps/example-channels/src/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "apps/example-channels/src/index.ts",
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "7d67c210972d17e306c5e98b61c81c08c701f1fdd55e286406fe38f5f3a63b8e"
+    },
+    {
+      "id": "module:apps/example-channels/tests/app.test.ts",
+      "type": "module",
+      "title": "app.test.ts",
+      "path": "apps/example-channels/tests/app.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "c0eeab3670b7e52c1943713fd1d75352ec1d6d141f23bbfb68cc21ee23bac763"
     },
     {
       "id": "module:apps/example-discord-bot/src/adapter.ts",
@@ -23135,6 +23188,162 @@
       "contentHash": "d6de632c74e1a9c55f56c7d8dee640b93383d7ba0c41d78e57883cc0daa520a0"
     },
     {
+      "id": "module:packages/integrations/src/channels/email.ts",
+      "type": "module",
+      "title": "email.ts",
+      "path": "packages/integrations/src/channels/email.ts",
+      "symbols": [
+        "EmailChannelOptions",
+        "emailChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "9d9da3743fd1462ce3152ef91d46a9a0420f74444f8791051fe51ecf75f64356"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/handler.ts",
+      "type": "module",
+      "title": "handler.ts",
+      "path": "packages/integrations/src/channels/handler.ts",
+      "symbols": [
+        "ChannelAgent",
+        "ChannelHandlerOptions",
+        "ChannelWebhookRequest",
+        "ChannelWebhookResponse",
+        "createChannelHandler"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "a07a2f6bb73dc2a0530ef1a21e331325414398adeebe1a5c7f31f46976cb30f1"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/channels/index.ts",
+      "symbols": [
+        "Channel",
+        "ChannelAgent",
+        "ChannelAttachment",
+        "ChannelHandlerOptions",
+        "ChannelOptionsBase",
+        "ChannelSender",
+        "ChannelWebhookRequest",
+        "ChannelWebhookResponse",
+        "EmailChannelOptions",
+        "InboundMessage",
+        "OutboundMessage",
+        "SlackChannelOptions",
+        "TelegramChannelOptions",
+        "WhatsAppChannelOptions",
+        "createChannelHandler",
+        "emailChannel",
+        "slackChannel",
+        "telegramChannel",
+        "whatsappChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "3accc0a27f515fdc87294571bbd3ef5ee018ffae2bf752fdd89656d1dffc0e7c"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/shared.ts",
+      "type": "module",
+      "title": "shared.ts",
+      "path": "packages/integrations/src/channels/shared.ts",
+      "symbols": [
+        "Rec",
+        "arr",
+        "parseBody",
+        "postJson",
+        "rec",
+        "str"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "490c128f38578737d54c6a26aadd2ff9f9a9f1bd625dd578c2dfaa02e2f4cbfb"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/slack.ts",
+      "type": "module",
+      "title": "slack.ts",
+      "path": "packages/integrations/src/channels/slack.ts",
+      "symbols": [
+        "SlackChannelOptions",
+        "slackChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "fd8a643048026d59fe3b4588b93d548f8f5cff8448d6c726a675c68b471146c9"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/telegram.ts",
+      "type": "module",
+      "title": "telegram.ts",
+      "path": "packages/integrations/src/channels/telegram.ts",
+      "symbols": [
+        "TelegramChannelOptions",
+        "telegramChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "0aecfffb30ab1aa921083eaa7beb3623b7b64a66d78f385aaf58b350897dd91c"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/types.ts",
+      "type": "module",
+      "title": "types.ts",
+      "path": "packages/integrations/src/channels/types.ts",
+      "symbols": [
+        "Channel",
+        "ChannelAttachment",
+        "ChannelOptionsBase",
+        "ChannelSender",
+        "InboundMessage",
+        "OutboundMessage"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "36c140f3952c2a006d60965ef3f73ad7e464f439bddd4905850a404b9c0a182b"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/whatsapp.ts",
+      "type": "module",
+      "title": "whatsapp.ts",
+      "path": "packages/integrations/src/channels/whatsapp.ts",
+      "symbols": [
+        "WhatsAppChannelOptions",
+        "whatsappChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "e4e6120b8b2b02ce3c06fa4f278b636c3b3115be13431cd7f122bbffb8542bc4"
+    },
+    {
       "id": "module:packages/integrations/src/config-fields.ts",
       "type": "module",
       "title": "config-fields.ts",
@@ -23292,7 +23501,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "348e14d6c5d23d627bd1084ac81d73f35ab20f87fd0c64c0967e439cc64b1df2"
+      "contentHash": "934941ac408308b667c4b188fc3d8121d2c2f953a07ca0fb00926f7f2ef85d0a"
     },
     {
       "id": "module:packages/integrations/src/normalize.ts",
@@ -25406,6 +25615,7 @@
         "verifyHmacSha256Body",
         "verifyPagerDuty",
         "verifySlack",
+        "verifySvix",
         "verifyTelegram",
         "verifyTwilio"
       ],
@@ -25414,7 +25624,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "775e526012168ea69bde1cabc4dc94fd8b1f7f549853fa4cdd152bdf875d8e82"
+      "contentHash": "6b47da7ae164d168db8d2be385df765d2b08db200a2eba9c4690ecdc9795da82"
     },
     {
       "id": "module:packages/integrations/tests/ai-web.test.ts",
@@ -25441,6 +25651,19 @@
         "tests"
       ],
       "contentHash": "78a92e2ec6a1c6e35d96dcec16bf9360d5a398bbf2180f7f422ccba403ec7df6"
+    },
+    {
+      "id": "module:packages/integrations/tests/channels.test.ts",
+      "type": "module",
+      "title": "channels.test.ts",
+      "path": "packages/integrations/tests/channels.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "810a859d34e3d31f9b15fa8d745c1d420641a55404b205c2bb99122c55758f99"
     },
     {
       "id": "module:packages/integrations/tests/commerce.test.ts",
@@ -38639,8 +38862,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "780441f561c123904d7928216f1fde6bb0317f68b1b8598416f210367c13e04a",
-    "fileCount": 2648,
+    "hash": "2085fb0d440e776b329979e426c21b3ea2c5eb12b94af20e252de5788a62d8d5",
+    "fileCount": 2671,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38662,9 +38885,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "280b2cbb958161aea20c5c720daa5c4551b09c26bd92389863125d9a2254ddbc",
+    "contentHash": "c88437947664dc0f105b155ec62bbf83129c34335d0e03444894fff130ae7f77",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "d760e004f956e204798b7ea4906835ad505369edcfbfe8a6d55b8bb837b6370e",
+    "snapshotHash": "09cd731f9cb3e74f7c43ee0b0d44a3e21e7ce33d4a1b6102c450f28b7b05ed2f",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38684,7 +38907,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2520,
+      "documentCount": 2535,
       "fieldNames": [
         "aliases",
         "body",
@@ -38695,13 +38918,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0174603174603174,
-        "body": 60.786904761904765,
-        "headings": 3.892857142857143,
-        "path": 7.616269841269841,
-        "summary": 4.503571428571429,
-        "symbols": 7.518253968253968,
-        "title": 3.3753968253968254
+        "aliases": 3.016173570019724,
+        "body": 60.45364891518738,
+        "headings": 3.8714003944773174,
+        "path": 7.610650887573964,
+        "summary": 4.4934911242603555,
+        "symbols": 7.532938856015779,
+        "title": 3.368836291913215
       }
     },
     "entries": [
@@ -39072,6 +39295,45 @@
           "outbound": []
         },
         "contentHash": "424c0ef4d5090a15f978d863a7b95ef0d7d552fba5a9a2682b18e26750b1a371",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "area:apps/example-channels",
+        "kind": "area",
+        "path": "apps/example-channels",
+        "title": "example-channels",
+        "aliases": [],
+        "tags": [
+          "area"
+        ],
+        "fields": {
+          "title": "example-channels",
+          "headings": "",
+          "path": "apps/example-channels",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "area"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/example-runtime/README.md"
+          ],
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/example-runtime/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "86c16d494f1cc621086cb8bb63d46e188cb6f293f6e7b77c58513c229c9143b3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -40636,6 +40898,37 @@
           "outbound": []
         },
         "contentHash": "1dc04eb2c769a080487398ab2a8c8e2cb86435a8a5a6e299ee0c1d32cc248e36",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "area:packages/integrations/src/channels",
+        "kind": "area",
+        "path": "packages/integrations/src/channels",
+        "title": "channels",
+        "aliases": [],
+        "tags": [
+          "area"
+        ],
+        "fields": {
+          "title": "channels",
+          "headings": "",
+          "path": "packages/integrations/src/channels",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "area"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "b1b5874eb864a71f6e76c76914464adf27368a2553e12801101cab65d51fb9da",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -57274,6 +57567,11 @@
               "kind": "mentions-symbol",
               "id": "module:packages/eval/src/replay/recorder.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
             }
           ]
         },
@@ -64670,7 +64968,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
         "title": "provider-swap.mdx",
-        "summary": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers.",
+        "summary": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -64682,8 +64980,8 @@
           "headings": "Install Copy the verified fixture Provider compatibility Run without credentials Switch providers What the automated proof covers See also",
           "path": "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
           "symbols": "",
-          "summary": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers.",
-          "body": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers. Install Copy the verified fixture The complete runnable source is committed at . The application path has no provider-specific branch: Only selectAdapter knows which provider factory, credential, and default model to use. Provider compatibility AGENT PROVIDER Credential Default model Transport --- --- --- --- openai OPENAI API KEY gpt-4o-mini Hosted anthropic ANTHROPIC API KEY claude-sonnet-4-6 Hosted gemini GOOGLE API KEY gemini-2.5-flash Hosted openrouter OPENROUTER API KEY openrouter/free Hosted router groq GROQ API KEY openai/gpt-oss-120b Hosted ollama none llama3.2 Local Set AGENT MODEL to override any default. Set OLLAMA BASE URL when Ollama is not listening at http://localhost:11434 . For streaming, tools, multimodal, reasoning, usage, and self-hosting details, use the canonical . Run without credentials The fixture defaults to a deterministic demo adapter so you can verify installation and the runtime path without network access: Expected prefix: Switch providers Hosted providers require only their documented environment variable: For local Ollama: The task, runtime construction, and result handling remain identical for every command. What the automated proof covers - all six adapters execute the same runTask function; - provider-native SSE or NDJSON is parsed through a deterministic HTTP mock, with no live API call; - hosted credentials are validated before transport work; - Ollama needs no API key and accepts model/base URL overrides; - OpenRouter uses the explicit openrouter/free model; - unknown provider names fail before adapter construction; - the credential-free demo remains executable in CI. Live calls remain optional because provider availability, accounts, rate limits, and local model installation are external state. Tests never inspect or print credential values. See also - - - -",
+          "summary": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences.",
+          "body": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences. Install Copy the verified fixture The complete runnable source is committed at . The application path has no provider-specific branch: Only selectAdapter knows which provider factory, credential, and default model to use. Provider compatibility AGENT PROVIDER Credential Default model Transport --- --- --- --- openai OPENAI API KEY gpt-4o-mini Hosted anthropic ANTHROPIC API KEY claude-sonnet-4-6 Hosted gemini GOOGLE API KEY gemini-2.5-flash Hosted openrouter OPENROUTER API KEY openrouter/free Hosted router groq GROQ API KEY openai/gpt-oss-120b Hosted ollama none llama3.2 Local Set AGENT MODEL to override any default. Set OLLAMA BASE URL when Ollama is not listening at http://localhost:11434 . For streaming, tools, multimodal, reasoning, usage, and self-hosting details, use the canonical . Run without credentials The fixture defaults to a deterministic demo adapter so you can verify installation and the runtime path without network access: Expected prefix: Switch providers Hosted providers require only their documented environment variable: For local Ollama: The task, runtime construction, and result handling remain identical for every command. What the automated proof covers - all six adapters execute the same runTask function; - provider-native SSE or NDJSON is parsed through a deterministic HTTP mock, with no live API call; - hosted credentials are validated before transport work; - Ollama needs no API key and accepts model/base URL overrides; - OpenRouter uses the explicit openrouter/free model; - unknown provider names fail before adapter construction; - the credential-free demo remains executable in CI. Live calls remain optional because provider availability, accounts, rate limits, and local model installation are external state. Tests never inspect or print credential values. See also - - - -",
           "aliases": "document human"
         },
         "graph": {
@@ -64735,7 +65033,7 @@
             }
           ]
         },
-        "contentHash": "828c847f0e669ab6035de8aa2e5d248cedf409a5337d9b0c969cf71455864670",
+        "contentHash": "d7e9ab75569ee51e63abaacbdd5270338f3d0624af38b6f52a90d8eb19b1e8e6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -67171,6 +67469,45 @@
         "confidence": "observed"
       },
       {
+        "id": "document:apps/example-channels/README.md",
+        "kind": "document",
+        "path": "apps/example-channels/README.md",
+        "title": "@agentskit/example-channels",
+        "summary": "Connects a conversation channel (Telegram here; WhatsApp Cloud API, Slack and email via Resend work the same) to an AgentsKit runtime agent using @agentskit/integrations channels.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "project"
+        ],
+        "fields": {
+          "title": "@agentskit/example-channels",
+          "headings": "@agentskit/example-channels",
+          "path": "apps/example-channels/README.md",
+          "symbols": "",
+          "summary": "Connects a conversation channel (Telegram here; WhatsApp Cloud API, Slack and email via Resend work the same) to an AgentsKit runtime agent using @agentskit/integrations channels.",
+          "body": "@agentskit/example-channels Connects a conversation channel (Telegram here; WhatsApp Cloud API, Slack and email via Resend work the same) to an AgentsKit runtime agent using @agentskit/integrations channels. Each webhook is signature-verified (401 on failure) before the agent runs; the answer is sent back on the same conversation.",
+          "aliases": "document project"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/integrations",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "fc3cdaa628e44b2465aa5622ecc154fbc5b33e628fb499370b794710373638af",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:apps/example-discord-bot/README.md",
         "kind": "document",
         "path": "apps/example-discord-bot/README.md",
@@ -67679,7 +68016,7 @@
           "path": "apps/example-runtime/README.md",
           "symbols": "",
           "summary": "Headless runtime demos. No UI, no provider keys — every adapter is mocked so the scripts run anywhere.",
-          "body": "@agentskit/example-runtime Headless runtime demos. No UI, no provider keys — every adapter is mocked so the scripts run anywhere. Script What it shows Source --- --- --- pnpm dev Basic ReAct loop with one tool call pnpm dev:speculate Race two adapters; loser is aborted as soon as the winner settles pnpm dev:durable Step log: re-running short-circuits successful prior steps pnpm dev:topology Supervisor + swarm + blackboard topologies, three shapes back to back Run any of them via the workspace filter: Durable demo: try the resume The log lives at apps/example-runtime/.agentskit/durable.jsonl and is gitignored. Wiring real adapters Every demo accepts the AdapterFactory shape. Swap the mocks for openai , anthropic , vercelAI , etc., from @agentskit/adapters and the rest of the code is unchanged. Topologies operate on AgentHandle s, which createRuntime({ adapter, … }).run produces when you adapt the result into one. See also - - - - - — the flow + durable runner counterpart.",
+          "body": "@agentskit/example-runtime Headless runtime demos. No UI, no provider keys — every adapter is mocked so the scripts run anywhere. Script What it shows Source --- --- --- pnpm dev Basic ReAct loop with one tool call pnpm dev:speculate Race two adapters; loser is aborted as soon as the winner settles pnpm dev:durable Step log: re-running short-circuits successful prior steps pnpm dev:topology Supervisor + swarm + blackboard topologies, three shapes back to back Run any of them via the workspace filter: Durable demo: try the resume The log lives at apps/example-runtime/.agentskit/durable.jsonl and is gitignored. Wiring real adapters Every demo accepts the AdapterFactory shape. Swap the mocks for openai , anthropic , vercelAI , etc., from @agentskit/adapters and the rest of the code is unchanged. Topologies operate on AgentHandle s, which createRuntime({ adapter, … }).run produces when you adapt the result into one. See also - - - - - — the flow + durable runner counterpart. - — the same runtime behind WhatsApp, Telegram, Slack and email webhooks.",
           "aliases": "document project"
         },
         "graph": {
@@ -67689,6 +68026,11 @@
           "mentionedBy": [],
           "inbound": [],
           "outbound": [
+            {
+              "kind": "mentions",
+              "id": "area:apps/example-channels",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "area:apps/example-flow",
@@ -67746,7 +68088,7 @@
             }
           ]
         },
-        "contentHash": "b149b8804e108fcaafe2d9e01b8d571f82403866d56877777e153b943e8a3b58",
+        "contentHash": "5b8b6cc78a02a256abcf84fa1cf0ea7cc9855877b6dda3ae01b8ded6d925475d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96371,6 +96713,136 @@
           "outbound": []
         },
         "contentHash": "4e3ab7850a23ef0d072c80a032eed0f65c7bc299a1cff80d117a5aac9c160ceb",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/example-channels/src/app.ts",
+        "kind": "module",
+        "path": "apps/example-channels/src/app.ts",
+        "title": "app.ts",
+        "aliases": [],
+        "symbols": [
+          "createChannelApp",
+          "demoAdapter"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "app.ts",
+          "headings": "",
+          "path": "apps/example-channels/src/app.ts",
+          "symbols": "createChannelApp demoAdapter",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/example-channels",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/example-channels/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:apps/example-channels/tests/app.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "b9203aae758c2570b175f0ebdb13a0a3da0e78fb1e992d538520750dbef401e7",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/example-channels/src/index.ts",
+        "kind": "module",
+        "path": "apps/example-channels/src/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "apps/example-channels/src/index.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/example-channels",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/example-channels/src/app.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "7d67c210972d17e306c5e98b61c81c08c701f1fdd55e286406fe38f5f3a63b8e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/example-channels/tests/app.test.ts",
+        "kind": "module",
+        "path": "apps/example-channels/tests/app.test.ts",
+        "title": "app.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "app.test.ts",
+          "headings": "",
+          "path": "apps/example-channels/tests/app.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/example-channels",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/example-channels/src/app.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "c0eeab3670b7e52c1943713fd1d75352ec1d6d141f23bbfb68cc21ee23bac763",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -138488,6 +138960,556 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/channels/email.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/email.ts",
+        "title": "email.ts",
+        "aliases": [],
+        "symbols": [
+          "EmailChannelOptions",
+          "emailChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "email.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/email.ts",
+          "symbols": "EmailChannelOptions emailChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "9d9da3743fd1462ce3152ef91d46a9a0420f74444f8791051fe51ecf75f64356",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/handler.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/handler.ts",
+        "title": "handler.ts",
+        "aliases": [],
+        "symbols": [
+          "ChannelAgent",
+          "ChannelHandlerOptions",
+          "ChannelWebhookRequest",
+          "ChannelWebhookResponse",
+          "createChannelHandler"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "handler.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/handler.ts",
+          "symbols": "ChannelAgent ChannelHandlerOptions ChannelWebhookRequest ChannelWebhookResponse createChannelHandler",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a07a2f6bb73dc2a0530ef1a21e331325414398adeebe1a5c7f31f46976cb30f1",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "Channel",
+          "ChannelAgent",
+          "ChannelAttachment",
+          "ChannelHandlerOptions",
+          "ChannelOptionsBase",
+          "ChannelSender",
+          "ChannelWebhookRequest",
+          "ChannelWebhookResponse",
+          "EmailChannelOptions",
+          "InboundMessage",
+          "OutboundMessage",
+          "SlackChannelOptions",
+          "TelegramChannelOptions",
+          "WhatsAppChannelOptions",
+          "createChannelHandler",
+          "emailChannel",
+          "slackChannel",
+          "telegramChannel",
+          "whatsappChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/index.ts",
+          "symbols": "Channel ChannelAgent ChannelAttachment ChannelHandlerOptions ChannelOptionsBase ChannelSender ChannelWebhookRequest ChannelWebhookResponse EmailChannelOptions InboundMessage OutboundMessage SlackChannelOptions TelegramChannelOptions WhatsAppChannelOptions createChannelHandler emailChannel slackChannel telegramChannel whatsappChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/channels.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/email.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/handler.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/slack.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/telegram.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/whatsapp.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "3accc0a27f515fdc87294571bbd3ef5ee018ffae2bf752fdd89656d1dffc0e7c",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/shared.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/shared.ts",
+        "title": "shared.ts",
+        "aliases": [],
+        "symbols": [
+          "Rec",
+          "arr",
+          "parseBody",
+          "postJson",
+          "rec",
+          "str"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "shared.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/shared.ts",
+          "symbols": "Rec arr parseBody postJson rec str",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/production/evals/replay.mdx"
+          ],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/email.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/slack.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/telegram.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/whatsapp.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/production/evals/replay.mdx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http-body.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/normalize.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "490c128f38578737d54c6a26aadd2ff9f9a9f1bd625dd578c2dfaa02e2f4cbfb",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/slack.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/slack.ts",
+        "title": "slack.ts",
+        "aliases": [],
+        "symbols": [
+          "SlackChannelOptions",
+          "slackChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "slack.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/slack.ts",
+          "symbols": "SlackChannelOptions slackChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "fd8a643048026d59fe3b4588b93d548f8f5cff8448d6c726a675c68b471146c9",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/telegram.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/telegram.ts",
+        "title": "telegram.ts",
+        "aliases": [],
+        "symbols": [
+          "TelegramChannelOptions",
+          "telegramChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "telegram.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/telegram.ts",
+          "symbols": "TelegramChannelOptions telegramChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "0aecfffb30ab1aa921083eaa7beb3623b7b64a66d78f385aaf58b350897dd91c",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/types.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/types.ts",
+        "title": "types.ts",
+        "aliases": [],
+        "symbols": [
+          "Channel",
+          "ChannelAttachment",
+          "ChannelOptionsBase",
+          "ChannelSender",
+          "InboundMessage",
+          "OutboundMessage"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "types.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/types.ts",
+          "symbols": "Channel ChannelAttachment ChannelOptionsBase ChannelSender InboundMessage OutboundMessage",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/email.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/handler.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/slack.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/telegram.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/whatsapp.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "36c140f3952c2a006d60965ef3f73ad7e464f439bddd4905850a404b9c0a182b",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/whatsapp.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/whatsapp.ts",
+        "title": "whatsapp.ts",
+        "aliases": [],
+        "symbols": [
+          "WhatsAppChannelOptions",
+          "whatsappChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "whatsapp.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/whatsapp.ts",
+          "symbols": "WhatsAppChannelOptions whatsappChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "e4e6120b8b2b02ce3c06fa4f278b636c3b3115be13431cd7f122bbffb8542bc4",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/config-fields.ts",
         "kind": "module",
         "path": "packages/integrations/src/config-fields.ts",
@@ -138682,6 +139704,11 @@
           "mentionedBy": [],
           "packageId": "package:@agentskit/integrations",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/config-fields.ts",
@@ -138996,11 +140023,6 @@
               "kind": "imports",
               "id": "module:packages/integrations/src/services/google-drive/actions.ts",
               "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/integrations/src/services/google-drive/index.ts",
-              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -139049,6 +140071,11 @@
           ],
           "packageId": "package:@agentskit/integrations",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/http.ts",
@@ -139411,6 +140438,11 @@
           "outbound": [
             {
               "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
               "id": "module:packages/integrations/src/config-fields.ts",
               "confidence": "observed"
             },
@@ -139446,7 +140478,7 @@
             }
           ]
         },
-        "contentHash": "348e14d6c5d23d627bd1084ac81d73f35ab20f87fd0c64c0967e439cc64b1df2",
+        "contentHash": "934941ac408308b667c4b188fc3d8121d2c2f953a07ca0fb00926f7f2ef85d0a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -139482,6 +140514,11 @@
           "mentionedBy": [],
           "packageId": "package:@agentskit/integrations",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/discord/triggers.ts",
@@ -148081,6 +149118,7 @@
           "verifyHmacSha256Body",
           "verifyPagerDuty",
           "verifySlack",
+          "verifySvix",
           "verifyTelegram",
           "verifyTwilio"
         ],
@@ -148093,7 +149131,7 @@
           "title": "webhook-verify.ts",
           "headings": "",
           "path": "packages/integrations/src/webhook-verify.ts",
-          "symbols": "headerValue hmacSha1Base64 hmacSha256Hex verifyDiscord verifyHmacSha256Bare verifyHmacSha256Body verifyPagerDuty verifySlack verifyTelegram verifyTwilio",
+          "symbols": "headerValue hmacSha1Base64 hmacSha256Hex verifyDiscord verifyHmacSha256Bare verifyHmacSha256Body verifyPagerDuty verifySlack verifySvix verifyTelegram verifyTwilio",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -148105,6 +149143,26 @@
           "mentionedBy": [],
           "packageId": "package:@agentskit/integrations",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/email.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/slack.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/telegram.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/whatsapp.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/discord/triggers.ts",
@@ -148152,6 +149210,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/tests/channels.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/tests/webhook-triggers.test.ts",
               "confidence": "observed"
             }
@@ -148164,7 +149227,7 @@
             }
           ]
         },
-        "contentHash": "775e526012168ea69bde1cabc4dc94fd8b1f7f549853fa4cdd152bdf875d8e82",
+        "contentHash": "6b47da7ae164d168db8d2be385df765d2b08db200a2eba9c4690ecdc9795da82",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -148300,6 +149363,51 @@
           ]
         },
         "contentHash": "78a92e2ec6a1c6e35d96dcec16bf9360d5a398bbf2180f7f422ccba403ec7df6",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/tests/channels.test.ts",
+        "kind": "module",
+        "path": "packages/integrations/tests/channels.test.ts",
+        "title": "channels.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "channels.test.ts",
+          "headings": "",
+          "path": "packages/integrations/tests/channels.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "810a859d34e3d31f9b15fa8d745c1d420641a55404b205c2bb99122c55758f99",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193039,7 +194147,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5d4074bbc7b9b0858b7587188900470df5b2b86081054628685c6915d766daf0",
+        "contentHash": "ebe491960b5b404df093a23c11a374037462843be12620a1081f1791eb455baa",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "angular"
@@ -193236,7 +194344,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4f019a26a6d82d5eba658917b310ebf063b19af95c25d6ee59111bf75bb325f4",
+        "contentHash": "c7a0860de93e899b2d7336c2bc2f8b6ad8071d7342f5f26b5eab0f992a0755d5",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "cli"
@@ -194539,7 +195647,7 @@
         },
         "graph": {
           "pagerank": 0.003186,
-          "inboundLinks": 17,
+          "inboundLinks": 18,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -194553,6 +195661,7 @@
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
             "document:apps/docs-next/content/docs/reference/stability.mdx",
+            "document:apps/example-channels/README.md",
             "document:docs/architecture/adrs/0012-vendor-adapter-scope.md",
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:docs/architecture/adrs/0037-net-package.md",
@@ -194613,6 +195722,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/stability.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/example-channels/README.md",
               "confidence": "observed"
             },
             {
@@ -196606,7 +197720,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3b0a54df5624549ca6f3df23cc47805e2614ec8631351d52b91d66c38c77219d",
+        "contentHash": "0253217e004eef164f380e52b2ba397ffc1a46e43e528eda38f6ff9f30b85e90",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react"
@@ -196863,7 +197977,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f90766dd68444699b8fb0234463437c78ffa6117408992f951ec03619c160fd1",
+        "contentHash": "6ded3c44eafa2ed0c9f389db2d78c480d6d24c23ffa0b5686d897939129b227d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react-native"
@@ -198011,7 +199125,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5a3e7442e46c90febc22f245a45c9cf84475295afd921726da90fa11194bf028",
+        "contentHash": "b7d52462c1447335ba0a4ff29cb238958d6e1a3a80dd6d743c63d16b4733ddd8",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "solid"
@@ -199385,7 +200499,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "fb932dbcde04c77f9f40b5d205168e38b160f981e4de959d5e61c54adc2cba10",
+        "contentHash": "7df80cd457b4152609a799033c0851820f66cd5772b68771f8d9d7cf1a0e632d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "vue"

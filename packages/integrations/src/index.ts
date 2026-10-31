@@ -55,3 +55,6 @@ export {
 // Re-export every catalog service descriptor (and run their side-effect
 // registration into the default registry).
 export * from './services'
+
+// Conversation channels (WhatsApp, Telegram, Slack, email) — inbound webhook + outbound reply.
+export * from './channels'
