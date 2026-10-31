@@ -38,6 +38,21 @@ A 10 KB core budget. 24 focused packages. Zero lock-in. Six formal contracts tha
 
 > **⭐ If this saves you from gluing five libraries together, [star the repo](https://github.com/AgentsKit-io/agentskit).** AgentsKit is solo-built — a star is the cheapest signal that it's worth continuing, and it's what puts it in front of the next person.
 
+<!-- support-matrix:start -->
+**Experimental packages** (no internal consumer yet; community-maintained, tagged `experimental` on npm, never blocking a release). See the [support matrix](./docs/SUPPORT-MATRIX.md).
+
+- `@agentskit/angular`
+- `@agentskit/cli`
+- `@agentskit/integrations`
+- `@agentskit/mcp`
+- `@agentskit/react-native`
+- `@agentskit/solid`
+- `@agentskit/statechart`
+- `@agentskit/svelte`
+- `@agentskit/templates`
+- `@agentskit/vue`
+<!-- support-matrix:end -->
+
 ## Verified proof
 
 The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), verifies **24 published packages**, **7 framework bindings**, **25 native adapters**, **50 integrations**, **140 catalog providers**, **5,000+ catalog models**, **21 ready-made skills**, **17 memory backends**, and **69 recipes**.

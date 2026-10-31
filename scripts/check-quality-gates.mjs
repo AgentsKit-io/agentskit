@@ -60,6 +60,8 @@ const GATES = [
   ['brand token sync (landing)', 'sync-brand.mjs', ['--property', 'agentskit', '--format', 'landing', '--out', 'apps/landing/app/globals.css', '--check']],
   ['README Standard v1', 'check-readme-standard.mjs'],
   ['README Standard v1 tests', 'readme-standard.test.mjs', [], 'vitest'],
+  ['support matrix freshness', 'gen-support-matrix.mjs', ['--check']],
+  ['support matrix tests', 'gen-support-matrix.test.mjs', [], 'vitest'],
   ['cross-platform guardrail (ratchet)', 'check-cross-platform.mjs'],
   ['core rules guardrail (ratchet)', 'check-core-rules.mjs'],
   ['core rules ratchet tests', 'check-core-rules.test.mjs', [], 'vitest'],
