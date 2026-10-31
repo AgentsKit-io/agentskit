@@ -23,6 +23,8 @@ overrides:
   shell-quote: "1.11.0"
   esbuild: ">=0.28.1 <1"
   form-data: ">=4.0.6 <5"
+  # GHSA-mrwp-f3q8-3g9p (cli > localtunnel > axios)
+  follow-redirects: ">=1.16.2 <2"
   dompurify: "3.4.17"
   brace-expansion: "5.0.9"
   # GHSA advisories for fast-uri <3.1.7 (host confusion, SSRF, authority injection)
