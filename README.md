@@ -41,16 +41,10 @@ A 10 KB core budget. 24 focused packages. Zero lock-in. Six formal contracts tha
 <!-- support-matrix:start -->
 **Experimental packages** (no internal consumer yet; community-maintained, tagged `experimental` on npm, never blocking a release). See the [support matrix](./docs/SUPPORT-MATRIX.md).
 
-- `@agentskit/angular`
 - `@agentskit/cli`
 - `@agentskit/integrations`
 - `@agentskit/mcp`
-- `@agentskit/react-native`
-- `@agentskit/solid`
-- `@agentskit/statechart`
-- `@agentskit/svelte`
 - `@agentskit/templates`
-- `@agentskit/vue`
 <!-- support-matrix:end -->
 
 ## Verified proof
