@@ -621,7 +621,7 @@ describe('native HTTP acceptance', () => {
       await expect(httpJson(
         {
           baseUrl: server.origin,
-          timeoutMs: 30,
+          timeoutMs: 400,
           retry: { maxAttempts: 2 },
           sleep: async () => new Promise<void>(() => {}),
         },
