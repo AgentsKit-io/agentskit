@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>AgentsKit-io/.github"
+    "github>AgentsKit-io/.github",
+    "github>AgentsKit-io/agentskit//renovate-base"
   ],
   "packageRules": [
     {
