@@ -73,7 +73,8 @@ export function ConfirmUndoCard({
     onUndo()
   }
 
-  const statusText = phase === 'done' ? doneLabel : phase === 'undone' ? undoneLabel : undefined
+  const statusLabels: Partial<Record<typeof phase, string>> = { done: doneLabel, undone: undoneLabel }
+  const statusText = statusLabels[phase]
 
   return (
     <div data-ak-confirm-undo data-ak-state={phase}>
@@ -88,9 +89,9 @@ export function ConfirmUndoCard({
       {phase === 'undoable' ? (
         <div data-ak-confirm-undo-actions>
           <button data-ak-confirm-undo-undo onClick={undo}>{undoLabel}</button>
-          {formatRemaining ? (
+          {formatRemaining && (
             <span data-ak-confirm-undo-remaining>{formatRemaining(Math.ceil(remainingMs / 1000))}</span>
-          ) : null}
+          )}
         </div>
       ) : null}
       {statusText ? <span data-ak-confirm-undo-status>{statusText}</span> : null}

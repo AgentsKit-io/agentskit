@@ -46,9 +46,14 @@ export function UsageMeter({
 
   const utilization = Math.max(0, raw)
   const percent = Math.min(100, Math.round(utilization * 100))
-  const state: UsageMeterState =
-    utilization >= 1 ? 'out' : utilization >= warningThreshold ? 'warning' : 'ok'
-  const stateLabel = state === 'out' ? outLabel : state === 'warning' ? warningLabel : undefined
+  let state: UsageMeterState = 'ok'
+  if (utilization >= 1) state = 'out'
+  else if (utilization >= warningThreshold) state = 'warning'
+  const stateLabels: Partial<Record<UsageMeterState, typeof outLabel>> = {
+    out: outLabel,
+    warning: warningLabel,
+  }
+  const stateLabel = stateLabels[state]
 
   return (
     <div data-ak-usage-meter data-ak-state={state}>
