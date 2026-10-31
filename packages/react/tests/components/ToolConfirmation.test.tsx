@@ -93,4 +93,58 @@ describe('ToolConfirmation', () => {
     fireEvent.click(screen.getByText('Deny'))
     expect(onDeny).toHaveBeenCalledWith('tc-1')
   })
+
+  it('uses custom labels when provided', () => {
+    render(
+      <ToolConfirmation
+        toolCall={pendingToolCall}
+        onApprove={vi.fn()}
+        onDeny={vi.fn()}
+        labels={{ approve: 'Aprovar', deny: 'Negar', status: 'requer confirmação' }}
+      />
+    )
+    expect(screen.getByText('Aprovar')).toBeInTheDocument()
+    expect(screen.getByText('Negar')).toBeInTheDocument()
+    expect(screen.getByText('requer confirmação')).toBeInTheDocument()
+    expect(screen.queryByText('Approve')).toBeNull()
+  })
+
+  it('keeps default labels for keys missing from labels', () => {
+    render(
+      <ToolConfirmation
+        toolCall={pendingToolCall}
+        onApprove={vi.fn()}
+        onDeny={vi.fn()}
+        labels={{ approve: 'Aprovar' }}
+      />
+    )
+    expect(screen.getByText('Aprovar')).toBeInTheDocument()
+    expect(screen.getByText('Deny')).toBeInTheDocument()
+  })
+
+  it('does not render undo while confirmation is pending', () => {
+    render(
+      <ToolConfirmation
+        toolCall={pendingToolCall}
+        onApprove={vi.fn()}
+        onDeny={vi.fn()}
+        onUndo={vi.fn()}
+      />
+    )
+    expect(screen.queryByText('Undo')).toBeNull()
+  })
+
+  it('renders undo after approval and calls onUndo with the tool call id', () => {
+    const onUndo = vi.fn()
+    render(
+      <ToolConfirmation
+        toolCall={completedToolCall}
+        onApprove={vi.fn()}
+        onDeny={vi.fn()}
+        onUndo={onUndo}
+      />
+    )
+    fireEvent.click(screen.getByText('Undo'))
+    expect(onUndo).toHaveBeenCalledWith('tc-2')
+  })
 })
