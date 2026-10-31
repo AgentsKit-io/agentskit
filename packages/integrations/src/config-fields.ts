@@ -44,6 +44,15 @@ export const CONFIG_FIELDS = {
     { key: 'routingKey', label: 'Routing key', secret: true, required: true },
     { key: 'apiToken', label: 'REST API token', secret: true, required: false },
   ],
+  zendesk: [
+    { key: 'subdomain', label: 'Subdomain', required: true, placeholder: 'acme' },
+    { key: 'email', label: 'Agent email', required: true },
+    { key: 'apiToken', label: 'API token', secret: true, required: true },
+  ],
+  freshdesk: [
+    { key: 'domain', label: 'Domain', required: true, placeholder: 'acme' },
+    { key: 'apiKey', label: 'API key', secret: true, required: true },
+  ],
   pipedrive: [{ key: 'apiToken', label: 'API token', secret: true, required: true }],
   // Flat SMTP fields; the host builds an `EmailTransport` from them (the
   // `email_send` action reads `config.transport`, not these keys directly).

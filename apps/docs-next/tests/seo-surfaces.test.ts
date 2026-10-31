@@ -36,7 +36,7 @@ describe('SEO discovery surfaces', () => {
   })
 
   it('keeps the canonical integration catalog count aligned with its generated list', () => {
-    expect(counts.integrations).toBe(51)
+    expect(counts.integrations).toBe(53)
     expect(lists.integrations).toHaveLength(counts.integrations)
     expect(new Set(lists.integrations).size).toBe(lists.integrations.length)
   })
@@ -96,7 +96,7 @@ describe('SEO discovery surfaces', () => {
 
     expect(page).toContain('/integrations')
     expect(page).toContain('/docs/for-agents/integrations')
-    expect(page).toContain('50 service descriptors')
+    expect(page).toContain('52 service descriptors')
     expect(page).not.toContain('land in step 6')
   })
 
