@@ -54,8 +54,7 @@ test('proposal and changeset describe the change and keep delivery manual', () =
 })
 
 const workflowUrl = new URL('../.github/workflows/release-train.yml', import.meta.url)
-// The factory App cannot push workflow files; a maintainer adds it, and the test guards it from then on.
-test('the workflow opens only a draft PR and never merges or publishes', { skip: !existsSync(workflowUrl) }, () => {
+test('the workflow opens only a draft PR and never merges or publishes', () => {
   const workflow = readFileSync(workflowUrl, 'utf8')
   assert.match(workflow, /draft: true/)
   assert.match(workflow, /pnpm check:packed-consumers/)

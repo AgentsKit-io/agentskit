@@ -18,6 +18,13 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      # PRs opened with GITHUB_TOKEN do not trigger workflows; an App token makes CI run on the draft PR.
+      - name: Create release-train app token
+        id: app_token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ vars.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
@@ -40,8 +47,9 @@ jobs:
           pnpm check:release-train
           pnpm test
           node scripts/audit-prod-high.mjs
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
         with:
+          token: ${{ steps.app_token.outputs.token }}
           branch: release-train/update
           title: 'chore(deps): release-train update'
           body-path: ${{ runner.temp }}/release-train-body.md
