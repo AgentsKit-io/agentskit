@@ -1317,7 +1317,9 @@
       "subpaths": {
         ".": {
           "conditions": [
-            "import"
+            "default",
+            "import",
+            "types"
           ],
           "symbols": [
             {
