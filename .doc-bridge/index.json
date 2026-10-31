@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "98166e9f37ade94cc97062d4e27cf4c1313bf449a47b01b833bc1b4fd68e5c34",
+  "contentHash": "fce0d6ef9f9ea15b5b26e8a0758436b49779c0b87bf25a57e26e5e46ad984300",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-30T15:23:20.925Z",
+  "generatedAt": "2026-10-31T00:44:15.343Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -400,7 +400,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "7d63e8a1104205500b079ac1f01bc90ed72b30ff57f33401176a8bb72ecbb954"
+      "contentHash": "7477522c73a99241801033fc5ead8be12b3567d0a6e87f166eb83203c6e541ba"
     },
     {
       "id": "document:agents/ecosystem-doc-bridge-corpus-scanner/README.md",
@@ -5583,7 +5583,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "2e8888c1b316c64670cca902cf0fd3d43a5b795f0a80a6bc956a4da362bff782"
+      "contentHash": "f76df6c49015a9787ca68d40720dc38a8091475e417a046a496d92613053ccf9"
     },
     {
       "id": "document:CODE_OF_CONDUCT.md",
@@ -6147,6 +6147,18 @@
         "human"
       ],
       "contentHash": "a215a62050e13a4a41af6ad82146146316f75b2c884fe0753653c830cebf4894"
+    },
+    {
+      "id": "document:docs/DIRECAO-2026-10-29.md",
+      "type": "document",
+      "title": "Direção do AgentsKit (decisão do dono, 2026-10-29)",
+      "path": "docs/DIRECAO-2026-10-29.md",
+      "description": "Grelha dos produtos de base com o dono. Vale sobre o que estiver diferente em ROADMAP-PRD.md e V1-READINESS-TRACKER.md.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "5b195065e808f60cd9109934e809d271f86b011c96a4def42127b91daf15f537"
     },
     {
       "id": "document:docs/ecosystem/activation/README.md",
@@ -11771,7 +11783,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "56c23542c2e1c51ff8826b1129f78df9156f1c038c86abb70ac1ef1dbb43cd4b"
+      "contentHash": "41716fe6d8a1801cf46f001398d253cf6cd4d2b20013459e7c3aa2f2434ed29e"
     },
     {
       "id": "module:apps/docs-next/tests/site-icons.test.ts",
@@ -24427,6 +24439,7 @@
         "sentryIntegration",
         "shopifyIntegration",
         "slackIntegration",
+        "supabaseIntegration",
         "telegramIntegration",
         "twilioIntegration",
         "weatherIntegration",
@@ -24438,7 +24451,7 @@
         "ts",
         "services"
       ],
-      "contentHash": "d7fb75125d8910fde9a4df9d826034920ec63372aaef31d2d1546e7ce3279508"
+      "contentHash": "f5514d06e27f5e19181434a705171cb31bb0fac9c61025ee9de1f9d1cd2a05ab"
     },
     {
       "id": "module:packages/integrations/src/services/intercom/actions.ts",
@@ -25098,6 +25111,38 @@
       "contentHash": "ac81c6a9ca364de72dbeb9a05c4b1fb7e476c42c68576acfb597925276e15604"
     },
     {
+      "id": "module:packages/integrations/src/services/supabase/actions.ts",
+      "type": "module",
+      "title": "actions.ts",
+      "path": "packages/integrations/src/services/supabase/actions.ts",
+      "symbols": [
+        "supabaseActions",
+        "supabaseGetProject",
+        "supabaseListProjects"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "supabase"
+      ],
+      "contentHash": "44bd712d30fd0ef8932a263dc8d99dbb6abe105728491ecea6aedaad4d501f27"
+    },
+    {
+      "id": "module:packages/integrations/src/services/supabase/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/services/supabase/index.ts",
+      "symbols": [
+        "supabaseIntegration"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "supabase"
+      ],
+      "contentHash": "2cbb7a97553844e27998b8fe81fc23cc0cc690ae6c0e166aa17e5dc6d3cf9510"
+    },
+    {
       "id": "module:packages/integrations/src/services/teams/actions.ts",
       "type": "module",
       "title": "actions.ts",
@@ -25700,6 +25745,19 @@
         "tests"
       ],
       "contentHash": "e1f8d9a931dee6faadf9948adc4689169e2143f7fe5c3c17565286c80231f971"
+    },
+    {
+      "id": "module:packages/integrations/tests/supabase.test.ts",
+      "type": "module",
+      "title": "supabase.test.ts",
+      "path": "packages/integrations/tests/supabase.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "b099967f7269a82e35cf1b724729743518fcf1ad46d51655935f57d367c865e3"
     },
     {
       "id": "module:packages/integrations/tests/transport-contract.test.ts",
@@ -38651,8 +38709,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "c7ddf7873b82596671d7f65136417af9077fa97daa62615a36154935fde4c92d",
-    "fileCount": 2649,
+    "hash": "fda15ebe46fe559f852db05f029e298f2c7a7ebe33fe1341fa052627530ea628",
+    "fileCount": 2653,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38674,9 +38732,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "cf382c22be254e0e66a3d624c34ba8c901cea72d00af5d9a4ff8781ab57a7347",
+    "contentHash": "c8045b84f25371d1e13fccd5d2bf095855f032e022c1db4fcc42144385a7dd9e",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "b54c31a7c15e38e51b60bbd06ba1c4df313107374a76a3e82536e36871c45091",
+    "snapshotHash": "a727c19d786dbbe037c8f20fb52c833731c78970d4c52b71a53465467dac7ebb",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38696,7 +38754,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2521,
+      "documentCount": 2525,
       "fieldNames": [
         "aliases",
         "body",
@@ -38707,13 +38765,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.017056723522412,
-        "body": 60.95398651328838,
-        "headings": 3.904799682665609,
-        "path": 7.616422054740182,
-        "summary": 4.509718365727886,
-        "symbols": 7.515271717572392,
-        "title": 3.3756445854819517
+        "aliases": 3.017029702970297,
+        "body": 60.94059405940594,
+        "headings": 3.908118811881188,
+        "path": 7.616237623762376,
+        "summary": 4.5089108910891085,
+        "symbols": 7.51009900990099,
+        "title": 3.377029702970297
       }
     },
     "entries": [
@@ -40717,7 +40775,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "07527e27076028113726f711c624f4a40d5d996e1f10ddffb349543a25296e87",
+        "contentHash": "3d65c3545b68ed375273039b1262958bdfc042286a6dedb7eff110323cdc3fdc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42122,7 +42180,7 @@
         ],
         "fields": {
           "title": "AGENTS.md",
-          "headings": "AGENTS.md What AgentsKit is Non-negotiable rules Code conventions Project shape doc-bridge routing Workflow expectations for agents Commands Where things are documented Anti-patterns (do not do these)",
+          "headings": "AGENTS.md What AgentsKit is Non-negotiable rules Code conventions Project shape doc-bridge routing Workflow expectations for agents Commands Where things are documented Anti-patterns (do not do these) Confidencialidade (repositório PÚBLICO)",
           "path": "AGENTS.md",
           "symbols": "",
           "summary": "Universal guidance for AI coding agents (Claude Code, Cursor, Copilot, Kiro, Windsurf, Aider, Codex, etc.) working inside this repository.",
@@ -42261,7 +42319,7 @@
             }
           ]
         },
-        "contentHash": "7d63e8a1104205500b079ac1f01bc90ed72b30ff57f33401176a8bb72ecbb954",
+        "contentHash": "7477522c73a99241801033fc5ead8be12b3567d0a6e87f166eb83203c6e541ba",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68948,7 +69006,7 @@
         ],
         "fields": {
           "title": "CLAUDE.md",
-          "headings": "CLAUDE.md What is AgentsKit Vital Rules Commands Package Dependency Graph Architecture by Package @agentskit/core @agentskit/react @agentskit/ink @agentskit/cli @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/skills @agentskit/memory @agentskit/rag @agentskit/sandbox @agentskit/observability @agentskit/eval Code Conventions Agent Memory",
+          "headings": "CLAUDE.md What is AgentsKit Vital Rules Commands Package Dependency Graph Architecture by Package @agentskit/core @agentskit/react @agentskit/ink @agentskit/cli @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/skills @agentskit/memory @agentskit/rag @agentskit/sandbox @agentskit/observability @agentskit/eval Code Conventions Agent Memory Confidencialidade (repositório PÚBLICO)",
           "path": "CLAUDE.md",
           "symbols": "",
           "summary": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.",
@@ -69032,7 +69090,7 @@
             }
           ]
         },
-        "contentHash": "2e8888c1b316c64670cca902cf0fd3d43a5b795f0a80a6bc956a4da362bff782",
+        "contentHash": "f76df6c49015a9787ca68d40720dc38a8091475e417a046a496d92613053ccf9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73152,6 +73210,39 @@
           ]
         },
         "contentHash": "a215a62050e13a4a41af6ad82146146316f75b2c884fe0753653c830cebf4894",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:docs/DIRECAO-2026-10-29.md",
+        "kind": "document",
+        "path": "docs/DIRECAO-2026-10-29.md",
+        "title": "Direção do AgentsKit (decisão do dono, 2026-10-29)",
+        "summary": "Grelha dos produtos de base com o dono. Vale sobre o que estiver diferente em ROADMAP-PRD.md e V1-READINESS-TRACKER.md.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "Direção do AgentsKit (decisão do dono, 2026-10-29)",
+          "headings": "Direção do AgentsKit (decisão do dono, 2026-10-29) O AgentsKit é a cola Primeiras integrações Superfície e manutenção",
+          "path": "docs/DIRECAO-2026-10-29.md",
+          "symbols": "",
+          "summary": "Grelha dos produtos de base com o dono. Vale sobre o que estiver diferente em ROADMAP-PRD.md e V1-READINESS-TRACKER.md.",
+          "body": "Direção do AgentsKit (decisão do dono, 2026-10-29) Grelha dos produtos de base com o dono. Vale sobre o que estiver diferente em ROADMAP-PRD.md e V1-READINESS-TRACKER.md. O AgentsKit é a cola O foco deixa de ser \"criar agentes\" e passa a ser integrar : provedores de modelo, bots e canais, runners e agentes prontos, servindo de cola entre eles. Assim os produtos aproveitam o melhor de cada ferramenta sem recriar a ligação. Fronteira com o agentskit-os: adaptadores genéricos (provedores, canais, runners, MCP, storage, filas) são públicos aqui (MIT). O que é de produto ou de negócio (legal, whitelabel, licença, copilots, pipelines) fica privado no agentskit-os. Primeiras integrações 1. Provedores de modelo atrás de uma porta só: OpenRouter, Anthropic, OpenAI e CLIProxyAPI, com custo e teto por chamada (os produtos têm teto de IA: law-os US$ 100/escritório/mês, MOSS US$ 20/marca/semana). 2. Bots e canais : WhatsApp, Telegram, Slack e e-mail como entrada e saída de conversa. 3. Agentes prontos : CopilotKit/OpenBot e Hermes Agent (via ACP), com o mesmo adaptador de Claude Code e Codex. A tarefa entra, e o resultado e o trace saem. Superfície e manutenção - Suportados: os pacotes que os produtos usam (law-os, marketing-os, expenses, receipts, escolagestao, techhunter, servdex, ...). O resto fica marcado como comunidade/experimental : não bloqueia release e não recebe trabalho da fábrica. Nada é apagado. - v1 caso a caso: um pacote vai para 1.0 quando tem consumidor interno em produção ou homolog, CI verde, nenhuma quebra de API nas últimas 4 versões e docs. A fábrica gera a tabela e abre um PR de promoção por lote, e o dono aprova. - Renovate: agrupado por semana, com automerge de minor e patch em CI verde; majors num PR mensal. Vale para todos os repos de base.",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "5b195065e808f60cd9109934e809d271f86b011c96a4def42127b91daf15f537",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96307,7 +96398,7 @@
             }
           ]
         },
-        "contentHash": "56c23542c2e1c51ff8826b1129f78df9156f1c038c86abb70ac1ef1dbb43cd4b",
+        "contentHash": "41716fe6d8a1801cf46f001398d253cf6cd4d2b20013459e7c3aa2f2434ed29e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -139541,6 +139632,11 @@
               "kind": "imports",
               "id": "module:packages/integrations/tests/http.test.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -139992,6 +140088,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/tests/transport-contract.test.ts",
               "confidence": "observed"
             },
@@ -140308,6 +140409,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/supabase/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/teams/index.ts",
               "confidence": "observed"
             },
@@ -140349,6 +140455,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/registry.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
               "confidence": "observed"
             },
             {
@@ -144090,6 +144201,7 @@
           "sentryIntegration",
           "shopifyIntegration",
           "slackIntegration",
+          "supabaseIntegration",
           "telegramIntegration",
           "twilioIntegration",
           "weatherIntegration",
@@ -144105,7 +144217,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/integrations/src/services/index.ts",
-          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration telegramIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration",
+          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration supabaseIntegration telegramIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration",
           "summary": "",
           "body": "",
           "aliases": "module ts services"
@@ -144357,6 +144469,11 @@
             },
             {
               "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/supabase/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
               "id": "module:packages/integrations/src/services/teams/index.ts",
               "confidence": "observed"
             },
@@ -144387,7 +144504,7 @@
             }
           ]
         },
-        "contentHash": "d7fb75125d8910fde9a4df9d826034920ec63372aaef31d2d1546e7ce3279508",
+        "contentHash": "f5514d06e27f5e19181434a705171cb31bb0fac9c61025ee9de1f9d1cd2a05ab",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -146958,6 +147075,121 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/services/supabase/actions.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/supabase/actions.ts",
+        "title": "actions.ts",
+        "aliases": [],
+        "symbols": [
+          "supabaseActions",
+          "supabaseGetProject",
+          "supabaseListProjects"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "supabase"
+        ],
+        "fields": {
+          "title": "actions.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/supabase/actions.ts",
+          "symbols": "supabaseActions supabaseGetProject supabaseListProjects",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts supabase"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/supabase/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "44bd712d30fd0ef8932a263dc8d99dbb6abe105728491ecea6aedaad4d501f27",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/services/supabase/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/supabase/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "supabaseIntegration"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "supabase"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/supabase/index.ts",
+          "symbols": "supabaseIntegration",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts supabase"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/supabase/actions.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "2cbb7a97553844e27998b8fe81fc23cc0cc690ae6c0e166aa17e5dc6d3cf9510",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/services/teams/actions.ts",
         "kind": "module",
         "path": "packages/integrations/src/services/teams/actions.ts",
@@ -148161,6 +148393,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/slack.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
               "confidence": "observed"
             },
             {
@@ -149570,6 +149807,66 @@
           ]
         },
         "contentHash": "e1f8d9a931dee6faadf9948adc4689169e2143f7fe5c3c17565286c80231f971",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/tests/supabase.test.ts",
+        "kind": "module",
+        "path": "packages/integrations/tests/supabase.test.ts",
+        "title": "supabase.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "supabase.test.ts",
+          "headings": "",
+          "path": "packages/integrations/tests/supabase.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/project/to-tool-definitions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/supabase/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/testing/validate.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "b099967f7269a82e35cf1b724729743518fcf1ad46d51655935f57d367c865e3",
         "provenance": "observed",
         "confidence": "observed"
       },
