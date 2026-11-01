@@ -8,11 +8,11 @@
  *
  * Never merges or publishes: the workflow only opens a draft PR for human review.
  */
-import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { readJson as readBoundedJson } from '@agentskit/net'
-import { applyToManifest, applyToPackageJson, findDrift, findPeerViolations, planUpdates, renderChangeset, renderProposal, validateManifest } from './lib/release-train.mjs'
+import { applyToManifest, applyToPackageJson, findDrift, findPeerViolations, planUpdates, renderChangeset, renderOutput, renderProposal, validateManifest } from './lib/release-train.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'))
@@ -65,6 +65,7 @@ if (args.includes('--check')) {
 } else if (args.includes('--plan') || args.includes('--apply')) {
   const names = manifest.groups.flatMap((group) => Object.keys(group.packages))
   const updates = planUpdates(manifest, await latestVersions(names))
+  if (args.includes('--apply') && process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, renderOutput(updates))
   if (args.includes('--plan')) process.stdout.write(`${JSON.stringify(updates, null, 2)}\n`)
   else if (updates.length === 0) process.stdout.write('release-train: no coordinated updates available\n')
   else {

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { applyToManifest, applyToPackageJson, compareVersions, findDrift, findPeerViolations, planUpdates, renderChangeset, renderProposal, validateManifest } from './lib/release-train.mjs'
+import { applyToManifest, applyToPackageJson, compareVersions, findDrift, findPeerViolations, planUpdates, renderChangeset, renderOutput, renderProposal, validateManifest } from './lib/release-train.mjs'
 
 const manifest = {
   schemaVersion: 1,
@@ -127,4 +127,12 @@ test('changeset lists every public package and moved dependency, and is empty wi
   assert.match(changeset, /^---\n"@agentskit\/react": patch\n"@agentskit\/ink": patch\n---\n/)
   assert.match(changeset, /react 19\.4\.0, tsup 8\.6\.0/)
   assert.equal(renderChangeset(updates, []), '')
+})
+
+test('a no-update run reports updated=false and the workflow skips every PR step', () => {
+  assert.equal(renderOutput([]), 'updated=false\n')
+  assert.equal(renderOutput([{ id: 'react' }]), 'updated=true\n')
+  const workflow = readFileSync(workflowUrl, 'utf8')
+  assert.match(workflow, /id: apply/)
+  assert.equal(workflow.match(/if: steps\.apply\.outputs\.updated == 'true'/g)?.length, 3)
 })

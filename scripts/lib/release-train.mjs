@@ -147,3 +147,8 @@ export function renderChangeset(updates, publicPackages) {
   const moved = updates.flatMap(({ changes }) => changes.map(({ name, to }) => `${name} ${to}`)).join(', ')
   return `---\n${publicPackages.map((name) => `"${name}": patch`).join('\n')}\n---\n\nUpdate coordinated release-train dependencies: ${moved}.\n`
 }
+
+/** Line appended to $GITHUB_OUTPUT so the workflow can skip PR steps on a no-update run. */
+export function renderOutput(updates) {
+  return `updated=${updates.length > 0}\n`
+}

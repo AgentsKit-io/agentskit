@@ -36,20 +36,24 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: node scripts/release-train.mjs --check
       - name: Apply coordinated updates
+        id: apply
         run: node scripts/release-train.mjs --apply --body "$RUNNER_TEMP/release-train-body.md"
       - name: Refresh lockfile and generated surfaces
+        if: steps.apply.outputs.updated == 'true'
         run: |
           pnpm install --no-frozen-lockfile
           pnpm build
           node scripts/check-doc-package-versions.mjs --fix
           pnpm metadata:generate
       - name: Compatibility and security checks
+        if: steps.apply.outputs.updated == 'true'
         run: |
           pnpm check:packed-consumers
           pnpm check:release-train
           pnpm test
           node scripts/audit-prod-high.mjs
       - uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
+        if: steps.apply.outputs.updated == 'true'
         with:
           token: ${{ steps.app_token.outputs.token }}
           branch: release-train/update
