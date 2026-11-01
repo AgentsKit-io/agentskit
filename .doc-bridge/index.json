@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "57c222e09a24a8e87e212f1c28c631ac225916130a5bac69c04e40af2e89e20a",
+  "contentHash": "778d0e1861364b42d34b411e6b2350c2c3280ed055c3829d8c21cc5fe00c3396",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-10-26T00:00:29.477Z",
+  "generatedAt": "2026-11-01T08:15:59.214Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -400,7 +400,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "7d63e8a1104205500b079ac1f01bc90ed72b30ff57f33401176a8bb72ecbb954"
+      "contentHash": "7477522c73a99241801033fc5ead8be12b3567d0a6e87f166eb83203c6e541ba"
     },
     {
       "id": "document:agents/ecosystem-doc-bridge-corpus-scanner/README.md",
@@ -4558,12 +4558,12 @@
       "type": "document",
       "title": "provider-swap.mdx",
       "path": "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
-      "description": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers.",
+      "description": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences.",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "828c847f0e669ab6035de8aa2e5d248cedf409a5337d9b0c969cf71455864670"
+      "contentHash": "d7e9ab75569ee51e63abaacbdd5270338f3d0624af38b6f52a90d8eb19b1e8e6"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/rag-chat.mdx",
@@ -5583,7 +5583,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "2e8888c1b316c64670cca902cf0fd3d43a5b795f0a80a6bc956a4da362bff782"
+      "contentHash": "f76df6c49015a9787ca68d40720dc38a8091475e417a046a496d92613053ccf9"
     },
     {
       "id": "document:CODE_OF_CONDUCT.md",
@@ -6086,7 +6086,7 @@
         "document",
         "human"
       ],
-      "contentHash": "6bbcb59353c45545b97728da92df345307d0642d32582c46c731d181393edf64"
+      "contentHash": "aaa3a6f72dd768f75cdf1a77a10f8263d16a4c05896d54646d84fa3d4a488d36"
     },
     {
       "id": "document:docs/architecture/adrs/README.md",
@@ -6135,6 +6135,18 @@
         "human"
       ],
       "contentHash": "a215a62050e13a4a41af6ad82146146316f75b2c884fe0753653c830cebf4894"
+    },
+    {
+      "id": "document:docs/DIRECAO-2026-10-29.md",
+      "type": "document",
+      "title": "Direção do AgentsKit (decisão do dono, 2026-10-29)",
+      "path": "docs/DIRECAO-2026-10-29.md",
+      "description": "Grelha dos produtos de base com o dono. Vale sobre o que estiver diferente em ROADMAP-PRD.md e V1-READINESS-TRACKER.md.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "5b195065e808f60cd9109934e809d271f86b011c96a4def42127b91daf15f537"
     },
     {
       "id": "document:docs/ecosystem/activation/README.md",
@@ -7250,7 +7262,7 @@
         "document",
         "project"
       ],
-      "contentHash": "87237cd2b57ba5c3b22587d59167010673075706fdfde7ff9b2eb344783f4de1"
+      "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c"
     },
     {
       "id": "document:packages/rag/CONVENTIONS.md",
@@ -11759,7 +11771,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "56c23542c2e1c51ff8826b1129f78df9156f1c038c86abb70ac1ef1dbb43cd4b"
+      "contentHash": "41716fe6d8a1801cf46f001398d253cf6cd4d2b20013459e7c3aa2f2434ed29e"
     },
     {
       "id": "module:apps/docs-next/tests/site-icons.test.ts",
@@ -24415,6 +24427,7 @@
         "sentryIntegration",
         "shopifyIntegration",
         "slackIntegration",
+        "supabaseIntegration",
         "telegramIntegration",
         "twilioIntegration",
         "weatherIntegration",
@@ -24426,7 +24439,7 @@
         "ts",
         "services"
       ],
-      "contentHash": "d7fb75125d8910fde9a4df9d826034920ec63372aaef31d2d1546e7ce3279508"
+      "contentHash": "f5514d06e27f5e19181434a705171cb31bb0fac9c61025ee9de1f9d1cd2a05ab"
     },
     {
       "id": "module:packages/integrations/src/services/intercom/actions.ts",
@@ -25086,6 +25099,38 @@
       "contentHash": "ac81c6a9ca364de72dbeb9a05c4b1fb7e476c42c68576acfb597925276e15604"
     },
     {
+      "id": "module:packages/integrations/src/services/supabase/actions.ts",
+      "type": "module",
+      "title": "actions.ts",
+      "path": "packages/integrations/src/services/supabase/actions.ts",
+      "symbols": [
+        "supabaseActions",
+        "supabaseGetProject",
+        "supabaseListProjects"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "supabase"
+      ],
+      "contentHash": "44bd712d30fd0ef8932a263dc8d99dbb6abe105728491ecea6aedaad4d501f27"
+    },
+    {
+      "id": "module:packages/integrations/src/services/supabase/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/services/supabase/index.ts",
+      "symbols": [
+        "supabaseIntegration"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "supabase"
+      ],
+      "contentHash": "2cbb7a97553844e27998b8fe81fc23cc0cc690ae6c0e166aa17e5dc6d3cf9510"
+    },
+    {
       "id": "module:packages/integrations/src/services/teams/actions.ts",
       "type": "module",
       "title": "actions.ts",
@@ -25688,6 +25733,19 @@
         "tests"
       ],
       "contentHash": "e1f8d9a931dee6faadf9948adc4689169e2143f7fe5c3c17565286c80231f971"
+    },
+    {
+      "id": "module:packages/integrations/tests/supabase.test.ts",
+      "type": "module",
+      "title": "supabase.test.ts",
+      "path": "packages/integrations/tests/supabase.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "b099967f7269a82e35cf1b724729743518fcf1ad46d51655935f57d367c865e3"
     },
     {
       "id": "module:packages/integrations/tests/transport-contract.test.ts",
@@ -28115,6 +28173,7 @@
         "validateCostRelease",
         "validateCostReserve",
         "validateCostWindow",
+        "validateReservationTtl",
         "warnProcessLocalCostState"
       ],
       "tags": [
@@ -28122,7 +28181,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "a4de0beaaa030a3cccabedb0b68e616d9333997bde4ca6ce6f2251203b2bae81"
+      "contentHash": "3505173725e4f2b72585a759df38e43b8f3e4ac4e6a74b662b57378b966c2b17"
     },
     {
       "id": "module:packages/observability/src/datadog.ts",
@@ -28405,7 +28464,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "08672acc3b8820e6a96bdd2e30521771091138ce0a5484ab1749e5d931bbbe23"
+      "contentHash": "e32f734825f507e3ab194ea9602f3ac659a1a20354ad1d8c7830774a43f14895"
     },
     {
       "id": "module:packages/observability/src/prod-control.ts",
@@ -28763,7 +28822,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "3a7ffc7e3fca98ac3da8ed711ee91f5c57e4d24b8d744f4e87c24d286ba6c9a6"
+      "contentHash": "950a389c1e129144f7588635c9f437cc10b4beb2b7b81621062b3ebef559b0d8"
     },
     {
       "id": "module:packages/observability/tests/devtools.test.ts",
@@ -28844,7 +28903,7 @@
         "ts",
         "tests"
       ],
-      "contentHash": "5950721a855c0536a6d54b89b013d507fb567b63df59a2cbbd669a04b3ce5289"
+      "contentHash": "0b504aef068c0c4b2a8105878c1cdefcc7c2d96ffe3e0ad0392ebbc46fdf47f8"
     },
     {
       "id": "module:packages/observability/tests/postgres-worker.ts",
@@ -28897,7 +28956,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "21268cb747a51e617a2679d73362734f99c6f338e9766d7e72f97f4d805aba0f"
+      "contentHash": "0b325eab8857a792babdce02f661131bac9b41f5aa871174c268b6f8469d6c78"
     },
     {
       "id": "module:packages/observability/tests/prod-control.test.ts",
@@ -38639,8 +38698,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "780441f561c123904d7928216f1fde6bb0317f68b1b8598416f210367c13e04a",
-    "fileCount": 2648,
+    "hash": "3464efee20dfa28149739f82fc6baeafe77fff54d3b489f022beb6201327903a",
+    "fileCount": 2652,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38662,9 +38721,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "280b2cbb958161aea20c5c720daa5c4551b09c26bd92389863125d9a2254ddbc",
+    "contentHash": "a02631ebf26e1bd8ca663edba6ce5d7b470293ffc04be399ceb3277289a15280",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "d760e004f956e204798b7ea4906835ad505369edcfbfe8a6d55b8bb837b6370e",
+    "snapshotHash": "458a73b023afe68e1e78bc6bede8a540034a47ff4ec6f53a8d306b0477fa4c9b",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38684,7 +38743,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2520,
+      "documentCount": 2524,
       "fieldNames": [
         "aliases",
         "body",
@@ -38695,13 +38754,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0174603174603174,
-        "body": 60.786904761904765,
-        "headings": 3.892857142857143,
-        "path": 7.616269841269841,
-        "summary": 4.503571428571429,
-        "symbols": 7.518253968253968,
-        "title": 3.3753968253968254
+        "aliases": 3.01743264659271,
+        "body": 60.77456418383518,
+        "headings": 3.8961965134706813,
+        "path": 7.61608557844691,
+        "summary": 4.509904912836767,
+        "symbols": 7.514659270998415,
+        "title": 3.376782884310618
       }
     },
     "entries": [
@@ -40705,7 +40764,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "07527e27076028113726f711c624f4a40d5d996e1f10ddffb349543a25296e87",
+        "contentHash": "3d65c3545b68ed375273039b1262958bdfc042286a6dedb7eff110323cdc3fdc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42110,7 +42169,7 @@
         ],
         "fields": {
           "title": "AGENTS.md",
-          "headings": "AGENTS.md What AgentsKit is Non-negotiable rules Code conventions Project shape doc-bridge routing Workflow expectations for agents Commands Where things are documented Anti-patterns (do not do these)",
+          "headings": "AGENTS.md What AgentsKit is Non-negotiable rules Code conventions Project shape doc-bridge routing Workflow expectations for agents Commands Where things are documented Anti-patterns (do not do these) Confidencialidade (repositório PÚBLICO)",
           "path": "AGENTS.md",
           "symbols": "",
           "summary": "Universal guidance for AI coding agents (Claude Code, Cursor, Copilot, Kiro, Windsurf, Aider, Codex, etc.) working inside this repository.",
@@ -42249,7 +42308,7 @@
             }
           ]
         },
-        "contentHash": "7d63e8a1104205500b079ac1f01bc90ed72b30ff57f33401176a8bb72ecbb954",
+        "contentHash": "7477522c73a99241801033fc5ead8be12b3567d0a6e87f166eb83203c6e541ba",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -52702,7 +52761,7 @@
           "path": "apps/docs-next/content/docs/for-agents/observability.mdx",
           "symbols": "",
           "summary": "consoleLogger(config?) — local dev logging.",
-          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - createInMemoryCostStore() — development and test store. recordCostSpend(store, { tenant, costUsd, usage? }) — reserve + commit for spend that already happened. monthlyWindowKey(date) — default window ( YYYY-MM , UTC). - @agentskit/observability/postgres — postgresCostStore({ db }) , postgresCostMigrationSql , and the Dr",
+          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - reservationTtlMs?: number on both store factories — a reservation neither committed nor released after this many ms stops counting against the cap and settles as released (late commit throws AK COST RESERVATION RELEASED ). Checked lazily on every store call; no job needed. Default: never expires. - createInMemoryCostSto",
           "aliases": "observability document agent"
         },
         "graph": {
@@ -52819,7 +52878,7 @@
             }
           ]
         },
-        "contentHash": "4527b56550623200e878944b69d9e156ecf8a0fae6abb07a2f5d871aeb511e98",
+        "contentHash": "c9f4fcde9d6af4180b481e0271907f9d80eeec0627e822aa8476ea05aa99f74b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -64670,7 +64729,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
         "title": "provider-swap.mdx",
-        "summary": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers.",
+        "summary": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -64682,8 +64741,8 @@
           "headings": "Install Copy the verified fixture Provider compatibility Run without credentials Switch providers What the automated proof covers See also",
           "path": "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
           "symbols": "",
-          "summary": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers.",
-          "body": "Provider choice should be configuration, not application architecture. This recipe keeps the task, runtime, and result handling unchanged while the adapter boundary moves between six hosted and local providers. Install Copy the verified fixture The complete runnable source is committed at . The application path has no provider-specific branch: Only selectAdapter knows which provider factory, credential, and default model to use. Provider compatibility AGENT PROVIDER Credential Default model Transport --- --- --- --- openai OPENAI API KEY gpt-4o-mini Hosted anthropic ANTHROPIC API KEY claude-sonnet-4-6 Hosted gemini GOOGLE API KEY gemini-2.5-flash Hosted openrouter OPENROUTER API KEY openrouter/free Hosted router groq GROQ API KEY openai/gpt-oss-120b Hosted ollama none llama3.2 Local Set AGENT MODEL to override any default. Set OLLAMA BASE URL when Ollama is not listening at http://localhost:11434 . For streaming, tools, multimodal, reasoning, usage, and self-hosting details, use the canonical . Run without credentials The fixture defaults to a deterministic demo adapter so you can verify installation and the runtime path without network access: Expected prefix: Switch providers Hosted providers require only their documented environment variable: For local Ollama: The task, runtime construction, and result handling remain identical for every command. What the automated proof covers - all six adapters execute the same runTask function; - provider-native SSE or NDJSON is parsed through a deterministic HTTP mock, with no live API call; - hosted credentials are validated before transport work; - Ollama needs no API key and accepts model/base URL overrides; - OpenRouter uses the explicit openrouter/free model; - unknown provider names fail before adapter construction; - the credential-free demo remains executable in CI. Live calls remain optional because provider availability, accounts, rate limits, and local model installation are external state. Tests never inspect or print credential values. See also - - - -",
+          "summary": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences.",
+          "body": "Once the adapter boundary passes the contract test, provider choice becomes configuration. This recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six hosted and local providers. The swap does not make providers behave the same: latency, failures, and output quality still differ, and the shared boundary is what lets you measure those differences. Install Copy the verified fixture The complete runnable source is committed at . The application path has no provider-specific branch: Only selectAdapter knows which provider factory, credential, and default model to use. Provider compatibility AGENT PROVIDER Credential Default model Transport --- --- --- --- openai OPENAI API KEY gpt-4o-mini Hosted anthropic ANTHROPIC API KEY claude-sonnet-4-6 Hosted gemini GOOGLE API KEY gemini-2.5-flash Hosted openrouter OPENROUTER API KEY openrouter/free Hosted router groq GROQ API KEY openai/gpt-oss-120b Hosted ollama none llama3.2 Local Set AGENT MODEL to override any default. Set OLLAMA BASE URL when Ollama is not listening at http://localhost:11434 . For streaming, tools, multimodal, reasoning, usage, and self-hosting details, use the canonical . Run without credentials The fixture defaults to a deterministic demo adapter so you can verify installation and the runtime path without network access: Expected prefix: Switch providers Hosted providers require only their documented environment variable: For local Ollama: The task, runtime construction, and result handling remain identical for every command. What the automated proof covers - all six adapters execute the same runTask function; - provider-native SSE or NDJSON is parsed through a deterministic HTTP mock, with no live API call; - hosted credentials are validated before transport work; - Ollama needs no API key and accepts model/base URL overrides; - OpenRouter uses the explicit openrouter/free model; - unknown provider names fail before adapter construction; - the credential-free demo remains executable in CI. Live calls remain optional because provider availability, accounts, rate limits, and local model installation are external state. Tests never inspect or print credential values. See also - - - -",
           "aliases": "document human"
         },
         "graph": {
@@ -64735,7 +64794,7 @@
             }
           ]
         },
-        "contentHash": "828c847f0e669ab6035de8aa2e5d248cedf409a5337d9b0c969cf71455864670",
+        "contentHash": "d7e9ab75569ee51e63abaacbdd5270338f3d0624af38b6f52a90d8eb19b1e8e6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68931,7 +68990,7 @@
         ],
         "fields": {
           "title": "CLAUDE.md",
-          "headings": "CLAUDE.md What is AgentsKit Vital Rules Commands Package Dependency Graph Architecture by Package @agentskit/core @agentskit/react @agentskit/ink @agentskit/cli @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/skills @agentskit/memory @agentskit/rag @agentskit/sandbox @agentskit/observability @agentskit/eval Code Conventions Agent Memory",
+          "headings": "CLAUDE.md What is AgentsKit Vital Rules Commands Package Dependency Graph Architecture by Package @agentskit/core @agentskit/react @agentskit/ink @agentskit/cli @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/skills @agentskit/memory @agentskit/rag @agentskit/sandbox @agentskit/observability @agentskit/eval Code Conventions Agent Memory Confidencialidade (repositório PÚBLICO)",
           "path": "CLAUDE.md",
           "symbols": "",
           "summary": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.",
@@ -69015,7 +69074,7 @@
             }
           ]
         },
-        "contentHash": "2e8888c1b316c64670cca902cf0fd3d43a5b795f0a80a6bc956a4da362bff782",
+        "contentHash": "f76df6c49015a9787ca68d40720dc38a8091475e417a046a496d92613053ccf9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -72545,7 +72604,7 @@
           "path": "docs/architecture/adrs/0044-durable-cost-store.md",
           "symbols": "",
           "summary": "Status: Proposed (implementation authorized; evidence review remains external)",
-          "body": "ADR 0044 — Durable tenant cost store - Status : Proposed (implementation authorized; evidence review remains external) - Date : 2026-10-09 Context The cost guards in @agentskit/observability keep spend in closure state. On hosts that run many short-lived instances, each instance starts at zero, so a tenant budget is never reached and concurrent requests cannot see each other. A budget that must hold needs spend recorded outside the process, and admission that is atomic under concurrency. Decision Add a CostStore port to @agentskit/observability with four tenant-scoped operations: reserve , commit , release and window . - reserve holds an estimate against a cap passed by the caller. The cap is an argument, not stored state, so the host reads it from its own plan data. - commit replaces the hold with the real spend and appends usage ledger rows. - release returns the hold when the call fails. - Each operation is idempotent per (tenant, reservationId) . Settling an unknown, released or committed reservation raises CostReservationError . - Spend is grouped by an accounting windowKey , the UTC month by default. Ship two implementations: createInMemoryCostStore for development and tests, and postgresCostStore on the optional /postgres subpath, with BYO Drizzle and node-postgres, exported schema and idempotent DDL. Each PostgreSQL operation is one statement; admission is the conditional update spent + reserved + amount <= cap , so no explicit transaction is required and the store works with a pooled or a per-request connection. Export costStoreContract on /cost-store-contract as the framework-free suite any implementation must pass. costGuard , multiTenantCostGuard and createAdvancedCostGuard accept an optional store . With it they write each priced llm:end to the store and trip on the stored window total. Without it they keep the existing process-local behavior and warn once in a production runtime: NODE ENV=production , or Cloudflare Workers when NODE ENV is not set. warnWithoutStore overrides the detection. A store write that fails goes to onError ; a guard without onError logs the first failure once. Reservations have no time to live in the store. expirePostgresCostReservations releases the ones still held and older than a cutoff the host chooses; the host schedules it. recordCostSpend releases its own hold when the commit fails. Consequences - Existing guard options and behavior are unchanged when store is omitted, apart from the production warning. - With a store, a guard budget applies to the store's current accounting window instead of the lifetime of one guard instance. - Guards observe spend after it happens and write to the store asynchronously, so they bound overshoot to in-flight calls. Hosts that must refuse a request before it spends call reserve directly. - commit records the real spend even above the reserved estimate. The cap is a hard ceiling on reservations, not on provider usage already incurred. - drizzle-orm and pg become optional peers, required only by /postgres . - A released reservation id is not admitted again: reserve raises AK COST RESERVATION RELEASED . Replaying it as admitted would let the call run without a hold and then fail to commit. - A reservation abandoned by a crashed process stays held until the host runs the expiry. A cutoff shorter than a call still in flight releases its hold, and that call's commit is then rejected. - reserve must run outside a host transaction or inside a savepoint. A concurrent duplicate id ends in a unique violation that the store absorbs, which still aborts an enclosing transaction. - The CommonJS build of each subpath has its own copy of CostReservationError . The contract suite and hosts match errors by code . - The advanced guard's rolling window caps ( perMinute , perDay , custom) remain process-local; only the overall budget reads the store. Alternatives considered - Store the cap in the cost tables. Rejected: plan limits belong to the host's billing data, and a ",
+          "body": "ADR 0044 — Durable tenant cost store - Status : Proposed (implementation authorized; evidence review remains external) - Date : 2026-10-09 Context The cost guards in @agentskit/observability keep spend in closure state. On hosts that run many short-lived instances, each instance starts at zero, so a tenant budget is never reached and concurrent requests cannot see each other. A budget that must hold needs spend recorded outside the process, and admission that is atomic under concurrency. Decision Add a CostStore port to @agentskit/observability with four tenant-scoped operations: reserve , commit , release and window . - reserve holds an estimate against a cap passed by the caller. The cap is an argument, not stored state, so the host reads it from its own plan data. - commit replaces the hold with the real spend and appends usage ledger rows. - release returns the hold when the call fails. - Each operation is idempotent per (tenant, reservationId) . Settling an unknown, released or committed reservation raises CostReservationError . - Spend is grouped by an accounting windowKey , the UTC month by default. Ship two implementations: createInMemoryCostStore for development and tests, and postgresCostStore on the optional /postgres subpath, with BYO Drizzle and node-postgres, exported schema and idempotent DDL. Each PostgreSQL operation is one statement; admission is the conditional update spent + reserved + amount <= cap , so no explicit transaction is required and the store works with a pooled or a per-request connection. Export costStoreContract on /cost-store-contract as the framework-free suite any implementation must pass. costGuard , multiTenantCostGuard and createAdvancedCostGuard accept an optional store . With it they write each priced llm:end to the store and trip on the stored window total. Without it they keep the existing process-local behavior and warn once in a production runtime: NODE ENV=production , or Cloudflare Workers when NODE ENV is not set. warnWithoutStore overrides the detection. A store write that fails goes to onError ; a guard without onError logs the first failure once. Reservations expire lazily when the store is given reservationTtlMs : each operation first releases the held reservations older than the TTL in the scope it touches (the tenant window for reserve and window , the reservation for commit and release ), so no host job is needed. Without the option, expirePostgresCostReservations releases the ones still held and older than a cutoff the host chooses; the host schedules it. recordCostSpend releases its own hold when the commit fails. Consequences - Existing guard options and behavior are unchanged when store is omitted, apart from the production warning. - With a store, a guard budget applies to the store's current accounting window instead of the lifetime of one guard instance. - Guards observe spend after it happens and write to the store asynchronously, so they bound overshoot to in-flight calls. Hosts that must refuse a request before it spends call reserve directly. - commit records the real spend even above the reserved estimate. The cap is a hard ceiling on reservations, not on provider usage already incurred. - drizzle-orm and pg become optional peers, required only by /postgres . - A released reservation id is not admitted again: reserve raises AK COST RESERVATION RELEASED . Replaying it as admitted would let the call run without a hold and then fail to commit. - A reservation abandoned by a crashed process stays held until its TTL passes, or, without reservationTtlMs , until the host runs the expiry. A TTL or cutoff shorter than a call still in flight releases its hold, and that call's commit is then rejected. - With reservationTtlMs , a PostgreSQL operation runs one extra scoped expiry statement first, backed by a partial index on held reservations, and the reservation's created at comes from the store clock. - reserve must run outside a host transaction or inside a savepoint. A",
           "aliases": "document human"
         },
         "graph": {
@@ -72593,7 +72652,7 @@
             }
           ]
         },
-        "contentHash": "6bbcb59353c45545b97728da92df345307d0642d32582c46c731d181393edf64",
+        "contentHash": "aaa3a6f72dd768f75cdf1a77a10f8263d16a4c05896d54646d84fa3d4a488d36",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73045,6 +73104,39 @@
           ]
         },
         "contentHash": "a215a62050e13a4a41af6ad82146146316f75b2c884fe0753653c830cebf4894",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:docs/DIRECAO-2026-10-29.md",
+        "kind": "document",
+        "path": "docs/DIRECAO-2026-10-29.md",
+        "title": "Direção do AgentsKit (decisão do dono, 2026-10-29)",
+        "summary": "Grelha dos produtos de base com o dono. Vale sobre o que estiver diferente em ROADMAP-PRD.md e V1-READINESS-TRACKER.md.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "Direção do AgentsKit (decisão do dono, 2026-10-29)",
+          "headings": "Direção do AgentsKit (decisão do dono, 2026-10-29) O AgentsKit é a cola Primeiras integrações Superfície e manutenção",
+          "path": "docs/DIRECAO-2026-10-29.md",
+          "symbols": "",
+          "summary": "Grelha dos produtos de base com o dono. Vale sobre o que estiver diferente em ROADMAP-PRD.md e V1-READINESS-TRACKER.md.",
+          "body": "Direção do AgentsKit (decisão do dono, 2026-10-29) Grelha dos produtos de base com o dono. Vale sobre o que estiver diferente em ROADMAP-PRD.md e V1-READINESS-TRACKER.md. O AgentsKit é a cola O foco deixa de ser \"criar agentes\" e passa a ser integrar : provedores de modelo, bots e canais, runners e agentes prontos, servindo de cola entre eles. Assim os produtos aproveitam o melhor de cada ferramenta sem recriar a ligação. Fronteira com o agentskit-os: adaptadores genéricos (provedores, canais, runners, MCP, storage, filas) são públicos aqui (MIT). O que é de produto ou de negócio (legal, whitelabel, licença, copilots, pipelines) fica privado no agentskit-os. Primeiras integrações 1. Provedores de modelo atrás de uma porta só: OpenRouter, Anthropic, OpenAI e CLIProxyAPI, com custo e teto por chamada (os produtos têm teto de IA: law-os US$ 100/escritório/mês, MOSS US$ 20/marca/semana). 2. Bots e canais : WhatsApp, Telegram, Slack e e-mail como entrada e saída de conversa. 3. Agentes prontos : CopilotKit/OpenBot e Hermes Agent (via ACP), com o mesmo adaptador de Claude Code e Codex. A tarefa entra, e o resultado e o trace saem. Superfície e manutenção - Suportados: os pacotes que os produtos usam (law-os, marketing-os, expenses, receipts, escolagestao, techhunter, servdex, ...). O resto fica marcado como comunidade/experimental : não bloqueia release e não recebe trabalho da fábrica. Nada é apagado. - v1 caso a caso: um pacote vai para 1.0 quando tem consumidor interno em produção ou homolog, CI verde, nenhuma quebra de API nas últimas 4 versões e docs. A fábrica gera a tabela e abre um PR de promoção por lote, e o dono aprova. - Renovate: agrupado por semana, com automerge de minor e patch em CI verde; majors num PR mensal. Vale para todos os repos de base.",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "5b195065e808f60cd9109934e809d271f86b011c96a4def42127b91daf15f537",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -80016,7 +80108,7 @@
             }
           ]
         },
-        "contentHash": "87237cd2b57ba5c3b22587d59167010673075706fdfde7ff9b2eb344783f4de1",
+        "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96180,7 +96272,7 @@
             }
           ]
         },
-        "contentHash": "56c23542c2e1c51ff8826b1129f78df9156f1c038c86abb70ac1ef1dbb43cd4b",
+        "contentHash": "41716fe6d8a1801cf46f001398d253cf6cd4d2b20013459e7c3aa2f2434ed29e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -139406,6 +139498,11 @@
               "kind": "imports",
               "id": "module:packages/integrations/tests/http.test.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -139857,6 +139954,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/tests/transport-contract.test.ts",
               "confidence": "observed"
             },
@@ -140173,6 +140275,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/supabase/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/teams/index.ts",
               "confidence": "observed"
             },
@@ -140214,6 +140321,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/registry.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
               "confidence": "observed"
             },
             {
@@ -143955,6 +144067,7 @@
           "sentryIntegration",
           "shopifyIntegration",
           "slackIntegration",
+          "supabaseIntegration",
           "telegramIntegration",
           "twilioIntegration",
           "weatherIntegration",
@@ -143970,7 +144083,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/integrations/src/services/index.ts",
-          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration telegramIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration",
+          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration supabaseIntegration telegramIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration",
           "summary": "",
           "body": "",
           "aliases": "module ts services"
@@ -144222,6 +144335,11 @@
             },
             {
               "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/supabase/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
               "id": "module:packages/integrations/src/services/teams/index.ts",
               "confidence": "observed"
             },
@@ -144252,7 +144370,7 @@
             }
           ]
         },
-        "contentHash": "d7fb75125d8910fde9a4df9d826034920ec63372aaef31d2d1546e7ce3279508",
+        "contentHash": "f5514d06e27f5e19181434a705171cb31bb0fac9c61025ee9de1f9d1cd2a05ab",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -146823,6 +146941,121 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/services/supabase/actions.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/supabase/actions.ts",
+        "title": "actions.ts",
+        "aliases": [],
+        "symbols": [
+          "supabaseActions",
+          "supabaseGetProject",
+          "supabaseListProjects"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "supabase"
+        ],
+        "fields": {
+          "title": "actions.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/supabase/actions.ts",
+          "symbols": "supabaseActions supabaseGetProject supabaseListProjects",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts supabase"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/supabase/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "44bd712d30fd0ef8932a263dc8d99dbb6abe105728491ecea6aedaad4d501f27",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/services/supabase/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/supabase/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "supabaseIntegration"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "supabase"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/supabase/index.ts",
+          "symbols": "supabaseIntegration",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts supabase"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/supabase/actions.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "2cbb7a97553844e27998b8fe81fc23cc0cc690ae6c0e166aa17e5dc6d3cf9510",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/services/teams/actions.ts",
         "kind": "module",
         "path": "packages/integrations/src/services/teams/actions.ts",
@@ -148026,6 +148259,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/slack.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/supabase.test.ts",
               "confidence": "observed"
             },
             {
@@ -149435,6 +149673,66 @@
           ]
         },
         "contentHash": "e1f8d9a931dee6faadf9948adc4689169e2143f7fe5c3c17565286c80231f971",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/tests/supabase.test.ts",
+        "kind": "module",
+        "path": "packages/integrations/tests/supabase.test.ts",
+        "title": "supabase.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "supabase.test.ts",
+          "headings": "",
+          "path": "packages/integrations/tests/supabase.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/project/to-tool-definitions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/supabase/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/testing/validate.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "b099967f7269a82e35cf1b724729743518fcf1ad46d51655935f57d367c865e3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158869,6 +159167,7 @@
           "validateCostRelease",
           "validateCostReserve",
           "validateCostWindow",
+          "validateReservationTtl",
           "warnProcessLocalCostState"
         ],
         "tags": [
@@ -158880,7 +159179,7 @@
           "title": "cost-store.ts",
           "headings": "",
           "path": "packages/observability/src/cost-store.ts",
-          "symbols": "CostCommitInput CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput InMemoryCostStore InMemoryLedgerRow createInMemoryCostStore describeCostWindow monthlyWindowKey recordCostSpend validateCostCommit validateCostRelease validateCostReserve validateCostWindow warnProcessLocalCostState",
+          "symbols": "CostCommitInput CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput InMemoryCostStore InMemoryLedgerRow createInMemoryCostStore describeCostWindow monthlyWindowKey recordCostSpend validateCostCommit validateCostRelease validateCostReserve validateCostWindow validateReservationTtl warnProcessLocalCostState",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -158955,7 +159254,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a4de0beaaa030a3cccabedb0b68e616d9333997bde4ca6ce6f2251203b2bae81",
+        "contentHash": "3505173725e4f2b72585a759df38e43b8f3e4ac4e6a74b662b57378b966c2b17",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159847,7 +160146,7 @@
             }
           ]
         },
-        "contentHash": "08672acc3b8820e6a96bdd2e30521771091138ce0a5484ab1749e5d931bbbe23",
+        "contentHash": "e32f734825f507e3ab194ea9602f3ac659a1a20354ad1d8c7830774a43f14895",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -161086,7 +161385,7 @@
             }
           ]
         },
-        "contentHash": "3a7ffc7e3fca98ac3da8ed711ee91f5c57e4d24b8d744f4e87c24d286ba6c9a6",
+        "contentHash": "950a389c1e129144f7588635c9f437cc10b4beb2b7b81621062b3ebef559b0d8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -161338,7 +161637,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5950721a855c0536a6d54b89b013d507fb567b63df59a2cbbd669a04b3ce5289",
+        "contentHash": "0b504aef068c0c4b2a8105878c1cdefcc7c2d96ffe3e0ad0392ebbc46fdf47f8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -161493,7 +161792,7 @@
             }
           ]
         },
-        "contentHash": "21268cb747a51e617a2679d73362734f99c6f338e9766d7e72f97f4d805aba0f",
+        "contentHash": "0b325eab8857a792babdce02f661131bac9b41f5aa871174c268b6f8469d6c78",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193039,7 +193338,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5d4074bbc7b9b0858b7587188900470df5b2b86081054628685c6915d766daf0",
+        "contentHash": "ebe491960b5b404df093a23c11a374037462843be12620a1081f1791eb455baa",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "angular"
@@ -193236,7 +193535,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4f019a26a6d82d5eba658917b310ebf063b19af95c25d6ee59111bf75bb325f4",
+        "contentHash": "c7a0860de93e899b2d7336c2bc2f8b6ad8071d7342f5f26b5eab0f992a0755d5",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "cli"
@@ -195430,7 +195729,7 @@
           "path": "packages/observability",
           "symbols": "",
           "summary": "consoleLogger(config?) — local dev logging.",
-          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - createInMemoryCostStore() — development and test store. recordCostSpend(store, { tenant, costUsd, usage? }) — reserve + commit for spend that already happened. monthlyWindowKey(date) — default window ( YYYY-MM , UTC). - @agentskit/observability/postgres — postgresCostStore({ db }) , postgresCostMigrationSql , and the Dr",
+          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - reservationTtlMs?: number on both store factories — a reservation neither committed nor released after this many ms stops counting against the cap and settles as released (late commit throws AK COST RESERVATION RELEASED ). Checked lazily on every store call; no job needed. Default: never expires. - createInMemoryCostSto",
           "aliases": "observability @agentskit/observability package ownership"
         },
         "graph": {
@@ -196606,7 +196905,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3b0a54df5624549ca6f3df23cc47805e2614ec8631351d52b91d66c38c77219d",
+        "contentHash": "0253217e004eef164f380e52b2ba397ffc1a46e43e528eda38f6ff9f30b85e90",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react"
@@ -196863,7 +197162,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f90766dd68444699b8fb0234463437c78ffa6117408992f951ec03619c160fd1",
+        "contentHash": "6ded3c44eafa2ed0c9f389db2d78c480d6d24c23ffa0b5686d897939129b227d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react-native"
@@ -198011,7 +198310,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5a3e7442e46c90febc22f245a45c9cf84475295afd921726da90fa11194bf028",
+        "contentHash": "b7d52462c1447335ba0a4ff29cb238958d6e1a3a80dd6d743c63d16b4733ddd8",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "solid"
@@ -199385,7 +199684,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "fb932dbcde04c77f9f40b5d205168e38b160f981e4de959d5e61c54adc2cba10",
+        "contentHash": "7df80cd457b4152609a799033c0851820f66cd5772b68771f8d9d7cf1a0e632d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "vue"
