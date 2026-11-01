@@ -10104,6 +10104,19 @@
           ],
           "symbols": [
             {
+              "name": "AcpRequestHandler",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "AcpRpcError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
               "name": "AcpTransport",
               "kinds": [
                 "type"
