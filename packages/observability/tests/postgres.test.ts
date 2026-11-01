@@ -110,6 +110,16 @@ describe('postgresCostStore', () => {
     await expect(postgresCostStore({ db: committed.db }).release({ tenant: 't', reservationId: 'r' })).rejects.toMatchObject({ code: 'AK_COST_RESERVATION_COMMITTED' })
   })
 
+  it('counts committed and still-held reservations of a kind in one statement', async () => {
+    const { db, statements } = scripted([[{ total: '3' }], []])
+    const store = postgresCostStore({ db, now })
+    expect(await store.count({ tenant: 't', kind: 'generate-description', reservationTtlMs: 60_000 })).toBe(3)
+    expect(statements[0]).toContain('2026-10')
+    expect(statements[0]).toContain("status = 'committed'")
+    expect(await store.count({ tenant: 't', kind: 'generate-description' })).toBe(0)
+    await expect(store.count({ tenant: 't', kind: ' ' })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+  })
+
   it('reads the current window with the default monthly key', async () => {
     const { db } = scripted([[]])
     expect(await postgresCostStore({ db, now }).window({ tenant: 't', capUsd: 2 })).toEqual({ tenant: 't', windowKey: '2026-10', spentUsd: 0, reservedUsd: 0, capUsd: 2, remainingUsd: 2, utilization: 0 })

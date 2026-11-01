@@ -6,6 +6,7 @@ import {
   describeCostWindow,
   monthlyWindowKey,
   validateCostCommit,
+  validateCostCount,
   validateCostRelease,
   validateCostReserve,
   validateCostWindow,
@@ -32,10 +33,12 @@ export const postgresCostReservationTable = pgTable('agentskit_cost_reservation'
   amountUsd: usd('amount_usd').notNull(),
   actualUsd: usd('actual_usd'),
   status: text('status').notNull(),
+  kind: text('kind'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, table => [
   primaryKey({ columns: [table.tenantId, table.reservationId] }),
   check('agentskit_cost_reservation_status_check', sql`${table.status} IN ('reserved', 'committed', 'released')`),
+  index('agentskit_cost_reservation_kind').on(table.tenantId, table.kind, table.windowKey),
 ])
 
 /** Drizzle schema: append-only usage ledger written when a reservation is committed. */
@@ -70,6 +73,8 @@ CREATE TABLE IF NOT EXISTS agentskit_cost_reservation (
   created_at timestamptz NOT NULL DEFAULT now(),
   PRIMARY KEY (tenant_id, reservation_id)
 );
+ALTER TABLE agentskit_cost_reservation ADD COLUMN IF NOT EXISTS kind text;
+CREATE INDEX IF NOT EXISTS agentskit_cost_reservation_kind ON agentskit_cost_reservation (tenant_id, kind, window_key);
 CREATE TABLE IF NOT EXISTS agentskit_usage_ledger (
   id bigserial PRIMARY KEY,
   tenant_id text NOT NULL,
@@ -135,6 +140,7 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       const { tenant, reservationId, amountUsd } = input
       const windowKey = input.windowKey ?? keyOf(now())
       const cap = input.capUsd ?? null
+      const kind = input.kind ?? null
       let admitted: Row[]
       try {
         admitted = await rows(sql`WITH held AS (
@@ -146,8 +152,8 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
           WHERE ${cap}::numeric IS NULL OR w.spent_usd + w.reserved_usd + EXCLUDED.reserved_usd <= ${cap}::numeric
           RETURNING w.spent_usd, w.reserved_usd
         ), saved AS (
-          INSERT INTO agentskit_cost_reservation (tenant_id, reservation_id, window_key, amount_usd, status)
-          SELECT ${tenant}, ${reservationId}, ${windowKey}, ${amountUsd}::numeric, 'reserved' FROM held
+          INSERT INTO agentskit_cost_reservation (tenant_id, reservation_id, window_key, amount_usd, status, kind)
+          SELECT ${tenant}, ${reservationId}, ${windowKey}, ${amountUsd}::numeric, 'reserved', ${kind}::text FROM held
         )
         SELECT spent_usd, reserved_usd FROM held`)
       } catch (error) {
@@ -214,6 +220,16 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
     async window(input) {
       validateCostWindow(input)
       return window(input.tenant, input.windowKey ?? keyOf(now()), input.capUsd)
+    },
+    async count(input) {
+      validateCostCount(input)
+      const windowKey = input.windowKey ?? keyOf(now())
+      const ttl = input.reservationTtlMs ?? null
+      // The deadline is read on the database clock, the one that stamped created_at.
+      const [row] = await rows(sql`SELECT count(*)::int AS total FROM agentskit_cost_reservation
+        WHERE tenant_id = ${input.tenant} AND kind = ${input.kind} AND window_key = ${windowKey}
+          AND (status = 'committed' OR (status = 'reserved' AND (${ttl}::float8 IS NULL OR created_at >= now() - ${ttl}::float8 * interval '1 millisecond')))`)
+      return Number(row?.total ?? 0)
     },
   }
 }

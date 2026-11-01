@@ -39,6 +39,8 @@ export interface CostReserveInput {
   capUsd?: number
   /** Accounting window. Defaults to the store's current window. */
   windowKey?: string
+  /** Kind of call this reservation covers (`'generate-description'`), so `count` can tally it. */
+  kind?: string
 }
 
 /** Outcome of `CostStore.reserve`. A denied reservation holds nothing. */
@@ -69,17 +71,35 @@ export interface CostWindowInput {
   windowKey?: string
 }
 
+/** Input of `CostStore.count`. */
+export interface CostCountInput {
+  tenant: string
+  /** Kind passed to `reserve` for the calls to count. */
+  kind: string
+  /** Accounting window. Defaults to the store's current window. */
+  windowKey?: string
+  /**
+   * How long a reservation counts as in flight, in milliseconds. A reservation
+   * still held after this long is treated as abandoned and left out. Omit to
+   * count every held reservation.
+   */
+  reservationTtlMs?: number
+}
+
 /**
  * Durable, tenant-scoped spend accounting. `reserve` holds an estimate
  * atomically against the cap, `commit` replaces it with the real spend, and
  * `release` returns it when the call fails. All three are idempotent per
  * `reservationId`: a repeated call returns the current window without counting twice.
+ * `count` tallies the calls of one `kind` in a window: committed ones plus those
+ * still reserved within `reservationTtlMs`; released ones never count.
  */
 export interface CostStore {
   reserve: (input: CostReserveInput) => Promise<CostReserveResult>
   commit: (input: CostCommitInput) => Promise<CostWindow>
   release: (input: CostReleaseInput) => Promise<CostWindow>
   window: (input: CostWindowInput) => Promise<CostWindow>
+  count: (input: CostCountInput) => Promise<number>
 }
 
 /** Options shared by the bundled `CostStore` implementations. */
@@ -181,6 +201,13 @@ export function validateCostWindow(input: CostWindowInput): void {
   if (input.capUsd !== undefined) assertUsd('capUsd', input.capUsd)
 }
 
+/** Validate a count input; shared by every `CostStore` implementation. */
+export function validateCostCount(input: CostCountInput): void {
+  assertKey('tenant', input.tenant)
+  assertKey('kind', input.kind)
+  if (input.reservationTtlMs !== undefined) assertUsd('reservationTtlMs', input.reservationTtlMs)
+}
+
 /** Validate a commit input; shared by every `CostStore` implementation. */
 export function validateCostCommit(input: CostCommitInput): void {
   assertKey('tenant', input.tenant)
@@ -201,6 +228,8 @@ const toNano = (usd: number): number => Math.round(usd * NANO)
 interface MemoryReservation {
   windowKey: string
   amount: number
+  kind: string | undefined
+  createdAt: number
   status: 'reserved' | 'committed' | 'released'
 }
 
@@ -262,7 +291,7 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
         return { ok: false, reason: 'quota_exceeded', window: describe(input.tenant, windowKey, input.capUsd) }
       }
       state.reserved += amount
-      reservations.set(id, { windowKey, amount, status: 'reserved' })
+      reservations.set(id, { windowKey, amount, kind: input.kind, createdAt: now().getTime(), status: 'reserved' })
       return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, windowKey, input.capUsd) }
     },
     async commit(input) {
@@ -291,6 +320,18 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
     async window(input) {
       validateCostWindow(input)
       return describe(input.tenant, input.windowKey ?? keyOf(now()), input.capUsd)
+    },
+    async count(input) {
+      validateCostCount(input)
+      const windowKey = input.windowKey ?? keyOf(now())
+      const since = input.reservationTtlMs === undefined ? -Infinity : now().getTime() - input.reservationTtlMs
+      let total = 0
+      for (const [id, reservation] of reservations) {
+        if (reservation.kind !== input.kind || reservation.windowKey !== windowKey) continue
+        if ((JSON.parse(id) as [string, string])[0] !== input.tenant) continue
+        if (reservation.status === 'committed' || (reservation.status === 'reserved' && reservation.createdAt >= since)) total++
+      }
+      return total
     },
     ledger: () => ledger.map(row => ({ ...row })),
   }

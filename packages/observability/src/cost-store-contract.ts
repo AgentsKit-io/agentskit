@@ -19,6 +19,7 @@ export interface CostStoreContractResult {
   settlement: 'passed'
   isolation: 'passed'
   release: 'passed'
+  count: 'passed'
 }
 
 function check(condition: boolean, message: string): asserts condition {
@@ -135,5 +136,25 @@ export async function costStoreContract(store: CostStore, options: CostStoreCont
   check(near(settled.reservedUsd, 0), 'failed turns release their reservations')
   check(near(settled.spentUsd, expected), `spend equals the committed turns (${settled.spentUsd} vs ${expected})`)
 
-  return { accounting: 'passed', cap: 'passed', idempotency: 'passed', settlement: 'passed', isolation: 'passed', release: 'passed' }
+  const k = tenant('count')
+  const kind = 'generate-description'
+  const counted = (reservationTtlMs?: number, name = k, key = windowKey, of = kind) => store.count({ tenant: name, kind: of, windowKey: key, reservationTtlMs })
+  check(await counted() === 0, 'count starts at zero')
+  await store.reserve({ tenant: k, reservationId: 'done', amountUsd: 0.1, windowKey, kind })
+  await store.commit({ tenant: k, reservationId: 'done', actualUsd: 0.1 })
+  await store.reserve({ tenant: k, reservationId: 'failed', amountUsd: 0.1, windowKey, kind })
+  await store.release({ tenant: k, reservationId: 'failed' })
+  await store.reserve({ tenant: k, reservationId: 'pending', amountUsd: 0.1, windowKey, kind })
+  await store.reserve({ tenant: k, reservationId: 'other-kind', amountUsd: 0.1, windowKey, kind: 'summarize' })
+  await store.reserve({ tenant: k, reservationId: 'other-window', amountUsd: 0.1, windowKey: 'contract-next', kind })
+  await store.reserve({ tenant: k, reservationId: 'untyped', amountUsd: 0.1, windowKey })
+  await store.reserve({ tenant: tenant('count-neighbour'), reservationId: 'neighbour', amountUsd: 0.1, windowKey, kind })
+  check(await counted() === 2, `count tallies committed and still-held calls of the kind, not released ones (${await counted()})`)
+  check(await counted(undefined, k, 'contract-next') === 1 && await counted(undefined, k, windowKey, 'summarize') === 1, 'count is scoped to its window and kind')
+  check(await counted(undefined, tenant('count-neighbour')) === 1, 'count is scoped to its tenant')
+  check(await counted(60_000) === 2, 'a reservation within the deadline counts')
+  await new Promise(resolve => setTimeout(resolve, 40))
+  check(await counted(10) === 1, 'a reservation past the deadline is not counted, a committed call always is')
+
+  return { accounting: 'passed', cap: 'passed', idempotency: 'passed', settlement: 'passed', isolation: 'passed', release: 'passed', count: 'passed' }
 }
