@@ -107,6 +107,8 @@ export {
   ThinkingIndicator,
   ToolConfirmation,
   TopologyGraphView,
+  UsageMeter,
+  ConfirmUndoCard,
 } from './components'
 
 export type {
@@ -124,4 +126,8 @@ export type {
   TopologyGraphViewEdge,
   TopologyGraphViewSnapshot,
   TopologyGraphSource,
+  UsageMeterProps,
+  UsageMeterWindow,
+  UsageMeterState,
+  ConfirmUndoCardProps,
 } from './components'
