@@ -101,7 +101,6 @@ jobs:
           fi
 
       - name: Build all packages
-        if: steps.package-scope.outputs.run_all == 'true'
         run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
 
       - name: Build affected packages and dependents
