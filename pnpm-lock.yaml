@@ -18,6 +18,7 @@ overrides:
   dompurify: 3.4.17
   brace-expansion: 5.0.9
   fast-uri: 3.1.8
+  follow-redirects: '>=1.16.2 <2'
   undici: 7.30.1
   nanoid: 3.3.18
   js-yaml@>=4.0.0 <5: 4.3.1
@@ -6648,8 +6649,8 @@ packages:
     resolution: {integrity: sha512-vEZcHIlnKeN8JSVtYFczj8sWJfHIJOkz+YG00O/oul/Bete+t1ZhTi+O6JRRLFYvGW+yJkZ0YgL16iStnbkUqQ==}
     engines: {node: '>=0.4.0'}
 
-  follow-redirects@1.16.1:
-    resolution: {integrity: sha512-FNvFGzoMLWmE6Yj9spb/zjd7yiNCHiAW9/Tg9CXrQ8wuu32HtlJOwWO11OJafl5FfY3DxTdQ0vj42zU1kvv5jg==}
+  follow-redirects@1.16.2:
+    resolution: {integrity: sha512-/kVP2U8z596Ia0gwFrwyIeo74ta5aVmSeU1FfAUMAmcEP5EP7zydmag3SLiN64NaRKef3lxsq7i/g7ltJQDGow==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -13980,7 +13981,7 @@ snapshots:
 
   axios@1.20.0(debug@4.3.2):
     dependencies:
-      follow-redirects: 1.16.1(debug@4.3.2)
+      follow-redirects: 1.16.2(debug@4.3.2)
       form-data: 4.0.6
       https-proxy-agent: 5.0.1
       proxy-from-env: 2.1.0
@@ -15202,7 +15203,7 @@ snapshots:
     dependencies:
       flow-estree: 0.331.0
 
-  follow-redirects@1.16.1(debug@4.3.2):
+  follow-redirects@1.16.2(debug@4.3.2):
     optionalDependencies:
       debug: 4.3.2
 
