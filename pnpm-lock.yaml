@@ -34,7 +34,7 @@ overrides:
   '@grpc/grpc-js': '>=1.14.5 <2'
   image-size: 2.0.4
   zod@>=4.0.0 <4.6.6: 4.6.7
-  minimatch@<11: '>=11.0.1 <12'
+  '@agentskit/doc-bridge>minimatch': '>=11.0.1 <12'
   glob@>=9.0.0 <14.0.2: '>=14.0.2 <15'
   fflate@>=0.7.0 <0.7.5: 0.7.5
   katex@>=0.11.0 <0.18.2: '>=0.18.2 <0.19'
@@ -8069,6 +8069,10 @@ packages:
     resolution: {integrity: sha512-QNgCA/axizZ7kv7RV3nwbRoz+w4watBlwIsyXjwgYHw4eSw5BrR1F2152s3Kz+Bzy/YxjKFHrZl3LzBRbPgYoQ==}
     engines: {node: '>=22.0.0'}
 
+  minimatch@10.2.6:
+    resolution: {integrity: sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==}
+    engines: {node: 18 || 20 || >=22}
+
   minimatch@11.0.4:
     resolution: {integrity: sha512-/UJ1dEoVQTjPNDh6SGlUo+ueLMmoHTas4q+8yaAR/5t6nLAIiBDJtoYUh20IYleix7ehiQkgczb84PE3uzHkxg==}
     engines: {node: 20 || >=22}
@@ -14006,7 +14010,7 @@ snapshots:
       express: 5.3.0
       http-errors: 2.0.1
       meriyah: 6.1.4
-      minimatch: 11.0.4
+      minimatch: 10.2.6
       module-details-from-path: 1.0.4
       mustache: 4.2.0
       pluralize: 8.0.0
@@ -17101,6 +17105,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
+  minimatch@10.2.6:
+    dependencies:
+      brace-expansion: 5.0.12
+
   minimatch@11.0.4:
     dependencies:
       '@isaacs/nonrecursive-glob-match': 1.0.3
@@ -18826,7 +18834,7 @@ snapshots:
       '@gerrit0/mini-shiki': 3.23.0
       lunr: 2.3.9
       markdown-it: 14.3.3
-      minimatch: 11.0.4
+      minimatch: 10.2.6
       typescript: 6.0.3
       yaml: 2.9.1
 
