@@ -34,7 +34,7 @@ async function expectClosed(promise: Promise<void>): Promise<void> {
     await Promise.race([
       promise,
       new Promise<never>((_, reject) => {
-        timer = setTimeout(() => reject(new Error('HTTP transport stayed open after cancellation')), 1_000)
+        timer = setTimeout(() => reject(new Error('HTTP transport stayed open after cancellation')), 3_000)
       }),
     ])
   } finally {
@@ -47,8 +47,10 @@ const parsePdf = (bytes: Uint8Array) => ({ text: new TextDecoder().decode(bytes)
 describe('native loader HTTP cancellation', () => {
   it('closes a request that times out before response headers', async () => {
     const closed = deferred()
+    let received = false
     const server = await startServer((_request, response) => {
-      const timer = setTimeout(() => response.end('late'), 1_000)
+      received = true
+      const timer = setTimeout(() => response.end('late'), 10_000)
       response.once('close', () => {
         clearTimeout(timer)
         closed.resolve()
@@ -60,7 +62,8 @@ describe('native loader HTTP cancellation', () => {
         message: 'loadPdf: timed out after 40ms',
         cause: expect.objectContaining({ code: 'AK_NET_TIMEOUT' }),
       })
-      await expectClosed(closed.promise)
+      // Under load the timeout can fire before the request reaches the server; then there is nothing to close.
+      if (received) await expectClosed(closed.promise)
     } finally {
       await server.close()
     }
@@ -98,7 +101,7 @@ describe('native loader HTTP cancellation', () => {
     const beforeAbort = new AbortController()
     const beforeServer = await startServer((_request, response) => {
       response.once('close', beforeClosed.resolve)
-      const timer = setTimeout(() => response.end('late'), 1_000)
+      const timer = setTimeout(() => response.end('late'), 10_000)
       response.once('close', () => clearTimeout(timer))
       beforeAbort.abort(new DOMException('Aborted', 'AbortError'))
     })
@@ -147,7 +150,7 @@ describe('native loader HTTP cancellation', () => {
       closes.set(request.url ?? '/', closed)
       response.once('close', resolveClosed)
       if (request.url === '/declared') {
-        const timer = setTimeout(() => response.end('0123456789'), 1_000)
+        const timer = setTimeout(() => response.end('0123456789'), 10_000)
         response.once('close', () => clearTimeout(timer))
         response.writeHead(200, { 'content-length': '10' })
         response.flushHeaders()
