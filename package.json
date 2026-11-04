@@ -28,6 +28,9 @@
     "sync:models": "node scripts/sync-models-dev.mjs",
     "check:models": "node scripts/check-models-dev-freshness.mjs",
     "gen:integration": "node scripts/gen-integration.mjs",
+    "gen:support-matrix": "node scripts/gen-support-matrix.mjs --apply",
+    "check:support-matrix": "node scripts/gen-support-matrix.mjs --check",
+    "test:support-matrix": "vitest run scripts/gen-support-matrix.test.mjs",
     "check:quality-gates": "node scripts/check-quality-gates.mjs",
     "ci:timing": "node scripts/ci-timing-report.mjs",
     "check:semantic-authority": "node scripts/check-semantic-authority.mjs",
@@ -96,7 +99,7 @@
     "@playwright/test": "^1.64.1",
     "@size-limit/file": "^12.1.0",
     "@types/json-schema": "^7.0.15",
-    "@vitest/coverage-v8": "^4.1.12",
+    "@vitest/coverage-v8": "^5.0.5",
     "esbuild": "0.28.2",
     "husky": "^9.1.7",
     "semver": "^7.8.5",
@@ -105,8 +108,8 @@
     "turbo": "2.11.10",
     "typescript": "^6.0.3",
     "typescript-5-9": "npm:typescript@5.9.3",
-    "vitest": "^4.1.12",
-    "zod": "^3.25.76",
+    "vitest": "^5.0.5",
+    "zod": "^4.6.7",
     "zod-to-json-schema": "^3.25.2"
   }
 }
