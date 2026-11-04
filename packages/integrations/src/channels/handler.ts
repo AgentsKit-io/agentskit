@@ -26,9 +26,9 @@ export interface ChannelAgent {
 export interface ChannelHandlerOptions {
   /** Return false to skip a message. Defaults to skipping messages from bots. */
   filter?: (message: InboundMessage) => boolean
-  /** Receives errors from the agent or from sending; the webhook still answers 200 so the provider does not retry-storm. */
   /** Skip messages whose id was already handled (provider retries). Bounded in memory; pass false to disable or a custom check. Default: last 1000 ids. */
   dedupe?: false | ((message: InboundMessage) => boolean)
+  /** Receives errors from the agent or from sending; the webhook still answers 200 so the provider does not retry-storm. */
   onError?: (error: unknown, message: InboundMessage) => void
 }
 
