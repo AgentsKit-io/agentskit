@@ -136,6 +136,8 @@ Every cross-package boundary is defined as a TypeScript interface with formal in
 
 Because every boundary is a contract (not a base class or a required superclass), packages compose without glue code. `useChat` in `@agentskit/react` accepts any `AdapterFactory`. The runtime accepts any `ChatMemory`. There is no "AgentsKit adapter base class" to inherit — satisfy the interface, ship.
 
+The cross-package promise (dependency direction, standards, data portability, status vocabulary) is the [Interoperability charter](./docs/architecture/adrs/0045-interoperability-charter.md).
+
 ### 4.4 Headless UI
 
 React and Ink components use `data-ak-*` attributes for all structural hooks. No hardcoded styles. CSS variables for theming. This lets any design system own visual output while AgentsKit owns behavior.
