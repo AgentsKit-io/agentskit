@@ -9,6 +9,7 @@ export default defineConfig({
     'cli/index': 'src/cli/index.ts',
     'catalog/index': 'src/catalog/index.ts',
     'langchain-bridge': 'src/langchain-bridge.ts',
+    budget: 'src/budget.ts',
   },
   clean: true,
   external: ['@agentskit/core', /^@langchain\/core/],
