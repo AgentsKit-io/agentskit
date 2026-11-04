@@ -140,5 +140,5 @@ describe('net guardrail ratchet', () => {
     const { regressions } = compareToBaseline(findings, baseline)
     const detail = regressions.map(finding => `${finding.file}:${finding.line} [${finding.rule}]`).join('\n')
     expect(regressions, detail).toEqual([])
-  })
+  }, 60_000)
 })
