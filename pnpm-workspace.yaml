@@ -10,7 +10,7 @@ onlyBuiltDependencies:
   - esbuild
   - workerd
 overrides:
-  seroval: ">=1.6.11 <2"
+  seroval: "1.6.8"
   source-map-js: "1.2.2"
   serialize-javascript: ">=7.0.5 <8"
   # GHSA-3pq3-5fj3-cg6v, GHSA-542g-h47m-68v8, GHSA-r4gj-5m52-g5wh
@@ -22,12 +22,14 @@ overrides:
   esbuild: ">=0.28.1 <1"
   form-data: ">=4.0.6 <5"
   dompurify: "3.4.17"
-  brace-expansion: ">=5.0.12 <6"
+  brace-expansion: "5.0.9"
   # GHSA advisories for fast-uri <3.1.7 (host confusion, SSRF, authority injection)
-  fast-uri: ">=3.1.9 <4"
+  fast-uri: "3.1.8"
+  # GHSA-mrwp-f3q8-3g9p
+  follow-redirects: ">=1.16.2 <2"
   undici: "7.30.1"
   nanoid: "3.3.18"
-  'js-yaml@>=4.0.0 <5': ">=4.3.2 <5"
+  'js-yaml@>=4.0.0 <5': "4.3.1"
   'js-yaml@>=5.0.0 <6': "5.2.2"
   'protobufjs@>=7.5.0 <8': "7.6.5"
   'protobufjs@>=8.0.0 <9': "8.6.6"
@@ -42,6 +44,3 @@ overrides:
   image-size: "2.0.4"
   # GHSA-mrhx-c7xc-m3w5; @cloudflare/config pins zod 4.4.3 exactly
   "zod@>=4.0.0 <4.6.6": "4.6.7"
-  follow-redirects: ">=1.16.2 <2"
-  fflate: ">=0.7.5 <0.8"
-  katex: ">=0.18.2"
