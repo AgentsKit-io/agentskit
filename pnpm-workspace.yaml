@@ -44,5 +44,3 @@ overrides:
   image-size: "2.0.4"
   # GHSA-mrhx-c7xc-m3w5; @cloudflare/config pins zod 4.4.3 exactly
   "zod@>=4.0.0 <4.6.6": "4.6.7"
-  # GHSA: follow-redirects <=1.16.1 (cross-realm sensitiveHeaders)
-  follow-redirects: ">=1.16.2 <2"
