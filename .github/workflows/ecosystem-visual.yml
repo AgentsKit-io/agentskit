@@ -9,7 +9,8 @@ name: Ecosystem visual
 #   www.agentskit.io pages come from that server and every other production site loads the PR's
 #   shell through a request override. Only shell-owned checks fail the job (--scope shell);
 #   product-owned findings are listed as warnings.
-#   The CSS @source fix for the Fumadocs sticky header (registry, docs-next) is validated by this job.
+#   The registry is built (vinext, as deployed) and served locally too, so CSS fixes there (the
+#   @source fix for the Fumadocs header) are validated before they are deployed.
 
 on:
   schedule:
@@ -62,6 +63,7 @@ jobs:
         run: |
           pnpm --filter "./packages/*" build
           pnpm --filter @agentskit/docs-next build
+          pnpm --filter @agentskit/registry-app build:vinext
 
       - name: Serve docs-next on :3000
         if: github.event_name == 'pull_request'
@@ -72,6 +74,17 @@ jobs:
             sleep 2
           done
           cat docs-next.log
+          exit 1
+
+      - name: Serve the registry (vinext build) on :3001
+        if: github.event_name == 'pull_request'
+        run: |
+          nohup pnpm --filter @agentskit/registry-app exec vite preview --port 3001 > registry.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            curl -sf http://localhost:3001/ > /dev/null && exit 0
+            sleep 2
+          done
+          cat registry.log
           exit 1
 
       - name: Check production sites
@@ -85,6 +98,7 @@ jobs:
         run: >-
           node scripts/verify-ecosystem-visual.mjs
           --site-origin agentskit=http://localhost:3000
+          --site-origin registry=http://localhost:3001
           --shell-origin http://localhost:3000
           --scope shell
 
