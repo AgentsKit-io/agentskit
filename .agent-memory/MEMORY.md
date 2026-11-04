@@ -16,3 +16,4 @@ the body of each fact lives in its own file. Agents read this index first.
 - `reference_langchain-bridge` — AdapterFactory→BaseChatModel bridge is the `@agentskit/adapters/langchain-bridge` subpath (optional `@langchain/core` peer), never a new package; must return real AIMessage instances
 - `project_ignored-package-changesets-block-release` — changesets naming only ignored packages (docs-next) are never consumed and must not count as pending; preflight + release.yml filter via `listReleasableChangesets`; recover with `recover_unpublished` dispatch
 - `reference_typescript-7-fallback` — packages/* + docs-next stay on TS ^6: tsup dts (rollup-plugin-dts) crashes on TS 7 (no JS API)
+- `project_next16-fumadocs16-ts7` — sites already on Next 16 / Fumadocs 16; Next 16 does not block TypeScript 7 (still on 6.x)
