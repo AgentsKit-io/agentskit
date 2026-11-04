@@ -145,6 +145,12 @@
               ]
             },
             {
+              "name": "CLIPROXYAPI_DEFAULT_BASE_URL",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "cloudflareAiGateway",
               "kinds": [
                 "value"
@@ -212,6 +218,12 @@
             },
             {
               "name": "createModelGateway",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createModelProvider",
               "kinds": [
                 "value"
               ]
@@ -578,6 +590,18 @@
             },
             {
               "name": "ModelGatewayConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelProviderConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelProviderId",
               "kinds": [
                 "type"
               ]
