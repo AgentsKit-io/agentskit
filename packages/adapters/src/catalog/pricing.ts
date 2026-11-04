@@ -97,11 +97,13 @@ export async function resolveCost(
   }
 }
 
+/** Token counts reported for one model call. */
 export interface CallUsage {
   promptTokens: number
   completionTokens: number
 }
 
+/** Options for `computeCallCost`. */
 export interface ComputeCallCostOptions {
   /** Price overrides keyed by `providerId/modelId`, USD per 1M tokens. Wins over the catalog. */
   priceOverrides?: Record<string, CatalogModelCost>
@@ -127,7 +129,9 @@ export function computeCallCost(
 ): CallCost {
   const override = options.priceOverrides?.[`${providerId}/${modelId}`]
   const price = override ?? getCachedCost(providerId, modelId)
-  const priceSource = override ? 'override' : price ? 'catalog' : 'none'
+  let priceSource: CallCost['priceSource'] = 'none'
+  if (override) priceSource = 'override'
+  else if (price) priceSource = 'catalog'
   if (!usage) {
     return { inputTokens: 0, outputTokens: 0, costUsd: undefined, usageReported: false, priceSource }
   }
