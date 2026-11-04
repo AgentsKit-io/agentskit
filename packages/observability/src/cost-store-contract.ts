@@ -1,4 +1,5 @@
 import { AgentsKitError } from '@agentskit/core'
+import { sleep } from '@agentskit/net'
 import type { CostReservationError, CostStore } from './cost-store'
 
 /** Options of `costStoreContract`. */
@@ -153,7 +154,7 @@ export async function costStoreContract(store: CostStore, options: CostStoreCont
   check(await counted(undefined, k, 'contract-next') === 1 && await counted(undefined, k, windowKey, 'summarize') === 1, 'count is scoped to its window and kind')
   check(await counted(undefined, tenant('count-neighbour')) === 1, 'count is scoped to its tenant')
   check(await counted(60_000) === 2, 'a reservation within the deadline counts')
-  await new Promise(resolve => setTimeout(resolve, 40))
+  await sleep(40)
   check(await counted(10) === 1, 'a reservation past the deadline is not counted, a committed call always is')
 
   return { accounting: 'passed', cap: 'passed', idempotency: 'passed', settlement: 'passed', isolation: 'passed', release: 'passed', count: 'passed' }
