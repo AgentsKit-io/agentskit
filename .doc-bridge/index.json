@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "f4900c1ff8cd12ae9ac815a5c3447b566cef282e7ee638bee340387fdf0824f0",
+  "contentHash": "fdb580f1528998c1999bdda6232bcab3529dd888bad3f28f886d1db4545e458b",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-04T12:22:53.345Z",
+  "generatedAt": "2026-11-04T17:45:57.521Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -25613,7 +25613,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "73ff17189c1b7ab586ac963c040b22bd86331cc2a6811d34f4f70f31e3fcb574"
+      "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70"
     },
     {
       "id": "module:packages/integrations/tests/integration-tools.test.ts",
@@ -29840,7 +29840,7 @@
         "tsx",
         "src"
       ],
-      "contentHash": "6769c62fef2158bea240d77b4815fa935c691abedbda89de1f975a102d264753"
+      "contentHash": "edf3374f4a8bb1798053adada65da14c686e74bb41448ba2862be85ba142f238"
     },
     {
       "id": "module:packages/react-native/src/index.ts",
@@ -30062,6 +30062,7 @@
         "ToolCallView",
         "ToolCallViewProps",
         "ToolConfirmation",
+        "ToolConfirmationLabels",
         "ToolConfirmationProps",
         "TopologyGraphSource",
         "TopologyGraphView",
@@ -30079,7 +30080,7 @@
         "ts",
         "components"
       ],
-      "contentHash": "22bed82f5f964e830077fb0223fd6ea14b746f7e25c28645e4d1f4866652b892"
+      "contentHash": "4785eb684fdc99f6471df26a414783b14934cd9cef9b0310a753eac43b21b3e6"
     },
     {
       "id": "module:packages/react/src/components/InputBar.tsx",
@@ -30168,6 +30169,7 @@
       "path": "packages/react/src/components/ToolConfirmation.tsx",
       "symbols": [
         "ToolConfirmation",
+        "ToolConfirmationLabels",
         "ToolConfirmationProps"
       ],
       "tags": [
@@ -30175,7 +30177,7 @@
         "tsx",
         "components"
       ],
-      "contentHash": "c7a053a16f9efe15ea85f8035d01f659505355856c67300df86477de09244b7d"
+      "contentHash": "9d500aeacdf6d660d7a7fa32b0c8adbea0e0a2d787ed482e0d0e59075edfaa2d"
     },
     {
       "id": "module:packages/react/src/components/TopologyGraphView.tsx",
@@ -30261,6 +30263,7 @@
         "ToolCallView",
         "ToolCallViewProps",
         "ToolConfirmation",
+        "ToolConfirmationLabels",
         "ToolConfirmationProps",
         "ToolDefinition",
         "ToolExecutionContext",
@@ -30290,7 +30293,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "e6dc0dfc8c7d33a97ce7a202ad5a35a6fbcd6c83da5cee5845ba1736dfb4985d"
+      "contentHash": "b39ef4fe9e5d72efce0e9336b01230febe2c5a60401a9ec02e10162a164585ce"
     },
     {
       "id": "module:packages/react/src/useChat.ts",
@@ -30452,7 +30455,7 @@
         "test",
         "components"
       ],
-      "contentHash": "ab16280a5dd261fdab96624cf2bcc20d93480c8f348923ea59d64c7a25234f76"
+      "contentHash": "89874c03809dafa6e7f6fa1d46deb708c09d1543f046571ecb1214ef1bffd667"
     },
     {
       "id": "module:packages/react/tests/components/TopologyGraphView.test.tsx",
@@ -38831,7 +38834,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "de9745cb8d47bf722fa73437c7de115191a1049745034aebd5ac0e58905c06f5",
+    "hash": "72dd03cee8a71e3d4e332eb02bf3d30886fad6a70a1166be65a398a2924b0d3b",
     "fileCount": 2661,
     "projectionVersion": 2
   },
@@ -38854,9 +38857,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "6d9698dab2a2877a9f2cc66f87141f7126dda610d1ce68af953aaabae8e8c80e",
+    "contentHash": "2a8a1d00f34fc54824f850c5da6351c448c4abcc423789123275ea247e8c84a8",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "089cee6bd602de822899324ffca692c2e8a1863cb156de3a9ed1dbd9525ec4dd",
+    "snapshotHash": "4c94cea266bdc47772c99c875725c3047421790e2bbe9417c65c71d27f709cb2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38892,7 +38895,7 @@
         "headings": 3.8846761453396526,
         "path": 7.61650868878357,
         "summary": 4.519747235387046,
-        "symbols": 7.531990521327014,
+        "symbols": 7.536729857819905,
         "title": 3.381516587677725
       }
     },
@@ -149322,7 +149325,7 @@
             }
           ]
         },
-        "contentHash": "73ff17189c1b7ab586ac963c040b22bd86331cc2a6811d34f4f70f31e3fcb574",
+        "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -165385,7 +165388,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "6769c62fef2158bea240d77b4815fa935c691abedbda89de1f975a102d264753",
+        "contentHash": "edf3374f4a8bb1798053adada65da14c686e74bb41448ba2862be85ba142f238",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166000,6 +166003,7 @@
           "ToolCallView",
           "ToolCallViewProps",
           "ToolConfirmation",
+          "ToolConfirmationLabels",
           "ToolConfirmationProps",
           "TopologyGraphSource",
           "TopologyGraphView",
@@ -166021,7 +166025,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/react/src/components/index.ts",
-          "symbols": "ChatContainer ChatContainerProps CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps Message MessageProps ThinkingIndicator ThinkingIndicatorProps ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationProps TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow",
+          "symbols": "ChatContainer ChatContainerProps CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps Message MessageProps ThinkingIndicator ThinkingIndicatorProps ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationLabels ToolConfirmationProps TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow",
           "summary": "",
           "body": "",
           "aliases": "module ts components"
@@ -166098,7 +166102,7 @@
             }
           ]
         },
-        "contentHash": "22bed82f5f964e830077fb0223fd6ea14b746f7e25c28645e4d1f4866652b892",
+        "contentHash": "4785eb684fdc99f6471df26a414783b14934cd9cef9b0310a753eac43b21b3e6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166355,6 +166359,7 @@
         "aliases": [],
         "symbols": [
           "ToolConfirmation",
+          "ToolConfirmationLabels",
           "ToolConfirmationProps"
         ],
         "tags": [
@@ -166366,7 +166371,7 @@
           "title": "ToolConfirmation.tsx",
           "headings": "",
           "path": "packages/react/src/components/ToolConfirmation.tsx",
-          "symbols": "ToolConfirmation ToolConfirmationProps",
+          "symbols": "ToolConfirmation ToolConfirmationLabels ToolConfirmationProps",
           "summary": "",
           "body": "",
           "aliases": "module tsx components"
@@ -166392,7 +166397,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c7a053a16f9efe15ea85f8035d01f659505355856c67300df86477de09244b7d",
+        "contentHash": "9d500aeacdf6d660d7a7fa32b0c8adbea0e0a2d787ed482e0d0e59075edfaa2d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166547,6 +166552,7 @@
           "ToolCallView",
           "ToolCallViewProps",
           "ToolConfirmation",
+          "ToolConfirmationLabels",
           "ToolConfirmationProps",
           "ToolDefinition",
           "ToolExecutionContext",
@@ -166580,7 +166586,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/react/src/index.ts",
-          "symbols": "AdapterContext AdapterFactory AdapterRequest ChatConfig ChatContainer ChatContainerProps ChatController ChatMemory ChatReturn ChatState CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps MaybePromise MemoryRecord Message MessageProps MessageRole MessageStatus MessageType RetrievedDocument Retriever RetrieverRequest StreamChunk StreamSource StreamStatus StreamToolCallPayload ThinkingIndicator ThinkingIndicatorProps ToolCall ToolCallHandlerContext ToolCallStatus ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationProps ToolDefinition ToolExecutionContext TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow UseStreamOptions UseStreamReturn createChatController createInMemoryMemory createLocalStorageMemory createStaticRetriever formatRetrievedDocuments useChat useReactive useStream",
+          "symbols": "AdapterContext AdapterFactory AdapterRequest ChatConfig ChatContainer ChatContainerProps ChatController ChatMemory ChatReturn ChatState CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps MaybePromise MemoryRecord Message MessageProps MessageRole MessageStatus MessageType RetrievedDocument Retriever RetrieverRequest StreamChunk StreamSource StreamStatus StreamToolCallPayload ThinkingIndicator ThinkingIndicatorProps ToolCall ToolCallHandlerContext ToolCallStatus ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationLabels ToolConfirmationProps ToolDefinition ToolExecutionContext TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow UseStreamOptions UseStreamReturn createChatController createInMemoryMemory createLocalStorageMemory createStaticRetriever formatRetrievedDocuments useChat useReactive useStream",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -166621,7 +166627,7 @@
             }
           ]
         },
-        "contentHash": "e6dc0dfc8c7d33a97ce7a202ad5a35a6fbcd6c83da5cee5845ba1736dfb4985d",
+        "contentHash": "b39ef4fe9e5d72efce0e9336b01230febe2c5a60401a9ec02e10162a164585ce",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -167155,7 +167161,7 @@
             }
           ]
         },
-        "contentHash": "ab16280a5dd261fdab96624cf2bcc20d93480c8f348923ea59d64c7a25234f76",
+        "contentHash": "89874c03809dafa6e7f6fa1d46deb708c09d1543f046571ecb1214ef1bffd667",
         "provenance": "observed",
         "confidence": "observed"
       },
