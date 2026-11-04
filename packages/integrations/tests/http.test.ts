@@ -621,7 +621,7 @@ describe('native HTTP acceptance', () => {
       await expect(httpJson(
         {
           baseUrl: server.origin,
-          timeoutMs: 400,
+          timeoutMs: 400, // generous: the first request must land before the deadline even on a loaded CI box
           retry: { maxAttempts: 2 },
           sleep: async () => new Promise<void>(() => {}),
         },
