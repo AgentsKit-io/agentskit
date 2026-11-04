@@ -40,6 +40,10 @@ export {
   FIRST_CLASS_PROVIDERS,
 } from './drift'
 export {
+  type CallCost,
+  type CallUsage,
+  type ComputeCallCostOptions,
+  computeCallCost,
   getCachedCost,
   type ResolveCostOptions,
   type ResolvedCost,

@@ -96,3 +96,46 @@ export async function resolveCost(
     clearTimeout(timer)
   }
 }
+
+export interface CallUsage {
+  promptTokens: number
+  completionTokens: number
+}
+
+export interface ComputeCallCostOptions {
+  /** Price overrides keyed by `providerId/modelId`, USD per 1M tokens. Wins over the catalog. */
+  priceOverrides?: Record<string, CatalogModelCost>
+}
+
+/** Tokens and USD cost of one model call. */
+export interface CallCost {
+  inputTokens: number
+  outputTokens: number
+  /** USD; undefined when usage was not reported or no price is known. */
+  costUsd: number | undefined
+  /** False when the response carried no usage — tokens/cost are then not real zeros. */
+  usageReported: boolean
+  priceSource: 'override' | 'catalog' | 'none'
+}
+
+/** Price one call from its usage using the models.dev catalog, with config overrides. */
+export function computeCallCost(
+  providerId: string,
+  modelId: string,
+  usage: CallUsage | undefined,
+  options: ComputeCallCostOptions = {},
+): CallCost {
+  const override = options.priceOverrides?.[`${providerId}/${modelId}`]
+  const price = override ?? getCachedCost(providerId, modelId)
+  const priceSource = override ? 'override' : price ? 'catalog' : 'none'
+  if (!usage) {
+    return { inputTokens: 0, outputTokens: 0, costUsd: undefined, usageReported: false, priceSource }
+  }
+  const inputTokens = usage.promptTokens
+  const outputTokens = usage.completionTokens
+  const costUsd =
+    price && (price.input != null || price.output != null)
+      ? (inputTokens * (price.input ?? 0) + outputTokens * (price.output ?? 0)) / 1_000_000
+      : undefined
+  return { inputTokens, outputTokens, costUsd, usageReported: true, priceSource }
+}
