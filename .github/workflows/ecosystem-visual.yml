@@ -9,6 +9,7 @@ name: Ecosystem visual
 #   www.agentskit.io pages come from that server and every other production site loads the PR's
 #   shell through a request override. Only shell-owned checks fail the job (--scope shell);
 #   product-owned findings are listed as warnings.
+#   The CSS @source fix for the Fumadocs sticky header (registry, docs-next) is validated by this job.
 
 on:
   schedule:
