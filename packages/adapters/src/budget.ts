@@ -301,9 +301,10 @@ export function withBudget(adapter: AdapterFactory, options: WithBudgetOptions):
               yield chunk
             }
           } finally {
-            const actualUsd = usage
-              ? estimateCostUsd(options.price, usage.promptTokens, usage.completionTokens)
-              : produced ? estimatedUsd : 0
+            let actualUsd = produced ? estimatedUsd : 0
+            if (usage) {
+              actualUsd = estimateCostUsd(options.price, usage.promptTokens, usage.completionTokens)
+            }
             await reservation?.settle(actualUsd)
           }
         },
