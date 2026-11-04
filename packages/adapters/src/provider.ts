@@ -1,3 +1,4 @@
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory } from '@agentskit/core'
 import { anthropic } from './anthropic'
 import { openai } from './openai'
@@ -29,7 +30,13 @@ export interface ModelProviderConfig {
 export function createModelProvider(config: ModelProviderConfig): AdapterFactory {
   const { provider, model, apiKey, baseUrl, retry } = config
   const requireKey = (): string => {
-    if (!apiKey) throw new Error(`createModelProvider: apiKey is required for provider "${provider}".`)
+    if (!apiKey) {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `createModelProvider: apiKey is required for provider "${provider}".`,
+        hint: 'Pass apiKey in the model-provider config.',
+      })
+    }
     return apiKey
   }
   switch (provider) {
@@ -42,6 +49,10 @@ export function createModelProvider(config: ModelProviderConfig): AdapterFactory
     case 'cliproxyapi':
       return openai({ apiKey: apiKey ?? '', model, baseUrl: baseUrl ?? CLIPROXYAPI_DEFAULT_BASE_URL, retry })
     default:
-      throw new Error(`createModelProvider: unknown provider "${String(provider)}".`)
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `createModelProvider: unknown provider "${String(provider)}".`,
+        hint: 'Use one of: openrouter, anthropic, openai, cliproxyapi.',
+      })
   }
 }

@@ -24,6 +24,11 @@ const cases: Array<{ cfg: ModelProviderConfig; sse: string; url: string }> = [
   { cfg: { provider: 'anthropic', model: 'm', apiKey: 'k' }, sse: anthropicSse, url: 'https://api.anthropic.com/v1/messages' },
 ]
 
+function requestUrl(input: string | URL | Request): string {
+  if (typeof input === 'string') return input
+  return input instanceof URL ? input.href : input.url
+}
+
 const original = globalThis.fetch
 afterEach(() => { globalThis.fetch = original })
 
@@ -32,7 +37,7 @@ describe('createModelProvider', () => {
     it(`streams recorded ${cfg.provider} response through the common port`, async () => {
       const calls: string[] = []
       globalThis.fetch = vi.fn(async (input: string | URL | Request) => {
-        calls.push(typeof input === 'string' ? input : input instanceof URL ? input.href : input.url)
+        calls.push(requestUrl(input))
         return new Response(sse, { status: 200, headers: { 'content-type': 'text/event-stream' } })
       }) as typeof globalThis.fetch
 
