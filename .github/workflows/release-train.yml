@@ -34,6 +34,8 @@ jobs:
           node-version: 22
           package-manager-cache: false
       - run: pnpm install --frozen-lockfile
+      # release-train.mjs imports @agentskit/net, whose exports point at the gitignored dist/.
+      - run: pnpm exec turbo run build --filter=@agentskit/net...
       - run: node scripts/release-train.mjs --check
       - name: Apply coordinated updates
         id: apply

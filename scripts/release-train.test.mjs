@@ -136,3 +136,10 @@ test('a no-update run reports updated=false and the workflow skips every PR step
   assert.match(workflow, /id: apply/)
   assert.equal(workflow.match(/if: steps\.apply\.outputs\.updated == 'true'/g)?.length, 3)
 })
+
+test('the workflow builds workspace deps before first running release-train.mjs', () => {
+  const wf = readFileSync(new URL('../.github/workflows/release-train.yml', import.meta.url), 'utf8')
+  const build = wf.indexOf('turbo run build --filter=@agentskit/net')
+  const run = wf.indexOf('node scripts/release-train.mjs')
+  assert.ok(build !== -1 && run !== -1 && build < run)
+})
