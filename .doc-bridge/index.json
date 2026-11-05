@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "cff8f22d3235b22e86ca08789e6cc3ff33e0b4cf6ac867d1132b182293390c35",
+  "contentHash": "220a520fd4519df3bbea2bd52f1dce64692ea3e3ddfd11c016f9201dfb26ec81",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-04T12:47:23.850Z",
+  "generatedAt": "2026-11-05T00:03:39.871Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5571,7 +5571,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "7524efaf42557b2fa5dc0a4ce9a661d3d7c73dcaeaa7e49e2b02351f00e4a79a"
+      "contentHash": "01cc689a9630d4ed263a3e548868b21e4c8ed0f4013b3f87773d1aa8659d0660"
     },
     {
       "id": "document:artifacts/ecosystem-readiness/latest.md",
@@ -6110,7 +6110,19 @@
         "document",
         "human"
       ],
-      "contentHash": "6bbcb59353c45545b97728da92df345307d0642d32582c46c731d181393edf64"
+      "contentHash": "aaa3a6f72dd768f75cdf1a77a10f8263d16a4c05896d54646d84fa3d4a488d36"
+    },
+    {
+      "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+      "type": "document",
+      "title": "ADR 0045 — Interoperability charter",
+      "path": "docs/architecture/adrs/0045-interoperability-charter.md",
+      "description": "Status: Proposed",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "a92829c83f80e86e40e189f4dbbddfb819d3a5b3c4b238b41fa188022c4254db"
     },
     {
       "id": "document:docs/architecture/adrs/README.md",
@@ -6122,7 +6134,7 @@
         "document",
         "human"
       ],
-      "contentHash": "2bbd8aa572d63a9bd4b3a781597ef5181427c1a91ed34f5f18e88e5b3c720451"
+      "contentHash": "9049cc374e83f3b0e077f9e4220c0dc0c63327d2332df15a991b891c228b0cea"
     },
     {
       "id": "document:docs/architecture/ecosystem-manifest.md",
@@ -7298,7 +7310,7 @@
         "document",
         "project"
       ],
-      "contentHash": "87237cd2b57ba5c3b22587d59167010673075706fdfde7ff9b2eb344783f4de1"
+      "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c"
     },
     {
       "id": "document:packages/rag/CONVENTIONS.md",
@@ -14298,7 +14310,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "784e6b0c089999eb58af7a7454a2c9b1f4111e6c1d0d7c32160a36489788ac55"
+      "contentHash": "46608034dca8720fdd882033bb75fa62bcfafdda7348848b94a1ca060535db5a"
     },
     {
       "id": "module:packages/adapters/src/carbon.ts",
@@ -15097,6 +15109,7 @@
         "BailConfig",
         "BedrockConfig",
         "BedrockRuntimeClientLike",
+        "CLIPROXYAPI_DEFAULT_BASE_URL",
         "CapabilityUnsupportedError",
         "CarbonTable",
         "CerebrasConfig",
@@ -15135,6 +15148,8 @@
         "MockAdapterOptions",
         "MockResponse",
         "ModelDeprecation",
+        "ModelProviderConfig",
+        "ModelProviderId",
         "OllamaConfig",
         "OllamaEmbedderConfig",
         "OpenAICompatibleConfig",
@@ -15179,6 +15194,7 @@
         "createAdapter",
         "createEnsembleAdapter",
         "createFallbackAdapter",
+        "createModelProvider",
         "createOpenAICompatibleEmbedder",
         "createRotatingCredentials",
         "createRouter",
@@ -15234,7 +15250,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "fc0b76056685ae8b01ec4c33e2d89fddebf702733de3993b9477b5af0d6f920a"
+      "contentHash": "0028427f5791f6371ab157a332194d0b5915d658750e04a01fa24a135da7e71a"
     },
     {
       "id": "module:packages/adapters/src/kimi.ts",
@@ -15440,6 +15456,24 @@
         "src"
       ],
       "contentHash": "50f46dccd29e8ed0ef860d1466b69f2f40865c421fa0d8c6ed923f8ef9015b2f"
+    },
+    {
+      "id": "module:packages/adapters/src/provider.ts",
+      "type": "module",
+      "title": "provider.ts",
+      "path": "packages/adapters/src/provider.ts",
+      "symbols": [
+        "CLIPROXYAPI_DEFAULT_BASE_URL",
+        "ModelProviderConfig",
+        "ModelProviderId",
+        "createModelProvider"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "19fdc34323144ab9c48de26bb369e6cee98d857b4a4bc2966afe4796b472c71d"
     },
     {
       "id": "module:packages/adapters/src/replicate.ts",
@@ -16200,6 +16234,19 @@
         "tests"
       ],
       "contentHash": "13a968c5c0c06720f03fe2730f9898950bf1c20d917340d4141f34ee6141c280"
+    },
+    {
+      "id": "module:packages/adapters/tests/model-provider.test.ts",
+      "type": "module",
+      "title": "model-provider.test.ts",
+      "path": "packages/adapters/tests/model-provider.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "efd853219e784a5a15803196ca65374c7a30157dbc553136064ac309a76f43c1"
     },
     {
       "id": "module:packages/adapters/tests/multimodal-http.test.ts",
@@ -18384,7 +18431,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "b76444b356f7957792d6d63a0facb84da5ad8b2c2cf68465926c4c055274c463"
+      "contentHash": "5f84fb677b22ce3c4b1243472bccec5e3abc2f7f5cb33f62c0f11d050dac0bbb"
     },
     {
       "id": "module:packages/cli/tests/doctor-extended.test.ts",
@@ -25666,7 +25713,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "73ff17189c1b7ab586ac963c040b22bd86331cc2a6811d34f4f70f31e3fcb574"
+      "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70"
     },
     {
       "id": "module:packages/integrations/tests/integration-tools.test.ts",
@@ -28250,6 +28297,7 @@
         "validateCostRelease",
         "validateCostReserve",
         "validateCostWindow",
+        "validateReservationTtl",
         "warnProcessLocalCostState"
       ],
       "tags": [
@@ -28257,7 +28305,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "a4de0beaaa030a3cccabedb0b68e616d9333997bde4ca6ce6f2251203b2bae81"
+      "contentHash": "3505173725e4f2b72585a759df38e43b8f3e4ac4e6a74b662b57378b966c2b17"
     },
     {
       "id": "module:packages/observability/src/datadog.ts",
@@ -28540,7 +28588,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "08672acc3b8820e6a96bdd2e30521771091138ce0a5484ab1749e5d931bbbe23"
+      "contentHash": "e32f734825f507e3ab194ea9602f3ac659a1a20354ad1d8c7830774a43f14895"
     },
     {
       "id": "module:packages/observability/src/prod-control.ts",
@@ -28898,7 +28946,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "3a7ffc7e3fca98ac3da8ed711ee91f5c57e4d24b8d744f4e87c24d286ba6c9a6"
+      "contentHash": "950a389c1e129144f7588635c9f437cc10b4beb2b7b81621062b3ebef559b0d8"
     },
     {
       "id": "module:packages/observability/tests/devtools.test.ts",
@@ -28979,7 +29027,7 @@
         "ts",
         "tests"
       ],
-      "contentHash": "5950721a855c0536a6d54b89b013d507fb567b63df59a2cbbd669a04b3ce5289"
+      "contentHash": "0b504aef068c0c4b2a8105878c1cdefcc7c2d96ffe3e0ad0392ebbc46fdf47f8"
     },
     {
       "id": "module:packages/observability/tests/postgres-worker.ts",
@@ -29032,7 +29080,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "21268cb747a51e617a2679d73362734f99c6f338e9766d7e72f97f4d805aba0f"
+      "contentHash": "0b325eab8857a792babdce02f661131bac9b41f5aa871174c268b6f8469d6c78"
     },
     {
       "id": "module:packages/observability/tests/prod-control.test.ts",
@@ -29892,7 +29940,7 @@
         "tsx",
         "src"
       ],
-      "contentHash": "6769c62fef2158bea240d77b4815fa935c691abedbda89de1f975a102d264753"
+      "contentHash": "edf3374f4a8bb1798053adada65da14c686e74bb41448ba2862be85ba142f238"
     },
     {
       "id": "module:packages/react-native/src/index.ts",
@@ -30114,6 +30162,7 @@
         "ToolCallView",
         "ToolCallViewProps",
         "ToolConfirmation",
+        "ToolConfirmationLabels",
         "ToolConfirmationProps",
         "TopologyGraphSource",
         "TopologyGraphView",
@@ -30131,7 +30180,7 @@
         "ts",
         "components"
       ],
-      "contentHash": "22bed82f5f964e830077fb0223fd6ea14b746f7e25c28645e4d1f4866652b892"
+      "contentHash": "4785eb684fdc99f6471df26a414783b14934cd9cef9b0310a753eac43b21b3e6"
     },
     {
       "id": "module:packages/react/src/components/InputBar.tsx",
@@ -30220,6 +30269,7 @@
       "path": "packages/react/src/components/ToolConfirmation.tsx",
       "symbols": [
         "ToolConfirmation",
+        "ToolConfirmationLabels",
         "ToolConfirmationProps"
       ],
       "tags": [
@@ -30227,7 +30277,7 @@
         "tsx",
         "components"
       ],
-      "contentHash": "c7a053a16f9efe15ea85f8035d01f659505355856c67300df86477de09244b7d"
+      "contentHash": "9d500aeacdf6d660d7a7fa32b0c8adbea0e0a2d787ed482e0d0e59075edfaa2d"
     },
     {
       "id": "module:packages/react/src/components/TopologyGraphView.tsx",
@@ -30313,6 +30363,7 @@
         "ToolCallView",
         "ToolCallViewProps",
         "ToolConfirmation",
+        "ToolConfirmationLabels",
         "ToolConfirmationProps",
         "ToolDefinition",
         "ToolExecutionContext",
@@ -30342,7 +30393,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "e6dc0dfc8c7d33a97ce7a202ad5a35a6fbcd6c83da5cee5845ba1736dfb4985d"
+      "contentHash": "b39ef4fe9e5d72efce0e9336b01230febe2c5a60401a9ec02e10162a164585ce"
     },
     {
       "id": "module:packages/react/src/useChat.ts",
@@ -30504,7 +30555,7 @@
         "test",
         "components"
       ],
-      "contentHash": "ab16280a5dd261fdab96624cf2bcc20d93480c8f348923ea59d64c7a25234f76"
+      "contentHash": "89874c03809dafa6e7f6fa1d46deb708c09d1543f046571ecb1214ef1bffd667"
     },
     {
       "id": "module:packages/react/tests/components/TopologyGraphView.test.tsx",
@@ -38883,8 +38934,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "7ed533a19dc3b8f40aa2e5fa5cc17804f513a89d624e735ddc09584595af0ac1",
-    "fileCount": 2664,
+    "hash": "ab3157d9f079390fdc9dd52375ddc0114159d9830faf5f3007661141192a1172",
+    "fileCount": 2667,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38906,9 +38957,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "1c5af524314e74fab1be65575779289311e39ea634abdc9d10a54d1b6f188227",
+    "contentHash": "3e29a8fad187287bf9453d98b08c210ba457a06cc6af8b08db9f976cf03d2716",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "80b66d5d6045d68f2d077f16df5080dd906baae51ba110fc0357999c8b3f5fd9",
+    "snapshotHash": "732e59b2c72e1ce95a92c12dc4477c49bcca68428de63b0cf91468b5a677ca67",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38928,7 +38979,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2535,
+      "documentCount": 2538,
       "fieldNames": [
         "aliases",
         "body",
@@ -38939,13 +38990,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0177514792899407,
-        "body": 60.89585798816568,
-        "headings": 3.8844181459566074,
-        "path": 7.616568047337278,
-        "summary": 4.532938856015779,
-        "symbols": 7.541617357001972,
-        "title": 3.3810650887573965
+        "aliases": 3.017730496453901,
+        "body": 61.000394011032306,
+        "headings": 3.8932230102442866,
+        "path": 7.616233254531127,
+        "summary": 4.528368794326241,
+        "symbols": 7.552403467297085,
+        "title": 3.38140267927502
       }
     },
     "entries": [
@@ -39338,7 +39389,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/discord-bot.mdx"
@@ -39377,7 +39428,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/dspy.mdx"
@@ -39455,7 +39506,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/embedded.mdx"
@@ -39752,7 +39803,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/slack-bot.mdx"
@@ -39791,7 +39842,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/teams-bot.mdx"
@@ -40079,7 +40130,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx"
@@ -40118,7 +40169,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx"
@@ -40157,7 +40208,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx"
@@ -40241,7 +40292,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40280,7 +40331,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/cli/index.mdx"
@@ -40319,7 +40370,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40358,7 +40409,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40397,7 +40448,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40436,7 +40487,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40475,7 +40526,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/index.mdx"
@@ -40514,7 +40565,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/core.mdx"
@@ -40584,7 +40635,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002492,
+          "pagerank": 0.002473,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx"
@@ -40623,7 +40674,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002492,
+          "pagerank": 0.002473,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx"
@@ -40662,7 +40713,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/eval-braintrust.mdx"
@@ -40746,7 +40797,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -40785,7 +40836,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/replay.mdx"
@@ -40824,7 +40875,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -40863,7 +40914,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -40933,7 +40984,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -41003,7 +41054,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/memory/index.mdx"
@@ -41042,7 +41093,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/loaders.mdx"
@@ -41081,7 +41132,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/rerank.mdx"
@@ -41120,7 +41171,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -41159,7 +41210,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/sandbox.mdx"
@@ -41198,7 +41249,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -41237,7 +41288,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -41307,7 +41358,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -41397,7 +41448,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/observability/devtools.mdx"
@@ -42255,7 +42306,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -42341,7 +42392,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -42394,7 +42445,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005793,
+          "pagerank": 0.00575,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -42584,7 +42635,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -44945,7 +44996,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -46989,7 +47040,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -47131,7 +47182,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -47810,7 +47861,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49202,7 +49253,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50423,7 +50474,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51041,7 +51092,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51095,7 +51146,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51141,7 +51192,7 @@
           "aliases": "adapters document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51379,7 +51430,7 @@
             }
           ]
         },
-        "contentHash": "d738bbad8715322edf89245b1d8a142c59f1692e0f99ac2623495849e9610697",
+        "contentHash": "a01f00bc1dfcf309d8e0fc9d1f778745753585cee30c26832f0d1dcf07e2cdad",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -51407,7 +51458,7 @@
           "aliases": "angular document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51513,7 +51564,7 @@
           "aliases": "cli document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51699,7 +51750,7 @@
           "aliases": "core document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51875,7 +51926,7 @@
           "aliases": "cross-platform document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52006,7 +52057,7 @@
           "aliases": "doc-bridge document agent"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52053,7 +52104,7 @@
           "aliases": "eval-braintrust document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52114,7 +52165,7 @@
           "aliases": "eval document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52346,7 +52397,7 @@
           "aliases": "ink document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52457,7 +52508,7 @@
           "aliases": "integrations document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52598,7 +52649,7 @@
           "aliases": "mcp document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52684,7 +52735,7 @@
           "aliases": "memory document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52855,7 +52906,7 @@
           "aliases": "net document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52916,7 +52967,7 @@
           "aliases": "observability-langfuse document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52978,11 +53029,11 @@
           "path": "apps/docs-next/content/docs/for-agents/observability.mdx",
           "symbols": "",
           "summary": "consoleLogger(config?) — local dev logging.",
-          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - createInMemoryCostStore() — development and test store. recordCostSpend(store, { tenant, costUsd, usage? }) — reserve + commit for spend that already happened. monthlyWindowKey(date) — default window ( YYYY-MM , UTC). - @agentskit/observability/postgres — postgresCostStore({ db }) , postgresCostMigrationSql , and the Dr",
+          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - reservationTtlMs?: number on both store factories — a reservation neither committed nor released after this many ms stops counting against the cap and settles as released (late commit throws AK COST RESERVATION RELEASED ). Checked lazily on every store call; no job needed. Default: never expires. - createInMemoryCostSto",
           "aliases": "observability document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53095,7 +53146,7 @@
             }
           ]
         },
-        "contentHash": "4527b56550623200e878944b69d9e156ecf8a0fae6abb07a2f5d871aeb511e98",
+        "contentHash": "c9f4fcde9d6af4180b481e0271907f9d80eeec0627e822aa8476ea05aa99f74b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -53123,7 +53174,7 @@
           "aliases": "rag document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53204,7 +53255,7 @@
           "aliases": "react-native document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53300,7 +53351,7 @@
           "aliases": "react document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53386,7 +53437,7 @@
           "aliases": "runtime document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53527,7 +53578,7 @@
           "aliases": "sandbox document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53608,7 +53659,7 @@
           "aliases": "skills document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53779,7 +53830,7 @@
           "aliases": "solid document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53855,7 +53906,7 @@
           "aliases": "statechart document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53931,7 +53982,7 @@
           "aliases": "svelte document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54017,7 +54068,7 @@
           "aliases": "templates document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54113,7 +54164,7 @@
           "aliases": "tools document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54419,7 +54470,7 @@
           "aliases": "validation document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54485,7 +54536,7 @@
           "aliases": "vue document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54643,7 +54694,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55602,7 +55653,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56140,7 +56191,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56959,7 +57010,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57530,7 +57581,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57579,7 +57630,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57789,7 +57840,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58094,7 +58145,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58343,7 +58394,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59215,7 +59266,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59259,7 +59310,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59342,7 +59393,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59917,7 +59968,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59994,7 +60045,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60259,7 +60310,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60498,7 +60549,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60557,7 +60608,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60626,7 +60677,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60790,7 +60841,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60849,7 +60900,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60933,7 +60984,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61042,7 +61093,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61086,7 +61137,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61220,7 +61271,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61274,7 +61325,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61358,7 +61409,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61477,7 +61528,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61656,7 +61707,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61740,7 +61791,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61784,7 +61835,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62007,7 +62058,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62096,7 +62147,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62155,7 +62206,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62224,7 +62275,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62268,7 +62319,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62352,7 +62403,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62396,7 +62447,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62500,7 +62551,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62719,7 +62770,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -63553,7 +63604,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66528,7 +66579,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67404,7 +67455,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67566,7 +67617,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67611,7 +67662,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68269,7 +68320,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68874,7 +68925,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68982,11 +69033,11 @@
           "path": "ARCHITECTURE.md",
           "symbols": "",
           "summary": "Technical reference for contributors to AgentsKit. Covers founding decisions, package structure, data flow, and extension points. For the why behind individual contracts, see the ADRs.",
-          "body": "ARCHITECTURE.md Technical reference for contributors to AgentsKit. Covers founding decisions, package structure, data flow, and extension points. For the why behind individual contracts, see the . --- 1. What AgentsKit Is (and Is Not) AgentsKit is a modular agent toolkit , not a monolith. There is no \"AgentsKit app framework\" — there are independently installable packages that compose through shared contracts defined in @agentskit/core . Design principles that shape everything here: - Core is a promise. @agentskit/core is under 10 KB gzipped with zero runtime dependencies. It holds only types, contracts, and minimal primitives. Once a contract is stable , breaking it requires a major version bump and a deprecation cycle. - Contract-first, not framework-first. Every cross-package boundary (Adapter, Tool, Memory, Retriever, Skill, Runtime) is formally specified in an ADR. Packages compose because they agree on types and invariants, not because they share infrastructure. - Plug-and-play. Every package works standalone — single install, under ten lines of config to produce something useful. You pick only what you need. - Zero lock-in. Adapters, memory backends, tools, and skills are all replaceable. No proprietary formats, no hidden state. - Agent-first. Tools, skills, memory, and reasoning loops are primary citizens. UI (React, Ink, CLI) is one rendering surface among many. See and for the full stability tier policy. --- 2. Package Dependency Graph Dashed edges represent optional observer injection (no hard compile-time dependency). --- 3. Layer Model Rules: - A package may depend on packages in the same layer or lower layers only. - Nothing in Layer 1 depends on anything outside Layer 1. - Layer 3 (UI) does not depend on each other ( react does not import ink , etc.). - Layer 5 packages are read-only observers — they instrument but do not alter control flow. --- 4. Core Design Decisions 4.1 Zero-dependency core @agentskit/core has no dependencies in package.json . It contains: - TypeScript types for every cross-package primitive ( Message , ToolDefinition , StreamChunk , etc.) - Contract interfaces ( AdapterFactory , ChatMemory , Retriever , SkillDefinition , RuntimeConfig ) - createChatController — the minimal orchestration primitive used by both @agentskit/react and @agentskit/ink - A tiny event emitter (no Node.js EventEmitter dependency) This means @agentskit/core can be imported in any environment (browser, edge, Node, Deno, Bun) without bundler shims. 4.2 Contract-first design Every cross-package boundary is defined as a TypeScript interface with formal invariants, versioned in an ADR. The contracts are: Contract ADR Key invariant --- --- --- Adapter Pure factory; errors as chunks; explicit terminal chunk Tool JSON Schema input; typed execute output; confirmation flag Memory Atomic load/save; pluggable backend Retriever retrieve(query) → Document[] ; pluggable store Skill System prompt + few-shot + tool contributions Runtime run(task) → RunResult ; hard step cap; observer-only side effects 4.3 Plug-and-play via contracts Because every boundary is a contract (not a base class or a required superclass), packages compose without glue code. useChat in @agentskit/react accepts any AdapterFactory . The runtime accepts any ChatMemory . There is no \"AgentsKit adapter base class\" to inherit — satisfy the interface, ship. 4.4 Headless UI React and Ink components use data-ak- attributes for all structural hooks. No hardcoded styles. CSS variables for theming. This lets any design system own visual output while AgentsKit owns behavior. 4.5 Stability tiers Packages declare a stability tier ( stable , beta , experimental ) in package.json . See for the full policy. Currently all Layer 1–4 packages are stable ; @agentskit/observability , @agentskit/sandbox , and @agentskit/eval are beta . --- 5. Data Flow How a message travels from user input to assistant response, end to end. Key properties of this flow: - Streaming is the default. Text",
+          "body": "ARCHITECTURE.md Technical reference for contributors to AgentsKit. Covers founding decisions, package structure, data flow, and extension points. For the why behind individual contracts, see the . --- 1. What AgentsKit Is (and Is Not) AgentsKit is a modular agent toolkit , not a monolith. There is no \"AgentsKit app framework\" — there are independently installable packages that compose through shared contracts defined in @agentskit/core . Design principles that shape everything here: - Core is a promise. @agentskit/core is under 10 KB gzipped with zero runtime dependencies. It holds only types, contracts, and minimal primitives. Once a contract is stable , breaking it requires a major version bump and a deprecation cycle. - Contract-first, not framework-first. Every cross-package boundary (Adapter, Tool, Memory, Retriever, Skill, Runtime) is formally specified in an ADR. Packages compose because they agree on types and invariants, not because they share infrastructure. - Plug-and-play. Every package works standalone — single install, under ten lines of config to produce something useful. You pick only what you need. - Zero lock-in. Adapters, memory backends, tools, and skills are all replaceable. No proprietary formats, no hidden state. - Agent-first. Tools, skills, memory, and reasoning loops are primary citizens. UI (React, Ink, CLI) is one rendering surface among many. See and for the full stability tier policy. --- 2. Package Dependency Graph Dashed edges represent optional observer injection (no hard compile-time dependency). --- 3. Layer Model Rules: - A package may depend on packages in the same layer or lower layers only. - Nothing in Layer 1 depends on anything outside Layer 1. - Layer 3 (UI) does not depend on each other ( react does not import ink , etc.). - Layer 5 packages are read-only observers — they instrument but do not alter control flow. --- 4. Core Design Decisions 4.1 Zero-dependency core @agentskit/core has no dependencies in package.json . It contains: - TypeScript types for every cross-package primitive ( Message , ToolDefinition , StreamChunk , etc.) - Contract interfaces ( AdapterFactory , ChatMemory , Retriever , SkillDefinition , RuntimeConfig ) - createChatController — the minimal orchestration primitive used by both @agentskit/react and @agentskit/ink - A tiny event emitter (no Node.js EventEmitter dependency) This means @agentskit/core can be imported in any environment (browser, edge, Node, Deno, Bun) without bundler shims. 4.2 Contract-first design Every cross-package boundary is defined as a TypeScript interface with formal invariants, versioned in an ADR. The contracts are: Contract ADR Key invariant --- --- --- Adapter Pure factory; errors as chunks; explicit terminal chunk Tool JSON Schema input; typed execute output; confirmation flag Memory Atomic load/save; pluggable backend Retriever retrieve(query) → Document[] ; pluggable store Skill System prompt + few-shot + tool contributions Runtime run(task) → RunResult ; hard step cap; observer-only side effects 4.3 Plug-and-play via contracts Because every boundary is a contract (not a base class or a required superclass), packages compose without glue code. useChat in @agentskit/react accepts any AdapterFactory . The runtime accepts any ChatMemory . There is no \"AgentsKit adapter base class\" to inherit — satisfy the interface, ship. The cross-package promise (dependency direction, standards, data portability, status vocabulary) is the . 4.4 Headless UI React and Ink components use data-ak- attributes for all structural hooks. No hardcoded styles. CSS variables for theming. This lets any design system own visual output while AgentsKit owns behavior. 4.5 Stability tiers Packages declare a stability tier ( stable , beta , experimental ) in package.json . See for the full policy. Currently all Layer 1–4 packages are stable ; @agentskit/observability , @agentskit/sandbox , and @agentskit/eval are beta . --- 5. Data Flow How a message travels from u",
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -69039,6 +69090,11 @@
             {
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0007-docs-platform-fumadocs.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
               "confidence": "observed"
             },
             {
@@ -69153,7 +69209,7 @@
             }
           ]
         },
-        "contentHash": "7524efaf42557b2fa5dc0a4ce9a661d3d7c73dcaeaa7e49e2b02351f00e4a79a",
+        "contentHash": "01cc689a9630d4ed263a3e548868b21e4c8ed0f4013b3f87773d1aa8659d0660",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -69264,7 +69320,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007654,
+          "pagerank": 0.007597,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -69365,7 +69421,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007501,
+          "pagerank": 0.007445,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -69416,7 +69472,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.029458,
+          "pagerank": 0.029238,
           "inboundLinks": 36,
           "coveredBy": [],
           "mentionedBy": [
@@ -69866,7 +69922,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00318,
+          "pagerank": 0.003156,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69910,7 +69966,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.022554,
+          "pagerank": 0.022303,
           "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70020,7 +70076,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.012747,
+          "pagerank": 0.012607,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70135,7 +70191,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.008713,
+          "pagerank": 0.008617,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70245,7 +70301,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005842,
+          "pagerank": 0.005775,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70370,7 +70426,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006112,
+          "pagerank": 0.006046,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70485,7 +70541,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005987,
+          "pagerank": 0.005924,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70625,7 +70681,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002172,
+          "pagerank": 0.002139,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70680,7 +70736,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002589,
+          "pagerank": 0.002567,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -70793,7 +70849,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.012875,
+          "pagerank": 0.012839,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70878,7 +70934,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70958,7 +71014,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71028,7 +71084,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002934,
+          "pagerank": 0.00291,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71123,7 +71179,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71193,7 +71249,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71248,7 +71304,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71293,7 +71349,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71338,7 +71394,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004875,
+          "pagerank": 0.004836,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71418,7 +71474,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003933,
+          "pagerank": 0.003902,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71493,7 +71549,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71532,7 +71588,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71577,7 +71633,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.035962,
+          "pagerank": 0.035991,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71722,7 +71778,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.018178,
+          "pagerank": 0.018204,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71822,7 +71878,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004035,
+          "pagerank": 0.004002,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71937,7 +71993,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003421,
+          "pagerank": 0.003393,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72007,7 +72063,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003108,
+          "pagerank": 0.003083,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72082,7 +72138,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72127,7 +72183,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00242,
+          "pagerank": 0.0024,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72207,7 +72263,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72246,7 +72302,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72296,7 +72352,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72356,7 +72412,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002558,
+          "pagerank": 0.002537,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -72453,7 +72509,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002558,
+          "pagerank": 0.002537,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -72575,7 +72631,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72620,7 +72676,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72670,7 +72726,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72725,7 +72781,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002833,
+          "pagerank": 0.00281,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72775,7 +72831,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002714,
+          "pagerank": 0.002691,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72830,7 +72886,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002833,
+          "pagerank": 0.00281,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72870,11 +72926,11 @@
           "path": "docs/architecture/adrs/0044-durable-cost-store.md",
           "symbols": "",
           "summary": "Status: Proposed (implementation authorized; evidence review remains external)",
-          "body": "ADR 0044 — Durable tenant cost store - Status : Proposed (implementation authorized; evidence review remains external) - Date : 2026-10-09 Context The cost guards in @agentskit/observability keep spend in closure state. On hosts that run many short-lived instances, each instance starts at zero, so a tenant budget is never reached and concurrent requests cannot see each other. A budget that must hold needs spend recorded outside the process, and admission that is atomic under concurrency. Decision Add a CostStore port to @agentskit/observability with four tenant-scoped operations: reserve , commit , release and window . - reserve holds an estimate against a cap passed by the caller. The cap is an argument, not stored state, so the host reads it from its own plan data. - commit replaces the hold with the real spend and appends usage ledger rows. - release returns the hold when the call fails. - Each operation is idempotent per (tenant, reservationId) . Settling an unknown, released or committed reservation raises CostReservationError . - Spend is grouped by an accounting windowKey , the UTC month by default. Ship two implementations: createInMemoryCostStore for development and tests, and postgresCostStore on the optional /postgres subpath, with BYO Drizzle and node-postgres, exported schema and idempotent DDL. Each PostgreSQL operation is one statement; admission is the conditional update spent + reserved + amount <= cap , so no explicit transaction is required and the store works with a pooled or a per-request connection. Export costStoreContract on /cost-store-contract as the framework-free suite any implementation must pass. costGuard , multiTenantCostGuard and createAdvancedCostGuard accept an optional store . With it they write each priced llm:end to the store and trip on the stored window total. Without it they keep the existing process-local behavior and warn once in a production runtime: NODE ENV=production , or Cloudflare Workers when NODE ENV is not set. warnWithoutStore overrides the detection. A store write that fails goes to onError ; a guard without onError logs the first failure once. Reservations have no time to live in the store. expirePostgresCostReservations releases the ones still held and older than a cutoff the host chooses; the host schedules it. recordCostSpend releases its own hold when the commit fails. Consequences - Existing guard options and behavior are unchanged when store is omitted, apart from the production warning. - With a store, a guard budget applies to the store's current accounting window instead of the lifetime of one guard instance. - Guards observe spend after it happens and write to the store asynchronously, so they bound overshoot to in-flight calls. Hosts that must refuse a request before it spends call reserve directly. - commit records the real spend even above the reserved estimate. The cap is a hard ceiling on reservations, not on provider usage already incurred. - drizzle-orm and pg become optional peers, required only by /postgres . - A released reservation id is not admitted again: reserve raises AK COST RESERVATION RELEASED . Replaying it as admitted would let the call run without a hold and then fail to commit. - A reservation abandoned by a crashed process stays held until the host runs the expiry. A cutoff shorter than a call still in flight releases its hold, and that call's commit is then rejected. - reserve must run outside a host transaction or inside a savepoint. A concurrent duplicate id ends in a unique violation that the store absorbs, which still aborts an enclosing transaction. - The CommonJS build of each subpath has its own copy of CostReservationError . The contract suite and hosts match errors by code . - The advanced guard's rolling window caps ( perMinute , perDay , custom) remain process-local; only the overall budget reads the store. Alternatives considered - Store the cap in the cost tables. Rejected: plan limits belong to the host's billing data, and a ",
+          "body": "ADR 0044 — Durable tenant cost store - Status : Proposed (implementation authorized; evidence review remains external) - Date : 2026-10-09 Context The cost guards in @agentskit/observability keep spend in closure state. On hosts that run many short-lived instances, each instance starts at zero, so a tenant budget is never reached and concurrent requests cannot see each other. A budget that must hold needs spend recorded outside the process, and admission that is atomic under concurrency. Decision Add a CostStore port to @agentskit/observability with four tenant-scoped operations: reserve , commit , release and window . - reserve holds an estimate against a cap passed by the caller. The cap is an argument, not stored state, so the host reads it from its own plan data. - commit replaces the hold with the real spend and appends usage ledger rows. - release returns the hold when the call fails. - Each operation is idempotent per (tenant, reservationId) . Settling an unknown, released or committed reservation raises CostReservationError . - Spend is grouped by an accounting windowKey , the UTC month by default. Ship two implementations: createInMemoryCostStore for development and tests, and postgresCostStore on the optional /postgres subpath, with BYO Drizzle and node-postgres, exported schema and idempotent DDL. Each PostgreSQL operation is one statement; admission is the conditional update spent + reserved + amount <= cap , so no explicit transaction is required and the store works with a pooled or a per-request connection. Export costStoreContract on /cost-store-contract as the framework-free suite any implementation must pass. costGuard , multiTenantCostGuard and createAdvancedCostGuard accept an optional store . With it they write each priced llm:end to the store and trip on the stored window total. Without it they keep the existing process-local behavior and warn once in a production runtime: NODE ENV=production , or Cloudflare Workers when NODE ENV is not set. warnWithoutStore overrides the detection. A store write that fails goes to onError ; a guard without onError logs the first failure once. Reservations expire lazily when the store is given reservationTtlMs : each operation first releases the held reservations older than the TTL in the scope it touches (the tenant window for reserve and window , the reservation for commit and release ), so no host job is needed. Without the option, expirePostgresCostReservations releases the ones still held and older than a cutoff the host chooses; the host schedules it. recordCostSpend releases its own hold when the commit fails. Consequences - Existing guard options and behavior are unchanged when store is omitted, apart from the production warning. - With a store, a guard budget applies to the store's current accounting window instead of the lifetime of one guard instance. - Guards observe spend after it happens and write to the store asynchronously, so they bound overshoot to in-flight calls. Hosts that must refuse a request before it spends call reserve directly. - commit records the real spend even above the reserved estimate. The cap is a hard ceiling on reservations, not on provider usage already incurred. - drizzle-orm and pg become optional peers, required only by /postgres . - A released reservation id is not admitted again: reserve raises AK COST RESERVATION RELEASED . Replaying it as admitted would let the call run without a hold and then fail to commit. - A reservation abandoned by a crashed process stays held until its TTL passes, or, without reservationTtlMs , until the host runs the expiry. A TTL or cutoff shorter than a call still in flight releases its hold, and that call's commit is then rejected. - With reservationTtlMs , a PostgreSQL operation runs one extra scoped expiry statement first, backed by a partial index on held reservations, and the reservation's created at comes from the store clock. - reserve must run outside a host transaction or inside a savepoint. A",
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72918,7 +72974,92 @@
             }
           ]
         },
-        "contentHash": "6bbcb59353c45545b97728da92df345307d0642d32582c46c731d181393edf64",
+        "contentHash": "aaa3a6f72dd768f75cdf1a77a10f8263d16a4c05896d54646d84fa3d4a488d36",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+        "kind": "document",
+        "path": "docs/architecture/adrs/0045-interoperability-charter.md",
+        "title": "ADR 0045 — Interoperability charter",
+        "summary": "Status: Proposed",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "ADR 0045 — Interoperability charter",
+          "headings": "ADR 0045 — Interoperability charter Context Decision 1. Dependency direction 2. Stable contracts 3. Optional bridges 4. External standards and vendor extensions 5. Data portability and versioning 6. What never enters @agentskit/core 7. Status vocabulary 8. No claim without evidence 9. AgentsKit Chat Consequences",
+          "path": "docs/architecture/adrs/0045-interoperability-charter.md",
+          "symbols": "",
+          "summary": "Status: Proposed",
+          "body": "ADR 0045 — Interoperability charter - Status : Proposed - Date : 2026-10-29 - Supersedes : — - Related issues : 1477, 1890 - Related ADRs : 0001–0006 (contracts), 0009, 0012, 0013, 0020, 0025, 0028, 0041 Context \"Interoperability is mandatory\" is a vital rule, but the supporting rules are spread over several ADRs: composition (0009), vendor adapter scope (0012), serializable state (0020), public API and the compatibility matrix (0025), MCP beta boundaries (0028) and content serialization (0041). scripts/check-core-no-deps.mjs only inspects the dependencies block of @agentskit/core . This ADR is the canonical document that joins those rules into one verifiable promise. Later interop work uses it as the rule set. Decision 1. Dependency direction - Packages form layers rooted at @agentskit/core (see ADR 0009 for the graph). A package may depend on core and on declared peers, never on a sibling's internals. - @agentskit/core imports no other @agentskit/ package. - No dependency cycles, within or across packages. 2. Stable contracts The six contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime; ADRs 0001–0006) are the interoperability surface. Their tier and change rules are those of and ADR 0025. This charter does not promote or demote any tier. 3. Optional bridges - Recipe first: a documented recipe that composes existing packages through the contracts is the default way to bridge to another ecosystem. - A package named @agentskit/interop-<target is created only with a real use case and an executable test. It depends on core and the target, never the reverse (ADR 0009, ADR 0012). 4. External standards and vendor extensions - MCP, A2A, AG-UI, JSON Schema and OpenAPI are treated as external standards: we map to them at the edge (adapters, tools, bridge packages); we do not copy their types into core or let them reshape a contract. JSON Schema remains the canonical schema format. MCP follows ADR 0028. - Vendor-specific features are reachable only through an explicit escape hatch (adapter-local option or namespaced extension field). They never alter a core type, and portable code must not depend on them (ADR 0012). 5. Data portability and versioning Data that crosses a package, process or version boundary is plain, serializable and versioned: Data Rule --- --- Messages, tool calls Ordered content parts are authoritative; serialized at the provider boundary (ADR 0041) Memory records Validated at runtime on load (ADR 0013) Stream events, interaction state JSON-serializable, no live handles (ADR 0020) Traces Serializable events; observers never affect results Eval results Versioned record per A breaking change to a persisted shape needs a version bump and a migration or explicit rejection, never silent reinterpretation. 6. What never enters @agentskit/core No runtime dependency enters core, and no I/O, network or vendor SDK. The allowlist of imports in core source is: - relative imports and subpaths of core itself; - json-schema , only as import type ; - canonicalize and @noble/hashes . Confirmed against packages/core/tsup.config.ts : canonicalize and @noble/hashes are declared in devDependencies and bundled through noExternal , so the published package keeps zero runtime dependencies. Core stays under 10 KB gzipped (ADR 0009). Adding to this allowlist requires a new ADR. 7. Status vocabulary Every interoperability claim carries exactly one status, the same set the Registry uses ( docs/studies/registry-runner-projections-plan.md ): - verified : an executable test proves it. - partial : works with documented limits. - planned : intended, not a support claim. - unsupported : known not to work. 8. No claim without evidence No document, README or registry entry may claim interoperability without an executable test, or an explicitly marked limitation ( partial , planned or unsupported ). Unknown means planned , not verified . 9. AgentsKit Chat AgentsKit Chat is a reference UI and optional. No package may require it, and no contract may",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0.002139,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:ARCHITECTURE.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/spec/eval-result-record-v1.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/STABILITY.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/spec/eval-result-record-v1.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/STABILITY.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/studies/registry-runner-projections-plan.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/core/tsup.config.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:scripts/check-core-no-deps.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/core",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a92829c83f80e86e40e189f4dbbddfb819d3a5b3c4b238b41fa188022c4254db",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -72940,11 +73081,11 @@
           "path": "docs/architecture/adrs/README.md",
           "symbols": "",
           "summary": "This directory contains the formal, versioned contracts and architectural decisions for AgentsKit.",
-          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed Canonical JSON and SHA-256 helpers Accepted Cryptographic IDs for generated identifiers Accepted Preserve eval replay fingerprint compatibility Proposed Serialize attachments at the provider boundary Proposed Durable tool decisions in core 1.x Proposed Partition-bound RAG composition Proposed Durable tenant cost store Proposed The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
+          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed Canonical JSON and SHA-256 helpers Accepted Cryptographic IDs for generated identifiers Accepted Preserve eval replay fingerprint compatibility Proposed Serialize attachments at the provider boundary Proposed Durable tool decisions in core 1.x Proposed Partition-bound RAG composition Proposed Durable tenant cost store Proposed Interoperability charter Proposed The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003012,
+          "pagerank": 0.002975,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -73214,10 +73355,15 @@
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0044-durable-cost-store.md",
               "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "2bbd8aa572d63a9bd4b3a781597ef5181427c1a91ed34f5f18e88e5b3c720451",
+        "contentHash": "9049cc374e83f3b0e077f9e4220c0dc0c63327d2332df15a991b891c228b0cea",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73243,7 +73389,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74605,7 +74751,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74710,7 +74856,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74779,7 +74925,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74818,7 +74964,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002645,
+          "pagerank": 0.002626,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -75131,7 +75277,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75170,7 +75316,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.007969,
+          "pagerank": 0.007982,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75283,7 +75429,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -75340,7 +75486,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75414,7 +75560,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002456,
+          "pagerank": 0.002437,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
@@ -75531,7 +75677,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.020964,
+          "pagerank": 0.021064,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75609,11 +75755,24 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
+          "pagerank": 0.002837,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
+          "mentionedBy": [
+            "document:docs/architecture/adrs/0045-interoperability-charter.md"
+          ],
+          "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "mentions-symbol",
@@ -75648,8 +75807,8 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.071755,
-          "inboundLinks": 51,
+          "pagerank": 0.072374,
+          "inboundLinks": 52,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_v1-readiness.md",
@@ -75658,6 +75817,7 @@
             "document:ARCHITECTURE.md",
             "document:CONTRIBUTING.md",
             "document:docs/architecture/adrs/0024-package-graduation-evidence.md",
+            "document:docs/architecture/adrs/0045-interoperability-charter.md",
             "document:docs/RELEASE-CORE-V1.md",
             "document:docs/studies/v1-readiness-audit.md",
             "document:GOVERNANCE.md",
@@ -75665,9 +75825,7 @@
             "document:packages/angular/README.md",
             "document:packages/cli/README.md",
             "document:packages/core/README.md",
-            "document:packages/cross-platform/README.md",
-            "document:packages/eval-braintrust/README.md",
-            "document:packages/eval/README.md"
+            "document:packages/cross-platform/README.md"
           ],
           "inbound": [
             {
@@ -75688,6 +75846,11 @@
             {
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0024-package-graduation-evidence.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
               "confidence": "observed"
             },
             {
@@ -75942,6 +76105,11 @@
             },
             {
               "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "document:docs/RELEASE-CORE-V1.md",
               "confidence": "observed"
             },
@@ -75978,16 +76146,6 @@
             {
               "kind": "mentions",
               "id": "document:packages/cross-platform/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/eval-braintrust/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/eval/README.md",
               "confidence": "observed"
             }
           ],
@@ -76205,7 +76363,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.019745,
+          "pagerank": 0.019824,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -76542,11 +76700,19 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
-          "inboundLinks": 0,
+          "pagerank": 0.001927,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
+          "mentionedBy": [
+            "document:docs/architecture/adrs/0045-interoperability-charter.md"
+          ],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "links-to",
@@ -76626,7 +76792,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.010801,
+          "pagerank": 0.010814,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -76753,7 +76919,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76913,7 +77079,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.031289,
+          "pagerank": 0.031386,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
@@ -77097,7 +77263,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77302,7 +77468,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.018624,
+          "pagerank": 0.018633,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -77384,7 +77550,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002737,
+          "pagerank": 0.002717,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77433,7 +77599,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77502,7 +77668,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77874,7 +78040,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -78030,7 +78196,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002492,
+          "pagerank": 0.002473,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -78180,7 +78346,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78372,7 +78538,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002492,
+          "pagerank": 0.002473,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78710,7 +78876,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78932,7 +79098,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79039,7 +79205,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79196,7 +79362,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79408,7 +79574,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79623,7 +79789,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79716,7 +79882,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79790,7 +79956,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80082,7 +80248,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80269,7 +80435,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80332,7 +80498,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80406,7 +80572,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80534,7 +80700,7 @@
             }
           ]
         },
-        "contentHash": "87237cd2b57ba5c3b22587d59167010673075706fdfde7ff9b2eb344783f4de1",
+        "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -80559,7 +80725,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80678,7 +80844,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80920,7 +81086,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81048,7 +81214,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81147,7 +81313,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81300,7 +81466,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81374,7 +81540,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -81540,7 +81706,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81614,7 +81780,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81742,7 +81908,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81811,7 +81977,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82003,7 +82169,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82164,7 +82330,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82357,7 +82523,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82607,7 +82773,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82731,7 +82897,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82790,7 +82956,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83107,7 +83273,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83254,7 +83420,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83383,7 +83549,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
@@ -83711,7 +83877,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83760,7 +83926,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004167,
+          "pagerank": 0.004136,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83839,7 +84005,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.003295,
+          "pagerank": 0.00327,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83968,7 +84134,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84042,7 +84208,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002924,
+          "pagerank": 0.002902,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84141,7 +84307,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84220,7 +84386,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84289,7 +84455,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004253,
+          "pagerank": 0.004221,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84373,7 +84539,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84452,7 +84618,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002877,
+          "pagerank": 0.002856,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84526,7 +84692,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84600,7 +84766,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005078,
+          "pagerank": 0.00504,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84689,7 +84855,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002877,
+          "pagerank": 0.002856,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84783,7 +84949,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84858,7 +85024,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -85002,7 +85168,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -85154,7 +85320,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.007501,
+          "pagerank": 0.007445,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -85278,7 +85444,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -103827,6 +103993,11 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
               "confidence": "observed"
             },
@@ -104300,7 +104471,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "784e6b0c089999eb58af7a7454a2c9b1f4111e6c1d0d7c32160a36489788ac55",
+        "contentHash": "46608034dca8720fdd882033bb75fa62bcfafdda7348848b94a1ca060535db5a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -107746,6 +107917,7 @@
           "BailConfig",
           "BedrockConfig",
           "BedrockRuntimeClientLike",
+          "CLIPROXYAPI_DEFAULT_BASE_URL",
           "CapabilityUnsupportedError",
           "CarbonTable",
           "CerebrasConfig",
@@ -107784,6 +107956,8 @@
           "MockAdapterOptions",
           "MockResponse",
           "ModelDeprecation",
+          "ModelProviderConfig",
+          "ModelProviderId",
           "OllamaConfig",
           "OllamaEmbedderConfig",
           "OpenAICompatibleConfig",
@@ -107828,6 +108002,7 @@
           "createAdapter",
           "createEnsembleAdapter",
           "createFallbackAdapter",
+          "createModelProvider",
           "createOpenAICompatibleEmbedder",
           "createRotatingCredentials",
           "createRouter",
@@ -107887,7 +108062,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/adapters/src/index.ts",
-          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CapabilityUnsupportedError CarbonTable CerebrasConfig CloudflareAiGatewayConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation OllamaConfig OllamaEmbedderConfig OpenAICompatibleConfig OpenAICompatibleEmbedderConfig OpenAICompatibleTransportConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike WorkersAiConfig anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cloudflareAiGateway cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openRouter openai openaiCompatible openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy workersAi",
+          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CLIPROXYAPI_DEFAULT_BASE_URL CapabilityUnsupportedError CarbonTable CerebrasConfig CloudflareAiGatewayConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation ModelProviderConfig ModelProviderId OllamaConfig OllamaEmbedderConfig OpenAICompatibleConfig OpenAICompatibleEmbedderConfig OpenAICompatibleTransportConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike WorkersAiConfig anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cloudflareAiGateway cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createModelProvider createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openRouter openai openaiCompatible openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy workersAi",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -108083,6 +108258,11 @@
             },
             {
               "kind": "re-exports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
               "id": "module:packages/adapters/src/replicate.ts",
               "confidence": "observed"
             },
@@ -108128,7 +108308,7 @@
             }
           ]
         },
-        "contentHash": "fc0b76056685ae8b01ec4c33e2d89fddebf702733de3993b9477b5af0d6f920a",
+        "contentHash": "0028427f5791f6371ab157a332194d0b5915d658750e04a01fa24a135da7e71a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -109243,6 +109423,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
               "confidence": "observed"
             },
@@ -109449,6 +109634,11 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
               "confidence": "observed"
             },
@@ -109527,6 +109717,77 @@
           ]
         },
         "contentHash": "50f46dccd29e8ed0ef860d1466b69f2f40865c421fa0d8c6ed923f8ef9015b2f",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/adapters/src/provider.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/provider.ts",
+        "title": "provider.ts",
+        "aliases": [],
+        "symbols": [
+          "CLIPROXYAPI_DEFAULT_BASE_URL",
+          "ModelProviderConfig",
+          "ModelProviderId",
+          "createModelProvider"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "provider.ts",
+          "headings": "",
+          "path": "packages/adapters/src/provider.ts",
+          "symbols": "CLIPROXYAPI_DEFAULT_BASE_URL ModelProviderConfig ModelProviderId createModelProvider",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/tests/model-provider.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/adapters/src/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/anthropic.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/openai.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/openrouter.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/utils.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "19fdc34323144ab9c48de26bb369e6cee98d857b4a4bc2966afe4796b472c71d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -110398,6 +110659,11 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/src/openai.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
               "confidence": "observed"
             },
             {
@@ -112506,6 +112772,46 @@
           ]
         },
         "contentHash": "13a968c5c0c06720f03fe2730f9898950bf1c20d917340d4141f34ee6141c280",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/adapters/tests/model-provider.test.ts",
+        "kind": "module",
+        "path": "packages/adapters/tests/model-provider.test.ts",
+        "title": "model-provider.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "model-provider.test.ts",
+          "headings": "",
+          "path": "packages/adapters/tests/model-provider.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "efd853219e784a5a15803196ca65374c7a30157dbc553136064ac309a76f43c1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -120469,7 +120775,7 @@
             }
           ]
         },
-        "contentHash": "b76444b356f7957792d6d63a0facb84da5ad8b2c2cf68465926c4c055274c463",
+        "contentHash": "5f84fb677b22ce3c4b1243472bccec5e3abc2f7f5cb33f62c0f11d050dac0bbb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -130807,11 +131113,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:docs/architecture/adrs/0045-interoperability-charter.md"
+          ],
           "packageId": "package:@agentskit/core",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -149525,7 +149839,7 @@
             }
           ]
         },
-        "contentHash": "73ff17189c1b7ab586ac963c040b22bd86331cc2a6811d34f4f70f31e3fcb574",
+        "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159706,6 +160020,7 @@
           "validateCostRelease",
           "validateCostReserve",
           "validateCostWindow",
+          "validateReservationTtl",
           "warnProcessLocalCostState"
         ],
         "tags": [
@@ -159717,7 +160032,7 @@
           "title": "cost-store.ts",
           "headings": "",
           "path": "packages/observability/src/cost-store.ts",
-          "symbols": "CostCommitInput CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput InMemoryCostStore InMemoryLedgerRow createInMemoryCostStore describeCostWindow monthlyWindowKey recordCostSpend validateCostCommit validateCostRelease validateCostReserve validateCostWindow warnProcessLocalCostState",
+          "symbols": "CostCommitInput CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput InMemoryCostStore InMemoryLedgerRow createInMemoryCostStore describeCostWindow monthlyWindowKey recordCostSpend validateCostCommit validateCostRelease validateCostReserve validateCostWindow validateReservationTtl warnProcessLocalCostState",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -159792,7 +160107,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a4de0beaaa030a3cccabedb0b68e616d9333997bde4ca6ce6f2251203b2bae81",
+        "contentHash": "3505173725e4f2b72585a759df38e43b8f3e4ac4e6a74b662b57378b966c2b17",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160684,7 +160999,7 @@
             }
           ]
         },
-        "contentHash": "08672acc3b8820e6a96bdd2e30521771091138ce0a5484ab1749e5d931bbbe23",
+        "contentHash": "e32f734825f507e3ab194ea9602f3ac659a1a20354ad1d8c7830774a43f14895",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -161923,7 +162238,7 @@
             }
           ]
         },
-        "contentHash": "3a7ffc7e3fca98ac3da8ed711ee91f5c57e4d24b8d744f4e87c24d286ba6c9a6",
+        "contentHash": "950a389c1e129144f7588635c9f437cc10b4beb2b7b81621062b3ebef559b0d8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -162175,7 +162490,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5950721a855c0536a6d54b89b013d507fb567b63df59a2cbbd669a04b3ce5289",
+        "contentHash": "0b504aef068c0c4b2a8105878c1cdefcc7c2d96ffe3e0ad0392ebbc46fdf47f8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -162330,7 +162645,7 @@
             }
           ]
         },
-        "contentHash": "21268cb747a51e617a2679d73362734f99c6f338e9766d7e72f97f4d805aba0f",
+        "contentHash": "0b325eab8857a792babdce02f661131bac9b41f5aa871174c268b6f8469d6c78",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -165593,7 +165908,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "6769c62fef2158bea240d77b4815fa935c691abedbda89de1f975a102d264753",
+        "contentHash": "edf3374f4a8bb1798053adada65da14c686e74bb41448ba2862be85ba142f238",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166208,6 +166523,7 @@
           "ToolCallView",
           "ToolCallViewProps",
           "ToolConfirmation",
+          "ToolConfirmationLabels",
           "ToolConfirmationProps",
           "TopologyGraphSource",
           "TopologyGraphView",
@@ -166229,7 +166545,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/react/src/components/index.ts",
-          "symbols": "ChatContainer ChatContainerProps CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps Message MessageProps ThinkingIndicator ThinkingIndicatorProps ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationProps TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow",
+          "symbols": "ChatContainer ChatContainerProps CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps Message MessageProps ThinkingIndicator ThinkingIndicatorProps ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationLabels ToolConfirmationProps TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow",
           "summary": "",
           "body": "",
           "aliases": "module ts components"
@@ -166306,7 +166622,7 @@
             }
           ]
         },
-        "contentHash": "22bed82f5f964e830077fb0223fd6ea14b746f7e25c28645e4d1f4866652b892",
+        "contentHash": "4785eb684fdc99f6471df26a414783b14934cd9cef9b0310a753eac43b21b3e6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166563,6 +166879,7 @@
         "aliases": [],
         "symbols": [
           "ToolConfirmation",
+          "ToolConfirmationLabels",
           "ToolConfirmationProps"
         ],
         "tags": [
@@ -166574,7 +166891,7 @@
           "title": "ToolConfirmation.tsx",
           "headings": "",
           "path": "packages/react/src/components/ToolConfirmation.tsx",
-          "symbols": "ToolConfirmation ToolConfirmationProps",
+          "symbols": "ToolConfirmation ToolConfirmationLabels ToolConfirmationProps",
           "summary": "",
           "body": "",
           "aliases": "module tsx components"
@@ -166600,7 +166917,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c7a053a16f9efe15ea85f8035d01f659505355856c67300df86477de09244b7d",
+        "contentHash": "9d500aeacdf6d660d7a7fa32b0c8adbea0e0a2d787ed482e0d0e59075edfaa2d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166755,6 +167072,7 @@
           "ToolCallView",
           "ToolCallViewProps",
           "ToolConfirmation",
+          "ToolConfirmationLabels",
           "ToolConfirmationProps",
           "ToolDefinition",
           "ToolExecutionContext",
@@ -166788,7 +167106,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/react/src/index.ts",
-          "symbols": "AdapterContext AdapterFactory AdapterRequest ChatConfig ChatContainer ChatContainerProps ChatController ChatMemory ChatReturn ChatState CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps MaybePromise MemoryRecord Message MessageProps MessageRole MessageStatus MessageType RetrievedDocument Retriever RetrieverRequest StreamChunk StreamSource StreamStatus StreamToolCallPayload ThinkingIndicator ThinkingIndicatorProps ToolCall ToolCallHandlerContext ToolCallStatus ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationProps ToolDefinition ToolExecutionContext TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow UseStreamOptions UseStreamReturn createChatController createInMemoryMemory createLocalStorageMemory createStaticRetriever formatRetrievedDocuments useChat useReactive useStream",
+          "symbols": "AdapterContext AdapterFactory AdapterRequest ChatConfig ChatContainer ChatContainerProps ChatController ChatMemory ChatReturn ChatState CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps MaybePromise MemoryRecord Message MessageProps MessageRole MessageStatus MessageType RetrievedDocument Retriever RetrieverRequest StreamChunk StreamSource StreamStatus StreamToolCallPayload ThinkingIndicator ThinkingIndicatorProps ToolCall ToolCallHandlerContext ToolCallStatus ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationLabels ToolConfirmationProps ToolDefinition ToolExecutionContext TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow UseStreamOptions UseStreamReturn createChatController createInMemoryMemory createLocalStorageMemory createStaticRetriever formatRetrievedDocuments useChat useReactive useStream",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -166829,7 +167147,7 @@
             }
           ]
         },
-        "contentHash": "e6dc0dfc8c7d33a97ce7a202ad5a35a6fbcd6c83da5cee5845ba1736dfb4985d",
+        "contentHash": "b39ef4fe9e5d72efce0e9336b01230febe2c5a60401a9ec02e10162a164585ce",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -167363,7 +167681,7 @@
             }
           ]
         },
-        "contentHash": "ab16280a5dd261fdab96624cf2bcc20d93480c8f348923ea59d64c7a25234f76",
+        "contentHash": "89874c03809dafa6e7f6fa1d46deb708c09d1543f046571ecb1214ef1bffd667",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -187030,12 +187348,13 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/feedback_zero-dep-core.md",
             "document:docs/architecture/adrs/0008-runtime-validation.md",
-            "document:docs/architecture/adrs/0009-composition-rules.md"
+            "document:docs/architecture/adrs/0009-composition-rules.md",
+            "document:docs/architecture/adrs/0045-interoperability-charter.md"
           ],
           "areaId": "area:scripts",
           "packageId": "package:agentskit",
@@ -187053,6 +187372,11 @@
             {
               "kind": "mentions",
               "id": "document:docs/architecture/adrs/0009-composition-rules.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
               "confidence": "observed"
             }
           ],
@@ -193513,7 +193837,7 @@
           "aliases": "adapters @agentskit/adapters package ownership"
         },
         "graph": {
-          "pagerank": 0.004005,
+          "pagerank": 0.003975,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
@@ -193938,7 +194262,7 @@
           "aliases": "angular @agentskit/angular package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 37,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/angular.mdx",
@@ -194207,7 +194531,7 @@
           "aliases": "cli @agentskit/cli package ownership"
         },
         "graph": {
-          "pagerank": 0.003867,
+          "pagerank": 0.003839,
           "inboundLinks": 26,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx",
@@ -194410,7 +194734,7 @@
           "aliases": "core @agentskit/core package ownership"
         },
         "graph": {
-          "pagerank": 0.004418,
+          "pagerank": 0.004385,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/core.mdx",
@@ -194835,7 +195159,7 @@
           "aliases": "cross-platform @agentskit/cross-platform package ownership"
         },
         "graph": {
-          "pagerank": 0.004143,
+          "pagerank": 0.004112,
           "inboundLinks": 11,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
@@ -194948,7 +195272,7 @@
           "aliases": "eval @agentskit/eval package ownership"
         },
         "graph": {
-          "pagerank": 0.007719,
+          "pagerank": 0.007661,
           "inboundLinks": 41,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
@@ -195335,7 +195659,7 @@
           "aliases": "ink @agentskit/ink package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 52,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/ink.mdx",
@@ -195700,7 +196024,7 @@
           "aliases": "integrations @agentskit/integrations package ownership"
         },
         "graph": {
-          "pagerank": 0.00318,
+          "pagerank": 0.003156,
           "inboundLinks": 18,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
@@ -195861,7 +196185,7 @@
           "aliases": "mcp @agentskit/mcp package ownership"
         },
         "graph": {
-          "pagerank": 0.00318,
+          "pagerank": 0.003156,
           "inboundLinks": 20,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
@@ -196028,7 +196352,7 @@
           "aliases": "memory @agentskit/memory package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/memory.mdx",
@@ -196453,7 +196777,7 @@
           "aliases": "net @agentskit/net package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 19,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
@@ -196610,11 +196934,11 @@
           "path": "packages/observability",
           "symbols": "",
           "summary": "consoleLogger(config?) — local dev logging.",
-          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - createInMemoryCostStore() — development and test store. recordCostSpend(store, { tenant, costUsd, usage? }) — reserve + commit for spend that already happened. monthlyWindowKey(date) — default window ( YYYY-MM , UTC). - @agentskit/observability/postgres — postgresCostStore({ db }) , postgresCostMigrationSql , and the Dr",
+          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - reservationTtlMs?: number on both store factories — a reservation neither committed nor released after this many ms stops counting against the cap and settles as released (late commit throws AK COST RESERVATION RELEASED ). Checked lazily on every store call; no job needed. Default: never expires. - createInMemoryCostSto",
           "aliases": "observability @agentskit/observability package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 52,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability.mdx",
@@ -196973,7 +197297,7 @@
           "aliases": "observability-langfuse @agentskit/observability-langfuse package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 8,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
@@ -197062,7 +197386,7 @@
           "aliases": "rag @agentskit/rag package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 49,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/rag.mdx",
@@ -197403,7 +197727,7 @@
           "aliases": "react @agentskit/react package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react.mdx",
@@ -197828,7 +198152,7 @@
           "aliases": "react-native @agentskit/react-native package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 35,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react-native.mdx",
@@ -198091,7 +198415,7 @@
           "aliases": "runtime @agentskit/runtime package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/runtime.mdx",
@@ -198516,7 +198840,7 @@
           "aliases": "sandbox @agentskit/sandbox package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 38,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
@@ -198791,7 +199115,7 @@
           "aliases": "skills @agentskit/skills package ownership"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 28,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
@@ -199006,7 +199330,7 @@
           "aliases": "solid @agentskit/solid package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 34,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/solid.mdx",
@@ -199257,7 +199581,7 @@
           "aliases": "statechart @agentskit/statechart package ownership"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 12,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/statechart.mdx",
@@ -199382,7 +199706,7 @@
           "aliases": "svelte @agentskit/svelte package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
@@ -199663,7 +199987,7 @@
           "aliases": "templates @agentskit/templates package ownership"
         },
         "graph": {
-          "pagerank": 0.004418,
+          "pagerank": 0.004385,
           "inboundLinks": 20,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/templates.mdx",
@@ -199830,7 +200154,7 @@
           "aliases": "tools @agentskit/tools package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 62,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
@@ -200255,7 +200579,7 @@
           "aliases": "validation @agentskit/validation package ownership"
         },
         "graph": {
-          "pagerank": 0.004005,
+          "pagerank": 0.003975,
           "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/validation.mdx",
@@ -200374,7 +200698,7 @@
           "aliases": "vue @agentskit/vue package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
@@ -200651,7 +200975,7 @@
           "aliases": "agentskit package"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 46,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
