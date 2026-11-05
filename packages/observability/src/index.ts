@@ -30,7 +30,7 @@ export type { TraceSpan, TraceTrackerCallbacks } from './trace-tracker'
 export { costGuard, priceFor, computeCost, DEFAULT_PRICES } from './cost-guard'
 export type { CostGuardOptions, TokenPrice, CostGuardErrorHandler, UnknownModelPolicy } from './cost-guard'
 
-export { createInMemoryCostStore, recordCostSpend, monthlyWindowKey, CostReservationError } from './cost-store'
+export { createInMemoryCostStore, recordCostSpend, monthlyWindowKey, monthlyWindowResetsAt, CostReservationError } from './cost-store'
 export type {
   CostStore,
   CostStoreOptions,

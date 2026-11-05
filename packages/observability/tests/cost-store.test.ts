@@ -5,6 +5,7 @@ import {
   createInMemoryCostStore,
   describeCostWindow,
   monthlyWindowKey,
+  monthlyWindowResetsAt,
   recordCostSpend,
   warnProcessLocalCostState,
 } from '../src/cost-store'
@@ -13,7 +14,7 @@ import { costStoreContract } from '../src/cost-store-contract'
 describe('createInMemoryCostStore', () => {
   it('passes the shared CostStore contract', async () => {
     const result = await costStoreContract(createInMemoryCostStore(), { tenantPrefix: 'memory' })
-    expect(Object.values(result)).toEqual(Array(6).fill('passed'))
+    expect(Object.values(result)).toEqual(Array(7).fill('passed'))
   })
 
   it('writes one ledger row per usage entry on the first commit only', async () => {
@@ -88,6 +89,46 @@ describe('createInMemoryCostStore', () => {
   it('rejects an invalid reservationTtlMs', () => {
     expect(() => createInMemoryCostStore({ reservationTtlMs: 0 })).toThrow(ConfigError)
     expect(() => createInMemoryCostStore({ reservationTtlMs: Number.NaN })).toThrow(ConfigError)
+  })
+
+  it('sums cents without floating-point drift up to the cap', async () => {
+    const store = createInMemoryCostStore()
+    await recordCostSpend(store, { tenant: 't', costUsd: 0.1 })
+    const reserved = await store.reserve({ tenant: 't', reservationId: 'r', amountUsd: 0.2, capUsd: 0.3 })
+    expect(reserved).toMatchObject({ ok: true, window: { spentUsd: 0.1, reservedUsd: 0.2, remainingUsd: 0, utilization: 1 } })
+    expect(describeCostWindow('t', 'w', 0.1, 0.2, 0.3)).toMatchObject({ remainingUsd: 0, utilization: 1 })
+  })
+
+  it('reports spent, reserved, cap, utilization, the configured warning and when the window resets', async () => {
+    const store = createInMemoryCostStore({ now: () => new Date('2026-12-15T08:00:00Z'), warnAtUtilization: 0.8 })
+    await recordCostSpend(store, { tenant: 't', costUsd: 0.6 })
+    expect(await store.window({ tenant: 't', capUsd: 1 })).toEqual({
+      tenant: 't', windowKey: '2026-12', spentUsd: 0.6, reservedUsd: 0, capUsd: 1, remainingUsd: 0.4, utilization: 0.6,
+      warnAtUtilization: 0.8, warning: false, resetsAt: '2027-01-01T00:00:00.000Z',
+    })
+    const held = await store.reserve({ tenant: 't', reservationId: 'r', amountUsd: 0.2, capUsd: 1 })
+    expect(held.window).toMatchObject({ utilization: 0.8, warning: true })
+    expect(await store.window({ tenant: 't', capUsd: 1, warnAtUtilization: 0.9 })).toMatchObject({ warnAtUtilization: 0.9, warning: false })
+    expect(await store.window({ tenant: 't' })).toMatchObject({ warnAtUtilization: 0.8, resetsAt: '2027-01-01T00:00:00.000Z' })
+    expect(await store.window({ tenant: 't' })).not.toHaveProperty('warning')
+  })
+
+  it('takes the reset instant from windowResetsAt with a custom window policy', async () => {
+    const now = () => new Date('2026-10-09T12:00:00Z')
+    const daily = createInMemoryCostStore({ now, windowKey: date => date.toISOString().slice(0, 10), windowResetsAt: key => new Date(Date.parse(`${key}T00:00:00Z`) + 86_400_000) })
+    expect(await daily.window({ tenant: 't' })).toMatchObject({ windowKey: '2026-10-09', resetsAt: '2026-10-10T00:00:00.000Z' })
+    const custom = createInMemoryCostStore({ now, windowKey: () => 'fixed' })
+    expect(await custom.window({ tenant: 't' })).not.toHaveProperty('resetsAt')
+    expect(monthlyWindowResetsAt('2026-10')?.toISOString()).toBe('2026-11-01T00:00:00.000Z')
+    expect(monthlyWindowResetsAt('2026-13')).toBeUndefined()
+    expect(monthlyWindowResetsAt('contract')).toBeUndefined()
+  })
+
+  it('rejects an invalid warnAtUtilization', async () => {
+    expect(() => createInMemoryCostStore({ warnAtUtilization: 0 })).toThrow(ConfigError)
+    const store = createInMemoryCostStore()
+    await expect(store.window({ tenant: 't', warnAtUtilization: Number.NaN })).rejects.toBeInstanceOf(ConfigError)
+    await expect(store.reserve({ tenant: 't', reservationId: 'r', amountUsd: 1, warnAtUtilization: -1 })).rejects.toBeInstanceOf(ConfigError)
   })
 
   it('keeps utilization finite for a zero cap', () => {
