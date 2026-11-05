@@ -9,8 +9,15 @@ import {
   type LocalStorageLike,
 } from '../src/index'
 
-let counter = 0
-const tmpPath = (): string => join(tmpdir(), `ak-kv-${process.pid}-${counter++}.json`)
+// Every test file lives inside a private directory created by mkdtemp (mode 0o700,
+// random suffix), so nothing is ever created directly in the shared os.tmpdir().
+const PRIVATE_FILE = { encoding: 'utf8', mode: 0o600 } as const
+const privateDir = (prefix = 'ak-kv-'): Promise<string> => mkdtemp(join(tmpdir(), prefix))
+const tmpPath = async (dirs: string[]): Promise<string> => {
+  const directory = await privateDir()
+  dirs.push(directory)
+  return join(directory, 'memory.json')
+}
 
 describe('createInMemoryStore', () => {
   it('round-trips and evicts by maxMessages', async () => {
@@ -49,11 +56,11 @@ describe('createFileStore', () => {
   })
 
   it('does not replace a corrupt regular file or leave a temp file on failed writes', async () => {
-    const directory = await mkdtemp(join(tmpdir(), 'ak-kv-'))
+    const directory = await privateDir()
     const path = join(directory, 'memory.json')
     paths.push(directory)
     const original = '{"broken":'
-    await writeFile(path, original, 'utf8')
+    await writeFile(path, original, PRIVATE_FILE)
     const store = createFileStore({ backend: 'file', path })
     await expect(store.get('broken')).rejects.toThrow()
     await expect(store.set('new', 'value')).rejects.toThrow()
@@ -62,11 +69,11 @@ describe('createFileStore', () => {
   })
 
   it('preserves valid sibling entries when atomic file replacement fails', async () => {
-    const directory = await mkdtemp(join(tmpdir(), 'ak-kv-'))
+    const directory = await privateDir()
     const path = join(directory, 'memory.json')
     paths.push(directory)
     const original = JSON.stringify({ keep: { value: 'unrelated', insertedAt: 1 } })
-    await writeFile(path, original, 'utf8')
+    await writeFile(path, original, PRIVATE_FILE)
     vi.resetModules()
     vi.doMock('node:fs/promises', async () => {
       const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
@@ -85,8 +92,7 @@ describe('createFileStore', () => {
   })
 
   it('persists across instances', async () => {
-    const path = tmpPath()
-    paths.push(path)
+    const path = await tmpPath(paths)
     const a = createFileStore({ backend: 'file', path })
     await a.set('x', { n: 1 })
     expect(a.id).toBe(`file:${path}`)
@@ -96,8 +102,7 @@ describe('createFileStore', () => {
   })
 
   it('serializes concurrent writes from multiple instances without stale snapshots', async () => {
-    const path = tmpPath()
-    paths.push(path)
+    const path = await tmpPath(paths)
     const a = createFileStore({ backend: 'file', path })
     const b = createFileStore({ backend: 'file', path })
     await Promise.all([a.set('a', 1), b.set('b', 2)])
@@ -106,11 +111,11 @@ describe('createFileStore', () => {
   })
 
   it('keeps an existing destination intact and removes the temp file when atomic rename fails', async () => {
-    const directory = await mkdtemp(join(tmpdir(), 'ak-kv-rename-'))
+    const directory = await privateDir('ak-kv-rename-')
     const path = join(directory, 'memory.json')
     paths.push(directory)
-    await mkdir(path, { recursive: true })
-    await writeFile(join(path, 'keep.txt'), 'existing destination', 'utf8')
+    await mkdir(path, { recursive: true, mode: 0o700 })
+    await writeFile(join(path, 'keep.txt'), 'existing destination', PRIVATE_FILE)
 
     const store = createFileStore({ backend: 'file', path })
     await expect(store.set('new', 'value')).rejects.toThrow()
@@ -126,16 +131,14 @@ describe('createFileStore', () => {
   })
 
   it('returns undefined for a missing file (ENOENT) and missing key', async () => {
-    const path = tmpPath()
-    paths.push(path)
+    const path = await tmpPath(paths)
     const s = createFileStore({ backend: 'file', path })
     expect(await s.get('absent')).toBeUndefined()
   })
 
   it('evicts by maxMessages and expires by ttl', async () => {
     vi.useFakeTimers()
-    const path = tmpPath()
-    paths.push(path)
+    const path = await tmpPath(paths)
     try {
       const s = createFileStore({ backend: 'file', path, maxMessages: 1, ttlSeconds: 1 })
       await s.set('a', 1)
@@ -170,8 +173,7 @@ describe('createLocalStorageStore', () => {
   })
 
   it('falls back to a file when no storage is available', async () => {
-    const filePath = tmpPath()
-    paths.push(filePath)
+    const filePath = await tmpPath(paths)
     const s = createLocalStorageStore({
       config: { backend: 'localstorage', key: 'mem' },
       storage: undefined,
