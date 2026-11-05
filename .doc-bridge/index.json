@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "325fba7af37ece8723ca6a2b934806cefd0b80c2ce27b9ae244d657d9276bacf",
+  "contentHash": "bcbe6b980bc7ef9b24e7a249317e0be03dbe28cc13e38731bf33cf66eaab8942",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-01T02:01:51.090Z",
+  "generatedAt": "2026-11-05T00:54:28.818Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -232,7 +232,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "4f40ddbaac82e38a451b0758f0eef3b7f3ad6532a4351b924e1659af3f650213"
+      "contentHash": "d856a274c1c6c1f0bc382428dee8af4573fc7282b75da14a34f8a7790a092c55"
     },
     {
       "id": "document:.agent-memory/project_file-size-baselines.md",
@@ -257,6 +257,18 @@
         "unclassified"
       ],
       "contentHash": "e6a58321159c8bb0e31547ef8c774d8233c65befc742994b1f2e49b7fdff2036"
+    },
+    {
+      "id": "document:.agent-memory/project_next16-fumadocs16-ts7.md",
+      "type": "document",
+      "title": "project_next16-fumadocs16-ts7.md",
+      "path": ".agent-memory/project_next16-fumadocs16-ts7.md",
+      "description": "As of 2026-10-29 all three sites (apps/docs-next, apps/landing, apps/registry) are on next ^16.4.2, fumadocs-core/ui ^16.17.7 and fumadocs-mdx ^15.4.9 (the major that fumadocs-core 16 requires; fumadocs-mdx majors are not aligned with core). The repo has no eslint-config-next (lint is tsc --noEmit), so there is nothing to align there.",
+      "tags": [
+        "document",
+        "unclassified"
+      ],
+      "contentHash": "cb5745960d393ebc325e36bd5fd3d55007869b0e29f2acff53e136750565cb32"
     },
     {
       "id": "document:.agent-memory/project_npm-publish-workspace-protocol.md",
@@ -27217,7 +27229,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "56b28f1a5a7381d565e5e798cb03f51fa1cd70afdfb677f481e54e6a9e80b7c1"
+      "contentHash": "c1cfcbeee97e1f6b66f69a600a5770cf8cc1905e3e21b8abca6034344791d86d"
     },
     {
       "id": "module:packages/memory/tests/redis.test.ts",
@@ -29620,7 +29632,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "214cffc48e9864534ff6a294fa0e6471f0eec087f5d30aee1d3558fae72a7fc2"
+      "contentHash": "0667e76dfe301b3f1507ff934523ec87680f314730b8982cdf488423ac29b6b1"
     },
     {
       "id": "module:packages/rag/tests/loaders-node.test.ts",
@@ -30011,6 +30023,22 @@
       "contentHash": "b9af7bf45d117ce55d11d5caea69b285e76529c3ab3ffad44c1384089e539d97"
     },
     {
+      "id": "module:packages/react/src/components/ConfirmUndoCard.tsx",
+      "type": "module",
+      "title": "ConfirmUndoCard.tsx",
+      "path": "packages/react/src/components/ConfirmUndoCard.tsx",
+      "symbols": [
+        "ConfirmUndoCard",
+        "ConfirmUndoCardProps"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "components"
+      ],
+      "contentHash": "22a60ab1dedeff89d78d6c4bb7edcc39771df964976e1101c734ccdbdb2c1470"
+    },
+    {
       "id": "module:packages/react/src/components/index.ts",
       "type": "module",
       "title": "index.ts",
@@ -30020,6 +30048,8 @@
         "ChatContainerProps",
         "CodeBlock",
         "CodeBlockProps",
+        "ConfirmUndoCard",
+        "ConfirmUndoCardProps",
         "InputBar",
         "InputBarProps",
         "Markdown",
@@ -30037,14 +30067,18 @@
         "TopologyGraphViewEdge",
         "TopologyGraphViewNode",
         "TopologyGraphViewProps",
-        "TopologyGraphViewSnapshot"
+        "TopologyGraphViewSnapshot",
+        "UsageMeter",
+        "UsageMeterProps",
+        "UsageMeterState",
+        "UsageMeterWindow"
       ],
       "tags": [
         "module",
         "ts",
         "components"
       ],
-      "contentHash": "0b3d654c85efa3a49aa3ce8e3011973f33666ecb4b3d9aaea9f3fa1b07ed0ce4"
+      "contentHash": "22bed82f5f964e830077fb0223fd6ea14b746f7e25c28645e4d1f4866652b892"
     },
     {
       "id": "module:packages/react/src/components/InputBar.tsx",
@@ -30163,6 +30197,24 @@
       "contentHash": "168f27ce463b0dc87ed517f34b1d2c3aa5ad05b2bc4d5f2b347cc1e8283213d1"
     },
     {
+      "id": "module:packages/react/src/components/UsageMeter.tsx",
+      "type": "module",
+      "title": "UsageMeter.tsx",
+      "path": "packages/react/src/components/UsageMeter.tsx",
+      "symbols": [
+        "UsageMeter",
+        "UsageMeterProps",
+        "UsageMeterState",
+        "UsageMeterWindow"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "components"
+      ],
+      "contentHash": "924a12568b893c5f4967fa7ac68aa93a344e20b81af7bc79364708db5f85e963"
+    },
+    {
       "id": "module:packages/react/src/index.ts",
       "type": "module",
       "title": "index.ts",
@@ -30180,6 +30232,8 @@
         "ChatState",
         "CodeBlock",
         "CodeBlockProps",
+        "ConfirmUndoCard",
+        "ConfirmUndoCardProps",
         "InputBar",
         "InputBarProps",
         "Markdown",
@@ -30215,6 +30269,10 @@
         "TopologyGraphViewNode",
         "TopologyGraphViewProps",
         "TopologyGraphViewSnapshot",
+        "UsageMeter",
+        "UsageMeterProps",
+        "UsageMeterState",
+        "UsageMeterWindow",
         "UseStreamOptions",
         "UseStreamReturn",
         "createChatController",
@@ -30231,7 +30289,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "04d3f7e27cf833e2ae92c2ff67e2cc0c50030c212dd58b999391d7d81936c90c"
+      "contentHash": "e6dc0dfc8c7d33a97ce7a202ad5a35a6fbcd6c83da5cee5845ba1736dfb4985d"
     },
     {
       "id": "module:packages/react/src/useChat.ts",
@@ -30303,6 +30361,19 @@
         "components"
       ],
       "contentHash": "fccd4fd4134e5c948f59cb32d891949dbed059213575685a8776b30d54669601"
+    },
+    {
+      "id": "module:packages/react/tests/components/ConfirmUndoCard.test.tsx",
+      "type": "module",
+      "title": "ConfirmUndoCard.test.tsx",
+      "path": "packages/react/tests/components/ConfirmUndoCard.test.tsx",
+      "tags": [
+        "module",
+        "tsx",
+        "test",
+        "components"
+      ],
+      "contentHash": "a373fa2ae9dc7cdefb776526b0b76d57926410316e6d5af558491372d5b68c1f"
     },
     {
       "id": "module:packages/react/tests/components/InputBar.test.tsx",
@@ -30394,6 +30465,19 @@
         "components"
       ],
       "contentHash": "5632fecc295a4b9eb167979b5b02c430c3443dee7bc0803bcec77eaaa17f41c0"
+    },
+    {
+      "id": "module:packages/react/tests/components/UsageMeter.test.tsx",
+      "type": "module",
+      "title": "UsageMeter.test.tsx",
+      "path": "packages/react/tests/components/UsageMeter.test.tsx",
+      "tags": [
+        "module",
+        "tsx",
+        "test",
+        "components"
+      ],
+      "contentHash": "8884aeb7d5eb64d2ec17a841c5ed8b6ba8a1bc928d4b84e7946a4973da843b8a"
     },
     {
       "id": "module:packages/react/tests/core/useChat.test.ts",
@@ -38879,8 +38963,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0fd45d9a56a05d901551710b4c6b79b519ae83e78d98004de2a9dcbf9170e34a",
-    "fileCount": 2662,
+    "hash": "8504bb664df46d52e1dd2c31812bcbfe2a192855d904b3d44cc552bfe452dd44",
+    "fileCount": 2667,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38902,9 +38986,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "d23c3fb0983d145e236062cae572c3b57090d4f471af4155d869e1251f6ffb74",
+    "contentHash": "ba6314baa4080ad25054257138002270568a5ff33a96126c6f1e4284ad63595a",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "4b2a2839ab3423e5274dbbc28f28c1d5f07758e665edd7da1d4ac1285cb789b7",
+    "snapshotHash": "dccdd705e2bf864558aeb1c67382f96809c96bd365cfce4caf7c756abb79a879",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38924,7 +39008,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2535,
+      "documentCount": 2540,
       "fieldNames": [
         "aliases",
         "body",
@@ -38935,13 +39019,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0169625246548324,
-        "body": 60.62169625246548,
-        "headings": 3.8808678500986193,
-        "path": 7.613412228796844,
-        "summary": 4.496252465483234,
-        "symbols": 7.5467455621301776,
-        "title": 3.371992110453649
+        "aliases": 3.017322834645669,
+        "body": 60.56811023622047,
+        "headings": 3.873228346456693,
+        "path": 7.615748031496063,
+        "summary": 4.50748031496063,
+        "symbols": 7.560236220472441,
+        "title": 3.3755905511811024
       }
     },
     "entries": [
@@ -41132,7 +41216,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "b72ffc014a064560afb1413e25f58c69b534a33ee1ec9f38fa9691715c37911c",
+        "contentHash": "3df68893286750e6835bc8429f04cc54bf5b187e8074384e3b928f327be1ef30",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -41621,7 +41705,7 @@
           "path": ".agent-memory/MEMORY.md",
           "symbols": "",
           "summary": "In-repo institutional memory, versioned with the code. One line per memory; the body of each fact lives in its own file. Agents read this index first.",
-          "body": "Agent Memory Index In-repo institutional memory, versioned with the code. One line per memory; the body of each fact lives in its own file. Agents read this index first. - project playbook-alignment — repo is audited against playbook.agentskit.io; what conforms and what is intentionally adapted - feedback json-schema-canonical — JSON Schema is the single schema source of truth; never add Zod as a parallel canonical - feedback zero-dep-core — @agentskit/core takes zero runtime deps; heavy deps go in opt-in packages behind injection points - reference quality-gates — the structural gates, where they live, and how baselines work - project v1-readiness — 2026-06-15 24-pkg v1.0 audit; Phase 0 (honest tiers + stability gates) landed; plan in docs/studies/v1-readiness-audit.md - project file-size-baselines — oversized files pinned in check-file-size; shrink-only, never raise - reference security-surfaces — egress (safeFetch, ADR-0010) + inbound chat-trigger validation (ADR-0011); both opt-in, reuse ArgsValidator - reference models-catalog — models.dev-driven catalog ( 911): /catalog subpath isolation, no-runtime-fetch default, opt-in live pricing fallback, openaiCompatible signal caveat - project npm-publish-workspace-protocol — release publishes via npm OIDC which does not rewrite workspace: ; publish-with-npm.mjs resolves ranges + packs-and-checks; pnpm check:publish-manifests guards it - reference cli-adapter-protocol-boundary — exec-text vs exec-json output boundary in adapters/cli; Claude Code needs the system prompt via --append-system-prompt ( claudeCodeRequestArgs ), never raw JSON or [system] blocks on stdin; claude-code-json is the structured Claude Code path - reference langchain-bridge — AdapterFactory→BaseChatModel bridge is the @agentskit/adapters/langchain-bridge subpath (optional @langchain/core peer), never a new package; must return real AIMessage instances - project ignored-package-changesets-block-release — changesets naming only ignored packages (docs-next) are never consumed and must not count as pending; preflight + release.yml filter via listReleasableChangesets ; recover with recover unpublished dispatch",
+          "body": "Agent Memory Index In-repo institutional memory, versioned with the code. One line per memory; the body of each fact lives in its own file. Agents read this index first. - project playbook-alignment — repo is audited against playbook.agentskit.io; what conforms and what is intentionally adapted - feedback json-schema-canonical — JSON Schema is the single schema source of truth; never add Zod as a parallel canonical - feedback zero-dep-core — @agentskit/core takes zero runtime deps; heavy deps go in opt-in packages behind injection points - reference quality-gates — the structural gates, where they live, and how baselines work - project v1-readiness — 2026-06-15 24-pkg v1.0 audit; Phase 0 (honest tiers + stability gates) landed; plan in docs/studies/v1-readiness-audit.md - project file-size-baselines — oversized files pinned in check-file-size; shrink-only, never raise - reference security-surfaces — egress (safeFetch, ADR-0010) + inbound chat-trigger validation (ADR-0011); both opt-in, reuse ArgsValidator - reference models-catalog — models.dev-driven catalog ( 911): /catalog subpath isolation, no-runtime-fetch default, opt-in live pricing fallback, openaiCompatible signal caveat - project npm-publish-workspace-protocol — release publishes via npm OIDC which does not rewrite workspace: ; publish-with-npm.mjs resolves ranges + packs-and-checks; pnpm check:publish-manifests guards it - reference cli-adapter-protocol-boundary — exec-text vs exec-json output boundary in adapters/cli; Claude Code needs the system prompt via --append-system-prompt ( claudeCodeRequestArgs ), never raw JSON or [system] blocks on stdin; claude-code-json is the structured Claude Code path - reference langchain-bridge — AdapterFactory→BaseChatModel bridge is the @agentskit/adapters/langchain-bridge subpath (optional @langchain/core peer), never a new package; must return real AIMessage instances - project ignored-package-changesets-block-release — changesets naming only ignored packages (docs-next) are never consumed and must not count as pending; preflight + release.yml filter via listReleasableChangesets ; recover with recover unpublished dispatch - project next16-fumadocs16-ts7 — sites already on Next 16 / Fumadocs 16; Next 16 does not block TypeScript 7 (still on 6.x)",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -41657,7 +41741,7 @@
             }
           ]
         },
-        "contentHash": "4f40ddbaac82e38a451b0758f0eef3b7f3ad6532a4351b924e1659af3f650213",
+        "contentHash": "d856a274c1c6c1f0bc382428dee8af4573fc7282b75da14a34f8a7790a092c55",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -41782,6 +41866,38 @@
           ]
         },
         "contentHash": "e6a58321159c8bb0e31547ef8c774d8233c65befc742994b1f2e49b7fdff2036",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:.agent-memory/project_next16-fumadocs16-ts7.md",
+        "kind": "document",
+        "path": ".agent-memory/project_next16-fumadocs16-ts7.md",
+        "title": "project_next16-fumadocs16-ts7.md",
+        "summary": "As of 2026-10-29 all three sites (apps/docs-next, apps/landing, apps/registry) are on next ^16.4.2, fumadocs-core/ui ^16.17.7 and fumadocs-mdx ^15.4.9 (the major that fumadocs-core 16 requires; fumadocs-mdx majors are not aligned with core). The repo has no eslint-config-next (lint is tsc --noEmit), so there is nothing to align there.",
+        "aliases": [],
+        "tags": [
+          "document",
+          "unclassified"
+        ],
+        "fields": {
+          "title": "project_next16-fumadocs16-ts7.md",
+          "headings": "",
+          "path": ".agent-memory/project_next16-fumadocs16-ts7.md",
+          "symbols": "",
+          "summary": "As of 2026-10-29 all three sites (apps/docs-next, apps/landing, apps/registry) are on next ^16.4.2, fumadocs-core/ui ^16.17.7 and fumadocs-mdx ^15.4.9 (the major that fumadocs-core 16 requires; fumadocs-mdx majors are not aligned with core). The repo has no eslint-config-next (lint is tsc --noEmit), so there is nothing to align there.",
+          "body": "As of 2026-10-29 all three sites (apps/docs-next, apps/landing, apps/registry) are on next ^16.4.2, fumadocs-core/ui ^16.17.7 and fumadocs-mdx ^15.4.9 (the major that fumadocs-core 16 requires; fumadocs-mdx majors are not aligned with core). The repo has no eslint-config-next (lint is tsc --noEmit ), so there is nothing to align there. TypeScript 7 ( latest = 7.0.2 on npm): Next 16.4 declares no typescript peer, and fumadocs-mdx peers do not constrain it, so Next 16 / Fumadocs 16 are NOT blockers for TS 7. The repo is still on ^6.0.3 everywhere; the TS 7 bump is a separate task (check tsup dts build and tooling first). Why: ticket 1872 asked to record whether Next 16 unblocks TS 7. How to apply: do not re-migrate Next/Fumadocs; open the TS 7 work as its own ticket.",
+          "aliases": "document unclassified"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "cb5745960d393ebc325e36bd5fd3d55007869b0e29f2acff53e136750565cb32",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -53350,7 +53466,7 @@
           "path": "apps/docs-next/content/docs/for-agents/react.mdx",
           "symbols": "",
           "summary": "`useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming.",
-          "body": "Purpose useChat hook returning ChatReturn (state + actions) + headless components with data-ak- attributes for theming. Install Primary exports - useChat(config): ChatReturn — shared state/action contract with the other framework bindings. - useStream(source) — low-level streaming hook for any AsyncIterable<StreamChunk . - useReactive(controller) — reactive state adapter when you already hold a controller. - <ChatContainer , <Message , <InputBar , <ToolCallView , <ToolConfirmation , <ThinkingIndicator , <CodeBlock , <Markdown . - <TopologyGraphView — render a multi-agent topology snapshot (nodes + edges) as SVG. - Re-exports createChatController , all @agentskit/core types, and helpers. - @agentskit/react/theme — CSS variable theme. Minimal example Related frameworks (shared state/action contract) - - - - - - Source - npm: https://www.npmjs.com/package/@agentskit/react - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/react",
+          "body": "Purpose useChat hook returning ChatReturn (state + actions) + headless components with data-ak- attributes for theming. Install Primary exports - useChat(config): ChatReturn — shared state/action contract with the other framework bindings. - useStream(source) — low-level streaming hook for any AsyncIterable<StreamChunk . - useReactive(controller) — reactive state adapter when you already hold a controller. - <ChatContainer , <Message , <InputBar , <ToolCallView , <ToolConfirmation , <ConfirmUndoCard (approve/deny, then time-limited undo), <UsageMeter (cost-window usage bar; warning at 80%, out at 100%), <ThinkingIndicator , <CodeBlock , <Markdown . - <TopologyGraphView — render a multi-agent topology snapshot (nodes + edges) as SVG. - Re-exports createChatController , all @agentskit/core types, and helpers. - @agentskit/react/theme — CSS variable theme. Minimal example Related frameworks (shared state/action contract) - - - - - - Source - npm: https://www.npmjs.com/package/@agentskit/react - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/react",
           "aliases": "react document agent"
         },
         "graph": {
@@ -53412,7 +53528,7 @@
             }
           ]
         },
-        "contentHash": "33620810895fcbd82e063f99c2f9016ab090f8078d9d8357e8023d803244e4be",
+        "contentHash": "7a7e61658f23cc80a6427211f65f50340e0b63b11a4a9593dd519078f65540c9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -155814,7 +155930,7 @@
             }
           ]
         },
-        "contentHash": "56b28f1a5a7381d565e5e798cb03f51fa1cd70afdfb677f481e54e6a9e80b7c1",
+        "contentHash": "c1cfcbeee97e1f6b66f69a600a5770cf8cc1905e3e21b8abca6034344791d86d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -164743,7 +164859,7 @@
             }
           ]
         },
-        "contentHash": "214cffc48e9864534ff6a294fa0e6471f0eec087f5d30aee1d3558fae72a7fc2",
+        "contentHash": "0667e76dfe301b3f1507ff934523ec87680f314730b8982cdf488423ac29b6b1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -165885,6 +166001,55 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/react/src/components/ConfirmUndoCard.tsx",
+        "kind": "module",
+        "path": "packages/react/src/components/ConfirmUndoCard.tsx",
+        "title": "ConfirmUndoCard.tsx",
+        "aliases": [],
+        "symbols": [
+          "ConfirmUndoCard",
+          "ConfirmUndoCardProps"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "components"
+        ],
+        "fields": {
+          "title": "ConfirmUndoCard.tsx",
+          "headings": "",
+          "path": "packages/react/src/components/ConfirmUndoCard.tsx",
+          "symbols": "ConfirmUndoCard ConfirmUndoCardProps",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx components"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/react/src/components",
+          "packageId": "package:@agentskit/react",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/react/tests/components/ConfirmUndoCard.test.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/react/src/components/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "22a60ab1dedeff89d78d6c4bb7edcc39771df964976e1101c734ccdbdb2c1470",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/react/src/components/index.ts",
         "kind": "module",
         "path": "packages/react/src/components/index.ts",
@@ -165895,6 +166060,8 @@
           "ChatContainerProps",
           "CodeBlock",
           "CodeBlockProps",
+          "ConfirmUndoCard",
+          "ConfirmUndoCardProps",
           "InputBar",
           "InputBarProps",
           "Markdown",
@@ -165912,7 +166079,11 @@
           "TopologyGraphViewEdge",
           "TopologyGraphViewNode",
           "TopologyGraphViewProps",
-          "TopologyGraphViewSnapshot"
+          "TopologyGraphViewSnapshot",
+          "UsageMeter",
+          "UsageMeterProps",
+          "UsageMeterState",
+          "UsageMeterWindow"
         ],
         "tags": [
           "module",
@@ -165923,7 +166094,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/react/src/components/index.ts",
-          "symbols": "ChatContainer ChatContainerProps CodeBlock CodeBlockProps InputBar InputBarProps Markdown MarkdownProps Message MessageProps ThinkingIndicator ThinkingIndicatorProps ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationProps TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot",
+          "symbols": "ChatContainer ChatContainerProps CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps Message MessageProps ThinkingIndicator ThinkingIndicatorProps ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationProps TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow",
           "summary": "",
           "body": "",
           "aliases": "module ts components"
@@ -165951,6 +166122,11 @@
             {
               "kind": "re-exports",
               "id": "module:packages/react/src/components/CodeBlock.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/react/src/components/ConfirmUndoCard.tsx",
               "confidence": "observed"
             },
             {
@@ -165987,10 +166163,15 @@
               "kind": "re-exports",
               "id": "module:packages/react/src/components/TopologyGraphView.tsx",
               "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/react/src/components/UsageMeter.tsx",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "0b3d654c85efa3a49aa3ce8e3011973f33666ecb4b3d9aaea9f3fa1b07ed0ce4",
+        "contentHash": "22bed82f5f964e830077fb0223fd6ea14b746f7e25c28645e4d1f4866652b892",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166342,6 +166523,57 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/react/src/components/UsageMeter.tsx",
+        "kind": "module",
+        "path": "packages/react/src/components/UsageMeter.tsx",
+        "title": "UsageMeter.tsx",
+        "aliases": [],
+        "symbols": [
+          "UsageMeter",
+          "UsageMeterProps",
+          "UsageMeterState",
+          "UsageMeterWindow"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "components"
+        ],
+        "fields": {
+          "title": "UsageMeter.tsx",
+          "headings": "",
+          "path": "packages/react/src/components/UsageMeter.tsx",
+          "symbols": "UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx components"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/react/src/components",
+          "packageId": "package:@agentskit/react",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/react/tests/components/UsageMeter.test.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/react/src/components/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "924a12568b893c5f4967fa7ac68aa93a344e20b81af7bc79364708db5f85e963",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/react/src/index.ts",
         "kind": "module",
         "path": "packages/react/src/index.ts",
@@ -166360,6 +166592,8 @@
           "ChatState",
           "CodeBlock",
           "CodeBlockProps",
+          "ConfirmUndoCard",
+          "ConfirmUndoCardProps",
           "InputBar",
           "InputBarProps",
           "Markdown",
@@ -166395,6 +166629,10 @@
           "TopologyGraphViewNode",
           "TopologyGraphViewProps",
           "TopologyGraphViewSnapshot",
+          "UsageMeter",
+          "UsageMeterProps",
+          "UsageMeterState",
+          "UsageMeterWindow",
           "UseStreamOptions",
           "UseStreamReturn",
           "createChatController",
@@ -166415,7 +166653,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/react/src/index.ts",
-          "symbols": "AdapterContext AdapterFactory AdapterRequest ChatConfig ChatContainer ChatContainerProps ChatController ChatMemory ChatReturn ChatState CodeBlock CodeBlockProps InputBar InputBarProps Markdown MarkdownProps MaybePromise MemoryRecord Message MessageProps MessageRole MessageStatus MessageType RetrievedDocument Retriever RetrieverRequest StreamChunk StreamSource StreamStatus StreamToolCallPayload ThinkingIndicator ThinkingIndicatorProps ToolCall ToolCallHandlerContext ToolCallStatus ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationProps ToolDefinition ToolExecutionContext TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UseStreamOptions UseStreamReturn createChatController createInMemoryMemory createLocalStorageMemory createStaticRetriever formatRetrievedDocuments useChat useReactive useStream",
+          "symbols": "AdapterContext AdapterFactory AdapterRequest ChatConfig ChatContainer ChatContainerProps ChatController ChatMemory ChatReturn ChatState CodeBlock CodeBlockProps ConfirmUndoCard ConfirmUndoCardProps InputBar InputBarProps Markdown MarkdownProps MaybePromise MemoryRecord Message MessageProps MessageRole MessageStatus MessageType RetrievedDocument Retriever RetrieverRequest StreamChunk StreamSource StreamStatus StreamToolCallPayload ThinkingIndicator ThinkingIndicatorProps ToolCall ToolCallHandlerContext ToolCallStatus ToolCallView ToolCallViewProps ToolConfirmation ToolConfirmationProps ToolDefinition ToolExecutionContext TopologyGraphSource TopologyGraphView TopologyGraphViewEdge TopologyGraphViewNode TopologyGraphViewProps TopologyGraphViewSnapshot UsageMeter UsageMeterProps UsageMeterState UsageMeterWindow UseStreamOptions UseStreamReturn createChatController createInMemoryMemory createLocalStorageMemory createStaticRetriever formatRetrievedDocuments useChat useReactive useStream",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -166456,7 +166694,7 @@
             }
           ]
         },
-        "contentHash": "04d3f7e27cf833e2ae92c2ff67e2cc0c50030c212dd58b999391d7d81936c90c",
+        "contentHash": "e6dc0dfc8c7d33a97ce7a202ad5a35a6fbcd6c83da5cee5845ba1736dfb4985d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166711,6 +166949,46 @@
           ]
         },
         "contentHash": "fccd4fd4134e5c948f59cb32d891949dbed059213575685a8776b30d54669601",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/react/tests/components/ConfirmUndoCard.test.tsx",
+        "kind": "module",
+        "path": "packages/react/tests/components/ConfirmUndoCard.test.tsx",
+        "title": "ConfirmUndoCard.test.tsx",
+        "aliases": [],
+        "tags": [
+          "module",
+          "tsx",
+          "test",
+          "components"
+        ],
+        "fields": {
+          "title": "ConfirmUndoCard.test.tsx",
+          "headings": "",
+          "path": "packages/react/tests/components/ConfirmUndoCard.test.tsx",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx test components"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/react",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/react/src/components/ConfirmUndoCard.tsx",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a373fa2ae9dc7cdefb776526b0b76d57926410316e6d5af558491372d5b68c1f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166991,6 +167269,46 @@
           ]
         },
         "contentHash": "5632fecc295a4b9eb167979b5b02c430c3443dee7bc0803bcec77eaaa17f41c0",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/react/tests/components/UsageMeter.test.tsx",
+        "kind": "module",
+        "path": "packages/react/tests/components/UsageMeter.test.tsx",
+        "title": "UsageMeter.test.tsx",
+        "aliases": [],
+        "tags": [
+          "module",
+          "tsx",
+          "test",
+          "components"
+        ],
+        "fields": {
+          "title": "UsageMeter.test.tsx",
+          "headings": "",
+          "path": "packages/react/tests/components/UsageMeter.test.tsx",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx test components"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/react",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/react/src/components/UsageMeter.tsx",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "8884aeb7d5eb64d2ec17a841c5ed8b6ba8a1bc928d4b84e7946a4973da843b8a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193954,7 +194272,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "d1db49c45a02118ba38ecccc92c5af2c7940b495fa97051976e3516600a8df27",
+        "contentHash": "a696f289bfbd952df38dd164925ca2f9a0186c3493d290efbe8a63e2ad6c8e97",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "adapters"
@@ -194217,7 +194535,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "ebe491960b5b404df093a23c11a374037462843be12620a1081f1791eb455baa",
+        "contentHash": "805925d9d0c597fcb7b60121313a9611556396e54898d00084392b97d9f742d4",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "angular"
@@ -194414,7 +194732,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c7a0860de93e899b2d7336c2bc2f8b6ad8071d7342f5f26b5eab0f992a0755d5",
+        "contentHash": "cf2ee6001a81836b9a0b84959bf36618c7ab32fb19efc53bc73914add6bb3057",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "cli"
@@ -194839,7 +195157,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "db69a4926d0b6d15cd108e12e3abef2b613481af389d882930e4f098bf0f165b",
+        "contentHash": "dbdeb1feb23f38b19dcbecdeb4729dff6eda8e72659c0eb406ddd47a3adfce06",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "core"
@@ -194946,7 +195264,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4a615cd9da86a35f3f04042a60fe04bbc7c0de01a6d2b7b76c5863a42e448bab",
+        "contentHash": "e2bc74131beff19d9e865517fdc47269dd2242728428e035ab856e28d3fd81b7",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "cross-platform"
@@ -195245,7 +195563,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "86cd126a128ad9cd1dcc0d0e62c90f382bc5385be7d715c277df7ffddcc4c25f",
+        "contentHash": "6ff825435551944ed6f88c22dcd7452b7bc0397182b73fdb54e8b0360bf66902",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "eval"
@@ -195327,7 +195645,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a05693d82d40f58ec5c20b306a4c4ae50d2f2847d76960954aee60139d0bd86e",
+        "contentHash": "84ef8a37d174aaa3933a9b8759d6ed3b646bbd1c2696b9834e1830c90909b7df",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "eval-braintrust"
@@ -195686,7 +196004,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "6d168878637dbd6b3351a3d08b08b579eb2071550a017cb17f9ada40bc96d303",
+        "contentHash": "d1f76288fa421fb92d9f4ee136e53eab45be77cfa4d7ac5e34847d988e62bf56",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "ink"
@@ -195841,7 +196159,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4e429d391602daeb9ae0d0cc83fb4723c892d04e41c5fa719690cddb0426e52d",
+        "contentHash": "b55f43f6eb1fa79b728e6bcd8f265a0d20780fa256a4a63307c11ff77960ca22",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "integrations"
@@ -196002,7 +196320,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "7c7bcb1b58d2d51d3c8365350f6bf7594d600db4e06aa41ce9bb077f0461b9bb",
+        "contentHash": "161de7ff9e36030cde95415cf9ecec435350d446c9813b7731ae331d7c24f5ef",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "mcp"
@@ -196427,7 +196745,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f34168846ba12dc064405ffce4f3232b858d69f1b728192827cba12ba808f280",
+        "contentHash": "d9ff2b1b2e149e3e6358e6704e41378795e4851c89c7f9e5cfdc9fc7ff209225",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "memory"
@@ -196582,7 +196900,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3e6d5878681a72ff67d628447aaa8148ee96c4c8fec8582e51f8dc908b4f64eb",
+        "contentHash": "aaf7314c12ad0eea1392151643205e9232c542f338585f7eaaaa1c9b90e3cf2d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "net"
@@ -196941,7 +197259,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "11b44e155869857828d6b919e51d22ab6bc36e47dec6ce452a3d540909582a0a",
+        "contentHash": "88158840d0db94959f601dd7d20f44bfbbb45891e4550de06fbce3eeb9478b9e",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "observability"
@@ -197030,7 +197348,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "e0d0e704c2064c0c4d8a3efde8e736bc8fbddae5035a3659a8554c205765d40f",
+        "contentHash": "49efcd22ff1205ed3c11384349ef7c1b90a0e5be2999dd6638c7a6ca30abe301",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "observability-langfuse"
@@ -197365,7 +197683,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "cb6cea5f305d3e673ca303e66b539e8abc1d8c91e29728e2ffbbe6b658bdb154",
+        "contentHash": "5873c64995e8bd27ac99b80c4b93803134dccf26bb304cba5a1765653a8f02d5",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "rag"
@@ -197391,7 +197709,7 @@
           "path": "packages/react",
           "symbols": "",
           "summary": "`useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming.",
-          "body": "Purpose useChat hook returning ChatReturn (state + actions) + headless components with data-ak- attributes for theming. Install Primary exports - useChat(config): ChatReturn — shared state/action contract with the other framework bindings. - useStream(source) — low-level streaming hook for any AsyncIterable<StreamChunk . - useReactive(controller) — reactive state adapter when you already hold a controller. - <ChatContainer , <Message , <InputBar , <ToolCallView , <ToolConfirmation , <ThinkingIndicator , <CodeBlock , <Markdown . - <TopologyGraphView — render a multi-agent topology snapshot (nodes + edges) as SVG. - Re-exports createChatController , all @agentskit/core types, and helpers. - @agentskit/react/theme — CSS variable theme. Minimal example Related frameworks (shared state/action contract) - - - - - - Source - npm: https://www.npmjs.com/package/@agentskit/react - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/react",
+          "body": "Purpose useChat hook returning ChatReturn (state + actions) + headless components with data-ak- attributes for theming. Install Primary exports - useChat(config): ChatReturn — shared state/action contract with the other framework bindings. - useStream(source) — low-level streaming hook for any AsyncIterable<StreamChunk . - useReactive(controller) — reactive state adapter when you already hold a controller. - <ChatContainer , <Message , <InputBar , <ToolCallView , <ToolConfirmation , <ConfirmUndoCard (approve/deny, then time-limited undo), <UsageMeter (cost-window usage bar; warning at 80%, out at 100%), <ThinkingIndicator , <CodeBlock , <Markdown . - <TopologyGraphView — render a multi-agent topology snapshot (nodes + edges) as SVG. - Re-exports createChatController , all @agentskit/core types, and helpers. - @agentskit/react/theme — CSS variable theme. Minimal example Related frameworks (shared state/action contract) - - - - - - Source - npm: https://www.npmjs.com/package/@agentskit/react - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/react",
           "aliases": "react @agentskit/react package ownership"
         },
         "graph": {
@@ -197790,7 +198108,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "0253217e004eef164f380e52b2ba397ffc1a46e43e528eda38f6ff9f30b85e90",
+        "contentHash": "8880f866460ea48d01211da638c9bfd85f30a028f6c0f4c101ed172af0461b5c",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react"
@@ -198047,7 +198365,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "6ded3c44eafa2ed0c9f389db2d78c480d6d24c23ffa0b5686d897939129b227d",
+        "contentHash": "0afb6f21e9544e62ea4da4bae574aeb508823cfeca28a342fc750ec8c2981fdc",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react-native"
@@ -198472,7 +198790,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "31104c4a496c7c3761ecf5f051ff9af375f3e18702a29d0d91ca32f7e6b6dc5f",
+        "contentHash": "fb34b9938fff4dde5c28f4916fa0783e0ce32c9a4f9e54606f7c808d98376d3d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "runtime"
@@ -198741,7 +199059,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "849841bb0077a33f24b499743a72fe9292e42e2daf225fcd96ad380660495747",
+        "contentHash": "434df45ffaef0b5e71f4a94c27f59ca29c6c399a691e1a49ab0ae43146d84a67",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "sandbox"
@@ -198950,7 +199268,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3b1c56d27da002aa2fc43b5bcbcf081e6b8a6c5b0f54f15f223b827cff1c247e",
+        "contentHash": "499e97604cf06ab79a9461c25e2d21d804901692df763b8faadfec4e19c997fe",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "skills"
@@ -199195,7 +199513,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "b7d52462c1447335ba0a4ff29cb238958d6e1a3a80dd6d743c63d16b4733ddd8",
+        "contentHash": "6eaedda036d3b00edcaca43a2e018dda04fc7d62b32407868146f6e3f7ef49b0",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "solid"
@@ -199314,7 +199632,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "e734a2252e33fb1249154e7fd29ccdfd6ca315d17546e2ac2c698b932a0f8ece",
+        "contentHash": "cf37584e50a923cc328d83814689e430ea67793c864a96ee89f0a5e8b1a61b14",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "statechart"
@@ -199589,7 +199907,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "8066dab80666e505cb00ee39cc68ebe47dffb0db05011b194fe3d3f6a066dbbd",
+        "contentHash": "a016c934f5a16c74bc9ecbdede371df47ee3e2d3c7051ae49eba7acd2c5b9547",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "svelte"
@@ -199750,7 +200068,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f965b52f4b256259b20060f5909de3235be8a50f19e9c9e1788a294a530fe10e",
+        "contentHash": "98b26874e5773f77a719c1eb8ce1b284971c56331eac048099d775cb8cef97cd",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "templates"
@@ -200175,7 +200493,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "231037b435459a5e8c85e18858201389e20b0ac8545ea47b6265a83f619ddb9f",
+        "contentHash": "8150bb0cba41e9a1ff53fa401de6d8c97c26a7e8dd25d4ec2bd6c90cde6e6ef3",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "tools"
@@ -200294,7 +200612,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f04d0b0bfe3ad21141fb28860b9b6d1f6d91aea8d525772e98f357f73cf521f2",
+        "contentHash": "02437b22ec1788b7abee17f9137bff285134989362b67aad8088c3e747c08269",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "validation"
@@ -200569,7 +200887,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "7df80cd457b4152609a799033c0851820f66cd5772b68771f8d9d7cf1a0e632d",
+        "contentHash": "4ae700ee8de02f031149d1f5e381b96bf9e0642aa336482ea7c423e4128f833f",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "vue"
@@ -200882,7 +201200,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4152810dd79404c1c63aaa26d7f134b89364a59bbe6e73929d920373bf4e87cf",
+        "contentHash": "775e0ad05dd25bd4c1fb81feb14a464bcbc6dee2998c2c18968e99645ac49f0c",
         "provenance": "observed",
         "confidence": "observed"
       }
