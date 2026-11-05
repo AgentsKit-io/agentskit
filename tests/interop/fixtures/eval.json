@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "kind": "eval",
+  "canonicalSha256": "ad9c63e7779e8948f3dca92043a12e0f3e1fbcdd40ec873e07b0ad1e145296d2",
+  "valid": [
+    {
+      "name": "result-record",
+      "value": {
+        "caseSetDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "metrics": {
+          "accuracy": 0.5,
+          "counts": {
+            "fn": 0,
+            "fp": 1,
+            "tp": 1
+          }
+        },
+        "runnerVersion": "1.0.0",
+        "subject": {
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "revision": "rev-1"
+        },
+        "suiteId": "weather-baseline",
+        "timestamp": "2026-01-15T10:00:00.000Z",
+        "digest": "5f723b9304eb650bdf67fce288080a3e68ee24f8d570aa71114ed945aed87b56"
+      }
+    },
+    {
+      "name": "run-result",
+      "value": {
+        "evalFormatVersion": "2026-04",
+        "suite": "weather-baseline",
+        "startedAt": "2026-01-15T10:00:00.000Z",
+        "completedAt": "2026-01-15T10:00:02.000Z",
+        "agent": {
+          "name": "demo",
+          "version": "1.0.0"
+        },
+        "cases": [
+          {
+            "id": "c1",
+            "input": "Weather in Lisbon?",
+            "output": "21C",
+            "passed": true,
+            "latencyMs": 800
+          },
+          {
+            "id": "c2",
+            "input": "Weather in ?",
+            "output": "",
+            "passed": false,
+            "latencyMs": 40,
+            "error": "city must not be empty"
+          }
+        ],
+        "totals": {
+          "cases": 2,
+          "passed": 1,
+          "failed": 1,
+          "accuracy": 0.5
+        }
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "record-tampered-metrics",
+      "value": {
+        "caseSetDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "metrics": {
+          "accuracy": 1
+        },
+        "runnerVersion": "1.0.0",
+        "subject": {
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "revision": "rev-1"
+        },
+        "suiteId": "weather-baseline",
+        "timestamp": "2026-01-15T10:00:00.000Z",
+        "digest": "5f723b9304eb650bdf67fce288080a3e68ee24f8d570aa71114ed945aed87b56"
+      }
+    },
+    {
+      "name": "run-totals-mismatch",
+      "value": {
+        "evalFormatVersion": "2026-04",
+        "suite": "weather-baseline",
+        "startedAt": "2026-01-15T10:00:00.000Z",
+        "completedAt": "2026-01-15T10:00:02.000Z",
+        "agent": {
+          "name": "demo",
+          "version": "1.0.0"
+        },
+        "cases": [
+          {
+            "id": "c1",
+            "input": "Weather in Lisbon?",
+            "output": "21C",
+            "passed": true,
+            "latencyMs": 800
+          },
+          {
+            "id": "c2",
+            "input": "Weather in ?",
+            "output": "",
+            "passed": false,
+            "latencyMs": 40,
+            "error": "city must not be empty"
+          }
+        ],
+        "totals": {
+          "cases": 2,
+          "passed": 2,
+          "failed": 0,
+          "accuracy": 1
+        }
+      }
+    }
+  ]
+}
