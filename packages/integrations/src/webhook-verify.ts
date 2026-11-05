@@ -113,6 +113,7 @@ export function verifyDiscord(input: WebhookInput): VerifyResult {
 
 /** Telegram: compare the configured secret token with the webhook header. */
 export function verifyTelegram(input: WebhookInput): VerifyResult {
+  if (!input.secret) return { ok: false, reason: 'empty secret' }
   const token = headerValue(input.headers, 'x-telegram-bot-api-secret-token')
   if (token === undefined) return { ok: false, reason: 'missing x-telegram-bot-api-secret-token' }
   return safeEqual(token, input.secret)
@@ -124,4 +125,26 @@ export function verifyTelegram(input: WebhookInput): VerifyResult {
  *  of the raw body (Linear `linear-signature`, Sentry `sentry-hook-signature`). */
 export function verifyHmacSha256Bare(input: WebhookInput, headerName: string): VerifyResult {
   return verifyHmacSha256Body(input, headerName, '')
+}
+
+const SVIX_REPLAY_WINDOW_SECONDS = 300
+
+/** Svix (Resend webhooks): `svix-signature: v1,<b64>[ v1,<b64>]` over `${id}.${ts}.${body}`;
+ *  `secret` is the `whsec_<base64>` signing secret. */
+export function verifySvix(input: WebhookInput): VerifyResult {
+  const id = headerValue(input.headers, 'svix-id')
+  const ts = headerValue(input.headers, 'svix-timestamp')
+  const header = headerValue(input.headers, 'svix-signature')
+  if (id === undefined || ts === undefined || header === undefined) return { ok: false, reason: 'missing svix headers' }
+  const tsInt = Number(ts)
+  if (!Number.isSafeInteger(tsInt) || tsInt < 0) return { ok: false, reason: 'invalid timestamp' }
+  const now = input.nowSeconds ?? Math.floor(Date.now() / 1000)
+  if (Math.abs(now - tsInt) > SVIX_REPLAY_WINDOW_SECONDS) return { ok: false, reason: 'timestamp outside replay window' }
+  const key = Buffer.from(input.secret.startsWith('whsec_') ? input.secret.slice(6) : input.secret, 'base64')
+  const expected = createHmac('sha256', key).update(`${id}.${ts}.${input.rawBody}`).digest('base64')
+  const candidates = header.split(' ').filter((s) => s.startsWith('v1,')).map((s) => s.slice(3))
+  if (candidates.length === 0) return { ok: false, reason: 'no v1 signature in header' }
+  return candidates.some((c) => safeEqual(c, expected))
+    ? { ok: true }
+    : { ok: false, reason: 'signature mismatch' }
 }

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "fdb580f1528998c1999bdda6232bcab3529dd888bad3f28f886d1db4545e458b",
+  "contentHash": "1d8c76e8c94ca8a23b294d8aae8d03c12016b7e501f04c036e8bc8bb80ea645d",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-04T17:45:57.521Z",
+  "generatedAt": "2026-11-05T07:34:08.024Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5166,6 +5166,18 @@
       "contentHash": "999a601feb5663df9c88719f4a7c354efc2dad3a1439d204afe61174dc3dcd02"
     },
     {
+      "id": "document:apps/example-channels/README.md",
+      "type": "document",
+      "title": "@agentskit/example-channels",
+      "path": "apps/example-channels/README.md",
+      "description": "Connects a conversation channel (Telegram here; WhatsApp Cloud API, Slack and email via Resend work the same) to an AgentsKit runtime agent using @agentskit/integrations channels.",
+      "tags": [
+        "document",
+        "project"
+      ],
+      "contentHash": "fc3cdaa628e44b2465aa5622ecc154fbc5b33e628fb499370b794710373638af"
+    },
+    {
       "id": "document:apps/example-discord-bot/README.md",
       "type": "document",
       "title": "@agentskit/example-discord-bot",
@@ -5307,7 +5319,7 @@
         "document",
         "project"
       ],
-      "contentHash": "b149b8804e108fcaafe2d9e01b8d571f82403866d56877777e153b943e8a3b58"
+      "contentHash": "5b8b6cc78a02a256abcf84fa1cf0ea7cc9855877b6dda3ae01b8ded6d925475d"
     },
     {
       "id": "document:apps/example-slack-bot/README.md",
@@ -5559,7 +5571,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "7524efaf42557b2fa5dc0a4ce9a661d3d7c73dcaeaa7e49e2b02351f00e4a79a"
+      "contentHash": "01cc689a9630d4ed263a3e548868b21e4c8ed0f4013b3f87773d1aa8659d0660"
     },
     {
       "id": "document:artifacts/ecosystem-readiness/latest.md",
@@ -6101,6 +6113,18 @@
       "contentHash": "aaa3a6f72dd768f75cdf1a77a10f8263d16a4c05896d54646d84fa3d4a488d36"
     },
     {
+      "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+      "type": "document",
+      "title": "ADR 0045 — Interoperability charter",
+      "path": "docs/architecture/adrs/0045-interoperability-charter.md",
+      "description": "Status: Proposed",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "a92829c83f80e86e40e189f4dbbddfb819d3a5b3c4b238b41fa188022c4254db"
+    },
+    {
       "id": "document:docs/architecture/adrs/README.md",
       "type": "document",
       "title": "Architecture Decision Records (ADRs)",
@@ -6110,7 +6134,7 @@
         "document",
         "human"
       ],
-      "contentHash": "2bbd8aa572d63a9bd4b3a781597ef5181427c1a91ed34f5f18e88e5b3c720451"
+      "contentHash": "9049cc374e83f3b0e077f9e4220c0dc0c63327d2332df15a991b891c228b0cea"
     },
     {
       "id": "document:docs/architecture/ecosystem-manifest.md",
@@ -11866,6 +11890,47 @@
       "contentHash": "4e3ab7850a23ef0d072c80a032eed0f65c7bc299a1cff80d117a5aac9c160ceb"
     },
     {
+      "id": "module:apps/example-channels/src/app.ts",
+      "type": "module",
+      "title": "app.ts",
+      "path": "apps/example-channels/src/app.ts",
+      "symbols": [
+        "createChannelApp",
+        "demoAdapter"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "b9203aae758c2570b175f0ebdb13a0a3da0e78fb1e992d538520750dbef401e7"
+    },
+    {
+      "id": "module:apps/example-channels/src/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "apps/example-channels/src/index.ts",
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "42731de3bac0324882458ec34647eb547995d9ba3fff0e7ca9a3d4674d3ec7bb"
+    },
+    {
+      "id": "module:apps/example-channels/tests/app.test.ts",
+      "type": "module",
+      "title": "app.test.ts",
+      "path": "apps/example-channels/tests/app.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "c0eeab3670b7e52c1943713fd1d75352ec1d6d141f23bbfb68cc21ee23bac763"
+    },
+    {
       "id": "module:apps/example-discord-bot/src/adapter.ts",
       "type": "module",
       "title": "adapter.ts",
@@ -14083,7 +14148,7 @@
         "module",
         "cjs"
       ],
-      "contentHash": "a15031beea6fcbfe8641e46483cd9c9c9193e6fefa53c96d3575781eb40d0b3c"
+      "contentHash": "f063f7548cf2740e746f00f9870b09db5e33941b94d3287309663e154ad0b413"
     },
     {
       "id": "module:docs/ecosystem/external-contributions/contributions/groq-provider-swap-smoke/files/groq-provider-swap-smoke.mjs",
@@ -15057,6 +15122,7 @@
         "BailConfig",
         "BedrockConfig",
         "BedrockRuntimeClientLike",
+        "CLIPROXYAPI_DEFAULT_BASE_URL",
         "CapabilityUnsupportedError",
         "CarbonTable",
         "CerebrasConfig",
@@ -15095,6 +15161,8 @@
         "MockAdapterOptions",
         "MockResponse",
         "ModelDeprecation",
+        "ModelProviderConfig",
+        "ModelProviderId",
         "OllamaConfig",
         "OllamaEmbedderConfig",
         "OpenAICompatibleConfig",
@@ -15139,6 +15207,7 @@
         "createAdapter",
         "createEnsembleAdapter",
         "createFallbackAdapter",
+        "createModelProvider",
         "createOpenAICompatibleEmbedder",
         "createRotatingCredentials",
         "createRouter",
@@ -15194,7 +15263,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "fc0b76056685ae8b01ec4c33e2d89fddebf702733de3993b9477b5af0d6f920a"
+      "contentHash": "0028427f5791f6371ab157a332194d0b5915d658750e04a01fa24a135da7e71a"
     },
     {
       "id": "module:packages/adapters/src/kimi.ts",
@@ -15400,6 +15469,24 @@
         "src"
       ],
       "contentHash": "50f46dccd29e8ed0ef860d1466b69f2f40865c421fa0d8c6ed923f8ef9015b2f"
+    },
+    {
+      "id": "module:packages/adapters/src/provider.ts",
+      "type": "module",
+      "title": "provider.ts",
+      "path": "packages/adapters/src/provider.ts",
+      "symbols": [
+        "CLIPROXYAPI_DEFAULT_BASE_URL",
+        "ModelProviderConfig",
+        "ModelProviderId",
+        "createModelProvider"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "19fdc34323144ab9c48de26bb369e6cee98d857b4a4bc2966afe4796b472c71d"
     },
     {
       "id": "module:packages/adapters/src/replicate.ts",
@@ -16147,6 +16234,19 @@
         "tests"
       ],
       "contentHash": "13a968c5c0c06720f03fe2730f9898950bf1c20d917340d4141f34ee6141c280"
+    },
+    {
+      "id": "module:packages/adapters/tests/model-provider.test.ts",
+      "type": "module",
+      "title": "model-provider.test.ts",
+      "path": "packages/adapters/tests/model-provider.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "efd853219e784a5a15803196ca65374c7a30157dbc553136064ac309a76f43c1"
     },
     {
       "id": "module:packages/adapters/tests/multimodal-http.test.ts",
@@ -18331,7 +18431,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "b76444b356f7957792d6d63a0facb84da5ad8b2c2cf68465926c4c055274c463"
+      "contentHash": "5f84fb677b22ce3c4b1243472bccec5e3abc2f7f5cb33f62c0f11d050dac0bbb"
     },
     {
       "id": "module:packages/cli/tests/doctor-extended.test.ts",
@@ -23171,6 +23271,163 @@
       "contentHash": "d6de632c74e1a9c55f56c7d8dee640b93383d7ba0c41d78e57883cc0daa520a0"
     },
     {
+      "id": "module:packages/integrations/src/channels/email.ts",
+      "type": "module",
+      "title": "email.ts",
+      "path": "packages/integrations/src/channels/email.ts",
+      "symbols": [
+        "EmailChannelOptions",
+        "emailChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "9604aace73409ef03d5636b1ec20dbfc738a16595992243b62b248ae8988985b"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/handler.ts",
+      "type": "module",
+      "title": "handler.ts",
+      "path": "packages/integrations/src/channels/handler.ts",
+      "symbols": [
+        "ChannelAgent",
+        "ChannelHandlerOptions",
+        "ChannelWebhookRequest",
+        "ChannelWebhookResponse",
+        "createChannelHandler"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "928dc82252a642869cfdb01a0fc99842a0ecdd5dc62ccd155fec206be354cab9"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/channels/index.ts",
+      "symbols": [
+        "Channel",
+        "ChannelAgent",
+        "ChannelAttachment",
+        "ChannelHandlerOptions",
+        "ChannelOptionsBase",
+        "ChannelSender",
+        "ChannelWebhookRequest",
+        "ChannelWebhookResponse",
+        "EmailChannelOptions",
+        "InboundMessage",
+        "OutboundMessage",
+        "SlackChannelOptions",
+        "TelegramChannelOptions",
+        "WhatsAppChannelOptions",
+        "createChannelHandler",
+        "emailChannel",
+        "slackChannel",
+        "telegramChannel",
+        "whatsappChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "3accc0a27f515fdc87294571bbd3ef5ee018ffae2bf752fdd89656d1dffc0e7c"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/shared.ts",
+      "type": "module",
+      "title": "shared.ts",
+      "path": "packages/integrations/src/channels/shared.ts",
+      "symbols": [
+        "Rec",
+        "arr",
+        "parseBody",
+        "postJson",
+        "rec",
+        "str",
+        "withSecret"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "6331da90d43f43f3cfa3f973234e67e56cf3c56315264dc93fe25f0a3abeaf9d"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/slack.ts",
+      "type": "module",
+      "title": "slack.ts",
+      "path": "packages/integrations/src/channels/slack.ts",
+      "symbols": [
+        "SlackChannelOptions",
+        "slackChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "822342d0fa08c00ee37f5436d7c95af51bf44210514f3be5464256831ce62d06"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/telegram.ts",
+      "type": "module",
+      "title": "telegram.ts",
+      "path": "packages/integrations/src/channels/telegram.ts",
+      "symbols": [
+        "TelegramChannelOptions",
+        "telegramChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "c73fac080e39434f0d99dabc12978c343da10dcc7e5413aca222dc16224a2b4b"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/types.ts",
+      "type": "module",
+      "title": "types.ts",
+      "path": "packages/integrations/src/channels/types.ts",
+      "symbols": [
+        "Channel",
+        "ChannelAttachment",
+        "ChannelOptionsBase",
+        "ChannelSender",
+        "InboundMessage",
+        "OutboundMessage"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "09faa651068ced69287764c75496566d2c6fbd5977f1d3b8e2e640a2cb3b60f4"
+    },
+    {
+      "id": "module:packages/integrations/src/channels/whatsapp.ts",
+      "type": "module",
+      "title": "whatsapp.ts",
+      "path": "packages/integrations/src/channels/whatsapp.ts",
+      "symbols": [
+        "WhatsAppChannelOptions",
+        "whatsappChannel"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "channels"
+      ],
+      "contentHash": "57679b57981965c0649518c922491c1663c05aa83b5585221847869ecb7739bf"
+    },
+    {
       "id": "module:packages/integrations/src/config-fields.ts",
       "type": "module",
       "title": "config-fields.ts",
@@ -23328,7 +23585,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "348e14d6c5d23d627bd1084ac81d73f35ab20f87fd0c64c0967e439cc64b1df2"
+      "contentHash": "934941ac408308b667c4b188fc3d8121d2c2f953a07ca0fb00926f7f2ef85d0a"
     },
     {
       "id": "module:packages/integrations/src/normalize.ts",
@@ -25475,6 +25732,7 @@
         "verifyHmacSha256Body",
         "verifyPagerDuty",
         "verifySlack",
+        "verifySvix",
         "verifyTelegram",
         "verifyTwilio"
       ],
@@ -25483,7 +25741,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "775e526012168ea69bde1cabc4dc94fd8b1f7f549853fa4cdd152bdf875d8e82"
+      "contentHash": "9b3daf155e3c8abab1b19cb25819f973b6266eb2058a5861aa478c190f93e49b"
     },
     {
       "id": "module:packages/integrations/tests/ai-web.test.ts",
@@ -25510,6 +25768,19 @@
         "tests"
       ],
       "contentHash": "78a92e2ec6a1c6e35d96dcec16bf9360d5a398bbf2180f7f422ccba403ec7df6"
+    },
+    {
+      "id": "module:packages/integrations/tests/channels.test.ts",
+      "type": "module",
+      "title": "channels.test.ts",
+      "path": "packages/integrations/tests/channels.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "aa271d59cd7d2612a875c8a2b4e46c4bb6d797ae26791f9af82bff5abf67df6f"
     },
     {
       "id": "module:packages/integrations/tests/commerce.test.ts",
@@ -38834,8 +39105,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "72dd03cee8a71e3d4e332eb02bf3d30886fad6a70a1166be65a398a2924b0d3b",
-    "fileCount": 2661,
+    "hash": "1ace2020b1cf37f82709c4d773e7d7f43950989a381a394d66c537825f4d8cfa",
+    "fileCount": 2688,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38857,9 +39128,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2a8a1d00f34fc54824f850c5da6351c448c4abcc423789123275ea247e8c84a8",
+    "contentHash": "05a541d7cde093d30afff8b508f6f989b56405c0c44c4e5dfadcced0b78e64d6",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "4c94cea266bdc47772c99c875725c3047421790e2bbe9417c65c71d27f709cb2",
+    "snapshotHash": "2a509faf29c84cda9aa150e98dc2fcf4965bc84ca2b52646cff6a7b49c0f8aa2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38879,7 +39150,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2532,
+      "documentCount": 2550,
       "fieldNames": [
         "aliases",
         "body",
@@ -38890,13 +39161,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0177725118483414,
-        "body": 60.89218009478673,
-        "headings": 3.8846761453396526,
-        "path": 7.61650868878357,
-        "summary": 4.519747235387046,
-        "symbols": 7.536729857819905,
-        "title": 3.381516587677725
+        "aliases": 3.0164705882352942,
+        "body": 60.663529411764706,
+        "headings": 3.872156862745098,
+        "path": 7.610588235294117,
+        "summary": 4.4980392156862745,
+        "symbols": 7.556470588235294,
+        "title": 3.375294117647059
       }
     },
     "entries": [
@@ -39271,6 +39542,45 @@
         "confidence": "observed"
       },
       {
+        "id": "area:apps/example-channels",
+        "kind": "area",
+        "path": "apps/example-channels",
+        "title": "example-channels",
+        "aliases": [],
+        "tags": [
+          "area"
+        ],
+        "fields": {
+          "title": "example-channels",
+          "headings": "",
+          "path": "apps/example-channels",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "area"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/example-runtime/README.md"
+          ],
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/example-runtime/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "86c16d494f1cc621086cb8bb63d46e188cb6f293f6e7b77c58513c229c9143b3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "area:apps/example-discord-bot",
         "kind": "area",
         "path": "apps/example-discord-bot",
@@ -39289,7 +39599,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/discord-bot.mdx"
@@ -39328,7 +39638,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/dspy.mdx"
@@ -39406,7 +39716,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/embedded.mdx"
@@ -39703,7 +40013,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/slack-bot.mdx"
@@ -39742,7 +40052,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/teams-bot.mdx"
@@ -40030,7 +40340,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx"
@@ -40069,7 +40379,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx"
@@ -40108,7 +40418,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx"
@@ -40192,7 +40502,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40231,7 +40541,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/cli/index.mdx"
@@ -40270,7 +40580,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40309,7 +40619,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40348,7 +40658,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40387,7 +40697,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002217,
+          "pagerank": 0.0022,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx"
@@ -40426,7 +40736,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/index.mdx"
@@ -40465,7 +40775,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/core.mdx"
@@ -40535,7 +40845,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002492,
+          "pagerank": 0.002473,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx"
@@ -40574,7 +40884,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002492,
+          "pagerank": 0.002473,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx"
@@ -40613,7 +40923,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/eval-braintrust.mdx"
@@ -40697,7 +41007,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -40736,7 +41046,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/replay.mdx"
@@ -40775,7 +41085,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -40814,7 +41124,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -40831,6 +41141,37 @@
           "outbound": []
         },
         "contentHash": "1dc04eb2c769a080487398ab2a8c8e2cb86435a8a5a6e299ee0c1d32cc248e36",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "area:packages/integrations/src/channels",
+        "kind": "area",
+        "path": "packages/integrations/src/channels",
+        "title": "channels",
+        "aliases": [],
+        "tags": [
+          "area"
+        ],
+        "fields": {
+          "title": "channels",
+          "headings": "",
+          "path": "packages/integrations/src/channels",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "area"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "b1b5874eb864a71f6e76c76914464adf27368a2553e12801101cab65d51fb9da",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -40884,7 +41225,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -40954,7 +41295,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/memory/index.mdx"
@@ -40993,7 +41334,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/loaders.mdx"
@@ -41032,7 +41373,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/rerank.mdx"
@@ -41071,7 +41412,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -41110,7 +41451,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/sandbox.mdx"
@@ -41149,7 +41490,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -41188,7 +41529,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -41258,7 +41599,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -41348,7 +41689,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/observability/devtools.mdx"
@@ -42206,7 +42547,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -42292,7 +42633,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -42345,7 +42686,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005793,
+          "pagerank": 0.00575,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -42535,7 +42876,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -44896,7 +45237,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -46940,7 +47281,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -47082,7 +47423,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -47761,7 +48102,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49153,7 +49494,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50374,7 +50715,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50992,7 +51333,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51046,7 +51387,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51092,7 +51433,7 @@
           "aliases": "adapters document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51330,7 +51671,7 @@
             }
           ]
         },
-        "contentHash": "d738bbad8715322edf89245b1d8a142c59f1692e0f99ac2623495849e9610697",
+        "contentHash": "a01f00bc1dfcf309d8e0fc9d1f778745753585cee30c26832f0d1dcf07e2cdad",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -51358,7 +51699,7 @@
           "aliases": "angular document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51464,7 +51805,7 @@
           "aliases": "cli document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51650,7 +51991,7 @@
           "aliases": "core document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51826,7 +52167,7 @@
           "aliases": "cross-platform document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51957,7 +52298,7 @@
           "aliases": "doc-bridge document agent"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52004,7 +52345,7 @@
           "aliases": "eval-braintrust document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52065,7 +52406,7 @@
           "aliases": "eval document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52297,7 +52638,7 @@
           "aliases": "ink document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52408,7 +52749,7 @@
           "aliases": "integrations document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52549,7 +52890,7 @@
           "aliases": "mcp document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52635,7 +52976,7 @@
           "aliases": "memory document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52806,7 +53147,7 @@
           "aliases": "net document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52867,7 +53208,7 @@
           "aliases": "observability-langfuse document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52933,7 +53274,7 @@
           "aliases": "observability document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53074,7 +53415,7 @@
           "aliases": "rag document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53155,7 +53496,7 @@
           "aliases": "react-native document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53251,7 +53592,7 @@
           "aliases": "react document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53337,7 +53678,7 @@
           "aliases": "runtime document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53478,7 +53819,7 @@
           "aliases": "sandbox document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53559,7 +53900,7 @@
           "aliases": "skills document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53730,7 +54071,7 @@
           "aliases": "solid document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53806,7 +54147,7 @@
           "aliases": "statechart document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53882,7 +54223,7 @@
           "aliases": "svelte document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53968,7 +54309,7 @@
           "aliases": "templates document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54064,7 +54405,7 @@
           "aliases": "tools document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54370,7 +54711,7 @@
           "aliases": "validation document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54436,7 +54777,7 @@
           "aliases": "vue document agent"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54594,7 +54935,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55553,7 +55894,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56091,7 +56432,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56910,7 +57251,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57481,7 +57822,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57500,6 +57841,11 @@
             {
               "kind": "mentions-symbol",
               "id": "module:packages/eval/src/replay/recorder.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/integrations/src/channels/shared.ts",
               "confidence": "observed"
             }
           ]
@@ -57530,7 +57876,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57740,7 +58086,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58045,7 +58391,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58294,7 +58640,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59166,7 +59512,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59210,7 +59556,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59293,7 +59639,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59868,7 +60214,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59945,7 +60291,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60210,7 +60556,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60449,7 +60795,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60508,7 +60854,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60577,7 +60923,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60741,7 +61087,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60800,7 +61146,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60884,7 +61230,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60993,7 +61339,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61037,7 +61383,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61171,7 +61517,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61225,7 +61571,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61309,7 +61655,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61428,7 +61774,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61607,7 +61953,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61691,7 +62037,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61735,7 +62081,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61958,7 +62304,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62047,7 +62393,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62106,7 +62452,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62175,7 +62521,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62219,7 +62565,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62303,7 +62649,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62347,7 +62693,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62451,7 +62797,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62670,7 +63016,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -63455,7 +63801,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66430,7 +66776,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67306,7 +67652,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67398,6 +67744,45 @@
         "confidence": "observed"
       },
       {
+        "id": "document:apps/example-channels/README.md",
+        "kind": "document",
+        "path": "apps/example-channels/README.md",
+        "title": "@agentskit/example-channels",
+        "summary": "Connects a conversation channel (Telegram here; WhatsApp Cloud API, Slack and email via Resend work the same) to an AgentsKit runtime agent using @agentskit/integrations channels.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "project"
+        ],
+        "fields": {
+          "title": "@agentskit/example-channels",
+          "headings": "@agentskit/example-channels",
+          "path": "apps/example-channels/README.md",
+          "symbols": "",
+          "summary": "Connects a conversation channel (Telegram here; WhatsApp Cloud API, Slack and email via Resend work the same) to an AgentsKit runtime agent using @agentskit/integrations channels.",
+          "body": "@agentskit/example-channels Connects a conversation channel (Telegram here; WhatsApp Cloud API, Slack and email via Resend work the same) to an AgentsKit runtime agent using @agentskit/integrations channels. Each webhook is signature-verified (401 on failure) before the agent runs; the answer is sent back on the same conversation.",
+          "aliases": "document project"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/integrations",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "fc3cdaa628e44b2465aa5622ecc154fbc5b33e628fb499370b794710373638af",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:apps/example-discord-bot/README.md",
         "kind": "document",
         "path": "apps/example-discord-bot/README.md",
@@ -67468,7 +67853,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67513,7 +67898,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67906,7 +68291,7 @@
           "path": "apps/example-runtime/README.md",
           "symbols": "",
           "summary": "Headless runtime demos. No UI, no provider keys — every adapter is mocked so the scripts run anywhere.",
-          "body": "@agentskit/example-runtime Headless runtime demos. No UI, no provider keys — every adapter is mocked so the scripts run anywhere. Script What it shows Source --- --- --- pnpm dev Basic ReAct loop with one tool call pnpm dev:speculate Race two adapters; loser is aborted as soon as the winner settles pnpm dev:durable Step log: re-running short-circuits successful prior steps pnpm dev:topology Supervisor + swarm + blackboard topologies, three shapes back to back Run any of them via the workspace filter: Durable demo: try the resume The log lives at apps/example-runtime/.agentskit/durable.jsonl and is gitignored. Wiring real adapters Every demo accepts the AdapterFactory shape. Swap the mocks for openai , anthropic , vercelAI , etc., from @agentskit/adapters and the rest of the code is unchanged. Topologies operate on AgentHandle s, which createRuntime({ adapter, … }).run produces when you adapt the result into one. See also - - - - - — the flow + durable runner counterpart.",
+          "body": "@agentskit/example-runtime Headless runtime demos. No UI, no provider keys — every adapter is mocked so the scripts run anywhere. Script What it shows Source --- --- --- pnpm dev Basic ReAct loop with one tool call pnpm dev:speculate Race two adapters; loser is aborted as soon as the winner settles pnpm dev:durable Step log: re-running short-circuits successful prior steps pnpm dev:topology Supervisor + swarm + blackboard topologies, three shapes back to back Run any of them via the workspace filter: Durable demo: try the resume The log lives at apps/example-runtime/.agentskit/durable.jsonl and is gitignored. Wiring real adapters Every demo accepts the AdapterFactory shape. Swap the mocks for openai , anthropic , vercelAI , etc., from @agentskit/adapters and the rest of the code is unchanged. Topologies operate on AgentHandle s, which createRuntime({ adapter, … }).run produces when you adapt the result into one. See also - - - - - — the flow + durable runner counterpart. - — the same runtime behind WhatsApp, Telegram, Slack and email webhooks.",
           "aliases": "document project"
         },
         "graph": {
@@ -67916,6 +68301,11 @@
           "mentionedBy": [],
           "inbound": [],
           "outbound": [
+            {
+              "kind": "mentions",
+              "id": "area:apps/example-channels",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "area:apps/example-flow",
@@ -67973,7 +68363,7 @@
             }
           ]
         },
-        "contentHash": "b149b8804e108fcaafe2d9e01b8d571f82403866d56877777e153b943e8a3b58",
+        "contentHash": "5b8b6cc78a02a256abcf84fa1cf0ea7cc9855877b6dda3ae01b8ded6d925475d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68171,7 +68561,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68776,7 +69166,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68884,11 +69274,11 @@
           "path": "ARCHITECTURE.md",
           "symbols": "",
           "summary": "Technical reference for contributors to AgentsKit. Covers founding decisions, package structure, data flow, and extension points. For the why behind individual contracts, see the ADRs.",
-          "body": "ARCHITECTURE.md Technical reference for contributors to AgentsKit. Covers founding decisions, package structure, data flow, and extension points. For the why behind individual contracts, see the . --- 1. What AgentsKit Is (and Is Not) AgentsKit is a modular agent toolkit , not a monolith. There is no \"AgentsKit app framework\" — there are independently installable packages that compose through shared contracts defined in @agentskit/core . Design principles that shape everything here: - Core is a promise. @agentskit/core is under 10 KB gzipped with zero runtime dependencies. It holds only types, contracts, and minimal primitives. Once a contract is stable , breaking it requires a major version bump and a deprecation cycle. - Contract-first, not framework-first. Every cross-package boundary (Adapter, Tool, Memory, Retriever, Skill, Runtime) is formally specified in an ADR. Packages compose because they agree on types and invariants, not because they share infrastructure. - Plug-and-play. Every package works standalone — single install, under ten lines of config to produce something useful. You pick only what you need. - Zero lock-in. Adapters, memory backends, tools, and skills are all replaceable. No proprietary formats, no hidden state. - Agent-first. Tools, skills, memory, and reasoning loops are primary citizens. UI (React, Ink, CLI) is one rendering surface among many. See and for the full stability tier policy. --- 2. Package Dependency Graph Dashed edges represent optional observer injection (no hard compile-time dependency). --- 3. Layer Model Rules: - A package may depend on packages in the same layer or lower layers only. - Nothing in Layer 1 depends on anything outside Layer 1. - Layer 3 (UI) does not depend on each other ( react does not import ink , etc.). - Layer 5 packages are read-only observers — they instrument but do not alter control flow. --- 4. Core Design Decisions 4.1 Zero-dependency core @agentskit/core has no dependencies in package.json . It contains: - TypeScript types for every cross-package primitive ( Message , ToolDefinition , StreamChunk , etc.) - Contract interfaces ( AdapterFactory , ChatMemory , Retriever , SkillDefinition , RuntimeConfig ) - createChatController — the minimal orchestration primitive used by both @agentskit/react and @agentskit/ink - A tiny event emitter (no Node.js EventEmitter dependency) This means @agentskit/core can be imported in any environment (browser, edge, Node, Deno, Bun) without bundler shims. 4.2 Contract-first design Every cross-package boundary is defined as a TypeScript interface with formal invariants, versioned in an ADR. The contracts are: Contract ADR Key invariant --- --- --- Adapter Pure factory; errors as chunks; explicit terminal chunk Tool JSON Schema input; typed execute output; confirmation flag Memory Atomic load/save; pluggable backend Retriever retrieve(query) → Document[] ; pluggable store Skill System prompt + few-shot + tool contributions Runtime run(task) → RunResult ; hard step cap; observer-only side effects 4.3 Plug-and-play via contracts Because every boundary is a contract (not a base class or a required superclass), packages compose without glue code. useChat in @agentskit/react accepts any AdapterFactory . The runtime accepts any ChatMemory . There is no \"AgentsKit adapter base class\" to inherit — satisfy the interface, ship. 4.4 Headless UI React and Ink components use data-ak- attributes for all structural hooks. No hardcoded styles. CSS variables for theming. This lets any design system own visual output while AgentsKit owns behavior. 4.5 Stability tiers Packages declare a stability tier ( stable , beta , experimental ) in package.json . See for the full policy. Currently all Layer 1–4 packages are stable ; @agentskit/observability , @agentskit/sandbox , and @agentskit/eval are beta . --- 5. Data Flow How a message travels from user input to assistant response, end to end. Key properties of this flow: - Streaming is the default. Text",
+          "body": "ARCHITECTURE.md Technical reference for contributors to AgentsKit. Covers founding decisions, package structure, data flow, and extension points. For the why behind individual contracts, see the . --- 1. What AgentsKit Is (and Is Not) AgentsKit is a modular agent toolkit , not a monolith. There is no \"AgentsKit app framework\" — there are independently installable packages that compose through shared contracts defined in @agentskit/core . Design principles that shape everything here: - Core is a promise. @agentskit/core is under 10 KB gzipped with zero runtime dependencies. It holds only types, contracts, and minimal primitives. Once a contract is stable , breaking it requires a major version bump and a deprecation cycle. - Contract-first, not framework-first. Every cross-package boundary (Adapter, Tool, Memory, Retriever, Skill, Runtime) is formally specified in an ADR. Packages compose because they agree on types and invariants, not because they share infrastructure. - Plug-and-play. Every package works standalone — single install, under ten lines of config to produce something useful. You pick only what you need. - Zero lock-in. Adapters, memory backends, tools, and skills are all replaceable. No proprietary formats, no hidden state. - Agent-first. Tools, skills, memory, and reasoning loops are primary citizens. UI (React, Ink, CLI) is one rendering surface among many. See and for the full stability tier policy. --- 2. Package Dependency Graph Dashed edges represent optional observer injection (no hard compile-time dependency). --- 3. Layer Model Rules: - A package may depend on packages in the same layer or lower layers only. - Nothing in Layer 1 depends on anything outside Layer 1. - Layer 3 (UI) does not depend on each other ( react does not import ink , etc.). - Layer 5 packages are read-only observers — they instrument but do not alter control flow. --- 4. Core Design Decisions 4.1 Zero-dependency core @agentskit/core has no dependencies in package.json . It contains: - TypeScript types for every cross-package primitive ( Message , ToolDefinition , StreamChunk , etc.) - Contract interfaces ( AdapterFactory , ChatMemory , Retriever , SkillDefinition , RuntimeConfig ) - createChatController — the minimal orchestration primitive used by both @agentskit/react and @agentskit/ink - A tiny event emitter (no Node.js EventEmitter dependency) This means @agentskit/core can be imported in any environment (browser, edge, Node, Deno, Bun) without bundler shims. 4.2 Contract-first design Every cross-package boundary is defined as a TypeScript interface with formal invariants, versioned in an ADR. The contracts are: Contract ADR Key invariant --- --- --- Adapter Pure factory; errors as chunks; explicit terminal chunk Tool JSON Schema input; typed execute output; confirmation flag Memory Atomic load/save; pluggable backend Retriever retrieve(query) → Document[] ; pluggable store Skill System prompt + few-shot + tool contributions Runtime run(task) → RunResult ; hard step cap; observer-only side effects 4.3 Plug-and-play via contracts Because every boundary is a contract (not a base class or a required superclass), packages compose without glue code. useChat in @agentskit/react accepts any AdapterFactory . The runtime accepts any ChatMemory . There is no \"AgentsKit adapter base class\" to inherit — satisfy the interface, ship. The cross-package promise (dependency direction, standards, data portability, status vocabulary) is the . 4.4 Headless UI React and Ink components use data-ak- attributes for all structural hooks. No hardcoded styles. CSS variables for theming. This lets any design system own visual output while AgentsKit owns behavior. 4.5 Stability tiers Packages declare a stability tier ( stable , beta , experimental ) in package.json . See for the full policy. Currently all Layer 1–4 packages are stable ; @agentskit/observability , @agentskit/sandbox , and @agentskit/eval are beta . --- 5. Data Flow How a message travels from u",
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -68941,6 +69331,11 @@
             {
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0007-docs-platform-fumadocs.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
               "confidence": "observed"
             },
             {
@@ -69055,7 +69450,7 @@
             }
           ]
         },
-        "contentHash": "7524efaf42557b2fa5dc0a4ce9a661d3d7c73dcaeaa7e49e2b02351f00e4a79a",
+        "contentHash": "01cc689a9630d4ed263a3e548868b21e4c8ed0f4013b3f87773d1aa8659d0660",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -69166,7 +69561,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007654,
+          "pagerank": 0.007597,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -69267,7 +69662,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007501,
+          "pagerank": 0.007445,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -69318,7 +69713,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.029458,
+          "pagerank": 0.029238,
           "inboundLinks": 36,
           "coveredBy": [],
           "mentionedBy": [
@@ -69768,7 +70163,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00318,
+          "pagerank": 0.003156,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69812,7 +70207,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.022554,
+          "pagerank": 0.022303,
           "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69922,7 +70317,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.012747,
+          "pagerank": 0.012607,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70037,7 +70432,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.008713,
+          "pagerank": 0.008617,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70147,7 +70542,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005842,
+          "pagerank": 0.005775,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70272,7 +70667,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006112,
+          "pagerank": 0.006046,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70387,7 +70782,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005987,
+          "pagerank": 0.005924,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70527,7 +70922,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002172,
+          "pagerank": 0.002139,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70582,7 +70977,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002589,
+          "pagerank": 0.002567,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -70695,7 +71090,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.012875,
+          "pagerank": 0.012839,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70780,7 +71175,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70860,7 +71255,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70930,7 +71325,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002934,
+          "pagerank": 0.00291,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71025,7 +71420,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71095,7 +71490,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71150,7 +71545,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71195,7 +71590,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71240,7 +71635,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004875,
+          "pagerank": 0.004836,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71320,7 +71715,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003933,
+          "pagerank": 0.003902,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71395,7 +71790,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71434,7 +71829,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71479,7 +71874,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.035962,
+          "pagerank": 0.035991,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71624,7 +72019,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.018178,
+          "pagerank": 0.018204,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71724,7 +72119,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004035,
+          "pagerank": 0.004002,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71839,7 +72234,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003421,
+          "pagerank": 0.003393,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71909,7 +72304,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003108,
+          "pagerank": 0.003083,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71984,7 +72379,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72029,7 +72424,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00242,
+          "pagerank": 0.0024,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72109,7 +72504,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72148,7 +72543,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72198,7 +72593,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72258,7 +72653,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002558,
+          "pagerank": 0.002537,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -72355,7 +72750,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002558,
+          "pagerank": 0.002537,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -72477,7 +72872,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72522,7 +72917,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72572,7 +72967,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72627,7 +73022,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002833,
+          "pagerank": 0.00281,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72677,7 +73072,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002714,
+          "pagerank": 0.002691,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72732,7 +73127,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002833,
+          "pagerank": 0.00281,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72776,7 +73171,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002007,
+          "pagerank": 0.00199,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72825,6 +73220,91 @@
         "confidence": "observed"
       },
       {
+        "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+        "kind": "document",
+        "path": "docs/architecture/adrs/0045-interoperability-charter.md",
+        "title": "ADR 0045 — Interoperability charter",
+        "summary": "Status: Proposed",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "ADR 0045 — Interoperability charter",
+          "headings": "ADR 0045 — Interoperability charter Context Decision 1. Dependency direction 2. Stable contracts 3. Optional bridges 4. External standards and vendor extensions 5. Data portability and versioning 6. What never enters @agentskit/core 7. Status vocabulary 8. No claim without evidence 9. AgentsKit Chat Consequences",
+          "path": "docs/architecture/adrs/0045-interoperability-charter.md",
+          "symbols": "",
+          "summary": "Status: Proposed",
+          "body": "ADR 0045 — Interoperability charter - Status : Proposed - Date : 2026-10-29 - Supersedes : — - Related issues : 1477, 1890 - Related ADRs : 0001–0006 (contracts), 0009, 0012, 0013, 0020, 0025, 0028, 0041 Context \"Interoperability is mandatory\" is a vital rule, but the supporting rules are spread over several ADRs: composition (0009), vendor adapter scope (0012), serializable state (0020), public API and the compatibility matrix (0025), MCP beta boundaries (0028) and content serialization (0041). scripts/check-core-no-deps.mjs only inspects the dependencies block of @agentskit/core . This ADR is the canonical document that joins those rules into one verifiable promise. Later interop work uses it as the rule set. Decision 1. Dependency direction - Packages form layers rooted at @agentskit/core (see ADR 0009 for the graph). A package may depend on core and on declared peers, never on a sibling's internals. - @agentskit/core imports no other @agentskit/ package. - No dependency cycles, within or across packages. 2. Stable contracts The six contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime; ADRs 0001–0006) are the interoperability surface. Their tier and change rules are those of and ADR 0025. This charter does not promote or demote any tier. 3. Optional bridges - Recipe first: a documented recipe that composes existing packages through the contracts is the default way to bridge to another ecosystem. - A package named @agentskit/interop-<target is created only with a real use case and an executable test. It depends on core and the target, never the reverse (ADR 0009, ADR 0012). 4. External standards and vendor extensions - MCP, A2A, AG-UI, JSON Schema and OpenAPI are treated as external standards: we map to them at the edge (adapters, tools, bridge packages); we do not copy their types into core or let them reshape a contract. JSON Schema remains the canonical schema format. MCP follows ADR 0028. - Vendor-specific features are reachable only through an explicit escape hatch (adapter-local option or namespaced extension field). They never alter a core type, and portable code must not depend on them (ADR 0012). 5. Data portability and versioning Data that crosses a package, process or version boundary is plain, serializable and versioned: Data Rule --- --- Messages, tool calls Ordered content parts are authoritative; serialized at the provider boundary (ADR 0041) Memory records Validated at runtime on load (ADR 0013) Stream events, interaction state JSON-serializable, no live handles (ADR 0020) Traces Serializable events; observers never affect results Eval results Versioned record per A breaking change to a persisted shape needs a version bump and a migration or explicit rejection, never silent reinterpretation. 6. What never enters @agentskit/core No runtime dependency enters core, and no I/O, network or vendor SDK. The allowlist of imports in core source is: - relative imports and subpaths of core itself; - json-schema , only as import type ; - canonicalize and @noble/hashes . Confirmed against packages/core/tsup.config.ts : canonicalize and @noble/hashes are declared in devDependencies and bundled through noExternal , so the published package keeps zero runtime dependencies. Core stays under 10 KB gzipped (ADR 0009). Adding to this allowlist requires a new ADR. 7. Status vocabulary Every interoperability claim carries exactly one status, the same set the Registry uses ( docs/studies/registry-runner-projections-plan.md ): - verified : an executable test proves it. - partial : works with documented limits. - planned : intended, not a support claim. - unsupported : known not to work. 8. No claim without evidence No document, README or registry entry may claim interoperability without an executable test, or an explicitly marked limitation ( partial , planned or unsupported ). Unknown means planned , not verified . 9. AgentsKit Chat AgentsKit Chat is a reference UI and optional. No package may require it, and no contract may",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0.002139,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:ARCHITECTURE.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/spec/eval-result-record-v1.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/STABILITY.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/spec/eval-result-record-v1.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/STABILITY.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/studies/registry-runner-projections-plan.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/core/tsup.config.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:scripts/check-core-no-deps.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/core",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a92829c83f80e86e40e189f4dbbddfb819d3a5b3c4b238b41fa188022c4254db",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:docs/architecture/adrs/README.md",
         "kind": "document",
         "path": "docs/architecture/adrs/README.md",
@@ -72842,11 +73322,11 @@
           "path": "docs/architecture/adrs/README.md",
           "symbols": "",
           "summary": "This directory contains the formal, versioned contracts and architectural decisions for AgentsKit.",
-          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed Canonical JSON and SHA-256 helpers Accepted Cryptographic IDs for generated identifiers Accepted Preserve eval replay fingerprint compatibility Proposed Serialize attachments at the provider boundary Proposed Durable tool decisions in core 1.x Proposed Partition-bound RAG composition Proposed Durable tenant cost store Proposed The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
+          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed Canonical JSON and SHA-256 helpers Accepted Cryptographic IDs for generated identifiers Accepted Preserve eval replay fingerprint compatibility Proposed Serialize attachments at the provider boundary Proposed Durable tool decisions in core 1.x Proposed Partition-bound RAG composition Proposed Durable tenant cost store Proposed Interoperability charter Proposed The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003012,
+          "pagerank": 0.002975,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -73116,10 +73596,15 @@
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0044-durable-cost-store.md",
               "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "2bbd8aa572d63a9bd4b3a781597ef5181427c1a91ed34f5f18e88e5b3c720451",
+        "contentHash": "9049cc374e83f3b0e077f9e4220c0dc0c63327d2332df15a991b891c228b0cea",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73145,7 +73630,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74507,7 +74992,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74612,7 +75097,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74681,7 +75166,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74720,7 +75205,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002645,
+          "pagerank": 0.002626,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -75033,7 +75518,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75072,7 +75557,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.007969,
+          "pagerank": 0.007982,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75185,7 +75670,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -75242,7 +75727,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75316,7 +75801,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002456,
+          "pagerank": 0.002437,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
@@ -75433,7 +75918,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.020964,
+          "pagerank": 0.021064,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75511,11 +75996,24 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
+          "pagerank": 0.002837,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
+          "mentionedBy": [
+            "document:docs/architecture/adrs/0045-interoperability-charter.md"
+          ],
+          "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "mentions-symbol",
@@ -75550,8 +76048,8 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.071755,
-          "inboundLinks": 51,
+          "pagerank": 0.072374,
+          "inboundLinks": 52,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_v1-readiness.md",
@@ -75560,6 +76058,7 @@
             "document:ARCHITECTURE.md",
             "document:CONTRIBUTING.md",
             "document:docs/architecture/adrs/0024-package-graduation-evidence.md",
+            "document:docs/architecture/adrs/0045-interoperability-charter.md",
             "document:docs/RELEASE-CORE-V1.md",
             "document:docs/studies/v1-readiness-audit.md",
             "document:GOVERNANCE.md",
@@ -75567,9 +76066,7 @@
             "document:packages/angular/README.md",
             "document:packages/cli/README.md",
             "document:packages/core/README.md",
-            "document:packages/cross-platform/README.md",
-            "document:packages/eval-braintrust/README.md",
-            "document:packages/eval/README.md"
+            "document:packages/cross-platform/README.md"
           ],
           "inbound": [
             {
@@ -75590,6 +76087,11 @@
             {
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0024-package-graduation-evidence.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
               "confidence": "observed"
             },
             {
@@ -75844,6 +76346,11 @@
             },
             {
               "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "document:docs/RELEASE-CORE-V1.md",
               "confidence": "observed"
             },
@@ -75880,16 +76387,6 @@
             {
               "kind": "mentions",
               "id": "document:packages/cross-platform/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/eval-braintrust/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/eval/README.md",
               "confidence": "observed"
             }
           ],
@@ -76107,7 +76604,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.019745,
+          "pagerank": 0.019824,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -76444,11 +76941,19 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001942,
-          "inboundLinks": 0,
+          "pagerank": 0.001927,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
+          "mentionedBy": [
+            "document:docs/architecture/adrs/0045-interoperability-charter.md"
+          ],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "links-to",
@@ -76528,7 +77033,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.010801,
+          "pagerank": 0.010814,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -76655,7 +77160,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76815,7 +77320,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.031289,
+          "pagerank": 0.031386,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
@@ -76999,7 +77504,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77204,7 +77709,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.018624,
+          "pagerank": 0.018633,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -77286,7 +77791,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002737,
+          "pagerank": 0.002717,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77335,7 +77840,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77404,7 +77909,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77776,7 +78281,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -77932,7 +78437,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002492,
+          "pagerank": 0.002473,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -78082,7 +78587,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78274,7 +78779,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002492,
+          "pagerank": 0.002473,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78612,7 +79117,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78834,7 +79339,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78941,7 +79446,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79098,7 +79603,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79310,7 +79815,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79525,7 +80030,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79618,7 +80123,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79692,7 +80197,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79984,7 +80489,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80171,7 +80676,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80234,7 +80739,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80308,7 +80813,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80461,7 +80966,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80580,7 +81085,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80822,7 +81327,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80950,7 +81455,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81049,7 +81554,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81202,7 +81707,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81276,7 +81781,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -81442,7 +81947,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81516,7 +82021,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81644,7 +82149,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81713,7 +82218,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81905,7 +82410,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82066,7 +82571,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82259,7 +82764,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82509,7 +83014,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002033,
+          "pagerank": 0.002018,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82633,7 +83138,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82692,7 +83197,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83009,7 +83514,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83156,7 +83661,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83285,7 +83790,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
@@ -83613,7 +84118,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83662,7 +84167,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004167,
+          "pagerank": 0.004136,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83741,7 +84246,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.003295,
+          "pagerank": 0.00327,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83870,7 +84375,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83944,7 +84449,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002924,
+          "pagerank": 0.002902,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84043,7 +84548,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84122,7 +84627,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84191,7 +84696,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004253,
+          "pagerank": 0.004221,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84275,7 +84780,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84354,7 +84859,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002877,
+          "pagerank": 0.002856,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84428,7 +84933,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84502,7 +85007,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005078,
+          "pagerank": 0.00504,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84591,7 +85096,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002877,
+          "pagerank": 0.002856,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84685,7 +85190,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002052,
+          "pagerank": 0.002036,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84760,7 +85265,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -84904,7 +85409,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -85056,7 +85561,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.007501,
+          "pagerank": 0.007445,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -85180,7 +85685,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001942,
+          "pagerank": 0.001927,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -96800,6 +97305,136 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/example-channels/src/app.ts",
+        "kind": "module",
+        "path": "apps/example-channels/src/app.ts",
+        "title": "app.ts",
+        "aliases": [],
+        "symbols": [
+          "createChannelApp",
+          "demoAdapter"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "app.ts",
+          "headings": "",
+          "path": "apps/example-channels/src/app.ts",
+          "symbols": "createChannelApp demoAdapter",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/example-channels",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/example-channels/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:apps/example-channels/tests/app.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "b9203aae758c2570b175f0ebdb13a0a3da0e78fb1e992d538520750dbef401e7",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/example-channels/src/index.ts",
+        "kind": "module",
+        "path": "apps/example-channels/src/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "apps/example-channels/src/index.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/example-channels",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/example-channels/src/app.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "42731de3bac0324882458ec34647eb547995d9ba3fff0e7ca9a3d4674d3ec7bb",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/example-channels/tests/app.test.ts",
+        "kind": "module",
+        "path": "apps/example-channels/tests/app.test.ts",
+        "title": "app.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "app.test.ts",
+          "headings": "",
+          "path": "apps/example-channels/tests/app.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/example-channels",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/example-channels/src/app.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "c0eeab3670b7e52c1943713fd1d75352ec1d6d141f23bbfb68cc21ee23bac763",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/example-discord-bot/src/adapter.ts",
         "kind": "module",
         "path": "apps/example-discord-bot/src/adapter.ts",
@@ -103364,7 +103999,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a15031beea6fcbfe8641e46483cd9c9c9193e6fefa53c96d3575781eb40d0b3c",
+        "contentHash": "f063f7548cf2740e746f00f9870b09db5e33941b94d3287309663e154ad0b413",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -103727,6 +104362,11 @@
           ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
@@ -107586,6 +108226,7 @@
           "BailConfig",
           "BedrockConfig",
           "BedrockRuntimeClientLike",
+          "CLIPROXYAPI_DEFAULT_BASE_URL",
           "CapabilityUnsupportedError",
           "CarbonTable",
           "CerebrasConfig",
@@ -107624,6 +108265,8 @@
           "MockAdapterOptions",
           "MockResponse",
           "ModelDeprecation",
+          "ModelProviderConfig",
+          "ModelProviderId",
           "OllamaConfig",
           "OllamaEmbedderConfig",
           "OpenAICompatibleConfig",
@@ -107668,6 +108311,7 @@
           "createAdapter",
           "createEnsembleAdapter",
           "createFallbackAdapter",
+          "createModelProvider",
           "createOpenAICompatibleEmbedder",
           "createRotatingCredentials",
           "createRouter",
@@ -107727,7 +108371,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/adapters/src/index.ts",
-          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CapabilityUnsupportedError CarbonTable CerebrasConfig CloudflareAiGatewayConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation OllamaConfig OllamaEmbedderConfig OpenAICompatibleConfig OpenAICompatibleEmbedderConfig OpenAICompatibleTransportConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike WorkersAiConfig anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cloudflareAiGateway cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openRouter openai openaiCompatible openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy workersAi",
+          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CLIPROXYAPI_DEFAULT_BASE_URL CapabilityUnsupportedError CarbonTable CerebrasConfig CloudflareAiGatewayConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation ModelProviderConfig ModelProviderId OllamaConfig OllamaEmbedderConfig OpenAICompatibleConfig OpenAICompatibleEmbedderConfig OpenAICompatibleTransportConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike WorkersAiConfig anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cloudflareAiGateway cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createModelProvider createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openRouter openai openaiCompatible openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy workersAi",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -107923,6 +108567,11 @@
             },
             {
               "kind": "re-exports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
               "id": "module:packages/adapters/src/replicate.ts",
               "confidence": "observed"
             },
@@ -107968,7 +108617,7 @@
             }
           ]
         },
-        "contentHash": "fc0b76056685ae8b01ec4c33e2d89fddebf702733de3993b9477b5af0d6f920a",
+        "contentHash": "0028427f5791f6371ab157a332194d0b5915d658750e04a01fa24a135da7e71a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -109083,6 +109732,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
               "confidence": "observed"
             },
@@ -109289,6 +109943,11 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
               "confidence": "observed"
             },
@@ -109367,6 +110026,77 @@
           ]
         },
         "contentHash": "50f46dccd29e8ed0ef860d1466b69f2f40865c421fa0d8c6ed923f8ef9015b2f",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/adapters/src/provider.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/provider.ts",
+        "title": "provider.ts",
+        "aliases": [],
+        "symbols": [
+          "CLIPROXYAPI_DEFAULT_BASE_URL",
+          "ModelProviderConfig",
+          "ModelProviderId",
+          "createModelProvider"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "provider.ts",
+          "headings": "",
+          "path": "packages/adapters/src/provider.ts",
+          "symbols": "CLIPROXYAPI_DEFAULT_BASE_URL ModelProviderConfig ModelProviderId createModelProvider",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/tests/model-provider.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/adapters/src/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/anthropic.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/openai.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/openrouter.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/utils.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "19fdc34323144ab9c48de26bb369e6cee98d857b4a4bc2966afe4796b472c71d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -110238,6 +110968,11 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/src/openai.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
               "confidence": "observed"
             },
             {
@@ -112306,6 +113041,46 @@
           ]
         },
         "contentHash": "13a968c5c0c06720f03fe2730f9898950bf1c20d917340d4141f34ee6141c280",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/adapters/tests/model-provider.test.ts",
+        "kind": "module",
+        "path": "packages/adapters/tests/model-provider.test.ts",
+        "title": "model-provider.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "model-provider.test.ts",
+          "headings": "",
+          "path": "packages/adapters/tests/model-provider.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/provider.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "efd853219e784a5a15803196ca65374c7a30157dbc553136064ac309a76f43c1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -120269,7 +121044,7 @@
             }
           ]
         },
-        "contentHash": "b76444b356f7957792d6d63a0facb84da5ad8b2c2cf68465926c4c055274c463",
+        "contentHash": "5f84fb677b22ce3c4b1243472bccec5e3abc2f7f5cb33f62c0f11d050dac0bbb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -130607,11 +131382,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:docs/architecture/adrs/0045-interoperability-charter.md"
+          ],
           "packageId": "package:@agentskit/core",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -138913,6 +139696,567 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/channels/email.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/email.ts",
+        "title": "email.ts",
+        "aliases": [],
+        "symbols": [
+          "EmailChannelOptions",
+          "emailChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "email.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/email.ts",
+          "symbols": "EmailChannelOptions emailChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http-body.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "9604aace73409ef03d5636b1ec20dbfc738a16595992243b62b248ae8988985b",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/handler.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/handler.ts",
+        "title": "handler.ts",
+        "aliases": [],
+        "symbols": [
+          "ChannelAgent",
+          "ChannelHandlerOptions",
+          "ChannelWebhookRequest",
+          "ChannelWebhookResponse",
+          "createChannelHandler"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "handler.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/handler.ts",
+          "symbols": "ChannelAgent ChannelHandlerOptions ChannelWebhookRequest ChannelWebhookResponse createChannelHandler",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "928dc82252a642869cfdb01a0fc99842a0ecdd5dc62ccd155fec206be354cab9",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "Channel",
+          "ChannelAgent",
+          "ChannelAttachment",
+          "ChannelHandlerOptions",
+          "ChannelOptionsBase",
+          "ChannelSender",
+          "ChannelWebhookRequest",
+          "ChannelWebhookResponse",
+          "EmailChannelOptions",
+          "InboundMessage",
+          "OutboundMessage",
+          "SlackChannelOptions",
+          "TelegramChannelOptions",
+          "WhatsAppChannelOptions",
+          "createChannelHandler",
+          "emailChannel",
+          "slackChannel",
+          "telegramChannel",
+          "whatsappChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/index.ts",
+          "symbols": "Channel ChannelAgent ChannelAttachment ChannelHandlerOptions ChannelOptionsBase ChannelSender ChannelWebhookRequest ChannelWebhookResponse EmailChannelOptions InboundMessage OutboundMessage SlackChannelOptions TelegramChannelOptions WhatsAppChannelOptions createChannelHandler emailChannel slackChannel telegramChannel whatsappChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/channels.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/email.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/handler.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/slack.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/telegram.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/whatsapp.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "3accc0a27f515fdc87294571bbd3ef5ee018ffae2bf752fdd89656d1dffc0e7c",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/shared.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/shared.ts",
+        "title": "shared.ts",
+        "aliases": [],
+        "symbols": [
+          "Rec",
+          "arr",
+          "parseBody",
+          "postJson",
+          "rec",
+          "str",
+          "withSecret"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "shared.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/shared.ts",
+          "symbols": "Rec arr parseBody postJson rec str withSecret",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/production/evals/replay.mdx"
+          ],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/email.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/slack.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/telegram.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/whatsapp.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/production/evals/replay.mdx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http-body.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/normalize.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "6331da90d43f43f3cfa3f973234e67e56cf3c56315264dc93fe25f0a3abeaf9d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/slack.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/slack.ts",
+        "title": "slack.ts",
+        "aliases": [],
+        "symbols": [
+          "SlackChannelOptions",
+          "slackChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "slack.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/slack.ts",
+          "symbols": "SlackChannelOptions slackChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "822342d0fa08c00ee37f5436d7c95af51bf44210514f3be5464256831ce62d06",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/telegram.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/telegram.ts",
+        "title": "telegram.ts",
+        "aliases": [],
+        "symbols": [
+          "TelegramChannelOptions",
+          "telegramChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "telegram.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/telegram.ts",
+          "symbols": "TelegramChannelOptions telegramChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "c73fac080e39434f0d99dabc12978c343da10dcc7e5413aca222dc16224a2b4b",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/types.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/types.ts",
+        "title": "types.ts",
+        "aliases": [],
+        "symbols": [
+          "Channel",
+          "ChannelAttachment",
+          "ChannelOptionsBase",
+          "ChannelSender",
+          "InboundMessage",
+          "OutboundMessage"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "types.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/types.ts",
+          "symbols": "Channel ChannelAttachment ChannelOptionsBase ChannelSender InboundMessage OutboundMessage",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/email.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/handler.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/slack.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/telegram.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/whatsapp.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "09faa651068ced69287764c75496566d2c6fbd5977f1d3b8e2e640a2cb3b60f4",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/channels/whatsapp.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/channels/whatsapp.ts",
+        "title": "whatsapp.ts",
+        "aliases": [],
+        "symbols": [
+          "WhatsAppChannelOptions",
+          "whatsappChannel"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "channels"
+        ],
+        "fields": {
+          "title": "whatsapp.ts",
+          "headings": "",
+          "path": "packages/integrations/src/channels/whatsapp.ts",
+          "symbols": "WhatsAppChannelOptions whatsappChannel",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts channels"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/channels",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "57679b57981965c0649518c922491c1663c05aa83b5585221847869ecb7739bf",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/config-fields.ts",
         "kind": "module",
         "path": "packages/integrations/src/config-fields.ts",
@@ -139107,6 +140451,16 @@
           "mentionedBy": [],
           "packageId": "package:@agentskit/integrations",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/types.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/config-fields.ts",
@@ -139416,16 +140770,6 @@
               "kind": "imports",
               "id": "module:packages/integrations/src/services/google-calendar/index.ts",
               "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/integrations/src/services/google-drive/actions.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/integrations/src/services/google-drive/index.ts",
-              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -139474,6 +140818,16 @@
           ],
           "packageId": "package:@agentskit/integrations",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/email.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/http.ts",
@@ -139841,6 +141195,11 @@
           "outbound": [
             {
               "kind": "re-exports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
               "id": "module:packages/integrations/src/config-fields.ts",
               "confidence": "observed"
             },
@@ -139876,7 +141235,7 @@
             }
           ]
         },
-        "contentHash": "348e14d6c5d23d627bd1084ac81d73f35ab20f87fd0c64c0967e439cc64b1df2",
+        "contentHash": "934941ac408308b667c4b188fc3d8121d2c2f953a07ca0fb00926f7f2ef85d0a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -139912,6 +141271,11 @@
           "mentionedBy": [],
           "packageId": "package:@agentskit/integrations",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/shared.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/discord/triggers.ts",
@@ -148652,6 +150016,7 @@
           "verifyHmacSha256Body",
           "verifyPagerDuty",
           "verifySlack",
+          "verifySvix",
           "verifyTelegram",
           "verifyTwilio"
         ],
@@ -148664,7 +150029,7 @@
           "title": "webhook-verify.ts",
           "headings": "",
           "path": "packages/integrations/src/webhook-verify.ts",
-          "symbols": "headerValue hmacSha1Base64 hmacSha256Hex verifyDiscord verifyHmacSha256Bare verifyHmacSha256Body verifyPagerDuty verifySlack verifyTelegram verifyTwilio",
+          "symbols": "headerValue hmacSha1Base64 hmacSha256Hex verifyDiscord verifyHmacSha256Bare verifyHmacSha256Body verifyPagerDuty verifySlack verifySvix verifyTelegram verifyTwilio",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -148676,6 +150041,26 @@
           "mentionedBy": [],
           "packageId": "package:@agentskit/integrations",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/email.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/slack.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/telegram.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/whatsapp.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/discord/triggers.ts",
@@ -148723,6 +150108,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/tests/channels.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/tests/webhook-triggers.test.ts",
               "confidence": "observed"
             }
@@ -148735,7 +150125,7 @@
             }
           ]
         },
-        "contentHash": "775e526012168ea69bde1cabc4dc94fd8b1f7f549853fa4cdd152bdf875d8e82",
+        "contentHash": "9b3daf155e3c8abab1b19cb25819f973b6266eb2058a5861aa478c190f93e49b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -148871,6 +150261,51 @@
           ]
         },
         "contentHash": "78a92e2ec6a1c6e35d96dcec16bf9360d5a398bbf2180f7f422ccba403ec7df6",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/tests/channels.test.ts",
+        "kind": "module",
+        "path": "packages/integrations/tests/channels.test.ts",
+        "title": "channels.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "channels.test.ts",
+          "headings": "",
+          "path": "packages/integrations/tests/channels.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/channels/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/webhook-verify.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "aa271d59cd7d2612a875c8a2b4e46c4bb6d797ae26791f9af82bff5abf67df6f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -186828,12 +188263,13 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/feedback_zero-dep-core.md",
             "document:docs/architecture/adrs/0008-runtime-validation.md",
-            "document:docs/architecture/adrs/0009-composition-rules.md"
+            "document:docs/architecture/adrs/0009-composition-rules.md",
+            "document:docs/architecture/adrs/0045-interoperability-charter.md"
           ],
           "areaId": "area:scripts",
           "packageId": "package:agentskit",
@@ -186851,6 +188287,11 @@
             {
               "kind": "mentions",
               "id": "document:docs/architecture/adrs/0009-composition-rules.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
               "confidence": "observed"
             }
           ],
@@ -193311,7 +194752,7 @@
           "aliases": "adapters @agentskit/adapters package ownership"
         },
         "graph": {
-          "pagerank": 0.004005,
+          "pagerank": 0.003975,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
@@ -193736,7 +195177,7 @@
           "aliases": "angular @agentskit/angular package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 37,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/angular.mdx",
@@ -194005,7 +195446,7 @@
           "aliases": "cli @agentskit/cli package ownership"
         },
         "graph": {
-          "pagerank": 0.003867,
+          "pagerank": 0.003839,
           "inboundLinks": 26,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx",
@@ -194208,7 +195649,7 @@
           "aliases": "core @agentskit/core package ownership"
         },
         "graph": {
-          "pagerank": 0.004418,
+          "pagerank": 0.004385,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/core.mdx",
@@ -194633,7 +196074,7 @@
           "aliases": "cross-platform @agentskit/cross-platform package ownership"
         },
         "graph": {
-          "pagerank": 0.004143,
+          "pagerank": 0.004112,
           "inboundLinks": 11,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
@@ -194746,7 +196187,7 @@
           "aliases": "eval @agentskit/eval package ownership"
         },
         "graph": {
-          "pagerank": 0.007719,
+          "pagerank": 0.007661,
           "inboundLinks": 41,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
@@ -195133,7 +196574,7 @@
           "aliases": "ink @agentskit/ink package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 52,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/ink.mdx",
@@ -195498,8 +196939,8 @@
           "aliases": "integrations @agentskit/integrations package ownership"
         },
         "graph": {
-          "pagerank": 0.00318,
-          "inboundLinks": 18,
+          "pagerank": 0.003156,
+          "inboundLinks": 19,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -195513,6 +196954,7 @@
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
             "document:apps/docs-next/content/docs/reference/stability.mdx",
+            "document:apps/example-channels/README.md",
             "document:docs/architecture/adrs/0012-vendor-adapter-scope.md",
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:docs/architecture/adrs/0037-net-package.md",
@@ -195574,6 +197016,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/stability.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/example-channels/README.md",
               "confidence": "observed"
             },
             {
@@ -195659,7 +197106,7 @@
           "aliases": "mcp @agentskit/mcp package ownership"
         },
         "graph": {
-          "pagerank": 0.00318,
+          "pagerank": 0.003156,
           "inboundLinks": 20,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
@@ -195826,7 +197273,7 @@
           "aliases": "memory @agentskit/memory package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/memory.mdx",
@@ -196251,7 +197698,7 @@
           "aliases": "net @agentskit/net package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 19,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
@@ -196412,7 +197859,7 @@
           "aliases": "observability @agentskit/observability package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 52,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability.mdx",
@@ -196771,7 +198218,7 @@
           "aliases": "observability-langfuse @agentskit/observability-langfuse package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 8,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
@@ -196860,7 +198307,7 @@
           "aliases": "rag @agentskit/rag package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 49,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/rag.mdx",
@@ -197201,7 +198648,7 @@
           "aliases": "react @agentskit/react package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react.mdx",
@@ -197626,7 +199073,7 @@
           "aliases": "react-native @agentskit/react-native package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 35,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react-native.mdx",
@@ -197889,7 +199336,7 @@
           "aliases": "runtime @agentskit/runtime package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/runtime.mdx",
@@ -198314,7 +199761,7 @@
           "aliases": "sandbox @agentskit/sandbox package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 38,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
@@ -198589,7 +200036,7 @@
           "aliases": "skills @agentskit/skills package ownership"
         },
         "graph": {
-          "pagerank": 0.003592,
+          "pagerank": 0.003566,
           "inboundLinks": 28,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
@@ -198804,7 +200251,7 @@
           "aliases": "solid @agentskit/solid package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 34,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/solid.mdx",
@@ -199055,7 +200502,7 @@
           "aliases": "statechart @agentskit/statechart package ownership"
         },
         "graph": {
-          "pagerank": 0.002767,
+          "pagerank": 0.002746,
           "inboundLinks": 12,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/statechart.mdx",
@@ -199180,7 +200627,7 @@
           "aliases": "svelte @agentskit/svelte package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
@@ -199461,7 +200908,7 @@
           "aliases": "templates @agentskit/templates package ownership"
         },
         "graph": {
-          "pagerank": 0.004418,
+          "pagerank": 0.004385,
           "inboundLinks": 20,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/templates.mdx",
@@ -199628,7 +201075,7 @@
           "aliases": "tools @agentskit/tools package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 62,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
@@ -200053,7 +201500,7 @@
           "aliases": "validation @agentskit/validation package ownership"
         },
         "graph": {
-          "pagerank": 0.004005,
+          "pagerank": 0.003975,
           "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/validation.mdx",
@@ -200172,7 +201619,7 @@
           "aliases": "vue @agentskit/vue package ownership"
         },
         "graph": {
-          "pagerank": 0.005243,
+          "pagerank": 0.005204,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
@@ -200449,7 +201896,7 @@
           "aliases": "agentskit package"
         },
         "graph": {
-          "pagerank": 0.002354,
+          "pagerank": 0.002337,
           "inboundLinks": 46,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"

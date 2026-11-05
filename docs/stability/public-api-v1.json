@@ -5716,6 +5716,54 @@
               ]
             },
             {
+              "name": "Channel",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ChannelAgent",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ChannelAttachment",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ChannelHandlerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ChannelOptionsBase",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ChannelSender",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ChannelWebhookRequest",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ChannelWebhookResponse",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "coingeckoIntegration",
               "kinds": [
                 "value"
@@ -5741,6 +5789,12 @@
             },
             {
               "name": "confluenceIntegration",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createChannelHandler",
               "kinds": [
                 "value"
               ]
@@ -5801,6 +5855,18 @@
             },
             {
               "name": "EmailAttachment",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "emailChannel",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "EmailChannelOptions",
               "kinds": [
                 "type"
               ]
@@ -5933,6 +5999,12 @@
             },
             {
               "name": "ImapFetchOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "InboundMessage",
               "kinds": [
                 "type"
               ]
@@ -6076,6 +6148,12 @@
               ]
             },
             {
+              "name": "OutboundMessage",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "pagerdutyIntegration",
               "kinds": [
                 "value"
@@ -6154,6 +6232,18 @@
               ]
             },
             {
+              "name": "slackChannel",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "SlackChannelOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "slackIntegration",
               "kinds": [
                 "value"
@@ -6226,6 +6316,18 @@
               ]
             },
             {
+              "name": "telegramChannel",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "TelegramChannelOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "telegramIntegration",
               "kinds": [
                 "value"
@@ -6269,6 +6371,18 @@
             },
             {
               "name": "WebhookSecretAuthSpec",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "whatsappChannel",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "WhatsAppChannelOptions",
               "kinds": [
                 "type"
               ]
