@@ -42,7 +42,6 @@ A 10 KB core budget. 24 focused packages. Zero lock-in. Six formal contracts tha
 **Experimental packages** (no internal consumer yet; community-maintained, tagged `experimental` on npm, never blocking a release). See the [support matrix](./docs/SUPPORT-MATRIX.md).
 
 - `@agentskit/cli`
-- `@agentskit/integrations`
 - `@agentskit/mcp`
 - `@agentskit/templates`
 <!-- support-matrix:end -->
