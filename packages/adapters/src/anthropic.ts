@@ -12,6 +12,8 @@ export interface AnthropicConfig {
   baseUrl?: string
   maxTokens?: number
   retry?: RetryOptions
+  /** Injectable fetch (tests, proxies). Defaults to the global `fetch`. */
+  fetch?: typeof globalThis.fetch
 }
 
 /**
@@ -48,7 +50,7 @@ export function anthropic(config: AnthropicConfig): AdapterFactory {
       }
 
       return createStreamSource(
-        (signal) => fetch(`${baseUrl}/v1/messages`, {
+        (signal) => (config.fetch ?? globalThis.fetch)(`${baseUrl}/v1/messages`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

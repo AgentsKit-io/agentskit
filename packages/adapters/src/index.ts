@@ -132,5 +132,7 @@ export { cloudflareAiGateway, workersAi } from './cloudflare'
 export type { CloudflareAiGatewayConfig, WorkersAiConfig } from './cloudflare'
 export { CapabilityUnsupportedError } from './content-parts'
 
+export { createModelGateway, createCostBudget, BudgetExceededError } from './gateway'
+export type { ModelGatewayConfig, GatewayProvider, GatewayPricing, GatewayUsage, CostBudget, BudgetScope } from './gateway'
 export { createModelProvider, CLIPROXYAPI_DEFAULT_BASE_URL } from './provider'
 export type { ModelProviderConfig, ModelProviderId } from './provider'
