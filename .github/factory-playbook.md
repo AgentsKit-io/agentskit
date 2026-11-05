@@ -7,7 +7,7 @@ Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read `
 - Exact CI command: `pnpm install --frozen-lockfile`.
 - Stale lockfile (frozen install fails): run `pnpm install`, commit the `pnpm-lock.yaml` change in its own `build:` commit. Never hand-edit the lockfile.
 - No env vars are needed to build/test. Postgres tests read a connection URL variable (see `.github/workflows/ci.yml`); skip them locally.
-- `HUSKY=0` skips git hooks; do not rely on it for the final check (pre-push runs quality gates + lint + build).
+- `HUSKY=0` skips git hooks. The factory station pushes without hooks; `verify` in `.github/factory.json` runs what pre-push checks (Doc Bridge index, quality gates, lint, build), so it is the final check.
 
 ## 2. Run locally
 - Docs: `pnpm docs` (Next.js, `apps/docs-next`). Examples: `pnpm dev` (turbo, all `dev` tasks). Most tickets are library code and need no running app.
@@ -19,8 +19,8 @@ Build first when you touch a package other packages import (they consume `dist/`
 - `pnpm --filter @agentskit/<pkg> test`
 - One test file: `pnpm --filter @agentskit/<pkg> exec vitest run path/to/file.test.ts`
 - Root `scripts/*.test.mjs`: `pnpm exec vitest run scripts/<file>.test.mjs` (or `node --test` for those that use it, see `package.json`).
-- Always finish with `pnpm check:quality-gates`.
-- Affected-only, like CI: `pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2` (this is `verify` in `.github/factory.json`).
+- Always finish with `pnpm docs:bridge:index && pnpm check:quality-gates` (the gates read the current tree's Doc Bridge index, as in CI).
+- Affected-only, like CI: `pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2` (plus the two commands above, this is `verify` in `.github/factory.json`).
 
 ## 4. Full verification (CI, `.github/workflows/`)
 `ci.yml`:
