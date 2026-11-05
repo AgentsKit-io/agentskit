@@ -9,11 +9,11 @@
  *
  * Needs registry access; never touches the workspace install.
  */
-import { execFileSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { runCommand } from '../packages/cross-platform/dist/index.js'
 import { MINIMUM_CONSUMER_COVERAGE } from './lib/release-train.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -27,7 +27,12 @@ if (uncovered.length > 0) {
 }
 
 const dir = mkdtempSync(join(tmpdir(), 'min-consumer-'))
-const run = (file, args) => execFileSync(file, args, { cwd: dir, stdio: 'inherit' })
+const run = async (file, args) => {
+  const result = await runCommand(file, args, { cwd: dir, maxOutputBytes: 50 * 1024 * 1024 })
+  process.stdout.write(result.stdout)
+  process.stderr.write(result.stderr)
+  if (result.code !== 0) throw new Error(`${file} ${args.join(' ')} exited with code ${result.code}`)
+}
 try {
   mkdirSync(join(dir, 'src'))
   writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'min-consumer', private: true, type: 'module', dependencies: minimums }, null, 2))
@@ -53,10 +58,10 @@ try {
     "test('renders at the minimum versions', () => { expect(html(2)).toContain('2') })",
     '',
   ].join('\n'))
-  run('npm', ['install', '--no-audit', '--no-fund', '--ignore-scripts', '--save-exact'])
-  run('npx', ['--no-install', 'tsc', '-p', 'tsconfig.json'])
-  run('npx', ['--no-install', 'tsup', 'src/app.tsx', '--format', 'esm', '--external', 'react', '--external', 'react-dom'])
-  run('npx', ['--no-install', 'vitest', 'run'])
+  await run('npm', ['install', '--no-audit', '--no-fund', '--ignore-scripts', '--save-exact'])
+  await run('npx', ['--no-install', 'tsc', '-p', 'tsconfig.json'])
+  await run('npx', ['--no-install', 'tsup', 'src/app.tsx', '--format', 'esm', '--external', 'react', '--external', 'react-dom'])
+  await run('npx', ['--no-install', 'vitest', 'run'])
   process.stdout.write('minimum-consumer: all manifest minimums verified\n')
 } finally {
   rmSync(dir, { recursive: true, force: true })
