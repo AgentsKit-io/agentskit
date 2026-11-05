@@ -627,7 +627,7 @@ describe('native HTTP acceptance', () => {
         },
         { path: '/deadline-retry' },
       )).rejects.toMatchObject({ name: 'TimeoutError' })
-      expect(delayedRetryCalls).toBe(1)
+      await vi.waitFor(() => expect(delayedRetryCalls).toBe(1))
 
       await expect(httpJson(
         { baseUrl: server.origin, timeoutMs: 30 },
