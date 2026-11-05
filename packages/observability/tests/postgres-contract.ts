@@ -36,6 +36,17 @@ export async function postgresCostContract(db: NodePgDatabase, tenantPrefix: str
   const raced = await store.window({ tenant, windowKey: 'contract' })
   if (Math.abs(raced.reservedUsd - 0.2) > 1e-9) throw new Error(`replayed reservations were counted more than once (${raced.reservedUsd})`)
 
+  const dropped = `${tenantPrefix}:ttl`
+  const start = Date.now()
+  const lazy = (offsetMs: number) => postgresCostStore({ db, now: () => new Date(start + offsetMs), reservationTtlMs: 60_000 })
+  await lazy(0).reserve({ tenant: dropped, reservationId: 'dropped', amountUsd: 0.8, capUsd: 1, windowKey: 'contract' })
+  if ((await lazy(60_000).reserve({ tenant: dropped, reservationId: 'early', amountUsd: 0.5, capUsd: 1, windowKey: 'contract' })).ok) throw new Error('a reservation inside its TTL must keep counting against the cap')
+  const refunded = await lazy(60_001).reserve({ tenant: dropped, reservationId: 'next', amountUsd: 0.5, capUsd: 1, windowKey: 'contract' })
+  if (!refunded.ok || Math.abs(refunded.window.reservedUsd - 0.5) > 1e-9) throw new Error('a reservation past its TTL must stop counting against the cap')
+  const lateTtl = await lazy(60_001).commit({ tenant: dropped, reservationId: 'dropped', actualUsd: 0.8 }).then(() => undefined, (error: { code?: unknown }) => error.code)
+  if (lateTtl !== 'AK_COST_RESERVATION_RELEASED') throw new Error('a commit after the TTL must be rejected as released')
+  await lazy(60_001).release({ tenant: dropped, reservationId: 'next' })
+
   // Last: expiry releases every reservation still held in this test database, including the ones raced above.
   const abandoned = `${tenantPrefix}:expiry`
   await store.reserve({ tenant: abandoned, reservationId: 'abandoned', amountUsd: 0.3, windowKey: 'contract' })
