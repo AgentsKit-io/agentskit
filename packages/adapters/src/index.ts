@@ -131,3 +131,6 @@ export { openRouter } from './openrouter'
 export { cloudflareAiGateway, workersAi } from './cloudflare'
 export type { CloudflareAiGatewayConfig, WorkersAiConfig } from './cloudflare'
 export { CapabilityUnsupportedError } from './content-parts'
+
+export { createModelProvider, CLIPROXYAPI_DEFAULT_BASE_URL } from './provider'
+export type { ModelProviderConfig, ModelProviderId } from './provider'
