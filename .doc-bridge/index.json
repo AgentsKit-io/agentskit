@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "21f316cbdf96da149bfdb29bb9988ef3da17c8e7f1af0646c20a9fd6315b7bfb",
+  "contentHash": "b3df1f841953e27b76f1aef9901c903531a286a59521dc662d8332c96cf1f960",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-05T01:17:17.616Z",
+  "generatedAt": "2026-11-05T14:23:37.799Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -377,6 +377,18 @@
         "unclassified"
       ],
       "contentHash": "b0ca124de48ddb5e6688db746c98e6d8a7522f331a3ad605da21f9d193fa196c"
+    },
+    {
+      "id": "document:.github/factory-playbook.md",
+      "type": "document",
+      "title": "Factory playbook — AgentsKit",
+      "path": ".github/factory-playbook.md",
+      "description": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
+      "tags": [
+        "document",
+        "unclassified"
+      ],
+      "contentHash": "158d137120892a037c2ff53a92eaeb90d37102a5af80e2b582687327674e8379"
     },
     {
       "id": "document:.github/rulesets/README.md",
@@ -2140,7 +2152,7 @@
         "document",
         "human"
       ],
-      "contentHash": "e58f288eebd5a87e8643ff18ebb0a0747cf3216b3adc13efa413dc0dbc1dbe3f"
+      "contentHash": "7c298908b09d95cad6bc244fa640c0e6344a38f039fb0afa57c90a90fdec37cb"
     },
     {
       "id": "document:apps/docs-next/content/docs/data/providers/hosted.mdx",
@@ -4134,6 +4146,18 @@
       "contentHash": "40022671fc86084e9f51bbaf2a744917f95865a78640763e991300fd6e724c73"
     },
     {
+      "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+      "type": "document",
+      "title": "call-budget.mdx",
+      "path": "apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+      "description": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "4801a458bb084537adf0386821e8ca2132bfacf3415d2372bb2977a1347de90f"
+    },
+    {
       "id": "document:apps/docs-next/content/docs/reference/recipes/code-reviewer.mdx",
       "type": "document",
       "title": "code-reviewer.mdx",
@@ -4395,7 +4419,7 @@
         "document",
         "human"
       ],
-      "contentHash": "6584806b5647bc06c2d2c28007c0b667f7681f9f9091c1dda73fe9ab32be27cf"
+      "contentHash": "6d02dd8aa41c4b1bd9d13202be1e07443cc54b18eb1473c5f24e1680c566f660"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/mandatory-sandbox.mdx",
@@ -7574,7 +7598,7 @@
         "document",
         "project"
       ],
-      "contentHash": "13c1cd6268b2a6acda8539937943724778964b84e6422b87a6136b928e2128e3"
+      "contentHash": "fcfe56301e4a538849593c22e0c43795b685d226c09a065e34a24a83c4061f5d"
     },
     {
       "id": "document:packages/validation/CONVENTIONS.md",
@@ -7851,6 +7875,18 @@
         "unclassified"
       ],
       "contentHash": "762356339ba5e546e7f6d1e52f5416ba97ae0f2edf5e477eec4c03820b14590d"
+    },
+    {
+      "id": "document:tests/interop/README.md",
+      "type": "document",
+      "title": "Interop fixtures",
+      "path": "tests/interop/README.md",
+      "description": "Portable, synthetic round-trip fixtures in fixtures/*.json, exercised by fixtures.test.ts (pnpm test:interop). Each file has schemaVersion: 1, kind, canonicalSha256, valid[] and invalid[].",
+      "tags": [
+        "document",
+        "project"
+      ],
+      "contentHash": "1fc8cdeef85984a72edd74f33e91174183715f725d7a930ee2ee9389cc1e87e5"
     },
     {
       "id": "module:.github/scripts/pnpm-bulk-audit.mjs",
@@ -14285,6 +14321,34 @@
       "contentHash": "6f3708b7e3f113334d2544b06c2fbb050c76f25ad8edc5bea78e6916ce302f27"
     },
     {
+      "id": "module:packages/adapters/src/budget.ts",
+      "type": "module",
+      "title": "budget.ts",
+      "path": "packages/adapters/src/budget.ts",
+      "symbols": [
+        "AK_BUDGET_EXCEEDED",
+        "BudgetCallMetadata",
+        "BudgetExceededDetails",
+        "BudgetExceededError",
+        "BudgetLedger",
+        "BudgetPrice",
+        "BudgetReservation",
+        "BudgetReserveResult",
+        "MemoryBudgetLedger",
+        "MemoryBudgetLedgerOptions",
+        "WithBudgetOptions",
+        "createBudgetLedger",
+        "estimateCostUsd",
+        "withBudget"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "46608034dca8720fdd882033bb75fa62bcfafdda7348848b94a1ca060535db5a"
+    },
+    {
       "id": "module:packages/adapters/src/carbon.ts",
       "type": "module",
       "title": "carbon.ts",
@@ -15746,6 +15810,19 @@
       "contentHash": "995971845c7227f55e4b8164dfb467cac75dee14df88fac4f52edd2de6d56e00"
     },
     {
+      "id": "module:packages/adapters/tests/budget.test.ts",
+      "type": "module",
+      "title": "budget.test.ts",
+      "path": "packages/adapters/tests/budget.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "c9610a1fae00b926c834420ad4e930ae7240bde318cbd6d8513e6c002f40026e"
+    },
+    {
       "id": "module:packages/adapters/tests/capabilities.test.ts",
       "type": "module",
       "title": "capabilities.test.ts",
@@ -16483,7 +16560,7 @@
         "ts",
         "adapters"
       ],
-      "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789"
+      "contentHash": "179b4e5eed74b97c31aa56d23bc392fe1cdd15e6299561de14d498f7ce60ccc3"
     },
     {
       "id": "module:packages/adapters/vitest.config.ts",
@@ -25672,7 +25749,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70"
+      "contentHash": "1722ee6522dedc5f08efde4dc4d5af8e06787b32e718d57e5c4b05155c9105b3"
     },
     {
       "id": "module:packages/integrations/tests/integration-tools.test.ts",
@@ -27731,7 +27808,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378"
+      "contentHash": "6521ed9b19b8041f51779300e5ae78a9f434fb6f9262d87e366bc801dffea9df"
     },
     {
       "id": "module:packages/net/tests/sse.test.ts",
@@ -27757,7 +27834,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "56aa5bd7950d3272e74b6ac5e27aefa4b43548c18ec0c0e2950cfff1cb72cac4"
+      "contentHash": "d626050389cb61d676ac190cedd09ab9d1d57f20cfa058ead894f0781189ff5c"
     },
     {
       "id": "module:packages/net/tsup.config.ts",
@@ -35391,22 +35468,41 @@
       "contentHash": "08def851c5cd860ca5a01940a583a5fd19412f00c2b705e98721c865cc7f994c"
     },
     {
-      "id": "module:packages/tools/src/web-search.ts",
+      "id": "module:packages/tools/src/web-search-parallel.ts",
       "type": "module",
-      "title": "web-search.ts",
-      "path": "packages/tools/src/web-search.ts",
+      "title": "web-search-parallel.ts",
+      "path": "packages/tools/src/web-search-parallel.ts",
       "symbols": [
-        "WebSearchConfig",
-        "WebSearchProvider",
-        "WebSearchResult",
-        "webSearch"
+        "parallelSearch"
       ],
       "tags": [
         "module",
         "ts",
         "src"
       ],
-      "contentHash": "6e1348e626807d81b1a20bde407134cac35464438545ac3e75680c7a59c3da59"
+      "contentHash": "eaf4518897734d8ff0b07968b3af9b6f98fbc410d54d607c9eb03d7bb319f8d3"
+    },
+    {
+      "id": "module:packages/tools/src/web-search.ts",
+      "type": "module",
+      "title": "web-search.ts",
+      "path": "packages/tools/src/web-search.ts",
+      "symbols": [
+        "SNIPPET_MAX",
+        "SearchRuntimeConfig",
+        "WebSearchConfig",
+        "WebSearchProvider",
+        "WebSearchResult",
+        "requestText",
+        "webSearch",
+        "withDeadline"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "e17259636c1d62f4c7f85f5998cc360d1bae80da85039b5ed7da3e83e968ca71"
     },
     {
       "id": "module:packages/tools/src/zod.ts",
@@ -35657,6 +35753,19 @@
         "tests"
       ],
       "contentHash": "49bd972f26aef2390e41834fa5dbc4cd086eff096f451c87fef14f2e99220bda"
+    },
+    {
+      "id": "module:packages/tools/tests/web-search-parallel.test.ts",
+      "type": "module",
+      "title": "web-search-parallel.test.ts",
+      "path": "packages/tools/tests/web-search-parallel.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "a3fb6250afba6dabf4fb38a921177236218271c72a356b0c1c25c00e8cc95a98"
     },
     {
       "id": "module:packages/tools/tests/web-search.test.ts",
@@ -37913,6 +38022,19 @@
       "contentHash": "d0a42e9d93232f11e2248ca424a2cfbd6e66aa197ad6167f0569f1493523f4d7"
     },
     {
+      "id": "module:tests/interop/fixtures.test.ts",
+      "type": "module",
+      "title": "fixtures.test.ts",
+      "path": "tests/interop/fixtures.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "interop"
+      ],
+      "contentHash": "1dbc337b868cba894d1dbd54fd06c60e9660ad8275dd5a6fef78b029ef59b55e"
+    },
+    {
       "id": "module:tests/vitest.config.ts",
       "type": "module",
       "title": "vitest.config.ts",
@@ -37925,7 +38047,7 @@
         "ts",
         "tests"
       ],
-      "contentHash": "dacd7c12d42383ecdf2ceb0a4b8a5a998d347b88b71628caab0c12e78ac51388"
+      "contentHash": "7de8cc05ac5327245fefb5e290c40e56bac868a6638b1e6a9bad0229ae5a5218"
     },
     {
       "id": "module:tsup.shared.ts",
@@ -39063,8 +39185,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "296097388e7be99419e00ef893204825be7abe475c3b9bac57e2759d10e12bea",
-    "fileCount": 2674,
+    "hash": "43c848cca573a99b1cd443c810b9ddf5eb2274913257ff700c37496f2f935a8c",
+    "fileCount": 2690,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39086,9 +39208,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2f0959379ad37a8c8a14ef6782e12d599fcf38589e5a1ec1241f24c7d05af60b",
+    "contentHash": "bbc115b47202cf86e1b7b81801448c6b508efc0931918041c6eb367e1a77622d",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "e6b88535f576a62532d627d99134a606ce3270ed1af945325709278943204d8d",
+    "snapshotHash": "829f639a58e366e260cd28d0fe561e20d34827fc2a2d85afc82e488fc4d61ad9",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39108,7 +39230,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2546,
+      "documentCount": 2554,
       "fieldNames": [
         "aliases",
         "body",
@@ -39119,13 +39241,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0172820109976435,
-        "body": 60.84367635506677,
-        "headings": 3.878240377062058,
-        "path": 7.613511390416339,
-        "summary": 4.501571091908876,
-        "symbols": 7.574626865671642,
-        "title": 3.3770620581304005
+        "aliases": 3.0172278778386845,
+        "body": 61.009788566953794,
+        "headings": 3.8884103367267033,
+        "path": 7.611589663273297,
+        "summary": 4.521926389976508,
+        "symbols": 7.576742364917776,
+        "title": 3.3782302270947535
       }
     },
     "entries": [
@@ -39149,11 +39271,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:.github/factory-playbook.md"
+          ],
           "packageId": "package:agentskit",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "fuzzy"
+            }
+          ],
           "outbound": []
         },
         "contentHash": "c7a4f26e5fec76986a3433537a5eb0558ad48a76383d92ae5197c7e38ea90120",
@@ -39432,9 +39562,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 9,
+          "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.github/factory-playbook.md",
             "document:apps/docs-next/README.md",
             "document:apps/landing/README.md",
             "document:CONTRIBUTING.md",
@@ -39447,6 +39578,11 @@
           ],
           "packageId": "package:agentskit",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/README.md",
@@ -40185,9 +40321,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.github/factory-playbook.md",
             "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/README.md",
@@ -40198,6 +40335,11 @@
           ],
           "packageId": "package:agentskit",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "fuzzy"
+            },
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
@@ -41648,11 +41790,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:.github/factory-playbook.md"
+          ],
           "packageId": "package:agentskit",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "fuzzy"
+            }
+          ],
           "outbound": []
         },
         "contentHash": "3f87cf805292b5040fa7dfbd66aae2db31ba70b8060d95495076d0d105e29a93",
@@ -42499,6 +42649,74 @@
         "confidence": "observed"
       },
       {
+        "id": "document:.github/factory-playbook.md",
+        "kind": "document",
+        "path": ".github/factory-playbook.md",
+        "title": "Factory playbook — AgentsKit",
+        "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
+        "aliases": [],
+        "tags": [
+          "document",
+          "unclassified"
+        ],
+        "fields": {
+          "title": "Factory playbook — AgentsKit",
+          "headings": "Factory playbook — AgentsKit 1. Install 2. Run locally 3. Quick verification (small diff) 4. Full verification (CI, .github/workflows/) 5. Rules that most often fail PRs 6. Shared registry files (conflict-prone) 7. Known pitfalls (real factory failures)",
+          "path": ".github/factory-playbook.md",
+          "symbols": "",
+          "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
+          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks; do not rely on it for the final check (pre-push runs quality gates + lint + build). 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm check:quality-gates . - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:index and commit the result (needed whenever docs, package READMEs or exports change). - pnpm-lock.yaml : on conflict take the base side, then pnpm install . - .changeset/ : one new uniquely named file per tic",
+          "aliases": "document unclassified"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "area:.github",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "area:apps/docs-next",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "area:docs",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "area:scripts",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:AGENTS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/PRIVATE-CONSUMER-POLICY.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:scripts/check-quality-gates.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "158d137120892a037c2ff53a92eaeb90d37102a5af80e2b582687327674e8379",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:.github/rulesets/README.md",
         "kind": "document",
         "path": ".github/rulesets/README.md",
@@ -42606,10 +42824,11 @@
         },
         "graph": {
           "pagerank": 0.00575,
-          "inboundLinks": 6,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:.github/copilot-instructions.md",
+            "document:.github/factory-playbook.md",
             "document:.kiro/steering/agentskit.md",
             "document:apps/docs-next/content/docs/for-agents/doc-bridge.mdx",
             "document:docs/studies/ecosystem-cohesion-plan.md",
@@ -42635,6 +42854,11 @@
             {
               "kind": "mentions",
               "id": "document:.github/copilot-instructions.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
               "confidence": "observed"
             },
             {
@@ -49809,11 +50033,11 @@
         ],
         "fields": {
           "title": "higher-order.mdx",
-          "headings": "createRouter createEnsembleAdapter createFallbackAdapter Related",
+          "headings": "createRouter createEnsembleAdapter createFallbackAdapter withBudget Related",
           "path": "apps/docs-next/content/docs/data/providers/higher-order.mdx",
           "symbols": "",
           "summary": "Pick an adapter per request by cost, latency, tags, or custom policy.",
-          "body": "createRouter Pick an adapter per request by cost, latency, tags, or custom policy. . createEnsembleAdapter Fan out to N candidates, merge per strategy (first, majority, custom). . createFallbackAdapter Try candidates in order until one succeeds. . Related - ·",
+          "body": "createRouter Pick an adapter per request by cost, latency, tags, or custom policy. . createEnsembleAdapter Fan out to N candidates, merge per strategy (first, majority, custom). . createFallbackAdapter Try candidates in order until one succeeds. . withBudget Refuse a call before it reaches the model when it would overrun a per-call ceiling or a named (per-customer or per-user) budget. . Related - ·",
           "aliases": "document human"
         },
         "graph": {
@@ -49824,7 +50048,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "e58f288eebd5a87e8643ff18ebb0a0747cf3216b3adc13efa413dc0dbc1dbe3f",
+        "contentHash": "7c298908b09d95cad6bc244fa640c0e6344a38f039fb0afa57c90a90fdec37cb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -63561,6 +63785,55 @@
         "confidence": "observed"
       },
       {
+        "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+        "kind": "document",
+        "path": "apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+        "title": "call-budget.mdx",
+        "summary": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "call-budget.mdx",
+          "headings": "Install Ceiling per customer Per-call overrides How spend is counted Related",
+          "path": "apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+          "symbols": "",
+          "summary": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called.",
+          "body": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called. Install Comes with @agentskit/adapters , as the @agentskit/adapters/budget subpath (kept out of the root entry so apps that don't use it don't pay for it). Ceiling per customer Handle the refusal where you read the stream: Per-call overrides A single request can name the budget and tighten the ceiling through context.metadata.budget : budget may also be a function (request) = string undefined when the name comes from the request itself. How spend is counted - Before the call, the estimate is reserved on the budget, so concurrent calls cannot jointly overrun it. - After the call, the reservation is replaced by the cost of the usage the provider reported. With no reported usage, the estimate is charged; a call that failed before producing output is charged nothing. - Prompt tokens use core's chars/4 approximateCounter . Pass counter for a real tokenizer. - createBudgetLedger is in-process. To share budgets across instances, implement BudgetLedger.reserve over Redis or your database. Related - : measure and abort during a run - : trim the prompt to fit a context window",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/adapters",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/adapters/src/budget.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/observability/src/cost-guard.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "4801a458bb084537adf0386821e8ca2132bfacf3415d2372bb2977a1347de90f",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:apps/docs-next/content/docs/reference/recipes/code-reviewer.mdx",
         "kind": "document",
         "path": "apps/docs-next/content/docs/reference/recipes/code-reviewer.mdx",
@@ -64518,7 +64791,7 @@
           "path": "apps/docs-next/content/docs/reference/recipes/index.mdx",
           "symbols": "",
           "summary": "60+ recipes. Each one: single page, install line, code, run. No dependency between recipes — every page stands alone.",
-          "body": "60+ recipes. Each one: single page, install line, code, run. No dependency between recipes — every page stands alone. Popular outcomes - — pair with , , and - — pair with , , and - — pair with , , and - — pair with , , and Getting started - — wrap any LLM API - — hosted and local model adapters - — change the provider, keep the agent path - — fake streaming for one-shot providers - — React / Vue / Svelte / Solid / Ink / RN / Angular Chat UI - · - · - · - · RAG + retrieval - · - · - Memory - · - · - · - Adapter composition - · - Tools + integrations - · - · · - Multi-agent + orchestration - · - · - Observability + cost - · - · - Security - · - · - · Evaluation - · - · - · - · Apps + bots - · - · Skills + specs - · Conventions - Replace KEY with your actual API key (use process.env.X API KEY in real code). - TypeScript; remove types for plain JS. - Each recipe declares its npm install line at the top.",
+          "body": "60+ recipes. Each one: single page, install line, code, run. No dependency between recipes — every page stands alone. Popular outcomes - — pair with , , and - — pair with , , and - — pair with , , and - — pair with , , and Getting started - — wrap any LLM API - — hosted and local model adapters - — change the provider, keep the agent path - — fake streaming for one-shot providers - — React / Vue / Svelte / Solid / Ink / RN / Angular Chat UI - · - · - · - · RAG + retrieval - · - · - Memory - · - · - · - Adapter composition - · - Tools + integrations - · - · · - Multi-agent + orchestration - · - · - Observability + cost - · · - · - Security - · - · - · Evaluation - · - · - · - · Apps + bots - · - · Skills + specs - · Conventions - Replace KEY with your actual API key (use process.env.X API KEY in real code). - TypeScript; remove types for plain JS. - Each recipe declares its npm install line at the top.",
           "aliases": "document human"
         },
         "graph": {
@@ -64529,7 +64802,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "6584806b5647bc06c2d2c28007c0b667f7681f9f9091c1dda73fe9ab32be27cf",
+        "contentHash": "6d02dd8aa41c4b1bd9d13202be1e07443cc54b18eb1473c5f24e1680c566f660",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -75135,15 +75408,21 @@
         },
         "graph": {
           "pagerank": 0.002626,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.github/factory-playbook.md",
             "document:AGENTS.md"
           ],
           "inbound": [
             {
               "kind": "links-to",
               "id": "document:AGENTS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
               "confidence": "observed"
             },
             {
@@ -83123,11 +83402,11 @@
         ],
         "fields": {
           "title": "@agentskit/tools",
-          "headings": "@agentskit/tools Verified proof How this fits the ecosystem Why tools Install Quick example With useChat (browser) Authoring tools with defineZodTool Features Built-ins (6) Safe outbound requests Integrations (20+) Authoring + composition MCP bridge Subpaths Ecosystem Contributors License Docs Maturity and compatibility Contributing",
+          "headings": "@agentskit/tools Verified proof How this fits the ecosystem Why tools Install Quick example With useChat (browser) Authoring tools with defineZodTool Features Built-ins (6) Safe outbound requests Parallel Search MCP (opt-in) Integrations (20+) Authoring + composition MCP bridge Subpaths Ecosystem Contributors License Docs Maturity and compatibility Contributing",
           "path": "packages/tools/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/tools Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Give your agents real-world capabilities without writing a single integration. Tags: ai · agents · llm · agentskit · ai-agents · function-calling · tool-use · mcp · web-search · filesystem Verified proof - Package metadata and tests live under packages/tools/ . - Package guide: https://www.agentskit.io/docs/reference/packages/tools - Stability map: How this fits the ecosystem @agentskit/tools gives agents useful hands: web fetch, search, filesystem, shell, SQLite, integrations, and MCP-friendly tool definitions. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why tools - Save days of integration work — web search, filesystem read/write, shell execution, and directory listing are ready to drop in; no wiring required - Safe by default — filesystem tools are sandboxed to a basePath , shell commands require an explicit allowlist, so agents can't escape their boundaries - Composable with any runtime — tools are just objects with a schema; they work with @agentskit/runtime , useChat , or any custom ReAct loop - Extend without friction — author custom tools with @agentskit/templates and register them the same way as built-ins Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With useChat (browser) Tools are plain ToolDefinition values — register them in the same way as in createRuntime . Authoring tools with defineZodTool If you use , @agentskit/tools ships defineZodTool — a factory that: - Types execute args from a Zod schema (full TypeScript inference) - Validates args at runtime via schema.parse before calling your function - Converts the Zod schema to JSON Schema for the adapter via a user-supplied toJsonSchema callback Zod and zod-to-json-schema are consumer-owned optional dependencies . They are not package peers because defineZodTool accepts a structural schema and a consumer-supplied JSON-Schema converter. For tools without Zod, use defineTool from @agentskit/core with a JSON Schema as const . Features Built-ins (6) - webSearch() — live web search with Serper, Tavily, DuckDuckGo, or a custom provider. - fetchUrl() — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping. - filesystem({ basePath }) — sandboxed read, write, and list operations. - shell({ allowed }) — shell execution with command allow-list + timeout. - sqliteQueryTool({ path }) — read-only SQL against a local SQLite file. Optional peer dep on better-sqlite3 . Note: never feed unvalidated user prompts straight into the sql field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input. - slackTool({ webhookUrl }) — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the slack() integration. Safe outbound requests safeFetch(input, init?, policy?) defaults to denying non-public hosts and re-checks every redirect hop. Address classification comes from @agentskit/net , so reserved, unspecified, multicast, CGNAT, IPv4-mapped private, and other non-unicast ranges are blocked as well as private, loopback, and link-local addresses. Hostname checks use Node DNS and fail closed if any result is non-public or lookup fails. isPrivateIPv4 and isPrivateHost keep their legacy decimal handling for zero-padded dotted quads ( 010.0.0.1 means 10.0.0.1 ). safeFetch first applies WHATWG URL canonicalization; avoid ambiguous numeric URL forms. For a vetted internal target, pass an exact allowedHosts entry or set allowPrivateHosts: true ; redirects still pass through the selected policy. The DNS preflight does not pin the resolve",
+          "body": "@agentskit/tools Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Give your agents real-world capabilities without writing a single integration. Tags: ai · agents · llm · agentskit · ai-agents · function-calling · tool-use · mcp · web-search · filesystem Verified proof - Package metadata and tests live under packages/tools/ . - Package guide: https://www.agentskit.io/docs/reference/packages/tools - Stability map: How this fits the ecosystem @agentskit/tools gives agents useful hands: web fetch, search, filesystem, shell, SQLite, integrations, and MCP-friendly tool definitions. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why tools - Save days of integration work — web search, filesystem read/write, shell execution, and directory listing are ready to drop in; no wiring required - Safe by default — filesystem tools are sandboxed to a basePath , shell commands require an explicit allowlist, so agents can't escape their boundaries - Composable with any runtime — tools are just objects with a schema; they work with @agentskit/runtime , useChat , or any custom ReAct loop - Extend without friction — author custom tools with @agentskit/templates and register them the same way as built-ins Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With useChat (browser) Tools are plain ToolDefinition values — register them in the same way as in createRuntime . Authoring tools with defineZodTool If you use , @agentskit/tools ships defineZodTool — a factory that: - Types execute args from a Zod schema (full TypeScript inference) - Validates args at runtime via schema.parse before calling your function - Converts the Zod schema to JSON Schema for the adapter via a user-supplied toJsonSchema callback Zod and zod-to-json-schema are consumer-owned optional dependencies . They are not package peers because defineZodTool accepts a structural schema and a consumer-supplied JSON-Schema converter. For tools without Zod, use defineTool from @agentskit/core with a JSON Schema as const . Features Built-ins (6) - webSearch() — live web search with Serper, Tavily, DuckDuckGo, opt-in Parallel Search MCP, or a custom provider. - fetchUrl() — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping. - filesystem({ basePath }) — sandboxed read, write, and list operations. - shell({ allowed }) — shell execution with command allow-list + timeout. - sqliteQueryTool({ path }) — read-only SQL against a local SQLite file. Optional peer dep on better-sqlite3 . Note: never feed unvalidated user prompts straight into the sql field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input. - slackTool({ webhookUrl }) — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the slack() integration. Safe outbound requests safeFetch(input, init?, policy?) defaults to denying non-public hosts and re-checks every redirect hop. Address classification comes from @agentskit/net , so reserved, unspecified, multicast, CGNAT, IPv4-mapped private, and other non-unicast ranges are blocked as well as private, loopback, and link-local addresses. Hostname checks use Node DNS and fail closed if any result is non-public or lookup fails. isPrivateIPv4 and isPrivateHost keep their legacy decimal handling for zero-padded dotted quads ( 010.0.0.1 means 10.0.0.1 ). safeFetch first applies WHATWG URL canonicalization; avoid ambiguous numeric URL forms. For a vetted internal target, pass an exact allowedHosts entry or set allowPrivateHosts: true ; redirects still pass through the selected policy. The DNS prefli",
           "aliases": "document project"
         },
         "graph": {
@@ -83374,7 +83653,7 @@
             }
           ]
         },
-        "contentHash": "13c1cd6268b2a6acda8539937943724778964b84e6422b87a6136b928e2128e3",
+        "contentHash": "fcfe56301e4a538849593c22e0c43795b685d226c09a065e34a24a83c4061f5d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -85658,6 +85937,50 @@
           ]
         },
         "contentHash": "762356339ba5e546e7f6d1e52f5416ba97ae0f2edf5e477eec4c03820b14590d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:tests/interop/README.md",
+        "kind": "document",
+        "path": "tests/interop/README.md",
+        "title": "Interop fixtures",
+        "summary": "Portable, synthetic round-trip fixtures in fixtures/*.json, exercised by fixtures.test.ts (pnpm test:interop). Each file has schemaVersion: 1, kind, canonicalSha256, valid[] and invalid[].",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "project"
+        ],
+        "fields": {
+          "title": "Interop fixtures",
+          "headings": "Interop fixtures What each fixture proves How an external bridge uses them",
+          "path": "tests/interop/README.md",
+          "symbols": "",
+          "summary": "Portable, synthetic round-trip fixtures in fixtures/*.json, exercised by fixtures.test.ts (pnpm test:interop). Each file has schemaVersion: 1, kind, canonicalSha256, valid[] and invalid[].",
+          "body": "Interop fixtures Portable, synthetic round-trip fixtures in fixtures/ .json , exercised by fixtures.test.ts ( pnpm test:interop ). Each file has schemaVersion: 1 , kind , canonicalSha256 , valid[] and invalid[] . File Covers --- --- messages.json text messages and multimodal content parts tools.json tool call, tool result, error result memory.json ChatMemory message records vector-documents.json VectorDocument records stream.json StreamChunk : text, tool call, done, error errors.json typed core errors and abort/cancellation eval.json an eval result record What each fixture proves - valid[] cases pass the public core validators and keep the same canonical hash across JSON.stringify / JSON.parse . - invalid[] cases are rejected by those validators. - canonicalSha256 pins the whole valid set, so any drift is detected. How an external bridge uses them 1. Load each file and check schemaVersion === 1 . 2. Map each valid[].value to the bridge's own types. 3. Serialize it back and compare sha256Hex(canonicalJson(value)) with the pinned hash (canonical JSON: sorted keys, see @agentskit/core/hash ). 4. Reject every invalid[] case.",
+          "aliases": "document project"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/types/memory.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/types/stream.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "1fc8cdeef85984a72edd74f33e91174183715f725d7a930ee2ee9389cc1e87e5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104595,6 +104918,68 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/src/budget.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/budget.ts",
+        "title": "budget.ts",
+        "aliases": [],
+        "symbols": [
+          "AK_BUDGET_EXCEEDED",
+          "BudgetCallMetadata",
+          "BudgetExceededDetails",
+          "BudgetExceededError",
+          "BudgetLedger",
+          "BudgetPrice",
+          "BudgetReservation",
+          "BudgetReserveResult",
+          "MemoryBudgetLedger",
+          "MemoryBudgetLedgerOptions",
+          "WithBudgetOptions",
+          "createBudgetLedger",
+          "estimateCostUsd",
+          "withBudget"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "budget.ts",
+          "headings": "",
+          "path": "packages/adapters/src/budget.ts",
+          "symbols": "AK_BUDGET_EXCEEDED BudgetCallMetadata BudgetExceededDetails BudgetExceededError BudgetLedger BudgetPrice BudgetReservation BudgetReserveResult MemoryBudgetLedger MemoryBudgetLedgerOptions WithBudgetOptions createBudgetLedger estimateCostUsd withBudget",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx"
+          ],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/tests/budget.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "46608034dca8720fdd882033bb75fa62bcfafdda7348848b94a1ca060535db5a",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/src/carbon.ts",
         "kind": "module",
         "path": "packages/adapters/src/carbon.ts",
@@ -111445,6 +111830,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/tests/budget.test.ts",
+        "kind": "module",
+        "path": "packages/adapters/tests/budget.test.ts",
+        "title": "budget.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "budget.test.ts",
+          "headings": "",
+          "path": "packages/adapters/tests/budget.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/budget.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "c9610a1fae00b926c834420ad4e930ae7240bde318cbd6d8513e6c002f40026e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/tests/capabilities.test.ts",
         "kind": "module",
         "path": "packages/adapters/tests/capabilities.test.ts",
@@ -113818,7 +114243,7 @@
             }
           ]
         },
-        "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789",
+        "contentHash": "179b4e5eed74b97c31aa56d23bc392fe1cdd15e6299561de14d498f7ce60ccc3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127870,7 +128295,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 36,
+          "inboundLinks": 37,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0003-memory-contract.md",
@@ -127908,7 +128333,8 @@
             "document:packages/memory/README.md",
             "document:packages/rag/CONVENTIONS.md",
             "document:packages/rag/README.md",
-            "document:packages/templates/CONVENTIONS.md"
+            "document:packages/templates/CONVENTIONS.md",
+            "document:tests/interop/README.md"
           ],
           "areaId": "area:packages/core/src/types",
           "packageId": "package:@agentskit/core",
@@ -128111,6 +128537,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/templates/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:tests/interop/README.md",
               "confidence": "observed"
             },
             {
@@ -128693,7 +129124,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/get-started/concepts/adapter.mdx",
@@ -128702,7 +129133,8 @@
             "document:apps/docs-next/content/docs/reference/recipes/deterministic-replay.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/simulate-stream.mdx",
             "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0001-adapter-contract.md"
+            "document:docs/architecture/adrs/0001-adapter-contract.md",
+            "document:tests/interop/README.md"
           ],
           "areaId": "area:packages/core/src/types",
           "packageId": "package:@agentskit/core",
@@ -128760,6 +129192,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0001-adapter-contract.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:tests/interop/README.md",
               "confidence": "observed"
             },
             {
@@ -149918,7 +150355,7 @@
             }
           ]
         },
-        "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70",
+        "contentHash": "1722ee6522dedc5f08efde4dc4d5af8e06787b32e718d57e5c4b05155c9105b3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158231,7 +158668,7 @@
             }
           ]
         },
-        "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378",
+        "contentHash": "6521ed9b19b8041f51779300e5ae78a9f434fb6f9262d87e366bc801dffea9df",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158316,7 +158753,7 @@
             }
           ]
         },
-        "contentHash": "56aa5bd7950d3272e74b6ac5e27aefa4b43548c18ec0c0e2950cfff1cb72cac4",
+        "contentHash": "d626050389cb61d676ac190cedd09ab9d1d57f20cfa058ead894f0781189ff5c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159855,7 +160292,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 12,
+          "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations/openai-images.mdx",
@@ -159865,6 +160302,7 @@
             "document:apps/docs-next/content/docs/production/observability/cost-guard.mdx",
             "document:apps/docs-next/content/docs/production/observability/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/observability.mdx",
+            "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/cost-guard.mdx",
             "document:docs/architecture/adrs/0044-durable-cost-store.md",
             "document:packages/observability/CONVENTIONS.md",
@@ -159946,6 +160384,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/packages/observability.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
               "confidence": "observed"
             },
             {
@@ -185147,6 +185590,21 @@
           "packageId": "package:@agentskit/tools",
           "inbound": [
             {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/tests/web-search-parallel.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/agents/tools/index.mdx",
               "confidence": "observed"
@@ -185518,6 +185976,11 @@
             {
               "kind": "imports",
               "id": "module:packages/tools/src/mcp/transports.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
               "confidence": "observed"
             },
             {
@@ -185998,16 +186461,78 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/tools/src/web-search-parallel.ts",
+        "kind": "module",
+        "path": "packages/tools/src/web-search-parallel.ts",
+        "title": "web-search-parallel.ts",
+        "aliases": [],
+        "symbols": [
+          "parallelSearch"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "web-search-parallel.ts",
+          "headings": "",
+          "path": "packages/tools/src/web-search-parallel.ts",
+          "symbols": "parallelSearch",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/tools",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/mcp/client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/mcp/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "eaf4518897734d8ff0b07968b3af9b6f98fbc410d54d607c9eb03d7bb319f8d3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/tools/src/web-search.ts",
         "kind": "module",
         "path": "packages/tools/src/web-search.ts",
         "title": "web-search.ts",
         "aliases": [],
         "symbols": [
+          "SNIPPET_MAX",
+          "SearchRuntimeConfig",
           "WebSearchConfig",
           "WebSearchProvider",
           "WebSearchResult",
-          "webSearch"
+          "requestText",
+          "webSearch",
+          "withDeadline"
         ],
         "tags": [
           "module",
@@ -186018,7 +186543,7 @@
           "title": "web-search.ts",
           "headings": "",
           "path": "packages/tools/src/web-search.ts",
-          "symbols": "WebSearchConfig WebSearchProvider WebSearchResult webSearch",
+          "symbols": "SNIPPET_MAX SearchRuntimeConfig WebSearchConfig WebSearchProvider WebSearchResult requestText webSearch withDeadline",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -186040,6 +186565,16 @@
             {
               "kind": "imports",
               "id": "module:packages/tools/src/discovery.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/tests/web-search-parallel.test.ts",
               "confidence": "observed"
             },
             {
@@ -186086,12 +186621,22 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/tools/src/mcp/client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/tools/src/safe-fetch.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "6e1348e626807d81b1a20bde407134cac35464438545ac3e75680c7a59c3da59",
+        "contentHash": "e17259636c1d62f4c7f85f5998cc360d1bae80da85039b5ed7da3e83e968ca71",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -186942,6 +187487,51 @@
           ]
         },
         "contentHash": "49bd972f26aef2390e41834fa5dbc4cd086eff096f451c87fef14f2e99220bda",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/tools/tests/web-search-parallel.test.ts",
+        "kind": "module",
+        "path": "packages/tools/tests/web-search-parallel.test.ts",
+        "title": "web-search-parallel.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "web-search-parallel.test.ts",
+          "headings": "",
+          "path": "packages/tools/tests/web-search-parallel.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/tools",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/mcp/client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a3fb6250afba6dabf4fb38a921177236218271c72a356b0c1c25c00e8cc95a98",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -189290,10 +189880,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
-            "document:.agent-memory/reference_quality-gates.md"
+            "document:.agent-memory/reference_quality-gates.md",
+            "document:.github/factory-playbook.md"
           ],
           "areaId": "area:scripts",
           "packageId": "package:agentskit",
@@ -189301,6 +189892,11 @@
             {
               "kind": "mentions",
               "id": "document:.agent-memory/reference_quality-gates.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
               "confidence": "observed"
             }
           ],
@@ -194093,6 +194689,40 @@
         "confidence": "observed"
       },
       {
+        "id": "module:tests/interop/fixtures.test.ts",
+        "kind": "module",
+        "path": "tests/interop/fixtures.test.ts",
+        "title": "fixtures.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "interop"
+        ],
+        "fields": {
+          "title": "fixtures.test.ts",
+          "headings": "",
+          "path": "tests/interop/fixtures.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test interop"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "1dbc337b868cba894d1dbd54fd06c60e9660ad8275dd5a6fef78b029ef59b55e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:tests/vitest.config.ts",
         "kind": "module",
         "path": "tests/vitest.config.ts",
@@ -194124,7 +194754,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "dacd7c12d42383ecdf2ceb0a4b8a5a998d347b88b71628caab0c12e78ac51388",
+        "contentHash": "7de8cc05ac5327245fefb5e290c40e56bac868a6638b1e6a9bad0229ae5a5218",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -194553,6 +195183,7 @@
             "document:apps/docs-next/content/docs/reference/recipes/adapter-ensemble.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/adapter-router.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/browser-only-webllm.mdx",
+            "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/fallback-chain.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/simulate-stream.mdx",
             "document:apps/docs-next/content/docs/reference/stability.mdx",
@@ -194575,8 +195206,7 @@
             "document:docs/ROADMAP-PRD.md",
             "document:docs/STABILITY.md",
             "document:docs/SUPPORT-MATRIX.md",
-            "document:GOVERNANCE.md",
-            "document:packages/adapters/CONVENTIONS.md"
+            "document:GOVERNANCE.md"
           ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
@@ -194782,6 +195412,11 @@
             },
             {
               "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/recipes/fallback-chain.mdx",
               "confidence": "observed"
             },
@@ -194894,16 +195529,11 @@
               "kind": "mentions",
               "id": "document:GOVERNANCE.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/adapters/CONVENTIONS.md",
-              "confidence": "observed"
             }
           ],
           "outbound": []
         },
-        "contentHash": "a696f289bfbd952df38dd164925ca2f9a0186c3493d290efbe8a63e2ad6c8e97",
+        "contentHash": "5f1705bdf6376ff15c5ceb2d9a17cf92d7aec3511dcd76915c72e02086ef7b6e",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "adapters"
@@ -201226,7 +201856,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "8150bb0cba41e9a1ff53fa401de6d8c97c26a7e8dd25d4ec2bd6c90cde6e6ef3",
+        "contentHash": "f8b6b53b9b51112e29ac1d9ed32aa52e46bc46801fdbf685d084acb346635486",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "tools"

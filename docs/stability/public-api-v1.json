@@ -859,6 +859,100 @@
             }
           ]
         },
+        "./budget": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "AK_BUDGET_EXCEEDED",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "BudgetCallMetadata",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "BudgetExceededDetails",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "BudgetExceededError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "BudgetLedger",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "BudgetPrice",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "BudgetReservation",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "BudgetReserveResult",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "createBudgetLedger",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "estimateCostUsd",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "MemoryBudgetLedger",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "MemoryBudgetLedgerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "withBudget",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "WithBudgetOptions",
+              "kinds": [
+                "type"
+              ]
+            }
+          ]
+        },
         "./catalog": {
           "conditions": [
             "import",
