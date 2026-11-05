@@ -239,10 +239,11 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       validateCostCount(input)
       const windowKey = input.windowKey ?? keyOf(now())
       const ttl = input.reservationTtlMs ?? null
-      // The deadline is read on the database clock, the one that stamped created_at.
+      // The deadline comes from the injected `now`, the same clock that stamps created_at and that expire() uses.
+      const deadline = ttl === null ? null : new Date(now().getTime() - ttl).toISOString()
       const [row] = await rows(sql`SELECT count(*)::int AS total FROM agentskit_cost_reservation
         WHERE tenant_id = ${input.tenant} AND kind = ${input.kind} AND window_key = ${windowKey}
-          AND (status = 'committed' OR (status = 'reserved' AND (${ttl}::float8 IS NULL OR created_at >= now() - ${ttl}::float8 * interval '1 millisecond')))`)
+          AND (status = 'committed' OR (status = 'reserved' AND (${deadline}::timestamptz IS NULL OR created_at >= ${deadline}::timestamptz)))`)
       return Number(row?.total ?? 0)
     },
   }
