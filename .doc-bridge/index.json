@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "a57d6f30a94c87524e94888d783274ec2b7d5e0cdc6fa0f3a75d1f6dc16d1a7d",
+  "contentHash": "364c168ab88673f32ccd46a4bc3ea7e9ef5b202ae8c16337853cd39b9336a690",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-05T01:40:54.727Z",
+  "generatedAt": "2026-11-05T02:01:26.032Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -28218,6 +28218,26 @@
       "contentHash": "01957e33ec3de3cc51455f3611431fdde1c42709b87db4ff70a72cefa3e4932e"
     },
     {
+      "id": "module:packages/observability/src/cost-store-validation.ts",
+      "type": "module",
+      "title": "cost-store-validation.ts",
+      "path": "packages/observability/src/cost-store-validation.ts",
+      "symbols": [
+        "validateCostCommit",
+        "validateCostRelease",
+        "validateCostReserve",
+        "validateCostWindow",
+        "validateReservationTtl",
+        "validateWarnAtUtilization"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "b2ad86d1c3380bd5304a95553e496cdb573cf776d258e45a41ecd0b44ffceefd"
+    },
+    {
       "id": "module:packages/observability/src/cost-store.ts",
       "type": "module",
       "title": "cost-store.ts",
@@ -28255,7 +28275,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "5967ac93c3f883ced8017f9cc502d2a0af957b4168eb7233c2d3e09c4d370bcb"
+      "contentHash": "ce54846f404cf9306d2220f7627dcdd535e14e2b59bea8654fc1160231651e7e"
     },
     {
       "id": "module:packages/observability/src/datadog.ts",
@@ -28904,6 +28924,19 @@
       "contentHash": "3a284757bbc12d9d061ea11791f9b4e8e9cb9b9a69e4cf78b630f88aaa4f9008"
     },
     {
+      "id": "module:packages/observability/tests/cost-store-validation.test.ts",
+      "type": "module",
+      "title": "cost-store-validation.test.ts",
+      "path": "packages/observability/tests/cost-store-validation.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "c8bf2d91425edbde55940149f29215ce1a0e074984f823c91312d03dd445c909"
+    },
+    {
       "id": "module:packages/observability/tests/cost-store.test.ts",
       "type": "module",
       "title": "cost-store.test.ts",
@@ -28941,6 +28974,19 @@
         "tests"
       ],
       "contentHash": "357e637072bbe8a10c12501cc2eee672f96b068a8f9d9d5810c10e18d614ab13"
+    },
+    {
+      "id": "module:packages/observability/tests/money.test.ts",
+      "type": "module",
+      "title": "money.test.ts",
+      "path": "packages/observability/tests/money.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "efafa6a331bb15d50ae1f0a2757e2241e6a31d5b17c79a87ddfe99503c7316f4"
     },
     {
       "id": "module:packages/observability/tests/observers.test.ts",
@@ -38902,8 +38948,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "de93b66bd1c52e180e8f04ab02d6e3b62a3d6fda3f8a96c4d565398aad8ba386",
-    "fileCount": 2665,
+    "hash": "b8f02ec27985a03948d50b66cd07b4ed0c4bf09e7ee6c3a6c951df185721e2b9",
+    "fileCount": 2668,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38925,9 +38971,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "178bf3ec523452fa59faea234c5002edcb31d31c8668a3eab0f918f0b5ec6c5e",
+    "contentHash": "a3df440c6bd4afbaca4a4bcdf3b1d1d9d196075f2d3d08b39a27abb50839dc13",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "c14ba1eee00b24354f66daf95c19ab66fb1118cf746144731e79622c91a265cf",
+    "snapshotHash": "e3f6cec8ddc810eb90c0107c8f5b751bbc92382c879da369aec47c4158ad7b12",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38947,7 +38993,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2536,
+      "documentCount": 2539,
       "fieldNames": [
         "aliases",
         "body",
@@ -38958,13 +39004,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.017744479495268,
-        "body": 60.97988958990536,
-        "headings": 3.891955835962145,
-        "path": 7.615536277602524,
-        "summary": 4.513406940063091,
-        "symbols": 7.5469242902208205,
-        "title": 3.381309148264984
+        "aliases": 3.0185112248916894,
+        "body": 60.90783773139031,
+        "headings": 3.887357227254825,
+        "path": 7.61599054745963,
+        "summary": 4.508074044899566,
+        "symbols": 7.547459629775502,
+        "title": 3.382827884994092
       }
     },
     "entries": [
@@ -159804,6 +159850,64 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/observability/src/cost-store-validation.ts",
+        "kind": "module",
+        "path": "packages/observability/src/cost-store-validation.ts",
+        "title": "cost-store-validation.ts",
+        "aliases": [],
+        "symbols": [
+          "validateCostCommit",
+          "validateCostRelease",
+          "validateCostReserve",
+          "validateCostWindow",
+          "validateReservationTtl",
+          "validateWarnAtUtilization"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "cost-store-validation.ts",
+          "headings": "",
+          "path": "packages/observability/src/cost-store-validation.ts",
+          "symbols": "validateCostCommit validateCostRelease validateCostReserve validateCostWindow validateReservationTtl validateWarnAtUtilization",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/tests/cost-store-validation.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "b2ad86d1c3380bd5304a95553e496cdb573cf776d258e45a41ecd0b44ffceefd",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/observability/src/cost-store.ts",
         "kind": "module",
         "path": "packages/observability/src/cost-store.ts",
@@ -159875,6 +159979,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/observability/src/cost-store-validation.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/observability/src/postgres.ts",
               "confidence": "observed"
             },
@@ -159922,12 +160031,17 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/observability/src/cost-store-validation.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/observability/src/money.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "5967ac93c3f883ced8017f9cc502d2a0af957b4168eb7233c2d3e09c4d370bcb",
+        "contentHash": "ce54846f404cf9306d2220f7627dcdd535e14e2b59bea8654fc1160231651e7e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160626,6 +160740,11 @@
             {
               "kind": "imports",
               "id": "module:packages/observability/src/postgres.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/tests/money.test.ts",
               "confidence": "observed"
             }
           ],
@@ -162073,6 +162192,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/observability/tests/cost-store-validation.test.ts",
+        "kind": "module",
+        "path": "packages/observability/tests/cost-store-validation.test.ts",
+        "title": "cost-store-validation.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "cost-store-validation.test.ts",
+          "headings": "",
+          "path": "packages/observability/tests/cost-store-validation.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store-validation.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "c8bf2d91425edbde55940149f29215ce1a0e074984f823c91312d03dd445c909",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/observability/tests/cost-store.test.ts",
         "kind": "module",
         "path": "packages/observability/tests/cost-store.test.ts",
@@ -162194,6 +162353,46 @@
           ]
         },
         "contentHash": "357e637072bbe8a10c12501cc2eee672f96b068a8f9d9d5810c10e18d614ab13",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/observability/tests/money.test.ts",
+        "kind": "module",
+        "path": "packages/observability/tests/money.test.ts",
+        "title": "money.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "money.test.ts",
+          "headings": "",
+          "path": "packages/observability/tests/money.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/money.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "efafa6a331bb15d50ae1f0a2757e2241e6a31d5b17c79a87ddfe99503c7316f4",
         "provenance": "observed",
         "confidence": "observed"
       },
