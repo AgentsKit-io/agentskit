@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "kind": "memory",
+  "canonicalSha256": "41b1cb7c14c1bfe1cc954731cf484717d37485c9811f95b39431e07605e89f0d",
+  "valid": [
+    {
+      "name": "chat-memory-record",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "user",
+            "content": "Remember that I like tea",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "metadata": {
+              "topic": "preferences"
+            }
+          },
+          {
+            "id": "m2",
+            "role": "assistant",
+            "content": "Noted.",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z"
+          }
+        ]
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "messages-not-array",
+      "value": {
+        "version": 1,
+        "messages": {}
+      }
+    },
+    {
+      "name": "metadata-not-object",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "user",
+            "content": "x",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "metadata": "nope"
+          }
+        ]
+      }
+    }
+  ]
+}
