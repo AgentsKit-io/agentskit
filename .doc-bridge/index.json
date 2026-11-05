@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "364c168ab88673f32ccd46a4bc3ea7e9ef5b202ae8c16337853cd39b9336a690",
+  "contentHash": "bbe6687e2b2c1e82a6537dc24bd1fa6cd7616beec9e33f3a09d6672a6a8974d5",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-05T02:01:26.032Z",
+  "generatedAt": "2026-11-05T14:02:12.838Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -379,6 +379,18 @@
       "contentHash": "b0ca124de48ddb5e6688db746c98e6d8a7522f331a3ad605da21f9d193fa196c"
     },
     {
+      "id": "document:.github/factory-playbook.md",
+      "type": "document",
+      "title": "Factory playbook — AgentsKit",
+      "path": ".github/factory-playbook.md",
+      "description": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
+      "tags": [
+        "document",
+        "unclassified"
+      ],
+      "contentHash": "158d137120892a037c2ff53a92eaeb90d37102a5af80e2b582687327674e8379"
+    },
+    {
       "id": "document:.github/rulesets/README.md",
       "type": "document",
       "title": "Branch rulesets",
@@ -545,6 +557,18 @@
         "human"
       ],
       "contentHash": "701a6484ad7d1c672a613dfe1c38a30bc5d943c46518d6eda0d6ff4c26f4bb52"
+    },
+    {
+      "id": "document:apps/docs-next/content/docs/agents/runners.mdx",
+      "type": "document",
+      "title": "runners.mdx",
+      "path": "apps/docs-next/content/docs/agents/runners.mdx",
+      "description": "@agentskit/runtime/runners gives every external agent backend the same contract, so a factory or a product can swap the backend through configuration.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "a6a5daed6d3872af98466adda916a9277b020ab7fd3945e99a1973aa9f1d0b0e"
     },
     {
       "id": "document:apps/docs-next/content/docs/agents/runtime.mdx",
@@ -7394,7 +7418,7 @@
         "document",
         "project"
       ],
-      "contentHash": "de649f2e3d8ff51a76f767d4757913a69e4fd2cf91c5dcca3a84a2226150cab3"
+      "contentHash": "6a59f1542c134be29ba972c44c13084c0d18c4c6da5c28fd5f7d98a9c25a22d8"
     },
     {
       "id": "document:packages/sandbox/CONVENTIONS.md",
@@ -7562,7 +7586,7 @@
         "document",
         "project"
       ],
-      "contentHash": "13c1cd6268b2a6acda8539937943724778964b84e6422b87a6136b928e2128e3"
+      "contentHash": "fcfe56301e4a538849593c22e0c43795b685d226c09a065e34a24a83c4061f5d"
     },
     {
       "id": "document:packages/validation/CONVENTIONS.md",
@@ -7839,6 +7863,18 @@
         "unclassified"
       ],
       "contentHash": "762356339ba5e546e7f6d1e52f5416ba97ae0f2edf5e477eec4c03820b14590d"
+    },
+    {
+      "id": "document:tests/interop/README.md",
+      "type": "document",
+      "title": "Interop fixtures",
+      "path": "tests/interop/README.md",
+      "description": "Portable, synthetic round-trip fixtures in fixtures/*.json, exercised by fixtures.test.ts (pnpm test:interop). Each file has schemaVersion: 1, kind, canonicalSha256, valid[] and invalid[].",
+      "tags": [
+        "document",
+        "project"
+      ],
+      "contentHash": "1fc8cdeef85984a72edd74f33e91174183715f725d7a930ee2ee9389cc1e87e5"
     },
     {
       "id": "module:.github/scripts/pnpm-bulk-audit.mjs",
@@ -25660,7 +25696,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70"
+      "contentHash": "1722ee6522dedc5f08efde4dc4d5af8e06787b32e718d57e5c4b05155c9105b3"
     },
     {
       "id": "module:packages/integrations/tests/integration-tools.test.ts",
@@ -27719,7 +27755,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378"
+      "contentHash": "6521ed9b19b8041f51779300e5ae78a9f434fb6f9262d87e366bc801dffea9df"
     },
     {
       "id": "module:packages/net/tests/sse.test.ts",
@@ -27745,7 +27781,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "56aa5bd7950d3272e74b6ac5e27aefa4b43548c18ec0c0e2950cfff1cb72cac4"
+      "contentHash": "d626050389cb61d676ac190cedd09ab9d1d57f20cfa058ead894f0781189ff5c"
     },
     {
       "id": "module:packages/net/tsup.config.ts",
@@ -29068,7 +29104,7 @@
         "mjs",
         "tests"
       ],
-      "contentHash": "dbd4f1b1f4c518fdc519e586f9b2655a6856d036d084504108b47fc410b72a69"
+      "contentHash": "86b1dcb41d7c1f7af82cadf9373d7b8a0634d119ffa206b51b484b754c989e92"
     },
     {
       "id": "module:packages/observability/tests/postgres.integration.test.ts",
@@ -31112,6 +31148,150 @@
       "contentHash": "8c212e27b70db22f97eb6739cae48eda15dba899fd6725caa6e121e0389463f0"
     },
     {
+      "id": "module:packages/runtime/src/runners/acp.ts",
+      "type": "module",
+      "title": "acp.ts",
+      "path": "packages/runtime/src/runners/acp.ts",
+      "symbols": [
+        "AcpRequestHandler",
+        "AcpRpcError",
+        "AcpTransport",
+        "HermesAcpRunnerOptions",
+        "hermesAcpRunner",
+        "spawnAcpTransport"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "runners"
+      ],
+      "contentHash": "7efba709d450ff7f2356c6e87bbfcb8d5f595e416a79be9f20d369fbb94145e3"
+    },
+    {
+      "id": "module:packages/runtime/src/runners/cli.ts",
+      "type": "module",
+      "title": "cli.ts",
+      "path": "packages/runtime/src/runners/cli.ts",
+      "symbols": [
+        "CliOutcome",
+        "CliRunnerOptions",
+        "claudeCodeRunner",
+        "codexRunner",
+        "execCli"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "runners"
+      ],
+      "contentHash": "130c2a40329fa3b4a33208ae178a304948f8233e590e5a5b4042a75805d1c603"
+    },
+    {
+      "id": "module:packages/runtime/src/runners/http.ts",
+      "type": "module",
+      "title": "http.ts",
+      "path": "packages/runtime/src/runners/http.ts",
+      "symbols": [
+        "CopilotKitRunnerOptions",
+        "copilotKitRunner"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "runners"
+      ],
+      "contentHash": "79866e8750b91328469551a753f4b486bac0b2ab206a361fa95b6c89e0df3466"
+    },
+    {
+      "id": "module:packages/runtime/src/runners/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/runtime/src/runners/index.ts",
+      "symbols": [
+        "AcpRequestHandler",
+        "AcpRpcError",
+        "AcpTransport",
+        "AgentRunner",
+        "CliOutcome",
+        "CliRunnerOptions",
+        "CopilotKitRunnerOptions",
+        "HermesAcpRunnerOptions",
+        "RunnerArtifact",
+        "RunnerBudget",
+        "RunnerRegistry",
+        "RunnerResult",
+        "RunnerTask",
+        "RunnerTraceRecorder",
+        "RunnerTraceSpan",
+        "claudeCodeRunner",
+        "codexRunner",
+        "copilotKitRunner",
+        "createRunnerRegistry",
+        "createTraceRecorder",
+        "execCli",
+        "hermesAcpRunner",
+        "spawnAcpTransport"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "runners"
+      ],
+      "contentHash": "52de1f00d975f7c31df25c91451453f5d7ccdb4ecfc4fc9eaa8c20ba15f4cadc"
+    },
+    {
+      "id": "module:packages/runtime/src/runners/registry.ts",
+      "type": "module",
+      "title": "registry.ts",
+      "path": "packages/runtime/src/runners/registry.ts",
+      "symbols": [
+        "RunnerRegistry",
+        "createRunnerRegistry"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "runners"
+      ],
+      "contentHash": "9b6c30eb21bab45a0d34e48e7b80ec86155ed342ace60cec37c6162d22b63a09"
+    },
+    {
+      "id": "module:packages/runtime/src/runners/trace.ts",
+      "type": "module",
+      "title": "trace.ts",
+      "path": "packages/runtime/src/runners/trace.ts",
+      "symbols": [
+        "RunnerTraceRecorder",
+        "createTraceRecorder"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "runners"
+      ],
+      "contentHash": "f765b3ee2affcac7c1cdd62d1f075c39ba8e4623fd884ad50977d41c7b96709d"
+    },
+    {
+      "id": "module:packages/runtime/src/runners/types.ts",
+      "type": "module",
+      "title": "types.ts",
+      "path": "packages/runtime/src/runners/types.ts",
+      "symbols": [
+        "AgentRunner",
+        "RunnerArtifact",
+        "RunnerBudget",
+        "RunnerResult",
+        "RunnerTask",
+        "RunnerTraceSpan"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "runners"
+      ],
+      "contentHash": "bd64003c422382f33def73100540384b5db4259c0df3f9fc893c56450a585044"
+    },
+    {
       "id": "module:packages/runtime/src/shared-context.ts",
       "type": "module",
       "title": "shared-context.ts",
@@ -31446,6 +31626,32 @@
       "contentHash": "4b3b483912f477ef106fe4259b2d88019da0227249c3fe29732f1febda039787"
     },
     {
+      "id": "module:packages/runtime/tests/runners-extra.test.ts",
+      "type": "module",
+      "title": "runners-extra.test.ts",
+      "path": "packages/runtime/tests/runners-extra.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "3ae3338f1d4de2e65b9c8c83e2cc6cc0afbb8932753af539bf429f8b2840099e"
+    },
+    {
+      "id": "module:packages/runtime/tests/runners.test.ts",
+      "type": "module",
+      "title": "runners.test.ts",
+      "path": "packages/runtime/tests/runners.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "3e6f2c3764da17de11de76940db200ee331221d818160121881663190a6ecef9"
+    },
+    {
       "id": "module:packages/runtime/tests/shared-context.test.ts",
       "type": "module",
       "title": "shared-context.test.ts",
@@ -31510,7 +31716,7 @@
         "ts",
         "runtime"
       ],
-      "contentHash": "ff1b794a35105c194e092262b91221eb9e23e8dc69d37d36629f1c2fe27a09e5"
+      "contentHash": "148f55f01b89ba8e9ba7e927eeee14c2dbe472d6481acb9fd4e2e5329a2cb6e1"
     },
     {
       "id": "module:packages/runtime/vitest.config.ts",
@@ -35276,22 +35482,41 @@
       "contentHash": "08def851c5cd860ca5a01940a583a5fd19412f00c2b705e98721c865cc7f994c"
     },
     {
-      "id": "module:packages/tools/src/web-search.ts",
+      "id": "module:packages/tools/src/web-search-parallel.ts",
       "type": "module",
-      "title": "web-search.ts",
-      "path": "packages/tools/src/web-search.ts",
+      "title": "web-search-parallel.ts",
+      "path": "packages/tools/src/web-search-parallel.ts",
       "symbols": [
-        "WebSearchConfig",
-        "WebSearchProvider",
-        "WebSearchResult",
-        "webSearch"
+        "parallelSearch"
       ],
       "tags": [
         "module",
         "ts",
         "src"
       ],
-      "contentHash": "6e1348e626807d81b1a20bde407134cac35464438545ac3e75680c7a59c3da59"
+      "contentHash": "eaf4518897734d8ff0b07968b3af9b6f98fbc410d54d607c9eb03d7bb319f8d3"
+    },
+    {
+      "id": "module:packages/tools/src/web-search.ts",
+      "type": "module",
+      "title": "web-search.ts",
+      "path": "packages/tools/src/web-search.ts",
+      "symbols": [
+        "SNIPPET_MAX",
+        "SearchRuntimeConfig",
+        "WebSearchConfig",
+        "WebSearchProvider",
+        "WebSearchResult",
+        "requestText",
+        "webSearch",
+        "withDeadline"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "e17259636c1d62f4c7f85f5998cc360d1bae80da85039b5ed7da3e83e968ca71"
     },
     {
       "id": "module:packages/tools/src/zod.ts",
@@ -35542,6 +35767,19 @@
         "tests"
       ],
       "contentHash": "49bd972f26aef2390e41834fa5dbc4cd086eff096f451c87fef14f2e99220bda"
+    },
+    {
+      "id": "module:packages/tools/tests/web-search-parallel.test.ts",
+      "type": "module",
+      "title": "web-search-parallel.test.ts",
+      "path": "packages/tools/tests/web-search-parallel.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "a3fb6250afba6dabf4fb38a921177236218271c72a356b0c1c25c00e8cc95a98"
     },
     {
       "id": "module:packages/tools/tests/web-search.test.ts",
@@ -37798,6 +38036,19 @@
       "contentHash": "d0a42e9d93232f11e2248ca424a2cfbd6e66aa197ad6167f0569f1493523f4d7"
     },
     {
+      "id": "module:tests/interop/fixtures.test.ts",
+      "type": "module",
+      "title": "fixtures.test.ts",
+      "path": "tests/interop/fixtures.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "interop"
+      ],
+      "contentHash": "1dbc337b868cba894d1dbd54fd06c60e9660ad8275dd5a6fef78b029ef59b55e"
+    },
+    {
       "id": "module:tests/vitest.config.ts",
       "type": "module",
       "title": "vitest.config.ts",
@@ -37810,7 +38061,7 @@
         "ts",
         "tests"
       ],
-      "contentHash": "dacd7c12d42383ecdf2ceb0a4b8a5a998d347b88b71628caab0c12e78ac51388"
+      "contentHash": "7de8cc05ac5327245fefb5e290c40e56bac868a6638b1e6a9bad0229ae5a5218"
     },
     {
       "id": "module:tsup.shared.ts",
@@ -38948,8 +39199,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "b8f02ec27985a03948d50b66cd07b4ed0c4bf09e7ee6c3a6c951df185721e2b9",
-    "fileCount": 2668,
+    "hash": "3ae8191dd53568a7084b6204324749d15e00c091775b19e4cab2eb750ebea1f7",
+    "fileCount": 2691,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38971,9 +39222,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "a3df440c6bd4afbaca4a4bcdf3b1d1d9d196075f2d3d08b39a27abb50839dc13",
+    "contentHash": "fcfd65a9c8a5a1eff3fade2f5984127cb4084d91df924c09f10ed6a647487df3",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "e3f6cec8ddc810eb90c0107c8f5b751bbc92382c879da369aec47c4158ad7b12",
+    "snapshotHash": "d29dde63a749b8f82317fbf4b6004041e5b38b7c6c6d4e0e6d646af4f8e00c5c",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -38993,7 +39244,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2539,
+      "documentCount": 2555,
       "fieldNames": [
         "aliases",
         "body",
@@ -39004,13 +39255,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0185112248916894,
-        "body": 60.90783773139031,
-        "headings": 3.887357227254825,
-        "path": 7.61599054745963,
-        "summary": 4.508074044899566,
-        "symbols": 7.547459629775502,
-        "title": 3.382827884994092
+        "aliases": 3.018003913894325,
+        "body": 60.917808219178085,
+        "headings": 3.882583170254403,
+        "path": 7.611350293542074,
+        "summary": 4.501761252446184,
+        "symbols": 7.571819960861057,
+        "title": 3.379647749510763
       }
     },
     "entries": [
@@ -39034,11 +39285,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:.github/factory-playbook.md"
+          ],
           "packageId": "package:agentskit",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "fuzzy"
+            }
+          ],
           "outbound": []
         },
         "contentHash": "c7a4f26e5fec76986a3433537a5eb0558ad48a76383d92ae5197c7e38ea90120",
@@ -39317,9 +39576,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 9,
+          "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.github/factory-playbook.md",
             "document:apps/docs-next/README.md",
             "document:apps/landing/README.md",
             "document:CONTRIBUTING.md",
@@ -39332,6 +39592,11 @@
           ],
           "packageId": "package:agentskit",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/README.md",
@@ -40070,9 +40335,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.github/factory-playbook.md",
             "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/README.md",
@@ -40083,6 +40349,11 @@
           ],
           "packageId": "package:agentskit",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "fuzzy"
+            },
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
@@ -41206,6 +41477,37 @@
         "confidence": "observed"
       },
       {
+        "id": "area:packages/runtime/src/runners",
+        "kind": "area",
+        "path": "packages/runtime/src/runners",
+        "title": "runners",
+        "aliases": [],
+        "tags": [
+          "area"
+        ],
+        "fields": {
+          "title": "runners",
+          "headings": "",
+          "path": "packages/runtime/src/runners",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "area"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "2fb6fce2ac99e93d32c36ef8c16b1c1b80aa5e10c9a7b3425b9d7204bef07d44",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "area:packages/sandbox/src/web",
         "kind": "area",
         "path": "packages/sandbox/src/web",
@@ -41502,11 +41804,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:.github/factory-playbook.md"
+          ],
           "packageId": "package:agentskit",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "fuzzy"
+            }
+          ],
           "outbound": []
         },
         "contentHash": "3f87cf805292b5040fa7dfbd66aae2db31ba70b8060d95495076d0d105e29a93",
@@ -42353,6 +42663,74 @@
         "confidence": "observed"
       },
       {
+        "id": "document:.github/factory-playbook.md",
+        "kind": "document",
+        "path": ".github/factory-playbook.md",
+        "title": "Factory playbook — AgentsKit",
+        "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
+        "aliases": [],
+        "tags": [
+          "document",
+          "unclassified"
+        ],
+        "fields": {
+          "title": "Factory playbook — AgentsKit",
+          "headings": "Factory playbook — AgentsKit 1. Install 2. Run locally 3. Quick verification (small diff) 4. Full verification (CI, .github/workflows/) 5. Rules that most often fail PRs 6. Shared registry files (conflict-prone) 7. Known pitfalls (real factory failures)",
+          "path": ".github/factory-playbook.md",
+          "symbols": "",
+          "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
+          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks; do not rely on it for the final check (pre-push runs quality gates + lint + build). 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm check:quality-gates . - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:index and commit the result (needed whenever docs, package READMEs or exports change). - pnpm-lock.yaml : on conflict take the base side, then pnpm install . - .changeset/ : one new uniquely named file per tic",
+          "aliases": "document unclassified"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "area:.github",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "area:apps/docs-next",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "area:docs",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "area:scripts",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:AGENTS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/PRIVATE-CONSUMER-POLICY.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:scripts/check-quality-gates.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "158d137120892a037c2ff53a92eaeb90d37102a5af80e2b582687327674e8379",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:.github/rulesets/README.md",
         "kind": "document",
         "path": ".github/rulesets/README.md",
@@ -42460,10 +42838,11 @@
         },
         "graph": {
           "pagerank": 0.00575,
-          "inboundLinks": 6,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:.github/copilot-instructions.md",
+            "document:.github/factory-playbook.md",
             "document:.kiro/steering/agentskit.md",
             "document:apps/docs-next/content/docs/for-agents/doc-bridge.mdx",
             "document:docs/studies/ecosystem-cohesion-plan.md",
@@ -42489,6 +42868,11 @@
             {
               "kind": "mentions",
               "id": "document:.github/copilot-instructions.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
               "confidence": "observed"
             },
             {
@@ -43038,6 +43422,65 @@
           ]
         },
         "contentHash": "701a6484ad7d1c672a613dfe1c38a30bc5d943c46518d6eda0d6ff4c26f4bb52",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:apps/docs-next/content/docs/agents/runners.mdx",
+        "kind": "document",
+        "path": "apps/docs-next/content/docs/agents/runners.mdx",
+        "title": "runners.mdx",
+        "summary": "@agentskit/runtime/runners gives every external agent backend the same contract, so a factory or a product can swap the backend through configuration.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "runners.mdx",
+          "headings": "Adapters Trace Choosing the runner",
+          "path": "apps/docs-next/content/docs/agents/runners.mdx",
+          "symbols": "",
+          "summary": "@agentskit/runtime/runners gives every external agent backend the same contract, so a factory or a product can swap the backend through configuration.",
+          "body": "@agentskit/runtime/runners gives every external agent backend the same contract, so a factory or a product can swap the backend through configuration. budget.maxCostUsd is accepted but not enforced by any current adapter; only costUsd is reported back on the result. run never throws for agent failures: a missing binary, non-zero exit, timeout, abort or HTTP error all come back as status: 'failed' 'aborted' with error set. Adapters Factory Backend How it talks --- --- --- hermesAcpRunner() Hermes Agent Agent Client Protocol (JSON-RPC over stdio, hermes acp ); allowedTools is enforced on the agent's session/request permission requests (allow only listed tools, or everything when omitted), other agent requests get -32601 copilotKitRunner({ url }) CopilotKit / OpenBot HTTP POST of { prompt, cwd, allowedTools, budget } ; JSON { output, artifacts?, costUsd? } or plain text back. This is a custom JSON shape, not the CopilotKit runtime / AG-UI protocol: the endpoint must be a thin adapter that accepts it claudeCodeRunner() Claude Code claude -p --output-format json , maps allowedTools and maxTurns codexRunner() Codex codex exec ; no per-tool allow list, so allowedTools is not forwarded Trace result.trace is a list of spans with the same shape as TraceSpan in @agentskit/observability ( id , name , parentId , startTime , endTime , attributes , status ). The first span is the run ( runner:<id , parentId: null ); the others are its children. Choosing the runner Select by id from configuration instead of importing a backend directly: Custom backends implement AgentRunner and are registered the same way. Use the contract in packages/runtime/tests/runners.test.ts ( assertRunnerContract ) against a fake runner to test code that depends on a runner without spawning anything.",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "module:packages/runtime/tests/runners.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/observability",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/observability/src/trace-tracker.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/runtime/src/runners/types.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a6a5daed6d3872af98466adda916a9277b020ab7fd3945e99a1973aa9f1d0b0e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -74930,15 +75373,21 @@
         },
         "graph": {
           "pagerank": 0.002626,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.github/factory-playbook.md",
             "document:AGENTS.md"
           ],
           "inbound": [
             {
               "kind": "links-to",
               "id": "document:AGENTS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
               "confidence": "observed"
             },
             {
@@ -81501,7 +81950,7 @@
           "path": "packages/runtime/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/runtime Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Run autonomous agents in 5 lines — no UI, no boilerplate, just results. Tags: ai · agents · llm · agentskit · openai · anthropic · ai-agents · autonomous-agents · react-loop · orchestration · multi-agent Verified proof - Package metadata and tests live under packages/runtime/ . - Package guide: https://www.agentskit.io/docs/reference/packages/runtime - Stability map: How this fits the ecosystem @agentskit/runtime is the headless agent engine: ReAct loops, tools, skills, delegation, memory, cancellation, and structured run results. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why runtime - ReAct loop handled for you — observe, think, act, repeat: the runtime drives the full cycle and stops when the agent decides it's done - Structured, inspectable results — every run returns the final content, step count, all tool calls made, and total duration; no black boxes - Production-ready lifecycle — lazy tool init / dispose , AbortSignal cancellation, memory persistence, and AgentEvent emissions for observability - Multi-agent delegation — pass a planner skill with named delegates and the runtime coordinates sub-agents automatically Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With skills Features - createRuntime — single entry point for headless agent execution. - ReAct loop: observe → think → act → repeat until done. - Returns { content, steps, toolCalls, durationMs } — fully inspectable. - AbortSignal cancellation support. - Tool init / dispose lifecycle hooks. - AgentEvent emissions for observability integrations. - retriever option for RAG context injection. Advanced primitives Primitive Purpose Docs ----------- --------- ------ createDurableRunner + createFileStepLog Temporal-style step log; resume on crash supervisor / swarm / hierarchical / blackboard Ready-made multi-agent topologies speculate Fan-out N adapters, race + abort losers createCronScheduler + createWebhookHandler Background agents, cron + webhooks Topology cancellation AgentHandle.run(task, context?, signal?) receives cancellation separately from caller context; existing two-argument handles remain compatible. swarm has no per-member deadline unless timeoutMs is set, which must be finite, greater than 0 , and no greater than 2,147,483,647 milliseconds. Invalid values throw ConfigError ( AK CONFIG INVALID ) synchronously. On deadline, the child signal is aborted and an optional legacy abort hook is called once on a best-effort basis; children must honor the signal to stop their work. If all members fail, swarm throws RuntimeError ( AK RUNTIME DELEGATE FAILED ) with the first failure as its cause, including NetError ( AK NET TIMEOUT ) for a deadline. A child that ignores cancellation may continue after the swarm returns. Ecosystem Package Role --------- ------ createRuntime contracts, Retriever LLM adapters Tool modules Pre-built skills retriever for context injection Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/runtime Contributing See and the monorepo .",
+          "body": "@agentskit/runtime Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Run autonomous agents in 5 lines — no UI, no boilerplate, just results. Tags: ai · agents · llm · agentskit · openai · anthropic · ai-agents · autonomous-agents · react-loop · orchestration · multi-agent Verified proof - Package metadata and tests live under packages/runtime/ . - Package guide: https://www.agentskit.io/docs/reference/packages/runtime - Stability map: How this fits the ecosystem @agentskit/runtime is the headless agent engine: ReAct loops, tools, skills, delegation, memory, cancellation, and structured run results. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why runtime - ReAct loop handled for you — observe, think, act, repeat: the runtime drives the full cycle and stops when the agent decides it's done - Structured, inspectable results — every run returns the final content, step count, all tool calls made, and total duration; no black boxes - Production-ready lifecycle — lazy tool init / dispose , AbortSignal cancellation, memory persistence, and AgentEvent emissions for observability - Multi-agent delegation — pass a planner skill with named delegates and the runtime coordinates sub-agents automatically Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With skills Features - createRuntime — single entry point for headless agent execution. - ReAct loop: observe → think → act → repeat until done. - Returns { content, steps, toolCalls, durationMs } — fully inspectable. - AbortSignal cancellation support. - Tool init / dispose lifecycle hooks. - AgentEvent emissions for observability integrations. - retriever option for RAG context injection. - @agentskit/runtime/runners — one AgentRunner interface for Hermes (ACP), CopilotKit/OpenBot, Claude Code and Codex. Advanced primitives Primitive Purpose Docs ----------- --------- ------ createDurableRunner + createFileStepLog Temporal-style step log; resume on crash supervisor / swarm / hierarchical / blackboard Ready-made multi-agent topologies speculate Fan-out N adapters, race + abort losers createCronScheduler + createWebhookHandler Background agents, cron + webhooks Topology cancellation AgentHandle.run(task, context?, signal?) receives cancellation separately from caller context; existing two-argument handles remain compatible. swarm has no per-member deadline unless timeoutMs is set, which must be finite, greater than 0 , and no greater than 2,147,483,647 milliseconds. Invalid values throw ConfigError ( AK CONFIG INVALID ) synchronously. On deadline, the child signal is aborted and an optional legacy abort hook is called once on a best-effort basis; children must honor the signal to stop their work. If all members fail, swarm throws RuntimeError ( AK RUNTIME DELEGATE FAILED ) with the first failure as its cause, including NetError ( AK NET TIMEOUT ) for a deadline. A child that ignores cancellation may continue after the swarm returns. Ecosystem Package Role --------- ------ createRuntime contracts, Retriever LLM adapters Tool modules Pre-built skills retriever for context injection Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/runtime Contributing See and the monorepo .",
           "aliases": "document project"
         },
         "graph": {
@@ -81631,6 +82080,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/runtime/src/runners/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/runtime/src/speculate.ts",
               "confidence": "observed"
             },
@@ -81646,7 +82100,7 @@
             }
           ]
         },
-        "contentHash": "de649f2e3d8ff51a76f767d4757913a69e4fd2cf91c5dcca3a84a2226150cab3",
+        "contentHash": "6a59f1542c134be29ba972c44c13084c0d18c4c6da5c28fd5f7d98a9c25a22d8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -82913,11 +83367,11 @@
         ],
         "fields": {
           "title": "@agentskit/tools",
-          "headings": "@agentskit/tools Verified proof How this fits the ecosystem Why tools Install Quick example With useChat (browser) Authoring tools with defineZodTool Features Built-ins (6) Safe outbound requests Integrations (20+) Authoring + composition MCP bridge Subpaths Ecosystem Contributors License Docs Maturity and compatibility Contributing",
+          "headings": "@agentskit/tools Verified proof How this fits the ecosystem Why tools Install Quick example With useChat (browser) Authoring tools with defineZodTool Features Built-ins (6) Safe outbound requests Parallel Search MCP (opt-in) Integrations (20+) Authoring + composition MCP bridge Subpaths Ecosystem Contributors License Docs Maturity and compatibility Contributing",
           "path": "packages/tools/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/tools Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Give your agents real-world capabilities without writing a single integration. Tags: ai · agents · llm · agentskit · ai-agents · function-calling · tool-use · mcp · web-search · filesystem Verified proof - Package metadata and tests live under packages/tools/ . - Package guide: https://www.agentskit.io/docs/reference/packages/tools - Stability map: How this fits the ecosystem @agentskit/tools gives agents useful hands: web fetch, search, filesystem, shell, SQLite, integrations, and MCP-friendly tool definitions. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why tools - Save days of integration work — web search, filesystem read/write, shell execution, and directory listing are ready to drop in; no wiring required - Safe by default — filesystem tools are sandboxed to a basePath , shell commands require an explicit allowlist, so agents can't escape their boundaries - Composable with any runtime — tools are just objects with a schema; they work with @agentskit/runtime , useChat , or any custom ReAct loop - Extend without friction — author custom tools with @agentskit/templates and register them the same way as built-ins Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With useChat (browser) Tools are plain ToolDefinition values — register them in the same way as in createRuntime . Authoring tools with defineZodTool If you use , @agentskit/tools ships defineZodTool — a factory that: - Types execute args from a Zod schema (full TypeScript inference) - Validates args at runtime via schema.parse before calling your function - Converts the Zod schema to JSON Schema for the adapter via a user-supplied toJsonSchema callback Zod and zod-to-json-schema are consumer-owned optional dependencies . They are not package peers because defineZodTool accepts a structural schema and a consumer-supplied JSON-Schema converter. For tools without Zod, use defineTool from @agentskit/core with a JSON Schema as const . Features Built-ins (6) - webSearch() — live web search with Serper, Tavily, DuckDuckGo, or a custom provider. - fetchUrl() — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping. - filesystem({ basePath }) — sandboxed read, write, and list operations. - shell({ allowed }) — shell execution with command allow-list + timeout. - sqliteQueryTool({ path }) — read-only SQL against a local SQLite file. Optional peer dep on better-sqlite3 . Note: never feed unvalidated user prompts straight into the sql field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input. - slackTool({ webhookUrl }) — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the slack() integration. Safe outbound requests safeFetch(input, init?, policy?) defaults to denying non-public hosts and re-checks every redirect hop. Address classification comes from @agentskit/net , so reserved, unspecified, multicast, CGNAT, IPv4-mapped private, and other non-unicast ranges are blocked as well as private, loopback, and link-local addresses. Hostname checks use Node DNS and fail closed if any result is non-public or lookup fails. isPrivateIPv4 and isPrivateHost keep their legacy decimal handling for zero-padded dotted quads ( 010.0.0.1 means 10.0.0.1 ). safeFetch first applies WHATWG URL canonicalization; avoid ambiguous numeric URL forms. For a vetted internal target, pass an exact allowedHosts entry or set allowPrivateHosts: true ; redirects still pass through the selected policy. The DNS preflight does not pin the resolve",
+          "body": "@agentskit/tools Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Give your agents real-world capabilities without writing a single integration. Tags: ai · agents · llm · agentskit · ai-agents · function-calling · tool-use · mcp · web-search · filesystem Verified proof - Package metadata and tests live under packages/tools/ . - Package guide: https://www.agentskit.io/docs/reference/packages/tools - Stability map: How this fits the ecosystem @agentskit/tools gives agents useful hands: web fetch, search, filesystem, shell, SQLite, integrations, and MCP-friendly tool definitions. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why tools - Save days of integration work — web search, filesystem read/write, shell execution, and directory listing are ready to drop in; no wiring required - Safe by default — filesystem tools are sandboxed to a basePath , shell commands require an explicit allowlist, so agents can't escape their boundaries - Composable with any runtime — tools are just objects with a schema; they work with @agentskit/runtime , useChat , or any custom ReAct loop - Extend without friction — author custom tools with @agentskit/templates and register them the same way as built-ins Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With useChat (browser) Tools are plain ToolDefinition values — register them in the same way as in createRuntime . Authoring tools with defineZodTool If you use , @agentskit/tools ships defineZodTool — a factory that: - Types execute args from a Zod schema (full TypeScript inference) - Validates args at runtime via schema.parse before calling your function - Converts the Zod schema to JSON Schema for the adapter via a user-supplied toJsonSchema callback Zod and zod-to-json-schema are consumer-owned optional dependencies . They are not package peers because defineZodTool accepts a structural schema and a consumer-supplied JSON-Schema converter. For tools without Zod, use defineTool from @agentskit/core with a JSON Schema as const . Features Built-ins (6) - webSearch() — live web search with Serper, Tavily, DuckDuckGo, opt-in Parallel Search MCP, or a custom provider. - fetchUrl() — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping. - filesystem({ basePath }) — sandboxed read, write, and list operations. - shell({ allowed }) — shell execution with command allow-list + timeout. - sqliteQueryTool({ path }) — read-only SQL against a local SQLite file. Optional peer dep on better-sqlite3 . Note: never feed unvalidated user prompts straight into the sql field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input. - slackTool({ webhookUrl }) — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the slack() integration. Safe outbound requests safeFetch(input, init?, policy?) defaults to denying non-public hosts and re-checks every redirect hop. Address classification comes from @agentskit/net , so reserved, unspecified, multicast, CGNAT, IPv4-mapped private, and other non-unicast ranges are blocked as well as private, loopback, and link-local addresses. Hostname checks use Node DNS and fail closed if any result is non-public or lookup fails. isPrivateIPv4 and isPrivateHost keep their legacy decimal handling for zero-padded dotted quads ( 010.0.0.1 means 10.0.0.1 ). safeFetch first applies WHATWG URL canonicalization; avoid ambiguous numeric URL forms. For a vetted internal target, pass an exact allowedHosts entry or set allowPrivateHosts: true ; redirects still pass through the selected policy. The DNS prefli",
           "aliases": "document project"
         },
         "graph": {
@@ -83164,7 +83618,7 @@
             }
           ]
         },
-        "contentHash": "13c1cd6268b2a6acda8539937943724778964b84e6422b87a6136b928e2128e3",
+        "contentHash": "fcfe56301e4a538849593c22e0c43795b685d226c09a065e34a24a83c4061f5d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -85452,6 +85906,50 @@
         "confidence": "observed"
       },
       {
+        "id": "document:tests/interop/README.md",
+        "kind": "document",
+        "path": "tests/interop/README.md",
+        "title": "Interop fixtures",
+        "summary": "Portable, synthetic round-trip fixtures in fixtures/*.json, exercised by fixtures.test.ts (pnpm test:interop). Each file has schemaVersion: 1, kind, canonicalSha256, valid[] and invalid[].",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "project"
+        ],
+        "fields": {
+          "title": "Interop fixtures",
+          "headings": "Interop fixtures What each fixture proves How an external bridge uses them",
+          "path": "tests/interop/README.md",
+          "symbols": "",
+          "summary": "Portable, synthetic round-trip fixtures in fixtures/*.json, exercised by fixtures.test.ts (pnpm test:interop). Each file has schemaVersion: 1, kind, canonicalSha256, valid[] and invalid[].",
+          "body": "Interop fixtures Portable, synthetic round-trip fixtures in fixtures/ .json , exercised by fixtures.test.ts ( pnpm test:interop ). Each file has schemaVersion: 1 , kind , canonicalSha256 , valid[] and invalid[] . File Covers --- --- messages.json text messages and multimodal content parts tools.json tool call, tool result, error result memory.json ChatMemory message records vector-documents.json VectorDocument records stream.json StreamChunk : text, tool call, done, error errors.json typed core errors and abort/cancellation eval.json an eval result record What each fixture proves - valid[] cases pass the public core validators and keep the same canonical hash across JSON.stringify / JSON.parse . - invalid[] cases are rejected by those validators. - canonicalSha256 pins the whole valid set, so any drift is detected. How an external bridge uses them 1. Load each file and check schemaVersion === 1 . 2. Map each valid[].value to the bridge's own types. 3. Serialize it back and compare sha256Hex(canonicalJson(value)) with the pinned hash (canonical JSON: sorted keys, see @agentskit/core/hash ). 4. Reject every invalid[] case.",
+          "aliases": "document project"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/types/memory.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/types/stream.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "1fc8cdeef85984a72edd74f33e91174183715f725d7a930ee2ee9389cc1e87e5",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:.github/scripts/pnpm-bulk-audit.mjs",
         "kind": "module",
         "path": ".github/scripts/pnpm-bulk-audit.mjs",
@@ -85569,9 +86067,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 9,
+          "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/agents/runners.mdx",
             "document:apps/docs-next/content/docs/data/memory/pgvector.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/runtime.mdx",
             "document:apps/docs-next/content/docs/production/cli/programmatic-api.mdx",
@@ -85585,6 +86084,11 @@
           "areaId": "area:agents",
           "packageId": "package:agentskit",
           "inbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/agents/runners.mdx",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/memory/pgvector.mdx",
@@ -127654,7 +128158,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 36,
+          "inboundLinks": 37,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0003-memory-contract.md",
@@ -127692,7 +128196,8 @@
             "document:packages/memory/README.md",
             "document:packages/rag/CONVENTIONS.md",
             "document:packages/rag/README.md",
-            "document:packages/templates/CONVENTIONS.md"
+            "document:packages/templates/CONVENTIONS.md",
+            "document:tests/interop/README.md"
           ],
           "areaId": "area:packages/core/src/types",
           "packageId": "package:@agentskit/core",
@@ -127895,6 +128400,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/templates/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:tests/interop/README.md",
               "confidence": "observed"
             },
             {
@@ -128477,7 +128987,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/get-started/concepts/adapter.mdx",
@@ -128486,7 +128996,8 @@
             "document:apps/docs-next/content/docs/reference/recipes/deterministic-replay.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/simulate-stream.mdx",
             "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0001-adapter-contract.md"
+            "document:docs/architecture/adrs/0001-adapter-contract.md",
+            "document:tests/interop/README.md"
           ],
           "areaId": "area:packages/core/src/types",
           "packageId": "package:@agentskit/core",
@@ -128544,6 +129055,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0001-adapter-contract.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:tests/interop/README.md",
               "confidence": "observed"
             },
             {
@@ -149702,7 +150218,7 @@
             }
           ]
         },
-        "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70",
+        "contentHash": "1722ee6522dedc5f08efde4dc4d5af8e06787b32e718d57e5c4b05155c9105b3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158015,7 +158531,7 @@
             }
           ]
         },
-        "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378",
+        "contentHash": "6521ed9b19b8041f51779300e5ae78a9f434fb6f9262d87e366bc801dffea9df",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158100,7 +158616,7 @@
             }
           ]
         },
-        "contentHash": "56aa5bd7950d3272e74b6ac5e27aefa4b43548c18ec0c0e2950cfff1cb72cac4",
+        "contentHash": "d626050389cb61d676ac190cedd09ab9d1d57f20cfa058ead894f0781189ff5c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -161514,9 +162030,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 4,
+          "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/agents/runners.mdx",
             "document:apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
             "document:apps/docs-next/content/docs/for-agents/observability.mdx",
             "document:apps/docs-next/content/docs/production/observability/index.mdx",
@@ -161572,6 +162089,11 @@
             {
               "kind": "imports",
               "id": "module:packages/observability/tests/trace-viewer.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/agents/runners.mdx",
               "confidence": "observed"
             },
             {
@@ -162639,7 +163161,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "dbd4f1b1f4c518fdc519e586f9b2655a6856d036d084504108b47fc410b72a69",
+        "contentHash": "86b1dcb41d7c1f7af82cadf9373d7b8a0634d119ffa206b51b484b754c989e92",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -169623,6 +170145,495 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/runtime/src/runners/acp.ts",
+        "kind": "module",
+        "path": "packages/runtime/src/runners/acp.ts",
+        "title": "acp.ts",
+        "aliases": [],
+        "symbols": [
+          "AcpRequestHandler",
+          "AcpRpcError",
+          "AcpTransport",
+          "HermesAcpRunnerOptions",
+          "hermesAcpRunner",
+          "spawnAcpTransport"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "runners"
+        ],
+        "fields": {
+          "title": "acp.ts",
+          "headings": "",
+          "path": "packages/runtime/src/runners/acp.ts",
+          "symbols": "AcpRequestHandler AcpRpcError AcpTransport HermesAcpRunnerOptions hermesAcpRunner spawnAcpTransport",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts runners"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/runtime/src/runners",
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/tests/runners-extra.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/tests/runners.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/trace.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/types.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "7efba709d450ff7f2356c6e87bbfcb8d5f595e416a79be9f20d369fbb94145e3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/runtime/src/runners/cli.ts",
+        "kind": "module",
+        "path": "packages/runtime/src/runners/cli.ts",
+        "title": "cli.ts",
+        "aliases": [],
+        "symbols": [
+          "CliOutcome",
+          "CliRunnerOptions",
+          "claudeCodeRunner",
+          "codexRunner",
+          "execCli"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "runners"
+        ],
+        "fields": {
+          "title": "cli.ts",
+          "headings": "",
+          "path": "packages/runtime/src/runners/cli.ts",
+          "symbols": "CliOutcome CliRunnerOptions claudeCodeRunner codexRunner execCli",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts runners"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/runtime/src/runners",
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/tests/runners-extra.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/trace.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/types.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "130c2a40329fa3b4a33208ae178a304948f8233e590e5a5b4042a75805d1c603",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/runtime/src/runners/http.ts",
+        "kind": "module",
+        "path": "packages/runtime/src/runners/http.ts",
+        "title": "http.ts",
+        "aliases": [],
+        "symbols": [
+          "CopilotKitRunnerOptions",
+          "copilotKitRunner"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "runners"
+        ],
+        "fields": {
+          "title": "http.ts",
+          "headings": "",
+          "path": "packages/runtime/src/runners/http.ts",
+          "symbols": "CopilotKitRunnerOptions copilotKitRunner",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts runners"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/runtime/src/runners",
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/trace.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/types.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "79866e8750b91328469551a753f4b486bac0b2ab206a361fa95b6c89e0df3466",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/runtime/src/runners/index.ts",
+        "kind": "module",
+        "path": "packages/runtime/src/runners/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "AcpRequestHandler",
+          "AcpRpcError",
+          "AcpTransport",
+          "AgentRunner",
+          "CliOutcome",
+          "CliRunnerOptions",
+          "CopilotKitRunnerOptions",
+          "HermesAcpRunnerOptions",
+          "RunnerArtifact",
+          "RunnerBudget",
+          "RunnerRegistry",
+          "RunnerResult",
+          "RunnerTask",
+          "RunnerTraceRecorder",
+          "RunnerTraceSpan",
+          "claudeCodeRunner",
+          "codexRunner",
+          "copilotKitRunner",
+          "createRunnerRegistry",
+          "createTraceRecorder",
+          "execCli",
+          "hermesAcpRunner",
+          "spawnAcpTransport"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "runners"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/runtime/src/runners/index.ts",
+          "symbols": "AcpRequestHandler AcpRpcError AcpTransport AgentRunner CliOutcome CliRunnerOptions CopilotKitRunnerOptions HermesAcpRunnerOptions RunnerArtifact RunnerBudget RunnerRegistry RunnerResult RunnerTask RunnerTraceRecorder RunnerTraceSpan claudeCodeRunner codexRunner copilotKitRunner createRunnerRegistry createTraceRecorder execCli hermesAcpRunner spawnAcpTransport",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts runners"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/runtime/src/runners",
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/tests/runners-extra.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/tests/runners.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/acp.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/cli.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/http.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/trace.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/types.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "52de1f00d975f7c31df25c91451453f5d7ccdb4ecfc4fc9eaa8c20ba15f4cadc",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/runtime/src/runners/registry.ts",
+        "kind": "module",
+        "path": "packages/runtime/src/runners/registry.ts",
+        "title": "registry.ts",
+        "aliases": [],
+        "symbols": [
+          "RunnerRegistry",
+          "createRunnerRegistry"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "runners"
+        ],
+        "fields": {
+          "title": "registry.ts",
+          "headings": "",
+          "path": "packages/runtime/src/runners/registry.ts",
+          "symbols": "RunnerRegistry createRunnerRegistry",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts runners"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/runtime/src/runners",
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/types.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "9b6c30eb21bab45a0d34e48e7b80ec86155ed342ace60cec37c6162d22b63a09",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/runtime/src/runners/trace.ts",
+        "kind": "module",
+        "path": "packages/runtime/src/runners/trace.ts",
+        "title": "trace.ts",
+        "aliases": [],
+        "symbols": [
+          "RunnerTraceRecorder",
+          "createTraceRecorder"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "runners"
+        ],
+        "fields": {
+          "title": "trace.ts",
+          "headings": "",
+          "path": "packages/runtime/src/runners/trace.ts",
+          "symbols": "RunnerTraceRecorder createTraceRecorder",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts runners"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/runtime/src/runners",
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/acp.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/cli.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/http.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/types.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "f765b3ee2affcac7c1cdd62d1f075c39ba8e4623fd884ad50977d41c7b96709d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/runtime/src/runners/types.ts",
+        "kind": "module",
+        "path": "packages/runtime/src/runners/types.ts",
+        "title": "types.ts",
+        "aliases": [],
+        "symbols": [
+          "AgentRunner",
+          "RunnerArtifact",
+          "RunnerBudget",
+          "RunnerResult",
+          "RunnerTask",
+          "RunnerTraceSpan"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "runners"
+        ],
+        "fields": {
+          "title": "types.ts",
+          "headings": "",
+          "path": "packages/runtime/src/runners/types.ts",
+          "symbols": "AgentRunner RunnerArtifact RunnerBudget RunnerResult RunnerTask RunnerTraceSpan",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts runners"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/agents/runners.mdx",
+            "document:packages/runtime/README.md"
+          ],
+          "areaId": "area:packages/runtime/src/runners",
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/acp.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/cli.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/http.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/trace.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/agents/runners.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/runtime/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/runtime/src/runners/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "bd64003c422382f33def73100540384b5db4259c0df3f9fc893c56450a585044",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/runtime/src/shared-context.ts",
         "kind": "module",
         "path": "packages/runtime/src/shared-context.ts",
@@ -170843,6 +171854,109 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/runtime/tests/runners-extra.test.ts",
+        "kind": "module",
+        "path": "packages/runtime/tests/runners-extra.test.ts",
+        "title": "runners-extra.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "runners-extra.test.ts",
+          "headings": "",
+          "path": "packages/runtime/tests/runners-extra.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/acp.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/cli.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/index.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "3ae3338f1d4de2e65b9c8c83e2cc6cc0afbb8932753af539bf429f8b2840099e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/runtime/tests/runners.test.ts",
+        "kind": "module",
+        "path": "packages/runtime/tests/runners.test.ts",
+        "title": "runners.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "runners.test.ts",
+          "headings": "",
+          "path": "packages/runtime/tests/runners.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/agents/runners.mdx"
+          ],
+          "packageId": "package:@agentskit/runtime",
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/agents/runners.mdx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/acp.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/runtime/src/runners/index.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "3e6f2c3764da17de11de76940db200ee331221d818160121881663190a6ecef9",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/runtime/tests/shared-context.test.ts",
         "kind": "module",
         "path": "packages/runtime/tests/shared-context.test.ts",
@@ -171040,7 +172154,7 @@
             }
           ]
         },
-        "contentHash": "ff1b794a35105c194e092262b91221eb9e23e8dc69d37d36629f1c2fe27a09e5",
+        "contentHash": "148f55f01b89ba8e9ba7e927eeee14c2dbe472d6481acb9fd4e2e5329a2cb6e1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -184550,6 +185664,21 @@
           "packageId": "package:@agentskit/tools",
           "inbound": [
             {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/tests/web-search-parallel.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/agents/tools/index.mdx",
               "confidence": "observed"
@@ -184921,6 +186050,11 @@
             {
               "kind": "imports",
               "id": "module:packages/tools/src/mcp/transports.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
               "confidence": "observed"
             },
             {
@@ -185401,16 +186535,78 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/tools/src/web-search-parallel.ts",
+        "kind": "module",
+        "path": "packages/tools/src/web-search-parallel.ts",
+        "title": "web-search-parallel.ts",
+        "aliases": [],
+        "symbols": [
+          "parallelSearch"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "web-search-parallel.ts",
+          "headings": "",
+          "path": "packages/tools/src/web-search-parallel.ts",
+          "symbols": "parallelSearch",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/tools",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/mcp/client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/mcp/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "eaf4518897734d8ff0b07968b3af9b6f98fbc410d54d607c9eb03d7bb319f8d3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/tools/src/web-search.ts",
         "kind": "module",
         "path": "packages/tools/src/web-search.ts",
         "title": "web-search.ts",
         "aliases": [],
         "symbols": [
+          "SNIPPET_MAX",
+          "SearchRuntimeConfig",
           "WebSearchConfig",
           "WebSearchProvider",
           "WebSearchResult",
-          "webSearch"
+          "requestText",
+          "webSearch",
+          "withDeadline"
         ],
         "tags": [
           "module",
@@ -185421,7 +186617,7 @@
           "title": "web-search.ts",
           "headings": "",
           "path": "packages/tools/src/web-search.ts",
-          "symbols": "WebSearchConfig WebSearchProvider WebSearchResult webSearch",
+          "symbols": "SNIPPET_MAX SearchRuntimeConfig WebSearchConfig WebSearchProvider WebSearchResult requestText webSearch withDeadline",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -185443,6 +186639,16 @@
             {
               "kind": "imports",
               "id": "module:packages/tools/src/discovery.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/tests/web-search-parallel.test.ts",
               "confidence": "observed"
             },
             {
@@ -185489,12 +186695,22 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/tools/src/mcp/client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/tools/src/safe-fetch.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "6e1348e626807d81b1a20bde407134cac35464438545ac3e75680c7a59c3da59",
+        "contentHash": "e17259636c1d62f4c7f85f5998cc360d1bae80da85039b5ed7da3e83e968ca71",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -186345,6 +187561,51 @@
           ]
         },
         "contentHash": "49bd972f26aef2390e41834fa5dbc4cd086eff096f451c87fef14f2e99220bda",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/tools/tests/web-search-parallel.test.ts",
+        "kind": "module",
+        "path": "packages/tools/tests/web-search-parallel.test.ts",
+        "title": "web-search-parallel.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "web-search-parallel.test.ts",
+          "headings": "",
+          "path": "packages/tools/tests/web-search-parallel.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/tools",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/mcp/client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a3fb6250afba6dabf4fb38a921177236218271c72a356b0c1c25c00e8cc95a98",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -188693,10 +189954,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
-            "document:.agent-memory/reference_quality-gates.md"
+            "document:.agent-memory/reference_quality-gates.md",
+            "document:.github/factory-playbook.md"
           ],
           "areaId": "area:scripts",
           "packageId": "package:agentskit",
@@ -188704,6 +189966,11 @@
             {
               "kind": "mentions",
               "id": "document:.agent-memory/reference_quality-gates.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
               "confidence": "observed"
             }
           ],
@@ -193496,6 +194763,40 @@
         "confidence": "observed"
       },
       {
+        "id": "module:tests/interop/fixtures.test.ts",
+        "kind": "module",
+        "path": "tests/interop/fixtures.test.ts",
+        "title": "fixtures.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "interop"
+        ],
+        "fields": {
+          "title": "fixtures.test.ts",
+          "headings": "",
+          "path": "tests/interop/fixtures.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test interop"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "1dbc337b868cba894d1dbd54fd06c60e9660ad8275dd5a6fef78b029ef59b55e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:tests/vitest.config.ts",
         "kind": "module",
         "path": "tests/vitest.config.ts",
@@ -193527,7 +194828,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "dacd7c12d42383ecdf2ceb0a4b8a5a998d347b88b71628caab0c12e78ac51388",
+        "contentHash": "7de8cc05ac5327245fefb5e290c40e56bac868a6638b1e6a9bad0229ae5a5218",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -197013,12 +198314,13 @@
         },
         "graph": {
           "pagerank": 0.005204,
-          "inboundLinks": 52,
+          "inboundLinks": 53,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability.mdx",
             "document:apps/docs-next/content/docs/reference/packages/observability.mdx"
           ],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/agents/runners.mdx",
             "document:apps/docs-next/content/docs/agents/runtime.mdx",
             "document:apps/docs-next/content/docs/cookbook/observability.mdx",
             "document:apps/docs-next/content/docs/for-agents/eval.mdx",
@@ -197082,6 +198384,11 @@
               "kind": "covers",
               "id": "document:apps/docs-next/content/docs/reference/packages/observability.mdx",
               "confidence": "declared"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/agents/runners.mdx",
+              "confidence": "observed"
             },
             {
               "kind": "mentions",
@@ -198884,7 +200191,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "bf8738f29ad29836db7c99537f553b3a49cb8cfeb04ca749e51cf96c45bd5aec",
+        "contentHash": "fb34b9938fff4dde5c28f4916fa0783e0ce32c9a4f9e54606f7c808d98376d3d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "runtime"
@@ -200623,7 +201930,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "8150bb0cba41e9a1ff53fa401de6d8c97c26a7e8dd25d4ec2bd6c90cde6e6ef3",
+        "contentHash": "f8b6b53b9b51112e29ac1d9ed32aa52e46bc46801fdbf685d084acb346635486",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "tools"
