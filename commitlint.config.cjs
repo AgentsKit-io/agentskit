@@ -11,13 +11,7 @@ const LEGACY_LONG_HEADERS = [
 
 module.exports = {
   extends: ['@commitlint/config-conventional'],
-  ignores: [
-    (message) => LEGACY_LONG_HEADERS.includes(message.split('\n')[0].trim()),
-    // Historical headers already on this branch (history cannot be rewritten).
-    (m) => m.startsWith('ci(renovate): group weekly, automerge minor/patch'),
-    (m) => m.startsWith('fix(renovate): split dev automerge group'),
-    (m) => m.startsWith('Reapply "') || m.startsWith('Revert "'),
-  ],
+  ignores: [(message) => LEGACY_LONG_HEADERS.includes(message.split('\n')[0].trim())],
   rules: {
     'header-max-length': [2, 'always', 72],
     'type-enum': [
