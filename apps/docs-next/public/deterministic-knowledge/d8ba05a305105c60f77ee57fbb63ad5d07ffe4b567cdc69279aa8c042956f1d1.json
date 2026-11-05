@@ -146,7 +146,7 @@
     {
       "id": "claim.native-adapters",
       "kind": "restricted-faq",
-      "label": "28 native adapters",
+      "label": "29 native adapters",
       "match": {
         "type": "exact",
         "values": [
@@ -156,7 +156,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **28 native adapters**. The public conservative floor is 28.",
+        "markdown": "The verified AgentsKit ledger currently reports **29 native adapters**. The public conservative floor is 29.",
         "citations": [
           {
             "id": "claim-native-adapters",
@@ -192,7 +192,7 @@
     {
       "id": "claim.recipes",
       "kind": "restricted-faq",
-      "label": "64 recipes",
+      "label": "65 recipes",
       "match": {
         "type": "exact",
         "values": [
@@ -202,7 +202,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **64 recipes**. The public conservative floor is 64.",
+        "markdown": "The verified AgentsKit ledger currently reports **65 recipes**. The public conservative floor is 65.",
         "citations": [
           {
             "id": "claim-recipes",
@@ -2444,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:ec46db6a5282dcc25033f918eca080ccce266a9e4ef20375afe210b3cbe15746"
+  "contentHash": "sha256:d8ba05a305105c60f77ee57fbb63ad5d07ffe4b567cdc69279aa8c042956f1d1"
 }
