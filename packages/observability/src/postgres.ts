@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm'
+import { sql, type SQL } from 'drizzle-orm'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { bigint, bigserial, boolean, check, index, numeric, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core'
 import {
@@ -10,6 +10,7 @@ import {
   validateCostRelease,
   validateCostReserve,
   validateCostWindow,
+  validateReservationTtl,
   type CostStore,
   type CostStoreOptions,
   type CostWindow,
@@ -39,6 +40,7 @@ export const postgresCostReservationTable = pgTable('agentskit_cost_reservation'
   primaryKey({ columns: [table.tenantId, table.reservationId] }),
   check('agentskit_cost_reservation_status_check', sql`${table.status} IN ('reserved', 'committed', 'released')`),
   index('agentskit_cost_reservation_kind').on(table.tenantId, table.kind, table.windowKey),
+  index('agentskit_cost_reservation_held').on(table.tenantId, table.windowKey, table.createdAt).where(sql`status = 'reserved'`),
 ])
 
 /** Drizzle schema: append-only usage ledger written when a reservation is committed. */
@@ -75,6 +77,7 @@ CREATE TABLE IF NOT EXISTS agentskit_cost_reservation (
 );
 ALTER TABLE agentskit_cost_reservation ADD COLUMN IF NOT EXISTS kind text;
 CREATE INDEX IF NOT EXISTS agentskit_cost_reservation_kind ON agentskit_cost_reservation (tenant_id, kind, window_key);
+CREATE INDEX IF NOT EXISTS agentskit_cost_reservation_held ON agentskit_cost_reservation (tenant_id, window_key, created_at) WHERE status = 'reserved';
 CREATE TABLE IF NOT EXISTS agentskit_usage_ledger (
   id bigserial PRIMARY KEY,
   tenant_id text NOT NULL,
@@ -116,12 +119,18 @@ function isUniqueViolation(error: unknown): boolean {
  * unique violation that the store absorbs, but PostgreSQL has already aborted
  * the enclosing transaction.
  *
- * A reservation that is never committed or released keeps its amount held (a
- * crashed process, for example). Run `expirePostgresCostReservations` on a
- * schedule to return those holds.
+ * A reservation that is never committed or released (a crashed process, for
+ * example) keeps its amount held until it expires: pass `reservationTtlMs` and
+ * each call first releases the overdue holds it touches, or run
+ * `expirePostgresCostReservations` on a schedule.
  */
-export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now = () => new Date() }: PostgresCostStoreOptions): CostStore {
+export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now = () => new Date(), reservationTtlMs }: PostgresCostStoreOptions): CostStore {
+  validateReservationTtl(reservationTtlMs)
   const rows = async (query: ReturnType<typeof sql>): Promise<Row[]> => (await db.execute(query)).rows as Row[]
+  const expire = async (scope: SQL): Promise<void> => {
+    if (reservationTtlMs === undefined) return
+    await expireHeld(db, new Date(now().getTime() - reservationTtlMs), scope)
+  }
 
   const window = async (tenant: string, windowKey: string, capUsd?: number): Promise<CostWindow> => {
     const [row] = await rows(sql`SELECT spent_usd, reserved_usd FROM agentskit_cost_window WHERE tenant_id = ${tenant} AND window_key = ${windowKey}`)
@@ -141,6 +150,7 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       const windowKey = input.windowKey ?? keyOf(now())
       const cap = input.capUsd ?? null
       const kind = input.kind ?? null
+      await expire(sql`AND tenant_id = ${tenant} AND window_key = ${windowKey}`)
       let admitted: Row[]
       try {
         admitted = await rows(sql`WITH held AS (
@@ -152,8 +162,8 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
           WHERE ${cap}::numeric IS NULL OR w.spent_usd + w.reserved_usd + EXCLUDED.reserved_usd <= ${cap}::numeric
           RETURNING w.spent_usd, w.reserved_usd
         ), saved AS (
-          INSERT INTO agentskit_cost_reservation (tenant_id, reservation_id, window_key, amount_usd, status, kind)
-          SELECT ${tenant}, ${reservationId}, ${windowKey}, ${amountUsd}::numeric, 'reserved', ${kind}::text FROM held
+          INSERT INTO agentskit_cost_reservation (tenant_id, reservation_id, window_key, amount_usd, status, kind, created_at)
+          SELECT ${tenant}, ${reservationId}, ${windowKey}, ${amountUsd}::numeric, 'reserved', ${kind}::text, ${now().toISOString()}::timestamptz FROM held
         )
         SELECT spent_usd, reserved_usd FROM held`)
       } catch (error) {
@@ -174,6 +184,7 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
     async commit(input) {
       validateCostCommit(input)
       const { tenant, reservationId, actualUsd } = input
+      await expire(sql`AND tenant_id = ${tenant} AND reservation_id = ${reservationId}`)
       const usage = JSON.stringify((input.usage ?? []).map(entry => ({
         model: entry.model,
         prompt_tokens: Math.round(entry.promptTokens),
@@ -204,6 +215,7 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
     async release(input) {
       validateCostRelease(input)
       const { tenant, reservationId } = input
+      await expire(sql`AND tenant_id = ${tenant} AND reservation_id = ${reservationId}`)
       const [row] = await rows(sql`WITH settled AS (
         UPDATE agentskit_cost_reservation SET status = 'released'
         WHERE tenant_id = ${tenant} AND reservation_id = ${reservationId} AND status = 'reserved'
@@ -219,7 +231,9 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
     },
     async window(input) {
       validateCostWindow(input)
-      return window(input.tenant, input.windowKey ?? keyOf(now()), input.capUsd)
+      const windowKey = input.windowKey ?? keyOf(now())
+      await expire(sql`AND tenant_id = ${input.tenant} AND window_key = ${windowKey}`)
+      return window(input.tenant, windowKey, input.capUsd)
     },
     async count(input) {
       validateCostCount(input)
@@ -243,14 +257,19 @@ export interface ExpirePostgresCostReservationsOptions {
 
 /**
  * Release reservations that were never committed or released, and return how
- * many. The store has no background reaper: schedule this with a cutoff longer
- * than your slowest call (for example, one hour), or a call still running loses
- * its hold and its later `commit` is rejected as already released.
+ * many, across every tenant. Use it when the store runs without
+ * `reservationTtlMs`: schedule it with a cutoff longer than your slowest call
+ * (for example, one hour), or a call still running loses its hold and its later
+ * `commit` is rejected as already released.
  */
 export async function expirePostgresCostReservations({ db, olderThan }: ExpirePostgresCostReservationsOptions): Promise<number> {
+  return expireHeld(db, olderThan, sql.empty())
+}
+
+async function expireHeld(db: Pick<NodePgDatabase, 'execute'>, olderThan: Date, scope: SQL): Promise<number> {
   const result = await db.execute(sql`WITH expired AS (
     UPDATE agentskit_cost_reservation SET status = 'released'
-    WHERE status = 'reserved' AND created_at < ${olderThan.toISOString()}::timestamptz
+    WHERE status = 'reserved' AND created_at < ${olderThan.toISOString()}::timestamptz ${scope}
     RETURNING tenant_id, window_key, amount_usd
   ), totals AS (
     SELECT tenant_id, window_key, sum(amount_usd) AS amount_usd, count(*) AS reservations FROM expired GROUP BY tenant_id, window_key

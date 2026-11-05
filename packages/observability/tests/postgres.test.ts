@@ -120,6 +120,34 @@ describe('postgresCostStore', () => {
     await expect(store.count({ tenant: 't', kind: ' ' })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
   })
 
+  it('expires overdue holds of the window before admitting, when reservationTtlMs is set', async () => {
+    const { db, statements } = scripted([[{ reservations: '1' }], [{ spent_usd: '0', reserved_usd: '0.5' }]])
+    const store = postgresCostStore({ db, now, reservationTtlMs: 15 * 60_000 })
+    expect(await store.reserve({ tenant: 't', reservationId: 'next', amountUsd: 0.5, capUsd: 1 })).toMatchObject({ ok: true, window: { reservedUsd: 0.5, remainingUsd: 0.5 } })
+    expect(statements).toHaveLength(2)
+    expect(statements[0]).toContain("status = 'reserved' AND created_at < ")
+    expect(statements[0]).toContain('2026-10-09T11:45:00.000Z')
+    expect(statements[0]).toContain('AND tenant_id = ')
+    expect(statements[0]).toContain('AND window_key = ')
+    expect(statements[1]).toContain('ON CONFLICT (tenant_id, window_key) DO UPDATE')
+    expect(statements[1]).toContain('2026-10-09T12:00:00.000Z')
+  })
+
+  it('rejects the late commit of an expired reservation and reads the returned balance', async () => {
+    const { db, statements } = scripted([[{ reservations: 1 }], [], [{ window_key: 'w', status: 'released' }], [], [{ spent_usd: '0', reserved_usd: '0' }]])
+    const store = postgresCostStore({ db, now, reservationTtlMs: 60_000 })
+    await expect(store.commit({ tenant: 't', reservationId: 'dropped', actualUsd: 0.3 })).rejects.toMatchObject({ code: 'AK_COST_RESERVATION_RELEASED' })
+    expect(statements[0]).toContain('AND reservation_id = ')
+    expect(statements[0]).toContain('2026-10-09T11:59:00.000Z')
+    expect(await store.window({ tenant: 't', windowKey: 'w', capUsd: 1 })).toMatchObject({ reservedUsd: 0, remainingUsd: 1 })
+    expect(statements[3]).toContain("status = 'reserved' AND created_at < ")
+  })
+
+  it('rejects an invalid reservationTtlMs', () => {
+    const { db } = scripted([])
+    expect(() => postgresCostStore({ db, reservationTtlMs: -1 })).toThrow(/reservationTtlMs/)
+  })
+
   it('reads the current window with the default monthly key', async () => {
     const { db } = scripted([[]])
     expect(await postgresCostStore({ db, now }).window({ tenant: 't', capUsd: 2 })).toEqual({ tenant: 't', windowKey: '2026-10', spentUsd: 0, reservedUsd: 0, capUsd: 2, remainingUsd: 2, utilization: 0 })

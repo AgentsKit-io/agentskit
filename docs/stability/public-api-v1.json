@@ -132,6 +132,12 @@
               ]
             },
             {
+              "name": "CLIPROXYAPI_DEFAULT_BASE_URL",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "cloudflareAiGateway",
               "kinds": [
                 "value"
@@ -181,6 +187,12 @@
             },
             {
               "name": "createFallbackAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createModelProvider",
               "kinds": [
                 "value"
               ]
@@ -523,6 +535,18 @@
             },
             {
               "name": "ModelDeprecation",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelProviderConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelProviderId",
               "kinds": [
                 "type"
               ]
@@ -8938,6 +8962,18 @@
               ]
             },
             {
+              "name": "ConfirmUndoCard",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ConfirmUndoCardProps",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "createChatController",
               "kinds": [
                 "value"
@@ -9124,6 +9160,12 @@
               ]
             },
             {
+              "name": "ToolConfirmationLabels",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "ToolConfirmationProps",
               "kinds": [
                 "type"
@@ -9173,6 +9215,30 @@
             },
             {
               "name": "TopologyGraphViewSnapshot",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UsageMeter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "UsageMeterProps",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UsageMeterState",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UsageMeterWindow",
               "kinds": [
                 "type"
               ]

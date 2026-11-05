@@ -59,6 +59,37 @@ describe('createInMemoryCostStore', () => {
     await expect(store.release({ tenant: 't', reservationId: ' ' })).rejects.toBeInstanceOf(ConfigError)
   })
 
+  it('returns the hold of a dropped call once reservationTtlMs passes, without any job', async () => {
+    let clock = Date.parse('2026-10-09T12:00:00Z')
+    const store = createInMemoryCostStore({ now: () => new Date(clock), reservationTtlMs: 60_000 })
+    expect(await store.reserve({ tenant: 't', reservationId: 'dropped', amountUsd: 0.8, capUsd: 1 })).toMatchObject({ ok: true })
+    // The call dropped: it never commits nor releases its reservation.
+    expect(await store.reserve({ tenant: 't', reservationId: 'next', amountUsd: 0.5, capUsd: 1 })).toMatchObject({ ok: false, reason: 'quota_exceeded' })
+    clock += 60_000
+    expect(await store.window({ tenant: 't', capUsd: 1 })).toMatchObject({ reservedUsd: 0.8, remainingUsd: expect.closeTo(0.2) })
+    clock += 1
+    expect(await store.window({ tenant: 't', capUsd: 1 })).toMatchObject({ reservedUsd: 0, spentUsd: 0, remainingUsd: 1 })
+    expect(await store.reserve({ tenant: 't', reservationId: 'next', amountUsd: 0.5, capUsd: 1 })).toMatchObject({ ok: true, window: { reservedUsd: 0.5 } })
+    await expect(store.commit({ tenant: 't', reservationId: 'dropped', actualUsd: 0.8 })).rejects.toMatchObject({ code: 'AK_COST_RESERVATION_RELEASED' })
+    await expect(store.reserve({ tenant: 't', reservationId: 'dropped', amountUsd: 0.8, capUsd: 1 })).rejects.toMatchObject({ code: 'AK_COST_RESERVATION_RELEASED' })
+    expect(await store.window({ tenant: 't' })).toMatchObject({ reservedUsd: 0.5, spentUsd: 0 })
+  })
+
+  it('lets a call settle while its reservation is inside reservationTtlMs', async () => {
+    let clock = Date.parse('2026-10-09T12:00:00Z')
+    const store = createInMemoryCostStore({ now: () => new Date(clock), reservationTtlMs: 60_000 })
+    await store.reserve({ tenant: 't', reservationId: 'slow', amountUsd: 0.5, capUsd: 1 })
+    clock += 60_000
+    expect(await store.commit({ tenant: 't', reservationId: 'slow', actualUsd: 0.4 })).toMatchObject({ spentUsd: 0.4, reservedUsd: 0 })
+    clock += 3_600_000
+    expect(await store.window({ tenant: 't' })).toMatchObject({ spentUsd: 0.4, reservedUsd: 0 })
+  })
+
+  it('rejects an invalid reservationTtlMs', () => {
+    expect(() => createInMemoryCostStore({ reservationTtlMs: 0 })).toThrow(ConfigError)
+    expect(() => createInMemoryCostStore({ reservationTtlMs: Number.NaN })).toThrow(ConfigError)
+  })
+
   it('keeps utilization finite for a zero cap', () => {
     expect(describeCostWindow('t', 'w', 0, 0, 0)).toMatchObject({ utilization: 0, remainingUsd: 0 })
     expect(describeCostWindow('t', 'w', 1, 0, 0)).toMatchObject({ utilization: 1, remainingUsd: 0 })

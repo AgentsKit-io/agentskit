@@ -93,6 +93,8 @@ export interface CostCountInput {
  * `reservationId`: a repeated call returns the current window without counting twice.
  * `count` tallies the calls of one `kind` in a window: committed ones plus those
  * still reserved within `reservationTtlMs`; released ones never count.
+ * With `reservationTtlMs`, a reservation left unsettled past the TTL is released
+ * by the store itself, so a dropped call stops counting against the cap.
  */
 export interface CostStore {
   reserve: (input: CostReserveInput) => Promise<CostReserveResult>
@@ -108,6 +110,13 @@ export interface CostStoreOptions {
   windowKey?: (now: Date) => string
   /** Clock override for tests. */
   now?: () => Date
+  /**
+   * Age in ms after which a reservation that was neither committed nor released
+   * expires: it stops counting against the cap and is settled as released, so a
+   * later `commit` throws `AK_COST_RESERVATION_RELEASED`. Checked on every store
+   * call, no scheduled job needed. Set it above your slowest call. Default: never.
+   */
+  reservationTtlMs?: number
 }
 
 const RESERVATION_ERRORS = {
@@ -181,6 +190,18 @@ function assertUsd(name: string, value: number): void {
   }
 }
 
+/** Validate `CostStoreOptions.reservationTtlMs`; shared by every `CostStore` implementation. */
+export function validateReservationTtl(reservationTtlMs: number | undefined): void {
+  if (reservationTtlMs === undefined) return
+  if (!Number.isFinite(reservationTtlMs) || reservationTtlMs <= 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `cost store: reservationTtlMs must be a finite number > 0 (received ${String(reservationTtlMs)})`,
+      hint: 'Pass the reservation lifetime in milliseconds, longer than your slowest call, or omit it.',
+    })
+  }
+}
+
 /** Validate a reserve input; shared by every `CostStore` implementation. */
 export function validateCostReserve(input: CostReserveInput): void {
   assertKey('tenant', input.tenant)
@@ -226,6 +247,7 @@ const NANO = 1e9
 const toNano = (usd: number): number => Math.round(usd * NANO)
 
 interface MemoryReservation {
+  tenant: string
   windowKey: string
   amount: number
   kind: string | undefined
@@ -251,8 +273,11 @@ export interface InMemoryCostStore extends CostStore {
 export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemoryCostStore {
   const keyOf = options.windowKey ?? monthlyWindowKey
   const now = options.now ?? (() => new Date())
+  const ttl = options.reservationTtlMs
+  validateReservationTtl(ttl)
   const windows = new Map<string, { spent: number; reserved: number }>()
   const reservations = new Map<string, MemoryReservation>()
+  const held = new Set<MemoryReservation>()
   const ledger: InMemoryLedgerRow[] = []
 
   const windowOf = (tenant: string, windowKey: string) => {
@@ -268,6 +293,16 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
     const state = windowOf(tenant, windowKey)
     return describeCostWindow(tenant, windowKey, state.spent / NANO, state.reserved / NANO, capUsd)
   }
+  const expire = (): void => {
+    if (ttl === undefined) return
+    const cutoff = now().getTime() - ttl
+    for (const reservation of held) {
+      if (reservation.createdAt >= cutoff) continue
+      windowOf(reservation.tenant, reservation.windowKey).reserved -= reservation.amount
+      reservation.status = 'released'
+      held.delete(reservation)
+    }
+  }
   const find = (tenant: string, reservationId: string): MemoryReservation => {
     const reservation = reservations.get(JSON.stringify([tenant, reservationId]))
     if (!reservation) throw new CostReservationError('AK_COST_RESERVATION_NOT_FOUND', reservationId)
@@ -277,6 +312,7 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
   return {
     async reserve(input) {
       validateCostReserve(input)
+      expire()
       const id = JSON.stringify([input.tenant, input.reservationId])
       const existing = reservations.get(id)
       if (existing) {
@@ -291,11 +327,14 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
         return { ok: false, reason: 'quota_exceeded', window: describe(input.tenant, windowKey, input.capUsd) }
       }
       state.reserved += amount
-      reservations.set(id, { windowKey, amount, kind: input.kind, createdAt: now().getTime(), status: 'reserved' })
+      const reservation: MemoryReservation = { tenant: input.tenant, windowKey, amount, kind: input.kind, createdAt: now().getTime(), status: 'reserved' }
+      reservations.set(id, reservation)
+      held.add(reservation)
       return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, windowKey, input.capUsd) }
     },
     async commit(input) {
       validateCostCommit(input)
+      expire()
       const reservation = find(input.tenant, input.reservationId)
       if (reservation.status === 'released') throw new CostReservationError('AK_COST_RESERVATION_RELEASED', input.reservationId)
       if (reservation.status === 'reserved') {
@@ -303,22 +342,26 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
         state.reserved -= reservation.amount
         state.spent += toNano(input.actualUsd)
         reservation.status = 'committed'
+        held.delete(reservation)
         for (const entry of input.usage ?? []) ledger.push({ ...entry, tenant: input.tenant, reservationId: input.reservationId })
       }
       return describe(input.tenant, reservation.windowKey)
     },
     async release(input) {
       validateCostRelease(input)
+      expire()
       const reservation = find(input.tenant, input.reservationId)
       if (reservation.status === 'committed') throw new CostReservationError('AK_COST_RESERVATION_COMMITTED', input.reservationId)
       if (reservation.status === 'reserved') {
         windowOf(input.tenant, reservation.windowKey).reserved -= reservation.amount
         reservation.status = 'released'
+        held.delete(reservation)
       }
       return describe(input.tenant, reservation.windowKey)
     },
     async window(input) {
       validateCostWindow(input)
+      expire()
       return describe(input.tenant, input.windowKey ?? keyOf(now()), input.capUsd)
     },
     async count(input) {
@@ -356,7 +399,7 @@ export async function recordCostSpend(store: CostStore, record: CostSpendRecord)
   try {
     return await store.commit({ tenant: record.tenant, reservationId, actualUsd: record.costUsd, usage: record.usage })
   } catch (error) {
-    // Best effort: when the store is unreachable the release fails too, and the reservation is left for expiry.
+    // Best effort: when the store is unreachable the release fails too, and the reservation is left for `reservationTtlMs`.
     await store.release({ tenant: record.tenant, reservationId }).catch(() => {})
     throw error
   }

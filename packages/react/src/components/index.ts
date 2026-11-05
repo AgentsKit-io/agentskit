@@ -13,7 +13,7 @@ export type { CodeBlockProps } from './CodeBlock'
 export type { ToolCallViewProps } from './ToolCallView'
 export type { ThinkingIndicatorProps } from './ThinkingIndicator'
 export { ToolConfirmation } from "./ToolConfirmation"
-export type { ToolConfirmationProps } from "./ToolConfirmation"
+export type { ToolConfirmationProps, ToolConfirmationLabels } from "./ToolConfirmation"
 export { TopologyGraphView } from './TopologyGraphView'
 export type {
   TopologyGraphViewProps,
@@ -22,3 +22,7 @@ export type {
   TopologyGraphViewSnapshot,
   TopologyGraphSource,
 } from './TopologyGraphView'
+export { UsageMeter } from './UsageMeter'
+export type { UsageMeterProps, UsageMeterWindow, UsageMeterState } from './UsageMeter'
+export { ConfirmUndoCard } from './ConfirmUndoCard'
+export type { ConfirmUndoCardProps } from './ConfirmUndoCard'
