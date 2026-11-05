@@ -56,6 +56,42 @@ describe('createModelProvider', () => {
     })
   }
 
+  const request = { messages: [{ id: '1', role: 'user' as const, content: 'hi', status: 'complete' as const, createdAt: new Date(0) }] }
+  const doneCost = async (cfg: ModelProviderConfig, sse: string) => {
+    globalThis.fetch = vi.fn(async () => new Response(sse, { status: 200, headers: { 'content-type': 'text/event-stream' } })) as typeof globalThis.fetch
+    for await (const chunk of createModelProvider(cfg).createSource(request).stream()) {
+      if (chunk.type === 'done') return chunk.metadata?.cost as Record<string, unknown>
+    }
+  }
+
+  it('returns tokens and the exact catalog USD cost for a recorded openai response', async () => {
+    const sse = [
+      'data: {"choices":[{"delta":{"content":"Hi"}}]}',
+      'data: {"choices":[],"usage":{"prompt_tokens":1200,"completion_tokens":300,"total_tokens":1500}}',
+      'data: [DONE]',
+      '',
+    ].join('\n\n')
+    const { catalog } = await import('../src/catalog')
+    const price = catalog.providers.find(p => p.id === 'openai')!.models.find(m => m.id === 'gpt-4o')!.cost!
+    const cost = await doneCost({ provider: 'openai', model: 'gpt-4o', apiKey: 'k' }, sse)
+    expect(cost).toMatchObject({ inputTokens: 1200, outputTokens: 300, usageReported: true, priceSource: 'catalog' })
+    expect(cost?.costUsd).toBe((1200 * price.input! + 300 * price.output!) / 1e6)
+  })
+
+  it('applies priceOverrides from the config', async () => {
+    const sse = 'data: {"choices":[],"usage":{"prompt_tokens":1000000,"completion_tokens":1000000,"total_tokens":2000000}}\n\ndata: [DONE]\n\n'
+    const cost = await doneCost(
+      { provider: 'openai', model: 'gpt-4o', apiKey: 'k', priceOverrides: { 'openai/gpt-4o': { input: 1, output: 2 } } },
+      sse,
+    )
+    expect(cost).toMatchObject({ costUsd: 3, priceSource: 'override' })
+  })
+
+  it('marks a response without usage as usageReported:false', async () => {
+    const cost = await doneCost({ provider: 'openai', model: 'gpt-4o', apiKey: 'k' }, openaiSse)
+    expect(cost).toMatchObject({ usageReported: false, costUsd: undefined })
+  })
+
   it('requires an apiKey except for cliproxyapi', () => {
     expect(() => createModelProvider({ provider: 'openai', model: 'm' })).toThrow(/apiKey/)
     expect(() => createModelProvider({ provider: 'cliproxyapi', model: 'm' })).not.toThrow()

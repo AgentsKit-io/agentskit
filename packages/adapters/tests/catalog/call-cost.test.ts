@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { computeCallCost } from '../../src/catalog'
+import { catalog, computeCallCost } from '../../src/catalog'
 
 const usage = { promptTokens: 1_000_000, completionTokens: 500_000, totalTokens: 1_500_000 }
 
@@ -10,7 +10,9 @@ describe('computeCallCost', () => {
     expect(out.inputTokens).toBe(1_000_000)
     expect(out.outputTokens).toBe(500_000)
     expect(out.priceSource).toBe('catalog')
-    expect(out.costUsd).toBeGreaterThan(0)
+    const price = catalog.providers.find(p => p.id === 'openai')!.models.find(m => m.id === 'gpt-4o')!.cost!
+    expect(out.costUsd).toBe((1_000_000 * price.input! + 500_000 * price.output!) / 1e6)
+    expect(out.costUsd).toBe(7.5)
   })
 
   it('config override wins over the catalog', () => {

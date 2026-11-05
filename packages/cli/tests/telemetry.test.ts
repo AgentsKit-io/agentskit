@@ -15,6 +15,13 @@ describe('pricing + cost', () => {
     expect(getPricing('openai/gpt-4o')?.inputPerM).toBeGreaterThan(0)
   })
 
+  it('prices from the models.dev catalog (no hardcoded table)', async () => {
+    const { getCachedCost } = await import('@agentskit/adapters/catalog')
+    const price = getCachedCost('openai', 'gpt-4o')!
+    const cost = computeCost('gpt-4o', { promptTokens: 1200, completionTokens: 300 })!
+    expect(cost.totalUsd).toBe((1200 * price.input! + 300 * price.output!) / 1e6)
+  })
+
   it('computes separate input and output USD', () => {
     const cost = computeCost('gpt-4o', { promptTokens: 1_000_000, completionTokens: 500_000 })
     expect(cost?.inputUsd).toBeCloseTo(2.5, 4)

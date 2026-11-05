@@ -1,25 +1,18 @@
+import { computeCallCost, getCachedCost } from '@agentskit/adapters/catalog'
+
 /**
- * Per-million-token prices in USD. Keeps only a few canonical models —
- * hosts can override at runtime via `registerPricing`. Values are
- * publicly listed prices as of 2026-Q1 and may drift; authoritative
- * cost tracking should come from the provider's invoice.
+ * Per-million-token prices in USD. The price table is the models.dev catalog
+ * shipped in `@agentskit/adapters/catalog`; hosts can override a model at
+ * runtime via `registerPricing`. Authoritative cost tracking should still come
+ * from the provider's invoice.
  */
 export interface ModelPricing {
   inputPerM: number
   outputPerM: number
 }
 
-const builtinPricing: Record<string, ModelPricing> = {
-  'gpt-4o': { inputPerM: 2.5, outputPerM: 10 },
-  'gpt-4o-mini': { inputPerM: 0.15, outputPerM: 0.6 },
-  'gpt-4.1': { inputPerM: 2, outputPerM: 8 },
-  'gpt-4.1-mini': { inputPerM: 0.4, outputPerM: 1.6 },
-  'claude-opus-4': { inputPerM: 15, outputPerM: 75 },
-  'claude-sonnet-4': { inputPerM: 3, outputPerM: 15 },
-  'claude-haiku-4': { inputPerM: 0.8, outputPerM: 4 },
-  'gemini-2.5-pro': { inputPerM: 1.25, outputPerM: 10 },
-  'gemini-2.5-flash': { inputPerM: 0.3, outputPerM: 2.5 },
-}
+/** Providers searched, in order, when a bare model id (no `provider/` prefix) is given. */
+const BARE_MODEL_PROVIDERS = ['openai', 'anthropic', 'google']
 
 const customPricing: Record<string, ModelPricing> = {}
 
@@ -33,18 +26,37 @@ export function registerPricing(model: string, pricing: ModelPricing): void {
   customPricing[model] = pricing
 }
 
+function resolveCatalogKey(model: string): { providerId: string; modelId: string } | undefined {
+  if (model.includes('/')) {
+    const idx = model.indexOf('/')
+    const providerId = model.slice(0, idx)
+    const modelId = model.slice(idx + 1)
+    if (getCachedCost(providerId, modelId)) return { providerId, modelId }
+  }
+  const short = model.includes('/') ? model.split('/').pop()! : model
+  for (const providerId of BARE_MODEL_PROVIDERS) {
+    if (getCachedCost(providerId, short)) return { providerId, modelId: short }
+  }
+  return undefined
+}
+
+function customFor(model: string): ModelPricing | undefined {
+  return customPricing[model] ?? customPricing[model.split('/').pop()!]
+}
+
 /**
- * Looks up registered model pricing by exact id or provider-prefixed model id.
- * @param model Model identifier to look up.
+ * Looks up model pricing: runtime override first, then the models.dev catalog.
+ * @param model Model identifier (bare or `provider/model`).
  * @returns Pricing for the model, or `undefined` when it is unknown.
  */
 export function getPricing(model: string | undefined): ModelPricing | undefined {
   if (!model) return undefined
-  if (customPricing[model]) return customPricing[model]
-  if (builtinPricing[model]) return builtinPricing[model]
-  // Prefix match: `openai/gpt-4o` → `gpt-4o`.
-  const short = model.includes('/') ? model.split('/').pop()! : model
-  return customPricing[short] ?? builtinPricing[short]
+  const custom = customFor(model)
+  if (custom) return custom
+  const key = resolveCatalogKey(model)
+  const cost = key && getCachedCost(key.providerId, key.modelId)
+  if (!cost || cost.input == null || cost.output == null) return undefined
+  return { inputPerM: cost.input, outputPerM: cost.output }
 }
 
 /**
@@ -73,14 +85,19 @@ export function computeCost(
   usage: TokenUsageLike,
 ): ComputedCost | undefined {
   if (!model) return undefined
-  const pricing = getPricing(model)
-  if (!pricing) return undefined
-  const inputUsd = (usage.promptTokens / 1_000_000) * pricing.inputPerM
-  const outputUsd = (usage.completionTokens / 1_000_000) * pricing.outputPerM
+  const custom = customFor(model)
+  const key = custom ? { providerId: 'custom', modelId: model } : resolveCatalogKey(model)
+  if (!key) return undefined
+  const priceOverrides = custom
+    ? { [`custom/${model}`]: { input: custom.inputPerM, output: custom.outputPerM } }
+    : undefined
+  const input = computeCallCost(key.providerId, key.modelId, { ...usage, completionTokens: 0 }, { priceOverrides })
+  const output = computeCallCost(key.providerId, key.modelId, { promptTokens: 0, completionTokens: usage.completionTokens }, { priceOverrides })
+  if (input.costUsd === undefined || output.costUsd === undefined) return undefined
   return {
     model,
-    inputUsd,
-    outputUsd,
-    totalUsd: inputUsd + outputUsd,
+    inputUsd: input.costUsd,
+    outputUsd: output.costUsd,
+    totalUsd: input.costUsd + output.costUsd,
   }
 }

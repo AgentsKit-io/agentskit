@@ -1,5 +1,5 @@
 import { ConfigError, ErrorCodes } from '@agentskit/core'
-import type { AdapterFactory } from '@agentskit/core'
+import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource, TokenUsage } from '@agentskit/core'
 import { anthropic } from './anthropic'
 import { openai } from './openai'
 import { openrouter } from './openrouter'
@@ -24,10 +24,63 @@ export interface ModelProviderConfig {
   retry?: RetryOptions
   /** Anthropic only. */
   maxTokens?: number
+  /**
+   * Price overrides in USD per 1M tokens, keyed `provider/model` (e.g.
+   * `openai/gpt-4o`). They win over the models.dev catalog table.
+   */
+  priceOverrides?: Record<string, { input?: number; output?: number }>
+}
+
+/** Cost of one call, attached to the `done` chunk as `metadata.cost` (a `CallCost`). */
+export const MODEL_PROVIDER_COST_METADATA_KEY = 'cost'
+
+function withCost(inner: AdapterFactory, config: ModelProviderConfig): AdapterFactory {
+  // cliproxyapi serves OpenAI-compatible models: price them from the openai catalog.
+  const catalogId = config.provider === 'cliproxyapi' ? 'openai' : config.provider
+  const overrides: Record<string, { input?: number; output?: number }> = {}
+  for (const [key, price] of Object.entries(config.priceOverrides ?? {})) {
+    overrides[config.provider === 'cliproxyapi' && key.startsWith('cliproxyapi/') ? `openai/${key.slice(12)}` : key] = price
+  }
+  return {
+    capabilities: inner.capabilities,
+    createSource: (request: AdapterRequest): StreamSource => {
+      const source = inner.createSource(request)
+      return {
+        abort: () => source.abort(),
+        stream: async function* () {
+          let usage: TokenUsage | undefined
+          for await (const chunk of source.stream()) {
+            if (chunk.type === 'usage' && chunk.usage) {
+              // Providers may split usage across events (e.g. Anthropic): keep the max per field.
+              usage = {
+                promptTokens: Math.max(usage?.promptTokens ?? 0, chunk.usage.promptTokens),
+                completionTokens: Math.max(usage?.completionTokens ?? 0, chunk.usage.completionTokens),
+                totalTokens: 0,
+              }
+              usage.totalTokens = usage.promptTokens + usage.completionTokens
+            }
+            if (chunk.type === 'done') {
+              // Lazy import keeps the large catalog snapshot out of the main bundle.
+              const { computeCallCost } = await import('./catalog/pricing')
+              const cost = computeCallCost(catalogId, config.model, usage, { priceOverrides: overrides })
+              const out: StreamChunk = { ...chunk, metadata: { ...chunk.metadata, [MODEL_PROVIDER_COST_METADATA_KEY]: cost } }
+              yield out
+            } else {
+              yield chunk
+            }
+          }
+        },
+      }
+    },
+  }
 }
 
 /** Single port over OpenRouter, Anthropic, OpenAI and CLIProxyAPI. */
 export function createModelProvider(config: ModelProviderConfig): AdapterFactory {
+  return withCost(createRawModelProvider(config), config)
+}
+
+function createRawModelProvider(config: ModelProviderConfig): AdapterFactory {
   const { provider, model, apiKey, baseUrl, retry } = config
   const requireKey = (): string => {
     if (!apiKey) {
