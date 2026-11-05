@@ -132,6 +132,12 @@
               ]
             },
             {
+              "name": "CLIPROXYAPI_DEFAULT_BASE_URL",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "cloudflareAiGateway",
               "kinds": [
                 "value"
@@ -181,6 +187,12 @@
             },
             {
               "name": "createFallbackAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createModelProvider",
               "kinds": [
                 "value"
               ]
@@ -523,6 +535,18 @@
             },
             {
               "name": "ModelDeprecation",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelProviderConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelProviderId",
               "kinds": [
                 "type"
               ]
@@ -9151,6 +9175,12 @@
               "name": "ToolConfirmation",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "ToolConfirmationLabels",
+              "kinds": [
+                "type"
               ]
             },
             {
