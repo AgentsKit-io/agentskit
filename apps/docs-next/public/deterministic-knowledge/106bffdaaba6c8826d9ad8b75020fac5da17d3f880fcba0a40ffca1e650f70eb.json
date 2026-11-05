@@ -146,7 +146,7 @@
     {
       "id": "claim.native-adapters",
       "kind": "restricted-faq",
-      "label": "28 native adapters",
+      "label": "29 native adapters",
       "match": {
         "type": "exact",
         "values": [
@@ -156,7 +156,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **28 native adapters**. The public conservative floor is 28.",
+        "markdown": "The verified AgentsKit ledger currently reports **29 native adapters**. The public conservative floor is 29.",
         "citations": [
           {
             "id": "claim-native-adapters",
@@ -2444,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:3770c08a5b58cb581407cb371ad763a532957056fbb5da7b982ba907734ef81d"
+  "contentHash": "sha256:106bffdaaba6c8826d9ad8b75020fac5da17d3f880fcba0a40ffca1e650f70eb"
 }
