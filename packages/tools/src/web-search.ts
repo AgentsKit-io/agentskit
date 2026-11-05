@@ -2,6 +2,8 @@ import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
 import { NetError, NetErrorCodes, readText } from '@agentskit/net'
 import type { ToolDefinition } from '@agentskit/core'
 import { safeFetch } from './safe-fetch'
+import type { McpClient } from './mcp/client'
+import { parallelSearch } from './web-search-parallel'
 
 /** Title, URL, and text snippet returned by a web-search provider. */
 export interface WebSearchResult {
@@ -10,8 +12,11 @@ export interface WebSearchResult {
   snippet: string
 }
 
-/** Search backend selection; `auto` prefers configured Serper, then Tavily, then DuckDuckGo. */
-export type WebSearchProvider = 'auto' | 'serper' | 'tavily' | 'duckduckgo'
+/**
+ * Search backend selection; `auto` prefers configured Serper, then Tavily, then DuckDuckGo.
+ * `parallel` is opt-in and never chosen by `auto`.
+ */
+export type WebSearchProvider = 'auto' | 'serper' | 'tavily' | 'duckduckgo' | 'parallel'
 
 /** Provider, credentials, result count, timeout, response cap, and custom search settings for {@link webSearch}. */
 export interface WebSearchConfig {
@@ -29,17 +34,23 @@ export interface WebSearchConfig {
   maxResponseBytes?: number
   /** Caller cancellation signal. */
   signal?: AbortSignal
+  /**
+   * MCP client used by `provider: 'parallel'`. Host-owned: bring your own
+   * transport and authentication. Defaults to a keyless HTTP client for
+   * Parallel Search MCP (`https://search.parallel.ai/mcp`).
+   */
+  mcpClient?: McpClient
   /** Custom search function — overrides every other path. */
   search?: (query: string) => Promise<WebSearchResult[]>
 }
 
 const URL_RE = /^https?:\/\//i
-const SNIPPET_MAX = 600
+export const SNIPPET_MAX = 600
 const DEFAULT_TIMEOUT_MS = 15_000
 const DEFAULT_MAX_RESPONSE_BYTES = 2 * 1024 * 1024
 const MAX_RESULTS = 100
 
-interface SearchRuntimeConfig {
+export interface SearchRuntimeConfig {
   timeoutMs: number
   maxResponseBytes: number
   signal?: AbortSignal
@@ -56,7 +67,7 @@ async function readResponseText(response: Response, maxBytes: number): Promise<s
   }
 }
 
-async function requestText(
+export async function requestText(
   url: string,
   init: RequestInit,
   config: SearchRuntimeConfig,
@@ -83,7 +94,7 @@ async function requestText(
   }
 }
 
-async function withDeadline<T>(work: Promise<T>, config: SearchRuntimeConfig): Promise<T> {
+export async function withDeadline<T>(work: Promise<T>, config: SearchRuntimeConfig): Promise<T> {
   if (config.signal?.aborted) throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'web search aborted' })
   return await new Promise<T>((resolve, reject) => {
     const timer = setTimeout(() => reject(new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `web search timed out after ${config.timeoutMs}ms` })), config.timeoutMs)
@@ -262,7 +273,7 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
   const { provider = 'auto', apiKey, maxResults = 5, search } = config
   const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS
   const maxResponseBytes = config.maxResponseBytes ?? DEFAULT_MAX_RESPONSE_BYTES
-  if (!['auto', 'serper', 'tavily', 'duckduckgo'].includes(provider)) {
+  if (!['auto', 'serper', 'tavily', 'duckduckgo', 'parallel'].includes(provider)) {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `webSearch: unsupported provider ${String(provider)}` })
   }
   if (!Number.isSafeInteger(maxResults) || maxResults < 1 || maxResults > MAX_RESULTS) {
@@ -272,6 +283,7 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'webSearch: timeoutMs and maxResponseBytes must be positive safe integers' })
   }
   const runtime = { timeoutMs, maxResponseBytes, signal: config.signal }
+  const parallelSessionId = globalThis.crypto.randomUUID().replace(/-/g, '')
 
   return {
     name: 'web_search',
@@ -316,6 +328,12 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
       }
       if (provider === 'tavily' && !resolvedKey) {
         return 'Error: Tavily provider requires apiKey (pass { apiKey } or set TAVILY_API_KEY)'
+      }
+
+      // An explicitly selected Parallel backend surfaces every failure to the caller.
+      if (backend === 'parallel') {
+        const results = await parallelSearch(query, maxResults, parallelSessionId, runtime, config.mcpClient)
+        return formatResults(results, query, maxResults)
       }
 
       try {
