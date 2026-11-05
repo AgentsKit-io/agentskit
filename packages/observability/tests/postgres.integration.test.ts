@@ -7,6 +7,6 @@ it.skipIf(!process.env.AK_POSTGRES_TEST_PORT)('CostStore contract on real Postgr
   try {
     expect((await pool.query('SHOW server_version')).rows[0].server_version).toMatch(/^16\./)
     const result = await postgresCostContract(drizzle(pool), `test-${crypto.randomUUID()}`)
-    expect(Object.values(result)).toEqual(Array(9).fill('passed'))
+    expect(Object.values(result)).toEqual(Array(10).fill('passed'))
   } finally { await pool.end() }
 }, 60_000)

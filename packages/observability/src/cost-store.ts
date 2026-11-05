@@ -1,4 +1,5 @@
 import { AgentsKitError, ConfigError, ErrorCodes } from '@agentskit/core'
+import { NANO, toNano } from './money'
 
 /** One priced model call, written to the usage ledger when a reservation is committed. */
 export interface CostUsageEntry {
@@ -26,6 +27,12 @@ export interface CostWindow {
   remainingUsd?: number
   /** `(spentUsd + reservedUsd) / capUsd`, always finite. */
   utilization?: number
+  /** Utilization from which `warning` is set, when a threshold was configured. */
+  warnAtUtilization?: number
+  /** True once `utilization` reaches `warnAtUtilization`. Present only when both a cap and a threshold are known. */
+  warning?: boolean
+  /** ISO instant at which the next accounting window starts, when the window policy knows it. */
+  resetsAt?: string
 }
 
 /** Input of `CostStore.reserve`. */
@@ -39,6 +46,8 @@ export interface CostReserveInput {
   capUsd?: number
   /** Accounting window. Defaults to the store's current window. */
   windowKey?: string
+  /** Overrides `CostStoreOptions.warnAtUtilization` for the returned window. */
+  warnAtUtilization?: number
 }
 
 /** Outcome of `CostStore.reserve`. A denied reservation holds nothing. */
@@ -67,6 +76,8 @@ export interface CostWindowInput {
   tenant: string
   capUsd?: number
   windowKey?: string
+  /** Overrides `CostStoreOptions.warnAtUtilization` for the returned window. */
+  warnAtUtilization?: number
 }
 
 /**
@@ -97,6 +108,17 @@ export interface CostStoreOptions {
    * call, no scheduled job needed. Set it above your slowest call. Default: never.
    */
   reservationTtlMs?: number
+  /**
+   * Utilization (`0.8` = 80 % of the cap) from which a window reports `warning: true`.
+   * Overridable per `reserve` and `window` call. Default: no threshold, no `warning`.
+   */
+  warnAtUtilization?: number
+  /**
+   * Start of the window after `windowKey`, reported as `resetsAt`. Defaults to
+   * `monthlyWindowResetsAt` when `windowKey` is the default policy; required for
+   * `resetsAt` with a custom `windowKey`.
+   */
+  windowResetsAt?: (windowKey: string) => Date | undefined
 }
 
 const RESERVATION_ERRORS = {
@@ -128,26 +150,62 @@ export function monthlyWindowKey(now: Date): string {
   return now.toISOString().slice(0, 7)
 }
 
-/** Build a `CostWindow`, deriving `remainingUsd` and `utilization` when a cap is known. */
+/** Start of the UTC month after a `YYYY-MM` window key, or `undefined` for any other key. */
+export function monthlyWindowResetsAt(windowKey: string): Date | undefined {
+  const match = /^(\d{4})-(\d{2})$/.exec(windowKey)
+  if (!match) return undefined
+  const month = Number(match[2])
+  if (month < 1 || month > 12) return undefined
+  return new Date(Date.UTC(Number(match[1]), month, 1))
+}
+
+/** Threshold and reset details of a `CostWindow`, as resolved by the store. */
+export interface CostWindowDetails {
+  warnAtUtilization?: number
+  resetsAt?: Date
+}
+
+/**
+ * Build a `CostWindow`, deriving `remainingUsd`, `utilization` and `warning`
+ * when a cap is known. Sums are taken in nano-dollars, so `0.04 + 0.01`
+ * against a `0.05` cap leaves exactly `0` remaining at utilization `1`.
+ */
 export function describeCostWindow(
   tenant: string,
   windowKey: string,
   spentUsd: number,
   reservedUsd: number,
   capUsd: number | undefined,
+  details: CostWindowDetails = {},
 ): CostWindow {
-  if (capUsd === undefined) return { tenant, windowKey, spentUsd, reservedUsd }
-  const used = spentUsd + reservedUsd
-  const ratio = capUsd > 0 ? used / capUsd : Math.sign(used)
-  return {
-    tenant,
-    windowKey,
-    spentUsd,
-    reservedUsd,
-    capUsd,
-    remainingUsd: Math.max(0, capUsd - used),
-    utilization: Number.isFinite(ratio) ? ratio : 1,
+  const window: CostWindow = { tenant, windowKey, spentUsd, reservedUsd }
+  if (capUsd !== undefined) {
+    const used = toNano(spentUsd) + toNano(reservedUsd)
+    const cap = toNano(capUsd)
+    const ratio = cap > 0 ? used / cap : Math.sign(used)
+    window.capUsd = capUsd
+    window.remainingUsd = Math.max(0, cap - used) / NANO
+    window.utilization = Number.isFinite(ratio) ? ratio : 1
   }
+  if (details.warnAtUtilization !== undefined) {
+    window.warnAtUtilization = details.warnAtUtilization
+    if (window.utilization !== undefined) window.warning = window.utilization >= details.warnAtUtilization
+  }
+  if (details.resetsAt) window.resetsAt = details.resetsAt.toISOString()
+  return window
+}
+
+/**
+ * Resolve the `windowResetsAt` policy and `warnAtUtilization` default of a store;
+ * shared by every `CostStore` implementation.
+ */
+export function costWindowDetailsOf(options: CostStoreOptions): (windowKey: string, warnAtUtilization?: number) => CostWindowDetails {
+  validateWarnAtUtilization(options.warnAtUtilization)
+  const resetsAtOf = options.windowResetsAt ?? (options.windowKey ? undefined : monthlyWindowResetsAt)
+  return (windowKey, warnAtUtilization) => ({
+    warnAtUtilization: warnAtUtilization ?? options.warnAtUtilization,
+    resetsAt: resetsAtOf?.(windowKey),
+  })
 }
 
 function assertKey(name: string, value: string): void {
@@ -182,12 +240,24 @@ export function validateReservationTtl(reservationTtlMs: number | undefined): vo
   }
 }
 
+function validateWarnAtUtilization(warnAtUtilization: number | undefined): void {
+  if (warnAtUtilization === undefined) return
+  if (!Number.isFinite(warnAtUtilization) || warnAtUtilization <= 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `cost store: warnAtUtilization must be a finite number > 0 (received ${String(warnAtUtilization)})`,
+      hint: 'Pass the warning threshold as a fraction of the cap, for example 0.8 for 80 %.',
+    })
+  }
+}
+
 /** Validate a reserve input; shared by every `CostStore` implementation. */
 export function validateCostReserve(input: CostReserveInput): void {
   assertKey('tenant', input.tenant)
   assertKey('reservationId', input.reservationId)
   assertUsd('amountUsd', input.amountUsd)
   if (input.capUsd !== undefined) assertUsd('capUsd', input.capUsd)
+  validateWarnAtUtilization(input.warnAtUtilization)
 }
 
 /** Validate a release input; shared by every `CostStore` implementation. */
@@ -200,6 +270,7 @@ export function validateCostRelease(input: CostReleaseInput): void {
 export function validateCostWindow(input: CostWindowInput): void {
   assertKey('tenant', input.tenant)
   if (input.capUsd !== undefined) assertUsd('capUsd', input.capUsd)
+  validateWarnAtUtilization(input.warnAtUtilization)
 }
 
 /** Validate a commit input; shared by every `CostStore` implementation. */
@@ -214,10 +285,6 @@ export function validateCostCommit(input: CostCommitInput): void {
     assertUsd('usage.costUsd', entry.costUsd)
   }
 }
-
-// USD is tracked in integer nano-dollars so repeated sums stay exact.
-const NANO = 1e9
-const toNano = (usd: number): number => Math.round(usd * NANO)
 
 interface MemoryReservation {
   tenant: string
@@ -247,6 +314,7 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
   const now = options.now ?? (() => new Date())
   const ttl = options.reservationTtlMs
   validateReservationTtl(ttl)
+  const detailsOf = costWindowDetailsOf(options)
   const windows = new Map<string, { spent: number; reserved: number }>()
   const reservations = new Map<string, MemoryReservation>()
   const held = new Set<MemoryReservation>()
@@ -261,9 +329,9 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
     }
     return state
   }
-  const describe = (tenant: string, windowKey: string, capUsd?: number): CostWindow => {
+  const describe = (tenant: string, windowKey: string, capUsd?: number, warnAtUtilization?: number): CostWindow => {
     const state = windowOf(tenant, windowKey)
-    return describeCostWindow(tenant, windowKey, state.spent / NANO, state.reserved / NANO, capUsd)
+    return describeCostWindow(tenant, windowKey, state.spent / NANO, state.reserved / NANO, capUsd, detailsOf(windowKey, warnAtUtilization))
   }
   const expire = (): void => {
     if (ttl === undefined) return
@@ -290,19 +358,19 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
       if (existing) {
         // A released reservation holds nothing, so replaying it as admitted would let the call run unaccounted.
         if (existing.status === 'released') throw new CostReservationError('AK_COST_RESERVATION_RELEASED', input.reservationId)
-        return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, existing.windowKey, input.capUsd) }
+        return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, existing.windowKey, input.capUsd, input.warnAtUtilization) }
       }
       const windowKey = input.windowKey ?? keyOf(now())
       const state = windowOf(input.tenant, windowKey)
       const amount = toNano(input.amountUsd)
       if (input.capUsd !== undefined && state.spent + state.reserved + amount > toNano(input.capUsd)) {
-        return { ok: false, reason: 'quota_exceeded', window: describe(input.tenant, windowKey, input.capUsd) }
+        return { ok: false, reason: 'quota_exceeded', window: describe(input.tenant, windowKey, input.capUsd, input.warnAtUtilization) }
       }
       state.reserved += amount
       const reservation: MemoryReservation = { tenant: input.tenant, windowKey, amount, createdAt: now().getTime(), status: 'reserved' }
       reservations.set(id, reservation)
       held.add(reservation)
-      return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, windowKey, input.capUsd) }
+      return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, windowKey, input.capUsd, input.warnAtUtilization) }
     },
     async commit(input) {
       validateCostCommit(input)
@@ -334,7 +402,7 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
     async window(input) {
       validateCostWindow(input)
       expire()
-      return describe(input.tenant, input.windowKey ?? keyOf(now()), input.capUsd)
+      return describe(input.tenant, input.windowKey ?? keyOf(now()), input.capUsd, input.warnAtUtilization)
     },
     ledger: () => ledger.map(row => ({ ...row })),
   }

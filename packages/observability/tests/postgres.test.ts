@@ -39,7 +39,7 @@ describe('postgresCostStore', () => {
   it('admits a reservation from the single atomic statement', async () => {
     const { db, statements } = scripted([[{ spent_usd: '0.250000000', reserved_usd: '0.500000000' }]])
     const result = await postgresCostStore({ db, now }).reserve({ tenant: 't', reservationId: 'r', amountUsd: 0.5, capUsd: 1 })
-    expect(result).toEqual({ ok: true, reservationId: 'r', window: { tenant: 't', windowKey: '2026-10', spentUsd: 0.25, reservedUsd: 0.5, capUsd: 1, remainingUsd: 0.25, utilization: 0.75 } })
+    expect(result).toEqual({ ok: true, reservationId: 'r', window: { tenant: 't', windowKey: '2026-10', spentUsd: 0.25, reservedUsd: 0.5, capUsd: 1, remainingUsd: 0.25, utilization: 0.75, resetsAt: '2026-11-01T00:00:00.000Z' } })
     expect(statements).toHaveLength(1)
     expect(statements[0]).toContain('ON CONFLICT (tenant_id, window_key) DO UPDATE')
   })
@@ -140,6 +140,30 @@ describe('postgresCostStore', () => {
 
   it('reads the current window with the default monthly key', async () => {
     const { db } = scripted([[]])
-    expect(await postgresCostStore({ db, now }).window({ tenant: 't', capUsd: 2 })).toEqual({ tenant: 't', windowKey: '2026-10', spentUsd: 0, reservedUsd: 0, capUsd: 2, remainingUsd: 2, utilization: 0 })
+    expect(await postgresCostStore({ db, now }).window({ tenant: 't', capUsd: 2 })).toEqual({ tenant: 't', windowKey: '2026-10', spentUsd: 0, reservedUsd: 0, capUsd: 2, remainingUsd: 2, utilization: 0, resetsAt: '2026-11-01T00:00:00.000Z' })
+  })
+
+  it('binds amounts as nano-dollar decimals, so the cap comparison has no float drift', async () => {
+    const { db, statements } = scripted([[{ spent_usd: '0.100000000', reserved_usd: '0.200000000' }], [{ window_key: 'w', spent_usd: '0.300000000', reserved_usd: '0' }]])
+    const store = postgresCostStore({ db, now })
+    const reserved = await store.reserve({ tenant: 't', reservationId: 'r', amountUsd: 0.1 + 0.1, capUsd: 0.1 + 0.2, windowKey: 'w' })
+    expect(reserved).toMatchObject({ ok: true, window: { remainingUsd: 0, utilization: 1 } })
+    expect(statements[0]).toContain('"0.200000000"')
+    expect(statements[0]).toContain('"0.300000000"')
+    expect(statements[0]).not.toContain('0.30000000000000004')
+    await store.commit({ tenant: 't', reservationId: 'r', actualUsd: 0.1 + 0.2, usage: [{ model: 'm', promptTokens: 1, completionTokens: 1, costUsd: 0.1 + 0.2 }] })
+    expect(statements[1]).toContain('"0.300000000"')
+    expect(statements[1]).toContain('\\"cost_usd\\":\\"0.300000000\\"')
+  })
+
+  it('reports the configured warning and the reset instant on every window it returns', async () => {
+    const { db } = scripted([[{ spent_usd: '0.8', reserved_usd: '0' }], [{ spent_usd: '0.8', reserved_usd: '0' }]])
+    const store = postgresCostStore({ db, now, warnAtUtilization: 0.8 })
+    expect(await store.window({ tenant: 't', capUsd: 1 })).toEqual({
+      tenant: 't', windowKey: '2026-10', spentUsd: 0.8, reservedUsd: 0, capUsd: 1, remainingUsd: 0.2, utilization: 0.8,
+      warnAtUtilization: 0.8, warning: true, resetsAt: '2026-11-01T00:00:00.000Z',
+    })
+    expect(await store.window({ tenant: 't', capUsd: 1, warnAtUtilization: 0.9 })).toMatchObject({ warnAtUtilization: 0.9, warning: false })
+    expect(() => postgresCostStore({ db, warnAtUtilization: Number.POSITIVE_INFINITY })).toThrow(/warnAtUtilization/)
   })
 })

@@ -3,6 +3,7 @@ import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { bigint, bigserial, boolean, check, index, numeric, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core'
 import {
   CostReservationError,
+  costWindowDetailsOf,
   describeCostWindow,
   monthlyWindowKey,
   validateCostCommit,
@@ -14,6 +15,7 @@ import {
   type CostStoreOptions,
   type CostWindow,
 } from './cost-store'
+import { toUsdDecimal } from './money'
 
 const usd = (name: string) => numeric(name, { precision: 20, scale: 9 })
 
@@ -119,17 +121,21 @@ function isUniqueViolation(error: unknown): boolean {
  * each call first releases the overdue holds it touches, or run
  * `expirePostgresCostReservations` on a schedule.
  */
-export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now = () => new Date(), reservationTtlMs }: PostgresCostStoreOptions): CostStore {
+export function postgresCostStore(options: PostgresCostStoreOptions): CostStore {
+  const { db, windowKey: keyOf = monthlyWindowKey, now = () => new Date(), reservationTtlMs } = options
   validateReservationTtl(reservationTtlMs)
+  const detailsOf = costWindowDetailsOf(options)
+  const describe = (tenant: string, windowKey: string, row: Row | undefined, capUsd?: number, warnAtUtilization?: number): CostWindow =>
+    describeCostWindow(tenant, windowKey, Number(row?.spent_usd ?? 0), Number(row?.reserved_usd ?? 0), capUsd, detailsOf(windowKey, warnAtUtilization))
   const rows = async (query: ReturnType<typeof sql>): Promise<Row[]> => (await db.execute(query)).rows as Row[]
   const expire = async (scope: SQL): Promise<void> => {
     if (reservationTtlMs === undefined) return
     await expireHeld(db, new Date(now().getTime() - reservationTtlMs), scope)
   }
 
-  const window = async (tenant: string, windowKey: string, capUsd?: number): Promise<CostWindow> => {
+  const window = async (tenant: string, windowKey: string, capUsd?: number, warnAtUtilization?: number): Promise<CostWindow> => {
     const [row] = await rows(sql`SELECT spent_usd, reserved_usd FROM agentskit_cost_window WHERE tenant_id = ${tenant} AND window_key = ${windowKey}`)
-    return describeCostWindow(tenant, windowKey, Number(row?.spent_usd ?? 0), Number(row?.reserved_usd ?? 0), capUsd)
+    return describe(tenant, windowKey, row, capUsd, warnAtUtilization)
   }
 
   const reservation = async (tenant: string, reservationId: string): Promise<{ windowKey: string; status: string }> => {
@@ -141,9 +147,10 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
   return {
     async reserve(input) {
       validateCostReserve(input)
-      const { tenant, reservationId, amountUsd } = input
+      const { tenant, reservationId } = input
+      const amountUsd = toUsdDecimal(input.amountUsd)
       const windowKey = input.windowKey ?? keyOf(now())
-      const cap = input.capUsd ?? null
+      const cap = input.capUsd === undefined ? null : toUsdDecimal(input.capUsd)
       await expire(sql`AND tenant_id = ${tenant} AND window_key = ${windowKey}`)
       let admitted: Row[]
       try {
@@ -167,23 +174,24 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       }
       const [row] = admitted
       if (row) {
-        return { ok: true, reservationId, window: describeCostWindow(tenant, windowKey, Number(row.spent_usd), Number(row.reserved_usd), input.capUsd) }
+        return { ok: true, reservationId, window: describe(tenant, windowKey, row, input.capUsd, input.warnAtUtilization) }
       }
       const [existing] = await rows(sql`SELECT window_key, status FROM agentskit_cost_reservation WHERE tenant_id = ${tenant} AND reservation_id = ${reservationId}`)
       // A released reservation holds nothing, so replaying it as admitted would let the call run unaccounted.
       if (existing?.status === 'released') throw new CostReservationError('AK_COST_RESERVATION_RELEASED', reservationId)
-      if (existing) return { ok: true, reservationId, window: await window(tenant, String(existing.window_key), input.capUsd) }
-      return { ok: false, reason: 'quota_exceeded', window: await window(tenant, windowKey, input.capUsd) }
+      if (existing) return { ok: true, reservationId, window: await window(tenant, String(existing.window_key), input.capUsd, input.warnAtUtilization) }
+      return { ok: false, reason: 'quota_exceeded', window: await window(tenant, windowKey, input.capUsd, input.warnAtUtilization) }
     },
     async commit(input) {
       validateCostCommit(input)
-      const { tenant, reservationId, actualUsd } = input
+      const { tenant, reservationId } = input
+      const actualUsd = toUsdDecimal(input.actualUsd)
       await expire(sql`AND tenant_id = ${tenant} AND reservation_id = ${reservationId}`)
       const usage = JSON.stringify((input.usage ?? []).map(entry => ({
         model: entry.model,
         prompt_tokens: Math.round(entry.promptTokens),
         completion_tokens: Math.round(entry.completionTokens),
-        cost_usd: entry.costUsd,
+        cost_usd: toUsdDecimal(entry.costUsd),
         source: entry.source ?? null,
         fallback: entry.fallback ?? false,
       })))
@@ -201,7 +209,7 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       SET reserved_usd = w.reserved_usd - settled.amount_usd, spent_usd = w.spent_usd + ${actualUsd}::numeric
       FROM settled WHERE w.tenant_id = ${tenant} AND w.window_key = settled.window_key
       RETURNING w.window_key, w.spent_usd, w.reserved_usd`)
-      if (row) return describeCostWindow(tenant, String(row.window_key), Number(row.spent_usd), Number(row.reserved_usd), undefined)
+      if (row) return describe(tenant, String(row.window_key), row)
       const existing = await reservation(tenant, reservationId)
       if (existing.status === 'released') throw new CostReservationError('AK_COST_RESERVATION_RELEASED', reservationId)
       return window(tenant, existing.windowKey)
@@ -218,7 +226,7 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       UPDATE agentskit_cost_window AS w SET reserved_usd = w.reserved_usd - settled.amount_usd
       FROM settled WHERE w.tenant_id = ${tenant} AND w.window_key = settled.window_key
       RETURNING w.window_key, w.spent_usd, w.reserved_usd`)
-      if (row) return describeCostWindow(tenant, String(row.window_key), Number(row.spent_usd), Number(row.reserved_usd), undefined)
+      if (row) return describe(tenant, String(row.window_key), row)
       const existing = await reservation(tenant, reservationId)
       if (existing.status === 'committed') throw new CostReservationError('AK_COST_RESERVATION_COMMITTED', reservationId)
       return window(tenant, existing.windowKey)
@@ -227,7 +235,7 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       validateCostWindow(input)
       const windowKey = input.windowKey ?? keyOf(now())
       await expire(sql`AND tenant_id = ${input.tenant} AND window_key = ${windowKey}`)
-      return window(input.tenant, windowKey, input.capUsd)
+      return window(input.tenant, windowKey, input.capUsd, input.warnAtUtilization)
     },
   }
 }

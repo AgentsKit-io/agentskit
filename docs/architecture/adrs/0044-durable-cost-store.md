@@ -23,6 +23,12 @@ operations: `reserve`, `commit`, `release` and `window`.
 - Each operation is idempotent per `(tenant, reservationId)`. Settling an
   unknown, released or committed reservation raises `CostReservationError`.
 - Spend is grouped by an accounting `windowKey`, the UTC month by default.
+- Money is exact: amounts are rounded to the nano-dollar on entry and summed as
+  integers in memory and as `numeric(20, 9)` in PostgreSQL, and the derived
+  `remainingUsd` and `utilization` are computed in nano-dollars too.
+- A window reports spent, reserved, cap, remaining, utilization, a `warning`
+  against a configurable `warnAtUtilization`, and `resetsAt`, the start of the
+  next window (known for the default month, or from `windowResetsAt`).
 
 Ship two implementations: `createInMemoryCostStore` for development and tests,
 and `postgresCostStore` on the optional `/postgres` subpath, with BYO Drizzle
