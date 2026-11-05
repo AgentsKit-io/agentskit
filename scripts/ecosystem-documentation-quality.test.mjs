@@ -332,8 +332,7 @@ test('local semantics reject visual labels and linked hooks unsupported by conte
  * The budget is for two live Doc Bridge runs over this whole repository — `doctor` and
  * Documentation Standard v1 conformance — not for an assertion. Sixty seconds fitted while the
  * analyzer indexed only the `for-agents` pages; from 1.10.0 it indexes every document, and the two
- * runs together take a little over two minutes here. The tampered evaluation fails the artifact
- * check first, so it skips the live runs instead of repeating them. The test's job is to verify the contract, so
+ * runs together take a little over two minutes here. The test's job is to verify the contract, so
  * the budget follows the corpus rather than capping it.
  */
 test('verified local content digest and Doc Bridge artifact are required for certification', { timeout: 360_000 }, () => {
@@ -358,9 +357,6 @@ test('verified local content digest and Doc Bridge artifact are required for cer
   assert.equal(blocked.certified, false)
   assert.ok(blocked.findings.some((finding) => finding.id === 'attestation-digest'))
   assert.ok(blocked.findings.some((finding) => finding.id === 'doc-bridge-artifact'))
-  // A mismatched artifact already blocks certification, so the live runs are skipped.
-  assert.equal(blocked.docBridgeLiveVerified, false)
-  assert.ok(!blocked.findings.some((finding) => finding.id === 'doc-bridge-live'))
 })
 
 // Git fixtures must never touch the repository under test. Hooks (pre-push, pre-commit) export

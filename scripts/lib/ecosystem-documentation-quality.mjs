@@ -564,9 +564,7 @@ export function evaluateDocumentationQuality(profileInput, evidenceInput, { root
       if (measuredDigest !== evidence.attestation.contentDigest) add('attestation-digest', `content digest is ${measuredDigest}, expected ${evidence.attestation.contentDigest}`)
     }
     const artifact = attestationRoot ? verifyDocBridgeArtifact(evidence, attestationRoot, findings) : null
-    // Without a matching artifact certification is already impossible, so skip the live
-    // `doctor` + conformance runs (minutes over the whole corpus) that could not change it.
-    docBridgeLiveVerified = root && artifact ? verifyLiveDocBridge(evidence, root, artifact, findings) : false
+    docBridgeLiveVerified = root ? verifyLiveDocBridge(evidence, root, artifact, findings) : false
     attestationVerified = findings.length === 0 && Boolean(artifact) && docBridgeLiveVerified
   }
 
