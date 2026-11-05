@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "kind": "errors",
+  "canonicalSha256": "9135f9fd6801faf11324e5e9e88574f63953b8de587423d632b4427a66deeee2",
+  "valid": [
+    {
+      "name": "adapter-stream-failed",
+      "value": {
+        "name": "AdapterError",
+        "code": "AK_ADAPTER_STREAM_FAILED",
+        "message": "Stream failed",
+        "hint": "Check the provider status",
+        "docsUrl": "https://www.agentskit.io/docs/data/providers"
+      }
+    },
+    {
+      "name": "tool-exec-failed",
+      "value": {
+        "name": "ToolError",
+        "code": "AK_TOOL_EXEC_FAILED",
+        "message": "Tool get_weather failed"
+      }
+    },
+    {
+      "name": "abort",
+      "value": {
+        "name": "AbortError",
+        "code": "ABORT_ERR",
+        "message": "The operation was aborted"
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "unknown-code",
+      "value": {
+        "name": "ToolError",
+        "code": "AK_NOT_A_CODE",
+        "message": "x"
+      }
+    },
+    {
+      "name": "missing-message",
+      "value": {
+        "name": "ToolError",
+        "code": "AK_TOOL_EXEC_FAILED"
+      }
+    }
+  ]
+}
