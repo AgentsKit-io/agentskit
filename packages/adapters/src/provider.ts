@@ -60,8 +60,8 @@ function withCost(inner: AdapterFactory, config: ModelProviderConfig): AdapterFa
               usage.totalTokens = usage.promptTokens + usage.completionTokens
             }
             if (chunk.type === 'done') {
-              // Lazy import keeps the large catalog snapshot out of the main bundle.
-              const { computeCallCost } = await import('./catalog/pricing')
+              // Self-import (external in tsup) keeps the large catalog snapshot out of the main bundle.
+              const { computeCallCost } = await import('@agentskit/adapters/catalog')
               const cost = computeCallCost(catalogId, config.model, usage, { priceOverrides: overrides })
               const out: StreamChunk = { ...chunk, metadata: { ...chunk.metadata, [MODEL_PROVIDER_COST_METADATA_KEY]: cost } }
               yield out

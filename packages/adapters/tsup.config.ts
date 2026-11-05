@@ -11,5 +11,5 @@ export default defineConfig({
     'langchain-bridge': 'src/langchain-bridge.ts',
   },
   clean: true,
-  external: ['@agentskit/core', /^@langchain\/core/],
+  external: ['@agentskit/core', '@agentskit/adapters/catalog', /^@langchain\/core/],
 })
