@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "kind": "stream",
+  "canonicalSha256": "151bdc82ed21a99e10fbf8b7fb04aa6726867c588b2d765606f10de466861e35",
+  "valid": [
+    {
+      "name": "text-tool-done",
+      "value": [
+        {
+          "type": "text",
+          "content": "Looking up "
+        },
+        {
+          "type": "text",
+          "content": "the weather."
+        },
+        {
+          "type": "tool_call",
+          "toolCall": {
+            "id": "call_1",
+            "name": "get_weather",
+            "args": "{\"city\":\"Lisbon\"}"
+          }
+        },
+        {
+          "type": "tool_result",
+          "toolCall": {
+            "id": "call_1",
+            "name": "get_weather",
+            "args": "{\"city\":\"Lisbon\"}",
+            "result": "{\"tempC\":21}"
+          }
+        },
+        {
+          "type": "done",
+          "metadata": {
+            "finishReason": "stop"
+          }
+        }
+      ]
+    },
+    {
+      "name": "error-chunk",
+      "value": [
+        {
+          "type": "text",
+          "content": "partial"
+        },
+        {
+          "type": "error",
+          "content": "upstream failed",
+          "metadata": {
+            "code": "AK_ADAPTER_STREAM_FAILED"
+          }
+        }
+      ]
+    }
+  ],
+  "invalid": [
+    {
+      "name": "unknown-type",
+      "value": [
+        {
+          "type": "banana"
+        }
+      ]
+    },
+    {
+      "name": "tool-call-without-payload",
+      "value": [
+        {
+          "type": "tool_call"
+        }
+      ]
+    },
+    {
+      "name": "text-content-not-string",
+      "value": [
+        {
+          "type": "text",
+          "content": 5
+        }
+      ]
+    }
+  ]
+}
