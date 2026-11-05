@@ -6,7 +6,7 @@
     {
       "id": "typescript-toolchain",
       "packages": {
-        "typescript": { "current": "6.0.3", "minimum": "5.4.0" },
+        "typescript": { "current": "6.0.3", "minimum": "5.4.2" },
         "tsup": { "current": "8.5.1", "minimum": "8.0.0" },
         "vitest": { "current": "5.0.5", "minimum": "5.0.0" }
       }
@@ -16,7 +16,7 @@
       "packages": {
         "react": { "current": "19.3.1", "minimum": "18.0.0" },
         "react-dom": { "current": "19.3.1", "minimum": "18.0.0" },
-        "@types/react": { "current": "19.3.0", "minimum": "18.0.0" }
+        "@types/react": { "current": "19.3.0", "minimum": "18.2.79" }
       }
     }
   ]

@@ -22,6 +22,9 @@ export function compareVersions(left, right) {
 }
 
 /** Returns a list of human-readable problems; empty means the manifest is valid. */
+/** Packages whose manifest `minimum` is exercised by scripts/check-minimum-consumers.mjs. */
+export const MINIMUM_CONSUMER_COVERAGE = ['typescript', 'tsup', 'vitest', 'react', 'react-dom', '@types/react']
+
 export function validateManifest(manifest) {
   const problems = []
   if (manifest.schemaVersion !== 1) problems.push('schemaVersion must be 1')
@@ -32,6 +35,7 @@ export function validateManifest(manifest) {
     for (const [name, entry] of Object.entries(group.packages ?? {})) {
       if (seen.has(name)) problems.push(`${name} appears in more than one group`)
       seen.add(name)
+      if (!MINIMUM_CONSUMER_COVERAGE.includes(name)) problems.push(`${name}: minimum is not covered by the minimum-consumer check (scripts/check-minimum-consumers.mjs)`)
       try {
         if (compareVersions(entry.minimum, entry.current) > 0) problems.push(`${name}: minimum ${entry.minimum} is above current ${entry.current}`)
       } catch (error) {
@@ -129,7 +133,7 @@ export function renderProposal(updates, manifest) {
   lines.push(
     '## Compatibility results',
     '',
-    'CI on this PR is the record: current-consumer checks (`pnpm check:packed-consumers`, build, tests), minimum-consumer checks (`pnpm check:release-train`, manifest minimums vs. declared peer ranges, run on every PR), and the production security audit (`node scripts/audit-prod-high.mjs`).',
+    'CI on this PR is the record: current-consumer checks (`pnpm check:packed-consumers`, build, tests), minimum-consumer checks (`pnpm check:minimum-consumers` installs the manifest minimums and type-checks, bundles and tests a consumer against them), static minimum checks (`pnpm check:release-train`, manifest minimums vs. declared peer ranges, run on every PR), and the production security audit (`node scripts/audit-prod-high.mjs`).',
     '',
     '## Review checklist',
     '',

@@ -143,3 +143,14 @@ test('the workflow builds workspace deps before first running release-train.mjs'
   const run = wf.indexOf('node scripts/release-train.mjs')
   assert.ok(build !== -1 && run !== -1 && build < run)
 })
+
+test('every manifest minimum is covered by the minimum-consumer check, which the workflow runs', () => {
+  const uncovered = structuredClone(manifest)
+  uncovered.groups[1].packages.left = { current: '1.0.0', minimum: '1.0.0' }
+  assert.match(validateManifest(uncovered)[0], /not covered by the minimum-consumer check/)
+  const workflow = readFileSync(workflowUrl, 'utf8')
+  assert.match(workflow, /pnpm check:minimum-consumers/)
+  assert.match(readFileSync(new URL('../package.json', import.meta.url), 'utf8'), /"check:minimum-consumers": "node scripts\/check-minimum-consumers\.mjs"/)
+  const body = renderProposal(planUpdates(manifest, { react: '19.4.0' }), manifest)
+  assert.match(body, /check:minimum-consumers.*installs the manifest minimums/)
+})
