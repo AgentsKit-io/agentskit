@@ -29,9 +29,16 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
 
       - name: Validate commit messages
         run: pnpm exec commitlint --from="${{ github.event.pull_request.base.sha }}" --to="${{ github.event.pull_request.head.sha }}" --verbose
@@ -50,9 +57,16 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
 
       - name: Check for changeset
         run: |
@@ -82,9 +96,16 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
 
       - name: Determine package task scope
         id: package-scope
@@ -162,9 +183,16 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
 
       - name: Determine package task scope
         id: package-scope
@@ -218,8 +246,15 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
       - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
       - run: pnpm --filter @agentskit/memory test:postgres
         env:
           AK_POSTGRES_TEST_PORT: 5432
@@ -272,9 +307,16 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node }}
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
 
       - run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
 
