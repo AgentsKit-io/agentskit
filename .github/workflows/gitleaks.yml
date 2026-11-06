@@ -37,4 +37,4 @@ jobs:
           tar -xzf "$RUNNER_TEMP/gitleaks.tgz" -C "$RUNNER_TEMP/gitleaks-bin" gitleaks
 
       - name: Scan the tree
-        run: "$RUNNER_TEMP/gitleaks-bin/gitleaks" dir . --redact --no-banner --config .gitleaks.toml
+        run: $RUNNER_TEMP/gitleaks-bin/gitleaks dir . --redact --no-banner --config .gitleaks.toml
