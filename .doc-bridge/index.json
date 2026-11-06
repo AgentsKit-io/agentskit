@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "21f316cbdf96da149bfdb29bb9988ef3da17c8e7f1af0646c20a9fd6315b7bfb",
+  "contentHash": "2c7b421fd9e85cbd943a426e0be08a4d4796198973753cb887f679b8f176abbc",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-05T01:17:17.616Z",
+  "generatedAt": "2026-11-06T13:55:55.003Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -347,12 +347,12 @@
       "type": "document",
       "title": "reference_quality-gates.md",
       "path": ".agent-memory/reference_quality-gates.md",
-      "description": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml) and a husky pre-push hook runs gates + lint + build.",
+      "description": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml); the husky pre-push hook only typechecks changed packages, so run pnpm check:quality-gates by hand.",
       "tags": [
         "document",
         "unclassified"
       ],
-      "contentHash": "000b2ec96c240d86997e37bb1f3162cadf96068bd912889699da54f5f7a5cba1"
+      "contentHash": "acbccc5ebf592cfbd8ea13ef27b2720054b45b349040b96b01f228388b947f51"
     },
     {
       "id": "document:.agent-memory/reference_security-surfaces.md",
@@ -377,6 +377,18 @@
         "unclassified"
       ],
       "contentHash": "b0ca124de48ddb5e6688db746c98e6d8a7522f331a3ad605da21f9d193fa196c"
+    },
+    {
+      "id": "document:.github/factory-playbook.md",
+      "type": "document",
+      "title": "Factory playbook — AgentsKit",
+      "path": ".github/factory-playbook.md",
+      "description": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
+      "tags": [
+        "document",
+        "unclassified"
+      ],
+      "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794"
     },
     {
       "id": "document:.github/rulesets/README.md",
@@ -5607,7 +5619,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "f76df6c49015a9787ca68d40720dc38a8091475e417a046a496d92613053ccf9"
+      "contentHash": "f15f5f7d76c41d0553e67fb3f74b5e615a9d70f630f41ee5df775cb191296d94"
     },
     {
       "id": "document:CODE_OF_CONDUCT.md",
@@ -7574,7 +7586,7 @@
         "document",
         "project"
       ],
-      "contentHash": "13c1cd6268b2a6acda8539937943724778964b84e6422b87a6136b928e2128e3"
+      "contentHash": "fcfe56301e4a538849593c22e0c43795b685d226c09a065e34a24a83c4061f5d"
     },
     {
       "id": "document:packages/validation/CONVENTIONS.md",
@@ -7821,12 +7833,12 @@
       "type": "document",
       "title": "scripts/",
       "path": "scripts/README.md",
-      "description": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
+      "description": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml.",
       "tags": [
         "document",
         "project"
       ],
-      "contentHash": "5083faa366e399f18bc8829453e21b881fe98ff06cd539d83304ff72a573f90f"
+      "contentHash": "6b4c623ca247582303b51480c6f41d6cac66afc6980f520d4c61af8638215f3c"
     },
     {
       "id": "document:SECURITY.md",
@@ -7851,6 +7863,18 @@
         "unclassified"
       ],
       "contentHash": "762356339ba5e546e7f6d1e52f5416ba97ae0f2edf5e477eec4c03820b14590d"
+    },
+    {
+      "id": "document:tests/interop/README.md",
+      "type": "document",
+      "title": "Interop fixtures",
+      "path": "tests/interop/README.md",
+      "description": "Portable, synthetic round-trip fixtures in fixtures/*.json, exercised by fixtures.test.ts (pnpm test:interop). Each file has schemaVersion: 1, kind, canonicalSha256, valid[] and invalid[].",
+      "tags": [
+        "document",
+        "project"
+      ],
+      "contentHash": "1fc8cdeef85984a72edd74f33e91174183715f725d7a930ee2ee9389cc1e87e5"
     },
     {
       "id": "module:.github/scripts/pnpm-bulk-audit.mjs",
@@ -25672,7 +25696,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70"
+      "contentHash": "1722ee6522dedc5f08efde4dc4d5af8e06787b32e718d57e5c4b05155c9105b3"
     },
     {
       "id": "module:packages/integrations/tests/integration-tools.test.ts",
@@ -27731,7 +27755,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378"
+      "contentHash": "6521ed9b19b8041f51779300e5ae78a9f434fb6f9262d87e366bc801dffea9df"
     },
     {
       "id": "module:packages/net/tests/sse.test.ts",
@@ -27757,7 +27781,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "56aa5bd7950d3272e74b6ac5e27aefa4b43548c18ec0c0e2950cfff1cb72cac4"
+      "contentHash": "d626050389cb61d676ac190cedd09ab9d1d57f20cfa058ead894f0781189ff5c"
     },
     {
       "id": "module:packages/net/tsup.config.ts",
@@ -35391,22 +35415,41 @@
       "contentHash": "08def851c5cd860ca5a01940a583a5fd19412f00c2b705e98721c865cc7f994c"
     },
     {
-      "id": "module:packages/tools/src/web-search.ts",
+      "id": "module:packages/tools/src/web-search-parallel.ts",
       "type": "module",
-      "title": "web-search.ts",
-      "path": "packages/tools/src/web-search.ts",
+      "title": "web-search-parallel.ts",
+      "path": "packages/tools/src/web-search-parallel.ts",
       "symbols": [
-        "WebSearchConfig",
-        "WebSearchProvider",
-        "WebSearchResult",
-        "webSearch"
+        "parallelSearch"
       ],
       "tags": [
         "module",
         "ts",
         "src"
       ],
-      "contentHash": "6e1348e626807d81b1a20bde407134cac35464438545ac3e75680c7a59c3da59"
+      "contentHash": "eaf4518897734d8ff0b07968b3af9b6f98fbc410d54d607c9eb03d7bb319f8d3"
+    },
+    {
+      "id": "module:packages/tools/src/web-search.ts",
+      "type": "module",
+      "title": "web-search.ts",
+      "path": "packages/tools/src/web-search.ts",
+      "symbols": [
+        "SNIPPET_MAX",
+        "SearchRuntimeConfig",
+        "WebSearchConfig",
+        "WebSearchProvider",
+        "WebSearchResult",
+        "requestText",
+        "webSearch",
+        "withDeadline"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "e17259636c1d62f4c7f85f5998cc360d1bae80da85039b5ed7da3e83e968ca71"
     },
     {
       "id": "module:packages/tools/src/zod.ts",
@@ -35657,6 +35700,19 @@
         "tests"
       ],
       "contentHash": "49bd972f26aef2390e41834fa5dbc4cd086eff096f451c87fef14f2e99220bda"
+    },
+    {
+      "id": "module:packages/tools/tests/web-search-parallel.test.ts",
+      "type": "module",
+      "title": "web-search-parallel.test.ts",
+      "path": "packages/tools/tests/web-search-parallel.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "a3fb6250afba6dabf4fb38a921177236218271c72a356b0c1c25c00e8cc95a98"
     },
     {
       "id": "module:packages/tools/tests/web-search.test.ts",
@@ -37913,6 +37969,19 @@
       "contentHash": "d0a42e9d93232f11e2248ca424a2cfbd6e66aa197ad6167f0569f1493523f4d7"
     },
     {
+      "id": "module:tests/interop/fixtures.test.ts",
+      "type": "module",
+      "title": "fixtures.test.ts",
+      "path": "tests/interop/fixtures.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "interop"
+      ],
+      "contentHash": "1dbc337b868cba894d1dbd54fd06c60e9660ad8275dd5a6fef78b029ef59b55e"
+    },
+    {
       "id": "module:tests/vitest.config.ts",
       "type": "module",
       "title": "vitest.config.ts",
@@ -37925,7 +37994,7 @@
         "ts",
         "tests"
       ],
-      "contentHash": "dacd7c12d42383ecdf2ceb0a4b8a5a998d347b88b71628caab0c12e78ac51388"
+      "contentHash": "7de8cc05ac5327245fefb5e290c40e56bac868a6638b1e6a9bad0229ae5a5218"
     },
     {
       "id": "module:tsup.shared.ts",
@@ -39063,8 +39132,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "296097388e7be99419e00ef893204825be7abe475c3b9bac57e2759d10e12bea",
-    "fileCount": 2674,
+    "hash": "4f042a9f2c4490bfd4cf45af2f2d450c44a9a75893f57dca6166ed8a27ebb800",
+    "fileCount": 2687,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39086,9 +39155,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2f0959379ad37a8c8a14ef6782e12d599fcf38589e5a1ec1241f24c7d05af60b",
+    "contentHash": "999d2d6da8530fd079d5f68167af931d8150b52c69eabf43240f29edd97dd3e7",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "e6b88535f576a62532d627d99134a606ce3270ed1af945325709278943204d8d",
+    "snapshotHash": "6eb1d9f192afe26ef85fe8c506b6b7a49202d74d073f0feda5d869311548195e",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39108,7 +39177,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2546,
+      "documentCount": 2551,
       "fieldNames": [
         "aliases",
         "body",
@@ -39119,13 +39188,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0172820109976435,
-        "body": 60.84367635506677,
-        "headings": 3.878240377062058,
-        "path": 7.613511390416339,
-        "summary": 4.501571091908876,
-        "symbols": 7.574626865671642,
-        "title": 3.3770620581304005
+        "aliases": 3.0172481379851037,
+        "body": 61.013328106624854,
+        "headings": 3.888671109368875,
+        "path": 7.611524892199138,
+        "summary": 4.50921207369659,
+        "symbols": 7.565660525284202,
+        "title": 3.378675029400235
       }
     },
     "entries": [
@@ -39149,11 +39218,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:.github/factory-playbook.md"
+          ],
           "packageId": "package:agentskit",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "fuzzy"
+            }
+          ],
           "outbound": []
         },
         "contentHash": "c7a4f26e5fec76986a3433537a5eb0558ad48a76383d92ae5197c7e38ea90120",
@@ -39432,9 +39509,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 9,
+          "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.github/factory-playbook.md",
             "document:apps/docs-next/README.md",
             "document:apps/landing/README.md",
             "document:CONTRIBUTING.md",
@@ -39447,6 +39525,11 @@
           ],
           "packageId": "package:agentskit",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/README.md",
@@ -40185,9 +40268,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.github/factory-playbook.md",
             "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/README.md",
@@ -40198,6 +40282,11 @@
           ],
           "packageId": "package:agentskit",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "fuzzy"
+            },
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
@@ -41648,11 +41737,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:.github/factory-playbook.md"
+          ],
           "packageId": "package:agentskit",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
+              "confidence": "fuzzy"
+            }
+          ],
           "outbound": []
         },
         "contentHash": "3f87cf805292b5040fa7dfbd66aae2db31ba70b8060d95495076d0d105e29a93",
@@ -42319,7 +42416,7 @@
         "kind": "document",
         "path": ".agent-memory/reference_quality-gates.md",
         "title": "reference_quality-gates.md",
-        "summary": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml) and a husky pre-push hook runs gates + lint + build.",
+        "summary": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml); the husky pre-push hook only typechecks changed packages, so run pnpm check:quality-gates by hand.",
         "aliases": [],
         "tags": [
           "document",
@@ -42330,8 +42427,8 @@
           "headings": "",
           "path": ".agent-memory/reference_quality-gates.md",
           "symbols": "",
-          "summary": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml) and a husky pre-push hook runs gates + lint + build.",
-          "body": "Fact: Structural gates live in scripts/check- .mjs and are orchestrated by scripts/check-quality-gates.mjs . Run all locally with pnpm check:quality-gates ; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator ( .github/workflows/ci.yml ) and a husky pre-push hook runs gates + lint + build. Gates: - check-core-no-deps — core has zero runtime deps - check-stability-tier — every pkg declares a valid tier (alpha beta stable) matching its docs/STABILITY.md map row - check-readme-badge — every pkg README badge tier+color matches its declared agentskit.stability - check-no-bare-throw — use AgentsKitError subclasses, not throw new Error - check-no-any — no explicit any in package src - check-named-exports — no export default in package src - check-file-size — per-package LOC budgets with shrink-only baselines - check-src-test-parity — every src file has a test reference - check-for-agents-coverage — every public export documented in for-agents docs - check-doc-index — every ADR/RFC file linked in its README index - check-intl-parity — full locales have complete page coverage Coverage is gated separately by vitest linesThreshold per package ( vitest.shared.ts → createTestConfig ); pnpm test:coverage fails under bar. How to apply: Add a new gate → add the script, register it in check-quality-gates.mjs 's GATES array, and the docs in scripts/README.md . Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. Related: [[project file-size-baselines]], [[feedback zero-dep-core]]",
+          "summary": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml); the husky pre-push hook only typechecks changed packages, so run pnpm check:quality-gates by hand.",
+          "body": "Fact: Structural gates live in scripts/check- .mjs and are orchestrated by scripts/check-quality-gates.mjs . Run all locally with pnpm check:quality-gates ; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator ( .github/workflows/ci.yml ); the husky pre-push hook only typechecks changed packages, so run pnpm check:quality-gates by hand. Gates: - check-core-no-deps — core has zero runtime deps - check-stability-tier — every pkg declares a valid tier (alpha beta stable) matching its docs/STABILITY.md map row - check-readme-badge — every pkg README badge tier+color matches its declared agentskit.stability - check-no-bare-throw — use AgentsKitError subclasses, not throw new Error - check-no-any — no explicit any in package src - check-named-exports — no export default in package src - check-file-size — per-package LOC budgets with shrink-only baselines - check-src-test-parity — every src file has a test reference - check-for-agents-coverage — every public export documented in for-agents docs - check-doc-index — every ADR/RFC file linked in its README index - check-intl-parity — full locales have complete page coverage Coverage is gated separately by vitest linesThreshold per package ( vitest.shared.ts → createTestConfig ); pnpm test:coverage fails under bar. How to apply: Add a new gate → add the script, register it in check-quality-gates.mjs 's GATES array, and the docs in scripts/README.md . Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. Related: [[project file-size-baselines]], [[feedback zero-dep-core]]",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -42373,7 +42470,7 @@
             }
           ]
         },
-        "contentHash": "000b2ec96c240d86997e37bb1f3162cadf96068bd912889699da54f5f7a5cba1",
+        "contentHash": "acbccc5ebf592cfbd8ea13ef27b2720054b45b349040b96b01f228388b947f51",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42499,6 +42596,74 @@
         "confidence": "observed"
       },
       {
+        "id": "document:.github/factory-playbook.md",
+        "kind": "document",
+        "path": ".github/factory-playbook.md",
+        "title": "Factory playbook — AgentsKit",
+        "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
+        "aliases": [],
+        "tags": [
+          "document",
+          "unclassified"
+        ],
+        "fields": {
+          "title": "Factory playbook — AgentsKit",
+          "headings": "Factory playbook — AgentsKit 1. Install 2. Run locally 3. Quick verification (small diff) 4. Full verification (CI, .github/workflows/) 5. Rules that most often fail PRs 6. Shared registry files (conflict-prone) 7. Known pitfalls (real factory failures)",
+          "path": ".github/factory-playbook.md",
+          "symbols": "",
+          "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
+          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks; do not rely on it for the final check (pre-push only typechecks changed packages; run the quick verification and pnpm check:quality-gates yourself). 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm check:quality-gates . - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:index and commit the result (needed whenever docs, package READMEs or exports change). - pnpm-lock.yaml : on conflict take the base side, then p",
+          "aliases": "document unclassified"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "area:.github",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "area:apps/docs-next",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "area:docs",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "area:scripts",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:AGENTS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/PRIVATE-CONSUMER-POLICY.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:scripts/check-quality-gates.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:.github/rulesets/README.md",
         "kind": "document",
         "path": ".github/rulesets/README.md",
@@ -42606,10 +42771,11 @@
         },
         "graph": {
           "pagerank": 0.00575,
-          "inboundLinks": 6,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:.github/copilot-instructions.md",
+            "document:.github/factory-playbook.md",
             "document:.kiro/steering/agentskit.md",
             "document:apps/docs-next/content/docs/for-agents/doc-bridge.mdx",
             "document:docs/studies/ecosystem-cohesion-plan.md",
@@ -42635,6 +42801,11 @@
             {
               "kind": "mentions",
               "id": "document:.github/copilot-instructions.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
               "confidence": "observed"
             },
             {
@@ -69566,7 +69737,7 @@
             }
           ]
         },
-        "contentHash": "f76df6c49015a9787ca68d40720dc38a8091475e417a046a496d92613053ccf9",
+        "contentHash": "f15f5f7d76c41d0553e67fb3f74b5e615a9d70f630f41ee5df775cb191296d94",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -75135,15 +75306,21 @@
         },
         "graph": {
           "pagerank": 0.002626,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.github/factory-playbook.md",
             "document:AGENTS.md"
           ],
           "inbound": [
             {
               "kind": "links-to",
               "id": "document:AGENTS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
               "confidence": "observed"
             },
             {
@@ -83123,11 +83300,11 @@
         ],
         "fields": {
           "title": "@agentskit/tools",
-          "headings": "@agentskit/tools Verified proof How this fits the ecosystem Why tools Install Quick example With useChat (browser) Authoring tools with defineZodTool Features Built-ins (6) Safe outbound requests Integrations (20+) Authoring + composition MCP bridge Subpaths Ecosystem Contributors License Docs Maturity and compatibility Contributing",
+          "headings": "@agentskit/tools Verified proof How this fits the ecosystem Why tools Install Quick example With useChat (browser) Authoring tools with defineZodTool Features Built-ins (6) Safe outbound requests Parallel Search MCP (opt-in) Integrations (20+) Authoring + composition MCP bridge Subpaths Ecosystem Contributors License Docs Maturity and compatibility Contributing",
           "path": "packages/tools/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/tools Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Give your agents real-world capabilities without writing a single integration. Tags: ai · agents · llm · agentskit · ai-agents · function-calling · tool-use · mcp · web-search · filesystem Verified proof - Package metadata and tests live under packages/tools/ . - Package guide: https://www.agentskit.io/docs/reference/packages/tools - Stability map: How this fits the ecosystem @agentskit/tools gives agents useful hands: web fetch, search, filesystem, shell, SQLite, integrations, and MCP-friendly tool definitions. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why tools - Save days of integration work — web search, filesystem read/write, shell execution, and directory listing are ready to drop in; no wiring required - Safe by default — filesystem tools are sandboxed to a basePath , shell commands require an explicit allowlist, so agents can't escape their boundaries - Composable with any runtime — tools are just objects with a schema; they work with @agentskit/runtime , useChat , or any custom ReAct loop - Extend without friction — author custom tools with @agentskit/templates and register them the same way as built-ins Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With useChat (browser) Tools are plain ToolDefinition values — register them in the same way as in createRuntime . Authoring tools with defineZodTool If you use , @agentskit/tools ships defineZodTool — a factory that: - Types execute args from a Zod schema (full TypeScript inference) - Validates args at runtime via schema.parse before calling your function - Converts the Zod schema to JSON Schema for the adapter via a user-supplied toJsonSchema callback Zod and zod-to-json-schema are consumer-owned optional dependencies . They are not package peers because defineZodTool accepts a structural schema and a consumer-supplied JSON-Schema converter. For tools without Zod, use defineTool from @agentskit/core with a JSON Schema as const . Features Built-ins (6) - webSearch() — live web search with Serper, Tavily, DuckDuckGo, or a custom provider. - fetchUrl() — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping. - filesystem({ basePath }) — sandboxed read, write, and list operations. - shell({ allowed }) — shell execution with command allow-list + timeout. - sqliteQueryTool({ path }) — read-only SQL against a local SQLite file. Optional peer dep on better-sqlite3 . Note: never feed unvalidated user prompts straight into the sql field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input. - slackTool({ webhookUrl }) — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the slack() integration. Safe outbound requests safeFetch(input, init?, policy?) defaults to denying non-public hosts and re-checks every redirect hop. Address classification comes from @agentskit/net , so reserved, unspecified, multicast, CGNAT, IPv4-mapped private, and other non-unicast ranges are blocked as well as private, loopback, and link-local addresses. Hostname checks use Node DNS and fail closed if any result is non-public or lookup fails. isPrivateIPv4 and isPrivateHost keep their legacy decimal handling for zero-padded dotted quads ( 010.0.0.1 means 10.0.0.1 ). safeFetch first applies WHATWG URL canonicalization; avoid ambiguous numeric URL forms. For a vetted internal target, pass an exact allowedHosts entry or set allowPrivateHosts: true ; redirects still pass through the selected policy. The DNS preflight does not pin the resolve",
+          "body": "@agentskit/tools Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Give your agents real-world capabilities without writing a single integration. Tags: ai · agents · llm · agentskit · ai-agents · function-calling · tool-use · mcp · web-search · filesystem Verified proof - Package metadata and tests live under packages/tools/ . - Package guide: https://www.agentskit.io/docs/reference/packages/tools - Stability map: How this fits the ecosystem @agentskit/tools gives agents useful hands: web fetch, search, filesystem, shell, SQLite, integrations, and MCP-friendly tool definitions. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why tools - Save days of integration work — web search, filesystem read/write, shell execution, and directory listing are ready to drop in; no wiring required - Safe by default — filesystem tools are sandboxed to a basePath , shell commands require an explicit allowlist, so agents can't escape their boundaries - Composable with any runtime — tools are just objects with a schema; they work with @agentskit/runtime , useChat , or any custom ReAct loop - Extend without friction — author custom tools with @agentskit/templates and register them the same way as built-ins Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With useChat (browser) Tools are plain ToolDefinition values — register them in the same way as in createRuntime . Authoring tools with defineZodTool If you use , @agentskit/tools ships defineZodTool — a factory that: - Types execute args from a Zod schema (full TypeScript inference) - Validates args at runtime via schema.parse before calling your function - Converts the Zod schema to JSON Schema for the adapter via a user-supplied toJsonSchema callback Zod and zod-to-json-schema are consumer-owned optional dependencies . They are not package peers because defineZodTool accepts a structural schema and a consumer-supplied JSON-Schema converter. For tools without Zod, use defineTool from @agentskit/core with a JSON Schema as const . Features Built-ins (6) - webSearch() — live web search with Serper, Tavily, DuckDuckGo, opt-in Parallel Search MCP, or a custom provider. - fetchUrl() — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping. - filesystem({ basePath }) — sandboxed read, write, and list operations. - shell({ allowed }) — shell execution with command allow-list + timeout. - sqliteQueryTool({ path }) — read-only SQL against a local SQLite file. Optional peer dep on better-sqlite3 . Note: never feed unvalidated user prompts straight into the sql field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input. - slackTool({ webhookUrl }) — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the slack() integration. Safe outbound requests safeFetch(input, init?, policy?) defaults to denying non-public hosts and re-checks every redirect hop. Address classification comes from @agentskit/net , so reserved, unspecified, multicast, CGNAT, IPv4-mapped private, and other non-unicast ranges are blocked as well as private, loopback, and link-local addresses. Hostname checks use Node DNS and fail closed if any result is non-public or lookup fails. isPrivateIPv4 and isPrivateHost keep their legacy decimal handling for zero-padded dotted quads ( 010.0.0.1 means 10.0.0.1 ). safeFetch first applies WHATWG URL canonicalization; avoid ambiguous numeric URL forms. For a vetted internal target, pass an exact allowedHosts entry or set allowPrivateHosts: true ; redirects still pass through the selected policy. The DNS prefli",
           "aliases": "document project"
         },
         "graph": {
@@ -83374,7 +83551,7 @@
             }
           ]
         },
-        "contentHash": "13c1cd6268b2a6acda8539937943724778964b84e6422b87a6136b928e2128e3",
+        "contentHash": "fcfe56301e4a538849593c22e0c43795b685d226c09a065e34a24a83c4061f5d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -85326,7 +85503,7 @@
         "kind": "document",
         "path": "scripts/README.md",
         "title": "scripts/",
-        "summary": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
+        "summary": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -85338,8 +85515,8 @@
           "headings": "scripts/ Bundle size targets per public ESM export Build prerequisites and timings check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-rules.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs check-jsdoc-coverage.mjs Release registry preflight verify-ecosystem-visual.mjs gen-brand-logos.mjs",
           "path": "scripts/README.md",
           "symbols": "",
-          "summary": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
-          "body": "scripts/ Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook. Bundle size targets per public ESM export gen-size-limit-subpaths.mjs --check compares every published package's JavaScript exports entry with .size-limit.json , so a newly added ESM subpath cannot miss its own budget. Run pnpm size to bundle those entries with package dependencies and peer dependencies external, then apply gzip budgets through size-limit. New targets get 10% headroom rounded up to the next 0.5 kB (decimal); existing limits are left as configured. Use node scripts/gen-size-limit-subpaths.mjs --update after building packages to add targets for newly published ESM exports. The Svelte entry is measured directly because its consumer's Svelte compiler processes component imports. Non-JavaScript exports, such as CSS assets, do not have an ESM bundle target. Build prerequisites and timings CI and coverage build packages with pnpm exec turbo run build --filter='./packages/ ' --concurrency=2 . The quality gates use the same Turbo graph for adapters, MCP and cross-platform, so shared prerequisites build once and subsequent commands reuse their outputs. Root TypeScript configuration and shared scripts invalidate the build cache. The orchestrator prints elapsed seconds for each gate; all checks still execute sequentially and test concurrency is unchanged. No cross-run cache is added. CI runs Quality gates and Test, Build on independent runners, each with its own checkout and package build. Generated files cannot race between jobs. The existing required Lint, Test, Build check aggregates both results and fails if either job fails, is cancelled, or is skipped. Coverage remains a separate workflow. This trades an additional package build for overlapping the gate and test durations; compare wall time and runner time separately. Package-test build prefixes also use Turbo, so both standalone and aggregate test commands reuse the same build graph and cache. Test commands and coverage thresholds are unchanged; this also applies to coverage tasks. After building cross-platform, run node --test scripts/ci-build-cache.test.mjs to exercise a real cache miss, hit and invalidation after a shared script changes. It removes its temporary script and isolated cache afterward. check-quality-gates.mjs (orchestrator) Runs every structural gate below in sequence and prints a single pass/fail summary. This is the entry point — pnpm check:quality-gates . pnpm check:all layers typecheck + build + test on top. To add a gate: write the check- .mjs script, then register it in the GATES array at the top of this orchestrator. Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. check-for-agents-coverage.mjs Asserts that every value export from packages/<name /src/index.ts appears at least once in apps/docs-next/content/docs/for-agents/<name .mdx . Catches drift between code and the agent-discoverable reference page. Exits non-zero on drift, listing each missing symbol per package. Type-only exports are skipped (the for-agents pages document the runtime surface, not every supporting type). Per-package exclusions live in the IGNORE EXPORTS table at the top of the script. check-src-test-parity.mjs Asserts that every packages/<pkg /src/<file .{ts,tsx} has at least one corresponding test reference: a tests/<basename .test.{ts,tsx} , or any .test file in the package whose body imports the source path or mentions its kebab/camel/Pascal-cased basename. Catches new files landing without test exposure. ALLOW FILES / ALLOW PREFIXES at the top of the script track re-export-only files ( index.ts , types.ts ), aggregate-tested modules, and queued conversions tracked in epic 562. check-no-bare-throw.mjs Asserts that no throw new Error(...) appears in package so",
+          "summary": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml.",
+          "body": "scripts/ Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml . Bundle size targets per public ESM export gen-size-limit-subpaths.mjs --check compares every published package's JavaScript exports entry with .size-limit.json , so a newly added ESM subpath cannot miss its own budget. Run pnpm size to bundle those entries with package dependencies and peer dependencies external, then apply gzip budgets through size-limit. New targets get 10% headroom rounded up to the next 0.5 kB (decimal); existing limits are left as configured. Use node scripts/gen-size-limit-subpaths.mjs --update after building packages to add targets for newly published ESM exports. The Svelte entry is measured directly because its consumer's Svelte compiler processes component imports. Non-JavaScript exports, such as CSS assets, do not have an ESM bundle target. Build prerequisites and timings CI and coverage build packages with pnpm exec turbo run build --filter='./packages/ ' --concurrency=2 . The quality gates use the same Turbo graph for adapters, MCP and cross-platform, so shared prerequisites build once and subsequent commands reuse their outputs. Root TypeScript configuration and shared scripts invalidate the build cache. The orchestrator prints elapsed seconds for each gate; all checks still execute sequentially and test concurrency is unchanged. No cross-run cache is added. CI runs Quality gates and Test, Build on independent runners, each with its own checkout and package build. Generated files cannot race between jobs. The existing required Lint, Test, Build check aggregates both results and fails if either job fails, is cancelled, or is skipped. Coverage remains a separate workflow. This trades an additional package build for overlapping the gate and test durations; compare wall time and runner time separately. Package-test build prefixes also use Turbo, so both standalone and aggregate test commands reuse the same build graph and cache. Test commands and coverage thresholds are unchanged; this also applies to coverage tasks. After building cross-platform, run node --test scripts/ci-build-cache.test.mjs to exercise a real cache miss, hit and invalidation after a shared script changes. It removes its temporary script and isolated cache afterward. check-quality-gates.mjs (orchestrator) Runs every structural gate below in sequence and prints a single pass/fail summary. This is the entry point — pnpm check:quality-gates . pnpm check:all layers typecheck + build + test on top. To add a gate: write the check- .mjs script, then register it in the GATES array at the top of this orchestrator. Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. check-for-agents-coverage.mjs Asserts that every value export from packages/<name /src/index.ts appears at least once in apps/docs-next/content/docs/for-agents/<name .mdx . Catches drift between code and the agent-discoverable reference page. Exits non-zero on drift, listing each missing symbol per package. Type-only exports are skipped (the for-agents pages document the runtime surface, not every supporting type). Per-package exclusions live in the IGNORE EXPORTS table at the top of the script. check-src-test-parity.mjs Asserts that every packages/<pkg /src/<file .{ts,tsx} has at least one corresponding test reference: a tests/<basename .test.{ts,tsx} , or any .test file in the package whose body imports the source path or mentions its kebab/camel/Pascal-cased basename. Catches new files landing without test exposure. ALLOW FILES / ALLOW PREFIXES at the top of the script track re-export-only files ( index.ts , types.ts ), aggregate-tested modules, and queued conversions tracked in epic 562. check-no-bare-throw.mjs Asserts that no throw new Error(...) appears in package source code outside the typ",
           "aliases": "document project"
         },
         "graph": {
@@ -85469,7 +85646,7 @@
             }
           ]
         },
-        "contentHash": "5083faa366e399f18bc8829453e21b881fe98ff06cd539d83304ff72a573f90f",
+        "contentHash": "6b4c623ca247582303b51480c6f41d6cac66afc6980f520d4c61af8638215f3c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -85658,6 +85835,50 @@
           ]
         },
         "contentHash": "762356339ba5e546e7f6d1e52f5416ba97ae0f2edf5e477eec4c03820b14590d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:tests/interop/README.md",
+        "kind": "document",
+        "path": "tests/interop/README.md",
+        "title": "Interop fixtures",
+        "summary": "Portable, synthetic round-trip fixtures in fixtures/*.json, exercised by fixtures.test.ts (pnpm test:interop). Each file has schemaVersion: 1, kind, canonicalSha256, valid[] and invalid[].",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "project"
+        ],
+        "fields": {
+          "title": "Interop fixtures",
+          "headings": "Interop fixtures What each fixture proves How an external bridge uses them",
+          "path": "tests/interop/README.md",
+          "symbols": "",
+          "summary": "Portable, synthetic round-trip fixtures in fixtures/*.json, exercised by fixtures.test.ts (pnpm test:interop). Each file has schemaVersion: 1, kind, canonicalSha256, valid[] and invalid[].",
+          "body": "Interop fixtures Portable, synthetic round-trip fixtures in fixtures/ .json , exercised by fixtures.test.ts ( pnpm test:interop ). Each file has schemaVersion: 1 , kind , canonicalSha256 , valid[] and invalid[] . File Covers --- --- messages.json text messages and multimodal content parts tools.json tool call, tool result, error result memory.json ChatMemory message records vector-documents.json VectorDocument records stream.json StreamChunk : text, tool call, done, error errors.json typed core errors and abort/cancellation eval.json an eval result record What each fixture proves - valid[] cases pass the public core validators and keep the same canonical hash across JSON.stringify / JSON.parse . - invalid[] cases are rejected by those validators. - canonicalSha256 pins the whole valid set, so any drift is detected. How an external bridge uses them 1. Load each file and check schemaVersion === 1 . 2. Map each valid[].value to the bridge's own types. 3. Serialize it back and compare sha256Hex(canonicalJson(value)) with the pinned hash (canonical JSON: sorted keys, see @agentskit/core/hash ). 4. Reject every invalid[] case.",
+          "aliases": "document project"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/types/memory.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/types/stream.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "1fc8cdeef85984a72edd74f33e91174183715f725d7a930ee2ee9389cc1e87e5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127870,7 +128091,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 36,
+          "inboundLinks": 37,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0003-memory-contract.md",
@@ -127908,7 +128129,8 @@
             "document:packages/memory/README.md",
             "document:packages/rag/CONVENTIONS.md",
             "document:packages/rag/README.md",
-            "document:packages/templates/CONVENTIONS.md"
+            "document:packages/templates/CONVENTIONS.md",
+            "document:tests/interop/README.md"
           ],
           "areaId": "area:packages/core/src/types",
           "packageId": "package:@agentskit/core",
@@ -128111,6 +128333,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/templates/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:tests/interop/README.md",
               "confidence": "observed"
             },
             {
@@ -128693,7 +128920,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/get-started/concepts/adapter.mdx",
@@ -128702,7 +128929,8 @@
             "document:apps/docs-next/content/docs/reference/recipes/deterministic-replay.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/simulate-stream.mdx",
             "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0001-adapter-contract.md"
+            "document:docs/architecture/adrs/0001-adapter-contract.md",
+            "document:tests/interop/README.md"
           ],
           "areaId": "area:packages/core/src/types",
           "packageId": "package:@agentskit/core",
@@ -128760,6 +128988,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0001-adapter-contract.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:tests/interop/README.md",
               "confidence": "observed"
             },
             {
@@ -149918,7 +150151,7 @@
             }
           ]
         },
-        "contentHash": "d15f110b974927dc1f4b08b9e20cb07b5ed6938cda09517f121b8b4d0e55df70",
+        "contentHash": "1722ee6522dedc5f08efde4dc4d5af8e06787b32e718d57e5c4b05155c9105b3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158231,7 +158464,7 @@
             }
           ]
         },
-        "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378",
+        "contentHash": "6521ed9b19b8041f51779300e5ae78a9f434fb6f9262d87e366bc801dffea9df",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158316,7 +158549,7 @@
             }
           ]
         },
-        "contentHash": "56aa5bd7950d3272e74b6ac5e27aefa4b43548c18ec0c0e2950cfff1cb72cac4",
+        "contentHash": "d626050389cb61d676ac190cedd09ab9d1d57f20cfa058ead894f0781189ff5c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -185147,6 +185380,21 @@
           "packageId": "package:@agentskit/tools",
           "inbound": [
             {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/tests/web-search-parallel.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/agents/tools/index.mdx",
               "confidence": "observed"
@@ -185518,6 +185766,11 @@
             {
               "kind": "imports",
               "id": "module:packages/tools/src/mcp/transports.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
               "confidence": "observed"
             },
             {
@@ -185998,16 +186251,78 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/tools/src/web-search-parallel.ts",
+        "kind": "module",
+        "path": "packages/tools/src/web-search-parallel.ts",
+        "title": "web-search-parallel.ts",
+        "aliases": [],
+        "symbols": [
+          "parallelSearch"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "web-search-parallel.ts",
+          "headings": "",
+          "path": "packages/tools/src/web-search-parallel.ts",
+          "symbols": "parallelSearch",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/tools",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/mcp/client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/mcp/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "eaf4518897734d8ff0b07968b3af9b6f98fbc410d54d607c9eb03d7bb319f8d3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/tools/src/web-search.ts",
         "kind": "module",
         "path": "packages/tools/src/web-search.ts",
         "title": "web-search.ts",
         "aliases": [],
         "symbols": [
+          "SNIPPET_MAX",
+          "SearchRuntimeConfig",
           "WebSearchConfig",
           "WebSearchProvider",
           "WebSearchResult",
-          "webSearch"
+          "requestText",
+          "webSearch",
+          "withDeadline"
         ],
         "tags": [
           "module",
@@ -186018,7 +186333,7 @@
           "title": "web-search.ts",
           "headings": "",
           "path": "packages/tools/src/web-search.ts",
-          "symbols": "WebSearchConfig WebSearchProvider WebSearchResult webSearch",
+          "symbols": "SNIPPET_MAX SearchRuntimeConfig WebSearchConfig WebSearchProvider WebSearchResult requestText webSearch withDeadline",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -186040,6 +186355,16 @@
             {
               "kind": "imports",
               "id": "module:packages/tools/src/discovery.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/tests/web-search-parallel.test.ts",
               "confidence": "observed"
             },
             {
@@ -186086,12 +186411,22 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/tools/src/mcp/client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/tools/src/safe-fetch.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search-parallel.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "6e1348e626807d81b1a20bde407134cac35464438545ac3e75680c7a59c3da59",
+        "contentHash": "e17259636c1d62f4c7f85f5998cc360d1bae80da85039b5ed7da3e83e968ca71",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -186942,6 +187277,51 @@
           ]
         },
         "contentHash": "49bd972f26aef2390e41834fa5dbc4cd086eff096f451c87fef14f2e99220bda",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/tools/tests/web-search-parallel.test.ts",
+        "kind": "module",
+        "path": "packages/tools/tests/web-search-parallel.test.ts",
+        "title": "web-search-parallel.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "web-search-parallel.test.ts",
+          "headings": "",
+          "path": "packages/tools/tests/web-search-parallel.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/tools",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/mcp/client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a3fb6250afba6dabf4fb38a921177236218271c72a356b0c1c25c00e8cc95a98",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -189290,10 +189670,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
-            "document:.agent-memory/reference_quality-gates.md"
+            "document:.agent-memory/reference_quality-gates.md",
+            "document:.github/factory-playbook.md"
           ],
           "areaId": "area:scripts",
           "packageId": "package:agentskit",
@@ -189301,6 +189682,11 @@
             {
               "kind": "mentions",
               "id": "document:.agent-memory/reference_quality-gates.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:.github/factory-playbook.md",
               "confidence": "observed"
             }
           ],
@@ -194093,6 +194479,40 @@
         "confidence": "observed"
       },
       {
+        "id": "module:tests/interop/fixtures.test.ts",
+        "kind": "module",
+        "path": "tests/interop/fixtures.test.ts",
+        "title": "fixtures.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "interop"
+        ],
+        "fields": {
+          "title": "fixtures.test.ts",
+          "headings": "",
+          "path": "tests/interop/fixtures.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test interop"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "1dbc337b868cba894d1dbd54fd06c60e9660ad8275dd5a6fef78b029ef59b55e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:tests/vitest.config.ts",
         "kind": "module",
         "path": "tests/vitest.config.ts",
@@ -194124,7 +194544,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "dacd7c12d42383ecdf2ceb0a4b8a5a998d347b88b71628caab0c12e78ac51388",
+        "contentHash": "7de8cc05ac5327245fefb5e290c40e56bac868a6638b1e6a9bad0229ae5a5218",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -201226,7 +201646,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "8150bb0cba41e9a1ff53fa401de6d8c97c26a7e8dd25d4ec2bd6c90cde6e6ef3",
+        "contentHash": "f8b6b53b9b51112e29ac1d9ed32aa52e46bc46801fdbf685d084acb346635486",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "tools"
