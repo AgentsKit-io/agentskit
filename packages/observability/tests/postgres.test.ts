@@ -110,6 +110,18 @@ describe('postgresCostStore', () => {
     await expect(postgresCostStore({ db: committed.db }).release({ tenant: 't', reservationId: 'r' })).rejects.toMatchObject({ code: 'AK_COST_RESERVATION_COMMITTED' })
   })
 
+  it('counts committed and still-held reservations of a kind in one statement', async () => {
+    const { db, statements } = scripted([[{ total: '3' }], []])
+    const store = postgresCostStore({ db, now })
+    expect(await store.count({ tenant: 't', kind: 'generate-description', reservationTtlMs: 60_000 })).toBe(3)
+    expect(statements[0]).toContain('2026-10-09T11:59:00.000Z')
+    expect(statements[0]).not.toContain('now()')
+    expect(statements[0]).toContain('2026-10')
+    expect(statements[0]).toContain("status = 'committed'")
+    expect(await store.count({ tenant: 't', kind: 'generate-description' })).toBe(0)
+    await expect(store.count({ tenant: 't', kind: ' ' })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+  })
+
   it('expires overdue holds of the window before admitting, when reservationTtlMs is set', async () => {
     const { db, statements } = scripted([[{ reservations: '1' }], [{ spent_usd: '0', reserved_usd: '0.5' }]])
     const store = postgresCostStore({ db, now, reservationTtlMs: 15 * 60_000 })

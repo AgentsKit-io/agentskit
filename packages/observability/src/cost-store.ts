@@ -39,6 +39,8 @@ export interface CostReserveInput {
   capUsd?: number
   /** Accounting window. Defaults to the store's current window. */
   windowKey?: string
+  /** Kind of call this reservation covers (`'generate-description'`), so `count` can tally it. */
+  kind?: string
 }
 
 /** Outcome of `CostStore.reserve`. A denied reservation holds nothing. */
@@ -69,11 +71,28 @@ export interface CostWindowInput {
   windowKey?: string
 }
 
+/** Input of `CostStore.count`. */
+export interface CostCountInput {
+  tenant: string
+  /** Kind passed to `reserve` for the calls to count. */
+  kind: string
+  /** Accounting window. Defaults to the store's current window. */
+  windowKey?: string
+  /**
+   * How long a reservation counts as in flight, in milliseconds. A reservation
+   * still held after this long is treated as abandoned and left out. Omit to
+   * count every held reservation.
+   */
+  reservationTtlMs?: number
+}
+
 /**
  * Durable, tenant-scoped spend accounting. `reserve` holds an estimate
  * atomically against the cap, `commit` replaces it with the real spend, and
  * `release` returns it when the call fails. All three are idempotent per
  * `reservationId`: a repeated call returns the current window without counting twice.
+ * `count` tallies the calls of one `kind` in a window: committed ones plus those
+ * still reserved within `reservationTtlMs`; released ones never count.
  * With `reservationTtlMs`, a reservation left unsettled past the TTL is released
  * by the store itself, so a dropped call stops counting against the cap.
  */
@@ -82,6 +101,7 @@ export interface CostStore {
   commit: (input: CostCommitInput) => Promise<CostWindow>
   release: (input: CostReleaseInput) => Promise<CostWindow>
   window: (input: CostWindowInput) => Promise<CostWindow>
+  count: (input: CostCountInput) => Promise<number>
 }
 
 /** Options shared by the bundled `CostStore` implementations. */
@@ -202,6 +222,13 @@ export function validateCostWindow(input: CostWindowInput): void {
   if (input.capUsd !== undefined) assertUsd('capUsd', input.capUsd)
 }
 
+/** Validate a count input; shared by every `CostStore` implementation. */
+export function validateCostCount(input: CostCountInput): void {
+  assertKey('tenant', input.tenant)
+  assertKey('kind', input.kind)
+  if (input.reservationTtlMs !== undefined) assertUsd('reservationTtlMs', input.reservationTtlMs)
+}
+
 /** Validate a commit input; shared by every `CostStore` implementation. */
 export function validateCostCommit(input: CostCommitInput): void {
   assertKey('tenant', input.tenant)
@@ -223,6 +250,7 @@ interface MemoryReservation {
   tenant: string
   windowKey: string
   amount: number
+  kind: string | undefined
   createdAt: number
   status: 'reserved' | 'committed' | 'released'
 }
@@ -299,7 +327,7 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
         return { ok: false, reason: 'quota_exceeded', window: describe(input.tenant, windowKey, input.capUsd) }
       }
       state.reserved += amount
-      const reservation: MemoryReservation = { tenant: input.tenant, windowKey, amount, createdAt: now().getTime(), status: 'reserved' }
+      const reservation: MemoryReservation = { tenant: input.tenant, windowKey, amount, kind: input.kind, createdAt: now().getTime(), status: 'reserved' }
       reservations.set(id, reservation)
       held.add(reservation)
       return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, windowKey, input.capUsd) }
@@ -336,53 +364,21 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
       expire()
       return describe(input.tenant, input.windowKey ?? keyOf(now()), input.capUsd)
     },
+    async count(input) {
+      validateCostCount(input)
+      const windowKey = input.windowKey ?? keyOf(now())
+      const since = input.reservationTtlMs === undefined ? -Infinity : now().getTime() - input.reservationTtlMs
+      let total = 0
+      for (const [id, reservation] of reservations) {
+        if (reservation.kind !== input.kind || reservation.windowKey !== windowKey) continue
+        if ((JSON.parse(id) as [string, string])[0] !== input.tenant) continue
+        if (reservation.status === 'committed' || (reservation.status === 'reserved' && reservation.createdAt >= since)) total++
+      }
+      return total
+    },
     ledger: () => ledger.map(row => ({ ...row })),
   }
 }
 
-/** Spend that already happened and must be written to a `CostStore` by an observer. */
-export interface CostSpendRecord {
-  tenant: string
-  costUsd: number
-  usage?: readonly CostUsageEntry[]
-}
 
-/**
- * Record spend that already happened: reserve it without a ceiling, then commit
- * it, and return the resulting window. Cost guards use this after each priced call.
- * When the commit fails, the hold is released before the error is rethrown, so a
- * failed write does not leave the amount reserved.
- */
-export async function recordCostSpend(store: CostStore, record: CostSpendRecord): Promise<CostWindow> {
-  const reservationId = `spend-${globalThis.crypto.randomUUID()}`
-  await store.reserve({ tenant: record.tenant, reservationId, amountUsd: record.costUsd })
-  try {
-    return await store.commit({ tenant: record.tenant, reservationId, actualUsd: record.costUsd, usage: record.usage })
-  } catch (error) {
-    // Best effort: when the store is unreachable the release fails too, and the reservation is left for `reservationTtlMs`.
-    await store.release({ tenant: record.tenant, reservationId }).catch(() => {})
-    throw error
-  }
-}
-
-const warned = new Set<string>()
-
-/** True for `NODE_ENV=production`, and for Cloudflare Workers when `NODE_ENV` is not set (isolates expose no `process.env` by default). */
-function looksLikeProduction(): boolean {
-  const scope = globalThis as { process?: { env?: Record<string, string | undefined> }; navigator?: { userAgent?: string } }
-  const nodeEnv = scope.process?.env?.NODE_ENV
-  if (nodeEnv !== undefined) return nodeEnv === 'production'
-  return scope.navigator?.userAgent === 'Cloudflare-Workers'
-}
-
-/**
- * Warn once per guard when it runs without a `CostStore`: its totals then live
- * in process memory and do not hold across instances.
- * @param scope Guard name used in the message.
- * @param warn `true` always warns, `false` never does; by default it warns in production runtimes.
- */
-export function warnProcessLocalCostState(scope: string, warn?: boolean): void {
-  if (!(warn ?? looksLikeProduction()) || warned.has(scope)) return
-  warned.add(scope)
-  console.warn(`[agentskit] ${scope}: no CostStore configured. Spend is tracked in process memory, so budgets reset on restart and are not shared between instances or isolates. Pass a durable \`store\`.`)
-}
+export { recordCostSpend, warnProcessLocalCostState, type CostSpendRecord } from './cost-store-spend'

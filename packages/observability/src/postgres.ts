@@ -6,6 +6,7 @@ import {
   describeCostWindow,
   monthlyWindowKey,
   validateCostCommit,
+  validateCostCount,
   validateCostRelease,
   validateCostReserve,
   validateCostWindow,
@@ -33,10 +34,12 @@ export const postgresCostReservationTable = pgTable('agentskit_cost_reservation'
   amountUsd: usd('amount_usd').notNull(),
   actualUsd: usd('actual_usd'),
   status: text('status').notNull(),
+  kind: text('kind'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, table => [
   primaryKey({ columns: [table.tenantId, table.reservationId] }),
   check('agentskit_cost_reservation_status_check', sql`${table.status} IN ('reserved', 'committed', 'released')`),
+  index('agentskit_cost_reservation_kind').on(table.tenantId, table.kind, table.windowKey),
   index('agentskit_cost_reservation_held').on(table.tenantId, table.windowKey, table.createdAt).where(sql`status = 'reserved'`),
 ])
 
@@ -72,6 +75,8 @@ CREATE TABLE IF NOT EXISTS agentskit_cost_reservation (
   created_at timestamptz NOT NULL DEFAULT now(),
   PRIMARY KEY (tenant_id, reservation_id)
 );
+ALTER TABLE agentskit_cost_reservation ADD COLUMN IF NOT EXISTS kind text;
+CREATE INDEX IF NOT EXISTS agentskit_cost_reservation_kind ON agentskit_cost_reservation (tenant_id, kind, window_key);
 CREATE INDEX IF NOT EXISTS agentskit_cost_reservation_held ON agentskit_cost_reservation (tenant_id, window_key, created_at) WHERE status = 'reserved';
 CREATE TABLE IF NOT EXISTS agentskit_usage_ledger (
   id bigserial PRIMARY KEY,
@@ -144,6 +149,7 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       const { tenant, reservationId, amountUsd } = input
       const windowKey = input.windowKey ?? keyOf(now())
       const cap = input.capUsd ?? null
+      const kind = input.kind ?? null
       await expire(sql`AND tenant_id = ${tenant} AND window_key = ${windowKey}`)
       let admitted: Row[]
       try {
@@ -156,8 +162,8 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
           WHERE ${cap}::numeric IS NULL OR w.spent_usd + w.reserved_usd + EXCLUDED.reserved_usd <= ${cap}::numeric
           RETURNING w.spent_usd, w.reserved_usd
         ), saved AS (
-          INSERT INTO agentskit_cost_reservation (tenant_id, reservation_id, window_key, amount_usd, status, created_at)
-          SELECT ${tenant}, ${reservationId}, ${windowKey}, ${amountUsd}::numeric, 'reserved', ${now().toISOString()}::timestamptz FROM held
+          INSERT INTO agentskit_cost_reservation (tenant_id, reservation_id, window_key, amount_usd, status, kind, created_at)
+          SELECT ${tenant}, ${reservationId}, ${windowKey}, ${amountUsd}::numeric, 'reserved', ${kind}::text, ${now().toISOString()}::timestamptz FROM held
         )
         SELECT spent_usd, reserved_usd FROM held`)
       } catch (error) {
@@ -228,6 +234,17 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       const windowKey = input.windowKey ?? keyOf(now())
       await expire(sql`AND tenant_id = ${input.tenant} AND window_key = ${windowKey}`)
       return window(input.tenant, windowKey, input.capUsd)
+    },
+    async count(input) {
+      validateCostCount(input)
+      const windowKey = input.windowKey ?? keyOf(now())
+      const ttl = input.reservationTtlMs ?? null
+      // The deadline comes from the injected `now`, the same clock that stamps created_at and that expire() uses.
+      const deadline = ttl === null ? null : new Date(now().getTime() - ttl).toISOString()
+      const [row] = await rows(sql`SELECT count(*)::int AS total FROM agentskit_cost_reservation
+        WHERE tenant_id = ${input.tenant} AND kind = ${input.kind} AND window_key = ${windowKey}
+          AND (status = 'committed' OR (status = 'reserved' AND (${deadline}::timestamptz IS NULL OR created_at >= ${deadline}::timestamptz)))`)
+      return Number(row?.total ?? 0)
     },
   }
 }
