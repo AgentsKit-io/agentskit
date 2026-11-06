@@ -873,6 +873,18 @@
               ]
             },
             {
+              "name": "CallCost",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CallUsage",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "catalog",
               "kinds": [
                 "value"
@@ -979,6 +991,18 @@
               "name": "classifyCatalogProvider",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "computeCallCost",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ComputeCallCostOptions",
+              "kinds": [
+                "type"
               ]
             },
             {
