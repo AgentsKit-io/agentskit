@@ -7,6 +7,7 @@ export default defineConfig({
     index: 'src/index.ts',
     'trace-tracker': 'src/trace-tracker.ts',
     'cost-guard': 'src/cost-guard.ts',
+    'cost-store': 'src/cost-store-entry.ts',
     postgres: 'src/postgres.ts',
     'cost-store-contract': 'src/cost-store-contract.ts',
     langfuse: '../observability-langfuse/src/index.ts',
