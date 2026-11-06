@@ -28,7 +28,7 @@ import { join, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { chromium } from '@playwright/test'
 import {
-  CONTRAST_REGIONS, PAGES, THEMES, VIEWPORTS, applyScope, ecosystemSites, formatSummary, isOccluded, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
+  CONTRAST_REGIONS, PAGES, THEMES, VIEWPORTS, applyScope, ecosystemSites, formatSummary, isOccluded, isPlatformBeaconError, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
 } from './lib/ecosystem-visual.mjs'
 
 const root = resolve(import.meta.dirname, '..')
@@ -80,7 +80,7 @@ function probeShell() {
   const offenders = scrollWidth > width + 1
     ? [...document.body.querySelectorAll('*')].filter((el) => el.getBoundingClientRect().right > width + 1 && el.getBoundingClientRect().width > 0)
       .filter((el, _, all) => !all.includes(el.parentElement)).slice(0, 5)
-      .map((el) => `${describe(el)} (right ${Math.round(el.getBoundingClientRect().right)}px)`)
+      .map((el) => ({ text: `${describe(el)} (right ${Math.round(el.getBoundingClientRect().right)}px)`, shell: Boolean(el.closest('#ak-eco, agentskit-footer, agentskit-ecosystem')) }))
     : []
   const html = document.documentElement
   let resolvedTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
@@ -334,7 +334,12 @@ async function runJob(browser, helper, { site, page: pageKind, theme, viewport }
     check('bar-current', JSON.stringify(shell.current) === JSON.stringify(site.expectedCurrent ? [site.expectedCurrent] : []), `aria-current on [${shell.current.join(', ')}], expected ${site.expectedCurrent ?? 'none'}`)
     check('bar-star', shell.star === site.expectedStar, `Star → ${shell.star}, expected ${site.expectedStar}`)
     check('footer-upgraded', shell.footerCount === 1 && shell.footerUpgraded, `<agentskit-footer> count ${shell.footerCount}, upgraded ${shell.footerUpgraded}`)
-    check('no-horizontal-overflow', shell.overflow.scrollWidth <= shell.overflow.width + 1, `scrollWidth ${shell.overflow.scrollWidth}px vs viewport ${shell.overflow.width}px ${shell.overflow.offenders.join(', ')}`.trim())
+    // The shell owns the overflow only when one of the offenders sits inside shell markup; otherwise it is the product's own layout.
+    const overflowing = shell.overflow.scrollWidth > shell.overflow.width + 1
+    const shellOverflow = overflowing && shell.overflow.offenders.some((o) => o.shell)
+    const overflowDetail = `scrollWidth ${shell.overflow.scrollWidth}px vs viewport ${shell.overflow.width}px ${shell.overflow.offenders.map((o) => o.text).join(', ')}`.trim()
+    check('shell-overflow', !shellOverflow, overflowDetail)
+    check('no-horizontal-overflow', !overflowing || shellOverflow, overflowDetail)
 
     const name = `${site.id}-${pageKind}-${theme}-${viewport.id}.jpg`
     await page.screenshot({ path: join(shotsDir, name), fullPage: true, type: 'jpeg', quality: 70, scale: 'css', animations: 'disabled' })
@@ -363,7 +368,7 @@ async function runJob(browser, helper, { site, page: pageKind, theme, viewport }
     check('run-completes', false, error.message.split('\n')[0])
   }
   const shellErrors = errors.filter((e) => /\/shell\/v1|ecosystem-bar\.js/.test(`${e.url} ${e.text}`))
-  const pageErrors = errors.filter((e) => !shellErrors.includes(e))
+  const pageErrors = errors.filter((e) => !shellErrors.includes(e) && !isPlatformBeaconError(e))
   check('shell-console-errors', shellErrors.length === 0, shellErrors.map((e) => e.text.slice(0, 160)).join(' | ') || 'none')
   check('console-errors', pageErrors.length === 0, pageErrors.map((e) => `${e.text.slice(0, 160)}${e.url ? ` (${e.url.split('\n')[0].slice(0, 100)})` : ''}`).join(' | ') || 'none')
   run.checks = applyScope(run.checks, args.scope)

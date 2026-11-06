@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
-  THEMES, VIEWPORTS, applyScope, contrastRatio, ecosystemSites, formatSummary, isOccluded, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
+  THEMES, VIEWPORTS, applyScope, contrastRatio, ecosystemSites, formatSummary, isOccluded, isPlatformBeaconError, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
 } from './lib/ecosystem-visual.mjs'
 
 const ecosystem = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'ecosystem.json'), 'utf8'))
@@ -163,6 +163,17 @@ describe('reporting', () => {
     expect(scoped[0].ok).toBe(false)
     expect(scoped[1]).toMatchObject({ ok: true, warning: true })
     expect(applyScope(checks, 'all')).toBe(checks)
+  })
+
+  it('fails a shell PR on shell-owned overflow only, not on product layout overflow', () => {
+    expect(applyScope([{ id: 'shell-overflow', ok: false, detail: '' }], 'shell')[0].ok).toBe(false)
+    expect(applyScope([{ id: 'no-horizontal-overflow', ok: false, detail: '' }], 'shell')[0]).toMatchObject({ ok: true, warning: true })
+  })
+
+  it('recognises host-injected analytics beacon failures but not page errors', () => {
+    expect(isPlatformBeaconError({ text: 'Failed to load resource: 404', url: 'https://www.agentskit.io/_vercel/speed-insights/script.js' })).toBe(true)
+    expect(isPlatformBeaconError({ text: "Loading the script 'https://static.cloudflareinsights.com/beacon.min.js/vabc' violates CSP", url: 'https://chat.agentskit.io/' })).toBe(true)
+    expect(isPlatformBeaconError({ text: 'Uncaught TypeError: x is undefined', url: 'https://www.agentskit.io/app.js' })).toBe(false)
   })
 
   it('lists not-applicable runs without counting them as failures', () => {
