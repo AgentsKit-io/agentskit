@@ -1,10 +1,14 @@
 name: Coverage
 
+# Full-suite coverage runs on main and nightly only. Pull requests already run
+# the affected tests in CI / tests, so running the suite again here was a
+# duplicate (ticket #1961, option b). Thresholds are unchanged.
 on:
-  pull_request:
-    branches: [main]
   push:
     branches: [main]
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,7 +16,7 @@ permissions:
 concurrency:
   # Supersede in-flight runs for the same PR; pushes to main always finish.
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: false
 
 jobs:
   coverage:
@@ -30,9 +34,16 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
 
       - run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
 
