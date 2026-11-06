@@ -1,6 +1,7 @@
 packages:
   - packages/*
   - apps/*
+# better-sqlite3 13 ships prebuilt binaries (prebuilds/); pnpm would otherwise run node-gyp rebuild for its binding.gyp
 allowBuilds:
   # ships prebuilds; the implicit node-gyp rebuild is unnecessary
   better-sqlite3: false
@@ -58,3 +59,12 @@ auditConfig:
     - GHSA-gcqx-w48m-w2h4
     # minimatch ReDoS-class advisory reached only via typedoc (docs build-time, trusted globs). typedoc 0.28 needs minimatch ^10 (calls mini.matchOne, removed in 11). Review by 2027-02-03; drop when typedoc supports minimatch 11.
     - GHSA-g3hv-75wg-m249
+# svelte-package imports `typescript` without declaring it; without this it
+# resolves the root TS 7 (no JS compiler API) instead of the package's ^6.
+packageExtensions:
+  "@sveltejs/package":
+    peerDependencies:
+      typescript: "*"
+    peerDependenciesMeta:
+      typescript:
+        optional: true
