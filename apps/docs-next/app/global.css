@@ -1,7 +1,9 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
-/* vinext needs these responsive Fumadocs nav utilities included explicitly. */
+/* The vinext/Vite build skips node_modules when scanning for utilities, so the Fumadocs
+   layout classes (sticky header, backdrop blur, responsive nav) must be scanned explicitly. */
+@source '../node_modules/fumadocs-ui/dist/**/*.js';
 @source inline("max-sm:hidden max-lg:hidden");
 /* Canonical brand palette — GENERATED from brand/tokens.json (single source for
  * the whole ecosystem). Provides --ak-bg/surface/border/fg/muted/blue/red/green/

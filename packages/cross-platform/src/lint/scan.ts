@@ -25,7 +25,7 @@ export interface ScanOptions {
 }
 
 const EXTENSIONS = /\.(?:[cm]?[jt]s|tsx|jsx)$/
-const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', 'coverage', '.next', '.turbo', '.git', '.source'])
+const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', 'coverage', '.next', '.turbo', '.git', '.source', '.vinext', '.cloudflare'])
 
 /** `<rule-id>-ignore: reason` suppresses one rule; `cross-platform-ignore` still suppresses every rule on the line. */
 function specificIgnore(ruleId: string): RegExp {
