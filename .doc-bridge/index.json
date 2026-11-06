@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "a6c4e95479371fd4aad949b869db86529feafc9b4fad786690f838c2941b05e6",
+  "contentHash": "211dc030276a75751607633894ca21611685c5cc2e31bae5adbf6ae6496d1cb0",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-06T21:50:23.449Z",
+  "generatedAt": "2026-11-06T23:15:16.757Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7322,7 +7322,7 @@
         "document",
         "project"
       ],
-      "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c"
+      "contentHash": "0c4359a9628d324dfb25ebb7c6afaebde3abc4d8fea28b19b45ba8799009d343"
     },
     {
       "id": "document:packages/rag/CONVENTIONS.md",
@@ -39178,7 +39178,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "f415e038f8ac33d0f0db2b6af23cb4ee59040d23a9cb9737889dd833bf031b4d",
+    "hash": "8135bbe3360a60c62c211edc9d14fd54b7e2a4d81830bac87e82f234badcc283",
     "fileCount": 2690,
     "projectionVersion": 2
   },
@@ -39201,9 +39201,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "b4d4847de823e439284341182269658a83dc2716ff264b49e74df2c654be5c48",
+    "contentHash": "0dc0f0a62b8eb7ec0de89909a20213781e208c22fcf173445e7cf0fa4f5855f3",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "ac04d9ef2ab2a056112ce18e5fcd903be0a4dd806666f2160b021899d3fea148",
+    "snapshotHash": "93c93b9354e821fbe6d263e9f509fc5e310dfa546151fa223946ad1071dbf617",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -53507,6 +53507,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/observability/src/cost-guard-multi-tenant.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/observability/src/cost-guard.ts",
               "confidence": "observed"
             },
@@ -53582,7 +53587,7 @@
             }
           ]
         },
-        "contentHash": "c9f4fcde9d6af4180b481e0271907f9d80eeec0627e822aa8476ea05aa99f74b",
+        "contentHash": "69e8ad6baa16879eeb7032027cbaeccaa4757e2ecab96e39f8b06edfb7660bab",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81093,7 +81098,7 @@
             }
           ]
         },
-        "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c",
+        "contentHash": "0c4359a9628d324dfb25ebb7c6afaebde3abc4d8fea28b19b45ba8799009d343",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159964,9 +159969,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/observability.mdx",
             "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
             "document:docs/architecture/adrs/0044-durable-cost-store.md",
             "document:packages/observability/README.md"
@@ -159981,6 +159987,11 @@
             {
               "kind": "imports",
               "id": "module:packages/observability/tests/cost-guard-store.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/observability.mdx",
               "confidence": "observed"
             },
             {
