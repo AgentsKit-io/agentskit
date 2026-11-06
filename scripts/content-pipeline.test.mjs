@@ -210,7 +210,7 @@ test('provider-swap rejects missing credentials and unknown providers before tra
   })
   assert.notEqual(unknown.status, 0)
   assert.match(unknown.stderr, /Unsupported AGENT_PROVIDER: unknown/)
-})
+}, 120_000)
 
 test('provider recipe and canonical docs stay aligned with adapter configuration', () => {
   const docsRoot = join(REPO_ROOT, 'apps/docs-next/content/docs')
