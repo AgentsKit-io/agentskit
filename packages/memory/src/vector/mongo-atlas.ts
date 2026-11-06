@@ -10,6 +10,8 @@ import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit
 
 export interface MongoCollectionLike {
   insertMany(docs: Array<Record<string, unknown>>, options?: unknown): Promise<unknown>
+  updateOne?(filter: Record<string, unknown>, update: Record<string, unknown>, options?: unknown): Promise<unknown>
+  bulkWrite?(operations: Array<Record<string, unknown>>, options?: unknown): Promise<unknown>
   deleteMany(filter: Record<string, unknown>): Promise<unknown>
   aggregate<T = Record<string, unknown>>(pipeline: Array<Record<string, unknown>>): {
     toArray(): Promise<T[]>
@@ -35,16 +37,38 @@ export interface MongoAtlasVectorConfig {
 export function mongoAtlasVectorStore(config: MongoAtlasVectorConfig): VectorMemory {
   const defaultTopK = Math.max(1, config.topK ?? 10)
   const vectorField = config.vectorField ?? 'embedding'
+  const fields = (doc: VectorDocument) => ({
+    content: doc.content,
+    [vectorField]: doc.embedding,
+    metadata: doc.metadata ?? {},
+  })
 
   return {
     async store(docs: VectorDocument[]) {
       if (docs.length === 0) return
-      await config.collection.insertMany(docs.map(d => ({
-        _id: d.id,
-        content: d.content,
-        [vectorField]: d.embedding,
-        metadata: d.metadata ?? {},
-      })))
+      if (config.collection.bulkWrite) {
+        await config.collection.bulkWrite(docs.map(d => ({
+          updateOne: {
+            filter: { _id: d.id },
+            update: {
+              $set: fields(d),
+            },
+            upsert: true,
+          },
+        })), { ordered: true })
+      } else {
+        if (config.collection.updateOne) {
+          for (const d of docs) {
+            await config.collection.updateOne({ _id: d.id }, { $set: fields(d) }, { upsert: true })
+          }
+        } else {
+          // Compatibility for older injected collection shims without updateOne.
+          await config.collection.insertMany(docs.map(d => ({
+            _id: d.id,
+            ...fields(d),
+          })))
+        }
+      }
     },
 
     async search(embedding: number[], options = {}): Promise<RetrievedDocument[]> {
