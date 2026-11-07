@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "559f16249c35102804babaec72658d532f6a90cf57c97f20e7156477dc9dfd62",
+  "contentHash": "2a48e48eaa59be1764d55565c85e4fc4dbcb91da95b82cb7cd6a68b3bfd15396",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-07T06:12:14.289Z",
+  "generatedAt": "2026-11-07T07:55:54.880Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -13784,6 +13784,19 @@
         "lib"
       ],
       "contentHash": "371af8d250ba6457c1869727b936350d534b0db7e57a5529aa5729108d049dd8"
+    },
+    {
+      "id": "module:apps/registry/lib/fumadocs-nav-utilities.test.ts",
+      "type": "module",
+      "title": "fumadocs-nav-utilities.test.ts",
+      "path": "apps/registry/lib/fumadocs-nav-utilities.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "lib"
+      ],
+      "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180"
     },
     {
       "id": "module:apps/registry/lib/github-issue.test.ts",
@@ -39147,8 +39160,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "48d79c111c14b7ddab3ef47205c5e81899050ad623774f25c5fb21261199e2a4",
-    "fileCount": 2688,
+    "hash": "3b996de12097625f88576df447ef691506103cf7958bd64b42f1722dc16e7ae0",
+    "fileCount": 2689,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39170,9 +39183,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "cc230e07de7b77f71d640f351360e32e3bbbd8868371ffba86fb075a314c6266",
+    "contentHash": "b5d884e81f9ef0313406ff55ef74409fad8b34ac8fd554b4328771bdf236d8fd",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "a153c69c5a1887873410b623a5b77e6ee1c6f602ca4824e3e8e79bab4b56ec22",
+    "snapshotHash": "0caf38cc49cdf50bfea4c170828d81c49340f609b5910da898c59792a237ccf2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39192,7 +39205,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2552,
+      "documentCount": 2553,
       "fieldNames": [
         "aliases",
         "body",
@@ -39203,13 +39216,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0176332288401255,
-        "body": 60.98942006269593,
-        "headings": 3.8871473354231973,
-        "path": 7.612460815047022,
-        "summary": 4.507445141065831,
-        "symbols": 7.565438871473354,
-        "title": 3.3797021943573666
+        "aliases": 3.018018018018018,
+        "body": 60.96553074813944,
+        "headings": 3.8856247551899727,
+        "path": 7.613004308656483,
+        "summary": 4.505679592636114,
+        "symbols": 7.562475518997259,
+        "title": 3.380728554641598
       }
     },
     "entries": [
@@ -40220,7 +40233,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "45c3131c4887afe320f414b59827dff5ab3e7fa1b46127e10d88c3e944968c69",
+        "contentHash": "15cb7ce7c183a7194d47505312547c2558616fa02ec6331eed6e02557e534c04",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -103044,6 +103057,41 @@
           "outbound": []
         },
         "contentHash": "371af8d250ba6457c1869727b936350d534b0db7e57a5529aa5729108d049dd8",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/registry/lib/fumadocs-nav-utilities.test.ts",
+        "kind": "module",
+        "path": "apps/registry/lib/fumadocs-nav-utilities.test.ts",
+        "title": "fumadocs-nav-utilities.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "lib"
+        ],
+        "fields": {
+          "title": "fumadocs-nav-utilities.test.ts",
+          "headings": "",
+          "path": "apps/registry/lib/fumadocs-nav-utilities.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/registry",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180",
         "provenance": "observed",
         "confidence": "observed"
       },
