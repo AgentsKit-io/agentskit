@@ -28,7 +28,7 @@ import { join, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { chromium } from '@playwright/test'
 import {
-  CONTRAST_REGIONS, PAGES, THEMES, VIEWPORTS, applyScope, ecosystemSites, formatSummary, isOccluded, isPlatformBeaconError, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
+  CONTRAST_REGIONS, PAGES, THEMES, VIEWPORTS, applyScope, classifyOverflow, ecosystemSites, formatSummary, isOccluded, isPlatformBeaconError, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
 } from './lib/ecosystem-visual.mjs'
 
 const root = resolve(import.meta.dirname, '..')
@@ -77,11 +77,16 @@ function probeShell() {
   const width = document.documentElement.clientWidth
   const scrollWidth = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth)
   const describe = (el) => el.tagName.toLowerCase() + (el.id ? `#${el.id}` : '') + (typeof el.className === 'string' && el.className.trim() ? `.${el.className.trim().split(/\s+/).slice(0, 2).join('.')}` : '')
-  const offenders = scrollWidth > width + 1
+  const all = scrollWidth > width + 1
     ? [...document.body.querySelectorAll('*')].filter((el) => el.getBoundingClientRect().right > width + 1 && el.getBoundingClientRect().width > 0)
-      .filter((el, _, all) => !all.includes(el.parentElement)).slice(0, 5)
-      .map((el) => ({ text: `${describe(el)} (right ${Math.round(el.getBoundingClientRect().right)}px)`, shell: Boolean(el.closest('#ak-eco, agentskit-footer, agentskit-ecosystem')) }))
+      .filter((el, _, list) => !list.includes(el.parentElement))
     : []
+  const inShell = (el) => Boolean(el.closest('#ak-eco, agentskit-footer, agentskit-ecosystem, agentskit-aurora'))
+  // Classify ownership over every top-level offender; only the listing is truncated.
+  const shellOffenders = all.filter(inShell)
+  const listed = [...shellOffenders, ...all.filter((el) => !inShell(el))].slice(0, 5)
+  const offenders = listed.map((el) => ({ text: `${describe(el)} (right ${Math.round(el.getBoundingClientRect().right)}px)`, shell: inShell(el) }))
+  const shellOffender = shellOffenders.length > 0
   const html = document.documentElement
   let resolvedTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   if (html.classList.contains('dark') || html.dataset.theme === 'dark') resolvedTheme = 'dark'
@@ -94,7 +99,7 @@ function probeShell() {
     star: barEl?.querySelector('a[data-ak-eco-star]')?.href ?? null,
     footerCount: footers.length,
     footerUpgraded: Boolean(upgraded && upgraded.getBoundingClientRect().height > 0),
-    overflow: { width, scrollWidth, offenders },
+    overflow: { width, scrollWidth, offenders, shellOffender },
     resolvedTheme,
   }
 }
@@ -335,11 +340,10 @@ async function runJob(browser, helper, { site, page: pageKind, theme, viewport }
     check('bar-star', shell.star === site.expectedStar, `Star → ${shell.star}, expected ${site.expectedStar}`)
     check('footer-upgraded', shell.footerCount === 1 && shell.footerUpgraded, `<agentskit-footer> count ${shell.footerCount}, upgraded ${shell.footerUpgraded}`)
     // The shell owns the overflow only when one of the offenders sits inside shell markup; otherwise it is the product's own layout.
-    const overflowing = shell.overflow.scrollWidth > shell.overflow.width + 1
-    const shellOverflow = overflowing && shell.overflow.offenders.some((o) => o.shell)
+    const { shellOverflow, productOverflow } = classifyOverflow(shell.overflow)
     const overflowDetail = `scrollWidth ${shell.overflow.scrollWidth}px vs viewport ${shell.overflow.width}px ${shell.overflow.offenders.map((o) => o.text).join(', ')}`.trim()
     check('shell-overflow', !shellOverflow, overflowDetail)
-    check('no-horizontal-overflow', !overflowing || shellOverflow, overflowDetail)
+    check('no-horizontal-overflow', !productOverflow, overflowDetail)
 
     const name = `${site.id}-${pageKind}-${theme}-${viewport.id}.jpg`
     await page.screenshot({ path: join(shotsDir, name), fullPage: true, type: 'jpeg', quality: 70, scale: 'css', animations: 'disabled' })

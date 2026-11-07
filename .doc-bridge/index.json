@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "7db5e2eb70af9d015e939759a64442a3fab806ab269a7488ff92aa3341ddb922",
+  "contentHash": "72d7fcc35ba5e0b7f1edee34182db368ab119de8ab39a6199018dc424dcf605b",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-07T01:02:58.281Z",
+  "generatedAt": "2026-11-07T02:04:37.307Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -36716,7 +36716,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "c98e819d8877bf99513d1fa748646afb14aa825d2f9f6cc5dbf882ead5d3bd1e"
+      "contentHash": "2ea3de90a358aa2e3b113c56694535d3137906b584d787f36cf5c6b01dfc655d"
     },
     {
       "id": "module:scripts/external-contributions.test.mjs",
@@ -37012,6 +37012,7 @@
         "THEMES",
         "VIEWPORTS",
         "applyScope",
+        "classifyOverflow",
         "contrastRatio",
         "ecosystemSites",
         "formatSummary",
@@ -37029,7 +37030,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "c8b94f343c5ea3959f970fd22ac2cb3606a27b8b39198126c1f0eb1153a3e851"
+      "contentHash": "c4d03bfa06b9c4c64271db62993055c6fecb455ac0483707fea31cbaab525acd"
     },
     {
       "id": "module:scripts/lib/external-contributions.mjs",
@@ -37834,7 +37835,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "7cea5ecdc326f8d8dee19714e3dd3da277ffc0501fcfa5b2e116e59125dd4836"
+      "contentHash": "ed6e277a54a3c1b97be7f6567157869ed770da6efe2111b44d01659889080e79"
     },
     {
       "id": "module:scripts/verify-launch-demo.mjs",
@@ -39133,7 +39134,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "895f2b2ddf1daf67957a10b4c13d5178663057e3d0af469d98e1caf9b0f7e1bc",
+    "hash": "317609fbacc8e98c58872ddeb620e9b2764fe9cbe0a11a4cdaa98f679257ba96",
     "fileCount": 2687,
     "projectionVersion": 2
   },
@@ -39156,9 +39157,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2c1f1c7317636af7d3e17e5a96eacd5d0d3ad104e1839f355c0739dd15412ef9",
+    "contentHash": "170441ab92216534cbbbfbfdaa6f62d7d640f4230df3293f56c9de2e6669a8f9",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "3566a437eac390bf8e0a72a654f7efa618caa3439bdb7e8cb5b9d1f15bce5832",
+    "snapshotHash": "7e56d45f4b4b3c1ac9e4cef4838179f500ffe12fa23a2eb149712bd18370cf5e",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39194,7 +39195,7 @@
         "headings": 3.888671109368875,
         "path": 7.611524892199138,
         "summary": 4.50921207369659,
-        "symbols": 7.567228537828303,
+        "symbols": 7.568404547236378,
         "title": 3.378675029400235
       }
     },
@@ -190654,7 +190655,7 @@
             }
           ]
         },
-        "contentHash": "c98e819d8877bf99513d1fa748646afb14aa825d2f9f6cc5dbf882ead5d3bd1e",
+        "contentHash": "2ea3de90a358aa2e3b113c56694535d3137906b584d787f36cf5c6b01dfc655d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191521,6 +191522,7 @@
           "THEMES",
           "VIEWPORTS",
           "applyScope",
+          "classifyOverflow",
           "contrastRatio",
           "ecosystemSites",
           "formatSummary",
@@ -191542,7 +191544,7 @@
           "title": "ecosystem-visual.mjs",
           "headings": "",
           "path": "scripts/lib/ecosystem-visual.mjs",
-          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS SITE_THEMES THEMES VIEWPORTS applyScope contrastRatio ecosystemSites formatSummary isOccluded isPlatformBeaconError measureTextContrast parseSiteOrigins planJobs rebaseSite relativeLuminance requiredContrast",
+          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS SITE_THEMES THEMES VIEWPORTS applyScope classifyOverflow contrastRatio ecosystemSites formatSummary isOccluded isPlatformBeaconError measureTextContrast parseSiteOrigins planJobs rebaseSite relativeLuminance requiredContrast",
           "summary": "",
           "body": "",
           "aliases": "module mjs lib"
@@ -191580,7 +191582,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c8b94f343c5ea3959f970fd22ac2cb3606a27b8b39198126c1f0eb1153a3e851",
+        "contentHash": "c4d03bfa06b9c4c64271db62993055c6fecb455ac0483707fea31cbaab525acd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -194069,7 +194071,7 @@
             }
           ]
         },
-        "contentHash": "7cea5ecdc326f8d8dee19714e3dd3da277ffc0501fcfa5b2e116e59125dd4836",
+        "contentHash": "ed6e277a54a3c1b97be7f6567157869ed770da6efe2111b44d01659889080e79",
         "provenance": "observed",
         "confidence": "observed"
       },
