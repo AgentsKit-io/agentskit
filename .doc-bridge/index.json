@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "2c7b421fd9e85cbd943a426e0be08a4d4796198973753cb887f679b8f176abbc",
+  "contentHash": "2a48e48eaa59be1764d55565c85e4fc4dbcb91da95b82cb7cd6a68b3bfd15396",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-06T13:55:55.003Z",
+  "generatedAt": "2026-11-07T07:55:54.880Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -11781,6 +11781,19 @@
       "contentHash": "0680891bb52a0f82d6b8e2e3ec29ba7cabab8ca753eef2414502d2cc04e1612e"
     },
     {
+      "id": "module:apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+      "type": "module",
+      "title": "fumadocs-nav-utilities.test.ts",
+      "path": "apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180"
+    },
+    {
       "id": "module:apps/docs-next/tests/legacy-redirects.test.ts",
       "type": "module",
       "title": "legacy-redirects.test.ts",
@@ -13771,6 +13784,19 @@
         "lib"
       ],
       "contentHash": "371af8d250ba6457c1869727b936350d534b0db7e57a5529aa5729108d049dd8"
+    },
+    {
+      "id": "module:apps/registry/lib/fumadocs-nav-utilities.test.ts",
+      "type": "module",
+      "title": "fumadocs-nav-utilities.test.ts",
+      "path": "apps/registry/lib/fumadocs-nav-utilities.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "lib"
+      ],
+      "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180"
     },
     {
       "id": "module:apps/registry/lib/github-issue.test.ts",
@@ -36716,7 +36742,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "2cc43aa0d5c0a9d07c7d70eafcc9ba00aef0dc62464ba7b15e12416df3e7660a"
+      "contentHash": "be7cbc9e7d7b92b642de62ae06560453f254266bb75659777a352480a683f368"
     },
     {
       "id": "module:scripts/external-contributions.test.mjs",
@@ -37012,10 +37038,12 @@
         "THEMES",
         "VIEWPORTS",
         "applyScope",
+        "classifyOverflow",
         "contrastRatio",
         "ecosystemSites",
         "formatSummary",
         "isOccluded",
+        "isPlatformBeaconError",
         "measureTextContrast",
         "parseSiteOrigins",
         "planJobs",
@@ -37028,7 +37056,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "c65d60b7c96a07ae67f502cd19e1462a6826435c61156a647b90eac358926410"
+      "contentHash": "afdd4096ff4cb454987c734d9f30080d8a5bff75acc61cfbb0a65d2fc2c744b5"
     },
     {
       "id": "module:scripts/lib/external-contributions.mjs",
@@ -37833,7 +37861,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "2a67fdbbed54b19ff27bff6f4e3666e4a75917592c724374d1419716b84c2821"
+      "contentHash": "9da2828445eee87a4846eadb2b53e853f44678fb455ae073654e668f02fdbc00"
     },
     {
       "id": "module:scripts/verify-launch-demo.mjs",
@@ -39132,8 +39160,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "4f042a9f2c4490bfd4cf45af2f2d450c44a9a75893f57dca6166ed8a27ebb800",
-    "fileCount": 2687,
+    "hash": "3b996de12097625f88576df447ef691506103cf7958bd64b42f1722dc16e7ae0",
+    "fileCount": 2689,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39155,9 +39183,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "999d2d6da8530fd079d5f68167af931d8150b52c69eabf43240f29edd97dd3e7",
+    "contentHash": "b5d884e81f9ef0313406ff55ef74409fad8b34ac8fd554b4328771bdf236d8fd",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "6eb1d9f192afe26ef85fe8c506b6b7a49202d74d073f0feda5d869311548195e",
+    "snapshotHash": "0caf38cc49cdf50bfea4c170828d81c49340f609b5910da898c59792a237ccf2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39177,7 +39205,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2551,
+      "documentCount": 2553,
       "fieldNames": [
         "aliases",
         "body",
@@ -39188,13 +39216,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0172481379851037,
-        "body": 61.013328106624854,
-        "headings": 3.888671109368875,
-        "path": 7.611524892199138,
-        "summary": 4.50921207369659,
-        "symbols": 7.565660525284202,
-        "title": 3.378675029400235
+        "aliases": 3.018018018018018,
+        "body": 60.96553074813944,
+        "headings": 3.8856247551899727,
+        "path": 7.613004308656483,
+        "summary": 4.505679592636114,
+        "symbols": 7.562475518997259,
+        "title": 3.380728554641598
       }
     },
     "entries": [
@@ -39578,7 +39606,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "424c0ef4d5090a15f978d863a7b95ef0d7d552fba5a9a2682b18e26750b1a371",
+        "contentHash": "86ddb673df54df638e6910d0c32151693d700eaf0a85a2ef7b8703b3d891f88e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -40205,7 +40233,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "45c3131c4887afe320f414b59827dff5ab3e7fa1b46127e10d88c3e944968c69",
+        "contentHash": "15cb7ce7c183a7194d47505312547c2558616fa02ec6331eed6e02557e534c04",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -97066,6 +97094,41 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+        "kind": "module",
+        "path": "apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+        "title": "fumadocs-nav-utilities.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "fumadocs-nav-utilities.test.ts",
+          "headings": "",
+          "path": "apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/tests/legacy-redirects.test.ts",
         "kind": "module",
         "path": "apps/docs-next/tests/legacy-redirects.test.ts",
@@ -102994,6 +103057,41 @@
           "outbound": []
         },
         "contentHash": "371af8d250ba6457c1869727b936350d534b0db7e57a5529aa5729108d049dd8",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/registry/lib/fumadocs-nav-utilities.test.ts",
+        "kind": "module",
+        "path": "apps/registry/lib/fumadocs-nav-utilities.test.ts",
+        "title": "fumadocs-nav-utilities.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "lib"
+        ],
+        "fields": {
+          "title": "fumadocs-nav-utilities.test.ts",
+          "headings": "",
+          "path": "apps/registry/lib/fumadocs-nav-utilities.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/registry",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190653,7 +190751,7 @@
             }
           ]
         },
-        "contentHash": "2cc43aa0d5c0a9d07c7d70eafcc9ba00aef0dc62464ba7b15e12416df3e7660a",
+        "contentHash": "be7cbc9e7d7b92b642de62ae06560453f254266bb75659777a352480a683f368",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191520,10 +191618,12 @@
           "THEMES",
           "VIEWPORTS",
           "applyScope",
+          "classifyOverflow",
           "contrastRatio",
           "ecosystemSites",
           "formatSummary",
           "isOccluded",
+          "isPlatformBeaconError",
           "measureTextContrast",
           "parseSiteOrigins",
           "planJobs",
@@ -191540,7 +191640,7 @@
           "title": "ecosystem-visual.mjs",
           "headings": "",
           "path": "scripts/lib/ecosystem-visual.mjs",
-          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS SITE_THEMES THEMES VIEWPORTS applyScope contrastRatio ecosystemSites formatSummary isOccluded measureTextContrast parseSiteOrigins planJobs rebaseSite relativeLuminance requiredContrast",
+          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS SITE_THEMES THEMES VIEWPORTS applyScope classifyOverflow contrastRatio ecosystemSites formatSummary isOccluded isPlatformBeaconError measureTextContrast parseSiteOrigins planJobs rebaseSite relativeLuminance requiredContrast",
           "summary": "",
           "body": "",
           "aliases": "module mjs lib"
@@ -191578,7 +191678,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c65d60b7c96a07ae67f502cd19e1462a6826435c61156a647b90eac358926410",
+        "contentHash": "afdd4096ff4cb454987c734d9f30080d8a5bff75acc61cfbb0a65d2fc2c744b5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -194067,7 +194167,7 @@
             }
           ]
         },
-        "contentHash": "2a67fdbbed54b19ff27bff6f4e3666e4a75917592c724374d1419716b84c2821",
+        "contentHash": "9da2828445eee87a4846eadb2b53e853f44678fb455ae073654e668f02fdbc00",
         "provenance": "observed",
         "confidence": "observed"
       },
