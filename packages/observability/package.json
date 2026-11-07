@@ -42,6 +42,11 @@
       "import": "./dist/cost-guard.js",
       "require": "./dist/cost-guard.cjs"
     },
+    "./cost-store": {
+      "types": "./dist/cost-store.d.ts",
+      "import": "./dist/cost-store.js",
+      "require": "./dist/cost-store.cjs"
+    },
     "./postgres": {
       "types": "./dist/postgres.d.ts",
       "import": "./dist/postgres.js",

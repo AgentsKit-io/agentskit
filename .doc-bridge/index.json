@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "2c7b421fd9e85cbd943a426e0be08a4d4796198973753cb887f679b8f176abbc",
+  "contentHash": "211dc030276a75751607633894ca21611685c5cc2e31bae5adbf6ae6496d1cb0",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-06T13:55:55.003Z",
+  "generatedAt": "2026-11-06T23:15:16.757Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7322,7 +7322,7 @@
         "document",
         "project"
       ],
-      "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c"
+      "contentHash": "0c4359a9628d324dfb25ebb7c6afaebde3abc4d8fea28b19b45ba8799009d343"
     },
     {
       "id": "document:packages/rag/CONVENTIONS.md",
@@ -28254,6 +28254,26 @@
       "contentHash": "f523e7509cb4e0f9c8901d9ad0dcf071142527b03e4d139b693e4b647e0598b5"
     },
     {
+      "id": "module:packages/observability/src/cost-store-entry.ts",
+      "type": "module",
+      "title": "cost-store-entry.ts",
+      "path": "packages/observability/src/cost-store-entry.ts",
+      "symbols": [
+        "CostReservationError",
+        "CostStore",
+        "MultiTenantCostGuardOptions",
+        "createInMemoryCostStore",
+        "monthlyWindowKey",
+        "multiTenantCostGuard"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "7de6458fec17f3474f990efc5f9081294d96578235f500221bd640e27fca4ae4"
+    },
+    {
       "id": "module:packages/observability/src/cost-store.ts",
       "type": "module",
       "title": "cost-store.ts",
@@ -28919,6 +28939,32 @@
       "contentHash": "3a284757bbc12d9d061ea11791f9b4e8e9cb9b9a69e4cf78b630f88aaa4f9008"
     },
     {
+      "id": "module:packages/observability/tests/cost-store-entry.test.ts",
+      "type": "module",
+      "title": "cost-store-entry.test.ts",
+      "path": "packages/observability/tests/cost-store-entry.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "88c7b054536c27f59915e5f229da0c978440ac4520b71826c230d3e1c70c36ad"
+    },
+    {
+      "id": "module:packages/observability/tests/cost-store-subpath.test.ts",
+      "type": "module",
+      "title": "cost-store-subpath.test.ts",
+      "path": "packages/observability/tests/cost-store-subpath.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "e76b61d37483b44b1df335e9183c372f1bb7235bad19a48b96a27d32621fb9b5"
+    },
+    {
       "id": "module:packages/observability/tests/cost-store.test.ts",
       "type": "module",
       "title": "cost-store.test.ts",
@@ -29221,7 +29267,7 @@
         "ts",
         "observability"
       ],
-      "contentHash": "2f318bb41889c463db9944961fec345256f93559fe44779010397c00395f051d"
+      "contentHash": "2cb05261cd77d0c21e3d9abd97cd071395b7f1077af1df49ec121447f9b24cb3"
     },
     {
       "id": "module:packages/observability/vitest.config.ts",
@@ -29809,7 +29855,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "ea5a987725de429969e957ff25767bea9ccd819198f7540cd047b4b89ddea815"
+      "contentHash": "1c1d5df16a895e68db2ef2c2f07a1a8e9a3a6c4aa69dc509e2ceb148a96eb978"
     },
     {
       "id": "module:packages/rag/tests/rag-batch-462-466.test.ts",
@@ -35660,7 +35706,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "daf24c0237acf8caf288d81347fcdc2547448560eed5191c578e560a963349c5"
+      "contentHash": "300818067415d259c3e438bea6a9619489b3d7e3c26fe9ba83db1bc0e42e47f0"
     },
     {
       "id": "module:packages/tools/tests/teams.test.ts",
@@ -39132,8 +39178,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "4f042a9f2c4490bfd4cf45af2f2d450c44a9a75893f57dca6166ed8a27ebb800",
-    "fileCount": 2687,
+    "hash": "8135bbe3360a60c62c211edc9d14fd54b7e2a4d81830bac87e82f234badcc283",
+    "fileCount": 2690,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39155,9 +39201,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "999d2d6da8530fd079d5f68167af931d8150b52c69eabf43240f29edd97dd3e7",
+    "contentHash": "0dc0f0a62b8eb7ec0de89909a20213781e208c22fcf173445e7cf0fa4f5855f3",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "6eb1d9f192afe26ef85fe8c506b6b7a49202d74d073f0feda5d869311548195e",
+    "snapshotHash": "93c93b9354e821fbe6d263e9f509fc5e310dfa546151fa223946ad1071dbf617",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39177,7 +39223,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2551,
+      "documentCount": 2554,
       "fieldNames": [
         "aliases",
         "body",
@@ -39188,13 +39234,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0172481379851037,
-        "body": 61.013328106624854,
-        "headings": 3.888671109368875,
-        "path": 7.611524892199138,
-        "summary": 4.50921207369659,
-        "symbols": 7.565660525284202,
-        "title": 3.378675029400235
+        "aliases": 3.018010963194988,
+        "body": 60.94166014095536,
+        "headings": 3.884103367267032,
+        "path": 7.6127642913077525,
+        "summary": 4.50391542678152,
+        "symbols": 7.56734534064213,
+        "title": 3.3813625685199686
       }
     },
     "entries": [
@@ -53461,6 +53507,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/observability/src/cost-guard-multi-tenant.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/observability/src/cost-guard.ts",
               "confidence": "observed"
             },
@@ -53536,7 +53587,7 @@
             }
           ]
         },
-        "contentHash": "c9f4fcde9d6af4180b481e0271907f9d80eeec0627e822aa8476ea05aa99f74b",
+        "contentHash": "69e8ad6baa16879eeb7032027cbaeccaa4757e2ecab96e39f8b06edfb7660bab",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81047,7 +81098,7 @@
             }
           ]
         },
-        "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c",
+        "contentHash": "0c4359a9628d324dfb25ebb7c6afaebde3abc4d8fea28b19b45ba8799009d343",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159918,9 +159969,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/observability.mdx",
             "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
             "document:docs/architecture/adrs/0044-durable-cost-store.md",
             "document:packages/observability/README.md"
@@ -159939,6 +159991,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/observability.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
               "confidence": "observed"
             },
@@ -159950,6 +160007,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/observability/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-store-entry.ts",
               "confidence": "observed"
             },
             {
@@ -160299,6 +160361,64 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/observability/src/cost-store-entry.ts",
+        "kind": "module",
+        "path": "packages/observability/src/cost-store-entry.ts",
+        "title": "cost-store-entry.ts",
+        "aliases": [],
+        "symbols": [
+          "CostReservationError",
+          "CostStore",
+          "MultiTenantCostGuardOptions",
+          "createInMemoryCostStore",
+          "monthlyWindowKey",
+          "multiTenantCostGuard"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "cost-store-entry.ts",
+          "headings": "",
+          "path": "packages/observability/src/cost-store-entry.ts",
+          "symbols": "CostReservationError CostStore MultiTenantCostGuardOptions createInMemoryCostStore monthlyWindowKey multiTenantCostGuard",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/tests/cost-store-entry.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-guard-multi-tenant.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-store.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "7de6458fec17f3474f990efc5f9081294d96578235f500221bd640e27fca4ae4",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/observability/src/cost-store.ts",
         "kind": "module",
         "path": "packages/observability/src/cost-store.ts",
@@ -160403,6 +160523,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/observability/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-store-entry.ts",
               "confidence": "observed"
             },
             {
@@ -162510,6 +162635,80 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/observability/tests/cost-store-entry.test.ts",
+        "kind": "module",
+        "path": "packages/observability/tests/cost-store-entry.test.ts",
+        "title": "cost-store-entry.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "cost-store-entry.test.ts",
+          "headings": "",
+          "path": "packages/observability/tests/cost-store-entry.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store-entry.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "88c7b054536c27f59915e5f229da0c978440ac4520b71826c230d3e1c70c36ad",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/observability/tests/cost-store-subpath.test.ts",
+        "kind": "module",
+        "path": "packages/observability/tests/cost-store-subpath.test.ts",
+        "title": "cost-store-subpath.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "cost-store-subpath.test.ts",
+          "headings": "",
+          "path": "packages/observability/tests/cost-store-subpath.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "e76b61d37483b44b1df335e9183c372f1bb7235bad19a48b96a27d32621fb9b5",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/observability/tests/cost-store.test.ts",
         "kind": "module",
         "path": "packages/observability/tests/cost-store.test.ts",
@@ -163449,7 +163648,7 @@
             }
           ]
         },
-        "contentHash": "2f318bb41889c463db9944961fec345256f93559fe44779010397c00395f051d",
+        "contentHash": "2cb05261cd77d0c21e3d9abd97cd071395b7f1077af1df49ec121447f9b24cb3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -165918,7 +166117,7 @@
             }
           ]
         },
-        "contentHash": "ea5a987725de429969e957ff25767bea9ccd819198f7540cd047b4b89ddea815",
+        "contentHash": "1c1d5df16a895e68db2ef2c2f07a1a8e9a3a6c4aa69dc509e2ceb148a96eb978",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -187156,7 +187355,7 @@
             }
           ]
         },
-        "contentHash": "daf24c0237acf8caf288d81347fcdc2547448560eed5191c578e560a963349c5",
+        "contentHash": "300818067415d259c3e438bea6a9619489b3d7e3c26fe9ba83db1bc0e42e47f0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -198364,7 +198563,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "88158840d0db94959f601dd7d20f44bfbbb45891e4550de06fbce3eeb9478b9e",
+        "contentHash": "e83babc11a7491472fa3a52871ce9400ab78c8e85d60f6591c415975dfedabf3",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "observability"
