@@ -218,7 +218,7 @@ export function isPlatformBeaconError(error) {
  */
 export function classifyOverflow({ scrollWidth, width, offenders = [], shellOffender }) {
   const overflowing = scrollWidth > width + 1
-  const shellOverflow = overflowing && (shellOffender ?? offenders.some((o) => o.shell))
+  const shellOverflow = overflowing && (shellOffender ?? offenders.some((o) => o.inShell))
   return { shellOverflow, productOverflow: overflowing && !shellOverflow }
 }
 

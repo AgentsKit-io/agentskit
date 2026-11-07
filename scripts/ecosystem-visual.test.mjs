@@ -194,12 +194,12 @@ describe('reporting', () => {
 })
 
 describe('classifyOverflow', () => {
-  const product = (n) => Array.from({ length: n }, (_, i) => ({ text: `ul.p${i}`, shell: false }))
+  const product = (n) => Array.from({ length: n }, (_, i) => ({ text: `ul.p${i}`, inShell: false }))
   it('treats a product-only overflow as product-owned', () => {
     expect(classifyOverflow({ scrollWidth: 721, width: 390, offenders: product(2), shellOffender: false })).toEqual({ shellOverflow: false, productOverflow: true })
   })
   it('fails on a shell offender alone', () => {
-    expect(classifyOverflow({ scrollWidth: 721, width: 390, offenders: [{ text: 'agentskit-footer', shell: true }], shellOffender: true })).toEqual({ shellOverflow: true, productOverflow: false })
+    expect(classifyOverflow({ scrollWidth: 721, width: 390, offenders: [{ text: 'agentskit-footer', inShell: true }], shellOffender: true })).toEqual({ shellOverflow: true, productOverflow: false })
   })
   it('still fails when a shell offender hides behind more than 5 product offenders', () => {
     expect(classifyOverflow({ scrollWidth: 900, width: 390, offenders: product(5), shellOffender: true }).shellOverflow).toBe(true)

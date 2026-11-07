@@ -85,7 +85,7 @@ function probeShell() {
   // Classify ownership over every top-level offender; only the listing is truncated.
   const shellOffenders = all.filter(inShell)
   const listed = [...shellOffenders, ...all.filter((el) => !inShell(el))].slice(0, 5)
-  const offenders = listed.map((el) => ({ text: `${describe(el)} (right ${Math.round(el.getBoundingClientRect().right)}px)`, shell: inShell(el) }))
+  const offenders = listed.map((el) => ({ text: `${describe(el)} (right ${Math.round(el.getBoundingClientRect().right)}px)`, inShell: inShell(el) }))
   const shellOffender = shellOffenders.length > 0
   const html = document.documentElement
   let resolvedTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
