@@ -175,15 +175,7 @@ export function measureTextContrast(normal, hidden, repeat, width, height, items
     }
     if (total === 0 || unstable / total > 0.02) return { status: 'unstable', ratio: null, fg: null, bg: null }
     // Painted text that barely differs from its background is the worst case, not a skip.
-    if (glyph.length < 3) {
-      // Report the painted pixel (centre of the first rect) so isOccluded can tell text covered by another layer
-      // (its CSS colour would pass) from text that really is the colour of its background (it would not).
-      const rect = item.rects[0]
-      const cx = Math.min(width - 1, Math.max(0, Math.floor((rect.x + rect.width / 2) * scale)))
-      const cy = Math.min(height - 1, Math.max(0, Math.floor((rect.y + rect.height / 2) * scale)))
-      const at = (cy * width + cx) * 4
-      return { status: 'measured', ratio: 1, fg: hex(normal, at), bg: hex(hidden, at) }
-    }
+    if (glyph.length < 3) return { status: 'measured', ratio: 1, fg: 'indistinguishable', bg: 'background' }
     glyph.sort((a, b) => b[0] - a[0])
     const core = glyph.slice(0, Math.max(3, Math.ceil(glyph.length * 0.15)))
     const ratios = core.map(([, i]) => ratioAt(i)).sort((a, b) => a - b)
