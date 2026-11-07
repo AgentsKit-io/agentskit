@@ -120,7 +120,7 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
     'verified local MCP stdio protocol; cli tools: fetch_url, web_search',
   )
   assert.equal(atom.publish.status, 'blocked')
-}, 300_000)
+}, 120_000)
 
 test('coding-agent MCP pins stay aligned with the package version', () => {
   const packageVersion = JSON.parse(readFileSync(join(REPO_ROOT, 'packages/mcp/package.json'), 'utf8')).version
@@ -168,7 +168,7 @@ test('coding-agent MCP pins stay aligned with the package version', () => {
     () => assertPinned(fixture.replace(`@agentskit/mcp@${packageVersion}`, '@agentskit/mcp@0.0.0'), 'synthetic stale fixture'),
     /package-version drift/,
   )
-}, 300_000)
+}, 120_000)
 
 test('provider-swap recipe keeps one application path and a credential-free proof', () => {
   const source = readFileSync(
@@ -185,7 +185,7 @@ test('provider-swap recipe keeps one application path and a credential-free proo
   assert.equal(atom.executable.ok, true)
   assert.match(atom.executable.stdout, /^\[demo\] Demo model received:/)
   assert.equal(atom.publish.status, 'blocked')
-}, 300_000)
+}, 120_000)
 
 test('provider-swap rejects missing credentials and unknown providers before transport', () => {
   const command = [
