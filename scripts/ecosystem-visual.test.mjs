@@ -106,7 +106,7 @@ describe('measureTextContrast', () => {
 
   it('reports painted text that cannot be told apart from its background as 1:1', () => {
     const [result] = measureTextContrast(background, background, background, 10, 10, [item], 1)
-    expect(result).toMatchObject({ status: 'measured', ratio: 1 })
+    expect(result).toMatchObject({ status: 'measured', ratio: 1, fg: '#ffffff', bg: '#ffffff' })
   })
 
   it('skips regions that changed between two identical renders (animations)', () => {
@@ -125,6 +125,7 @@ describe('measureTextContrast', () => {
 
 describe('isOccluded', () => {
   const base = { required: 4.5, bg: '#14202e', opacity: 1 }
+  const background = image(10, 10, [255, 255, 255])
 
   it('exempts text another layer painted over when its own colour would pass', () => {
     expect(isOccluded({ ...base, css: 'rgb(139, 148, 158)', fg: '#0d1117' })).toBe(true)
@@ -138,8 +139,18 @@ describe('isOccluded', () => {
     expect(isOccluded({ ...base, bg: '#ffffff', css: 'rgb(0, 0, 0)', opacity: 0.3, fg: '#b3b3b3' })).toBe(false)
   })
 
-  it('does not guess when the glyphs were indistinguishable', () => {
+  it('does not guess when the glyphs were indistinguishable and no pixel was sampled', () => {
     expect(isOccluded({ ...base, css: 'rgb(139, 148, 158)', fg: 'indistinguishable', bg: 'background' })).toBe(false)
+  })
+
+  it('exempts header text that was not painted at all (run 42234131722: 1:1 under a covering layer) when its CSS colour would pass', () => {
+    const [measured] = measureTextContrast(background, background, background, 10, 10, [item], 1)
+    expect(isOccluded({ ...measured, required: 4.5, opacity: 1, css: 'rgb(13, 17, 23)' })).toBe(true)
+  })
+
+  it('still fails text whose CSS colour is the background colour (invisible by design error)', () => {
+    const [measured] = measureTextContrast(background, background, background, 10, 10, [item], 1)
+    expect(isOccluded({ ...measured, required: 4.5, opacity: 1, css: 'rgb(255, 255, 255)' })).toBe(false)
   })
 })
 
