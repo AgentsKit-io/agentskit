@@ -1,8 +1,10 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
-/* vinext needs these responsive Fumadocs nav utilities included explicitly. */
-@source inline("max-sm:hidden max-lg:hidden");
+/* vinext needs these Fumadocs nav utilities included explicitly. Without z-40/h-14 the sticky
+ * header (fumadocs-ui layouts/home/slots/header) has z-index:auto in production and the home
+ * hero paints over it, leaving the nav invisible. */
+@source inline("max-sm:hidden max-lg:hidden z-40 h-14");
 /* Canonical brand palette — GENERATED from brand/tokens.json (single source for
  * the whole ecosystem). Provides --ak-bg/surface/border/fg/muted/blue/red/green/
  * accent + fonts/radii/motion, per light + .dark. Regenerate via
