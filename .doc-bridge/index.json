@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "b13498a508272f1f7bfccc1d684460d269c91b4cceb495ed486459cbf0326e04",
+  "contentHash": "559f16249c35102804babaec72658d532f6a90cf57c97f20e7156477dc9dfd62",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-07T02:38:17.271Z",
+  "generatedAt": "2026-11-07T06:12:14.289Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -11779,6 +11779,19 @@
         "tests"
       ],
       "contentHash": "0680891bb52a0f82d6b8e2e3ec29ba7cabab8ca753eef2414502d2cc04e1612e"
+    },
+    {
+      "id": "module:apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+      "type": "module",
+      "title": "fumadocs-nav-utilities.test.ts",
+      "path": "apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180"
     },
     {
       "id": "module:apps/docs-next/tests/legacy-redirects.test.ts",
@@ -39134,8 +39147,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "460ccfb2b0ed8117dcc27ed1a89fa6832efb8eaa97ebae33d13e83512c806c7c",
-    "fileCount": 2687,
+    "hash": "48d79c111c14b7ddab3ef47205c5e81899050ad623774f25c5fb21261199e2a4",
+    "fileCount": 2688,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39157,9 +39170,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "0a75a1a09e95b0e3f53a84025755c1bc1017aec052a50ff4c004eb049fedb271",
+    "contentHash": "cc230e07de7b77f71d640f351360e32e3bbbd8868371ffba86fb075a314c6266",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "3504f8e72c13c032ef5005404efcee1e4886571f8beded9223b78e7f6b6efcd3",
+    "snapshotHash": "a153c69c5a1887873410b623a5b77e6ee1c6f602ca4824e3e8e79bab4b56ec22",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39179,7 +39192,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2551,
+      "documentCount": 2552,
       "fieldNames": [
         "aliases",
         "body",
@@ -39190,13 +39203,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0172481379851037,
-        "body": 61.013328106624854,
-        "headings": 3.888671109368875,
-        "path": 7.611524892199138,
-        "summary": 4.50921207369659,
-        "symbols": 7.568404547236378,
-        "title": 3.378675029400235
+        "aliases": 3.0176332288401255,
+        "body": 60.98942006269593,
+        "headings": 3.8871473354231973,
+        "path": 7.612460815047022,
+        "summary": 4.507445141065831,
+        "symbols": 7.565438871473354,
+        "title": 3.3797021943573666
       }
     },
     "entries": [
@@ -39580,7 +39593,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "424c0ef4d5090a15f978d863a7b95ef0d7d552fba5a9a2682b18e26750b1a371",
+        "contentHash": "86ddb673df54df638e6910d0c32151693d700eaf0a85a2ef7b8703b3d891f88e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -97064,6 +97077,41 @@
           "outbound": []
         },
         "contentHash": "0680891bb52a0f82d6b8e2e3ec29ba7cabab8ca753eef2414502d2cc04e1612e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+        "kind": "module",
+        "path": "apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+        "title": "fumadocs-nav-utilities.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "fumadocs-nav-utilities.test.ts",
+          "headings": "",
+          "path": "apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180",
         "provenance": "observed",
         "confidence": "observed"
       },
