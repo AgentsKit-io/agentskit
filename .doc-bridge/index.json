@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "4c2345d924e6871491927dcc2b24e278f65d9086b644ca4b9c8cac5db1a5f54d",
+  "contentHash": "740b2c8e243e50293622569e03a1581590e76d8fd9161cb2af4337d4259077d1",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-08T16:13:27.746Z",
+  "generatedAt": "2026-11-08T18:02:27.049Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -36770,7 +36770,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c"
+      "contentHash": "d864dfa7188ab88eb4aaed89b0c0a0c1f609ca91ceeb875ed7918989837ec096"
     },
     {
       "id": "module:scripts/ecosystem-llms-block.test.mjs",
@@ -37068,7 +37068,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "e956be3912657ccfa0423ea6730aa288db13f826afae909dca866cd5e71d58ba"
+      "contentHash": "84ad8bddadff853c2dc090c8cbec31c2f8124ce4f86777e8f0a58ea4d815772c"
     },
     {
       "id": "module:scripts/lib/ecosystem-readiness.mjs",
@@ -39227,7 +39227,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "4cf1ab65723982ba482be19615d18d557f7473f5f2980be0db1a65af0ecbb9c8",
+    "hash": "22bdd0de82028670d12b4fd67c9af5b0bb592ee75146d643ce6aef917ea1830e",
     "fileCount": 2693,
     "projectionVersion": 2
   },
@@ -39250,9 +39250,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "d9d2caf6aaab4dfb774503822ac39c3e94d4ee5042f64fdf456d4e98ab0ac58d",
+    "contentHash": "3cdd4aba9129add81663c031a7fad8292cbe9ca45ef430654ff1ac0f7b93623f",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "e4bd01e43e5f4a31bec5418a5b2cf55f770d4401dd4d97cb49c6a8f437d48c21",
+    "snapshotHash": "8427da4e18f97d735c9bef409b25728ef263c65569c01233377615bb60c11c16",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -190913,7 +190913,7 @@
             }
           ]
         },
-        "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c",
+        "contentHash": "d864dfa7188ab88eb4aaed89b0c0a0c1f609ca91ceeb875ed7918989837ec096",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191811,7 +191811,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "e956be3912657ccfa0423ea6730aa288db13f826afae909dca866cd5e71d58ba",
+        "contentHash": "84ad8bddadff853c2dc090c8cbec31c2f8124ce4f86777e8f0a58ea4d815772c",
         "provenance": "observed",
         "confidence": "observed"
       },
