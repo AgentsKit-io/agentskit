@@ -35,4 +35,11 @@ describe('pricing + cost', () => {
       computeCost('custom-tiny', { promptTokens: 1_000_000, completionTokens: 500_000 })?.totalUsd,
     ).toBeCloseTo(200, 4)
   })
+
+  it('does not price bare ids missing from the catalog until registered', () => {
+    const usage = { promptTokens: 1_000_000, completionTokens: 1_000_000 }
+    expect(computeCost('claude-sonnet-4', usage)).toBeUndefined()
+    registerPricing('claude-sonnet-4', { inputPerM: 3, outputPerM: 15 })
+    expect(computeCost('claude-sonnet-4', usage)?.totalUsd).toBeCloseTo(18, 4)
+  })
 })
