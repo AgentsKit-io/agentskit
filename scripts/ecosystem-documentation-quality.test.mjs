@@ -359,6 +359,17 @@ test('verified local content digest and Doc Bridge artifact are required for cer
   assert.ok(blocked.findings.some((finding) => finding.id === 'doc-bridge-artifact'))
 })
 
+test('an unverified Doc Bridge artifact fails live verification without running Doc Bridge', () => {
+  const root = mkdtempSync(join(tmpdir(), 'agentskit-doc-live-'))
+  const result = evaluateDocumentationQuality(profile, evidence(), { root, attestationRoot: root, verifyAttestation: true })
+  rmSync(root, { recursive: true, force: true })
+  assert.equal(result.docBridgeLiveVerified, false)
+  assert.ok(result.findings.some((finding) => finding.id === 'doc-bridge-artifact'))
+  const live = result.findings.filter((finding) => finding.id === 'doc-bridge-live')
+  assert.equal(live.length, 1)
+  assert.match(live[0].message, /skipped: the Doc Bridge artifact is not verified/)
+})
+
 // Git fixtures must never touch the repository under test. Hooks (pre-push, pre-commit) export
 // GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE and friends, which would redirect every command below to
 // the real repository, so the fixture runs git with all GIT_* variables removed, no system or
