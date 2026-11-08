@@ -55,6 +55,11 @@
       "types": "./dist/langchain-bridge.d.ts",
       "import": "./dist/langchain-bridge.js",
       "require": "./dist/langchain-bridge.cjs"
+    },
+    "./budget": {
+      "types": "./dist/budget.d.ts",
+      "import": "./dist/budget.js",
+      "require": "./dist/budget.cjs"
     }
   },
   "files": [

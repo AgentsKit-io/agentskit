@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "2a48e48eaa59be1764d55565c85e4fc4dbcb91da95b82cb7cd6a68b3bfd15396",
+  "contentHash": "f435dd6ee9e9a063ca98a5f9e77fb388c31d8148fc4b1f4a51a793dec75ca341",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-07T07:55:54.880Z",
+  "generatedAt": "2026-11-08T15:41:53.674Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2152,7 +2152,7 @@
         "document",
         "human"
       ],
-      "contentHash": "e58f288eebd5a87e8643ff18ebb0a0747cf3216b3adc13efa413dc0dbc1dbe3f"
+      "contentHash": "7c298908b09d95cad6bc244fa640c0e6344a38f039fb0afa57c90a90fdec37cb"
     },
     {
       "id": "document:apps/docs-next/content/docs/data/providers/hosted.mdx",
@@ -4146,6 +4146,18 @@
       "contentHash": "40022671fc86084e9f51bbaf2a744917f95865a78640763e991300fd6e724c73"
     },
     {
+      "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+      "type": "document",
+      "title": "call-budget.mdx",
+      "path": "apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+      "description": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "b547386c6df65af5372aa9cacf202ae1df15c164d28060084d5628a6f9524230"
+    },
+    {
       "id": "document:apps/docs-next/content/docs/reference/recipes/code-reviewer.mdx",
       "type": "document",
       "title": "code-reviewer.mdx",
@@ -4407,7 +4419,7 @@
         "document",
         "human"
       ],
-      "contentHash": "6584806b5647bc06c2d2c28007c0b667f7681f9f9091c1dda73fe9ab32be27cf"
+      "contentHash": "6d02dd8aa41c4b1bd9d13202be1e07443cc54b18eb1473c5f24e1680c566f660"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/mandatory-sandbox.mdx",
@@ -14335,6 +14347,34 @@
       "contentHash": "6f3708b7e3f113334d2544b06c2fbb050c76f25ad8edc5bea78e6916ce302f27"
     },
     {
+      "id": "module:packages/adapters/src/budget.ts",
+      "type": "module",
+      "title": "budget.ts",
+      "path": "packages/adapters/src/budget.ts",
+      "symbols": [
+        "AK_BUDGET_EXCEEDED",
+        "BudgetCallMetadata",
+        "BudgetExceededDetails",
+        "BudgetExceededError",
+        "BudgetLedger",
+        "BudgetPrice",
+        "BudgetReservation",
+        "BudgetReserveResult",
+        "MemoryBudgetLedger",
+        "MemoryBudgetLedgerOptions",
+        "WithBudgetOptions",
+        "createBudgetLedger",
+        "estimateCostUsd",
+        "withBudget"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "56037d15218e44909c8310ff6cd45cef56200c34dc3da9ccc52ac5af3f6c6ece"
+    },
+    {
       "id": "module:packages/adapters/src/carbon.ts",
       "type": "module",
       "title": "carbon.ts",
@@ -15796,6 +15836,19 @@
       "contentHash": "995971845c7227f55e4b8164dfb467cac75dee14df88fac4f52edd2de6d56e00"
     },
     {
+      "id": "module:packages/adapters/tests/budget.test.ts",
+      "type": "module",
+      "title": "budget.test.ts",
+      "path": "packages/adapters/tests/budget.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "3b1e96ac5672e86af92cd634f5cb634fae849336c1b8164d7e398e48e61e3bb4"
+    },
+    {
       "id": "module:packages/adapters/tests/capabilities.test.ts",
       "type": "module",
       "title": "capabilities.test.ts",
@@ -16533,7 +16586,7 @@
         "ts",
         "adapters"
       ],
-      "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789"
+      "contentHash": "179b4e5eed74b97c31aa56d23bc392fe1cdd15e6299561de14d498f7ce60ccc3"
     },
     {
       "id": "module:packages/adapters/vitest.config.ts",
@@ -39160,8 +39213,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "3b996de12097625f88576df447ef691506103cf7958bd64b42f1722dc16e7ae0",
-    "fileCount": 2689,
+    "hash": "f0b4fc88fb4f9d228b537f5056a32876cbbd697e715a238792b58562186a5708",
+    "fileCount": 2692,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39183,9 +39236,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "b5d884e81f9ef0313406ff55ef74409fad8b34ac8fd554b4328771bdf236d8fd",
+    "contentHash": "3419b97c13fa84e03f2862c35703da419f5680863bc1ebd2461200e935573ab6",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "0caf38cc49cdf50bfea4c170828d81c49340f609b5910da898c59792a237ccf2",
+    "snapshotHash": "a9781871778776a2d70d95a1adf3e21c8f0034864ce7a51515fab789a48b0cdd",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39205,7 +39258,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2553,
+      "documentCount": 2556,
       "fieldNames": [
         "aliases",
         "body",
@@ -39216,13 +39269,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.018018018018018,
-        "body": 60.96553074813944,
-        "headings": 3.8856247551899727,
-        "path": 7.613004308656483,
-        "summary": 4.505679592636114,
-        "symbols": 7.562475518997259,
-        "title": 3.380728554641598
+        "aliases": 3.0179968701095463,
+        "body": 60.972613458528954,
+        "headings": 3.8853677621283254,
+        "path": 7.613067292644757,
+        "summary": 4.518779342723005,
+        "symbols": 7.573552425665102,
+        "title": 3.380281690140845
       }
     },
     "entries": [
@@ -50008,11 +50061,11 @@
         ],
         "fields": {
           "title": "higher-order.mdx",
-          "headings": "createRouter createEnsembleAdapter createFallbackAdapter Related",
+          "headings": "createRouter createEnsembleAdapter createFallbackAdapter withBudget Related",
           "path": "apps/docs-next/content/docs/data/providers/higher-order.mdx",
           "symbols": "",
           "summary": "Pick an adapter per request by cost, latency, tags, or custom policy.",
-          "body": "createRouter Pick an adapter per request by cost, latency, tags, or custom policy. . createEnsembleAdapter Fan out to N candidates, merge per strategy (first, majority, custom). . createFallbackAdapter Try candidates in order until one succeeds. . Related - ·",
+          "body": "createRouter Pick an adapter per request by cost, latency, tags, or custom policy. . createEnsembleAdapter Fan out to N candidates, merge per strategy (first, majority, custom). . createFallbackAdapter Try candidates in order until one succeeds. . withBudget Refuse a call before it reaches the model when it would overrun a per-call ceiling or a named (per-customer or per-user) budget. . Related - ·",
           "aliases": "document human"
         },
         "graph": {
@@ -50023,7 +50076,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "e58f288eebd5a87e8643ff18ebb0a0747cf3216b3adc13efa413dc0dbc1dbe3f",
+        "contentHash": "7c298908b09d95cad6bc244fa640c0e6344a38f039fb0afa57c90a90fdec37cb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -63760,6 +63813,55 @@
         "confidence": "observed"
       },
       {
+        "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+        "kind": "document",
+        "path": "apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+        "title": "call-budget.mdx",
+        "summary": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "call-budget.mdx",
+          "headings": "Install Ceiling per customer Per-call overrides How spend is counted Related",
+          "path": "apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+          "symbols": "",
+          "summary": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called.",
+          "body": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called. Install Comes with @agentskit/adapters , as the @agentskit/adapters/budget subpath (kept out of the root entry so apps that don't use it don't pay for it). Ceiling per customer Handle the refusal where you read the stream: Per-call overrides A single request can name the budget and tighten the ceiling through context.metadata.budget : A maxCallUsd in metadata can only lower the configured ceiling, never raise it: the effective ceiling is the smaller of the two. A value that is not a finite, non-negative number is ignored, so the configured ceiling still applies. budget may also be a function (request) = string undefined when the name comes from the request itself. How spend is counted - Before the call, the estimate is reserved on the budget, so concurrent calls cannot jointly overrun it. - After the call, the reservation is replaced by the cost of the usage the provider reported. With no reported usage, the estimate is charged; a call that failed before producing output is charged nothing. - Prompt tokens use core's chars/4 approximateCounter . Pass counter for a real tokenizer. - createBudgetLedger is in-process. To share budgets across instances, implement BudgetLedger.reserve over Redis or your database. Related - : measure and abort during a run - : trim the prompt to fit a context window",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/adapters",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/adapters/src/budget.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/observability/src/cost-guard.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "b547386c6df65af5372aa9cacf202ae1df15c164d28060084d5628a6f9524230",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:apps/docs-next/content/docs/reference/recipes/code-reviewer.mdx",
         "kind": "document",
         "path": "apps/docs-next/content/docs/reference/recipes/code-reviewer.mdx",
@@ -64717,7 +64819,7 @@
           "path": "apps/docs-next/content/docs/reference/recipes/index.mdx",
           "symbols": "",
           "summary": "60+ recipes. Each one: single page, install line, code, run. No dependency between recipes — every page stands alone.",
-          "body": "60+ recipes. Each one: single page, install line, code, run. No dependency between recipes — every page stands alone. Popular outcomes - — pair with , , and - — pair with , , and - — pair with , , and - — pair with , , and Getting started - — wrap any LLM API - — hosted and local model adapters - — change the provider, keep the agent path - — fake streaming for one-shot providers - — React / Vue / Svelte / Solid / Ink / RN / Angular Chat UI - · - · - · - · RAG + retrieval - · - · - Memory - · - · - · - Adapter composition - · - Tools + integrations - · - · · - Multi-agent + orchestration - · - · - Observability + cost - · - · - Security - · - · - · Evaluation - · - · - · - · Apps + bots - · - · Skills + specs - · Conventions - Replace KEY with your actual API key (use process.env.X API KEY in real code). - TypeScript; remove types for plain JS. - Each recipe declares its npm install line at the top.",
+          "body": "60+ recipes. Each one: single page, install line, code, run. No dependency between recipes — every page stands alone. Popular outcomes - — pair with , , and - — pair with , , and - — pair with , , and - — pair with , , and Getting started - — wrap any LLM API - — hosted and local model adapters - — change the provider, keep the agent path - — fake streaming for one-shot providers - — React / Vue / Svelte / Solid / Ink / RN / Angular Chat UI - · - · - · - · RAG + retrieval - · - · - Memory - · - · - · - Adapter composition - · - Tools + integrations - · - · · - Multi-agent + orchestration - · - · - Observability + cost - · · - · - Security - · - · - · Evaluation - · - · - · - · Apps + bots - · - · Skills + specs - · Conventions - Replace KEY with your actual API key (use process.env.X API KEY in real code). - TypeScript; remove types for plain JS. - Each recipe declares its npm install line at the top.",
           "aliases": "document human"
         },
         "graph": {
@@ -64728,7 +64830,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "6584806b5647bc06c2d2c28007c0b667f7681f9f9091c1dda73fe9ab32be27cf",
+        "contentHash": "6d02dd8aa41c4b1bd9d13202be1e07443cc54b18eb1473c5f24e1680c566f660",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104914,6 +105016,68 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/src/budget.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/budget.ts",
+        "title": "budget.ts",
+        "aliases": [],
+        "symbols": [
+          "AK_BUDGET_EXCEEDED",
+          "BudgetCallMetadata",
+          "BudgetExceededDetails",
+          "BudgetExceededError",
+          "BudgetLedger",
+          "BudgetPrice",
+          "BudgetReservation",
+          "BudgetReserveResult",
+          "MemoryBudgetLedger",
+          "MemoryBudgetLedgerOptions",
+          "WithBudgetOptions",
+          "createBudgetLedger",
+          "estimateCostUsd",
+          "withBudget"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "budget.ts",
+          "headings": "",
+          "path": "packages/adapters/src/budget.ts",
+          "symbols": "AK_BUDGET_EXCEEDED BudgetCallMetadata BudgetExceededDetails BudgetExceededError BudgetLedger BudgetPrice BudgetReservation BudgetReserveResult MemoryBudgetLedger MemoryBudgetLedgerOptions WithBudgetOptions createBudgetLedger estimateCostUsd withBudget",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx"
+          ],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/tests/budget.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "56037d15218e44909c8310ff6cd45cef56200c34dc3da9ccc52ac5af3f6c6ece",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/src/carbon.ts",
         "kind": "module",
         "path": "packages/adapters/src/carbon.ts",
@@ -111764,6 +111928,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/tests/budget.test.ts",
+        "kind": "module",
+        "path": "packages/adapters/tests/budget.test.ts",
+        "title": "budget.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "budget.test.ts",
+          "headings": "",
+          "path": "packages/adapters/tests/budget.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/budget.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "3b1e96ac5672e86af92cd634f5cb634fae849336c1b8164d7e398e48e61e3bb4",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/tests/capabilities.test.ts",
         "kind": "module",
         "path": "packages/adapters/tests/capabilities.test.ts",
@@ -114137,7 +114341,7 @@
             }
           ]
         },
-        "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789",
+        "contentHash": "179b4e5eed74b97c31aa56d23bc392fe1cdd15e6299561de14d498f7ce60ccc3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160186,7 +160390,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 12,
+          "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations/openai-images.mdx",
@@ -160196,6 +160400,7 @@
             "document:apps/docs-next/content/docs/production/observability/cost-guard.mdx",
             "document:apps/docs-next/content/docs/production/observability/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/observability.mdx",
+            "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/cost-guard.mdx",
             "document:docs/architecture/adrs/0044-durable-cost-store.md",
             "document:packages/observability/CONVENTIONS.md",
@@ -160277,6 +160482,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/packages/observability.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
               "confidence": "observed"
             },
             {
@@ -195073,6 +195283,7 @@
             "document:apps/docs-next/content/docs/reference/recipes/adapter-ensemble.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/adapter-router.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/browser-only-webllm.mdx",
+            "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/fallback-chain.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/simulate-stream.mdx",
             "document:apps/docs-next/content/docs/reference/stability.mdx",
@@ -195095,8 +195306,7 @@
             "document:docs/ROADMAP-PRD.md",
             "document:docs/STABILITY.md",
             "document:docs/SUPPORT-MATRIX.md",
-            "document:GOVERNANCE.md",
-            "document:packages/adapters/CONVENTIONS.md"
+            "document:GOVERNANCE.md"
           ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
@@ -195302,6 +195512,11 @@
             },
             {
               "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/recipes/fallback-chain.mdx",
               "confidence": "observed"
             },
@@ -195414,16 +195629,11 @@
               "kind": "mentions",
               "id": "document:GOVERNANCE.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/adapters/CONVENTIONS.md",
-              "confidence": "observed"
             }
           ],
           "outbound": []
         },
-        "contentHash": "a696f289bfbd952df38dd164925ca2f9a0186c3493d290efbe8a63e2ad6c8e97",
+        "contentHash": "5f1705bdf6376ff15c5ceb2d9a17cf92d7aec3511dcd76915c72e02086ef7b6e",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "adapters"

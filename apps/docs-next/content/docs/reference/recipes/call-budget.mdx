@@ -1,0 +1,89 @@
+---
+title: Per-call ceiling and per-customer budget
+description: Refuse a model call with a typed error before it is sent, when it would overrun a per-call ceiling or a named budget.
+---
+
+`costGuard` measures spend after each call. `withBudget` works the other way
+round: it checks the call **before** the model is reached. If the worst-case
+cost (estimated prompt tokens plus `maxTokens` of output) would go over the
+per-call ceiling or the customer's remaining budget, the stream emits one
+`error` chunk carrying a `BudgetExceededError` and the provider is never called.
+
+## Install
+
+Comes with `@agentskit/adapters`, as the `@agentskit/adapters/budget` subpath (kept out of the root entry so apps that don't use it don't pay for it).
+
+## Ceiling per customer
+
+```ts title="per-customer.ts"
+import { openrouter } from '@agentskit/adapters'
+import { BudgetExceededError, createBudgetLedger, withBudget } from '@agentskit/adapters/budget'
+
+// One ledger per process, shared by every request. Limits are in USD.
+const ledger = createBudgetLedger({
+  limits: { 'customer:acme': 25, 'customer:globex': 5 },
+  defaultLimitUsd: 1, // customers not listed get $1; omit to leave them unmetered
+})
+
+const base = openrouter({ apiKey: process.env.OPENROUTER_API_KEY!, model: 'anthropic/claude-sonnet-4-6' })
+
+export function adapterFor(customerId: string) {
+  return withBudget(base, {
+    price: { input: 3, output: 15 }, // USD per 1M tokens for this model
+    ledger,
+    budget: `customer:${customerId}`,
+    maxCallUsd: 0.25, // no single call may cost more than $0.25
+    maxOutputTokens: 4096, // assumed output when a request sets no maxTokens
+  })
+}
+```
+
+Handle the refusal where you read the stream:
+
+```ts
+for await (const chunk of adapterFor('acme').createSource(request).stream()) {
+  const error = chunk.metadata?.error
+  if (error instanceof BudgetExceededError) {
+    // error.code === 'AK_BUDGET_EXCEEDED'
+    // error.scope: 'call' | 'budget'; error.budget, error.limitUsd, error.estimatedUsd, error.spentUsd
+    return respond(402, { reason: error.scope, remainingUsd: ledger.remainingUsd('customer:acme') })
+  }
+}
+```
+
+## Per-call overrides
+
+A single request can name the budget and tighten the ceiling through
+`context.metadata.budget`:
+
+```ts
+adapter.createSource({
+  messages,
+  context: { maxTokens: 512, metadata: { budget: { name: 'user:42', maxCallUsd: 0.01 } } },
+})
+```
+
+A `maxCallUsd` in metadata can only lower the configured ceiling, never
+raise it: the effective ceiling is the smaller of the two. A value that is
+not a finite, non-negative number is ignored, so the configured ceiling
+still applies.
+
+`budget` may also be a function `(request) => string | undefined` when the
+name comes from the request itself.
+
+## How spend is counted
+
+- Before the call, the estimate is **reserved** on the budget, so concurrent
+  calls cannot jointly overrun it.
+- After the call, the reservation is replaced by the cost of the usage the
+  provider reported. With no reported usage, the estimate is charged; a call
+  that failed before producing output is charged nothing.
+- Prompt tokens use core's chars/4 `approximateCounter`. Pass `counter` for a
+  real tokenizer.
+- `createBudgetLedger` is in-process. To share budgets across instances,
+  implement `BudgetLedger.reserve` over Redis or your database.
+
+## Related
+
+- [Cost guard](./cost-guard): measure and abort during a run
+- [Token budget](./token-budget): trim the prompt to fit a context window

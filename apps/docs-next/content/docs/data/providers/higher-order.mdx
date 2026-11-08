@@ -45,6 +45,20 @@ const adapter = createFallbackAdapter([primary, secondary, tertiary])
 
 [Recipe](/docs/reference/recipes/fallback-chain).
 
+## withBudget
+
+Refuse a call before it reaches the model when it would overrun a per-call
+ceiling or a named (per-customer or per-user) budget.
+
+```ts
+import { createBudgetLedger, withBudget } from '@agentskit/adapters/budget'
+
+const ledger = createBudgetLedger({ limits: { 'customer:acme': 25 } })
+const adapter = withBudget(base, { price: { input: 3, output: 15 }, ledger, budget: 'customer:acme', maxCallUsd: 0.25 })
+```
+
+[Recipe](/docs/reference/recipes/call-budget).
+
 ## Related
 
 - [Hosted](./hosted) · [Local](./local)
