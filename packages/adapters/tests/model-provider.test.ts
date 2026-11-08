@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, afterEach } from 'vitest'
+import { describe, expect, it, vi, afterEach, beforeAll } from 'vitest'
 import { createModelProvider, type ModelProviderConfig } from '../src/provider'
 
 // Recorded (synthetic, trimmed) SSE responses per provider wire format.
@@ -33,6 +33,10 @@ const original = globalThis.fetch
 afterEach(() => { globalThis.fetch = original })
 
 describe('createModelProvider', () => {
+  // The provider lazy-loads the large catalog on the first done chunk; warm it
+  // so the first streaming test does not pay the cold import inside its timeout.
+  beforeAll(async () => { await import('@agentskit/adapters/catalog') }, 60_000)
+
   for (const { cfg, sse, url } of cases) {
     it(`streams recorded ${cfg.provider} response through the common port`, async () => {
       const calls: string[] = []
