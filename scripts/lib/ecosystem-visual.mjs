@@ -212,6 +212,16 @@ export function isPlatformBeaconError(error) {
   return PLATFORM_BEACON.test(`${error.url ?? ''} ${error.text ?? ''}`)
 }
 
+/**
+ * Decides who owns a horizontal overflow. `shellOffender` is computed in the page
+ * over ALL top-level offenders (before the listing is truncated).
+ */
+export function classifyOverflow({ scrollWidth, width, offenders = [], shellOffender }) {
+  const overflowing = scrollWidth > width + 1
+  const shellOverflow = overflowing && (shellOffender ?? offenders.some((o) => o.inShell))
+  return { shellOverflow, productOverflow: overflowing && !shellOverflow }
+}
+
 /** Re-labels non-shell failures as warnings when only the shell is under test. */
 export function applyScope(checks, scope) {
   if (scope !== 'shell') return checks

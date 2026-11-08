@@ -16,9 +16,7 @@ async function seedDb(path: string, rows: number): Promise<void> {
   const db = new Database(path)
   db.exec('CREATE TABLE items (id INTEGER PRIMARY KEY, name TEXT)')
   const insert = db.prepare('INSERT INTO items (id, name) VALUES (?, ?)')
-  db.exec('BEGIN')
   for (let i = 1; i <= rows; i++) insert.run(i, `item-${i}`)
-  db.exec('COMMIT')
   db.close()
 }
 

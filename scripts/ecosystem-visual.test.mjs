@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
-  THEMES, VIEWPORTS, applyScope, contrastRatio, ecosystemSites, formatSummary, isOccluded, isPlatformBeaconError, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
+  THEMES, VIEWPORTS, applyScope, classifyOverflow, contrastRatio, ecosystemSites, formatSummary, isOccluded, isPlatformBeaconError, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
 } from './lib/ecosystem-visual.mjs'
 
 const ecosystem = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'ecosystem.json'), 'utf8'))
@@ -190,5 +190,21 @@ describe('reporting', () => {
     expect(summary).toContain('**agentskit-chat · home · light · desktop** — `contrast-hero`')
     expect(summary).toContain('hero `h1` "Hi" — 1.03:1 (needs 3:1; text #e6edf3 on #f9e9cf; 60px/700)')
     expect(summary).toContain('FAIL (bar-star, contrast-hero)')
+  })
+})
+
+describe('classifyOverflow', () => {
+  const product = (n) => Array.from({ length: n }, (_, i) => ({ text: `ul.p${i}`, inShell: false }))
+  it('treats a product-only overflow as product-owned', () => {
+    expect(classifyOverflow({ scrollWidth: 721, width: 390, offenders: product(2), shellOffender: false })).toEqual({ shellOverflow: false, productOverflow: true })
+  })
+  it('fails on a shell offender alone', () => {
+    expect(classifyOverflow({ scrollWidth: 721, width: 390, offenders: [{ text: 'agentskit-footer', inShell: true }], shellOffender: true })).toEqual({ shellOverflow: true, productOverflow: false })
+  })
+  it('still fails when a shell offender hides behind more than 5 product offenders', () => {
+    expect(classifyOverflow({ scrollWidth: 900, width: 390, offenders: product(5), shellOffender: true }).shellOverflow).toBe(true)
+  })
+  it('reports nothing without overflow', () => {
+    expect(classifyOverflow({ scrollWidth: 390, width: 390, offenders: [], shellOffender: false })).toEqual({ shellOverflow: false, productOverflow: false })
   })
 })
