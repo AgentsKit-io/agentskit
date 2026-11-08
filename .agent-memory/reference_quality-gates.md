@@ -9,7 +9,7 @@ metadata:
 **Fact:** Structural gates live in `scripts/check-*.mjs` and are orchestrated by
 `scripts/check-quality-gates.mjs`. Run all locally with `pnpm check:quality-gates`;
 `pnpm check:all` adds lint (typecheck) + build + test. CI runs the orchestrator
-(`.github/workflows/ci.yml`) and a husky `pre-push` hook runs gates + lint + build.
+(`.github/workflows/ci.yml`); the husky `pre-push` hook only typechecks changed packages, so run `pnpm check:quality-gates` by hand.
 
 Gates:
 - `check-core-no-deps` — core has zero runtime deps
