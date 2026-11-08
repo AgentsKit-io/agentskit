@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "9dd9bf7aee36fc49bc118632382737817b3bdd0535e8f6b9f120b98b115173ac",
+  "contentHash": "f435dd6ee9e9a063ca98a5f9e77fb388c31d8148fc4b1f4a51a793dec75ca341",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-08T12:08:19.851Z",
+  "generatedAt": "2026-11-08T15:41:53.674Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -4155,7 +4155,7 @@
         "document",
         "human"
       ],
-      "contentHash": "4801a458bb084537adf0386821e8ca2132bfacf3415d2372bb2977a1347de90f"
+      "contentHash": "b547386c6df65af5372aa9cacf202ae1df15c164d28060084d5628a6f9524230"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/code-reviewer.mdx",
@@ -14372,7 +14372,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "46608034dca8720fdd882033bb75fa62bcfafdda7348848b94a1ca060535db5a"
+      "contentHash": "56037d15218e44909c8310ff6cd45cef56200c34dc3da9ccc52ac5af3f6c6ece"
     },
     {
       "id": "module:packages/adapters/src/carbon.ts",
@@ -15846,7 +15846,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "c9610a1fae00b926c834420ad4e930ae7240bde318cbd6d8513e6c002f40026e"
+      "contentHash": "3b1e96ac5672e86af92cd634f5cb634fae849336c1b8164d7e398e48e61e3bb4"
     },
     {
       "id": "module:packages/adapters/tests/capabilities.test.ts",
@@ -39213,7 +39213,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "e1798464c1cd0bb511ae3854c1fa67c6a1782e4a287710005200af8e03b05e0a",
+    "hash": "f0b4fc88fb4f9d228b537f5056a32876cbbd697e715a238792b58562186a5708",
     "fileCount": 2692,
     "projectionVersion": 2
   },
@@ -39236,9 +39236,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "c117b6f71cccccd4f8f256cf062f3749f93d204031f24abd48e48368ffb94318",
+    "contentHash": "3419b97c13fa84e03f2862c35703da419f5680863bc1ebd2461200e935573ab6",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "0dea642e65cd474c7e05da23db46d3ba14d37946064c2190cb5e6c422f97b55e",
+    "snapshotHash": "a9781871778776a2d70d95a1adf3e21c8f0034864ce7a51515fab789a48b0cdd",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39270,7 +39270,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0179968701095463,
-        "body": 60.96283255086072,
+        "body": 60.972613458528954,
         "headings": 3.8853677621283254,
         "path": 7.613067292644757,
         "summary": 4.518779342723005,
@@ -63830,7 +63830,7 @@
           "path": "apps/docs-next/content/docs/reference/recipes/call-budget.mdx",
           "symbols": "",
           "summary": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called.",
-          "body": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called. Install Comes with @agentskit/adapters , as the @agentskit/adapters/budget subpath (kept out of the root entry so apps that don't use it don't pay for it). Ceiling per customer Handle the refusal where you read the stream: Per-call overrides A single request can name the budget and tighten the ceiling through context.metadata.budget : budget may also be a function (request) = string undefined when the name comes from the request itself. How spend is counted - Before the call, the estimate is reserved on the budget, so concurrent calls cannot jointly overrun it. - After the call, the reservation is replaced by the cost of the usage the provider reported. With no reported usage, the estimate is charged; a call that failed before producing output is charged nothing. - Prompt tokens use core's chars/4 approximateCounter . Pass counter for a real tokenizer. - createBudgetLedger is in-process. To share budgets across instances, implement BudgetLedger.reserve over Redis or your database. Related - : measure and abort during a run - : trim the prompt to fit a context window",
+          "body": "costGuard measures spend after each call. withBudget works the other way round: it checks the call before the model is reached. If the worst-case cost (estimated prompt tokens plus maxTokens of output) would go over the per-call ceiling or the customer's remaining budget, the stream emits one error chunk carrying a BudgetExceededError and the provider is never called. Install Comes with @agentskit/adapters , as the @agentskit/adapters/budget subpath (kept out of the root entry so apps that don't use it don't pay for it). Ceiling per customer Handle the refusal where you read the stream: Per-call overrides A single request can name the budget and tighten the ceiling through context.metadata.budget : A maxCallUsd in metadata can only lower the configured ceiling, never raise it: the effective ceiling is the smaller of the two. A value that is not a finite, non-negative number is ignored, so the configured ceiling still applies. budget may also be a function (request) = string undefined when the name comes from the request itself. How spend is counted - Before the call, the estimate is reserved on the budget, so concurrent calls cannot jointly overrun it. - After the call, the reservation is replaced by the cost of the usage the provider reported. With no reported usage, the estimate is charged; a call that failed before producing output is charged nothing. - Prompt tokens use core's chars/4 approximateCounter . Pass counter for a real tokenizer. - createBudgetLedger is in-process. To share budgets across instances, implement BudgetLedger.reserve over Redis or your database. Related - : measure and abort during a run - : trim the prompt to fit a context window",
           "aliases": "document human"
         },
         "graph": {
@@ -63857,7 +63857,7 @@
             }
           ]
         },
-        "contentHash": "4801a458bb084537adf0386821e8ca2132bfacf3415d2372bb2977a1347de90f",
+        "contentHash": "b547386c6df65af5372aa9cacf202ae1df15c164d28060084d5628a6f9524230",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -105073,7 +105073,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "46608034dca8720fdd882033bb75fa62bcfafdda7348848b94a1ca060535db5a",
+        "contentHash": "56037d15218e44909c8310ff6cd45cef56200c34dc3da9ccc52ac5af3f6c6ece",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -111963,7 +111963,7 @@
             }
           ]
         },
-        "contentHash": "c9610a1fae00b926c834420ad4e930ae7240bde318cbd6d8513e6c002f40026e",
+        "contentHash": "3b1e96ac5672e86af92cd634f5cb634fae849336c1b8164d7e398e48e61e3bb4",
         "provenance": "observed",
         "confidence": "observed"
       },
