@@ -1,5 +1,5 @@
 {
   "extends": "../../tsconfig.base.json",
-  "compilerOptions": { "noEmit": true, "rootDir": ".", "types": ["node"] },
+  "compilerOptions": { "noEmit": true, "rootDir": ".", "types": ["node"], "paths": { "@agentskit/adapters/catalog": ["./src/catalog/index.ts"] } },
   "include": ["src", "tests/*.test-d.ts"]
 }
