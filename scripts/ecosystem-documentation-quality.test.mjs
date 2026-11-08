@@ -332,10 +332,10 @@ test('local semantics reject visual labels and linked hooks unsupported by conte
  * The budget is for two live Doc Bridge runs over this whole repository — `doctor` and
  * Documentation Standard v1 conformance — not for an assertion. Sixty seconds fitted while the
  * analyzer indexed only the `for-agents` pages; from 1.10.0 it indexes every document, and the two
- * runs together take a little over two minutes here. The test's job is to verify the contract, so
+ * runs together take two to six minutes depending on the host. The test's job is to verify the contract, so
  * the budget follows the corpus rather than capping it.
  */
-test('verified local content digest and Doc Bridge artifact are required for certification', { timeout: 360_000 }, () => {
+test('verified local content digest and Doc Bridge artifact are required for certification', { timeout: 900_000 }, () => {
   const committed = JSON.parse(readFileSync(join(REPO_ROOT, 'docs/evidence/ecosystem-documentation-quality/agentskit.json'), 'utf8'))
   const certified = evaluateDocumentationQuality(profile, committed, {
     root: REPO_ROOT,
