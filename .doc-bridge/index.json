@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "2a48e48eaa59be1764d55565c85e4fc4dbcb91da95b82cb7cd6a68b3bfd15396",
+  "contentHash": "161c27aebab92c8cf05c3ff6bda4930d8c698031faaf655f207d7345ababa673",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-07T07:55:54.880Z",
+  "generatedAt": "2026-11-08T19:13:16.238Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -14396,6 +14396,8 @@
       "title": "index.ts",
       "path": "packages/adapters/src/catalog/index.ts",
       "symbols": [
+        "CallCost",
+        "CallUsage",
         "CatalogDispatchConfig",
         "CatalogDispatchError",
         "CatalogDriftReport",
@@ -14410,6 +14412,7 @@
         "CatalogReasoningOption",
         "CatalogSnapshot",
         "CatalogSource",
+        "ComputeCallCostOptions",
         "FIRST_CLASS_PROVIDERS",
         "ResolveCostOptions",
         "ResolvedCost",
@@ -14418,6 +14421,7 @@
         "catalogSnapshotSchema",
         "catalogSource",
         "classifyCatalogProvider",
+        "computeCallCost",
         "detectCatalogDrift",
         "dispatchFromCatalog",
         "getCachedCost",
@@ -14432,7 +14436,7 @@
         "ts",
         "catalog"
       ],
-      "contentHash": "a0f5870aacdf57862e9ec064f78f45caab9556579eda3492b97f3b0f7aecb94e"
+      "contentHash": "25de1caa86a4dd04b5e0e460b93601588439d29d6e8ff4a95e0f025ecec8c796"
     },
     {
       "id": "module:packages/adapters/src/catalog/loader.ts",
@@ -14476,8 +14480,12 @@
       "title": "pricing.ts",
       "path": "packages/adapters/src/catalog/pricing.ts",
       "symbols": [
+        "CallCost",
+        "CallUsage",
+        "ComputeCallCostOptions",
         "ResolveCostOptions",
         "ResolvedCost",
+        "computeCallCost",
         "getCachedCost",
         "resolveCost"
       ],
@@ -14486,7 +14494,7 @@
         "ts",
         "catalog"
       ],
-      "contentHash": "036fd52e5713b3b8a8fa45dc23f77ab83073bc51751b6c681af9812f88358226"
+      "contentHash": "ae8a741f349858b802195a4c52cc6c57fd6262766c890a3125fcec7fd21c4f33"
     },
     {
       "id": "module:packages/adapters/src/catalog/schema.ts",
@@ -15486,6 +15494,7 @@
       "path": "packages/adapters/src/provider.ts",
       "symbols": [
         "CLIPROXYAPI_DEFAULT_BASE_URL",
+        "MODEL_PROVIDER_COST_METADATA_KEY",
         "ModelProviderConfig",
         "ModelProviderId",
         "createModelProvider"
@@ -15495,7 +15504,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "19fdc34323144ab9c48de26bb369e6cee98d857b4a4bc2966afe4796b472c71d"
+      "contentHash": "d903dc4a9146d61a584b1f3ab136af725824fa09b569c76fdd608a49af7a3f84"
     },
     {
       "id": "module:packages/adapters/src/replicate.ts",
@@ -15820,6 +15829,19 @@
         "tests"
       ],
       "contentHash": "47988d05239ee03f502e6dfe4f74487cef1eb84cc2c0fcfed870baeb92967ff2"
+    },
+    {
+      "id": "module:packages/adapters/tests/catalog/call-cost.test.ts",
+      "type": "module",
+      "title": "call-cost.test.ts",
+      "path": "packages/adapters/tests/catalog/call-cost.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "catalog"
+      ],
+      "contentHash": "01663bbac9eed1825076ed5d4497cb552ddb115774bda682e64706c414bc27c0"
     },
     {
       "id": "module:packages/adapters/tests/catalog/capability-matrix.test.ts",
@@ -16255,7 +16277,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "efd853219e784a5a15803196ca65374c7a30157dbc553136064ac309a76f43c1"
+      "contentHash": "6a0182039b54b1bdb92885967bb6696515998b8d4132fb178523c2a09a9f669e"
     },
     {
       "id": "module:packages/adapters/tests/multimodal-http.test.ts",
@@ -16533,7 +16555,7 @@
         "ts",
         "adapters"
       ],
-      "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789"
+      "contentHash": "701573e1277e7f1a3ed8b3e6288b7fab7240b329dafc19b34e9c71fa6e1921c9"
     },
     {
       "id": "module:packages/adapters/vitest.config.ts",
@@ -17665,7 +17687,7 @@
         "ts",
         "telemetry"
       ],
-      "contentHash": "03c51f0042d5c2e7507fa99233de80147bb225e63a28976aafd44b2647e97684"
+      "contentHash": "58d2e1ebbc9d706d6e627df2870571caf7b8b825843032aad5a4b7656aa462e5"
     },
     {
       "id": "module:packages/cli/src/index.ts",
@@ -18907,7 +18929,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "009f496aa138e00becef9f9137cd066f990b715403747a8d28bd98637279c447"
+      "contentHash": "40a29503344457ad265bf40cca316d20e7dd4cc7c417fd4448278e772d854bd8"
     },
     {
       "id": "module:packages/cli/tests/tunnel.test.ts",
@@ -39160,8 +39182,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "3b996de12097625f88576df447ef691506103cf7958bd64b42f1722dc16e7ae0",
-    "fileCount": 2689,
+    "hash": "2fd25298998e95e7703e1bd1c5b56b0b4041495e962adce6f17fee59705f1ab2",
+    "fileCount": 2690,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39183,9 +39205,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "b5d884e81f9ef0313406ff55ef74409fad8b34ac8fd554b4328771bdf236d8fd",
+    "contentHash": "980ac8529004ea277f1cf33a86ddf5cd262b1b26d2c6b1543df761f00a01e69c",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "0caf38cc49cdf50bfea4c170828d81c49340f609b5910da898c59792a237ccf2",
+    "snapshotHash": "4e884371a414ff263bf85041db847adfee055ab07d9fad444e56503465f8c5f4",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39205,7 +39227,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2553,
+      "documentCount": 2554,
       "fieldNames": [
         "aliases",
         "body",
@@ -39216,13 +39238,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.018018018018018,
-        "body": 60.96553074813944,
-        "headings": 3.8856247551899727,
-        "path": 7.613004308656483,
-        "summary": 4.505679592636114,
-        "symbols": 7.562475518997259,
-        "title": 3.380728554641598
+        "aliases": 3.0184025058731403,
+        "body": 60.94166014095536,
+        "headings": 3.884103367267032,
+        "path": 7.613547376664056,
+        "summary": 4.50391542678152,
+        "symbols": 7.57361002349256,
+        "title": 3.3813625685199686
       }
     },
     "entries": [
@@ -105116,6 +105138,8 @@
         "title": "index.ts",
         "aliases": [],
         "symbols": [
+          "CallCost",
+          "CallUsage",
           "CatalogDispatchConfig",
           "CatalogDispatchError",
           "CatalogDriftReport",
@@ -105130,6 +105154,7 @@
           "CatalogReasoningOption",
           "CatalogSnapshot",
           "CatalogSource",
+          "ComputeCallCostOptions",
           "FIRST_CLASS_PROVIDERS",
           "ResolveCostOptions",
           "ResolvedCost",
@@ -105138,6 +105163,7 @@
           "catalogSnapshotSchema",
           "catalogSource",
           "classifyCatalogProvider",
+          "computeCallCost",
           "detectCatalogDrift",
           "dispatchFromCatalog",
           "getCachedCost",
@@ -105156,7 +105182,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/adapters/src/catalog/index.ts",
-          "symbols": "CatalogDispatchConfig CatalogDispatchError CatalogDriftReport CatalogModalities CatalogModel CatalogModelCost CatalogModelCostTier CatalogModelLimit CatalogOverrides CatalogProvider CatalogProviderSupport CatalogReasoningOption CatalogSnapshot CatalogSource FIRST_CLASS_PROVIDERS ResolveCostOptions ResolvedCost applyOverrides catalog catalogSnapshotSchema catalogSource classifyCatalogProvider detectCatalogDrift dispatchFromCatalog getCachedCost getModel getProvider listOpenAICompatibleProviders listProviders resolveCost",
+          "symbols": "CallCost CallUsage CatalogDispatchConfig CatalogDispatchError CatalogDriftReport CatalogModalities CatalogModel CatalogModelCost CatalogModelCostTier CatalogModelLimit CatalogOverrides CatalogProvider CatalogProviderSupport CatalogReasoningOption CatalogSnapshot CatalogSource ComputeCallCostOptions FIRST_CLASS_PROVIDERS ResolveCostOptions ResolvedCost applyOverrides catalog catalogSnapshotSchema catalogSource classifyCatalogProvider computeCallCost detectCatalogDrift dispatchFromCatalog getCachedCost getModel getProvider listOpenAICompatibleProviders listProviders resolveCost",
           "summary": "",
           "body": "",
           "aliases": "module ts catalog"
@@ -105169,6 +105195,11 @@
           "areaId": "area:packages/adapters/src/catalog",
           "packageId": "package:@agentskit/adapters",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/tests/catalog/call-cost.test.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/catalog/capability-matrix.test.ts",
@@ -105202,6 +105233,11 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/catalog/snapshot.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/tests/model-provider.test.ts",
               "confidence": "observed"
             }
           ],
@@ -105243,7 +105279,7 @@
             }
           ]
         },
-        "contentHash": "a0f5870aacdf57862e9ec064f78f45caab9556579eda3492b97f3b0f7aecb94e",
+        "contentHash": "25de1caa86a4dd04b5e0e460b93601588439d29d6e8ff4a95e0f025ecec8c796",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -105392,8 +105428,12 @@
         "title": "pricing.ts",
         "aliases": [],
         "symbols": [
+          "CallCost",
+          "CallUsage",
+          "ComputeCallCostOptions",
           "ResolveCostOptions",
           "ResolvedCost",
+          "computeCallCost",
           "getCachedCost",
           "resolveCost"
         ],
@@ -105406,7 +105446,7 @@
           "title": "pricing.ts",
           "headings": "",
           "path": "packages/adapters/src/catalog/pricing.ts",
-          "symbols": "ResolveCostOptions ResolvedCost getCachedCost resolveCost",
+          "symbols": "CallCost CallUsage ComputeCallCostOptions ResolveCostOptions ResolvedCost computeCallCost getCachedCost resolveCost",
           "summary": "",
           "body": "",
           "aliases": "module ts catalog"
@@ -105438,7 +105478,7 @@
             }
           ]
         },
-        "contentHash": "036fd52e5713b3b8a8fa45dc23f77ab83073bc51751b6c681af9812f88358226",
+        "contentHash": "ae8a741f349858b802195a4c52cc6c57fd6262766c890a3125fcec7fd21c4f33",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -110166,6 +110206,7 @@
         "aliases": [],
         "symbols": [
           "CLIPROXYAPI_DEFAULT_BASE_URL",
+          "MODEL_PROVIDER_COST_METADATA_KEY",
           "ModelProviderConfig",
           "ModelProviderId",
           "createModelProvider"
@@ -110179,7 +110220,7 @@
           "title": "provider.ts",
           "headings": "",
           "path": "packages/adapters/src/provider.ts",
-          "symbols": "CLIPROXYAPI_DEFAULT_BASE_URL ModelProviderConfig ModelProviderId createModelProvider",
+          "symbols": "CLIPROXYAPI_DEFAULT_BASE_URL MODEL_PROVIDER_COST_METADATA_KEY ModelProviderConfig ModelProviderId createModelProvider",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -110225,7 +110266,7 @@
             }
           ]
         },
-        "contentHash": "19fdc34323144ab9c48de26bb369e6cee98d857b4a4bc2966afe4796b472c71d",
+        "contentHash": "d903dc4a9146d61a584b1f3ab136af725824fa09b569c76fdd608a49af7a3f84",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -111854,6 +111895,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/tests/catalog/call-cost.test.ts",
+        "kind": "module",
+        "path": "packages/adapters/tests/catalog/call-cost.test.ts",
+        "title": "call-cost.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "catalog"
+        ],
+        "fields": {
+          "title": "call-cost.test.ts",
+          "headings": "",
+          "path": "packages/adapters/tests/catalog/call-cost.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test catalog"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/catalog/index.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "01663bbac9eed1825076ed5d4497cb552ddb115774bda682e64706c414bc27c0",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/tests/catalog/capability-matrix.test.ts",
         "kind": "module",
         "path": "packages/adapters/tests/catalog/capability-matrix.test.ts",
@@ -113204,12 +113285,17 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/catalog/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/src/provider.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "efd853219e784a5a15803196ca65374c7a30157dbc553136064ac309a76f43c1",
+        "contentHash": "6a0182039b54b1bdb92885967bb6696515998b8d4132fb178523c2a09a9f669e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -114137,7 +114223,7 @@
             }
           ]
         },
-        "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789",
+        "contentHash": "701573e1277e7f1a3ed8b3e6288b7fab7240b329dafc19b34e9c71fa6e1921c9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -118488,7 +118574,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "03c51f0042d5c2e7507fa99233de80147bb225e63a28976aafd44b2647e97684",
+        "contentHash": "58d2e1ebbc9d706d6e627df2870571caf7b8b825843032aad5a4b7656aa462e5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122681,7 +122767,7 @@
             }
           ]
         },
-        "contentHash": "009f496aa138e00becef9f9137cd066f990b715403747a8d28bd98637279c447",
+        "contentHash": "40a29503344457ad265bf40cca316d20e7dd4cc7c417fd4448278e772d854bd8",
         "provenance": "observed",
         "confidence": "observed"
       },
