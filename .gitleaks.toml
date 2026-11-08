@@ -24,3 +24,5 @@ paths = ['''apps/docs-next/lib/ask-index/index\.json''']
 [[allowlists]]
 description = "Public PostHog project key in .env.example; phc_ keys are write-only client keys shipped to browsers by design"
 paths = ['''apps/(docs-next|landing|registry)/\.env\.example''']
+condition = "AND"
+regexes = ['''phc_[A-Za-z0-9]+''']
