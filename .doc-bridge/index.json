@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "b3df1f841953e27b76f1aef9901c903531a286a59521dc662d8332c96cf1f960",
+  "contentHash": "d1d67076e5fec9ce7d8a3381a798312bc0cd2bf10ac9aecbe82b5926b57b4d12",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-05T14:23:37.799Z",
+  "generatedAt": "2026-11-08T11:48:22.773Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -347,12 +347,12 @@
       "type": "document",
       "title": "reference_quality-gates.md",
       "path": ".agent-memory/reference_quality-gates.md",
-      "description": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml) and a husky pre-push hook runs gates + lint + build.",
+      "description": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml); the husky pre-push hook only typechecks changed packages, so run pnpm check:quality-gates by hand.",
       "tags": [
         "document",
         "unclassified"
       ],
-      "contentHash": "000b2ec96c240d86997e37bb1f3162cadf96068bd912889699da54f5f7a5cba1"
+      "contentHash": "acbccc5ebf592cfbd8ea13ef27b2720054b45b349040b96b01f228388b947f51"
     },
     {
       "id": "document:.agent-memory/reference_security-surfaces.md",
@@ -388,7 +388,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "158d137120892a037c2ff53a92eaeb90d37102a5af80e2b582687327674e8379"
+      "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794"
     },
     {
       "id": "document:.github/rulesets/README.md",
@@ -5631,7 +5631,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "f76df6c49015a9787ca68d40720dc38a8091475e417a046a496d92613053ccf9"
+      "contentHash": "f15f5f7d76c41d0553e67fb3f74b5e615a9d70f630f41ee5df775cb191296d94"
     },
     {
       "id": "document:CODE_OF_CONDUCT.md",
@@ -7845,12 +7845,12 @@
       "type": "document",
       "title": "scripts/",
       "path": "scripts/README.md",
-      "description": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
+      "description": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml.",
       "tags": [
         "document",
         "project"
       ],
-      "contentHash": "5083faa366e399f18bc8829453e21b881fe98ff06cd539d83304ff72a573f90f"
+      "contentHash": "6b4c623ca247582303b51480c6f41d6cac66afc6980f520d4c61af8638215f3c"
     },
     {
       "id": "document:SECURITY.md",
@@ -11793,6 +11793,19 @@
       "contentHash": "0680891bb52a0f82d6b8e2e3ec29ba7cabab8ca753eef2414502d2cc04e1612e"
     },
     {
+      "id": "module:apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+      "type": "module",
+      "title": "fumadocs-nav-utilities.test.ts",
+      "path": "apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180"
+    },
+    {
       "id": "module:apps/docs-next/tests/legacy-redirects.test.ts",
       "type": "module",
       "title": "legacy-redirects.test.ts",
@@ -13783,6 +13796,19 @@
         "lib"
       ],
       "contentHash": "371af8d250ba6457c1869727b936350d534b0db7e57a5529aa5729108d049dd8"
+    },
+    {
+      "id": "module:apps/registry/lib/fumadocs-nav-utilities.test.ts",
+      "type": "module",
+      "title": "fumadocs-nav-utilities.test.ts",
+      "path": "apps/registry/lib/fumadocs-nav-utilities.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "lib"
+      ],
+      "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180"
     },
     {
       "id": "module:apps/registry/lib/github-issue.test.ts",
@@ -36769,7 +36795,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "2cc43aa0d5c0a9d07c7d70eafcc9ba00aef0dc62464ba7b15e12416df3e7660a"
+      "contentHash": "be7cbc9e7d7b92b642de62ae06560453f254266bb75659777a352480a683f368"
     },
     {
       "id": "module:scripts/external-contributions.test.mjs",
@@ -37065,10 +37091,12 @@
         "THEMES",
         "VIEWPORTS",
         "applyScope",
+        "classifyOverflow",
         "contrastRatio",
         "ecosystemSites",
         "formatSummary",
         "isOccluded",
+        "isPlatformBeaconError",
         "measureTextContrast",
         "parseSiteOrigins",
         "planJobs",
@@ -37081,7 +37109,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "c65d60b7c96a07ae67f502cd19e1462a6826435c61156a647b90eac358926410"
+      "contentHash": "afdd4096ff4cb454987c734d9f30080d8a5bff75acc61cfbb0a65d2fc2c744b5"
     },
     {
       "id": "module:scripts/lib/external-contributions.mjs",
@@ -37886,7 +37914,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "2a67fdbbed54b19ff27bff6f4e3666e4a75917592c724374d1419716b84c2821"
+      "contentHash": "9da2828445eee87a4846eadb2b53e853f44678fb455ae073654e668f02fdbc00"
     },
     {
       "id": "module:scripts/verify-launch-demo.mjs",
@@ -39185,8 +39213,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "43c848cca573a99b1cd443c810b9ddf5eb2274913257ff700c37496f2f935a8c",
-    "fileCount": 2690,
+    "hash": "54cab27422f32cba73b08016de0d5fb2a346ed1d4d76c69b7a4aa3396ce80110",
+    "fileCount": 2691,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39208,9 +39236,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "bbc115b47202cf86e1b7b81801448c6b508efc0931918041c6eb367e1a77622d",
+    "contentHash": "2a40c0bec72bc23899e903b9d925cf520d0c031044370b11e2da2c21f3f716bd",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "829f639a58e366e260cd28d0fe561e20d34827fc2a2d85afc82e488fc4d61ad9",
+    "snapshotHash": "2a13b578038ecc6f60a1d0d4bfa88e0f6ec09bc04458f885aad66ef8fd31c096",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39230,7 +39258,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2554,
+      "documentCount": 2556,
       "fieldNames": [
         "aliases",
         "body",
@@ -39241,13 +39269,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0172278778386845,
-        "body": 61.009788566953794,
-        "headings": 3.8884103367267033,
-        "path": 7.611589663273297,
-        "summary": 4.521926389976508,
-        "symbols": 7.576742364917776,
-        "title": 3.3782302270947535
+        "aliases": 3.0179968701095463,
+        "body": 60.96283255086072,
+        "headings": 3.8853677621283254,
+        "path": 7.613067292644757,
+        "summary": 4.518779342723005,
+        "symbols": 7.573552425665102,
+        "title": 3.380281690140845
       }
     },
     "entries": [
@@ -39631,7 +39659,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "424c0ef4d5090a15f978d863a7b95ef0d7d552fba5a9a2682b18e26750b1a371",
+        "contentHash": "86ddb673df54df638e6910d0c32151693d700eaf0a85a2ef7b8703b3d891f88e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -40258,7 +40286,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "45c3131c4887afe320f414b59827dff5ab3e7fa1b46127e10d88c3e944968c69",
+        "contentHash": "15cb7ce7c183a7194d47505312547c2558616fa02ec6331eed6e02557e534c04",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42469,7 +42497,7 @@
         "kind": "document",
         "path": ".agent-memory/reference_quality-gates.md",
         "title": "reference_quality-gates.md",
-        "summary": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml) and a husky pre-push hook runs gates + lint + build.",
+        "summary": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml); the husky pre-push hook only typechecks changed packages, so run pnpm check:quality-gates by hand.",
         "aliases": [],
         "tags": [
           "document",
@@ -42480,8 +42508,8 @@
           "headings": "",
           "path": ".agent-memory/reference_quality-gates.md",
           "symbols": "",
-          "summary": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml) and a husky pre-push hook runs gates + lint + build.",
-          "body": "Fact: Structural gates live in scripts/check- .mjs and are orchestrated by scripts/check-quality-gates.mjs . Run all locally with pnpm check:quality-gates ; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator ( .github/workflows/ci.yml ) and a husky pre-push hook runs gates + lint + build. Gates: - check-core-no-deps — core has zero runtime deps - check-stability-tier — every pkg declares a valid tier (alpha beta stable) matching its docs/STABILITY.md map row - check-readme-badge — every pkg README badge tier+color matches its declared agentskit.stability - check-no-bare-throw — use AgentsKitError subclasses, not throw new Error - check-no-any — no explicit any in package src - check-named-exports — no export default in package src - check-file-size — per-package LOC budgets with shrink-only baselines - check-src-test-parity — every src file has a test reference - check-for-agents-coverage — every public export documented in for-agents docs - check-doc-index — every ADR/RFC file linked in its README index - check-intl-parity — full locales have complete page coverage Coverage is gated separately by vitest linesThreshold per package ( vitest.shared.ts → createTestConfig ); pnpm test:coverage fails under bar. How to apply: Add a new gate → add the script, register it in check-quality-gates.mjs 's GATES array, and the docs in scripts/README.md . Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. Related: [[project file-size-baselines]], [[feedback zero-dep-core]]",
+          "summary": "Fact: Structural gates live in scripts/check-*.mjs and are orchestrated by scripts/check-quality-gates.mjs. Run all locally with pnpm check:quality-gates; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator (.github/workflows/ci.yml); the husky pre-push hook only typechecks changed packages, so run pnpm check:quality-gates by hand.",
+          "body": "Fact: Structural gates live in scripts/check- .mjs and are orchestrated by scripts/check-quality-gates.mjs . Run all locally with pnpm check:quality-gates ; pnpm check:all adds lint (typecheck) + build + test. CI runs the orchestrator ( .github/workflows/ci.yml ); the husky pre-push hook only typechecks changed packages, so run pnpm check:quality-gates by hand. Gates: - check-core-no-deps — core has zero runtime deps - check-stability-tier — every pkg declares a valid tier (alpha beta stable) matching its docs/STABILITY.md map row - check-readme-badge — every pkg README badge tier+color matches its declared agentskit.stability - check-no-bare-throw — use AgentsKitError subclasses, not throw new Error - check-no-any — no explicit any in package src - check-named-exports — no export default in package src - check-file-size — per-package LOC budgets with shrink-only baselines - check-src-test-parity — every src file has a test reference - check-for-agents-coverage — every public export documented in for-agents docs - check-doc-index — every ADR/RFC file linked in its README index - check-intl-parity — full locales have complete page coverage Coverage is gated separately by vitest linesThreshold per package ( vitest.shared.ts → createTestConfig ); pnpm test:coverage fails under bar. How to apply: Add a new gate → add the script, register it in check-quality-gates.mjs 's GATES array, and the docs in scripts/README.md . Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. Related: [[project file-size-baselines]], [[feedback zero-dep-core]]",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -42523,7 +42551,7 @@
             }
           ]
         },
-        "contentHash": "000b2ec96c240d86997e37bb1f3162cadf96068bd912889699da54f5f7a5cba1",
+        "contentHash": "acbccc5ebf592cfbd8ea13ef27b2720054b45b349040b96b01f228388b947f51",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42665,7 +42693,7 @@
           "path": ".github/factory-playbook.md",
           "symbols": "",
           "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
-          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks; do not rely on it for the final check (pre-push runs quality gates + lint + build). 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm check:quality-gates . - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:index and commit the result (needed whenever docs, package READMEs or exports change). - pnpm-lock.yaml : on conflict take the base side, then pnpm install . - .changeset/ : one new uniquely named file per tic",
+          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks; do not rely on it for the final check (pre-push only typechecks changed packages; run the quick verification and pnpm check:quality-gates yourself). 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm check:quality-gates . - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:index and commit the result (needed whenever docs, package READMEs or exports change). - pnpm-lock.yaml : on conflict take the base side, then p",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -42712,7 +42740,7 @@
             }
           ]
         },
-        "contentHash": "158d137120892a037c2ff53a92eaeb90d37102a5af80e2b582687327674e8379",
+        "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -69839,7 +69867,7 @@
             }
           ]
         },
-        "contentHash": "f76df6c49015a9787ca68d40720dc38a8091475e417a046a496d92613053ccf9",
+        "contentHash": "f15f5f7d76c41d0553e67fb3f74b5e615a9d70f630f41ee5df775cb191296d94",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -85605,7 +85633,7 @@
         "kind": "document",
         "path": "scripts/README.md",
         "title": "scripts/",
-        "summary": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
+        "summary": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -85617,8 +85645,8 @@
           "headings": "scripts/ Bundle size targets per public ESM export Build prerequisites and timings check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-rules.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs check-jsdoc-coverage.mjs Release registry preflight verify-ecosystem-visual.mjs gen-brand-logos.mjs",
           "path": "scripts/README.md",
           "symbols": "",
-          "summary": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
-          "body": "scripts/ Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook. Bundle size targets per public ESM export gen-size-limit-subpaths.mjs --check compares every published package's JavaScript exports entry with .size-limit.json , so a newly added ESM subpath cannot miss its own budget. Run pnpm size to bundle those entries with package dependencies and peer dependencies external, then apply gzip budgets through size-limit. New targets get 10% headroom rounded up to the next 0.5 kB (decimal); existing limits are left as configured. Use node scripts/gen-size-limit-subpaths.mjs --update after building packages to add targets for newly published ESM exports. The Svelte entry is measured directly because its consumer's Svelte compiler processes component imports. Non-JavaScript exports, such as CSS assets, do not have an ESM bundle target. Build prerequisites and timings CI and coverage build packages with pnpm exec turbo run build --filter='./packages/ ' --concurrency=2 . The quality gates use the same Turbo graph for adapters, MCP and cross-platform, so shared prerequisites build once and subsequent commands reuse their outputs. Root TypeScript configuration and shared scripts invalidate the build cache. The orchestrator prints elapsed seconds for each gate; all checks still execute sequentially and test concurrency is unchanged. No cross-run cache is added. CI runs Quality gates and Test, Build on independent runners, each with its own checkout and package build. Generated files cannot race between jobs. The existing required Lint, Test, Build check aggregates both results and fails if either job fails, is cancelled, or is skipped. Coverage remains a separate workflow. This trades an additional package build for overlapping the gate and test durations; compare wall time and runner time separately. Package-test build prefixes also use Turbo, so both standalone and aggregate test commands reuse the same build graph and cache. Test commands and coverage thresholds are unchanged; this also applies to coverage tasks. After building cross-platform, run node --test scripts/ci-build-cache.test.mjs to exercise a real cache miss, hit and invalidation after a shared script changes. It removes its temporary script and isolated cache afterward. check-quality-gates.mjs (orchestrator) Runs every structural gate below in sequence and prints a single pass/fail summary. This is the entry point — pnpm check:quality-gates . pnpm check:all layers typecheck + build + test on top. To add a gate: write the check- .mjs script, then register it in the GATES array at the top of this orchestrator. Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. check-for-agents-coverage.mjs Asserts that every value export from packages/<name /src/index.ts appears at least once in apps/docs-next/content/docs/for-agents/<name .mdx . Catches drift between code and the agent-discoverable reference page. Exits non-zero on drift, listing each missing symbol per package. Type-only exports are skipped (the for-agents pages document the runtime surface, not every supporting type). Per-package exclusions live in the IGNORE EXPORTS table at the top of the script. check-src-test-parity.mjs Asserts that every packages/<pkg /src/<file .{ts,tsx} has at least one corresponding test reference: a tests/<basename .test.{ts,tsx} , or any .test file in the package whose body imports the source path or mentions its kebab/camel/Pascal-cased basename. Catches new files landing without test exposure. ALLOW FILES / ALLOW PREFIXES at the top of the script track re-export-only files ( index.ts , types.ts ), aggregate-tested modules, and queued conversions tracked in epic 562. check-no-bare-throw.mjs Asserts that no throw new Error(...) appears in package so",
+          "summary": "Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml.",
+          "body": "scripts/ Repo-level CI helpers, runnable from the repo root. Most scripts use only Node ESM; the bundle-size helper also uses the already installed esbuild dependency. They run on every PR + push to main via .github/workflows/ci.yml . Bundle size targets per public ESM export gen-size-limit-subpaths.mjs --check compares every published package's JavaScript exports entry with .size-limit.json , so a newly added ESM subpath cannot miss its own budget. Run pnpm size to bundle those entries with package dependencies and peer dependencies external, then apply gzip budgets through size-limit. New targets get 10% headroom rounded up to the next 0.5 kB (decimal); existing limits are left as configured. Use node scripts/gen-size-limit-subpaths.mjs --update after building packages to add targets for newly published ESM exports. The Svelte entry is measured directly because its consumer's Svelte compiler processes component imports. Non-JavaScript exports, such as CSS assets, do not have an ESM bundle target. Build prerequisites and timings CI and coverage build packages with pnpm exec turbo run build --filter='./packages/ ' --concurrency=2 . The quality gates use the same Turbo graph for adapters, MCP and cross-platform, so shared prerequisites build once and subsequent commands reuse their outputs. Root TypeScript configuration and shared scripts invalidate the build cache. The orchestrator prints elapsed seconds for each gate; all checks still execute sequentially and test concurrency is unchanged. No cross-run cache is added. CI runs Quality gates and Test, Build on independent runners, each with its own checkout and package build. Generated files cannot race between jobs. The existing required Lint, Test, Build check aggregates both results and fails if either job fails, is cancelled, or is skipped. Coverage remains a separate workflow. This trades an additional package build for overlapping the gate and test durations; compare wall time and runner time separately. Package-test build prefixes also use Turbo, so both standalone and aggregate test commands reuse the same build graph and cache. Test commands and coverage thresholds are unchanged; this also applies to coverage tasks. After building cross-platform, run node --test scripts/ci-build-cache.test.mjs to exercise a real cache miss, hit and invalidation after a shared script changes. It removes its temporary script and isolated cache afterward. check-quality-gates.mjs (orchestrator) Runs every structural gate below in sequence and prints a single pass/fail summary. This is the entry point — pnpm check:quality-gates . pnpm check:all layers typecheck + build + test on top. To add a gate: write the check- .mjs script, then register it in the GATES array at the top of this orchestrator. Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. check-for-agents-coverage.mjs Asserts that every value export from packages/<name /src/index.ts appears at least once in apps/docs-next/content/docs/for-agents/<name .mdx . Catches drift between code and the agent-discoverable reference page. Exits non-zero on drift, listing each missing symbol per package. Type-only exports are skipped (the for-agents pages document the runtime surface, not every supporting type). Per-package exclusions live in the IGNORE EXPORTS table at the top of the script. check-src-test-parity.mjs Asserts that every packages/<pkg /src/<file .{ts,tsx} has at least one corresponding test reference: a tests/<basename .test.{ts,tsx} , or any .test file in the package whose body imports the source path or mentions its kebab/camel/Pascal-cased basename. Catches new files landing without test exposure. ALLOW FILES / ALLOW PREFIXES at the top of the script track re-export-only files ( index.ts , types.ts ), aggregate-tested modules, and queued conversions tracked in epic 562. check-no-bare-throw.mjs Asserts that no throw new Error(...) appears in package source code outside the typ",
           "aliases": "document project"
         },
         "graph": {
@@ -85748,7 +85776,7 @@
             }
           ]
         },
-        "contentHash": "5083faa366e399f18bc8829453e21b881fe98ff06cd539d83304ff72a573f90f",
+        "contentHash": "6b4c623ca247582303b51480c6f41d6cac66afc6980f520d4c61af8638215f3c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -97168,6 +97196,41 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+        "kind": "module",
+        "path": "apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+        "title": "fumadocs-nav-utilities.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "fumadocs-nav-utilities.test.ts",
+          "headings": "",
+          "path": "apps/docs-next/tests/fumadocs-nav-utilities.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/tests/legacy-redirects.test.ts",
         "kind": "module",
         "path": "apps/docs-next/tests/legacy-redirects.test.ts",
@@ -103096,6 +103159,41 @@
           "outbound": []
         },
         "contentHash": "371af8d250ba6457c1869727b936350d534b0db7e57a5529aa5729108d049dd8",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/registry/lib/fumadocs-nav-utilities.test.ts",
+        "kind": "module",
+        "path": "apps/registry/lib/fumadocs-nav-utilities.test.ts",
+        "title": "fumadocs-nav-utilities.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "lib"
+        ],
+        "fields": {
+          "title": "fumadocs-nav-utilities.test.ts",
+          "headings": "",
+          "path": "apps/registry/lib/fumadocs-nav-utilities.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/registry",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190863,7 +190961,7 @@
             }
           ]
         },
-        "contentHash": "2cc43aa0d5c0a9d07c7d70eafcc9ba00aef0dc62464ba7b15e12416df3e7660a",
+        "contentHash": "be7cbc9e7d7b92b642de62ae06560453f254266bb75659777a352480a683f368",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191730,10 +191828,12 @@
           "THEMES",
           "VIEWPORTS",
           "applyScope",
+          "classifyOverflow",
           "contrastRatio",
           "ecosystemSites",
           "formatSummary",
           "isOccluded",
+          "isPlatformBeaconError",
           "measureTextContrast",
           "parseSiteOrigins",
           "planJobs",
@@ -191750,7 +191850,7 @@
           "title": "ecosystem-visual.mjs",
           "headings": "",
           "path": "scripts/lib/ecosystem-visual.mjs",
-          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS SITE_THEMES THEMES VIEWPORTS applyScope contrastRatio ecosystemSites formatSummary isOccluded measureTextContrast parseSiteOrigins planJobs rebaseSite relativeLuminance requiredContrast",
+          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS SITE_THEMES THEMES VIEWPORTS applyScope classifyOverflow contrastRatio ecosystemSites formatSummary isOccluded isPlatformBeaconError measureTextContrast parseSiteOrigins planJobs rebaseSite relativeLuminance requiredContrast",
           "summary": "",
           "body": "",
           "aliases": "module mjs lib"
@@ -191788,7 +191888,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c65d60b7c96a07ae67f502cd19e1462a6826435c61156a647b90eac358926410",
+        "contentHash": "afdd4096ff4cb454987c734d9f30080d8a5bff75acc61cfbb0a65d2fc2c744b5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -194277,7 +194377,7 @@
             }
           ]
         },
-        "contentHash": "2a67fdbbed54b19ff27bff6f4e3666e4a75917592c724374d1419716b84c2821",
+        "contentHash": "9da2828445eee87a4846eadb2b53e853f44678fb455ae073654e668f02fdbc00",
         "provenance": "observed",
         "confidence": "observed"
       },
