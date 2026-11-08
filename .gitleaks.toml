@@ -16,10 +16,14 @@ paths = ['''packages/adapters/tests/cli\.test\.ts''']
 [[allowlists]]
 description = "Documentation sample with a placeholder key (sk-live-abc123)"
 paths = ['''apps/docs-next/content/docs/production/security/secrets\.mdx''']
+condition = "AND"
+regexes = ['''sk-live-abc123''']
 
 [[allowlists]]
 description = "Generated docs search index; it embeds the placeholder samples from the docs (apiKey REDACTED)"
 paths = ['''apps/docs-next/lib/ask-index/index\.json''']
+condition = "AND"
+regexes = ['''sk-live-abc123''']
 
 [[allowlists]]
 description = "Public PostHog project key in .env.example; phc_ keys are write-only client keys shipped to browsers by design"
