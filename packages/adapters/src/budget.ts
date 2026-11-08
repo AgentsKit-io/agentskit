@@ -158,7 +158,7 @@ export function createBudgetLedger(options: MemoryBudgetLedgerOptions = {}): Mem
 export interface BudgetCallMetadata {
   /** Named budget to charge (e.g. `customer:acme`). */
   name?: string
-  /** Per-call ceiling in USD. */
+  /** Per-call ceiling in USD. Can only lower the configured ceiling. */
   maxCallUsd?: number
 }
 
@@ -194,8 +194,19 @@ function callMetadata(request: AdapterRequest): BudgetCallMetadata {
   const { name, maxCallUsd } = raw as Record<string, unknown>
   return {
     name: typeof name === 'string' ? name : undefined,
-    maxCallUsd: typeof maxCallUsd === 'number' ? maxCallUsd : undefined,
+    maxCallUsd: isUsd(maxCallUsd) ? maxCallUsd : undefined,
   }
+}
+
+function isUsd(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0
+}
+
+/** The lower of two optional ceilings; a per-call value can only tighten. */
+function tighter(a: number | undefined, b: number | undefined): number | undefined {
+  if (a === undefined) return b
+  if (b === undefined) return a
+  return Math.min(a, b)
 }
 
 async function promptTokens(request: AdapterRequest, counter: TokenCounter): Promise<number> {
@@ -230,6 +241,8 @@ function usageOf(chunk: StreamChunk): TokenUsage | undefined {
  *
  * Per call, `request.context.metadata.budget` may override the name and the
  * ceiling: `{ name: 'customer:acme', maxCallUsd: 0.02 }` or just a name.
+ * The per-call `maxCallUsd` can only lower the configured ceiling, never
+ * raise it; a non-finite or negative value is ignored.
  */
 export function withBudget(adapter: AdapterFactory, options: WithBudgetOptions): AdapterFactory {
   assertUsd('price.input', options.price?.input)
@@ -257,7 +270,7 @@ export function withBudget(adapter: AdapterFactory, options: WithBudgetOptions):
         stream: async function* () {
           const meta = callMetadata(request)
           const name = meta.name ?? (typeof options.budget === 'function' ? options.budget(request) : options.budget)
-          const maxCallUsd = meta.maxCallUsd ?? options.maxCallUsd
+          const maxCallUsd = tighter(meta.maxCallUsd, options.maxCallUsd)
           const outputTokens = request.context?.maxTokens ?? options.maxOutputTokens ?? 0
           const estimatedUsd = estimateCostUsd(options.price, await promptTokens(request, counter), outputTokens)
 

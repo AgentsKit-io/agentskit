@@ -63,6 +63,11 @@ adapter.createSource({
 })
 ```
 
+A `maxCallUsd` in metadata can only lower the configured ceiling, never
+raise it: the effective ceiling is the smaller of the two. A value that is
+not a finite, non-negative number is ignored, so the configured ceiling
+still applies.
+
 `budget` may also be a function `(request) => string | undefined` when the
 name comes from the request itself.
 

@@ -71,6 +71,32 @@ describe('withBudget — per-call ceiling', () => {
     expect(inner.calls()).toBe(0)
   })
 
+  it('ignores a per-call ceiling above the configured one', async () => {
+    const inner = spy()
+    const adapter = withBudget(inner.adapter, { price, maxCallUsd: 0.001 })
+    const error = refusal(await collect(adapter, req({ metadata: { budget: { maxCallUsd: 1000 } } })))
+    expect(inner.calls()).toBe(0)
+    expect(error.scope).toBe('call')
+    expect(error.limitUsd).toBe(0.001)
+  })
+
+  it('ignores a NaN per-call ceiling', async () => {
+    const inner = spy()
+    const adapter = withBudget(inner.adapter, { price, maxCallUsd: 0.001 })
+    const error = refusal(await collect(adapter, req({ metadata: { budget: { maxCallUsd: Number.NaN } } })))
+    expect(inner.calls()).toBe(0)
+    expect(error.scope).toBe('call')
+    expect(error.limitUsd).toBe(0.001)
+  })
+
+  it('ignores a negative per-call ceiling', async () => {
+    const inner = spy()
+    const adapter = withBudget(inner.adapter, { price, maxCallUsd: 0.001 })
+    const error = refusal(await collect(adapter, req({ metadata: { budget: { maxCallUsd: -1 } } })))
+    expect(inner.calls()).toBe(0)
+    expect(error.limitUsd).toBe(0.001)
+  })
+
   it('uses maxOutputTokens when the request has no maxTokens', async () => {
     const inner = spy()
     const adapter = withBudget(inner.adapter, { price, maxCallUsd: 0.001, maxOutputTokens: 10_000 })
