@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["node"]
+    "types": ["node"],
+    "paths": { "@agentskit/adapters/catalog": ["./src/catalog/index.ts"] }
   },
   "include": ["src"]
 }
