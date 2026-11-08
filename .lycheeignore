@@ -52,3 +52,8 @@ img/examples/.*\.gif$
 # Internal docs pages still being authored
 docs/reference/recipes/scaffold-creator$
 docs/reference/changelog$
+
+# External: the Smithery registry listing answers 404 since 2026-11 (also on
+# main, unrelated to the PR that hit it). Remove once the listing is restored
+# or the link in reference/publications.mdx is updated.
+^https://(?:www\.)?smithery\.ai/servers/agentskit/registry$
