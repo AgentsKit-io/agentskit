@@ -8,7 +8,7 @@
     {
       "id": "claim.catalog-models",
       "kind": "restricted-faq",
-      "label": "8930 models",
+      "label": "8946 models",
       "match": {
         "type": "exact",
         "values": [
@@ -18,7 +18,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **8930 models**. The public conservative floor is 8000.",
+        "markdown": "The verified AgentsKit ledger currently reports **8946 models**. The public conservative floor is 8000.",
         "citations": [
           {
             "id": "claim-catalog-models",
@@ -31,7 +31,7 @@
     {
       "id": "claim.catalog-providers",
       "kind": "restricted-faq",
-      "label": "234 providers",
+      "label": "235 providers",
       "match": {
         "type": "exact",
         "values": [
@@ -41,7 +41,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **234 providers**. The public conservative floor is 230.",
+        "markdown": "The verified AgentsKit ledger currently reports **235 providers**. The public conservative floor is 230.",
         "citations": [
           {
             "id": "claim-catalog-providers",
@@ -2444,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:106bffdaaba6c8826d9ad8b75020fac5da17d3f880fcba0a40ffca1e650f70eb"
+  "contentHash": "sha256:91acaf50b8c09eb43b35d857081db09a7419770cb4a79766b8477750577e6148"
 }
