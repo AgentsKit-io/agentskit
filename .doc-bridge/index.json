@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "476a31335d4202d6ea9abda1f9a4ec68015b204d17f3f1ab5b944dc9d6718bab",
+  "contentHash": "b435a120f7babc5863b115d1390be87078dcab9c0eaf0086f0a21804d3c033d0",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-09T11:44:36.875Z",
+  "generatedAt": "2026-11-09T14:35:27.076Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -36319,7 +36319,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "1deff45d39e093bb81cd6e9f322fc48f809e222fe8f6c7fccd86f8a979f5c5f8"
+      "contentHash": "fa66ba4c7e23d21ef8ae64c428354f35413eff1a23952ea42531f4163e5ec448"
     },
     {
       "id": "module:scripts/check-models-dev-freshness.mjs",
@@ -37388,6 +37388,7 @@
       "path": "scripts/lib/release-train.mjs",
       "symbols": [
         "MINIMUM_CONSUMER_COVERAGE",
+        "MINIMUM_CONSUMER_TYPE_PACKAGES",
         "applyToManifest",
         "applyToPackageJson",
         "compareVersions",
@@ -37405,7 +37406,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "05a123fb14cfae2fb4b98494632bb6379799396d72af1cc1202c3a8a6cb7c73f"
+      "contentHash": "6787fa603755a98496d250d2a86d04c66f35fd7da2c4ec0dde73449ea438271b"
     },
     {
       "id": "module:scripts/lib/software-metadata.mjs",
@@ -37702,7 +37703,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "a15b953cc98c5df43fc2a02b600175b00684e235867164f946b1eedebebfa8ff"
+      "contentHash": "ccf954a5c14f2a51f86e6cf6a0694605d8399bc17afad20293c4fff49f7326a1"
     },
     {
       "id": "module:scripts/release-workflow-auth.test.mjs",
@@ -39223,7 +39224,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "6c152c53d9c0896cad638d42ebb74d415611531043d04d21b39fe5cf4f85cb3f",
+    "hash": "663fb874282bb57a317ce2cadd6f38a1ecd01f236bf5c3d867ce1e60602009de",
     "fileCount": 2694,
     "projectionVersion": 2
   },
@@ -39246,9 +39247,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "23fff38d3fce4b32df94c4c600714f765d462c42fa799ccc36f56ec3f828a21d",
+    "contentHash": "69b4210a567b7cf80618d3aa92fc831667faf20790447993691122be6a5ca48d",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "de26499b402056b02a7e58cf2eab6a97a268125a384da8b2ce87c985aa532696",
+    "snapshotHash": "1dc5800eb9c4e2e52ab3b6de0238c2dfbe4d316d8c1e89398846e68b5efea281",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39284,7 +39285,7 @@
         "headings": 3.879546343371138,
         "path": 7.610089949159171,
         "summary": 4.498631208447399,
-        "symbols": 7.565897536175205,
+        "symbols": 7.567852952678921,
         "title": 3.382479468126711
       }
     },
@@ -189324,7 +189325,7 @@
             }
           ]
         },
-        "contentHash": "1deff45d39e093bb81cd6e9f322fc48f809e222fe8f6c7fccd86f8a979f5c5f8",
+        "contentHash": "fa66ba4c7e23d21ef8ae64c428354f35413eff1a23952ea42531f4163e5ec448",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192640,6 +192641,7 @@
         "aliases": [],
         "symbols": [
           "MINIMUM_CONSUMER_COVERAGE",
+          "MINIMUM_CONSUMER_TYPE_PACKAGES",
           "applyToManifest",
           "applyToPackageJson",
           "compareVersions",
@@ -192661,7 +192663,7 @@
           "title": "release-train.mjs",
           "headings": "",
           "path": "scripts/lib/release-train.mjs",
-          "symbols": "MINIMUM_CONSUMER_COVERAGE applyToManifest applyToPackageJson compareVersions findDrift findPeerViolations parseVersion planUpdates renderChangeset renderOutput renderProposal validateManifest",
+          "symbols": "MINIMUM_CONSUMER_COVERAGE MINIMUM_CONSUMER_TYPE_PACKAGES applyToManifest applyToPackageJson compareVersions findDrift findPeerViolations parseVersion planUpdates renderChangeset renderOutput renderProposal validateManifest",
           "summary": "",
           "body": "",
           "aliases": "module mjs lib"
@@ -192692,7 +192694,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "05a123fb14cfae2fb4b98494632bb6379799396d72af1cc1202c3a8a6cb7c73f",
+        "contentHash": "6787fa603755a98496d250d2a86d04c66f35fd7da2c4ec0dde73449ea438271b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193638,7 +193640,7 @@
             }
           ]
         },
-        "contentHash": "a15b953cc98c5df43fc2a02b600175b00684e235867164f946b1eedebebfa8ff",
+        "contentHash": "ccf954a5c14f2a51f86e6cf6a0694605d8399bc17afad20293c4fff49f7326a1",
         "provenance": "observed",
         "confidence": "observed"
       },
