@@ -122,7 +122,7 @@ export function applyToPackageJson(json, updates) {
 }
 
 /** Pull request body: what moves, the compatibility gates it must pass, and who decides. */
-export function renderProposal(updates, manifest) {
+export function renderProposal(updates, manifest, runUrl) {
   const lines = ['## Release-train update', '', 'Proposed from the canonical `release-train.json` manifest. This PR is a draft: review it, and merge and publish manually.', '']
   for (const { group, changes } of updates) {
     lines.push(`### ${group}`, '', '| Package | From | To | Minimum consumer |', '| --- | --- | --- | --- |')
@@ -133,7 +133,7 @@ export function renderProposal(updates, manifest) {
   lines.push(
     '## Compatibility results',
     '',
-    'CI on this PR is the record: current-consumer checks (`pnpm check:packed-consumers`, build, tests), minimum-consumer checks (`pnpm check:minimum-consumers` installs the manifest minimums and type-checks, bundles and tests a consumer against them), static minimum checks (`pnpm check:release-train`, manifest minimums vs. declared peer ranges, run on every PR), and the production security audit (`node scripts/audit-prod-high.mjs`).',
+    `The release-train workflow run passed these checks before this PR was opened${runUrl ? ` (${runUrl})` : ''}: current-consumer checks (\`pnpm check:packed-consumers\`, tests), minimum-consumer checks (\`pnpm check:minimum-consumers\` installs the manifest minimums plus the packed \`@agentskit/core\` and \`@agentskit/react\`, then type-checks, bundles and tests a consumer against them), the static minimum check (\`pnpm check:release-train\`, manifest minimums vs. declared peer ranges) and the production security audit (\`node scripts/audit-prod-high.mjs\`).`,
     '',
     '## Review checklist',
     '',

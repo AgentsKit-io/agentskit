@@ -80,8 +80,9 @@ if (args.includes('--check')) {
     }
     const changeset = renderChangeset(updates, publicPackages)
     if (changeset) writeFileSync(join(root, '.changeset', 'release-train-update.md'), changeset)
+    const runUrl = () => (process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}` : undefined)
     const bodyIndex = args.indexOf('--body')
-    if (bodyIndex !== -1) writeFileSync(args[bodyIndex + 1], renderProposal(updates, manifest))
+    if (bodyIndex !== -1) writeFileSync(args[bodyIndex + 1], renderProposal(updates, manifest, runUrl()))
     process.stdout.write(`release-train: applied ${updates.length} group update(s)\n`)
   }
 } else {

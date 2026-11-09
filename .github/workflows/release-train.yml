@@ -39,7 +39,7 @@ jobs:
       - run: node scripts/release-train.mjs --check
       - name: Apply coordinated updates
         id: apply
-        run: node scripts/release-train.mjs --apply --body "$RUNNER_TEMP/release-train-body.md"
+        run: node scripts/release-train.mjs --apply --body "$RUNNER_TEMP/release-train-body.draft.md"
       - name: Refresh lockfile and generated surfaces
         if: steps.apply.outputs.updated == 'true'
         run: |
@@ -57,6 +57,10 @@ jobs:
           pnpm check:minimum-consumers
           pnpm test
           node scripts/audit-prod-high.mjs
+      # The body only exists once the checks above passed; it links this run as the record.
+      - name: Write proposal body after checks passed
+        if: steps.apply.outputs.updated == 'true'
+        run: cp "$RUNNER_TEMP/release-train-body.draft.md" "$RUNNER_TEMP/release-train-body.md"
       - uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
         if: steps.apply.outputs.updated == 'true'
         with:

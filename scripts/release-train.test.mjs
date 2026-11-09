@@ -136,7 +136,7 @@ test('a no-update run reports updated=false and the workflow skips every PR step
   assert.equal(renderOutput([{ id: 'react' }]), 'updated=true\n')
   const workflow = readFileSync(workflowUrl, 'utf8')
   assert.match(workflow, /id: apply/)
-  assert.equal(workflow.match(/if: steps\.apply\.outputs\.updated == 'true'/g)?.length, 3)
+  assert.equal(workflow.match(/if: steps\.apply\.outputs\.updated == 'true'/g)?.length, 4)
 })
 
 test('the workflow builds workspace deps before first running release-train.mjs', () => {
@@ -155,4 +155,10 @@ test('every manifest minimum is covered by the minimum-consumer check, which the
   assert.match(readFileSync(new URL('../package.json', import.meta.url), 'utf8'), /"check:minimum-consumers": "node scripts\/check-minimum-consumers\.mjs"/)
   const body = renderProposal(planUpdates(manifest, { react: '19.4.0' }), manifest)
   assert.match(body, /check:minimum-consumers.*installs the manifest minimums/)
+  assert.match(body, /passed these checks before this PR was opened/)
+  assert.doesNotMatch(body, /CI on this PR is the record/)
+  const linked = renderProposal(planUpdates(manifest, { react: '19.4.0' }), manifest, 'https://github.com/o/r/actions/runs/7')
+  assert.match(linked, /\(https:\/\/github\.com\/o\/r\/actions\/runs\/7\)/)
+  const wf = readFileSync(workflowUrl, 'utf8')
+  assert.ok(wf.indexOf('Write proposal body after checks passed') > wf.indexOf('Compatibility and security checks'))
 })
