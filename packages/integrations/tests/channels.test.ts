@@ -138,6 +138,16 @@ describe('email channel', () => {
     expect(em().verify({ headers: multi, rawBody: body }).ok).toBe(true)
     expect(verifySvix({ secret: SVIX_SECRET, rawBody: body, headers: { ...sign(body), 'svix-signature': 'v2,x' }, nowSeconds: NOW }).ok).toBe(false)
   })
+  it('rejects an empty secret with an empty header', () => {
+    const body = fixture('email-received.json')
+    const headers = {
+      'svix-id': 'msg_1',
+      'svix-timestamp': String(NOW),
+      'svix-signature': 'v1,' + hmac(Buffer.alloc(0), `msg_1.${NOW}.${body}`, 'base64'),
+    }
+    expect(verifySvix({ secret: '', rawBody: body, headers, nowSeconds: NOW }).ok).toBe(false)
+    expect(verifySvix({ secret: 'whsec_', rawBody: body, headers, nowSeconds: NOW }).ok).toBe(false)
+  })
   it('fetches the body from the Received Emails API, not just the subject', async () => {
     const f = vi.fn(async () => new Response(fixture('email-received-api.json'), { status: 200 }))
     const [m] = await em(f).receive(fixture('email-received.json'))
