@@ -22,7 +22,7 @@ CI on the default branch: **green**.
 | `@agentskit/eval` | 0.7.0 | supported | apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/ink` | 0.10.16 | supported | apps/example-ink, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/integrations` | 0.8.3 | experimental | — | — | — | — | — | — |
-| `@agentskit/mcp` | 0.5.2 | supported | apps/docs-next | ✅ | ✅ | ✅ | ❌ | not yet |
+| `@agentskit/mcp` | 0.5.2 | experimental | — | — | — | — | — | — |
 | `@agentskit/memory` | 0.12.1 | supported | apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/net` | 0.2.4 | supported | apps/docs-next, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/observability` | 0.13.1 | supported | apps/docs-next, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |

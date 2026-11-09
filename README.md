@@ -43,6 +43,7 @@ A 10 KB core budget. 24 focused packages. Zero lock-in. Six formal contracts tha
 
 - `@agentskit/cli`
 - `@agentskit/integrations`
+- `@agentskit/mcp`
 - `@agentskit/templates`
 <!-- support-matrix:end -->
 
