@@ -1,12 +1,11 @@
 import { AgentsKitError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource, TokenUsage } from '@agentskit/core'
-import { anthropic } from './anthropic'
-import { openai } from './openai'
-import { openaiCompatible } from './openai-compatible'
+import { createModelProvider } from './provider'
+import type { ModelProviderId } from './provider'
 import type { RetryOptions } from './utils'
 
 /** Providers reachable through the single gateway. */
-export type GatewayProvider = 'openrouter' | 'anthropic' | 'openai' | 'cliproxyapi'
+export type GatewayProvider = ModelProviderId
 
 /** USD per one million tokens. Same shape as the catalog's `CatalogModelCost`. */
 export interface GatewayPricing {
@@ -83,7 +82,7 @@ export interface ModelGatewayConfig {
   model: string
   /** Optional for `cliproxyapi`. */
   apiKey?: string
-  /** Override the endpoint. For `cliproxyapi` defaults to `http://localhost:8317`. */
+  /** Override the endpoint. For `cliproxyapi` defaults to `CLIPROXYAPI_DEFAULT_BASE_URL`. */
   baseUrl?: string
   /** USD per 1M tokens. Required when `maxCostUsd` or `budget` is set. */
   pricing?: GatewayPricing
@@ -100,18 +99,8 @@ export interface ModelGatewayConfig {
 }
 
 function buildBase(config: ModelGatewayConfig): AdapterFactory {
-  const { provider, model, apiKey, baseUrl, retry } = config
-  const fetch = config.fetch
-  if (provider === 'anthropic') {
-    return anthropic({ apiKey: apiKey ?? '', model, baseUrl, maxTokens: config.maxTokens, retry, fetch })
-  }
-  if (provider === 'openai') {
-    return openai({ apiKey: apiKey ?? '', model, baseUrl, retry, fetch, includeUsage: true })
-  }
-  if (provider === 'openrouter') {
-    return openai({ apiKey: apiKey ?? '', model, baseUrl: baseUrl ?? 'https://openrouter.ai/api/v1', retry, fetch, includeUsage: true })
-  }
-  return openaiCompatible({ apiKey, model, baseUrl: baseUrl ?? 'http://localhost:8317', retry, fetch, includeUsage: true })
+  const { provider, model, apiKey, baseUrl, retry, fetch, maxTokens } = config
+  return createModelProvider({ provider, model, apiKey, baseUrl, retry, fetch, maxTokens, includeUsage: true })
 }
 
 const costOf = (usage: TokenUsage, pricing: GatewayPricing): number =>

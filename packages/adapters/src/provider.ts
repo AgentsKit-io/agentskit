@@ -24,11 +24,15 @@ export interface ModelProviderConfig {
   retry?: RetryOptions
   /** Anthropic only. */
   maxTokens?: number
+  /** Custom fetch (tests, proxies). */
+  fetch?: typeof globalThis.fetch
+  /** Ask OpenAI-compatible providers to stream a final usage chunk. */
+  includeUsage?: boolean
 }
 
 /** Single port over OpenRouter, Anthropic, OpenAI and CLIProxyAPI. */
 export function createModelProvider(config: ModelProviderConfig): AdapterFactory {
-  const { provider, model, apiKey, baseUrl, retry } = config
+  const { provider, model, apiKey, baseUrl, retry, fetch, includeUsage } = config
   const requireKey = (): string => {
     if (!apiKey) {
       throw new ConfigError({
@@ -41,13 +45,13 @@ export function createModelProvider(config: ModelProviderConfig): AdapterFactory
   }
   switch (provider) {
     case 'anthropic':
-      return anthropic({ apiKey: requireKey(), model, baseUrl, retry, maxTokens: config.maxTokens })
+      return anthropic({ apiKey: requireKey(), model, baseUrl, retry, maxTokens: config.maxTokens, fetch })
     case 'openai':
-      return openai({ apiKey: requireKey(), model, baseUrl, retry })
+      return openai({ apiKey: requireKey(), model, baseUrl, retry, fetch, includeUsage })
     case 'openrouter':
-      return openrouter({ apiKey: requireKey(), model, baseUrl, retry })
+      return openrouter({ apiKey: requireKey(), model, baseUrl, retry, fetch, includeUsage })
     case 'cliproxyapi':
-      return openai({ apiKey: apiKey ?? '', model, baseUrl: baseUrl ?? CLIPROXYAPI_DEFAULT_BASE_URL, retry })
+      return openai({ apiKey: apiKey ?? '', model, baseUrl: baseUrl ?? CLIPROXYAPI_DEFAULT_BASE_URL, retry, fetch, includeUsage })
     default:
       throw new ConfigError({
         code: ErrorCodes.AK_CONFIG_INVALID,

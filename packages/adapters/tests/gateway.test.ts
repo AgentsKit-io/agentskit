@@ -28,7 +28,7 @@ const cases: Array<[GatewayProvider, string, string, string | undefined]> = [
   ['openai', 'openai', 'https://api.openai.com/v1/chat/completions', 'sk-x'],
   ['openrouter', 'openrouter', 'https://openrouter.ai/api/v1/chat/completions', 'sk-or'],
   ['anthropic', 'anthropic', 'https://api.anthropic.com/v1/messages', 'sk-ant'],
-  ['cliproxyapi', 'cliproxyapi', 'http://localhost:8317/v1/chat/completions', undefined],
+  ['cliproxyapi', 'cliproxyapi', 'http://127.0.0.1:8317/v1/chat/completions', undefined],
 ]
 
 describe('createModelGateway — recorded provider responses', () => {

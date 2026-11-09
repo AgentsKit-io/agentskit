@@ -19,7 +19,7 @@ const adapter = createModelGateway({
 
 | Option | Notes |
 |---|---|
-| `provider` | Selects the endpoint and wire format. `cliproxyapi` talks to any OpenAI-compatible base URL (default `http://localhost:8317`, `apiKey` optional). |
+| `provider` | Selects the endpoint and wire format. `cliproxyapi` talks to any OpenAI-compatible base URL (default `http://127.0.0.1:8317/v1`, `apiKey` optional). |
 | `baseUrl` | Override the endpoint (self-hosted CLIProxyAPI, proxies). |
 | `pricing` | `{ input, output }` USD per 1M tokens. `getModel(...)?.cost` from `@agentskit/adapters/catalog` has the same shape. Required with a ceiling. |
 | `maxCostUsd` | Per-call ceiling. |

@@ -2,7 +2,7 @@ packages:
   - packages/*
   - apps/*
 allowBuilds:
-  # v13 ships prebuilt binaries; the node-gyp rebuild fallback needs a toolchain
+  # ships prebuilds; the implicit node-gyp rebuild is unnecessary
   better-sqlite3: false
   core-js: false
   core-js-pure: false
