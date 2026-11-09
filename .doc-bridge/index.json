@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "2a48e48eaa59be1764d55565c85e4fc4dbcb91da95b82cb7cd6a68b3bfd15396",
+  "contentHash": "b613ea77ccf7a6ef3003e1fa34ecc6f927006491bc836821fec71ea5fdf0a5ff",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-07T07:55:54.880Z",
+  "generatedAt": "2026-11-09T07:46:36.002Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -16652,6 +16652,19 @@
       "contentHash": "e66e15cfc7a2bd023f9b91092a8ecd35c1013fb4a8a86412a8775f0a2e1d479f"
     },
     {
+      "id": "module:packages/angular/tests/packed-consumer.test.ts",
+      "type": "module",
+      "title": "packed-consumer.test.ts",
+      "path": "packages/angular/tests/packed-consumer.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "970cba4e35ff883d355498c0714a81e42988014c3b2a622bea296563c80c0176"
+    },
+    {
       "id": "module:packages/angular/tests/service.test.ts",
       "type": "module",
       "title": "service.test.ts",
@@ -29904,7 +29917,7 @@
         "ts",
         "rag"
       ],
-      "contentHash": "eed6385eedc1981a6de26c4eebecb1e9d94080d5a7c6f610f738b6cfb4691dc6"
+      "contentHash": "4ccfb3c011764c1cd87f467f7c9c2a7f2044ecc51ed8dcdfbefa0c57ef417f62"
     },
     {
       "id": "module:packages/react-native/fixtures/readme-quickstart.tsx",
@@ -36644,7 +36657,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "ee5a0098d2323e8078ee64fad92efabd47bef684621a2342f1aa0ad36642e6e6"
+      "contentHash": "dc780bae1e7adef870121720df680e169202c0987c5e8ef225ca45aef4780727"
     },
     {
       "id": "module:scripts/doc-bridge-benchmark.mjs",
@@ -39160,8 +39173,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "3b996de12097625f88576df447ef691506103cf7958bd64b42f1722dc16e7ae0",
-    "fileCount": 2689,
+    "hash": "40c2e67d38bfdbf02300ebdbaefbe8c16dbf5f5be989a08a0ca21c0638e7bfed",
+    "fileCount": 2690,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39183,9 +39196,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "b5d884e81f9ef0313406ff55ef74409fad8b34ac8fd554b4328771bdf236d8fd",
+    "contentHash": "24bbda68e544da2830db40fea281c724125d3b79818123b7255489db91f11e0f",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "0caf38cc49cdf50bfea4c170828d81c49340f609b5910da898c59792a237ccf2",
+    "snapshotHash": "c5ad6a30c43796bc12b4e40a778fa40ae84d0efa89606a4592749372094ef12e",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39205,7 +39218,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2553,
+      "documentCount": 2554,
       "fieldNames": [
         "aliases",
         "body",
@@ -39216,13 +39229,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.018018018018018,
-        "body": 60.96553074813944,
-        "headings": 3.8856247551899727,
-        "path": 7.613004308656483,
-        "summary": 4.505679592636114,
-        "symbols": 7.562475518997259,
-        "title": 3.380728554641598
+        "aliases": 3.0184025058731403,
+        "body": 60.94166014095536,
+        "headings": 3.884103367267032,
+        "path": 7.613155833985904,
+        "summary": 4.50391542678152,
+        "symbols": 7.559514487079092,
+        "title": 3.3813625685199686
       }
     },
     "entries": [
@@ -114539,6 +114552,40 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/angular/tests/packed-consumer.test.ts",
+        "kind": "module",
+        "path": "packages/angular/tests/packed-consumer.test.ts",
+        "title": "packed-consumer.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "packed-consumer.test.ts",
+          "headings": "",
+          "path": "packages/angular/tests/packed-consumer.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/angular",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "970cba4e35ff883d355498c0714a81e42988014c3b2a622bea296563c80c0176",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/angular/tests/service.test.ts",
         "kind": "module",
         "path": "packages/angular/tests/service.test.ts",
@@ -166220,7 +166267,7 @@
             }
           ]
         },
-        "contentHash": "eed6385eedc1981a6de26c4eebecb1e9d94080d5a7c6f610f738b6cfb4691dc6",
+        "contentHash": "4ccfb3c011764c1cd87f467f7c9c2a7f2044ecc51ed8dcdfbefa0c57ef417f62",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190448,7 +190495,7 @@
             }
           ]
         },
-        "contentHash": "ee5a0098d2323e8078ee64fad92efabd47bef684621a2342f1aa0ad36642e6e6",
+        "contentHash": "dc780bae1e7adef870121720df680e169202c0987c5e8ef225ca45aef4780727",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -195692,7 +195739,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "805925d9d0c597fcb7b60121313a9611556396e54898d00084392b97d9f742d4",
+        "contentHash": "11cdc7db81d02dfb86d0168b1a183db7f76255c77daf11f82603865d4be712a8",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "angular"
