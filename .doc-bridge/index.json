@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "9e5356691f215be67ebeff9788473ccad6432a4c07999acd05b4e4a3514a0ad1",
+  "contentHash": "67e1d09266d5844d1543b467ba6fd417f280b736ac8cdd29074d0a430df86c7f",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-09T07:11:42.245Z",
+  "generatedAt": "2026-11-09T08:18:55.832Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -37405,7 +37405,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "397159d3a00edbacaabbc8b31ef8afaa0c201ca3612440535cf00efcb135cec0"
+      "contentHash": "c829200aae5de7b34588148851ac63ba1dfeac6aa7a072f3ab916097113a20f1"
     },
     {
       "id": "module:scripts/lib/software-metadata.mjs",
@@ -37702,7 +37702,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "6b53eaabd2b9654aaee150d9f642b5b29ac7fefa6cdd04f7a1c5ef92e39dfe52"
+      "contentHash": "e9b372d459517404dc75fdc07ef2ffa075711da3b6c7f089168ab925f93bbd72"
     },
     {
       "id": "module:scripts/release-workflow-auth.test.mjs",
@@ -39223,7 +39223,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "41f12f4d6e80bbb4c2018374193867193df97bc78b20acf5102728f80554c498",
+    "hash": "d5cb12740bd3327269ced5f2eff26cc19724c69e14a228f1a8acb225bd5fab6f",
     "fileCount": 2694,
     "projectionVersion": 2
   },
@@ -39246,9 +39246,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "037591cd02f104bbab31c75e50b2b568df954a1f35ca78eabbc230d4ca714029",
+    "contentHash": "3fdc1aa23b31df3ad574a4b0f8087aa170897aa93c6080992ccf860e1989e32a",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "838ed5030f8b54103d572b65c3a819f12b2bdd17b91b511cb102c5ae01a2cd7d",
+    "snapshotHash": "b0132a6accc9861d7244775b7fc2c180314a1b964d08dbd13b51de8a268ab181",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -192692,7 +192692,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "397159d3a00edbacaabbc8b31ef8afaa0c201ca3612440535cf00efcb135cec0",
+        "contentHash": "c829200aae5de7b34588148851ac63ba1dfeac6aa7a072f3ab916097113a20f1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193638,7 +193638,7 @@
             }
           ]
         },
-        "contentHash": "6b53eaabd2b9654aaee150d9f642b5b29ac7fefa6cdd04f7a1c5ef92e39dfe52",
+        "contentHash": "e9b372d459517404dc75fdc07ef2ffa075711da3b6c7f089168ab925f93bbd72",
         "provenance": "observed",
         "confidence": "observed"
       },

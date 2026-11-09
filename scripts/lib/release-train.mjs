@@ -21,10 +21,10 @@ export function compareVersions(left, right) {
   return 0
 }
 
-/** Returns a list of human-readable problems; empty means the manifest is valid. */
 /** Packages whose manifest `minimum` is exercised by scripts/check-minimum-consumers.mjs. */
 export const MINIMUM_CONSUMER_COVERAGE = ['typescript', 'tsup', 'vitest', 'react', 'react-dom', '@types/react']
 
+/** Returns a list of human-readable problems; empty means the manifest is valid. */
 export function validateManifest(manifest) {
   const problems = []
   if (manifest.schemaVersion !== 1) problems.push('schemaVersion must be 1')

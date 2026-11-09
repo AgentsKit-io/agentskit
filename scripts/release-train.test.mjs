@@ -58,6 +58,8 @@ test('the workflow opens only a draft PR and never merges or publishes', () => {
   const workflow = readFileSync(workflowUrl, 'utf8')
   assert.match(workflow, /draft: true/)
   assert.match(workflow, /pnpm check:packed-consumers/)
+  assert.match(workflow, /pnpm docs:bridge:index/)
+  assert.match(workflow, /pnpm readme:standard:refresh -- --preserve-review-dates/)
   assert.match(workflow, /audit-prod-high/)
   assert.doesNotMatch(workflow, /auto-?merge|gh pr merge|npm publish|pnpm publish|changeset publish/i)
 })

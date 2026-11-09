@@ -47,6 +47,8 @@ jobs:
           pnpm build
           node scripts/check-doc-package-versions.mjs --fix
           pnpm metadata:generate
+          pnpm docs:bridge:index
+          pnpm readme:standard:refresh -- --preserve-review-dates
       - name: Compatibility and security checks
         if: steps.apply.outputs.updated == 'true'
         run: |
