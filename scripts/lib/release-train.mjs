@@ -22,6 +22,8 @@ export function compareVersions(left, right) {
 }
 
 /** Packages whose manifest `minimum` is exercised by scripts/check-minimum-consumers.mjs. */
+// Type packages that the published .d.ts of @agentskit/core imports but only declares as devDependencies.
+export const MINIMUM_CONSUMER_TYPE_PACKAGES = { '@types/json-schema': '^7.0.15' }
 export const MINIMUM_CONSUMER_COVERAGE = ['typescript', 'tsup', 'vitest', 'react', 'react-dom', '@types/react']
 
 /** Returns a list of human-readable problems; empty means the manifest is valid. */

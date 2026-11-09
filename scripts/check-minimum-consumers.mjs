@@ -14,7 +14,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { runCommand } from '../packages/cross-platform/dist/index.js'
-import { MINIMUM_CONSUMER_COVERAGE } from './lib/release-train.mjs'
+import { MINIMUM_CONSUMER_COVERAGE, MINIMUM_CONSUMER_TYPE_PACKAGES } from './lib/release-train.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const manifest = JSON.parse(readFileSync(join(root, 'release-train.json'), 'utf8'))
@@ -46,7 +46,7 @@ try {
     if (file.startsWith('agentskit-react-')) tarballs['@agentskit/react'] = `file:${join(packDir, file)}`
   }
   if (!tarballs['@agentskit/core'] || !tarballs['@agentskit/react']) throw new Error('pnpm pack did not produce the core and react tarballs')
-  writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'min-consumer', private: true, type: 'module', dependencies: { ...minimums, ...tarballs }, overrides: { '@agentskit/core': tarballs['@agentskit/core'] } }, null, 2))
+  writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'min-consumer', private: true, type: 'module', dependencies: { ...MINIMUM_CONSUMER_TYPE_PACKAGES, ...minimums, ...tarballs }, overrides: { '@agentskit/core': tarballs['@agentskit/core'] } }, null, 2))
   writeFileSync(join(dir, 'tsconfig.json'), JSON.stringify({
     compilerOptions: { strict: true, noEmit: true, jsx: 'react-jsx', module: 'ESNext', moduleResolution: 'Bundler', target: 'ES2022', lib: ['ES2022', 'DOM'], skipLibCheck: false },
     include: ['src'],

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { applyToManifest, applyToPackageJson, compareVersions, findDrift, findPeerViolations, planUpdates, renderChangeset, renderOutput, renderProposal, validateManifest } from './lib/release-train.mjs'
+import { MINIMUM_CONSUMER_TYPE_PACKAGES, applyToManifest, applyToPackageJson, compareVersions, findDrift, findPeerViolations, planUpdates, renderChangeset, renderOutput, renderProposal, validateManifest } from './lib/release-train.mjs'
 
 const manifest = {
   schemaVersion: 1,
@@ -161,4 +161,11 @@ test('every manifest minimum is covered by the minimum-consumer check, which the
   assert.match(linked, /\(https:\/\/github\.com\/o\/r\/actions\/runs\/7\)/)
   const wf = readFileSync(workflowUrl, 'utf8')
   assert.ok(wf.indexOf('Write proposal body after checks passed') > wf.indexOf('Compatibility and security checks'))
+})
+
+test('minimum consumer installs the type packages core published types need', () => {
+  const core = JSON.parse(readFileSync(new URL('../packages/core/package.json', import.meta.url), 'utf8'))
+  for (const [name, range] of Object.entries(MINIMUM_CONSUMER_TYPE_PACKAGES)) assert.equal(core.devDependencies[name], range)
+  assert.ok('@types/json-schema' in MINIMUM_CONSUMER_TYPE_PACKAGES)
+  assert.match(readFileSync(new URL('./check-minimum-consumers.mjs', import.meta.url), 'utf8'), /\.\.\.MINIMUM_CONSUMER_TYPE_PACKAGES, \.\.\.minimums/)
 })
