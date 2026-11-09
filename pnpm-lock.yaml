@@ -1488,6 +1488,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/cross-platform':
+        specifier: workspace:*
+        version: link:../cross-platform
       '@agentskit/net':
         specifier: workspace:*
         version: link:../net
@@ -1663,6 +1666,9 @@ importers:
         specifier: ^8.20.0
         version: 8.20.0
     devDependencies:
+      '@agentskit/runtime':
+        specifier: workspace:*
+        version: link:../runtime
       '@types/better-sqlite3':
         specifier: ^7.6.13
         version: 7.6.13
