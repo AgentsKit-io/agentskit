@@ -169,3 +169,14 @@ test('minimum consumer installs the type packages core published types need', ()
   assert.ok('@types/json-schema' in MINIMUM_CONSUMER_TYPE_PACKAGES)
   assert.match(readFileSync(new URL('./check-minimum-consumers.mjs', import.meta.url), 'utf8'), /\.\.\.MINIMUM_CONSUMER_TYPE_PACKAGES, \.\.\.minimums/)
 })
+
+test('renovate stays off every release-train package', () => {
+  const manifest = JSON.parse(readFileSync(new URL('../release-train.json', import.meta.url), 'utf8'))
+  const renovate = JSON.parse(readFileSync(new URL('../renovate.json', import.meta.url), 'utf8'))
+  const disabled = new Set(
+    renovate.packageRules.filter((rule) => rule.enabled === false).flatMap((rule) => rule.matchPackageNames ?? []),
+  )
+  const names = manifest.groups.flatMap((group) => Object.keys(group.packages))
+  assert.ok(names.length > 0)
+  for (const name of names) assert.ok(disabled.has(name), `${name} needs a Renovate exclusion`)
+})
