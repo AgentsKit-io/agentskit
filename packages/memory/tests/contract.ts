@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import type { ChatMemory, EmbedFn, Message, VectorDocument, VectorMemory } from '@agentskit/core'
 
 /**
@@ -45,6 +47,19 @@ export const CHAT_INVARIANTS = ['CM1', 'CM2', 'CM3', 'CM4', 'CM5', 'CM6'] as con
 export const VECTOR_INVARIANTS = ['VM1', 'VM2', 'VM3', 'VM4', 'VM5', 'VM6', 'VM7', 'VM8'] as const
 export type ChatInvariantId = (typeof CHAT_INVARIANTS)[number]
 export type VectorInvariantId = (typeof VECTOR_INVARIANTS)[number]
+
+interface InteropFixture<T> { valid: Array<{ name: string; value: T }> }
+const loadFixture = <T>(file: string): InteropFixture<T> =>
+  JSON.parse(readFileSync(fileURLToPath(new URL(`../../../tests/interop/fixtures/${file}`, import.meta.url)), 'utf8')) as InteropFixture<T>
+
+/** Valid chat-memory messages from tests/interop/fixtures/memory.json. */
+export const fixtureMessages = (): Message[] =>
+  loadFixture<{ messages: Array<Omit<Message, 'createdAt'> & { createdAt: string }> }>('memory.json')
+    .valid.flatMap(r => r.value.messages.map(m => ({ ...m, createdAt: new Date(m.createdAt) }) as Message))
+
+/** Valid documents from tests/interop/fixtures/vector-documents.json. */
+export const fixtureDocuments = (): VectorDocument[] =>
+  loadFixture<VectorDocument>('vector-documents.json').valid.map(r => r.value)
 
 export const chatMessage = (id: string, content = id, extra: Partial<Message> = {}): Message => ({
   id,
@@ -105,6 +120,18 @@ export function runChatMemoryContract(c: ChatMemoryContractCase): void {
       expect(JSON.stringify(input)).toBe(frozen)
       const loaded = await mem.load()
       expect(loaded.map(m => [m.id, m.role, m.content])).toEqual(input.map(m => [m.id, m.role, m.content]))
+      expect(loaded.map(m => new Date(m.createdAt).toISOString())).toEqual(input.map(m => m.createdAt.toISOString()))
+    })
+
+    invariant(t, 'CM3', 'interop fixture messages (memory.json) round-trip unchanged', async () => {
+      const mem = await fresh()
+      const input = fixtureMessages()
+      expect(input.length).toBeGreaterThan(0)
+      await mem.save(input)
+      const loaded = await mem.load()
+      expect(loaded.map(m => [m.id, m.role, m.content, m.status, m.metadata])).toEqual(
+        input.map(m => [m.id, m.role, m.content, m.status, m.metadata]),
+      )
       expect(loaded.map(m => new Date(m.createdAt).toISOString())).toEqual(input.map(m => m.createdAt.toISOString()))
     })
 
@@ -221,6 +248,19 @@ export function runVectorMemoryContract(c: VectorMemoryContractCase): void {
       expect(hit.metadata).toMatchObject({ source: 'x', nested: { n: 1, list: [1, 'two'] } })
     })
 
+    invariant(t, 'VM6', 'interop fixture documents (vector-documents.json) round-trip content and metadata', async () => {
+      const mem = await c.build()
+      const docs = fixtureDocuments().map(d => ({ ...d, embedding: near(d.embedding, dims) }))
+      expect(docs.length).toBeGreaterThan(0)
+      await mem.store(docs)
+      for (const d of docs) {
+        const hits = await mem.search(d.embedding, { topK: 10 })
+        const hit = hits.find(h => h.id === d.id)
+        expect(hit?.content).toBe(d.content)
+        if (d.metadata) expect(hit?.metadata).toMatchObject(d.metadata)
+      }
+    })
+
     invariant(t, 'VM7', 'delete is optional; when present removed ids no longer match', async () => {
       const mem = await c.build()
       await mem.store(corpus())
@@ -237,6 +277,16 @@ export function runVectorMemoryContract(c: VectorMemoryContractCase): void {
       expect(JSON.parse(JSON.stringify(docs))).toEqual(docs)
       await mem.store(docs)
       const hits = await mem.search(query, { topK: 10 })
+      expect(JSON.parse(JSON.stringify(hits))).toEqual(hits)
+    })
+
+    invariant(t, 'VM8', 'interop fixture documents survive store/search as JSON', async () => {
+      const mem = await c.build()
+      const docs = fixtureDocuments().map(d => ({ ...d, embedding: near(d.embedding, dims) }))
+      expect(JSON.parse(JSON.stringify(docs))).toEqual(docs)
+      await mem.store(docs)
+      const hits = await mem.search(docs[0].embedding, { topK: 10 })
+      expect(hits.length).toBeGreaterThan(0)
       expect(JSON.parse(JSON.stringify(hits))).toEqual(hits)
     })
 
