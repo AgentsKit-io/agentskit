@@ -29,6 +29,18 @@
         "major"
       ],
       "enabled": false
+    },
+    {
+      "description": "Owned by the release train (release-train.json + .github/workflows/release-train.yml); Renovate must not bump these or the release-train drift gate fails",
+      "matchPackageNames": [
+        "typescript",
+        "tsup",
+        "vitest",
+        "react",
+        "react-dom",
+        "@types/react"
+      ],
+      "enabled": false
     }
   ]
 }

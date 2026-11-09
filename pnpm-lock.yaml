@@ -53,6 +53,9 @@ importers:
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:packages/net
       '@agentskit/observability':
         specifier: workspace:*
         version: link:packages/observability

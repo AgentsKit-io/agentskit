@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "2a48e48eaa59be1764d55565c85e4fc4dbcb91da95b82cb7cd6a68b3bfd15396",
+  "contentHash": "e02f7b3e598f010d40684aec53c9bc0c062fdf9cfbfc160600235bccdb287688",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-07T07:55:54.880Z",
+  "generatedAt": "2026-11-09T17:43:15.920Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -36310,6 +36310,18 @@
       "contentHash": "fadaf0c7e9843dca577281307e33ae64004f1d8f162026a3d31bf787871f6c4c"
     },
     {
+      "id": "module:scripts/check-minimum-consumers.mjs",
+      "type": "module",
+      "title": "check-minimum-consumers.mjs",
+      "path": "scripts/check-minimum-consumers.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "fa66ba4c7e23d21ef8ae64c428354f35413eff1a23952ea42531f4163e5ec448"
+    },
+    {
       "id": "module:scripts/check-models-dev-freshness.mjs",
       "type": "module",
       "title": "check-models-dev-freshness.mjs",
@@ -36481,7 +36493,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "f8d29321f8bc08cdfda947b16ca67ba2edd1503459a454f387fbc5c0cc88a76a"
+      "contentHash": "3e8ae21a9b0cca44cb2b9ddc5c51a1e3b41631bca738d5aa3d758758402b256f"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -36703,7 +36715,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c"
+      "contentHash": "a7d99569b14f1d1f809ab554c3a7acab725a7c8bbbd7521f8a7896171dad4d70"
     },
     {
       "id": "module:scripts/ecosystem-llms-block.test.mjs",
@@ -37370,6 +37382,33 @@
       "contentHash": "162be6b0d7f3af5325f102635250d0d809a2e32121cae746672ada903c1fd654"
     },
     {
+      "id": "module:scripts/lib/release-train.mjs",
+      "type": "module",
+      "title": "release-train.mjs",
+      "path": "scripts/lib/release-train.mjs",
+      "symbols": [
+        "MINIMUM_CONSUMER_COVERAGE",
+        "MINIMUM_CONSUMER_TYPE_PACKAGES",
+        "applyToManifest",
+        "applyToPackageJson",
+        "compareVersions",
+        "findDrift",
+        "findPeerViolations",
+        "parseVersion",
+        "planUpdates",
+        "renderChangeset",
+        "renderOutput",
+        "renderProposal",
+        "validateManifest"
+      ],
+      "tags": [
+        "module",
+        "mjs",
+        "lib"
+      ],
+      "contentHash": "6787fa603755a98496d250d2a86d04c66f35fd7da2c4ec0dde73449ea438271b"
+    },
+    {
       "id": "module:scripts/lib/software-metadata.mjs",
       "type": "module",
       "title": "software-metadata.mjs",
@@ -37640,6 +37679,31 @@
         "scripts"
       ],
       "contentHash": "4f127fca2e056bb88885e2b031bccb88a0076668315d22db4c64c6dce2073644"
+    },
+    {
+      "id": "module:scripts/release-train.mjs",
+      "type": "module",
+      "title": "release-train.mjs",
+      "path": "scripts/release-train.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "6fa9fe637e33385ea0274477402f978aaf104e23f5aba4dc3ec67734cc8b73b3"
+    },
+    {
+      "id": "module:scripts/release-train.test.mjs",
+      "type": "module",
+      "title": "release-train.test.mjs",
+      "path": "scripts/release-train.test.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "test",
+        "scripts"
+      ],
+      "contentHash": "2ed74b7dd47976d09e8d7f1ccd741a08f583d6b05f2943de7c23ae8438dbd303"
     },
     {
       "id": "module:scripts/release-workflow-auth.test.mjs",
@@ -39160,8 +39224,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "3b996de12097625f88576df447ef691506103cf7958bd64b42f1722dc16e7ae0",
-    "fileCount": 2689,
+    "hash": "bd9c3521582376b9298604c959cb20950c678c8927cf15d542d837ab0982853b",
+    "fileCount": 2694,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39183,9 +39247,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "b5d884e81f9ef0313406ff55ef74409fad8b34ac8fd554b4328771bdf236d8fd",
+    "contentHash": "0487d3ca701a90cd1b4f737b9ca7207b83a6cb678956ecd7c739fe7244b5c752",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "0caf38cc49cdf50bfea4c170828d81c49340f609b5910da898c59792a237ccf2",
+    "snapshotHash": "b33d5f903961c25e8ade164bfbbdaf7adf0c908f02d1143c5021b61cd5134642",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39205,7 +39269,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2553,
+      "documentCount": 2557,
       "fieldNames": [
         "aliases",
         "body",
@@ -39216,13 +39280,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.018018018018018,
-        "body": 60.96553074813944,
-        "headings": 3.8856247551899727,
-        "path": 7.613004308656483,
-        "summary": 4.505679592636114,
-        "symbols": 7.562475518997259,
-        "title": 3.380728554641598
+        "aliases": 3.018380915134924,
+        "body": 60.870160344153305,
+        "headings": 3.879546343371138,
+        "path": 7.610089949159171,
+        "summary": 4.498631208447399,
+        "symbols": 7.567852952678921,
+        "title": 3.382479468126711
       }
     },
     "entries": [
@@ -41780,7 +41844,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3f87cf805292b5040fa7dfbd66aae2db31ba70b8060d95495076d0d105e29a93",
+        "contentHash": "28e4bdb9fd278bb50b11dc1b8d47dc89c7b8b80563097e49886c28da5b172564",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -189226,6 +189290,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:scripts/check-minimum-consumers.mjs",
+        "kind": "module",
+        "path": "scripts/check-minimum-consumers.mjs",
+        "title": "check-minimum-consumers.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "check-minimum-consumers.mjs",
+          "headings": "",
+          "path": "scripts/check-minimum-consumers.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/release-train.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "fa66ba4c7e23d21ef8ae64c428354f35413eff1a23952ea42531f4163e5ec448",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:scripts/check-models-dev-freshness.mjs",
         "kind": "module",
         "path": "scripts/check-models-dev-freshness.mjs",
@@ -189790,7 +189894,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f8d29321f8bc08cdfda947b16ca67ba2edd1503459a454f387fbc5c0cc88a76a",
+        "contentHash": "3e8ae21a9b0cca44cb2b9ddc5c51a1e3b41631bca738d5aa3d758758402b256f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190629,7 +190733,7 @@
             }
           ]
         },
-        "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c",
+        "contentHash": "a7d99569b14f1d1f809ab554c3a7acab725a7c8bbbd7521f8a7896171dad4d70",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192530,6 +192634,71 @@
         "confidence": "observed"
       },
       {
+        "id": "module:scripts/lib/release-train.mjs",
+        "kind": "module",
+        "path": "scripts/lib/release-train.mjs",
+        "title": "release-train.mjs",
+        "aliases": [],
+        "symbols": [
+          "MINIMUM_CONSUMER_COVERAGE",
+          "MINIMUM_CONSUMER_TYPE_PACKAGES",
+          "applyToManifest",
+          "applyToPackageJson",
+          "compareVersions",
+          "findDrift",
+          "findPeerViolations",
+          "parseVersion",
+          "planUpdates",
+          "renderChangeset",
+          "renderOutput",
+          "renderProposal",
+          "validateManifest"
+        ],
+        "tags": [
+          "module",
+          "mjs",
+          "lib"
+        ],
+        "fields": {
+          "title": "release-train.mjs",
+          "headings": "",
+          "path": "scripts/lib/release-train.mjs",
+          "symbols": "MINIMUM_CONSUMER_COVERAGE MINIMUM_CONSUMER_TYPE_PACKAGES applyToManifest applyToPackageJson compareVersions findDrift findPeerViolations parseVersion planUpdates renderChangeset renderOutput renderProposal validateManifest",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/check-minimum-consumers.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:scripts/release-train.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:scripts/release-train.test.mjs",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "6787fa603755a98496d250d2a86d04c66f35fd7da2c4ec0dde73449ea438271b",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:scripts/lib/software-metadata.mjs",
         "kind": "module",
         "path": "scripts/lib/software-metadata.mjs",
@@ -193391,6 +193560,87 @@
           ]
         },
         "contentHash": "4f127fca2e056bb88885e2b031bccb88a0076668315d22db4c64c6dce2073644",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/release-train.mjs",
+        "kind": "module",
+        "path": "scripts/release-train.mjs",
+        "title": "release-train.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "release-train.mjs",
+          "headings": "",
+          "path": "scripts/release-train.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/release-train.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "6fa9fe637e33385ea0274477402f978aaf104e23f5aba4dc3ec67734cc8b73b3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/release-train.test.mjs",
+        "kind": "module",
+        "path": "scripts/release-train.test.mjs",
+        "title": "release-train.test.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "test",
+          "scripts"
+        ],
+        "fields": {
+          "title": "release-train.test.mjs",
+          "headings": "",
+          "path": "scripts/release-train.test.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs test scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/release-train.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "2ed74b7dd47976d09e8d7f1ccd741a08f583d6b05f2943de7c23ae8438dbd303",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -202459,7 +202709,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a75672050d7cd0cd5a38b9a8b325ba428acfcd18233760534c786f250abe7aad",
+        "contentHash": "2629cedfe07269758e2a6bf9cddb7e0d4604f841f8ec2684b965d86eeb1ea710",
         "provenance": "observed",
         "confidence": "observed"
       }
