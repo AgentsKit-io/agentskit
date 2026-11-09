@@ -1,5 +1,5 @@
-import { createAgentsKitMcpServer } from '../../../../packages/mcp/src/index'
-import type { McpServer, McpTransport } from '../../../../packages/mcp/src/index'
+import { createAgentsKitMcpServer } from '@agentskit/mcp'
+import type { McpServer, McpTransport } from '@agentskit/mcp'
 import type { ToolDefinition } from '@agentskit/core'
 import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js'
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js'

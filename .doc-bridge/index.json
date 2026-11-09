@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "9ecd40e4778f0f3d0ea8270682301c870cf2c9819065f62241e1c05e4cb60537",
+  "contentHash": "be9cfb240beb16d2a659da1c4339b2c632ce94aba3e4acecac2cb876c7665744",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-09T15:59:07.459Z",
+  "generatedAt": "2026-11-09T19:17:44.216Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -10798,7 +10798,7 @@
         "ts",
         "coexistence-mcp-host"
       ],
-      "contentHash": "41b95f11a6ef0524b5f6c228397fc5ab93c1b7957d9b32a5b238a3f1a9e059e0"
+      "contentHash": "fb2ffd007bf70f6299339446a0e09a98d0d987acaa56abffb739d65e436a1221"
     },
     {
       "id": "module:apps/docs-next/fixtures/coexistence-vercel-ai/agent.test.ts",
@@ -39277,7 +39277,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "c023c84b1778126fc586e0cbf9a93200717428dccd2846deb933552863a37b31",
+    "hash": "46be76fb46c25bea36018dd47ce75c7d397db000336a0ae6fba652f733ebf452",
     "fileCount": 2697,
     "projectionVersion": 2
   },
@@ -39300,9 +39300,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "5960d90898686b3fd9cc77527d211cfecec6bf74815706a44c287d312afb918b",
+    "contentHash": "adeb47b12ce7b4dab6e8214c1c5417ec12cd3f6913ebb5cf4135cdd603e2af02",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "e76b909ed48e1aa7813e9965cfe2d09f34ab5fc53cdeb97870c2c258d2211270",
+    "snapshotHash": "727a648577660b37ba05fce9ecfc77ff57f8bf15ba0009705b77082dec549e07",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -94421,15 +94421,9 @@
               "confidence": "observed"
             }
           ],
-          "outbound": [
-            {
-              "kind": "imports",
-              "id": "module:packages/mcp/src/index.ts",
-              "confidence": "observed"
-            }
-          ]
+          "outbound": []
         },
-        "contentHash": "41b95f11a6ef0524b5f6c228397fc5ab93c1b7957d9b32a5b238a3f1a9e059e0",
+        "contentHash": "fb2ffd007bf70f6299339446a0e09a98d0d987acaa56abffb739d65e436a1221",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -152202,11 +152196,6 @@
           "inbound": [
             {
               "kind": "imports",
-              "id": "module:apps/docs-next/fixtures/coexistence-mcp-host/agent.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
               "id": "module:packages/mcp/fixtures/coding-agent-hosts.ts",
               "confidence": "observed"
             },
@@ -202981,7 +202970,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "ae62c780dcfec073bae39fb9fc22500eec0f906c0efdc4896babb08530a6f667",
+        "contentHash": "02165ed3268fff4367e13efefb29d11866de7b1bec5d7ba26ee3ddacab4a4a51",
         "provenance": "observed",
         "confidence": "observed"
       }
