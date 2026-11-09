@@ -6,6 +6,7 @@ import {
   describeCostWindow,
   monthlyWindowKey,
   validateCostCommit,
+  validateCostCount,
   validateCostRelease,
   validateCostReserve,
   validateCostWindow,
@@ -33,11 +34,13 @@ export const postgresCostReservationTable = pgTable('agentskit_cost_reservation'
   amountUsd: usd('amount_usd').notNull(),
   actualUsd: usd('actual_usd'),
   status: text('status').notNull(),
+  kind: text('kind'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, table => [
   primaryKey({ columns: [table.tenantId, table.reservationId] }),
   check('agentskit_cost_reservation_status_check', sql`${table.status} IN ('reserved', 'committed', 'released')`),
   index('agentskit_cost_reservation_held').on(table.tenantId, table.windowKey, table.createdAt).where(sql`status = 'reserved'`),
+  index('agentskit_cost_reservation_kind').on(table.tenantId, table.windowKey, table.kind).where(sql`kind IS NOT NULL`),
 ])
 
 /** Drizzle schema: append-only usage ledger written when a reservation is committed. */
@@ -70,8 +73,11 @@ CREATE TABLE IF NOT EXISTS agentskit_cost_reservation (
   actual_usd numeric(20, 9),
   status text NOT NULL CHECK (status IN ('reserved', 'committed', 'released')),
   created_at timestamptz NOT NULL DEFAULT now(),
+  kind text,
   PRIMARY KEY (tenant_id, reservation_id)
 );
+ALTER TABLE agentskit_cost_reservation ADD COLUMN IF NOT EXISTS kind text;
+CREATE INDEX IF NOT EXISTS agentskit_cost_reservation_kind ON agentskit_cost_reservation (tenant_id, window_key, kind) WHERE kind IS NOT NULL;
 CREATE INDEX IF NOT EXISTS agentskit_cost_reservation_held ON agentskit_cost_reservation (tenant_id, window_key, created_at) WHERE status = 'reserved';
 CREATE TABLE IF NOT EXISTS agentskit_usage_ledger (
   id bigserial PRIMARY KEY,
@@ -156,8 +162,8 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
           WHERE ${cap}::numeric IS NULL OR w.spent_usd + w.reserved_usd + EXCLUDED.reserved_usd <= ${cap}::numeric
           RETURNING w.spent_usd, w.reserved_usd
         ), saved AS (
-          INSERT INTO agentskit_cost_reservation (tenant_id, reservation_id, window_key, amount_usd, status, created_at)
-          SELECT ${tenant}, ${reservationId}, ${windowKey}, ${amountUsd}::numeric, 'reserved', ${now().toISOString()}::timestamptz FROM held
+          INSERT INTO agentskit_cost_reservation (tenant_id, reservation_id, window_key, amount_usd, status, created_at, kind)
+          SELECT ${tenant}, ${reservationId}, ${windowKey}, ${amountUsd}::numeric, 'reserved', ${now().toISOString()}::timestamptz, ${input.kind ?? null} FROM held
         )
         SELECT spent_usd, reserved_usd FROM held`)
       } catch (error) {
@@ -228,6 +234,14 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
       const windowKey = input.windowKey ?? keyOf(now())
       await expire(sql`AND tenant_id = ${input.tenant} AND window_key = ${windowKey}`)
       return window(input.tenant, windowKey, input.capUsd)
+    },
+    async count(input) {
+      validateCostCount(input)
+      const windowKey = input.windowKey ?? keyOf(now())
+      await expire(sql`AND tenant_id = ${input.tenant} AND window_key = ${windowKey}`)
+      const [row] = await rows(sql`SELECT count(*)::int AS calls FROM agentskit_cost_reservation
+        WHERE tenant_id = ${input.tenant} AND window_key = ${windowKey} AND kind = ${input.kind} AND status IN ('reserved', 'committed')`)
+      return Number(row?.calls ?? 0)
     },
   }
 }

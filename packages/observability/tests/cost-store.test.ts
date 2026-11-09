@@ -16,6 +16,24 @@ describe('createInMemoryCostStore', () => {
     expect(Object.values(result)).toEqual(Array(6).fill('passed'))
   })
 
+  it('counts committed and still-held calls of one kind, per tenant and window', async () => {
+    let now = new Date('2026-10-01T00:00:00Z')
+    const store = createInMemoryCostStore({ now: () => now, reservationTtlMs: 1000 })
+    const count = (tenant: string, kind: string) => store.count({ tenant, kind })
+    await store.reserve({ tenant: 't', reservationId: 'a', amountUsd: 1, kind: 'describe' })
+    await store.commit({ tenant: 't', reservationId: 'a', actualUsd: 1 })
+    await store.reserve({ tenant: 't', reservationId: 'b', amountUsd: 1, kind: 'describe' })
+    await store.reserve({ tenant: 't', reservationId: 'c', amountUsd: 1, kind: 'describe' })
+    await store.release({ tenant: 't', reservationId: 'c' })
+    await store.reserve({ tenant: 't', reservationId: 'd', amountUsd: 1, kind: 'other' })
+    expect(await count('t', 'describe')).toBe(2)
+    expect(await count('t', 'other')).toBe(1)
+    expect(await count('u', 'describe')).toBe(0)
+    now = new Date('2026-10-01T00:00:02Z')
+    expect(await count('t', 'describe')).toBe(1)
+    await expect(store.count({ tenant: 't', kind: ' ' })).rejects.toBeInstanceOf(ConfigError)
+  })
+
   it('writes one ledger row per usage entry on the first commit only', async () => {
     const store = createInMemoryCostStore()
     await store.reserve({ tenant: 't', reservationId: 'r', amountUsd: 1 })

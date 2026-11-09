@@ -40,6 +40,7 @@ export type {
   CostReserveResult,
   CostCommitInput,
   CostReleaseInput,
+  CostCountInput,
   CostWindowInput,
   CostSpendRecord,
   InMemoryCostStore,

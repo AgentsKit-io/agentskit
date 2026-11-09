@@ -7,6 +7,7 @@ export interface PostgresCostContractResult extends CostStoreContractResult {
   ledger: 'passed'
   replayRace: 'passed'
   expiry: 'passed'
+  count: 'passed'
 }
 
 /** Shared by the Node pool test and the workerd fixture; imports the built package. */
@@ -47,6 +48,26 @@ export async function postgresCostContract(db: NodePgDatabase, tenantPrefix: str
   if (lateTtl !== 'AK_COST_RESERVATION_RELEASED') throw new Error('a commit after the TTL must be rejected as released')
   await lazy(60_001).release({ tenant: dropped, reservationId: 'next' })
 
+  const counted = `${tenantPrefix}:count`
+  const counts = (windowKey: string, kind: string, tenant = counted) => store.count({ tenant, kind, windowKey })
+  await store.reserve({ tenant: counted, reservationId: 'c1', amountUsd: 0.1, windowKey: 'contract', kind: 'describe' })
+  await store.commit({ tenant: counted, reservationId: 'c1', actualUsd: 0.1 })
+  await store.reserve({ tenant: counted, reservationId: 'c2', amountUsd: 0.1, windowKey: 'contract', kind: 'describe' })
+  await store.reserve({ tenant: counted, reservationId: 'c3', amountUsd: 0.1, windowKey: 'contract', kind: 'describe' })
+  await store.release({ tenant: counted, reservationId: 'c3' })
+  await store.reserve({ tenant: counted, reservationId: 'c4', amountUsd: 0.1, windowKey: 'contract', kind: 'other' })
+  await store.reserve({ tenant: counted, reservationId: 'c5', amountUsd: 0.1, windowKey: 'other-window', kind: 'describe' })
+  if (await counts('contract', 'describe') !== 2) throw new Error('count must include committed and held reservations only')
+  if (await counts('contract', 'other') !== 1 || await counts('contract', 'missing') !== 0) throw new Error('count must be per kind')
+  if (await counts('other-window', 'describe') !== 1) throw new Error('count must be per window')
+  if (await counts('contract', 'describe', `${tenantPrefix}:count-other`) !== 0) throw new Error('count must be per tenant')
+  const aged = `${tenantPrefix}:count-ttl`
+  await lazy(0).reserve({ tenant: aged, reservationId: 'old', amountUsd: 0.1, windowKey: 'contract', kind: 'describe' })
+  await lazy(0).reserve({ tenant: aged, reservationId: 'done', amountUsd: 0.1, windowKey: 'contract', kind: 'describe' })
+  await lazy(0).commit({ tenant: aged, reservationId: 'done', actualUsd: 0.1 })
+  if (await lazy(60_000).count({ tenant: aged, kind: 'describe', windowKey: 'contract' }) !== 2) throw new Error('a hold inside its TTL must count')
+  if (await lazy(60_001).count({ tenant: aged, kind: 'describe', windowKey: 'contract' }) !== 1) throw new Error('a hold past its TTL must not count, a committed call must')
+
   // Last: expiry releases every reservation still held in this test database, including the ones raced above.
   const abandoned = `${tenantPrefix}:expiry`
   await store.reserve({ tenant: abandoned, reservationId: 'abandoned', amountUsd: 0.3, windowKey: 'contract' })
@@ -58,5 +79,5 @@ export async function postgresCostContract(db: NodePgDatabase, tenantPrefix: str
   if (late !== 'AK_COST_RESERVATION_RELEASED') throw new Error('a commit after expiry must be rejected as released')
   if (Math.abs((await store.window({ tenant, windowKey: 'contract' })).reservedUsd) > 1e-9) throw new Error('expiry must return the holds of every tenant')
 
-  return { ...contract, ledger: 'passed', replayRace: 'passed', expiry: 'passed' }
+  return { ...contract, ledger: 'passed', replayRace: 'passed', expiry: 'passed', count: 'passed' }
 }

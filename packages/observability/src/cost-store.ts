@@ -1,4 +1,4 @@
-import { AgentsKitError, ConfigError, ErrorCodes } from '@agentskit/core'
+import { AgentsKitError } from '@agentskit/core'
 
 /** One priced model call, written to the usage ledger when a reservation is committed. */
 export interface CostUsageEntry {
@@ -39,6 +39,8 @@ export interface CostReserveInput {
   capUsd?: number
   /** Accounting window. Defaults to the store's current window. */
   windowKey?: string
+  /** Kind of call being held (`'generate-description'`), counted by `CostStore.count`. */
+  kind?: string
 }
 
 /** Outcome of `CostStore.reserve`. A denied reservation holds nothing. */
@@ -69,6 +71,15 @@ export interface CostWindowInput {
   windowKey?: string
 }
 
+/** Input of `CostStore.count`. */
+export interface CostCountInput {
+  tenant: string
+  /** Kind passed to `reserve`. */
+  kind: string
+  /** Accounting window. Defaults to the store's current window. */
+  windowKey?: string
+}
+
 /**
  * Durable, tenant-scoped spend accounting. `reserve` holds an estimate
  * atomically against the cap, `commit` replaces it with the real spend, and
@@ -82,6 +93,11 @@ export interface CostStore {
   commit: (input: CostCommitInput) => Promise<CostWindow>
   release: (input: CostReleaseInput) => Promise<CostWindow>
   window: (input: CostWindowInput) => Promise<CostWindow>
+  /**
+   * Calls of one kind a tenant made in a window: the committed ones plus the
+   * reservations still held within their TTL. Released and expired ones do not count.
+   */
+  count: (input: CostCountInput) => Promise<number>
 }
 
 /** Options shared by the bundled `CostStore` implementations. */
@@ -150,70 +166,22 @@ export function describeCostWindow(
   }
 }
 
-function assertKey(name: string, value: string): void {
-  if (typeof value !== 'string' || !value.trim()) {
-    throw new ConfigError({
-      code: ErrorCodes.AK_CONFIG_INVALID,
-      message: `cost store: ${name} must be a non-empty string`,
-      hint: 'Pass the authenticated tenant id and a unique reservation id.',
-    })
-  }
-}
-
-function assertUsd(name: string, value: number): void {
-  if (!Number.isFinite(value) || value < 0) {
-    throw new ConfigError({
-      code: ErrorCodes.AK_CONFIG_INVALID,
-      message: `cost store: ${name} must be a finite number ≥ 0 (received ${String(value)})`,
-      hint: 'Pass amounts and caps in USD as finite non-negative numbers.',
-    })
-  }
-}
-
-/** Validate `CostStoreOptions.reservationTtlMs`; shared by every `CostStore` implementation. */
-export function validateReservationTtl(reservationTtlMs: number | undefined): void {
-  if (reservationTtlMs === undefined) return
-  if (!Number.isFinite(reservationTtlMs) || reservationTtlMs <= 0) {
-    throw new ConfigError({
-      code: ErrorCodes.AK_CONFIG_INVALID,
-      message: `cost store: reservationTtlMs must be a finite number > 0 (received ${String(reservationTtlMs)})`,
-      hint: 'Pass the reservation lifetime in milliseconds, longer than your slowest call, or omit it.',
-    })
-  }
-}
-
-/** Validate a reserve input; shared by every `CostStore` implementation. */
-export function validateCostReserve(input: CostReserveInput): void {
-  assertKey('tenant', input.tenant)
-  assertKey('reservationId', input.reservationId)
-  assertUsd('amountUsd', input.amountUsd)
-  if (input.capUsd !== undefined) assertUsd('capUsd', input.capUsd)
-}
-
-/** Validate a release input; shared by every `CostStore` implementation. */
-export function validateCostRelease(input: CostReleaseInput): void {
-  assertKey('tenant', input.tenant)
-  assertKey('reservationId', input.reservationId)
-}
-
-/** Validate a window input; shared by every `CostStore` implementation. */
-export function validateCostWindow(input: CostWindowInput): void {
-  assertKey('tenant', input.tenant)
-  if (input.capUsd !== undefined) assertUsd('capUsd', input.capUsd)
-}
-
-/** Validate a commit input; shared by every `CostStore` implementation. */
-export function validateCostCommit(input: CostCommitInput): void {
-  assertKey('tenant', input.tenant)
-  assertKey('reservationId', input.reservationId)
-  assertUsd('actualUsd', input.actualUsd)
-  for (const entry of input.usage ?? []) {
-    assertKey('usage.model', entry.model)
-    assertUsd('usage.promptTokens', entry.promptTokens)
-    assertUsd('usage.completionTokens', entry.completionTokens)
-    assertUsd('usage.costUsd', entry.costUsd)
-  }
-}
+export {
+  validateCostCommit,
+  validateCostCount,
+  validateCostRelease,
+  validateCostReserve,
+  validateCostWindow,
+  validateReservationTtl,
+} from './cost-store-validate'
+import {
+  validateCostCommit,
+  validateCostCount,
+  validateCostRelease,
+  validateCostReserve,
+  validateCostWindow,
+  validateReservationTtl,
+} from './cost-store-validate'
 
 // USD is tracked in integer nano-dollars so repeated sums stay exact.
 const NANO = 1e9
@@ -223,6 +191,7 @@ interface MemoryReservation {
   tenant: string
   windowKey: string
   amount: number
+  kind?: string
   createdAt: number
   status: 'reserved' | 'committed' | 'released'
 }
@@ -299,7 +268,7 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
         return { ok: false, reason: 'quota_exceeded', window: describe(input.tenant, windowKey, input.capUsd) }
       }
       state.reserved += amount
-      const reservation: MemoryReservation = { tenant: input.tenant, windowKey, amount, createdAt: now().getTime(), status: 'reserved' }
+      const reservation: MemoryReservation = { tenant: input.tenant, windowKey, amount, kind: input.kind, createdAt: now().getTime(), status: 'reserved' }
       reservations.set(id, reservation)
       held.add(reservation)
       return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, windowKey, input.capUsd) }
@@ -335,6 +304,16 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
       validateCostWindow(input)
       expire()
       return describe(input.tenant, input.windowKey ?? keyOf(now()), input.capUsd)
+    },
+    async count(input) {
+      validateCostCount(input)
+      expire()
+      const windowKey = input.windowKey ?? keyOf(now())
+      let total = 0
+      for (const reservation of reservations.values()) {
+        if (reservation.tenant === input.tenant && reservation.windowKey === windowKey && reservation.kind === input.kind && reservation.status !== 'released') total++
+      }
+      return total
     },
     ledger: () => ledger.map(row => ({ ...row })),
   }
