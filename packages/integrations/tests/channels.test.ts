@@ -191,6 +191,17 @@ describe('createChannelHandler', () => {
     expect(res.status).toBe(200)
     expect(JSON.parse((f.mock.calls[0] as unknown as [string, RequestInit])[1].body as string)).toMatchObject({ chat_id: '-100777', text: 'echo:ping' })
   })
+  it('dedupes retries per chat but not across chats sharing a message_id', async () => {
+    const run = vi.fn(async (t: string) => `echo:${t}`)
+    const h = createChannelHandler(tg(), { run })
+    const headers = { 'x-telegram-bot-api-secret-token': 'hook-secret' }
+    const mk = (chat: number) => JSON.stringify({ update_id: 1, message: { message_id: 7, from: { id: 1, is_bot: false }, chat: { id: chat, type: 'private' }, date: 1761700050, text: 'hi' } })
+    await h({ headers, rawBody: mk(111) })
+    await h({ headers, rawBody: mk(222) })
+    expect(run).toHaveBeenCalledTimes(2)
+    await h({ headers, rawBody: mk(111) })
+    expect(run).toHaveBeenCalledTimes(2)
+  })
   it('skips bot messages and reports agent errors without failing the webhook', async () => {
     const body = fixture('slack-bot-echo.json')
     const ts = NOW

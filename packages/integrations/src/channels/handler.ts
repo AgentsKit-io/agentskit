@@ -47,7 +47,7 @@ export function createChannelHandler(
     options.dedupe === false ? () => false
     : options.dedupe ?? ((m: InboundMessage) => {
       if (!m.id) return false
-      const key = `${m.channel}:${m.id}`
+      const key = `${m.channel}:${m.conversationId}:${m.id}`
       if (seen.has(key)) return true
       seen.add(key)
       if (seen.size > 1000) seen.delete(seen.values().next().value as string)
@@ -55,7 +55,7 @@ export function createChannelHandler(
     })
   // A failed delivery must stay retryable: drop its id so the provider's retry is processed.
   const forget = (m: InboundMessage) => {
-    if (m.id) seen.delete(`${m.channel}:${m.id}`)
+    if (m.id) seen.delete(`${m.channel}:${m.conversationId}:${m.id}`)
   }
   return async (request) => {
     if (request.method === 'GET') {
