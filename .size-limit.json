@@ -200,7 +200,7 @@
   {
     "name": "@agentskit/adapters (ESM export .)",
     "path": "node_modules/.cache/size-limit-subpaths/adapters/root.js",
-    "limit": "21 KB",
+    "limit": "21.5 KB",
     "gzip": true
   },
   {
@@ -596,7 +596,7 @@
   {
     "name": "@agentskit/tools (ESM export .)",
     "path": "node_modules/.cache/size-limit-subpaths/tools/root.js",
-    "limit": "10.5 KB",
+    "limit": "11 KB",
     "gzip": true
   },
   {
@@ -657,6 +657,12 @@
     "name": "@agentskit/observability (ESM export ./cost-store-contract)",
     "path": "node_modules/.cache/size-limit-subpaths/observability/cost-store-contract.js",
     "limit": "2.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/runtime (ESM export ./runners)",
+    "path": "node_modules/.cache/size-limit-subpaths/runtime/runners.js",
+    "limit": "4.5 KB",
     "gzip": true
   }
 ]

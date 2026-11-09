@@ -88,6 +88,7 @@ console.log(result.content)
 - Tool `init` / `dispose` lifecycle hooks.
 - `AgentEvent` emissions for observability integrations.
 - `retriever` option for RAG context injection.
+- `@agentskit/runtime/runners` — one `AgentRunner` interface for Hermes (ACP), CopilotKit/OpenBot, Claude Code and Codex.
 
 ## Advanced primitives
 
