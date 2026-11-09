@@ -1,0 +1,1827 @@
+{
+  "schemaVersion": 1,
+  "$schema": "./capability-evidence.schema.json",
+  "entries": [
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openai",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openai",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openai",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "anthropic",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "anthropic",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "anthropic",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "gemini",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "gemini",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "gemini",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "grok",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "grok",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "grok",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "deepseek",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "deepseek",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "deepseek",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "kimi",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "kimi",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "kimi",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "mistral",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "mistral",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "mistral",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "cohere",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "cohere",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "cohere",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "together",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "together",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "together",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "groq",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "groq",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "groq",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "fireworks",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "fireworks",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "fireworks",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openrouter",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openrouter",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openrouter",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "huggingface",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "huggingface",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "huggingface",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "ollama",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "ollama",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "ollama",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "lmstudio",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "lmstudio",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "lmstudio",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "vllm",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "vllm",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "vllm",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "llamacpp",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "llamacpp",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "llamacpp",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "cerebras",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "cerebras",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "cerebras",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "bail",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "bail",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "bail",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "azureOpenAI",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "azureOpenAI",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "cancellation",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/contract.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/contract.test.ts"
+      },
+      "limitations": "Contract case A6 (abort before, after and mid-stream).",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "azureOpenAI",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "retries",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/retry.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/retry.test.ts"
+      },
+      "limitations": "Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openai",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "tool-calling",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/tool-history.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/tool-history.test.ts"
+      },
+      "limitations": "Tool-history encoding is tested; a live tool-call round trip per provider is not.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openai",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "multimodal-input",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/multimodal-http.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/multimodal-http.test.ts"
+      },
+      "limitations": "Request encoding verified against stubbed HTTP only.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openai",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "structured-output",
+      "state": "planned",
+      "limitations": "No contract case yet.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "anthropic",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "tool-calling",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/tool-history.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/tool-history.test.ts"
+      },
+      "limitations": "Tool-history encoding is tested; a live tool-call round trip per provider is not.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "anthropic",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "multimodal-input",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/multimodal-http.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/multimodal-http.test.ts"
+      },
+      "limitations": "Request encoding verified against stubbed HTTP only.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "anthropic",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "structured-output",
+      "state": "planned",
+      "limitations": "No contract case yet.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "gemini",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "tool-calling",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/tool-history.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/tool-history.test.ts"
+      },
+      "limitations": "Tool-history encoding is tested; a live tool-call round trip per provider is not.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "gemini",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "multimodal-input",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/multimodal-http.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/multimodal-http.test.ts"
+      },
+      "limitations": "Request encoding verified against stubbed HTTP only.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "gemini",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "structured-output",
+      "state": "planned",
+      "limitations": "No contract case yet.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openai-embedder",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "embeddings",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/embedders/openai.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/embedders/openai.test.ts"
+      },
+      "limitations": "Stubbed HTTP only.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "gemini-embedder",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "embeddings",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/embedders/gemini.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/embedders/gemini.test.ts"
+      },
+      "limitations": "Stubbed HTTP only.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "ollama-embedder",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "embeddings",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/embedders/ollama.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/embedders/ollama.test.ts"
+      },
+      "limitations": "Stubbed HTTP only.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "provider",
+        "id": "openai-compatible-embedder",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "embeddings",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/embedders/openai-compatible.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/embedders/openai-compatible.test.ts"
+      },
+      "limitations": "Stubbed HTTP only.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "file-chat",
+        "package": "@agentskit/memory"
+      },
+      "capability": "persistent-memory",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/memory/tests/file-chat.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/file-chat.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "sqlite",
+        "package": "@agentskit/memory"
+      },
+      "capability": "persistent-memory",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/memory/tests/sqlite.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/sqlite.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "redis",
+        "package": "@agentskit/memory"
+      },
+      "capability": "persistent-memory",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/memory/tests/redis.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/redis.test.ts"
+      },
+      "limitations": "Exercised against an injected client, not a live service.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "web-storage",
+        "package": "@agentskit/memory"
+      },
+      "capability": "persistent-memory",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/memory/tests/web-storage.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/web-storage.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "turso",
+        "package": "@agentskit/memory"
+      },
+      "capability": "persistent-memory",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/memory/tests/turso.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/turso.test.ts"
+      },
+      "limitations": "Exercised against an injected client, not a live service.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "supabase",
+        "package": "@agentskit/memory"
+      },
+      "capability": "persistent-memory",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/memory/tests/supabase.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/supabase.test.ts"
+      },
+      "limitations": "Exercised against an injected client, not a live service.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "postgres",
+        "package": "@agentskit/memory"
+      },
+      "capability": "persistent-memory",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/memory/tests/postgres.integration.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/postgres.integration.test.ts"
+      },
+      "limitations": "Integration suite needs a Postgres instance and is skipped without one.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "file-vector",
+        "package": "@agentskit/memory"
+      },
+      "capability": "embeddings",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/memory/tests/file-vector.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/file-vector.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "vector",
+        "package": "@agentskit/memory"
+      },
+      "capability": "embeddings",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/memory/tests/vector.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/vector.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "memory",
+        "id": "memory-cancellation",
+        "package": "@agentskit/memory"
+      },
+      "capability": "cancellation",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/memory/tests/cancellation.test.ts",
+        "command": "pnpm --filter @agentskit/memory exec vitest run tests/cancellation.test.ts"
+      },
+      "limitations": "Covers the memory operations in that suite, not every backend.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "retriever",
+        "id": "createRAG",
+        "package": "@agentskit/rag"
+      },
+      "capability": "embeddings",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/rag/tests/rag.test.ts",
+        "command": "pnpm --filter @agentskit/rag exec vitest run tests/rag.test.ts"
+      },
+      "limitations": "Retriever contract case; embedder is a test double.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "retriever",
+        "id": "createRAG",
+        "package": "@agentskit/rag"
+      },
+      "capability": "cancellation",
+      "state": "planned",
+      "limitations": "No retriever cancellation contract suite yet.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "runtime",
+        "id": "runtime",
+        "package": "@agentskit/runtime"
+      },
+      "capability": "tool-calling",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/runtime/tests/runner.test.ts",
+        "command": "pnpm --filter @agentskit/runtime exec vitest run tests/runner.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "runtime",
+        "id": "runtime",
+        "package": "@agentskit/runtime"
+      },
+      "capability": "cancellation",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/runtime/tests/runner.test.ts",
+        "command": "pnpm --filter @agentskit/runtime exec vitest run tests/runner.test.ts"
+      },
+      "limitations": "Abort handling in the runner loop only.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "runtime",
+        "id": "runtime",
+        "package": "@agentskit/runtime"
+      },
+      "capability": "human-approval",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/core/tests/hitl.test.ts",
+        "command": "pnpm --filter @agentskit/core exec vitest run tests/hitl.test.ts"
+      },
+      "limitations": "Approval primitive tested in core; not an end-to-end runtime suite.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "runtime",
+        "id": "runtime",
+        "package": "@agentskit/runtime"
+      },
+      "capability": "structured-output",
+      "state": "planned",
+      "limitations": "No test.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "runtime",
+        "id": "tools",
+        "package": "@agentskit/tools"
+      },
+      "capability": "tool-calling",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/tools/tests/discovery.test.ts",
+        "command": "pnpm --filter @agentskit/tools exec vitest run tests/discovery.test.ts"
+      },
+      "limitations": "Discovery and registration; individual tools have their own suites.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "react",
+        "package": "@agentskit/react"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/react/tests/core/useChat.test.ts",
+        "command": "pnpm --filter @agentskit/react exec vitest run tests/core/useChat.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "vue",
+        "package": "@agentskit/vue"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/vue/tests/useChat.test.ts",
+        "command": "pnpm --filter @agentskit/vue exec vitest run tests/useChat.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "svelte",
+        "package": "@agentskit/svelte"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/svelte/tests/store.test.ts",
+        "command": "pnpm --filter @agentskit/svelte exec vitest run tests/store.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "angular",
+        "package": "@agentskit/angular"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/angular/tests/service.test.ts",
+        "command": "pnpm --filter @agentskit/angular exec vitest run tests/service.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "solid",
+        "package": "@agentskit/solid"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/solid/tests/useChat.test.ts",
+        "command": "pnpm --filter @agentskit/solid exec vitest run tests/useChat.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "ink",
+        "package": "@agentskit/ink"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/ink/tests/useChat-sync.test.ts",
+        "command": "pnpm --filter @agentskit/ink exec vitest run tests/useChat-sync.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "react-native",
+        "package": "@agentskit/react-native"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/react-native/tests/useChat.test.ts",
+        "command": "pnpm --filter @agentskit/react-native exec vitest run tests/useChat.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "ink",
+        "package": "@agentskit/ink"
+      },
+      "capability": "human-approval",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/ink/tests/ToolConfirmation.test.tsx",
+        "command": "pnpm --filter @agentskit/ink exec vitest run tests/ToolConfirmation.test.tsx"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "react",
+        "package": "@agentskit/react"
+      },
+      "capability": "human-approval",
+      "state": "planned",
+      "limitations": "No approval-UI test in this binding.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "vue",
+        "package": "@agentskit/vue"
+      },
+      "capability": "human-approval",
+      "state": "planned",
+      "limitations": "No approval-UI test in this binding.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "svelte",
+        "package": "@agentskit/svelte"
+      },
+      "capability": "human-approval",
+      "state": "planned",
+      "limitations": "No approval-UI test in this binding.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "angular",
+        "package": "@agentskit/angular"
+      },
+      "capability": "human-approval",
+      "state": "planned",
+      "limitations": "No approval-UI test in this binding.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "solid",
+        "package": "@agentskit/solid"
+      },
+      "capability": "human-approval",
+      "state": "planned",
+      "limitations": "No approval-UI test in this binding.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "ui",
+        "id": "react-native",
+        "package": "@agentskit/react-native"
+      },
+      "capability": "human-approval",
+      "state": "planned",
+      "limitations": "No approval-UI test in this binding.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "protocol",
+        "id": "mcp",
+        "package": "@agentskit/tools"
+      },
+      "capability": "tool-calling",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/tools/tests/mcp.test.ts",
+        "command": "pnpm --filter @agentskit/tools exec vitest run tests/mcp.test.ts"
+      },
+      "limitations": "Client-side tool bridge; see the mcp-bridge recipe.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "protocol",
+        "id": "mcp-server",
+        "package": "@agentskit/mcp"
+      },
+      "capability": "tool-calling",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/mcp/tests/server.test.ts",
+        "command": "pnpm --filter @agentskit/mcp exec vitest run tests/server.test.ts"
+      },
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "protocol",
+        "id": "a2a",
+        "package": "@agentskit/core"
+      },
+      "capability": "tool-calling",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/core/tests/a2a.test.ts",
+        "command": "pnpm --filter @agentskit/core exec vitest run tests/a2a.test.ts"
+      },
+      "limitations": "Agent card validation and version only; no task exchange transport.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "protocol",
+        "id": "a2a",
+        "package": "@agentskit/core"
+      },
+      "capability": "streaming",
+      "state": "planned",
+      "limitations": "No streaming transport.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "protocol",
+        "id": "langchain",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/langchain.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/langchain.test.ts"
+      },
+      "limitations": "Coexistence recipe: from-langchain migration guide.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "protocol",
+        "id": "langchain-bridge",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "tool-calling",
+      "state": "partial",
+      "evidence": {
+        "test": "packages/adapters/tests/langchain-bridge.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/langchain-bridge.test.ts"
+      },
+      "limitations": "AdapterFactory to BaseChatModel bridge.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "protocol",
+        "id": "vercel-ai",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/vercel-ai.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/vercel-ai.test.ts"
+      },
+      "limitations": "Coexistence recipe: from-vercel-ai-sdk migration guide.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    },
+    {
+      "subject": {
+        "kind": "protocol",
+        "id": "langgraph",
+        "package": "@agentskit/adapters"
+      },
+      "capability": "streaming",
+      "state": "verified",
+      "evidence": {
+        "test": "packages/adapters/tests/langchain.test.ts",
+        "command": "pnpm --filter @agentskit/adapters exec vitest run tests/langchain.test.ts"
+      },
+      "limitations": "Stream and streamEvents modes exercised with stubbed graphs.",
+      "owner": "agentskit-maintainers",
+      "reviewedOn": "2026-10-28",
+      "expiresOn": "2027-04-28"
+    }
+  ]
+}
