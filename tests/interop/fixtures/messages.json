@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "kind": "messages",
+  "canonicalSha256": "010343cb0e002ddca70f84319910a0d0979b012f4d9239582e1c55bb604f634f",
+  "valid": [
+    {
+      "name": "text",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "user",
+            "content": "Hello",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z"
+          },
+          {
+            "id": "m2",
+            "role": "assistant",
+            "content": "Hi! How can I help?",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "name": "multimodal-parts",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "user",
+            "content": "Describe these\n[image]",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "parts": [
+              {
+                "type": "text",
+                "text": "Describe these"
+              },
+              {
+                "type": "image",
+                "source": "https://example.test/cat.png",
+                "mimeType": "image/png",
+                "detail": "low"
+              },
+              {
+                "type": "audio",
+                "source": "https://example.test/clip.mp3",
+                "mimeType": "audio/mpeg",
+                "durationSec": 12.5
+              },
+              {
+                "type": "video",
+                "source": "https://example.test/clip.mp4",
+                "durationSec": 3
+              },
+              {
+                "type": "file",
+                "source": "https://example.test/doc.pdf",
+                "mimeType": "application/pdf",
+                "filename": "doc.pdf"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "unknown-part-type",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "user",
+            "content": "x",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "parts": [
+              {
+                "type": "hologram",
+                "source": "s"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "bad-role",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "robot",
+            "content": "x",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "name": "bad-version",
+      "value": {
+        "version": 2,
+        "messages": []
+      }
+    },
+    {
+      "name": "non-iso-createdAt",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "user",
+            "content": "x",
+            "status": "complete",
+            "createdAt": "yesterday"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -40,7 +40,7 @@ async function startHangingServer(): Promise<{
 describe('timeoutSignal / anySignal', () => {
   it('aborts after the timeout with a TimeoutError', async () => {
     const signal = timeoutSignal(10)
-    await new Promise<void>(resolve => signal.addEventListener('abort', () => resolve(), { once: true }))
+    await new Promise(resolve => signal.addEventListener('abort', resolve, { once: true }))
     expect(signal.aborted).toBe(true)
     expect((signal.reason as Error).name).toBe('TimeoutError')
   })
