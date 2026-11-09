@@ -102,8 +102,9 @@ Agent evaluation and benchmarking. Supports metrics: accuracy, latency, cost, to
 - Changesets for versioning (`pnpm changeset`)
 
 Conventions above are enforced by gates — run `pnpm check:quality-gates` before
-opening a PR (`pnpm check:all` adds typecheck + build + test). A husky pre-push
-hook runs them automatically.
+opening a PR (`pnpm check:all` adds typecheck + build + test). The husky pre-push
+hook only typechecks the packages changed since origin/main, so run
+`pnpm check:quality-gates` by hand (CI runs the full set).
 
 ## Agent Memory
 
