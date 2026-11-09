@@ -13,10 +13,7 @@ const sampleMessage: Message = {
   createdAt: new Date('2026-01-01T00:00:00Z'),
 }
 
-// Every save/clear is a real SQLite write to a file under os.tmpdir(), and each
-// write fsyncs. On a busy disk one fsync can take seconds, so the 5s default
-// test timeout is too tight for a test that writes 3-4 times.
-describe('sqliteChatMemory', { timeout: 30_000 }, () => {
+describe('sqliteChatMemory', () => {
   let dbPath: string
 
   beforeEach(() => {
