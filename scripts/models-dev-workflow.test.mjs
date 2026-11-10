@@ -22,6 +22,10 @@ describe('models.dev refresh workflow', () => {
     expect(workflow).toMatch(/peter-evans\/create-pull-request@[0-9a-f]{40}/)
   })
 
+  it('does not persist the checkout token (duplicate Authorization header breaks create-pull-request)', () => {
+    expect(workflow).toMatch(/fetch-depth: 1\n\s+#[^\n]*\n\s+persist-credentials: false/)
+  })
+
   it('keeps the runtime snapshot and derived evidence in the PR scope', () => {
     expect(workflow).toContain('packages/adapters/src/catalog/snapshot.json')
     expect(workflow).toContain('apps/docs-next/lib/ecosystem-stats.snapshot.json')
