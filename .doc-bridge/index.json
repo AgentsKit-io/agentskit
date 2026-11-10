@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "821494b1c78fdbad4d1171a023ad89fbb08b0a850d5e4a96a439ead4f4c9fbeb",
+  "contentHash": "7a4659e691dc0a81d2e787d5135e0b64a871750e86b7cb85f6322f04de6be1f7",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-10T17:59:23.272Z",
+  "generatedAt": "2026-11-10T18:42:16.790Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -388,7 +388,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794"
+      "contentHash": "bd344843e5d27de9961004f9c9faf0d364634bfb041870f38c0ffc59d49334bc"
     },
     {
       "id": "document:.github/rulesets/README.md",
@@ -4035,7 +4035,7 @@
         "document",
         "human"
       ],
-      "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10"
+      "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/adapter-contract-tests.mdx",
@@ -11211,7 +11211,7 @@
         "ts",
         "lib"
       ],
-      "contentHash": "f35d462185453da5c906eb21bdb7af948eafb3f70e0e821414b4884c48769f28"
+      "contentHash": "e4099e029a98c3b7e2fafcab413f72f27e3a30a52788c42b2c62a06c46909c53"
     },
     {
       "id": "module:apps/docs-next/lib/rag/embed.ts",
@@ -39173,7 +39173,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "4aa21fc9c2ba1f62f43212a5dccc59d2c877a50964f539f2fa849c828ca63753",
+    "hash": "d2bbd2577cf670c9fff665b029ef91b5548f23a59a4aa6a851b9d044bfccdf69",
     "fileCount": 2690,
     "projectionVersion": 2
   },
@@ -39196,9 +39196,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "483c160d784671dff338f4b0dcfdeca4df53845f7b3df394c4e50096c0e6ab30",
+    "contentHash": "17c3e0a56dca5795e80c6fa01585fede3f26f9feecfd76ab6d71f79c56af34c7",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "bfbc7b881d1f5dbad80506a3420f1162c044f2dcc38ba68495357ff8296dc0b2",
+    "snapshotHash": "b1e822ba5a8703128ca1e96831f64d9ab86272e3469ff3b0a596b1457fd50925",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39230,7 +39230,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0184025058731403,
-        "body": 60.94244322631167,
+        "body": 60.94166014095536,
         "headings": 3.884103367267032,
         "path": 7.613938919342209,
         "summary": 4.50391542678152,
@@ -42653,7 +42653,7 @@
           "path": ".github/factory-playbook.md",
           "symbols": "",
           "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
-          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks; do not rely on it for the final check (pre-push only typechecks changed packages; run the quick verification and pnpm check:quality-gates yourself). 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm check:quality-gates . - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:index and commit the result (needed whenever docs, package READMEs or exports change). - pnpm-lock.yaml : on conflict take the base side, then p",
+          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks. Pre-push only typechecks changed packages, so it is not the final check: verify in .github/factory.json (affected build, lint and test, Doc Bridge index, quality gates) is. 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm docs:bridge:index && pnpm check:quality-gates (the gates read the current tree's Doc Bridge index, as in CI). - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (plus the two commands above, this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:ind",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -42700,7 +42700,7 @@
             }
           ]
         },
-        "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794",
+        "contentHash": "bd344843e5d27de9961004f9c9faf0d364634bfb041870f38c0ffc59d49334bc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -63241,7 +63241,7 @@
           "path": "apps/docs-next/content/docs/reference/publications.mdx",
           "symbols": "",
           "summary": "This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed.",
-          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. - — public registry entry. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
+          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
           "aliases": "document human"
         },
         "graph": {
@@ -63252,7 +63252,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10",
+        "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95389,7 +95389,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f35d462185453da5c906eb21bdb7af948eafb3f70e0e821414b4884c48769f28",
+        "contentHash": "e4099e029a98c3b7e2fafcab413f72f27e3a30a52788c42b2c62a06c46909c53",
         "provenance": "observed",
         "confidence": "observed"
       },
