@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "821494b1c78fdbad4d1171a023ad89fbb08b0a850d5e4a96a439ead4f4c9fbeb",
+  "contentHash": "872c36b5bdee678fef00dec4e9219bd1bcf8f3cbfd63c61d52a7f2a2d293d463",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-10T17:59:23.272Z",
+  "generatedAt": "2026-11-10T18:37:35.970Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -27026,6 +27026,48 @@
       "contentHash": "f4cd9498574025581371d6f34752457e2c8625f958011e5d730ef7fd5a36bf32"
     },
     {
+      "id": "module:packages/memory/tests/contract.test.ts",
+      "type": "module",
+      "title": "contract.test.ts",
+      "path": "packages/memory/tests/contract.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "0e4e7cda1ab1905383400b75dd0b29e6ba7cf92b2ddc83b9cd9c320f2627458e"
+    },
+    {
+      "id": "module:packages/memory/tests/contract.ts",
+      "type": "module",
+      "title": "contract.ts",
+      "path": "packages/memory/tests/contract.ts",
+      "symbols": [
+        "CHAT_INVARIANTS",
+        "ChatInvariantId",
+        "ChatMemoryContractCase",
+        "EmbedFnContractCase",
+        "UncoveredBackend",
+        "VECTOR_INVARIANTS",
+        "VectorInvariantId",
+        "VectorMemoryContractCase",
+        "chatMessage",
+        "fixtureDocuments",
+        "fixtureMessages",
+        "listUncovered",
+        "runChatMemoryContract",
+        "runEmbedFnContract",
+        "runVectorMemoryContract"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "tests"
+      ],
+      "contentHash": "f74eb15a4d49944f87548d5d96620517a9dd49f25e4ade17289220eea740f101"
+    },
+    {
       "id": "module:packages/memory/tests/encrypted-extra.test.ts",
       "type": "module",
       "title": "encrypted-extra.test.ts",
@@ -29704,6 +29746,40 @@
         "tests"
       ],
       "contentHash": "5423f8d63a971017ee3c1163c7aeedad1a59c7f1e77b53db0a2b5efe668ba30b"
+    },
+    {
+      "id": "module:packages/rag/tests/contract.test.ts",
+      "type": "module",
+      "title": "contract.test.ts",
+      "path": "packages/rag/tests/contract.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "43d3b03bdd8430555b2cb10a73db02f91a007016bfd810875827570fa3438d51"
+    },
+    {
+      "id": "module:packages/rag/tests/contract.ts",
+      "type": "module",
+      "title": "contract.ts",
+      "path": "packages/rag/tests/contract.ts",
+      "symbols": [
+        "CONTRACT_VOCAB",
+        "CORPUS",
+        "RetrieverContractCase",
+        "RetrieverFixture",
+        "RetrieverInvariantId",
+        "runRetrieverContract",
+        "vocabEmbed"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "tests"
+      ],
+      "contentHash": "3548e74e73550d0d53b77f5cd9b3015c3b6e7dbceb2b45531150c820e3561c68"
     },
     {
       "id": "module:packages/rag/tests/errors.test.ts",
@@ -39173,8 +39249,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "4aa21fc9c2ba1f62f43212a5dccc59d2c877a50964f539f2fa849c828ca63753",
-    "fileCount": 2690,
+    "hash": "2dd14c0edb2156184e9559d0c9614a0d5631d99c838a5d2fe04bb0218482a21f",
+    "fileCount": 2694,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39196,9 +39272,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "483c160d784671dff338f4b0dcfdeca4df53845f7b3df394c4e50096c0e6ab30",
+    "contentHash": "3b0dd88f3133577d7a87aeed15c241351e541d296592bfd97f08ff8bfe9fe012",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "bfbc7b881d1f5dbad80506a3420f1162c044f2dcc38ba68495357ff8296dc0b2",
+    "snapshotHash": "8d1945d6eb8e3d275e700acf6909cf1fc8418a18da61bb14c520607b95226241",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39218,7 +39294,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2554,
+      "documentCount": 2558,
       "fieldNames": [
         "aliases",
         "body",
@@ -39229,13 +39305,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0184025058731403,
-        "body": 60.94244322631167,
-        "headings": 3.884103367267032,
-        "path": 7.613938919342209,
-        "summary": 4.50391542678152,
-        "symbols": 7.559514487079092,
-        "title": 3.3821456538762726
+        "aliases": 3.019155590304926,
+        "body": 60.84714620797498,
+        "headings": 3.8780297107114934,
+        "path": 7.6121970289288505,
+        "summary": 4.49687255668491,
+        "symbols": 7.579358874120406,
+        "title": 3.380766223612197
       }
     },
     "entries": [
@@ -152359,6 +152435,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/memory/tests/encrypted-extra.test.ts",
               "confidence": "observed"
             },
@@ -152453,6 +152534,11 @@
             {
               "kind": "imports",
               "id": "module:packages/memory/tests/cancellation.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
               "confidence": "observed"
             },
             {
@@ -152570,6 +152656,11 @@
           ],
           "packageId": "package:@agentskit/memory",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/memory/tests/file-vector.test.ts",
@@ -153766,6 +153857,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/memory/tests/redaction.test.ts",
               "confidence": "observed"
             },
@@ -153829,6 +153925,11 @@
             {
               "kind": "imports",
               "id": "module:packages/memory/tests/cancellation.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
               "confidence": "observed"
             },
             {
@@ -153980,6 +154081,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/memory/tests/redis-chat-extra.test.ts",
               "confidence": "observed"
             },
@@ -154050,6 +154156,11 @@
           ],
           "packageId": "package:@agentskit/memory",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/memory/tests/redis-client.test.ts",
@@ -154168,6 +154279,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/memory/tests/sqlite.test.ts",
               "confidence": "observed"
             },
@@ -154282,6 +154398,11 @@
             {
               "kind": "imports",
               "id": "module:packages/memory/tests/cancellation.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
               "confidence": "observed"
             },
             {
@@ -155678,6 +155799,11 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/memory/tests/web-storage.test.ts",
               "confidence": "observed"
             },
@@ -155820,6 +155946,152 @@
           ]
         },
         "contentHash": "f4cd9498574025581371d6f34752457e2c8625f958011e5d730ef7fd5a36bf32",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/memory/tests/contract.test.ts",
+        "kind": "module",
+        "path": "packages/memory/tests/contract.test.ts",
+        "title": "contract.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "contract.test.ts",
+          "headings": "",
+          "path": "packages/memory/tests/contract.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/memory",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/encrypted.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/file-chat.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/file-vector.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/redaction.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/redis-chat.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/redis-client.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/redis-vector.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/sqlite.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/turso.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/web-storage.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/contract.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "0e4e7cda1ab1905383400b75dd0b29e6ba7cf92b2ddc83b9cd9c320f2627458e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/memory/tests/contract.ts",
+        "kind": "module",
+        "path": "packages/memory/tests/contract.ts",
+        "title": "contract.ts",
+        "aliases": [],
+        "symbols": [
+          "CHAT_INVARIANTS",
+          "ChatInvariantId",
+          "ChatMemoryContractCase",
+          "EmbedFnContractCase",
+          "UncoveredBackend",
+          "VECTOR_INVARIANTS",
+          "VectorInvariantId",
+          "VectorMemoryContractCase",
+          "chatMessage",
+          "fixtureDocuments",
+          "fixtureMessages",
+          "listUncovered",
+          "runChatMemoryContract",
+          "runEmbedFnContract",
+          "runVectorMemoryContract"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "tests"
+        ],
+        "fields": {
+          "title": "contract.ts",
+          "headings": "",
+          "path": "packages/memory/tests/contract.ts",
+          "symbols": "CHAT_INVARIANTS ChatInvariantId ChatMemoryContractCase EmbedFnContractCase UncoveredBackend VECTOR_INVARIANTS VectorInvariantId VectorMemoryContractCase chatMessage fixtureDocuments fixtureMessages listUncovered runChatMemoryContract runEmbedFnContract runVectorMemoryContract",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/memory",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/contract.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "f74eb15a4d49944f87548d5d96620517a9dd49f25e4ade17289220eea740f101",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -164777,6 +165049,11 @@
           "packageId": "package:@agentskit/rag",
           "inbound": [
             {
+              "kind": "imports",
+              "id": "module:packages/rag/tests/contract.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/packages/rag.mdx",
               "confidence": "observed"
@@ -164876,6 +165153,11 @@
             {
               "kind": "imports",
               "id": "module:packages/rag/src/partitioned.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/tests/contract.test.ts",
               "confidence": "observed"
             },
             {
@@ -165106,6 +165388,11 @@
             {
               "kind": "imports",
               "id": "module:packages/rag/src/rerankers/voyage.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/tests/contract.test.ts",
               "confidence": "observed"
             },
             {
@@ -165608,6 +165895,109 @@
           ]
         },
         "contentHash": "5423f8d63a971017ee3c1163c7aeedad1a59c7f1e77b53db0a2b5efe668ba30b",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/rag/tests/contract.test.ts",
+        "kind": "module",
+        "path": "packages/rag/tests/contract.test.ts",
+        "title": "contract.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "contract.test.ts",
+          "headings": "",
+          "path": "packages/rag/tests/contract.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/rag",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/src/partitioned.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/src/rag.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/src/rerank.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/tests/contract.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "43d3b03bdd8430555b2cb10a73db02f91a007016bfd810875827570fa3438d51",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/rag/tests/contract.ts",
+        "kind": "module",
+        "path": "packages/rag/tests/contract.ts",
+        "title": "contract.ts",
+        "aliases": [],
+        "symbols": [
+          "CONTRACT_VOCAB",
+          "CORPUS",
+          "RetrieverContractCase",
+          "RetrieverFixture",
+          "RetrieverInvariantId",
+          "runRetrieverContract",
+          "vocabEmbed"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "tests"
+        ],
+        "fields": {
+          "title": "contract.ts",
+          "headings": "",
+          "path": "packages/rag/tests/contract.ts",
+          "symbols": "CONTRACT_VOCAB CORPUS RetrieverContractCase RetrieverFixture RetrieverInvariantId runRetrieverContract vocabEmbed",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/rag",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/tests/contract.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "3548e74e73550d0d53b77f5cd9b3015c3b6e7dbceb2b45531150c820e3561c68",
         "provenance": "observed",
         "confidence": "observed"
       },
