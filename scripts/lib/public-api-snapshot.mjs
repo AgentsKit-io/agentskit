@@ -491,21 +491,19 @@ export function findMissingBuildOutputs(packages, fsApi) {
  * @returns {typeof import('typescript')}
  */
 export function loadTypeScript(fromFilename = fileURLToPath(import.meta.url)) {
-  const req = createRequire(fromFilename)
   // Root `typescript` is v7 (native, no JS compiler API); the alias keeps the API.
-  for (const name of ['typescript-5-9', 'typescript']) {
-    try {
-      return req(name)
-    } catch {
-      // try the next candidate
+  // Accept a candidate only if it exposes the compiler API, so v7 is never returned.
+  for (const req of [createRequire(fromFilename), require]) {
+    for (const name of ['typescript-5-9', 'typescript']) {
+      try {
+        const ts = req(name)
+        if (typeof ts.createProgram === 'function') return ts
+      } catch {
+        // try the next candidate
+      }
     }
   }
-  // Fall back to repo-root resolution from this library file
-  try {
-    return require('typescript-5-9')
-  } catch {
-    return require('typescript')
-  }
+  throw new Error('No TypeScript with the JS compiler API found; install the typescript-5-9 alias.')
 }
 
 /**
