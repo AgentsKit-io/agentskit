@@ -29,9 +29,16 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
 
       - run: pnpm --filter "./packages/*" build
 

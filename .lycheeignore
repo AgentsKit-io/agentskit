@@ -55,6 +55,4 @@ img/examples/.*\.gif$
 # Internal docs pages still being authored
 docs/reference/recipes/scaffold-creator$
 docs/reference/changelog$
-
-# Smithery registry listing for @agentskit/mcp; the host rejects CI runners
-^https://smithery\.ai/servers/agentskit/registry$
+https://smithery.ai/servers/agentskit/registry
