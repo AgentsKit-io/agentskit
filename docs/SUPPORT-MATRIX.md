@@ -23,7 +23,7 @@ CI on the default branch: **green**.
 | `@agentskit/ink` | 0.10.16 | supported | apps/example-ink, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/integrations` | 0.8.3 | experimental | — | — | — | — | — | — |
 | `@agentskit/mcp` | 0.5.2 | experimental | — | — | — | — | — | — |
-| `@agentskit/memory` | 0.12.1 | supported | apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
+| `@agentskit/memory` | 0.12.1 | supported | apps/ask-backend, apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/net` | 0.2.4 | supported | apps/docs-next, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/observability` | 0.13.1 | supported | apps/docs-next, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
 | `@agentskit/rag` | 0.7.1 | supported | apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat | ✅ | ✅ | ✅ | ✅ | ✅ eligible |
