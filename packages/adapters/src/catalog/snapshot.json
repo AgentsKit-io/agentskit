@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-08T05:11:23.420Z",
+  "generatedAt": "2026-11-10T10:31:46.437Z",
   "source": {
     "name": "models.dev",
     "url": "https://models.dev/api.json",
-    "version": "ffa014e06c87b3a3",
-    "contentHash": "ffa014e06c87b3a397fbf63d3557b469e52d36541268586fefe53bed21f2cb13",
-    "etag": "W/\"66c87b330560a74a941fb6b88f1b9116\""
+    "version": "2debc1ffbc4555e0",
+    "contentHash": "2debc1ffbc4555e0ec06ef3afe4bbb5b915787322ea594cd1ee12df312987d72",
+    "etag": "W/\"be56fd1044d968d6627e26da78331bea\""
   },
   "providers": [
     {
@@ -4187,7 +4187,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -10087,7 +10087,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -10125,7 +10125,7 @@
           "id": "motif-technologies/motif-3",
           "name": "Motif 3",
           "toolCall": true,
-          "structuredOutput": false,
+          "structuredOutput": true,
           "reasoning": true,
           "attachment": false,
           "openWeights": true,
@@ -33146,6 +33146,51 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "anthropic.claude-fable-5-2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "anthropic.claude-haiku-4-5-20251001-v1:0",
           "name": "Claude Haiku 4.5",
           "toolCall": true,
@@ -35559,6 +35604,51 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "global.anthropic.claude-fable-5-2",
+          "name": "Claude Fable 5.2 (Global)",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "global.anthropic.claude-haiku-4-5-20251001-v1:0",
           "name": "Claude Haiku 4.5 (Global)",
           "toolCall": true,
@@ -36213,6 +36303,50 @@
           "reasoningOptions": [],
           "releaseDate": "2026-07-16",
           "lastUpdated": "2026-07-16"
+        },
+        {
+          "id": "global.moonshotai.kimi-k3.1",
+          "name": "Kimi K3.1 Pro Highspeed (Global)",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": true,
+          "family": "kimi-k3",
+          "limit": {
+            "context": 1048576,
+            "output": 1048576
+          },
+          "cost": {
+            "input": 4,
+            "output": 20,
+            "cacheRead": 0.2,
+            "cacheWrite": 5
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-10-23",
+          "lastUpdated": "2026-10-23"
         },
         {
           "id": "global.openai.gpt-5.6-luna",
@@ -39922,6 +40056,51 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "us.anthropic.claude-fable-5-2",
+          "name": "Claude Fable 5.2 (US)",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8.8,
+            "output": 44,
+            "cacheRead": 0.22,
+            "cacheWrite": 11
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
           "name": "Claude Haiku 4.5 (US)",
           "toolCall": true,
@@ -40838,6 +41017,50 @@
           "reasoningOptions": [],
           "releaseDate": "2026-07-16",
           "lastUpdated": "2026-07-16"
+        },
+        {
+          "id": "us.moonshotai.kimi-k3.1",
+          "name": "Kimi K3.1 Pro Highspeed (US)",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": true,
+          "family": "kimi-k3",
+          "limit": {
+            "context": 1048576,
+            "output": 1048576
+          },
+          "cost": {
+            "input": 4.4,
+            "output": 22,
+            "cacheRead": 0.22,
+            "cacheWrite": 5.5
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-10-23",
+          "lastUpdated": "2026-10-23"
         },
         {
           "id": "us.openai.gpt-5.6-luna",
@@ -42674,6 +42897,51 @@
           "knowledge": "2026-06",
           "releaseDate": "2026-09-01",
           "lastUpdated": "2026-09-01"
+        },
+        {
+          "id": "claude-fable-5-2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "claude-haiku-4-5",
@@ -45764,6 +46032,50 @@
           "knowledge": "2026-06",
           "releaseDate": "2026-09-01",
           "lastUpdated": "2026-09-01"
+        },
+        {
+          "id": "claude-fable-5-2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "claude-haiku-4-5",
@@ -49651,6 +49963,50 @@
           "knowledge": "2026-06",
           "releaseDate": "2026-09-01",
           "lastUpdated": "2026-09-01"
+        },
+        {
+          "id": "claude-fable-5-2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "claude-haiku-4-5",
@@ -53817,7 +54173,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1000000,
@@ -55942,7 +56298,7 @@
           "cost": {
             "input": 1,
             "output": 1,
-            "cacheRead": 0.09999999999999998
+            "cacheRead": 0.1
           },
           "modalities": {
             "input": [
@@ -55977,7 +56333,7 @@
           "cost": {
             "input": 0.44,
             "output": 1.32,
-            "cacheRead": 0.04399999999999999
+            "cacheRead": 0.044
           },
           "modalities": {
             "input": [
@@ -56060,7 +56416,7 @@
           "cost": {
             "input": 0.12,
             "output": 0.37,
-            "cacheRead": 0.011999999999999997
+            "cacheRead": 0.012
           },
           "modalities": {
             "input": [
@@ -56096,7 +56452,7 @@
           "cost": {
             "input": 0.39,
             "output": 1.8,
-            "cacheRead": 0.03899999999999999
+            "cacheRead": 0.039
           },
           "modalities": {
             "input": [
@@ -56157,7 +56513,7 @@
           "cost": {
             "input": 1.85,
             "output": 9.5,
-            "cacheRead": 0.18499999999999997
+            "cacheRead": 0.185
           },
           "modalities": {
             "input": [
@@ -56178,6 +56534,41 @@
           "lastUpdated": "2026-07-16"
         },
         {
+          "id": "Qwen/Qwen3.5-27B-TEE",
+          "name": "Qwen3.5 27B TEE",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": true,
+          "family": "qwen",
+          "limit": {
+            "context": 262144,
+            "output": 262144
+          },
+          "cost": {
+            "input": 0.2,
+            "output": 1.75,
+            "cacheRead": 0.02
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "toggle"
+            }
+          ],
+          "releaseDate": "2026-02-23",
+          "lastUpdated": "2026-02-23"
+        },
+        {
           "id": "Qwen/Qwen3.5-397B-A17B-TEE",
           "name": "Qwen3.5 397B A17B TEE",
           "toolCall": true,
@@ -56193,7 +56584,7 @@
           "cost": {
             "input": 0.45,
             "output": 3,
-            "cacheRead": 0.04499999999999999
+            "cacheRead": 0.045
           },
           "modalities": {
             "input": [
@@ -56228,7 +56619,7 @@
           "cost": {
             "input": 0.25,
             "output": 2,
-            "cacheRead": 0.024999999999999994
+            "cacheRead": 0.025
           },
           "modalities": {
             "input": [
@@ -56287,7 +56678,7 @@
           "cost": {
             "input": 0.039,
             "output": 1.25,
-            "cacheRead": 0.003899999999999999
+            "cacheRead": 0.0039
           },
           "modalities": {
             "input": [
@@ -56365,7 +56756,7 @@
           "cost": {
             "input": 0.9,
             "output": 2.9,
-            "cacheRead": 0.08999999999999998
+            "cacheRead": 0.09
           },
           "modalities": {
             "input": [
@@ -56423,7 +56814,7 @@
           "cost": {
             "input": 1.25,
             "output": 3.95,
-            "cacheRead": 0.12499999999999997
+            "cacheRead": 0.125
           },
           "modalities": {
             "input": [
@@ -61305,6 +61696,8 @@
             ]
           },
           "reasoningOptions": [],
+          "status": "deprecated",
+          "deprecated": true,
           "knowledge": "2024-07",
           "releaseDate": "2025-01-20",
           "lastUpdated": "2025-05-29"
@@ -61346,6 +61739,8 @@
               ]
             }
           ],
+          "status": "deprecated",
+          "deprecated": true,
           "knowledge": "2025-05",
           "releaseDate": "2026-07-31",
           "lastUpdated": "2026-07-31"
@@ -61387,6 +61782,8 @@
               ]
             }
           ],
+          "status": "deprecated",
+          "deprecated": true,
           "releaseDate": "2026-08-13",
           "lastUpdated": "2026-08-22"
         },
@@ -61520,6 +61917,8 @@
               "text"
             ]
           },
+          "status": "deprecated",
+          "deprecated": true,
           "knowledge": "2023-12",
           "releaseDate": "2024-07-23",
           "lastUpdated": "2024-07-23"
@@ -61579,6 +61978,8 @@
               "text"
             ]
           },
+          "status": "deprecated",
+          "deprecated": true,
           "knowledge": "2023-12",
           "releaseDate": "2024-09-25",
           "lastUpdated": "2024-09-25"
@@ -61608,6 +62009,8 @@
               "text"
             ]
           },
+          "status": "deprecated",
+          "deprecated": true,
           "knowledge": "2023-12",
           "releaseDate": "2024-09-25",
           "lastUpdated": "2024-09-25"
@@ -61766,6 +62169,8 @@
               ]
             }
           ],
+          "status": "deprecated",
+          "deprecated": true,
           "knowledge": "2025-01",
           "releaseDate": "2026-04-20",
           "lastUpdated": "2026-04-20"
@@ -61798,6 +62203,8 @@
             ]
           },
           "reasoningOptions": [],
+          "status": "deprecated",
+          "deprecated": true,
           "knowledge": "2025-01",
           "releaseDate": "2026-06-12",
           "lastUpdated": "2026-06-12"
@@ -61839,6 +62246,8 @@
               ]
             }
           ],
+          "status": "deprecated",
+          "deprecated": true,
           "knowledge": "2025-06",
           "releaseDate": "2026-03-11",
           "lastUpdated": "2026-03-11"
@@ -61975,6 +62384,8 @@
             ]
           },
           "reasoningOptions": [],
+          "status": "deprecated",
+          "deprecated": true,
           "releaseDate": "2025-04-28",
           "lastUpdated": "2025-04-28"
         },
@@ -62047,6 +62458,8 @@
             ]
           },
           "reasoningOptions": [],
+          "status": "deprecated",
+          "deprecated": true,
           "knowledge": "2024-04",
           "releaseDate": "2025-03-05",
           "lastUpdated": "2025-03-05"
@@ -62121,6 +62534,8 @@
               ]
             }
           ],
+          "status": "deprecated",
+          "deprecated": true,
           "releaseDate": "2026-06-13",
           "lastUpdated": "2026-06-13"
         },
@@ -62200,6 +62615,8 @@
               ]
             }
           ],
+          "status": "deprecated",
+          "deprecated": true,
           "releaseDate": "2026-08-26",
           "lastUpdated": "2026-08-26"
         }
@@ -69966,6 +70383,50 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "anthropic/claude-fable-5-2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "anthropic/claude-haiku-4-5",
           "name": "Claude Haiku 4.5 (latest)",
           "toolCall": true,
@@ -71324,6 +71785,48 @@
           "lastUpdated": "2026-07-16"
         },
         {
+          "id": "moonshot/kimi-k3.1-pro",
+          "name": "Kimi K3.1 Pro",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": true,
+          "family": "kimi-k3",
+          "limit": {
+            "context": 1048576,
+            "output": 1048576
+          },
+          "cost": {
+            "input": 2,
+            "output": 10,
+            "cacheRead": 0.2,
+            "cacheWrite": 2
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "high",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-10-23",
+          "lastUpdated": "2026-10-23"
+        },
+        {
           "id": "openai/gpt-4o-mini",
           "name": "GPT-4o mini",
           "toolCall": true,
@@ -72073,6 +72576,70 @@
           "lastUpdated": "2026-09-29"
         },
         {
+          "id": "openai/gpt-6.1-terra",
+          "name": "GPT-6.1 Terra",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "gpt-terra",
+          "limit": {
+            "context": 1050000,
+            "input": 922000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 1,
+            "output": 5,
+            "cacheRead": 0.05,
+            "cacheWrite": 1.25,
+            "tiers": [
+              {
+                "input": 2,
+                "output": 7.5,
+                "cacheRead": 0.1,
+                "cacheWrite": 2.5,
+                "tier": {
+                  "type": "context",
+                  "size": 272000
+                }
+              }
+            ],
+            "contextOver200k": {
+              "input": 2,
+              "output": 7.5,
+              "cacheRead": 0.1,
+              "cacheWrite": 2.5
+            }
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06-01",
+          "releaseDate": "2026-10-26",
+          "lastUpdated": "2026-10-26"
+        },
+        {
           "id": "qwen/qwen3.6-flash",
           "name": "Qwen3.6 Flash",
           "toolCall": true,
@@ -72516,6 +73083,47 @@
           ],
           "releaseDate": "2026-07-06",
           "lastUpdated": "2026-07-06"
+        },
+        {
+          "id": "tencent/hy4",
+          "name": "Hy4",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "Hy",
+          "limit": {
+            "context": 1048576,
+            "input": 983010,
+            "output": 65536
+          },
+          "cost": {
+            "input": 0.96,
+            "output": 2.88,
+            "cacheRead": 0.048,
+            "cacheWrite": 0.96
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "high"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-04",
+          "lastUpdated": "2026-11-04"
         },
         {
           "id": "tencent/hy4-preview",
@@ -76719,6 +77327,46 @@
           ],
           "releaseDate": "2026-07-16",
           "lastUpdated": "2026-07-16"
+        },
+        {
+          "id": "moonshotai/Kimi-K3.1-Pro",
+          "name": "Kimi K3.1 Pro",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": true,
+          "family": "kimi-k3",
+          "limit": {
+            "context": 1048576,
+            "output": 943718
+          },
+          "cost": {
+            "input": 2,
+            "output": 10,
+            "cacheRead": 0.2
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "high",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-10-23",
+          "lastUpdated": "2026-10-23"
         },
         {
           "id": "nvidia/Llama-3.3-Nemotron-Super-49B-v1.5",
@@ -83276,8 +83924,8 @@
           "lastUpdated": "2026-09-01"
         },
         {
-          "id": "anthropic/claude-fable-latest",
-          "name": "Claude Fable Latest (Claude Fable 5.1)",
+          "id": "anthropic/claude-fable-5-2",
+          "name": "Claude Fable 5.2",
           "toolCall": true,
           "structuredOutput": true,
           "reasoning": true,
@@ -83289,10 +83937,10 @@
             "output": 128000
           },
           "cost": {
-            "input": 10,
-            "output": 50,
-            "cacheRead": 0.25,
-            "cacheWrite": 12.5
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
           },
           "modalities": {
             "input": [
@@ -83317,8 +83965,53 @@
             }
           ],
           "knowledge": "2026-06",
-          "releaseDate": "2026-09-01",
-          "lastUpdated": "2026-09-01"
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
+          "id": "anthropic/claude-fable-latest",
+          "name": "Claude Fable Latest (Claude Fable 5.2)",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "anthropic/claude-haiku-5-5",
@@ -84060,7 +84753,7 @@
           "toolCall": true,
           "structuredOutput": false,
           "reasoning": true,
-          "attachment": false,
+          "attachment": true,
           "openWeights": true,
           "family": "deepseek-flash",
           "limit": {
@@ -84074,7 +84767,8 @@
           },
           "modalities": {
             "input": [
-              "text"
+              "text",
+              "image"
             ],
             "output": [
               "text"
@@ -88741,9 +89435,9 @@
             "output": 384000
           },
           "cost": {
-            "input": 0.15631,
-            "output": 0.390775,
-            "cacheRead": 0.04466
+            "input": 0.156702,
+            "output": 0.391755,
+            "cacheRead": 0.044772
           },
           "modalities": {
             "input": [
@@ -88782,9 +89476,9 @@
             "output": 384000
           },
           "cost": {
-            "input": 0.24563,
-            "output": 1.22815,
-            "cacheRead": 0.012282
+            "input": 0.246246,
+            "output": 1.231229,
+            "cacheRead": 0.012312
           },
           "modalities": {
             "input": [
@@ -88824,8 +89518,8 @@
             "output": 32768
           },
           "cost": {
-            "input": 0.2233,
-            "output": 0.78155
+            "input": 0.22386,
+            "output": 0.78351
           },
           "modalities": {
             "input": [
@@ -88863,8 +89557,8 @@
             "output": 4096
           },
           "cost": {
-            "input": 1.22815,
-            "output": 1.22815
+            "input": 1.231229,
+            "output": 1.231229
           },
           "modalities": {
             "input": [
@@ -88892,8 +89586,8 @@
             "output": 16384
           },
           "cost": {
-            "input": 1.00485,
-            "output": 3.01455
+            "input": 1.007369,
+            "output": 3.022108
           },
           "modalities": {
             "input": [
@@ -89097,8 +89791,8 @@
             "output": 262144
           },
           "cost": {
-            "input": 0.33495,
-            "output": 0.4466
+            "input": 0.33579,
+            "output": 0.44772
           },
           "modalities": {
             "input": [
@@ -89126,8 +89820,8 @@
             "output": 4096
           },
           "cost": {
-            "input": 0.725725,
-            "output": 0.725725
+            "input": 0.727545,
+            "output": 0.727545
           },
           "modalities": {
             "input": [
@@ -89155,8 +89849,8 @@
             "output": 32768
           },
           "cost": {
-            "input": 0.167475,
-            "output": 0.725725
+            "input": 0.167895,
+            "output": 0.727545
           },
           "modalities": {
             "input": [
@@ -89194,8 +89888,8 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.167475,
-            "output": 0.8932
+            "input": 0.167895,
+            "output": 0.89544
           },
           "modalities": {
             "input": [
@@ -89617,9 +90311,9 @@
             "output": 512000
           },
           "cost": {
-            "input": 0.075,
-            "output": 0.3,
-            "cacheRead": 0.0075
+            "input": 0.15,
+            "output": 0.6,
+            "cacheRead": 0.015
           },
           "modalities": {
             "input": [
@@ -91105,7 +91799,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -91139,47 +91833,6 @@
           ],
           "releaseDate": "2026-10-23",
           "lastUpdated": "2026-10-23"
-        },
-        {
-          "id": "nebius/deepseek-ai/DeepSeek-V4-Flash-0731",
-          "name": "DeepSeek V4 Flash 0731 (Nebius)",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": true,
-          "family": "deepseek-flash",
-          "limit": {
-            "context": 1048576,
-            "output": 384000
-          },
-          "cost": {
-            "input": 0.14,
-            "output": 0.28,
-            "cacheRead": 0.14
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "high",
-                "max"
-              ]
-            }
-          ],
-          "knowledge": "2025-05",
-          "releaseDate": "2026-07-31",
-          "lastUpdated": "2026-07-31"
         },
         {
           "id": "nebius/deepseek-ai/DeepSeek-V4-Pro-0813",
@@ -91220,48 +91873,6 @@
           ],
           "releaseDate": "2026-08-13",
           "lastUpdated": "2026-08-22"
-        },
-        {
-          "id": "nebius/deepseek-ai/DeepSeek-V4.1-Flash",
-          "name": "DeepSeek V4.1 Flash (Nebius)",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": true,
-          "family": "deepseek-flash",
-          "limit": {
-            "context": 1048576,
-            "output": 384000
-          },
-          "cost": {
-            "input": 0.3,
-            "output": 1.2,
-            "cacheRead": 0.3
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "high",
-                "max"
-              ]
-            }
-          ],
-          "knowledge": "2025-05",
-          "releaseDate": "2026-09-10",
-          "lastUpdated": "2026-09-10"
         },
         {
           "id": "nebius/deepseek-ai/DeepSeek-V4.1-Flash-1017",
@@ -93986,9 +94597,9 @@
             "output": 384000
           },
           "cost": {
-            "input": 0.4466,
-            "output": 0.8932,
-            "cacheRead": 0.08932
+            "input": 0.44772,
+            "output": 0.89544,
+            "cacheRead": 0.089544
           },
           "modalities": {
             "input": [
@@ -94069,9 +94680,9 @@
             "output": 384000
           },
           "cost": {
-            "input": 0.6699,
-            "output": 2.0097,
-            "cacheRead": 0.13398
+            "input": 0.67158,
+            "output": 2.014739,
+            "cacheRead": 0.134316
           },
           "modalities": {
             "input": [
@@ -94141,8 +94752,8 @@
             "output": 32768
           },
           "cost": {
-            "input": 0.167475,
-            "output": 0.6699
+            "input": 0.167895,
+            "output": 0.67158
           },
           "modalities": {
             "input": [
@@ -94180,8 +94791,8 @@
             "output": 4096
           },
           "cost": {
-            "input": 1.00485,
-            "output": 1.00485
+            "input": 1.007369,
+            "output": 1.007369
           },
           "modalities": {
             "input": [
@@ -94209,8 +94820,8 @@
             "output": 16384
           },
           "cost": {
-            "input": 0.837375,
-            "output": 2.512125
+            "input": 0.839475,
+            "output": 2.518424
           },
           "modalities": {
             "input": [
@@ -95500,7 +96111,6 @@
                 "input": 4,
                 "output": 18,
                 "cacheRead": 0.4,
-                "cacheWrite": 0.25,
                 "tier": {
                   "type": "context",
                   "size": 200000
@@ -95510,8 +96120,7 @@
             "contextOver200k": {
               "input": 4,
               "output": 18,
-              "cacheRead": 0.4,
-              "cacheWrite": 0.25
+              "cacheRead": 0.4
             }
           },
           "modalities": {
@@ -98268,7 +98877,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -98277,7 +98886,7 @@
           "cost": {
             "input": 2,
             "output": 10,
-            "cacheRead": 1.8
+            "cacheRead": 0.184
           },
           "modalities": {
             "input": [
@@ -102954,7 +103563,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -109447,7 +110056,7 @@
           "openWeights": false,
           "family": "gemini-pro",
           "limit": {
-            "context": 131072,
+            "context": 1048576,
             "output": 65536
           },
           "cost": {
@@ -109499,7 +110108,7 @@
           "openWeights": false,
           "family": "gemini-pro",
           "limit": {
-            "context": 131072,
+            "context": 1048576,
             "output": 65536
           },
           "cost": {
@@ -110992,6 +111601,51 @@
           "knowledge": "2026-06",
           "releaseDate": "2026-09-01",
           "lastUpdated": "2026-09-01"
+        },
+        {
+          "id": "claude-fable-5-2@default",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "claude-fable-5@default",
@@ -113553,6 +114207,51 @@
           "knowledge": "2026-06",
           "releaseDate": "2026-09-01",
           "lastUpdated": "2026-09-01"
+        },
+        {
+          "id": "claude-fable-5-2@default",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "claude-fable-5@default",
@@ -122888,7 +123587,7 @@
           "structuredOutput": false,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1000000,
@@ -126794,9 +127493,9 @@
             "output": 262144
           },
           "cost": {
-            "input": 0.799,
+            "input": 0.7995,
             "output": 3.75,
-            "cacheRead": 0.2092,
+            "cacheRead": 0.156,
             "cacheWrite": 0
           },
           "modalities": {
@@ -126941,7 +127640,7 @@
           "cost": {
             "input": 0.175,
             "output": 0.45,
-            "cacheRead": 0.04,
+            "cacheRead": 0.03,
             "cacheWrite": 0
           },
           "modalities": {
@@ -134600,7 +135299,7 @@
       "models": [
         {
           "id": "~anthropic/claude-fable-latest",
-          "name": "Anthropic: Claude Fable Latest ($$$$)",
+          "name": "Anthropic: Claude Fable Latest",
           "toolCall": true,
           "structuredOutput": true,
           "reasoning": true,
@@ -134612,10 +135311,10 @@
             "output": 128000
           },
           "cost": {
-            "input": 10,
-            "output": 50,
-            "cacheRead": 0.25,
-            "cacheWrite": 12.5
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
           },
           "modalities": {
             "input": [
@@ -134999,8 +135698,8 @@
             "output": 943718
           },
           "cost": {
-            "input": 0.1567,
-            "output": 10.1398,
+            "input": 0.152,
+            "output": 9.3388,
             "cacheRead": 0.15
           },
           "modalities": {
@@ -135894,6 +136593,51 @@
           "knowledge": "2026-06",
           "releaseDate": "2026-09-01",
           "lastUpdated": "2026-09-01"
+        },
+        {
+          "id": "anthropic/claude-fable-5.2",
+          "name": "Anthropic: Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "anthropic/claude-haiku-4.5",
@@ -138802,13 +139546,13 @@
           "openWeights": true,
           "family": "gemma",
           "limit": {
-            "context": 262144,
-            "output": 235929
+            "context": 256000,
+            "output": 128000
           },
           "cost": {
-            "input": 0.028,
-            "output": 0.083,
-            "cacheRead": 0.014
+            "input": 0.038,
+            "output": 0.114,
+            "cacheRead": 0.019
           },
           "modalities": {
             "input": [
@@ -138998,126 +139742,6 @@
           ],
           "releaseDate": "2026-08-25",
           "lastUpdated": "2026-08-25"
-        },
-        {
-          "id": "inception/mercury-2",
-          "name": "Inception: Mercury 2 (retires Nov 8)",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "mercury",
-          "limit": {
-            "context": 128000,
-            "output": 50000
-          },
-          "cost": {
-            "input": 0.25,
-            "output": 0.75,
-            "cacheRead": 0.025
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-02-24",
-          "lastUpdated": "2026-02-24"
-        },
-        {
-          "id": "inception/mercury-2.5",
-          "name": "Inception: Mercury 2.5 (retires Nov 8)",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "mercury",
-          "limit": {
-            "context": 260000,
-            "output": 65536
-          },
-          "cost": {
-            "input": 0.2,
-            "output": 0.75,
-            "cacheRead": 0.02
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-09-08",
-          "lastUpdated": "2026-09-08"
-        },
-        {
-          "id": "inception/mercury-3",
-          "name": "Inception: Mercury 3 (retires Nov 8)",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "mercury",
-          "limit": {
-            "context": 1000000,
-            "output": 131072
-          },
-          "cost": {
-            "input": 0.2,
-            "output": 0.7,
-            "cacheRead": 0.02
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-10-16",
-          "lastUpdated": "2026-10-16"
         },
         {
           "id": "inclusionai/ling-3.0-flash",
@@ -139743,7 +140367,7 @@
           "family": "llama",
           "limit": {
             "context": 131072,
-            "output": 117964
+            "output": 16384
           },
           "cost": {
             "input": 0.02,
@@ -139829,8 +140453,8 @@
           "openWeights": true,
           "family": "llama",
           "limit": {
-            "context": 131072,
-            "output": 32768
+            "context": 128000,
+            "output": 115200
           },
           "cost": {
             "input": 0.1,
@@ -139862,9 +140486,9 @@
             "output": 32768
           },
           "cost": {
-            "input": 0.1875,
-            "output": 0.6525,
-            "cacheRead": 0.05
+            "input": 0.35,
+            "output": 1,
+            "cacheRead": 0.17
           },
           "modalities": {
             "input": [
@@ -139937,6 +140561,53 @@
           },
           "releaseDate": "2025-04-29",
           "lastUpdated": "2025-04-29"
+        },
+        {
+          "id": "meta/muse-ember",
+          "name": "Meta: Muse Ember",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "muse",
+          "limit": {
+            "context": 1048576,
+            "output": 943718
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0.5,
+            "cacheRead": 0.004,
+            "cacheWrite": 0.125
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video",
+              "pdf",
+              "audio"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "meta/muse-glimmer-30b",
@@ -140214,7 +140885,7 @@
           "family": "muse",
           "limit": {
             "context": 1048576,
-            "output": 943718
+            "output": 131072
           },
           "cost": {
             "input": 1.25,
@@ -140323,43 +140994,6 @@
           "lastUpdated": "2025-01-10"
         },
         {
-          "id": "minimax/minimax-m1",
-          "name": "MiniMax: MiniMax M1",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "minimax",
-          "limit": {
-            "context": 1000000,
-            "output": 40000
-          },
-          "cost": {
-            "input": 0.55,
-            "output": 2.2
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2025-06-17",
-          "lastUpdated": "2025-06-17"
-        },
-        {
           "id": "minimax/minimax-m2.5",
           "name": "MiniMax-M2.5",
           "toolCall": true,
@@ -140375,7 +141009,7 @@
           "cost": {
             "input": 0.3,
             "output": 1.2,
-            "cacheRead": 0.03
+            "cacheRead": 0.06
           },
           "modalities": {
             "input": [
@@ -140410,9 +141044,9 @@
             "output": 176947
           },
           "cost": {
-            "input": 0.3,
-            "output": 1.2,
-            "cacheRead": 0.06
+            "input": 0.21,
+            "output": 0.84,
+            "cacheRead": 0.042
           },
           "modalities": {
             "input": [
@@ -141073,8 +141707,8 @@
           "openWeights": true,
           "family": "mistral-small",
           "limit": {
-            "context": 128000,
-            "output": 16384
+            "context": 32768,
+            "output": 26214
           },
           "cost": {
             "input": 0.1,
@@ -141493,7 +142127,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -141663,6 +142297,45 @@
           ],
           "releaseDate": "2026-09-08",
           "lastUpdated": "2026-09-08"
+        },
+        {
+          "id": "nex-agi/nex-n2.6",
+          "name": "Nex AGI: Nex-N2.6",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "agi",
+          "limit": {
+            "context": 262144,
+            "output": 235929
+          },
+          "cost": {
+            "input": 0.15,
+            "output": 0.5,
+            "cacheRead": 0.03
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "medium",
+                "high"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-10",
+          "lastUpdated": "2026-11-10"
         },
         {
           "id": "nousresearch/hermes-4-405b",
@@ -144226,9 +144899,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.021,
-            "output": 0.079,
-            "cacheRead": 0.019
+            "input": 0.03,
+            "output": 0.15,
+            "cacheRead": 0.015
           },
           "modalities": {
             "input": [
@@ -144266,9 +144939,9 @@
             "output": 117964
           },
           "cost": {
-            "input": 0.004,
-            "output": 0.017,
-            "cacheRead": 0.003
+            "input": 0.018,
+            "output": 0.09,
+            "cacheRead": 0.009
           },
           "modalities": {
             "input": [
@@ -145051,11 +145724,11 @@
           "family": "qwen",
           "limit": {
             "context": 40960,
-            "output": 16384
+            "output": 36864
           },
           "cost": {
-            "input": 0.12,
-            "output": 0.24
+            "input": 0.1,
+            "output": 0.22
           },
           "modalities": {
             "input": [
@@ -145649,8 +146322,8 @@
           "openWeights": true,
           "family": "qwen",
           "limit": {
-            "context": 262144,
-            "output": 235929
+            "context": 256000,
+            "output": 64000
           },
           "cost": {
             "input": 0.39,
@@ -146414,48 +147087,6 @@
           "lastUpdated": "2026-10-16"
         },
         {
-          "id": "reflection/beam-free",
-          "name": "Reflection: Beam 1.0 (free)",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "beam",
-          "limit": {
-            "context": 1048576,
-            "output": 131072
-          },
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "low",
-                "medium",
-                "high",
-                "xhigh",
-                "max"
-              ]
-            }
-          ],
-          "releaseDate": "2025-08-26",
-          "lastUpdated": "2025-08-26"
-        },
-        {
           "id": "rekaai/reka-edge",
           "name": "Reka Edge",
           "toolCall": true,
@@ -146580,8 +147211,8 @@
           "id": "ricursiveai/ripple-65b-preview",
           "name": "Ricursive: Ripple 65B Preview",
           "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": false,
+          "structuredOutput": true,
+          "reasoning": true,
           "attachment": false,
           "openWeights": false,
           "limit": {
@@ -146589,9 +147220,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.2,
-            "output": 0.6,
-            "cacheRead": 0.05
+            "input": 0.1,
+            "output": 0.3,
+            "cacheRead": 0.025
           },
           "modalities": {
             "input": [
@@ -146601,6 +147232,15 @@
               "text"
             ]
           },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "high"
+              ]
+            }
+          ],
           "releaseDate": "2026-11-04",
           "lastUpdated": "2026-11-04"
         },
@@ -146882,51 +147522,6 @@
           },
           "releaseDate": "2026-10-13",
           "lastUpdated": "2026-10-13"
-        },
-        {
-          "id": "stealth/crouton-alpha",
-          "name": "Crouton Alpha",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": false,
-          "family": "alpha",
-          "limit": {
-            "context": 1048576,
-            "output": 943718
-          },
-          "cost": {
-            "input": 0,
-            "output": 0
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "video",
-              "pdf",
-              "audio"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "minimal",
-                "low",
-                "medium",
-                "high",
-                "xhigh",
-                "max"
-              ]
-            }
-          ],
-          "releaseDate": "2026-11-03",
-          "lastUpdated": "2026-11-03"
         },
         {
           "id": "stealth/glyph-cluster",
@@ -147497,6 +148092,47 @@
           ],
           "releaseDate": "2026-07-15",
           "lastUpdated": "2026-07-15"
+        },
+        {
+          "id": "thinkingmachines/inkling-2-small:free",
+          "name": "Thinking Machines: Inkling 2 Small (free)",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "ling",
+          "limit": {
+            "context": 1048576,
+            "output": 131072
+          },
+          "cost": {
+            "input": 0,
+            "output": 0
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-05",
+          "lastUpdated": "2026-11-05"
         },
         {
           "id": "thinkingmachines/inkling-small",
@@ -148112,7 +148748,7 @@
           "cost": {
             "input": 0.435,
             "output": 0.87,
-            "cacheRead": 0.004,
+            "cacheRead": 0.0036,
             "tiers": [
               {
                 "input": 2,
@@ -148329,9 +148965,9 @@
             "output": 98304
           },
           "cost": {
-            "input": 0.13,
-            "output": 0.85,
-            "cacheRead": 0.025
+            "input": 0.2,
+            "output": 1.1,
+            "cacheRead": 0.03
           },
           "modalities": {
             "input": [
@@ -148484,7 +149120,7 @@
           "openWeights": true,
           "family": "glm",
           "limit": {
-            "context": 202752,
+            "context": 204800,
             "output": 131072
           },
           "cost": {
@@ -148753,8 +149389,8 @@
           "openWeights": true,
           "family": "glm-flash",
           "limit": {
-            "context": 1048576,
-            "output": 131072
+            "context": 1048575,
+            "output": 943717
           },
           "cost": {
             "input": 0.15,
@@ -149050,7 +149686,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -149092,7 +149728,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -149309,7 +149945,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -149351,7 +149987,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -150008,6 +150644,51 @@
           "knowledge": "2026-06",
           "releaseDate": "2026-09-01",
           "lastUpdated": "2026-09-01"
+        },
+        {
+          "id": "claude-fable-5-2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "claude-haiku-4-5",
@@ -150801,6 +151482,37 @@
           "lastUpdated": "2026-04-24"
         },
         {
+          "id": "deepseek-v4-flash-0731",
+          "name": "deepseek-v4-flash-0731",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": false,
+          "openWeights": true,
+          "family": "deepseek-flash",
+          "limit": {
+            "context": 1000000,
+            "output": 384000
+          },
+          "cost": {
+            "input": 0.44,
+            "output": 1.32,
+            "cacheRead": 0.04
+          },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [],
+          "knowledge": "2025-05",
+          "releaseDate": "2026-07-31",
+          "lastUpdated": "2026-07-31"
+        },
+        {
           "id": "deepseek-v4-pro",
           "name": "DeepSeek V4 Pro",
           "toolCall": true,
@@ -150972,6 +151684,47 @@
           ],
           "releaseDate": "2026-10-29",
           "lastUpdated": "2026-10-29"
+        },
+        {
+          "id": "deepseek-v4.1-flash-uncensored",
+          "name": "DeepSeek V4.1 Flash 1017 Uncensored (HeimdaLLM)",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "deepseek",
+          "limit": {
+            "context": 1048576,
+            "output": 1048576
+          },
+          "cost": {
+            "input": 0.18,
+            "output": 0.65,
+            "cacheRead": 0.005
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "devstral-2512",
@@ -154914,7 +155667,7 @@
           "structuredOutput": false,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -155991,6 +156744,52 @@
           "knowledge": "2025-06",
           "releaseDate": "2026-03-16",
           "lastUpdated": "2026-03-16"
+        },
+        {
+          "id": "muse-ember-1.0",
+          "name": "Muse Ember 1.0",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "muse",
+          "limit": {
+            "context": 1048576,
+            "output": 524288
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0.5,
+            "cacheRead": 0.004
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video",
+              "pdf",
+              "audio"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "muse-glimmer-30b",
@@ -159193,6 +159992,51 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "anthropic/claude-fable-5-2",
+          "name": "Claude Fable 5.2 (Anthropic)",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "anthropic/claude-haiku-4-5",
           "name": "Claude Haiku 4.5 (Anthropic)",
           "toolCall": true,
@@ -159937,6 +160781,51 @@
           "knowledge": "2026-06",
           "releaseDate": "2026-09-01",
           "lastUpdated": "2026-09-01"
+        },
+        {
+          "id": "aws-bedrock/claude-fable-5-2",
+          "name": "Claude Fable 5.2 (AWS Bedrock)",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "aws-bedrock/claude-haiku-4-5",
@@ -163844,6 +164733,37 @@
           "lastUpdated": "2026-03-28"
         },
         {
+          "id": "canopywave/deepseek-v4-flash-0731",
+          "name": "deepseek-v4-flash-0731 (CanopyWave)",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": false,
+          "openWeights": true,
+          "family": "deepseek-flash",
+          "limit": {
+            "context": 1000000,
+            "output": 384000
+          },
+          "cost": {
+            "input": 0.44,
+            "output": 1.32,
+            "cacheRead": 0.04
+          },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [],
+          "knowledge": "2025-05",
+          "releaseDate": "2026-07-31",
+          "lastUpdated": "2026-07-31"
+        },
+        {
           "id": "canopywave/glm-5.2",
           "name": "GLM-5.2 (CanopyWave)",
           "toolCall": true,
@@ -163920,9 +164840,7 @@
               "type": "effort",
               "values": [
                 "none",
-                "minimal",
                 "low",
-                "medium",
                 "high",
                 "xhigh",
                 "max"
@@ -164065,6 +164983,51 @@
           ],
           "releaseDate": "2026-10-19",
           "lastUpdated": "2026-10-19"
+        },
+        {
+          "id": "canopywave/qwen3.8-flash",
+          "name": "Qwen3.8 Flash (CanopyWave)",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "qwen",
+          "limit": {
+            "context": 1000000,
+            "output": 131072
+          },
+          "cost": {
+            "input": 0.15,
+            "output": 0.5,
+            "cacheRead": 0.02
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-08-26",
+          "lastUpdated": "2026-08-26"
         },
         {
           "id": "cerebras/gpt-oss-120b",
@@ -164404,6 +165367,47 @@
           "knowledge": "2025-05",
           "releaseDate": "2026-09-10",
           "lastUpdated": "2026-09-10"
+        },
+        {
+          "id": "consensusprotocol/deepseek-v4.1-flash-uncensored",
+          "name": "DeepSeek V4.1 Flash 1017 Uncensored (HeimdaLLM) (consensusprotocol)",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "deepseek",
+          "limit": {
+            "context": 1048576,
+            "output": 1048576
+          },
+          "cost": {
+            "input": 0.18,
+            "output": 0.65,
+            "cacheRead": 0.005
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "consensusprotocol/gemma-4-31b-it",
@@ -167056,7 +168060,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -167293,6 +168297,52 @@
           ],
           "releaseDate": "2026-09-02",
           "lastUpdated": "2026-09-02"
+        },
+        {
+          "id": "meta/muse-ember-1.0",
+          "name": "Muse Ember 1.0 (Meta)",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "muse",
+          "limit": {
+            "context": 1048576,
+            "output": 524288
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0.5,
+            "cacheRead": 0.004
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video",
+              "pdf",
+              "audio"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "meta/muse-spark-1.1",
@@ -168465,7 +169515,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -171748,7 +172798,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -172211,6 +173261,51 @@
           "lastUpdated": "2026-07-16"
         },
         {
+          "id": "runware/kimi-k3.1-pro",
+          "name": "Kimi K3.1 Pro (runware)",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": true,
+          "family": "kimi-k3",
+          "limit": {
+            "context": 950000,
+            "output": 131072
+          },
+          "cost": {
+            "input": 2,
+            "output": 10,
+            "cacheRead": 0.2
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-10-23",
+          "lastUpdated": "2026-10-23"
+        },
+        {
           "id": "sakana/fugu-max",
           "name": "Fugu Max (Sakana AI)",
           "toolCall": true,
@@ -172409,9 +173504,9 @@
         {
           "id": "scx-ai-gp/deepseek-v4.1-flash-1017",
           "name": "DeepSeek V4.1 Flash 1017 (scx-ai-gp)",
-          "toolCall": false,
+          "toolCall": true,
           "structuredOutput": false,
-          "reasoning": false,
+          "reasoning": true,
           "attachment": false,
           "openWeights": true,
           "family": "deepseek-flash",
@@ -172432,6 +173527,17 @@
               "text"
             ]
           },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "low",
+                "medium",
+                "high"
+              ]
+            }
+          ],
           "knowledge": "2025-05",
           "releaseDate": "2026-10-17",
           "lastUpdated": "2026-10-17"
@@ -172716,7 +173822,7 @@
           "structuredOutput": false,
           "reasoning": false,
           "attachment": false,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -179941,6 +181047,40 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "anthropic/claude-fable-5-2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "anthropic/claude-haiku-4-5-20251001",
           "name": "Claude Haiku 4.5 (20251001)",
           "toolCall": true,
@@ -182414,14 +183554,14 @@
           "id": "meta/muse-spark-open",
           "name": "Muse Spark Open",
           "toolCall": true,
-          "structuredOutput": false,
+          "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
           "openWeights": true,
           "family": "muse",
           "limit": {
             "context": 1048576,
-            "output": 262144
+            "output": 131072
           },
           "cost": {
             "input": 1.25,
@@ -183241,7 +184381,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -187450,6 +188590,68 @@
       ],
       "openaiCompatible": false,
       "models": [
+        {
+          "id": "muse-ember-1.0",
+          "name": "Muse Ember",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "muse",
+          "limit": {
+            "context": 1048576,
+            "output": 524288
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0.5,
+            "cacheRead": 0.004,
+            "tiers": [
+              {
+                "input": 0.3,
+                "output": 1.5,
+                "cacheRead": 0.012,
+                "tier": {
+                  "type": "context",
+                  "size": 200000
+                }
+              }
+            ],
+            "contextOver200k": {
+              "input": 0.3,
+              "output": 1.5,
+              "cacheRead": 0.012
+            }
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video",
+              "pdf",
+              "audio"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
         {
           "id": "muse-spark-1.1",
           "name": "Muse Spark 1.1",
@@ -192591,7 +193793,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -192633,7 +193835,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -192833,7 +194035,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -192875,7 +194077,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -193287,7 +194489,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -194323,37 +195525,6 @@
           "lastUpdated": "2026-08-31"
         },
         {
-          "id": "agnes-3.0-flash",
-          "name": "Agnes 3.0 Flash",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": false,
-          "limit": {
-            "context": 524288,
-            "input": 524288,
-            "output": 65536
-          },
-          "cost": {
-            "input": 0.05,
-            "output": 0.15,
-            "cacheRead": 0.005
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [],
-          "releaseDate": "2026-09-09",
-          "lastUpdated": "2026-09-09"
-        },
-        {
           "id": "aion-labs/aion-2.0",
           "name": "AionLabs: Aion-2.0",
           "toolCall": true,
@@ -194879,6 +196050,52 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "anthropic/claude-fable-5.2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "input": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 10,
+            "output": 50,
+            "cacheRead": 0.25,
+            "cacheWrite": 12.5
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "anthropic/claude-fable-latest",
           "name": "Claude Fable Latest",
           "toolCall": true,
@@ -194940,7 +196157,8 @@
           "cost": {
             "input": 1,
             "output": 5,
-            "cacheRead": 0.1
+            "cacheRead": 0.1,
+            "cacheWrite": 1.25
           },
           "modalities": {
             "input": [
@@ -194973,7 +196191,8 @@
           "cost": {
             "input": 1,
             "output": 5,
-            "cacheRead": 0.1
+            "cacheRead": 0.1,
+            "cacheWrite": 1.25
           },
           "modalities": {
             "input": [
@@ -195122,7 +196341,8 @@
           "cost": {
             "input": 15,
             "output": 75,
-            "cacheRead": 1.5
+            "cacheRead": 1.5,
+            "cacheWrite": 18.75
           },
           "modalities": {
             "input": [
@@ -195155,7 +196375,8 @@
           "cost": {
             "input": 15,
             "output": 75,
-            "cacheRead": 1.5
+            "cacheRead": 1.5,
+            "cacheWrite": 18.75
           },
           "modalities": {
             "input": [
@@ -195189,7 +196410,8 @@
           "cost": {
             "input": 15,
             "output": 75,
-            "cacheRead": 1.5
+            "cacheRead": 1.5,
+            "cacheWrite": 18.75
           },
           "modalities": {
             "input": [
@@ -195223,7 +196445,8 @@
           "cost": {
             "input": 15,
             "output": 75,
-            "cacheRead": 1.5
+            "cacheRead": 1.5,
+            "cacheWrite": 18.75
           },
           "modalities": {
             "input": [
@@ -195257,7 +196480,8 @@
           "cost": {
             "input": 15,
             "output": 75,
-            "cacheRead": 1.5
+            "cacheRead": 1.5,
+            "cacheWrite": 18.75
           },
           "modalities": {
             "input": [
@@ -195291,7 +196515,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195336,7 +196561,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195381,7 +196607,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195426,7 +196653,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195471,7 +196699,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195505,7 +196734,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195539,7 +196769,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195573,7 +196804,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195618,7 +196850,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195663,7 +196896,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195708,7 +196942,8 @@
           "cost": {
             "input": 5,
             "output": 25,
-            "cacheRead": 0.5
+            "cacheRead": 0.5,
+            "cacheWrite": 6.25
           },
           "modalities": {
             "input": [
@@ -195890,7 +197125,8 @@
           "cost": {
             "input": 3,
             "output": 15,
-            "cacheRead": 0.3
+            "cacheRead": 0.3,
+            "cacheWrite": 3.75
           },
           "modalities": {
             "input": [
@@ -195935,7 +197171,8 @@
           "cost": {
             "input": 3,
             "output": 15,
-            "cacheRead": 0.3
+            "cacheRead": 0.3,
+            "cacheWrite": 3.75
           },
           "modalities": {
             "input": [
@@ -195980,7 +197217,8 @@
           "cost": {
             "input": 3,
             "output": 15,
-            "cacheRead": 0.3
+            "cacheRead": 0.3,
+            "cacheWrite": 3.75
           },
           "modalities": {
             "input": [
@@ -196025,7 +197263,8 @@
           "cost": {
             "input": 3,
             "output": 15,
-            "cacheRead": 0.3
+            "cacheRead": 0.3,
+            "cacheWrite": 3.75
           },
           "modalities": {
             "input": [
@@ -196300,35 +197539,6 @@
           "lastUpdated": "2026-05-28"
         },
         {
-          "id": "asi1-mini",
-          "name": "ASI1 Mini",
-          "toolCall": false,
-          "structuredOutput": false,
-          "reasoning": false,
-          "attachment": false,
-          "openWeights": false,
-          "limit": {
-            "context": 128000,
-            "input": 128000,
-            "output": 16384
-          },
-          "cost": {
-            "input": 1,
-            "output": 1,
-            "cacheRead": 0.5
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "releaseDate": "2025-03-25",
-          "lastUpdated": "2025-03-25"
-        },
-        {
           "id": "auto-model",
           "name": "Auto model",
           "toolCall": true,
@@ -196586,66 +197796,6 @@
           },
           "releaseDate": "2026-02-14",
           "lastUpdated": "2026-02-14"
-        },
-        {
-          "id": "bytedance/doubao-seed-2.1-pro",
-          "name": "Doubao Seed 2.1 Pro",
-          "toolCall": false,
-          "structuredOutput": false,
-          "reasoning": false,
-          "attachment": false,
-          "openWeights": false,
-          "family": "seed",
-          "limit": {
-            "context": 256000,
-            "input": 256000,
-            "output": 128000
-          },
-          "cost": {
-            "input": 1,
-            "output": 5,
-            "cacheRead": 0.5
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "releaseDate": "2026-06-23",
-          "lastUpdated": "2026-06-23"
-        },
-        {
-          "id": "bytedance/doubao-seed-2.1-turbo",
-          "name": "Doubao Seed 2.1 Turbo",
-          "toolCall": false,
-          "structuredOutput": false,
-          "reasoning": false,
-          "attachment": false,
-          "openWeights": false,
-          "family": "seed",
-          "limit": {
-            "context": 256000,
-            "input": 256000,
-            "output": 128000
-          },
-          "cost": {
-            "input": 0.5,
-            "output": 2.5,
-            "cacheRead": 0.25
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "releaseDate": "2026-06-23",
-          "lastUpdated": "2026-06-23"
         },
         {
           "id": "bytedance/doubao-seed-character",
@@ -197247,9 +198397,9 @@
             "output": 384000
           },
           "cost": {
-            "input": 0.65868,
-            "output": 1.97604,
-            "cacheRead": 0.020958
+            "input": 0.66,
+            "output": 1.98,
+            "cacheRead": 0.022
           },
           "modalities": {
             "input": [
@@ -197478,9 +198628,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.04444,
-            "output": 0.13332,
-            "cacheRead": 0.001414
+            "input": 0.05,
+            "output": 0.16,
+            "cacheRead": 0.013
           },
           "modalities": {
             "input": [
@@ -197520,9 +198670,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.04444,
-            "output": 0.13332,
-            "cacheRead": 0.001414
+            "input": 0.05,
+            "output": 0.16,
+            "cacheRead": 0.013
           },
           "modalities": {
             "input": [
@@ -197728,9 +198878,9 @@
             "output": 384000
           },
           "cost": {
-            "input": 0.65868,
-            "output": 1.97604,
-            "cacheRead": 0.020958
+            "input": 0.66,
+            "output": 1.98,
+            "cacheRead": 0.022
           },
           "modalities": {
             "input": [
@@ -197769,9 +198919,9 @@
             "output": 384000
           },
           "cost": {
-            "input": 0.65868,
-            "output": 1.97604,
-            "cacheRead": 0.020958
+            "input": 0.66,
+            "output": 1.98,
+            "cacheRead": 0.022
           },
           "modalities": {
             "input": [
@@ -197880,90 +199030,6 @@
           "lastUpdated": "2026-09-10"
         },
         {
-          "id": "deepseek/deepseek-v4.1-flash-0910-uncensored",
-          "name": "DeepSeek V4.1 Flash 0910 Uncensored",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": true,
-          "family": "deepseek",
-          "limit": {
-            "context": 524288,
-            "input": 524288,
-            "output": 32768
-          },
-          "cost": {
-            "input": 0.33,
-            "output": 1.32,
-            "cacheRead": 0.00825
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "high",
-                "max"
-              ]
-            }
-          ],
-          "releaseDate": "2026-10-27",
-          "lastUpdated": "2026-10-27"
-        },
-        {
-          "id": "deepseek/deepseek-v4.1-flash-0910-uncensored:thinking",
-          "name": "DeepSeek V4.1 Flash 0910 Uncensored Thinking",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": true,
-          "family": "deepseek",
-          "limit": {
-            "context": 524288,
-            "input": 524288,
-            "output": 32768
-          },
-          "cost": {
-            "input": 0.33,
-            "output": 1.32,
-            "cacheRead": 0.00825
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "high",
-                "max"
-              ]
-            }
-          ],
-          "releaseDate": "2026-10-27",
-          "lastUpdated": "2026-10-27"
-        },
-        {
           "id": "deepseek/deepseek-v4.1-flash-1017",
           "name": "DeepSeek V4.1 Flash 1017",
           "toolCall": true,
@@ -198007,90 +199073,6 @@
           "lastUpdated": "2026-10-17"
         },
         {
-          "id": "deepseek/deepseek-v4.1-flash-1017-uncensored",
-          "name": "DeepSeek V4.1 Flash 1017 Uncensored",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": true,
-          "family": "deepseek",
-          "limit": {
-            "context": 1048576,
-            "input": 1048576,
-            "output": 393216
-          },
-          "cost": {
-            "input": 0.33,
-            "output": 1.32,
-            "cacheRead": 0.00825
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "high",
-                "max"
-              ]
-            }
-          ],
-          "releaseDate": "2026-10-27",
-          "lastUpdated": "2026-10-27"
-        },
-        {
-          "id": "deepseek/deepseek-v4.1-flash-1017-uncensored:thinking",
-          "name": "DeepSeek V4.1 Flash 1017 Uncensored Thinking",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": true,
-          "family": "deepseek",
-          "limit": {
-            "context": 1048576,
-            "input": 1048576,
-            "output": 393216
-          },
-          "cost": {
-            "input": 0.33,
-            "output": 1.32,
-            "cacheRead": 0.00825
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "high",
-                "max"
-              ]
-            }
-          ],
-          "releaseDate": "2026-10-27",
-          "lastUpdated": "2026-10-27"
-        },
-        {
           "id": "deepseek/deepseek-v4.1-flash-1017:thinking",
           "name": "DeepSeek V4.1 Flash 1017 Thinking",
           "toolCall": true,
@@ -198132,90 +199114,6 @@
           "knowledge": "2025-05",
           "releaseDate": "2026-10-17",
           "lastUpdated": "2026-10-17"
-        },
-        {
-          "id": "deepseek/deepseek-v4.1-flash-uncensored",
-          "name": "DeepSeek V4.1 Flash Uncensored",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": true,
-          "family": "deepseek",
-          "limit": {
-            "context": 1048576,
-            "input": 1048576,
-            "output": 393216
-          },
-          "cost": {
-            "input": 0.33,
-            "output": 1.32,
-            "cacheRead": 0.00825
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-10-01",
-          "lastUpdated": "2026-10-01"
-        },
-        {
-          "id": "deepseek/deepseek-v4.1-flash-uncensored:thinking",
-          "name": "DeepSeek V4.1 Flash Uncensored Thinking",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": true,
-          "family": "deepseek",
-          "limit": {
-            "context": 1048576,
-            "input": 1048576,
-            "output": 393216
-          },
-          "cost": {
-            "input": 0.33,
-            "output": 1.32,
-            "cacheRead": 0.00825
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-10-01",
-          "lastUpdated": "2026-10-01"
         },
         {
           "id": "deepseek/deepseek-v4.1-flash:thinking",
@@ -198501,99 +199399,6 @@
           },
           "releaseDate": "2024-01-01",
           "lastUpdated": "2024-12-01"
-        },
-        {
-          "id": "ernie-5.0-thinking-preview",
-          "name": "Ernie 5.0 Thinking Preview",
-          "toolCall": false,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": false,
-          "family": "ernie",
-          "limit": {
-            "context": 128000,
-            "input": 128000,
-            "output": 16384
-          },
-          "cost": {
-            "input": 1,
-            "output": 3.5,
-            "cacheRead": 0.5
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [],
-          "releaseDate": "2025-11-18",
-          "lastUpdated": "2025-11-18"
-        },
-        {
-          "id": "ernie-5.1",
-          "name": "ERNIE 5.1",
-          "toolCall": false,
-          "structuredOutput": false,
-          "reasoning": false,
-          "attachment": false,
-          "openWeights": false,
-          "family": "ernie",
-          "limit": {
-            "context": 119000,
-            "input": 119000,
-            "output": 64000
-          },
-          "cost": {
-            "input": 0.75,
-            "output": 3,
-            "cacheRead": 0.75
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "releaseDate": "2026-05-10",
-          "lastUpdated": "2026-05-10"
-        },
-        {
-          "id": "ernie-5.1:thinking",
-          "name": "ERNIE 5.1 Thinking",
-          "toolCall": false,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "ernie",
-          "limit": {
-            "context": 119000,
-            "input": 119000,
-            "output": 64000
-          },
-          "cost": {
-            "input": 0.75,
-            "output": 3,
-            "cacheRead": 0.75
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [],
-          "releaseDate": "2026-05-10",
-          "lastUpdated": "2026-05-10"
         },
         {
           "id": "EVA-UNIT-01/EVA-LLaMA-3.33-70B-v0.0",
@@ -201206,36 +202011,6 @@
           "lastUpdated": "2026-05-15"
         },
         {
-          "id": "glm-4-long",
-          "name": "GLM-4 Long",
-          "toolCall": false,
-          "structuredOutput": false,
-          "reasoning": false,
-          "attachment": false,
-          "openWeights": false,
-          "family": "glm",
-          "limit": {
-            "context": 1000000,
-            "input": 1000000,
-            "output": 4095
-          },
-          "cost": {
-            "input": 0.2006,
-            "output": 0.2006,
-            "cacheRead": 0.1003
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "releaseDate": "2024-01-01",
-          "lastUpdated": "2024-08-01"
-        },
-        {
           "id": "GLM-4.6-Derestricted-v5",
           "name": "GLM 4.6 Derestricted v5",
           "toolCall": true,
@@ -202090,9 +202865,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.022,
-            "output": 0.067,
-            "cacheRead": 0.011
+            "input": 0.042,
+            "output": 0.125,
+            "cacheRead": 0.021
           },
           "modalities": {
             "input": [
@@ -202159,9 +202934,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.022,
-            "output": 0.067,
-            "cacheRead": 0.011
+            "input": 0.042,
+            "output": 0.125,
+            "cacheRead": 0.021
           },
           "modalities": {
             "input": [
@@ -203558,9 +204333,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.75,
-            "output": 2.95,
-            "cacheRead": 0.015
+            "input": 0.7875,
+            "output": 3.0975,
+            "cacheRead": 0.01575
           },
           "modalities": {
             "input": [
@@ -203775,8 +204550,8 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.1875,
-            "output": 0.6525,
+            "input": 0.15,
+            "output": 0.6,
             "cacheRead": 0.05
           },
           "modalities": {
@@ -205649,9 +206424,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.3895,
-            "output": 1.64,
-            "cacheRead": 0.0656
+            "input": 0.39,
+            "output": 1.8,
+            "cacheRead": 0.039
           },
           "modalities": {
             "input": [
@@ -205682,9 +206457,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.3895,
-            "output": 1.64,
-            "cacheRead": 0.0656
+            "input": 0.39,
+            "output": 1.8,
+            "cacheRead": 0.039
           },
           "modalities": {
             "input": [
@@ -205815,7 +206590,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -206227,6 +207002,46 @@
           ],
           "releaseDate": "2026-09-22",
           "lastUpdated": "2026-09-22"
+        },
+        {
+          "id": "nex-agi/nex-n2.6",
+          "name": "Nex N2.6",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "agi",
+          "limit": {
+            "context": 262144,
+            "input": 262144,
+            "output": 262144
+          },
+          "cost": {
+            "input": 0.15,
+            "output": 0.5,
+            "cacheRead": 0.03
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "medium",
+                "high"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-10",
+          "lastUpdated": "2026-11-10"
         },
         {
           "id": "nothingiisreal/L3.1-70B-Celeste-V0.1-BF16",
@@ -208536,9 +209351,9 @@
             "output": 16384
           },
           "cost": {
-            "input": 0.004,
-            "output": 0.017,
-            "cacheRead": 0.003
+            "input": 0.02,
+            "output": 0.03,
+            "cacheRead": 0.018
           },
           "modalities": {
             "input": [
@@ -208890,6 +209705,132 @@
           "lastUpdated": "2025-06-10"
         },
         {
+          "id": "orca/orcacyber-flash-1.0",
+          "name": "OrcaCyber DeepSeek V4.1 Flash",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "deepseek",
+          "limit": {
+            "context": 1048064,
+            "input": 1048064,
+            "output": 393216
+          },
+          "cost": {
+            "input": 0.8,
+            "output": 1.6,
+            "cacheRead": 0.15
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "low",
+                "high",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
+          "id": "orca/orcacyber-flash-1.0:thinking",
+          "name": "OrcaCyber DeepSeek V4.1 Flash Thinking",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "deepseek",
+          "limit": {
+            "context": 1048064,
+            "input": 1048064,
+            "output": 393216
+          },
+          "cost": {
+            "input": 0.8,
+            "output": 1.6,
+            "cacheRead": 0.15
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "low",
+                "high",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
+          "id": "orca/orcacyber-glm-5.3-flash",
+          "name": "OrcaCyber GLM 5.3 Flash",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "glm",
+          "limit": {
+            "context": 1048064,
+            "input": 1048064,
+            "output": 131072
+          },
+          "cost": {
+            "input": 0.8,
+            "output": 1.6,
+            "cacheRead": 0.15
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "orca/orcacyber-k3.1-pro",
           "name": "OrcaCyber K3.1 Pro Uncensored",
           "toolCall": true,
@@ -208929,6 +209870,45 @@
           ],
           "releaseDate": "2026-11-05",
           "lastUpdated": "2026-11-05"
+        },
+        {
+          "id": "orca/orcacyber-mimo-flash",
+          "name": "OrcaCyber MiMo V2.6 Flash",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": false,
+          "openWeights": false,
+          "family": "mimo",
+          "limit": {
+            "context": 1048064,
+            "input": 1048064,
+            "output": 131072
+          },
+          "cost": {
+            "input": 0.8,
+            "output": 1.6,
+            "cacheRead": 0.15
+          },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "high"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "orca/orcacyber-minimax-m3.1-flash",
@@ -210305,9 +211285,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.25,
-            "output": 2,
-            "cacheRead": 0.135
+            "input": 0.2,
+            "output": 1.75,
+            "cacheRead": 0.02
           },
           "modalities": {
             "input": [
@@ -210338,9 +211318,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.25,
-            "output": 2,
-            "cacheRead": 0.135
+            "input": 0.2,
+            "output": 1.75,
+            "cacheRead": 0.02
           },
           "modalities": {
             "input": [
@@ -210476,8 +211456,7 @@
           "modalities": {
             "input": [
               "text",
-              "image",
-              "video"
+              "image"
             ],
             "output": [
               "text"
@@ -210662,7 +211641,8 @@
           "cost": {
             "input": 0.4,
             "output": 2.4,
-            "cacheRead": 0.04
+            "cacheRead": 0.04,
+            "cacheWrite": 0.5
           },
           "modalities": {
             "input": [
@@ -210695,7 +211675,8 @@
           "cost": {
             "input": 0.4,
             "output": 2.4,
-            "cacheRead": 0.04
+            "cacheRead": 0.04,
+            "cacheWrite": 0.5
           },
           "modalities": {
             "input": [
@@ -211768,7 +212749,6 @@
             "input": [
               "text",
               "image",
-              "video",
               "pdf"
             ],
             "output": [
@@ -213125,8 +214105,8 @@
           "attachment": true,
           "openWeights": true,
           "limit": {
-            "context": 1000000,
-            "input": 1000000,
+            "context": 1048576,
+            "input": 1048576,
             "output": 65536
           },
           "cost": {
@@ -213228,9 +214208,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.5,
+            "input": 1,
             "output": 1,
-            "cacheRead": 0.25
+            "cacheRead": 0.5
           },
           "modalities": {
             "input": [
@@ -213259,9 +214239,9 @@
             "output": 384000
           },
           "cost": {
-            "input": 0.65,
+            "input": 0.6,
             "output": 1.45,
-            "cacheRead": 0.13
+            "cacheRead": 0.01
           },
           "modalities": {
             "input": [
@@ -213305,7 +214285,7 @@
           "cost": {
             "input": 0.15,
             "output": 0.7,
-            "cacheRead": 0.075
+            "cacheRead": 0.05
           },
           "modalities": {
             "input": [
@@ -213369,9 +214349,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.4,
-            "output": 1,
-            "cacheRead": 0.4
+            "input": 0.12,
+            "output": 0.37,
+            "cacheRead": 0.012
           },
           "modalities": {
             "input": [
@@ -213401,9 +214381,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.4,
-            "output": 1,
-            "cacheRead": 0.4
+            "input": 0.12,
+            "output": 0.37,
+            "cacheRead": 0.012
           },
           "modalities": {
             "input": [
@@ -213434,9 +214414,9 @@
             "output": 65535
           },
           "cost": {
-            "input": 0.7,
-            "output": 2.5,
-            "cacheRead": 0.18
+            "input": 0.9,
+            "output": 2.9,
+            "cacheRead": 0.09
           },
           "modalities": {
             "input": [
@@ -213473,9 +214453,9 @@
             "output": 65535
           },
           "cost": {
-            "input": 0.7,
-            "output": 2.5,
-            "cacheRead": 0.18
+            "input": 0.9,
+            "output": 2.9,
+            "cacheRead": 0.09
           },
           "modalities": {
             "input": [
@@ -213512,9 +214492,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 1.4,
-            "output": 4.4,
-            "cacheRead": 0.7
+            "input": 1.25,
+            "output": 3.95,
+            "cacheRead": 0.125
           },
           "modalities": {
             "input": [
@@ -213543,9 +214523,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 1.4,
-            "output": 4.4,
-            "cacheRead": 0.7
+            "input": 1.25,
+            "output": 3.95,
+            "cacheRead": 0.125
           },
           "modalities": {
             "input": [
@@ -213666,9 +214646,9 @@
             "output": 16384
           },
           "cost": {
-            "input": 2,
-            "output": 2,
-            "cacheRead": 2
+            "input": 0.15,
+            "output": 0.6,
+            "cacheRead": 0.15
           },
           "modalities": {
             "input": [
@@ -213697,9 +214677,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.5,
-            "output": 5.25,
-            "cacheRead": 0.375
+            "input": 0.39,
+            "output": 1.8,
+            "cacheRead": 0.039
           },
           "modalities": {
             "input": [
@@ -213729,9 +214709,9 @@
             "output": 65535
           },
           "cost": {
-            "input": 3,
-            "output": 15,
-            "cacheRead": 1.5
+            "input": 1.85,
+            "output": 9.5,
+            "cacheRead": 0.185
           },
           "modalities": {
             "input": [
@@ -213754,6 +214734,47 @@
           ],
           "releaseDate": "2026-07-16",
           "lastUpdated": "2026-07-16"
+        },
+        {
+          "id": "TEE/kimi-k3.1-pro",
+          "name": "Kimi K3.1 Pro TEE",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": true,
+          "family": "kimi-k3",
+          "limit": {
+            "context": 262144,
+            "input": 262144,
+            "output": 262144
+          },
+          "cost": {
+            "input": 4,
+            "output": 20,
+            "cacheRead": 0.4
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "high",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-10-23",
+          "lastUpdated": "2026-10-23"
         },
         {
           "id": "TEE/llama3-3-70b",
@@ -213787,68 +214808,6 @@
           "lastUpdated": "2024-12-06"
         },
         {
-          "id": "TEE/qwen2.5-vl-72b-instruct",
-          "name": "Qwen2.5 VL 72B TEE",
-          "toolCall": false,
-          "structuredOutput": false,
-          "reasoning": false,
-          "attachment": true,
-          "openWeights": true,
-          "family": "qwen",
-          "limit": {
-            "context": 65536,
-            "input": 65536,
-            "output": 8192
-          },
-          "cost": {
-            "input": 0.7,
-            "output": 0.7,
-            "cacheRead": 0.35
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "knowledge": "2024-04",
-          "releaseDate": "2025-01-26",
-          "lastUpdated": "2025-01-26"
-        },
-        {
-          "id": "TEE/qwen3.5-397b-a17b",
-          "name": "Qwen3.5 397B A17B TEE",
-          "toolCall": false,
-          "structuredOutput": false,
-          "reasoning": false,
-          "attachment": false,
-          "openWeights": true,
-          "family": "qwen",
-          "limit": {
-            "context": 262144,
-            "input": 262144,
-            "output": 65536
-          },
-          "cost": {
-            "input": 0.55,
-            "output": 3.5,
-            "cacheRead": 0.275
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "releaseDate": "2026-02-15",
-          "lastUpdated": "2026-02-15"
-        },
-        {
           "id": "TEE/qwen3.6-27b",
           "name": "Qwen3.6 27B TEE",
           "toolCall": false,
@@ -213864,8 +214823,8 @@
           },
           "cost": {
             "input": 0.32,
-            "output": 2.7,
-            "cacheRead": 0.16
+            "output": 3.25,
+            "cacheRead": 0.03
           },
           "modalities": {
             "input": [
@@ -213897,7 +214856,7 @@
           "cost": {
             "input": 0.2,
             "output": 1.27,
-            "cacheRead": 0.1
+            "cacheRead": 0.056
           },
           "modalities": {
             "input": [
@@ -213925,9 +214884,9 @@
             "output": 262144
           },
           "cost": {
-            "input": 0.4,
-            "output": 3,
-            "cacheRead": 0.15
+            "input": 0.2,
+            "output": 2.5,
+            "cacheRead": 0.05
           },
           "modalities": {
             "input": [
@@ -214428,8 +215387,8 @@
           "openWeights": true,
           "family": "ling",
           "limit": {
-            "context": 1048000,
-            "input": 1048000,
+            "context": 1040000,
+            "input": 1040000,
             "output": 32768
           },
           "cost": {
@@ -215371,9 +216330,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.413,
-            "output": 2.086,
-            "cacheRead": 0.0028,
+            "input": 0.422,
+            "output": 2.11,
+            "cacheRead": 0.0844,
             "cacheWrite": 0
           },
           "modalities": {
@@ -215497,9 +216456,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.413,
-            "output": 2.086,
-            "cacheRead": 0.0028,
+            "input": 0.422,
+            "output": 2.11,
+            "cacheRead": 0.0844,
             "cacheWrite": 0
           },
           "modalities": {
@@ -216063,9 +217022,9 @@
             "output": 65535
           },
           "cost": {
-            "input": 0.5,
-            "output": 2,
-            "cacheRead": 0.1
+            "input": 0.55,
+            "output": 2.2,
+            "cacheRead": 0.11
           },
           "modalities": {
             "input": [
@@ -216103,9 +217062,9 @@
             "output": 65535
           },
           "cost": {
-            "input": 0.5,
-            "output": 2,
-            "cacheRead": 0.1
+            "input": 0.55,
+            "output": 2.2,
+            "cacheRead": 0.11
           },
           "modalities": {
             "input": [
@@ -216135,9 +217094,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 1,
-            "output": 3,
-            "cacheRead": 0.5
+            "input": 0.55,
+            "output": 2.2,
+            "cacheRead": 0.11
           },
           "modalities": {
             "input": [
@@ -216165,9 +217124,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 1,
-            "output": 3,
-            "cacheRead": 0.5
+            "input": 0.55,
+            "output": 2.2,
+            "cacheRead": 0.11
           },
           "modalities": {
             "input": [
@@ -216196,9 +217155,9 @@
             "output": 65535
           },
           "cost": {
-            "input": 0.5,
-            "output": 2,
-            "cacheRead": 0.1
+            "input": 0.55,
+            "output": 2.2,
+            "cacheRead": 0.11
           },
           "modalities": {
             "input": [
@@ -216725,9 +217684,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.189,
-            "output": 0.594,
-            "cacheRead": 0.0351
+            "input": 0.42,
+            "output": 1.32,
+            "cacheRead": 0.078
           },
           "modalities": {
             "input": [
@@ -216765,9 +217724,9 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.189,
-            "output": 0.594,
-            "cacheRead": 0.0351
+            "input": 0.42,
+            "output": 1.32,
+            "cacheRead": 0.078
           },
           "modalities": {
             "input": [
@@ -218272,7 +219231,7 @@
           "structuredOutput": false,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -226097,7 +227056,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -226142,7 +227101,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -232761,7 +233720,7 @@
           "structuredOutput": false,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -236535,7 +237494,7 @@
           "structuredOutput": false,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -239502,6 +240461,51 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "claude-fable-5-2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "claude-haiku-4-5",
           "name": "Claude Haiku 4.5",
           "toolCall": true,
@@ -240141,7 +241145,7 @@
           "cost": {
             "input": 2,
             "output": 10,
-            "cacheRead": 0.2,
+            "cacheRead": 0.1,
             "cacheWrite": 2.5
           },
           "modalities": {
@@ -240211,6 +241215,8 @@
               ]
             }
           ],
+          "status": "deprecated",
+          "deprecated": true,
           "releaseDate": "2026-11-03",
           "lastUpdated": "2026-11-03"
         },
@@ -240866,9 +241872,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.5,
-            "output": 7.5,
-            "cacheRead": 0.15
+            "input": 0.75,
+            "output": 3.75,
+            "cacheRead": 0.075
           },
           "modalities": {
             "input": [
@@ -240911,9 +241917,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.5,
-            "output": 7.5,
-            "cacheRead": 0.15
+            "input": 0.75,
+            "output": 3.75,
+            "cacheRead": 0.075
           },
           "modalities": {
             "input": [
@@ -240955,9 +241961,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.5,
-            "output": 7.5,
-            "cacheRead": 0.15
+            "input": 0.75,
+            "output": 3.75,
+            "cacheRead": 0.075
           },
           "modalities": {
             "input": [
@@ -243570,6 +244576,41 @@
           "lastUpdated": "2026-06-30"
         },
         {
+          "id": "longcat-2.5-free",
+          "name": "LongCat 2.5 Free",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "longcat",
+          "limit": {
+            "context": 1000000,
+            "output": 262144
+          },
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "toggle"
+            }
+          ],
+          "releaseDate": "2026-11-02",
+          "lastUpdated": "2026-11-02"
+        },
+        {
           "id": "longcat-2.5-preview-free",
           "name": "LongCat 2.5 Preview Free",
           "toolCall": true,
@@ -244053,8 +245094,6 @@
               ]
             }
           ],
-          "status": "deprecated",
-          "deprecated": true,
           "releaseDate": "2026-10-19",
           "lastUpdated": "2026-10-19"
         },
@@ -244096,6 +245135,52 @@
           ],
           "releaseDate": "2026-10-06",
           "lastUpdated": "2026-10-06"
+        },
+        {
+          "id": "muse-ember-1.0",
+          "name": "Muse Ember 1.0",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "muse",
+          "limit": {
+            "context": 1048576,
+            "output": 270000
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0.5,
+            "cacheRead": 0.004,
+            "cacheWrite": 0
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "muse-spark-1.2",
@@ -245192,6 +246277,8 @@
               ]
             }
           ],
+          "status": "deprecated",
+          "deprecated": true,
           "releaseDate": "2026-11-03",
           "lastUpdated": "2026-11-03"
         },
@@ -245899,7 +246986,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -245967,6 +247054,41 @@
           ],
           "releaseDate": "2026-06-30",
           "lastUpdated": "2026-06-30"
+        },
+        {
+          "id": "longcat-2.5-free",
+          "name": "LongCat 2.5 Free",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "longcat",
+          "limit": {
+            "context": 1000000,
+            "output": 262144
+          },
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "toggle"
+            }
+          ],
+          "releaseDate": "2026-11-02",
+          "lastUpdated": "2026-11-02"
         },
         {
           "id": "longcat-2.5-preview-free",
@@ -246845,10 +247967,10 @@
             "output": 128000
           },
           "cost": {
-            "input": 10,
-            "output": 50,
-            "cacheRead": 0.25,
-            "cacheWrite": 12.5
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
           },
           "modalities": {
             "input": [
@@ -247262,8 +248384,8 @@
             "output": 943718
           },
           "cost": {
-            "input": 0.1567,
-            "output": 10.1398,
+            "input": 0.152,
+            "output": 9.3388,
             "cacheRead": 0.15
           },
           "modalities": {
@@ -248226,6 +249348,51 @@
           "knowledge": "2026-06",
           "releaseDate": "2026-09-01",
           "lastUpdated": "2026-09-01"
+        },
+        {
+          "id": "anthropic/claude-fable-5.2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "anthropic/claude-haiku-4.5",
@@ -249770,9 +250937,9 @@
             "output": 384000
           },
           "cost": {
-            "input": 0.43413,
-            "output": 0.86826,
-            "cacheRead": 0.036178
+            "input": 0.95526,
+            "output": 1.91052,
+            "cacheRead": 0.079605
           },
           "modalities": {
             "input": [
@@ -249812,7 +250979,7 @@
           "cost": {
             "input": 0.111,
             "output": 4.44,
-            "cacheRead": 0.106
+            "cacheRead": 0.097
           },
           "modalities": {
             "input": [
@@ -249850,9 +251017,9 @@
             "output": 943718
           },
           "cost": {
-            "input": 0.051,
-            "output": 0.567,
-            "cacheRead": 0.018
+            "input": 0.006,
+            "output": 0.5,
+            "cacheRead": 0.005
           },
           "modalities": {
             "input": [
@@ -251184,7 +252351,7 @@
           },
           "cost": {
             "input": 0.08,
-            "output": 0.35,
+            "output": 0.45,
             "cacheRead": 0.04
           },
           "modalities": {
@@ -251241,12 +252408,12 @@
           "family": "gemma",
           "limit": {
             "context": 262144,
-            "output": 235929
+            "output": 128000
           },
           "cost": {
-            "input": 0.0675,
-            "output": 0.225,
-            "cacheRead": 0.0375
+            "input": 0.08,
+            "output": 0.1,
+            "cacheRead": 0.046
           },
           "modalities": {
             "input": [
@@ -251498,126 +252665,6 @@
           ],
           "releaseDate": "2026-08-25",
           "lastUpdated": "2026-08-25"
-        },
-        {
-          "id": "inception/mercury-2",
-          "name": "Mercury 2",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "mercury",
-          "limit": {
-            "context": 128000,
-            "output": 50000
-          },
-          "cost": {
-            "input": 0.25,
-            "output": 0.75,
-            "cacheRead": 0.025
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-02-24",
-          "lastUpdated": "2026-02-24"
-        },
-        {
-          "id": "inception/mercury-2.5",
-          "name": "Mercury 2.5",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "mercury",
-          "limit": {
-            "context": 260000,
-            "output": 65536
-          },
-          "cost": {
-            "input": 0.04,
-            "output": 0.15,
-            "cacheRead": 0.004
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-09-08",
-          "lastUpdated": "2026-09-08"
-        },
-        {
-          "id": "inception/mercury-3",
-          "name": "Mercury 3",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "mercury",
-          "limit": {
-            "context": 1000000,
-            "output": 131072
-          },
-          "cost": {
-            "input": 0.1,
-            "output": 0.35,
-            "cacheRead": 0.01
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-10-16",
-          "lastUpdated": "2026-10-16"
         },
         {
           "id": "inclusionai/ling-3.0-flash",
@@ -252068,12 +253115,11 @@
           "family": "llama",
           "limit": {
             "context": 131072,
-            "output": 117964
+            "output": 16384
           },
           "cost": {
-            "input": 0.05,
-            "output": 0.08,
-            "cacheRead": 0.025
+            "input": 0.02,
+            "output": 0.04
           },
           "modalities": {
             "input": [
@@ -252156,12 +253202,12 @@
           "family": "llama",
           "limit": {
             "context": 131072,
-            "output": 32768
+            "output": 115200
           },
           "cost": {
-            "input": 0.59,
-            "output": 0.79,
-            "cacheRead": 0.295
+            "input": 0.71,
+            "output": 0.71,
+            "cacheRead": 0.71
           },
           "modalities": {
             "input": [
@@ -252264,6 +253310,53 @@
           },
           "releaseDate": "2025-04-29",
           "lastUpdated": "2025-04-29"
+        },
+        {
+          "id": "meta/muse-ember",
+          "name": "Muse Ember",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "muse",
+          "limit": {
+            "context": 1048576,
+            "output": 943718
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0.5,
+            "cacheRead": 0.004,
+            "cacheWrite": 0.125
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video",
+              "pdf",
+              "audio"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "meta/muse-glimmer-30b",
@@ -252540,7 +253633,7 @@
           "family": "muse",
           "limit": {
             "context": 1048576,
-            "output": 943718
+            "output": 131072
           },
           "cost": {
             "input": 1.25,
@@ -252650,40 +253743,6 @@
           "lastUpdated": "2025-01-10"
         },
         {
-          "id": "minimax/minimax-m1",
-          "name": "MiniMax M1",
-          "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "minimax",
-          "limit": {
-            "context": 1000000,
-            "output": 40000
-          },
-          "cost": {
-            "input": 0.55,
-            "output": 2.2
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "toggle"
-            }
-          ],
-          "knowledge": "2024-06-30",
-          "releaseDate": "2025-06-17",
-          "lastUpdated": "2025-06-17"
-        },
-        {
           "id": "minimax/minimax-m2.5",
           "name": "MiniMax-M2.5",
           "toolCall": true,
@@ -252693,7 +253752,7 @@
           "openWeights": true,
           "family": "minimax",
           "limit": {
-            "context": 204800,
+            "context": 200000,
             "output": 58982
           },
           "cost": {
@@ -252723,7 +253782,7 @@
           "openWeights": true,
           "family": "minimax",
           "limit": {
-            "context": 204800,
+            "context": 196608,
             "output": 176947
           },
           "cost": {
@@ -253380,11 +254439,12 @@
           "family": "mistral-small",
           "limit": {
             "context": 256000,
-            "output": 16384
+            "output": 26214
           },
           "cost": {
-            "input": 0.075,
-            "output": 0.2
+            "input": 0.1,
+            "output": 0.3,
+            "cacheRead": 0.01
           },
           "modalities": {
             "input": [
@@ -253768,7 +254828,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -253938,6 +254998,45 @@
           ],
           "releaseDate": "2026-09-08",
           "lastUpdated": "2026-09-08"
+        },
+        {
+          "id": "nex-agi/nex-n2.6",
+          "name": "Nex-N2.6",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": true,
+          "family": "agi",
+          "limit": {
+            "context": 262144,
+            "output": 235929
+          },
+          "cost": {
+            "input": 0.12,
+            "output": 0.4,
+            "cacheRead": 0.024
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "medium",
+                "high"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-10",
+          "lastUpdated": "2026-11-10"
         },
         {
           "id": "nousresearch/hermes-4-405b",
@@ -254293,7 +255392,7 @@
           },
           "cost": {
             "input": 0.15,
-            "output": 0.5,
+            "output": 0.47,
             "cacheRead": 0.02
           },
           "modalities": {
@@ -256808,9 +257907,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.023,
-            "output": 0.086,
-            "cacheRead": 0.021
+            "input": 0.15,
+            "output": 0.6,
+            "cacheRead": 0.075
           },
           "modalities": {
             "input": [
@@ -257639,11 +258738,11 @@
           "family": "qwen",
           "limit": {
             "context": 40960,
-            "output": 16384
+            "output": 36864
           },
           "cost": {
-            "input": 0.12,
-            "output": 0.24
+            "input": 0.1,
+            "output": 0.22
           },
           "modalities": {
             "input": [
@@ -258225,12 +259324,12 @@
           "family": "qwen",
           "limit": {
             "context": 262144,
-            "output": 235929
+            "output": 64000
           },
           "cost": {
-            "input": 0.5,
+            "input": 0.6,
             "output": 3.6,
-            "cacheRead": 0.3
+            "cacheRead": 0.12
           },
           "modalities": {
             "input": [
@@ -258802,7 +259901,7 @@
           "openWeights": true,
           "family": "qwen",
           "limit": {
-            "context": 1024000,
+            "context": 1048575,
             "output": 235929
           },
           "cost": {
@@ -259188,10 +260287,10 @@
           "id": "ricursiveai/ripple-65b-preview",
           "name": "Ripple 65B Preview",
           "toolCall": true,
-          "structuredOutput": false,
-          "reasoning": false,
+          "structuredOutput": true,
+          "reasoning": true,
           "attachment": false,
-          "openWeights": false,
+          "openWeights": true,
           "limit": {
             "context": 1048576,
             "output": 131072
@@ -259209,6 +260308,11 @@
               "text"
             ]
           },
+          "reasoningOptions": [
+            {
+              "type": "toggle"
+            }
+          ],
           "releaseDate": "2026-11-04",
           "lastUpdated": "2026-11-04"
         },
@@ -259524,51 +260628,6 @@
           "lastUpdated": "2026-10-13"
         },
         {
-          "id": "stealth/crouton-alpha",
-          "name": "Crouton Alpha",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": true,
-          "openWeights": false,
-          "family": "alpha",
-          "limit": {
-            "context": 1048576,
-            "output": 943718
-          },
-          "cost": {
-            "input": 0,
-            "output": 0
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "video",
-              "pdf",
-              "audio"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "minimal",
-                "low",
-                "medium",
-                "high",
-                "xhigh",
-                "max"
-              ]
-            }
-          ],
-          "releaseDate": "2026-11-03",
-          "lastUpdated": "2026-11-03"
-        },
-        {
           "id": "stepfun/step-3.5-flash",
           "name": "Step 3.5 Flash",
           "toolCall": true,
@@ -259649,7 +260708,7 @@
           "attachment": true,
           "openWeights": true,
           "limit": {
-            "context": 1048576,
+            "context": 1000000,
             "input": 1000000,
             "output": 64000
           },
@@ -260087,6 +261146,47 @@
           ],
           "releaseDate": "2026-07-15",
           "lastUpdated": "2026-07-15"
+        },
+        {
+          "id": "thinkingmachines/inkling-2-small:free",
+          "name": "Inkling 2 Small (free)",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "ling",
+          "limit": {
+            "context": 1048576,
+            "output": 131072
+          },
+          "cost": {
+            "input": 0,
+            "output": 0
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-05",
+          "lastUpdated": "2026-11-05"
         },
         {
           "id": "thinkingmachines/inkling-small",
@@ -260778,7 +261878,7 @@
           "openWeights": true,
           "family": "mimo",
           "limit": {
-            "context": 1050000,
+            "context": 1024000,
             "output": 235929
           },
           "cost": {
@@ -261000,9 +262100,9 @@
             "output": 98304
           },
           "cost": {
-            "input": 0.13,
-            "output": 0.85,
-            "cacheRead": 0.025
+            "input": 0.2,
+            "output": 1.1,
+            "cacheRead": 0.03
           },
           "modalities": {
             "input": [
@@ -261314,9 +262414,9 @@
             "output": 943718
           },
           "cost": {
-            "input": 0.006,
+            "input": 0.01,
             "output": 6.8,
-            "cacheRead": 0.005
+            "cacheRead": 0.009
           },
           "modalities": {
             "input": [
@@ -261389,11 +262489,11 @@
           "family": "glm-flash",
           "limit": {
             "context": 1048576,
-            "output": 131072
+            "output": 943717
           },
           "cost": {
-            "input": 0.0335,
-            "output": 0.083,
+            "input": 0.15,
+            "output": 0.5,
             "cacheRead": 0.03
           },
           "modalities": {
@@ -278004,7 +279104,7 @@
           "family": "deepseek-thinking",
           "limit": {
             "context": 1048576,
-            "output": 393216
+            "output": 384000
           },
           "cost": {
             "input": 1.91,
@@ -278046,10 +279146,10 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.156,
+            "input": 0.039,
             "output": 1.2,
-            "cacheRead": 0.0048,
-            "cacheWrite": 0.156
+            "cacheRead": 0.0012,
+            "cacheWrite": 0.039
           },
           "modalities": {
             "input": [
@@ -278089,10 +279189,10 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.1092,
-            "output": 1.2,
-            "cacheRead": 0.006,
-            "cacheWrite": 0.1092
+            "input": 0.04368,
+            "output": 0.7,
+            "cacheRead": 0.0024,
+            "cacheWrite": 0.04368
           },
           "modalities": {
             "input": [
@@ -278456,7 +279556,7 @@
           "family": "llama",
           "limit": {
             "context": 131072,
-            "output": 32768
+            "output": 115200
           },
           "cost": {
             "input": 1.04,
@@ -278485,7 +279585,7 @@
           "family": "muse",
           "limit": {
             "context": 1048576,
-            "output": 943718
+            "output": 131072
           },
           "cost": {
             "input": 1.25,
@@ -278720,7 +279820,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -280157,10 +281257,10 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.5,
-            "output": 3.08,
-            "cacheRead": 0.093,
-            "cacheWrite": 0.5
+            "input": 0.4,
+            "output": 2.464,
+            "cacheRead": 0.0744,
+            "cacheWrite": 0.4
           },
           "modalities": {
             "input": [
@@ -280197,10 +281297,10 @@
             "output": 131072
           },
           "cost": {
-            "input": 0.15,
-            "output": 0.5,
-            "cacheRead": 0.03,
-            "cacheWrite": 0.15
+            "input": 0.0525,
+            "output": 0.25,
+            "cacheRead": 0.0105,
+            "cacheWrite": 0.0525
           },
           "modalities": {
             "input": [
@@ -290565,7 +291665,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -290609,7 +291709,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -293921,7 +295021,7 @@
           "family": "glm",
           "limit": {
             "context": 1048576,
-            "output": 32768
+            "output": 65536
           },
           "cost": {
             "input": 1.3,
@@ -314108,7 +315208,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 262144,
@@ -314717,7 +315817,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1048576,
@@ -318558,6 +319658,50 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "claude-fable-5-2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": true,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "claude-haiku-5-5",
           "name": "Claude Haiku 5.5",
           "toolCall": true,
@@ -319933,6 +321077,8 @@
               "text"
             ]
           },
+          "status": "deprecated",
+          "deprecated": true,
           "releaseDate": "2026-04-13",
           "lastUpdated": "2026-06-11"
         },
@@ -320635,7 +321781,7 @@
           "structuredOutput": true,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1000000,
@@ -320808,126 +321954,6 @@
           "knowledge": "2023-12",
           "releaseDate": "2024-12-06",
           "lastUpdated": "2024-12-06"
-        },
-        {
-          "id": "mercury-2",
-          "name": "Mercury 2",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "mercury",
-          "limit": {
-            "context": 128000,
-            "output": 50000
-          },
-          "cost": {
-            "input": 0.3125,
-            "output": 0.9375,
-            "cacheRead": 0.03125
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-02-24",
-          "lastUpdated": "2026-02-24"
-        },
-        {
-          "id": "mercury-2-5",
-          "name": "Mercury 2.5",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "mercury",
-          "limit": {
-            "context": 260000,
-            "output": 65536
-          },
-          "cost": {
-            "input": 0.25,
-            "output": 0.9375,
-            "cacheRead": 0.025
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-09-08",
-          "lastUpdated": "2026-09-08"
-        },
-        {
-          "id": "mercury-3",
-          "name": "Mercury 3",
-          "toolCall": true,
-          "structuredOutput": true,
-          "reasoning": true,
-          "attachment": false,
-          "openWeights": false,
-          "family": "mercury",
-          "limit": {
-            "context": 1000000,
-            "output": 131072
-          },
-          "cost": {
-            "input": 0.1,
-            "output": 0.35,
-            "cacheRead": 0.01
-          },
-          "modalities": {
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "reasoningOptions": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ],
-          "releaseDate": "2026-10-16",
-          "lastUpdated": "2026-10-20"
         },
         {
           "id": "minimax-m25",
@@ -325452,6 +326478,96 @@
           "lastUpdated": "2026-09-01"
         },
         {
+          "id": "anthropic/claude-fable-5.2",
+          "name": "Claude Fable 5.2",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 8,
+            "output": 40,
+            "cacheRead": 0.2,
+            "cacheWrite": 10
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
+          "id": "anthropic/claude-fable-5.2-fast",
+          "name": "Claude Fable 5.2 (Fast)",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "claude-fable",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 16,
+            "output": 80,
+            "cacheRead": 0.4,
+            "cacheWrite": 20
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "knowledge": "2026-06",
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
+        },
+        {
           "id": "anthropic/claude-haiku-4.5",
           "name": "Claude Haiku 4.5",
           "toolCall": true,
@@ -329062,7 +330178,7 @@
           "openWeights": false,
           "family": "text-embedding",
           "limit": {
-            "context": 8192,
+            "context": 2048,
             "output": 0
           },
           "modalities": {
@@ -329073,8 +330189,8 @@
               "text"
             ]
           },
-          "releaseDate": "2024-08-01",
-          "lastUpdated": "2024-08"
+          "releaseDate": "2024-11-18",
+          "lastUpdated": "2024-11-18"
         },
         {
           "id": "google/text-multilingual-embedding-002",
@@ -329086,7 +330202,7 @@
           "openWeights": false,
           "family": "text-embedding",
           "limit": {
-            "context": 8192,
+            "context": 2048,
             "output": 0
           },
           "modalities": {
@@ -329097,8 +330213,8 @@
               "text"
             ]
           },
-          "releaseDate": "2024-03-01",
-          "lastUpdated": "2024-03"
+          "releaseDate": "2024-05-14",
+          "lastUpdated": "2024-05-14"
         },
         {
           "id": "google/veo-3.1-fast-generate-001",
@@ -329968,13 +331084,7 @@
           },
           "reasoningOptions": [
             {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
+              "type": "toggle"
             }
           ],
           "releaseDate": "2026-11-02",
@@ -330126,6 +331236,50 @@
           "knowledge": "2024-08",
           "releaseDate": "2025-04-05",
           "lastUpdated": "2025-04-05"
+        },
+        {
+          "id": "meta/muse-ember",
+          "name": "Muse Ember",
+          "toolCall": true,
+          "structuredOutput": false,
+          "reasoning": true,
+          "attachment": true,
+          "openWeights": false,
+          "family": "muse",
+          "limit": {
+            "context": 1048576,
+            "output": 1048576
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0.5,
+            "cacheRead": 0.004
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "reasoningOptions": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ],
+          "releaseDate": "2026-11-09",
+          "lastUpdated": "2026-11-09"
         },
         {
           "id": "meta/muse-glimmer-30b",
@@ -331796,7 +332950,7 @@
           "structuredOutput": false,
           "reasoning": true,
           "attachment": true,
-          "openWeights": false,
+          "openWeights": true,
           "family": "kimi-k3",
           "limit": {
             "context": 1000000,
@@ -343961,7 +345115,7 @@
           },
           "cost": {
             "input": 0.15,
-            "output": 0.5,
+            "output": 0.47,
             "cacheRead": 0.02
           },
           "modalities": {

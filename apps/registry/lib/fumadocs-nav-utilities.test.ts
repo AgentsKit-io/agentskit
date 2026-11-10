@@ -16,6 +16,6 @@ describe('fumadocs home header utilities', () => {
   })
 
   it('forces the stacking and sizing utilities into the stylesheet', () => {
-    for (const cls of headerClasses.filter((c) => /^(z|h)-/.test(c))) expect(inline).toContain(cls)
+    for (const cls of headerClasses.filter((c) => /^(sticky|top-0|(z|h)-.*)$/.test(c))) expect(inline).toContain(cls)
   })
 })

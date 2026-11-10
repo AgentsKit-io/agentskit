@@ -5,7 +5,7 @@
    layout classes (sticky header, backdrop blur, responsive nav) must be scanned explicitly. */
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
 /* vinext needs these Fumadocs nav utilities included explicitly (z-40/h-14 for the sticky header). */
-@source inline("max-sm:hidden max-lg:hidden z-40 h-14");
+@source inline("max-sm:hidden max-lg:hidden sticky top-0 z-40 h-14 backdrop-blur-lg");
 /* Canonical brand palette — GENERATED from brand/tokens.json (single source for
  * the whole ecosystem). Provides --ak-bg/surface/border/fg/muted/blue/red/green/
  * accent + fonts/radii/motion, per light + .dark. Regenerate via
