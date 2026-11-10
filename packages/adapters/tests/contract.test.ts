@@ -14,6 +14,7 @@ import {
   grok,
   deepseek,
   kimi,
+  minimax,
   mistral,
   cohere,
   together,
@@ -46,6 +47,7 @@ runFetchAdapterContract({ name: 'gemini',     build: () => gemini({ apiKey: 'k',
 runFetchAdapterContract({ name: 'grok',       build: () => grok({ apiKey: 'k', model: 'grok-2', retry: noRetry }), successBody: oai })
 runFetchAdapterContract({ name: 'deepseek',   build: () => deepseek({ apiKey: 'k', model: 'deepseek-chat', retry: noRetry }), successBody: oai })
 runFetchAdapterContract({ name: 'kimi',       build: () => kimi({ apiKey: 'k', model: 'moonshot-v1-8k', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'minimax',    build: () => minimax({ apiKey: 'k', model: 'MiniMax-M3', retry: noRetry }), successBody: oai })
 runFetchAdapterContract({ name: 'mistral',    build: () => mistral({ apiKey: 'k', model: 'mistral-small-latest', retry: noRetry }), successBody: oai })
 runFetchAdapterContract({ name: 'cohere',     build: () => cohere({ apiKey: 'k', model: 'command-r-plus', retry: noRetry }), successBody: oai })
 runFetchAdapterContract({ name: 'together',   build: () => together({ apiKey: 'k', model: 'meta-llama/Llama-3-70b', retry: noRetry }), successBody: oai })
