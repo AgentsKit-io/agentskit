@@ -1,4 +1,4 @@
 {
   "install": "pnpm install --frozen-lockfile",
-  "verify": "pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 && pnpm check:quality-gates"
+  "verify": "pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 && pnpm docs:bridge:index && pnpm check:quality-gates"
 }
