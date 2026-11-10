@@ -1,0 +1,162 @@
+# Rascunho 2026-10-29. Fontes: README, gh releases, npm, PRs mergeados desde 29/09, issues abertas, Linear projeto "AgentsKit" (AGE).
+# Obs.: projeto Linear "OpenSource" está vazio; "Ecossistema open source" só tem KR-01..11 (Done, outro repo). Os tickets deste repo estão no projeto "AgentsKit".
+product: AgentsKit
+project: AgentsKit
+version_url: null
+repos:
+  - name: AgentsKit-io/agentskit
+features:
+  # estado: publicada — @agentskit/core 1.15.0 e @agentskit/runtime 0.11.3 no npm; quick start do README roda sem chave
+  - key: primeiro-agente-sem-chave
+    group: produto
+    phase: A
+    name: Primeiro agente em minutos, sem chave de API
+    description: Instalar core + runtime e rodar um agente local com adaptador próprio, sem conta nem rede, e depois trocar pelo provedor real.
+    milestone: null
+    tickets: []
+    acceptance: null
+    how_to_test: npm i @agentskit/core @agentskit/runtime tsx; colar o agent.ts do README; npx tsx agent.ts imprime "Agent ready..."
+    blocked_reason: null
+  # estado: publicada com alerta — adapters 0.19.2 (26/10); transporte OpenAI-compatível e partes imagem/arquivo (#1826); workflow "models.dev catalog freshness" vermelho na main; PR externo minimax #1688 parado
+  - key: trocar-provedor-de-modelo
+    group: produto
+    phase: A
+    name: Trocar de provedor de modelo só por configuração
+    description: Usar OpenAI, Anthropic, Gemini e qualquer API compatível com OpenAI, com catálogo de modelos atualizado, sem reescrever o agente.
+    milestone: null
+    tickets: ["gh:#1826", "gh:#1898", "gh:#1688"]
+    acceptance: null
+    how_to_test: Rodar o mesmo agente com dois adaptadores diferentes trocando só a factory do adapter
+    blocked_reason: null
+  # estado: publicada; extensão em andamento — tools 0.13.16, mcp 0.5.2 (metadados + hook de confirmação, #1832); backend Parallel Search em PR #1912 (verde)
+  - key: ferramentas-e-mcp
+    group: produto
+    phase: A
+    name: Dar ferramentas ao agente e conectar servidores MCP
+    description: Registrar tools tipadas, consumir/expor servidores MCP preservando metadados e pedir confirmação antes de ações sensíveis.
+    milestone: null
+    tickets: ["gh:#1832", "gh:#1842", "gh:#1912"]
+    acceptance: null
+    how_to_test: Conectar um servidor MCP local e chamar uma tool com o hook de confirmação ativo
+    blocked_reason: null
+  # estado: publicada — core 1.15.0 com decisões duráveis/idempotentes (#1828, #1833)
+  - key: aprovacao-humana-duravel
+    group: confianca
+    phase: A
+    name: Aprovação humana de ações que sobrevive a reinício
+    description: Pausar o agente antes de uma tool, guardar a decisão de forma durável e retomar na ordem certa sem executar duas vezes.
+    milestone: null
+    tickets: ["gh:#1828", "gh:#1833"]
+    acceptance: null
+    how_to_test: Pedir aprovação, reiniciar o processo, aprovar e conferir execução única
+    blocked_reason: null
+  # estado: publicada; correção em andamento — memory 0.12.1 com subpath Drizzle/Postgres (#1827); PR #1819 (preservar vetores) aberto desde set.
+  - key: memoria-persistente
+    group: produto
+    phase: A
+    name: Memória de conversa persistente
+    description: Guardar histórico e vetores em memória, arquivo ou Postgres (Drizzle) e retomar conversas.
+    milestone: null
+    tickets: ["gh:#1827", "gh:#1819"]
+    acceptance: null
+    how_to_test: Salvar uma conversa no Postgres, reiniciar e recarregar o histórico
+    blocked_reason: null
+  # estado: publicada — rag 0.7.1 com createPartitionedRAG (#1829)
+  - key: rag-com-particoes
+    group: produto
+    phase: A
+    name: Responder com base nos seus documentos (RAG), separado por cliente
+    description: Indexar documentos e recuperar trechos por partição (tenant), sem vazar entre clientes.
+    milestone: null
+    tickets: ["gh:#1829"]
+    acceptance: null
+    how_to_test: Indexar docs em duas partições e conferir que a busca de uma não retorna a outra
+    blocked_reason: null
+  # estado: publicada; correção em andamento — react 0.8.10, ink 0.10.16 + vue/svelte/solid/angular/react-native; #1875 (tipos do Angular) com 2 checks falhando
+  - key: interface-de-chat-em-qualquer-framework
+    group: produto
+    phase: A
+    name: Interface de chat em React, Vue, Svelte, Solid, Angular, React Native e terminal
+    description: Ligar o agente a componentes/hooks do framework que o time já usa, com streaming.
+    milestone: null
+    tickets: ["gh:#1875"]
+    acceptance: null
+    how_to_test: Montar um chat React com @agentskit/react e ver a resposta chegar em streaming
+    blocked_reason: null
+  # estado: publicada — eval 0.7.0 com proveniência de resultados (#1834); eval-braintrust existe
+  - key: avaliar-agentes
+    group: confianca
+    phase: A
+    name: Avaliar o agente com casos de teste reproduzíveis
+    description: Rodar suítes de avaliação, comparar resultados e guardar proveniência (hash) de cada execução.
+    milestone: null
+    tickets: ["gh:#1834"]
+    acceptance: null
+    how_to_test: Rodar uma suíte de eval duas vezes e comparar os hashes de proveniência
+    blocked_reason: null
+  # estado: publicada — observability 0.13.1, CostStore Postgres por tenant (#1835), relatórios de guardrail (#1788), langfuse
+  - key: custos-e-observabilidade
+    group: confianca
+    phase: A
+    name: Ver custo, traces e guardrails por cliente
+    description: Medir custo por tenant de forma durável, exportar traces (ex. Langfuse) e receber relatórios periódicos de guardrails.
+    milestone: null
+    tickets: ["gh:#1835", "gh:#1788"]
+    acceptance: null
+    how_to_test: Rodar chamadas em dois tenants e consultar o custo acumulado de cada um
+    blocked_reason: null
+  # estado: publicada — cli 0.14.0 (26/10), localtunnel opcional (#1868); sandbox 0.6.13
+  - key: cli-e-sandbox
+    group: produto
+    phase: A
+    name: Criar projeto pela CLI e executar código em sandbox
+    description: Gerar um projeto de agente pela CLI, instalar agentes do Registry e rodar código gerado isolado.
+    milestone: null
+    tickets: ["gh:#1868"]
+    acceptance: null
+    how_to_test: npx @agentskit/cli init e rodar o projeto gerado
+    blocked_reason: null
+  # estado: em andamento — PRs de fábrica #1909 (Supabase) e #1907 (Zendesk/Freshdesk) verdes; Trello/ClickUp e monday/GitLab In Progress no Linear sem PR visto
+  - key: integracoes-saas
+    group: produto
+    phase: B
+    name: Conectar o agente a Supabase, Zendesk, Trello, monday e outros
+    description: Usar descritores portáteis de integração para dar ao agente acesso a ferramentas SaaS comuns.
+    milestone: null
+    tickets: ["gh:#1089", "gh:#1885", "gh:#1886", "gh:#1887", "AGE-2229", "AGE-2227", "AGE-2226", "AGE-2225"]
+    acceptance: null
+    how_to_test: Configurar o descritor Supabase e listar as tools que ele expõe
+    blocked_reason: null
+  # estado: em andamento/não começada — ADR #1903 e suítes Memory/Retriever #1902 em PR com falha; matriz #1901 em PR; receitas #1900 com 3 falhas; fixtures #1893, regra de import #1892 e Tool/Runtime #1895 sem PR; matriz #1897 marcada bloqueado
+  - key: interoperabilidade-verificavel
+    group: confianca
+    phase: B
+    name: Trocar qualquer peça (tool, memória, runtime) com garantia de compatibilidade
+    description: Rodar suítes de conformidade e fixtures portáveis para provar que um adapter/tool/memória de terceiros funciona no AgentsKit, e coexistir com UI própria, Vercel AI SDK ou host MCP.
+    milestone: null
+    tickets: ["gh:#1477", "gh:#1890", "gh:#1893", "gh:#1894", "gh:#1895", "gh:#1896", "gh:#1897", "gh:#1892", "AGE-2222", "AGE-2218", "AGE-2217", "AGE-2219", "AGE-2216", "AGE-2215", "AGE-2220"]
+    acceptance: null
+    how_to_test: Rodar a suíte de conformidade de Memory contra a memória Postgres e ver todos os requisitos passarem
+    blocked_reason: null
+  # estado: bloqueada — main com "Ecosystem visual" e "models.dev catalog freshness" vermelhos; PR #1906 (AGE-1894, In Review) com 1 check falhando
+  - key: main-verde
+    group: confianca
+    phase: A
+    name: Main sempre verde (docs, visual e catálogo de modelos)
+    description: Quem adota confia que a main e os pacotes publicados passam em todos os gates, inclusive qualidade de docs e frescor do catálogo de modelos.
+    milestone: null
+    tickets: ["gh:#1899", "gh:#1906", "AGE-1894"]
+    acceptance: null
+    how_to_test: gh run list -b main mostra todos os workflows em success
+    blocked_reason: PR #1906 ainda falhando; catálogo models.dev sem PR de correção visto
+  # estado: em andamento — Vitest 5 (#1905 verde, AGE-2224), TS 7 (#1908 falhando, AGE-2223), Next 16 #1872 bloqueado; evidência de prontidão AGE-2221; 32 dependabot + 13 renovate abertos
+  - key: prontidao-dependencias-e-evidencia
+    group: prontidao
+    phase: B
+    name: Dependências atuais e evidência de prontidão renovada
+    description: Usar o kit com TypeScript 7, Vitest 5 e Next 16 sem conflitos, com o ledger de evidências do produto atualizado.
+    milestone: null
+    tickets: ["gh:#1888", "gh:#1889", "gh:#1871", "gh:#1872", "gh:#1873", "gh:#1891", "gh:#1517", "AGE-2224", "AGE-2223", "AGE-2221"]
+    acceptance: null
+    how_to_test: Instalar os pacotes num projeto TS 7 e rodar tsc sem erro
+    blocked_reason: null
