@@ -2,18 +2,23 @@
 /**
  * Validates docs/interop/compatibility.json and keeps the generated reference
  * page in sync. `--check` fails on page drift; `--write` regenerates it.
+ * Expired entries are warnings, so the calendar alone never turns PRs red;
+ * `--fail-on-expired` makes them errors.
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { loadMatrix, renderPage, validateMatrix } from './lib/compatibility-matrix.mjs'
+import { expiredEntries, loadMatrix, renderPage, validateMatrix } from './lib/compatibility-matrix.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const page = join(root, 'apps/docs-next/content/docs/reference/compatibility.mdx')
 const today = new Date().toISOString().slice(0, 10)
 
 const matrix = loadMatrix(root)
-const errors = validateMatrix(matrix, { root, today })
+const errors = validateMatrix(matrix, { root })
+const expired = expiredEntries(matrix, today)
+if (process.argv.includes('--fail-on-expired')) errors.push(...expired)
+else for (const e of expired) process.stderr.write(`⚠ ${e}\n`)
 if (errors.length > 0) {
   for (const e of errors) process.stderr.write(`✗ ${e}\n`)
   process.exit(1)

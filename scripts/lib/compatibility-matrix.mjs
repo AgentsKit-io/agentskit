@@ -12,8 +12,8 @@ const ENTRY_KEYS = ['subject', 'capability', 'state', 'evidence', 'limitations',
 
 const isString = (v) => typeof v === 'string' && v.length > 0
 
-/** Validate a parsed matrix; returns a list of human-readable problems. */
-export function validateMatrix(matrix, { root, today }) {
+/** Validate a parsed matrix; returns a list of human-readable problems. Expiry is reported by `expiredEntries`. */
+export function validateMatrix(matrix, { root }) {
   const errors = []
   if (!matrix || typeof matrix !== 'object' || matrix.schemaVersion !== 1) return ['schemaVersion must be 1']
   if (!Array.isArray(matrix.entries)) return ['entries must be an array']
@@ -31,7 +31,6 @@ export function validateMatrix(matrix, { root, today }) {
     if (!isString(entry?.owner)) fail('owner is required')
     if (!DATE.test(entry?.reviewedOn ?? '')) fail('reviewedOn must be YYYY-MM-DD')
     if (!DATE.test(entry?.expiresOn ?? '')) fail('expiresOn must be YYYY-MM-DD')
-    else if (entry.expiresOn < today) fail(`expired on ${entry.expiresOn}; re-review the evidence`)
     if (DATE.test(entry?.reviewedOn ?? '') && DATE.test(entry?.expiresOn ?? '') && entry.expiresOn <= entry.reviewedOn) {
       fail('expiresOn must be after reviewedOn')
     }
@@ -54,6 +53,13 @@ export function validateMatrix(matrix, { root, today }) {
     }
   })
   return errors
+}
+
+/** Entries whose review window has passed, as human-readable lines. */
+export function expiredEntries(matrix, today) {
+  return (matrix?.entries ?? [])
+    .filter((entry) => DATE.test(entry?.expiresOn ?? '') && entry.expiresOn < today)
+    .map((entry) => `${entry.subject?.kind}/${entry.subject?.id} ${entry.capability}: expired on ${entry.expiresOn}; re-review the evidence`)
 }
 
 export function loadMatrix(root) {

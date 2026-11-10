@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { loadMatrix, renderPage, validateMatrix } from './lib/compatibility-matrix.mjs'
+import { expiredEntries, loadMatrix, renderPage, validateMatrix } from './lib/compatibility-matrix.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const today = '2026-10-28'
@@ -36,8 +36,11 @@ describe('compatibility matrix gate', () => {
   it('fails planned carrying evidence', () => {
     expect(check({ state: 'planned' }).join()).toMatch(/must not carry evidence/)
   })
-  it('fails expired entries', () => {
-    expect(check({}, '2027-01-02').join()).toMatch(/expired/)
+  it('reports expired entries separately from validation errors', () => {
+    expect(check({}, '2027-01-02')).toEqual([])
+    const matrix = { schemaVersion: 1, entries: [base] }
+    expect(expiredEntries(matrix, '2027-01-02').join()).toMatch(/expired on 2027-01-01/)
+    expect(expiredEntries(matrix, '2026-12-31')).toEqual([])
   })
   it('fails unknown capability, state and kind', () => {
     expect(check({ capability: 'telepathy' }).join()).toMatch(/unknown capability/)
