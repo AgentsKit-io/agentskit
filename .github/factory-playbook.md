@@ -7,7 +7,7 @@ Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read `
 - Exact CI command: `pnpm install --frozen-lockfile`.
 - Stale lockfile (frozen install fails): run `pnpm install`, commit the `pnpm-lock.yaml` change in its own `build:` commit. Never hand-edit the lockfile.
 - No env vars are needed to build/test. Postgres tests read a connection URL variable (see `.github/workflows/ci.yml`); skip them locally.
-- `HUSKY=0` skips git hooks. The factory station pushes without hooks; `verify` in `.github/factory.json` runs what pre-push checks (Doc Bridge index, quality gates, lint, build), so it is the final check.
+- `HUSKY=0` skips git hooks. Pre-push only typechecks changed packages, so it is not the final check: `verify` in `.github/factory.json` (affected build, lint and test, Doc Bridge index, quality gates) is.
 
 ## 2. Run locally
 - Docs: `pnpm docs` (Next.js, `apps/docs-next`). Examples: `pnpm dev` (turbo, all `dev` tasks). Most tickets are library code and need no running app.
