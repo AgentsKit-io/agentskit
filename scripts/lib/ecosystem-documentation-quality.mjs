@@ -364,6 +364,12 @@ export function runDocBridgeJson(root, args) {
 }
 
 function verifyLiveDocBridge(evidence, root, artifact, findings) {
+  // Live verification can only pass against a verified artifact, and the two Doc Bridge runs take
+  // minutes over a large corpus, so an unverified artifact fails here without spending them.
+  if (!artifact) {
+    findings.push({ id: 'doc-bridge-live', message: 'Live Doc Bridge verification skipped: the Doc Bridge artifact is not verified' })
+    return false
+  }
   let doctor
   let conformance
   try {

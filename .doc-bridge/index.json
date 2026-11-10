@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "821494b1c78fdbad4d1171a023ad89fbb08b0a850d5e4a96a439ead4f4c9fbeb",
+  "contentHash": "c70b7e440271cc58557ec9a254c2a2d3fa1a6a4a506e8af4b9a4ba4a42b9f015",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-10T17:59:23.272Z",
+  "generatedAt": "2026-11-10T18:35:18.583Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -4035,7 +4035,7 @@
         "document",
         "human"
       ],
-      "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10"
+      "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/adapter-contract-tests.mdx",
@@ -6122,7 +6122,7 @@
         "document",
         "human"
       ],
-      "contentHash": "aaa3a6f72dd768f75cdf1a77a10f8263d16a4c05896d54646d84fa3d4a488d36"
+      "contentHash": "5c86534cd7a955e3da15d90086eefbe8740346d9045162210ad19f8520737df0"
     },
     {
       "id": "document:docs/architecture/adrs/0045-interoperability-charter.md",
@@ -7322,7 +7322,7 @@
         "document",
         "project"
       ],
-      "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c"
+      "contentHash": "69bd512c415cb26e1da5f86ea2528c31de3954f76b375d9e33c44334eee6c745"
     },
     {
       "id": "document:packages/rag/CONVENTIONS.md",
@@ -28290,7 +28290,27 @@
         "ts",
         "src"
       ],
-      "contentHash": "f523e7509cb4e0f9c8901d9ad0dcf071142527b03e4d139b693e4b647e0598b5"
+      "contentHash": "01957e33ec3de3cc51455f3611431fdde1c42709b87db4ff70a72cefa3e4932e"
+    },
+    {
+      "id": "module:packages/observability/src/cost-store-validation.ts",
+      "type": "module",
+      "title": "cost-store-validation.ts",
+      "path": "packages/observability/src/cost-store-validation.ts",
+      "symbols": [
+        "validateCostCommit",
+        "validateCostRelease",
+        "validateCostReserve",
+        "validateCostWindow",
+        "validateReservationTtl",
+        "validateWarnAtUtilization"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "b2ad86d1c3380bd5304a95553e496cdb573cf776d258e45a41ecd0b44ffceefd"
     },
     {
       "id": "module:packages/observability/src/cost-store.ts",
@@ -28308,12 +28328,15 @@
         "CostStoreOptions",
         "CostUsageEntry",
         "CostWindow",
+        "CostWindowDetails",
         "CostWindowInput",
         "InMemoryCostStore",
         "InMemoryLedgerRow",
+        "costWindowDetailsOf",
         "createInMemoryCostStore",
         "describeCostWindow",
         "monthlyWindowKey",
+        "monthlyWindowResetsAt",
         "recordCostSpend",
         "validateCostCommit",
         "validateCostRelease",
@@ -28327,7 +28350,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "3505173725e4f2b72585a759df38e43b8f3e4ac4e6a74b662b57378b966c2b17"
+      "contentHash": "ce54846f404cf9306d2220f7627dcdd535e14e2b59bea8654fc1160231651e7e"
     },
     {
       "id": "module:packages/observability/src/datadog.ts",
@@ -28517,6 +28540,7 @@
         "diffState",
         "langsmith",
         "monthlyWindowKey",
+        "monthlyWindowResetsAt",
         "multiTenantCostGuard",
         "newRelicSink",
         "opentelemetry",
@@ -28537,7 +28561,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "1731cecba9b317493798a6b8e8c8d0840b7b613a60ae28eb8d246a21d6dc8aa3"
+      "contentHash": "d4393ee1726dbaafb0bca212f7e61799ce77a7cebf3b0f3c3d3928e96c72db23"
     },
     {
       "id": "module:packages/observability/src/langsmith.ts",
@@ -28555,6 +28579,23 @@
         "src"
       ],
       "contentHash": "8ad621c87f47ad0cec10d393bac8ddee4e314866ef2b81f9144a8871e672752c"
+    },
+    {
+      "id": "module:packages/observability/src/money.ts",
+      "type": "module",
+      "title": "money.ts",
+      "path": "packages/observability/src/money.ts",
+      "symbols": [
+        "NANO",
+        "toNano",
+        "toUsdDecimal"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "11e35a43210c1ef558b2726fbd340b9d29074abb13a3abee3b74d1c08d8dcafe"
     },
     {
       "id": "module:packages/observability/src/new-relic.ts",
@@ -28610,7 +28651,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "e32f734825f507e3ab194ea9602f3ac659a1a20354ad1d8c7830774a43f14895"
+      "contentHash": "0d88805883fb36074eeaf7f398537368836ee138cf8e7e7c4f1bd68441e6b0b5"
     },
     {
       "id": "module:packages/observability/src/prod-control.ts",
@@ -28958,6 +28999,19 @@
       "contentHash": "3a284757bbc12d9d061ea11791f9b4e8e9cb9b9a69e4cf78b630f88aaa4f9008"
     },
     {
+      "id": "module:packages/observability/tests/cost-store-validation.test.ts",
+      "type": "module",
+      "title": "cost-store-validation.test.ts",
+      "path": "packages/observability/tests/cost-store-validation.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "c8bf2d91425edbde55940149f29215ce1a0e074984f823c91312d03dd445c909"
+    },
+    {
       "id": "module:packages/observability/tests/cost-store.test.ts",
       "type": "module",
       "title": "cost-store.test.ts",
@@ -28968,7 +29022,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "950a389c1e129144f7588635c9f437cc10b4beb2b7b81621062b3ebef559b0d8"
+      "contentHash": "21d3d9c876b7491072b78792545f1221a7a2a2620c889e9f84b504599df5310b"
     },
     {
       "id": "module:packages/observability/tests/devtools.test.ts",
@@ -28995,6 +29049,19 @@
         "tests"
       ],
       "contentHash": "357e637072bbe8a10c12501cc2eee672f96b068a8f9d9d5810c10e18d614ab13"
+    },
+    {
+      "id": "module:packages/observability/tests/money.test.ts",
+      "type": "module",
+      "title": "money.test.ts",
+      "path": "packages/observability/tests/money.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "efafa6a331bb15d50ae1f0a2757e2241e6a31d5b17c79a87ddfe99503c7316f4"
     },
     {
       "id": "module:packages/observability/tests/observers.test.ts",
@@ -29076,7 +29143,7 @@
         "mjs",
         "tests"
       ],
-      "contentHash": "dbd4f1b1f4c518fdc519e586f9b2655a6856d036d084504108b47fc410b72a69"
+      "contentHash": "86b1dcb41d7c1f7af82cadf9373d7b8a0634d119ffa206b51b484b754c989e92"
     },
     {
       "id": "module:packages/observability/tests/postgres.integration.test.ts",
@@ -29089,7 +29156,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "301ce5fb51c3d0910a5eba60c067ab36ee65c26c879b2882cef099bb6fed0156"
+      "contentHash": "3b03ecf66fe3e5881ad93d9ed816596a8cf31c8a90b93a1b0467b862cf07e238"
     },
     {
       "id": "module:packages/observability/tests/postgres.test.ts",
@@ -29102,7 +29169,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "0b325eab8857a792babdce02f661131bac9b41f5aa871174c268b6f8469d6c78"
+      "contentHash": "7f802d9f43a380a66264f1d0fc0d81f54918ad8e7cd66d2c32e12a55ebee8722"
     },
     {
       "id": "module:packages/observability/tests/prod-control.test.ts",
@@ -36716,7 +36783,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c"
+      "contentHash": "d864dfa7188ab88eb4aaed89b0c0a0c1f609ca91ceeb875ed7918989837ec096"
     },
     {
       "id": "module:scripts/ecosystem-llms-block.test.mjs",
@@ -37014,7 +37081,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "e956be3912657ccfa0423ea6730aa288db13f826afae909dca866cd5e71d58ba"
+      "contentHash": "84ad8bddadff853c2dc090c8cbec31c2f8124ce4f86777e8f0a58ea4d815772c"
     },
     {
       "id": "module:scripts/lib/ecosystem-readiness.mjs",
@@ -39173,8 +39240,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "4aa21fc9c2ba1f62f43212a5dccc59d2c877a50964f539f2fa849c828ca63753",
-    "fileCount": 2690,
+    "hash": "c9045db3fb86e1e0bf8706d6b7e0996275414724b6cd04e72d55ebc7c2c3080f",
+    "fileCount": 2694,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39196,9 +39263,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "483c160d784671dff338f4b0dcfdeca4df53845f7b3df394c4e50096c0e6ab30",
+    "contentHash": "3ba527ce4baeee89ecd21894fa53f7a33883418689c5469df50db9997de4e13f",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "bfbc7b881d1f5dbad80506a3420f1162c044f2dcc38ba68495357ff8296dc0b2",
+    "snapshotHash": "8bd528933e332c13701b467865218c154b52c29d832f926b945dc92748ec4373",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39218,7 +39285,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2554,
+      "documentCount": 2558,
       "fieldNames": [
         "aliases",
         "body",
@@ -39229,13 +39296,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0184025058731403,
-        "body": 60.94244322631167,
-        "headings": 3.884103367267032,
-        "path": 7.613938919342209,
-        "summary": 4.50391542678152,
-        "symbols": 7.559514487079092,
-        "title": 3.3821456538762726
+        "aliases": 3.019155590304926,
+        "body": 60.8467552775606,
+        "headings": 3.8780297107114934,
+        "path": 7.613760750586396,
+        "summary": 4.49687255668491,
+        "symbols": 7.565676309616888,
+        "title": 3.3831118060985146
       }
     },
     "entries": [
@@ -53460,7 +53527,7 @@
           "path": "apps/docs-next/content/docs/for-agents/observability.mdx",
           "symbols": "",
           "summary": "consoleLogger(config?) — local dev logging.",
-          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - reservationTtlMs?: number on both store factories — a reservation neither committed nor released after this many ms stops counting against the cap and settles as released (late commit throws AK COST RESERVATION RELEASED ). Checked lazily on every store call; no job needed. Default: never expires. - createInMemoryCostSto",
+          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - reservationTtlMs?: number on both store factories — a reservation neither committed nor released after this many ms stops counting against the cap and settles as released (late commit throws AK COST RESERVATION RELEASED ). Checked lazily on every store call; no job needed. Default: never expires. - CostWindow { spentUsd",
           "aliases": "observability document agent"
         },
         "graph": {
@@ -53577,7 +53644,7 @@
             }
           ]
         },
-        "contentHash": "c9f4fcde9d6af4180b481e0271907f9d80eeec0627e822aa8476ea05aa99f74b",
+        "contentHash": "de2e01c3dd75807d635258f457928337ad7889ff7bf5141a082c48594ebcf6db",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -63241,7 +63308,7 @@
           "path": "apps/docs-next/content/docs/reference/publications.mdx",
           "symbols": "",
           "summary": "This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed.",
-          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. - — public registry entry. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
+          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
           "aliases": "document human"
         },
         "graph": {
@@ -63252,7 +63319,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10",
+        "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73308,7 +73375,7 @@
           "path": "docs/architecture/adrs/0044-durable-cost-store.md",
           "symbols": "",
           "summary": "Status: Proposed (implementation authorized; evidence review remains external)",
-          "body": "ADR 0044 — Durable tenant cost store - Status : Proposed (implementation authorized; evidence review remains external) - Date : 2026-10-09 Context The cost guards in @agentskit/observability keep spend in closure state. On hosts that run many short-lived instances, each instance starts at zero, so a tenant budget is never reached and concurrent requests cannot see each other. A budget that must hold needs spend recorded outside the process, and admission that is atomic under concurrency. Decision Add a CostStore port to @agentskit/observability with four tenant-scoped operations: reserve , commit , release and window . - reserve holds an estimate against a cap passed by the caller. The cap is an argument, not stored state, so the host reads it from its own plan data. - commit replaces the hold with the real spend and appends usage ledger rows. - release returns the hold when the call fails. - Each operation is idempotent per (tenant, reservationId) . Settling an unknown, released or committed reservation raises CostReservationError . - Spend is grouped by an accounting windowKey , the UTC month by default. Ship two implementations: createInMemoryCostStore for development and tests, and postgresCostStore on the optional /postgres subpath, with BYO Drizzle and node-postgres, exported schema and idempotent DDL. Each PostgreSQL operation is one statement; admission is the conditional update spent + reserved + amount <= cap , so no explicit transaction is required and the store works with a pooled or a per-request connection. Export costStoreContract on /cost-store-contract as the framework-free suite any implementation must pass. costGuard , multiTenantCostGuard and createAdvancedCostGuard accept an optional store . With it they write each priced llm:end to the store and trip on the stored window total. Without it they keep the existing process-local behavior and warn once in a production runtime: NODE ENV=production , or Cloudflare Workers when NODE ENV is not set. warnWithoutStore overrides the detection. A store write that fails goes to onError ; a guard without onError logs the first failure once. Reservations expire lazily when the store is given reservationTtlMs : each operation first releases the held reservations older than the TTL in the scope it touches (the tenant window for reserve and window , the reservation for commit and release ), so no host job is needed. Without the option, expirePostgresCostReservations releases the ones still held and older than a cutoff the host chooses; the host schedules it. recordCostSpend releases its own hold when the commit fails. Consequences - Existing guard options and behavior are unchanged when store is omitted, apart from the production warning. - With a store, a guard budget applies to the store's current accounting window instead of the lifetime of one guard instance. - Guards observe spend after it happens and write to the store asynchronously, so they bound overshoot to in-flight calls. Hosts that must refuse a request before it spends call reserve directly. - commit records the real spend even above the reserved estimate. The cap is a hard ceiling on reservations, not on provider usage already incurred. - drizzle-orm and pg become optional peers, required only by /postgres . - A released reservation id is not admitted again: reserve raises AK COST RESERVATION RELEASED . Replaying it as admitted would let the call run without a hold and then fail to commit. - A reservation abandoned by a crashed process stays held until its TTL passes, or, without reservationTtlMs , until the host runs the expiry. A TTL or cutoff shorter than a call still in flight releases its hold, and that call's commit is then rejected. - With reservationTtlMs , a PostgreSQL operation runs one extra scoped expiry statement first, backed by a partial index on held reservations, and the reservation's created at comes from the store clock. - reserve must run outside a host transaction or inside a savepoint. A",
+          "body": "ADR 0044 — Durable tenant cost store - Status : Proposed (implementation authorized; evidence review remains external) - Date : 2026-10-09 Context The cost guards in @agentskit/observability keep spend in closure state. On hosts that run many short-lived instances, each instance starts at zero, so a tenant budget is never reached and concurrent requests cannot see each other. A budget that must hold needs spend recorded outside the process, and admission that is atomic under concurrency. Decision Add a CostStore port to @agentskit/observability with four tenant-scoped operations: reserve , commit , release and window . - reserve holds an estimate against a cap passed by the caller. The cap is an argument, not stored state, so the host reads it from its own plan data. - commit replaces the hold with the real spend and appends usage ledger rows. - release returns the hold when the call fails. - Each operation is idempotent per (tenant, reservationId) . Settling an unknown, released or committed reservation raises CostReservationError . - Spend is grouped by an accounting windowKey , the UTC month by default. - Money is exact: amounts are rounded to the nano-dollar on entry and summed as integers in memory and as numeric(20, 9) in PostgreSQL, and the derived remainingUsd and utilization are computed in nano-dollars too. - A window reports spent, reserved, cap, remaining, utilization, a warning against a configurable warnAtUtilization , and resetsAt , the start of the next window (known for the default month, or from windowResetsAt ). Ship two implementations: createInMemoryCostStore for development and tests, and postgresCostStore on the optional /postgres subpath, with BYO Drizzle and node-postgres, exported schema and idempotent DDL. Each PostgreSQL operation is one statement; admission is the conditional update spent + reserved + amount <= cap , so no explicit transaction is required and the store works with a pooled or a per-request connection. Export costStoreContract on /cost-store-contract as the framework-free suite any implementation must pass. costGuard , multiTenantCostGuard and createAdvancedCostGuard accept an optional store . With it they write each priced llm:end to the store and trip on the stored window total. Without it they keep the existing process-local behavior and warn once in a production runtime: NODE ENV=production , or Cloudflare Workers when NODE ENV is not set. warnWithoutStore overrides the detection. A store write that fails goes to onError ; a guard without onError logs the first failure once. Reservations expire lazily when the store is given reservationTtlMs : each operation first releases the held reservations older than the TTL in the scope it touches (the tenant window for reserve and window , the reservation for commit and release ), so no host job is needed. Without the option, expirePostgresCostReservations releases the ones still held and older than a cutoff the host chooses; the host schedules it. recordCostSpend releases its own hold when the commit fails. Consequences - Existing guard options and behavior are unchanged when store is omitted, apart from the production warning. - With a store, a guard budget applies to the store's current accounting window instead of the lifetime of one guard instance. - Guards observe spend after it happens and write to the store asynchronously, so they bound overshoot to in-flight calls. Hosts that must refuse a request before it spends call reserve directly. - commit records the real spend even above the reserved estimate. The cap is a hard ceiling on reservations, not on provider usage already incurred. - drizzle-orm and pg become optional peers, required only by /postgres . - A released reservation id is not admitted again: reserve raises AK COST RESERVATION RELEASED . Replaying it as admitted would let the call run without a hold and then fail to commit. - A reservation abandoned by a crashed process stays held until its TTL passes, or, without rese",
           "aliases": "document human"
         },
         "graph": {
@@ -73356,7 +73423,7 @@
             }
           ]
         },
-        "contentHash": "aaa3a6f72dd768f75cdf1a77a10f8263d16a4c05896d54646d84fa3d4a488d36",
+        "contentHash": "5c86534cd7a955e3da15d90086eefbe8740346d9045162210ad19f8520737df0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81088,7 +81155,7 @@
             }
           ]
         },
-        "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c",
+        "contentHash": "69bd512c415cb26e1da5f86ea2528c31de3954f76b375d9e33c44334eee6c745",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160480,7 +160547,65 @@
             }
           ]
         },
-        "contentHash": "f523e7509cb4e0f9c8901d9ad0dcf071142527b03e4d139b693e4b647e0598b5",
+        "contentHash": "01957e33ec3de3cc51455f3611431fdde1c42709b87db4ff70a72cefa3e4932e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/observability/src/cost-store-validation.ts",
+        "kind": "module",
+        "path": "packages/observability/src/cost-store-validation.ts",
+        "title": "cost-store-validation.ts",
+        "aliases": [],
+        "symbols": [
+          "validateCostCommit",
+          "validateCostRelease",
+          "validateCostReserve",
+          "validateCostWindow",
+          "validateReservationTtl",
+          "validateWarnAtUtilization"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "cost-store-validation.ts",
+          "headings": "",
+          "path": "packages/observability/src/cost-store-validation.ts",
+          "symbols": "validateCostCommit validateCostRelease validateCostReserve validateCostWindow validateReservationTtl validateWarnAtUtilization",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/tests/cost-store-validation.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "b2ad86d1c3380bd5304a95553e496cdb573cf776d258e45a41ecd0b44ffceefd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160501,12 +160626,15 @@
           "CostStoreOptions",
           "CostUsageEntry",
           "CostWindow",
+          "CostWindowDetails",
           "CostWindowInput",
           "InMemoryCostStore",
           "InMemoryLedgerRow",
+          "costWindowDetailsOf",
           "createInMemoryCostStore",
           "describeCostWindow",
           "monthlyWindowKey",
+          "monthlyWindowResetsAt",
           "recordCostSpend",
           "validateCostCommit",
           "validateCostRelease",
@@ -160524,7 +160652,7 @@
           "title": "cost-store.ts",
           "headings": "",
           "path": "packages/observability/src/cost-store.ts",
-          "symbols": "CostCommitInput CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput InMemoryCostStore InMemoryLedgerRow createInMemoryCostStore describeCostWindow monthlyWindowKey recordCostSpend validateCostCommit validateCostRelease validateCostReserve validateCostWindow validateReservationTtl warnProcessLocalCostState",
+          "symbols": "CostCommitInput CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowDetails CostWindowInput InMemoryCostStore InMemoryLedgerRow costWindowDetailsOf createInMemoryCostStore describeCostWindow monthlyWindowKey monthlyWindowResetsAt recordCostSpend validateCostCommit validateCostRelease validateCostReserve validateCostWindow validateReservationTtl warnProcessLocalCostState",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -160549,6 +160677,11 @@
             {
               "kind": "imports",
               "id": "module:packages/observability/src/cost-store-contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store-validation.ts",
               "confidence": "observed"
             },
             {
@@ -160597,9 +160730,20 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store-validation.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/money.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "3505173725e4f2b72585a759df38e43b8f3e4ac4e6a74b662b57378b966c2b17",
+        "contentHash": "ce54846f404cf9306d2220f7627dcdd535e14e2b59bea8654fc1160231651e7e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160988,6 +161132,7 @@
           "diffState",
           "langsmith",
           "monthlyWindowKey",
+          "monthlyWindowResetsAt",
           "multiTenantCostGuard",
           "newRelicSink",
           "opentelemetry",
@@ -161012,7 +161157,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/observability/src/index.ts",
-          "symbols": "AdvancedCostGuard AdvancedCostGuardOptions AppendAuditInput AuditEntry AuditLogOptions AuditLogStore AuditVerifyResult AxiomSinkConfig AxiomSinkObserver BisectOpts BisectVerdict ChargebackGroupKey ChargebackReport ChargebackReportOptions ChargebackRow ConsoleLoggerConfig ControlAuditEntry ControlSurface ControlSurfaceOptions CostAlertEvent CostAlertSink CostAlertType CostCapWindow CostCaps CostCommitInput CostGuardErrorHandler CostGuardMode CostGuardOptions CostGuardStoreOptions CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSample CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput DEFAULT_PRICES DEFAULT_SLO_TARGETS DatadogSinkConfig DatadogSinkObserver DevtoolsClient DevtoolsEnvelope DevtoolsServer DevtoolsServerOptions FileTraceSink HttpBatchOptions InMemoryCostStore InMemoryLedgerRow LangSmithConfig LangSmithObserver LifecycleObserver MultiTenantCostGuardOptions NewRelicSinkConfig NewRelicSinkObserver ObserverRedactionMode ObserverRedactionOptions OpenTelemetryConfig OpenTelemetryObserver PiiAuditAction PiiAuditInput PiiAuditPayload ProviderTokenCounterOptions ReplayHandler ReplayOracle ReplayPosition ReplayStep RunSnapshot SignedAuditLog SloObserver SloOptions SloSnapshot SloTargets StateDiffEntry Timeline TimelineRow TokenPrice ToolOverride TopologyEdge TopologyGraph TopologyGraphOptions TopologyGraphSnapshot TopologyLogEvent TopologyNode TraceReport TraceSpan TraceTrackerCallbacks UnknownModelPolicy WebhookAlertSinkOptions appendPiiAuditEvents approximateCounter axiomSink buildTimeline buildTraceReport chargebackReport chargebackReportToCsv computeCost consoleAlertSink consoleLogger costGuard countTokens countTokensDetailed createAdvancedCostGuard createControlSurface createDevtoolsServer createFileTraceSink createInMemoryAuditStore createInMemoryCostStore createProviderCounter createSignedAuditLog createTopologyGraph createTraceTracker datadogSink diffState langsmith monthlyWindowKey multiTenantCostGuard newRelicSink opentelemetry positionAt priceFor recordCostSpend renderTraceViewerHtml replayBisect replayEvents sloObserver throttle toSseFrame webhookAlertSink wrapObserverWithRedaction",
+          "symbols": "AdvancedCostGuard AdvancedCostGuardOptions AppendAuditInput AuditEntry AuditLogOptions AuditLogStore AuditVerifyResult AxiomSinkConfig AxiomSinkObserver BisectOpts BisectVerdict ChargebackGroupKey ChargebackReport ChargebackReportOptions ChargebackRow ConsoleLoggerConfig ControlAuditEntry ControlSurface ControlSurfaceOptions CostAlertEvent CostAlertSink CostAlertType CostCapWindow CostCaps CostCommitInput CostGuardErrorHandler CostGuardMode CostGuardOptions CostGuardStoreOptions CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSample CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput DEFAULT_PRICES DEFAULT_SLO_TARGETS DatadogSinkConfig DatadogSinkObserver DevtoolsClient DevtoolsEnvelope DevtoolsServer DevtoolsServerOptions FileTraceSink HttpBatchOptions InMemoryCostStore InMemoryLedgerRow LangSmithConfig LangSmithObserver LifecycleObserver MultiTenantCostGuardOptions NewRelicSinkConfig NewRelicSinkObserver ObserverRedactionMode ObserverRedactionOptions OpenTelemetryConfig OpenTelemetryObserver PiiAuditAction PiiAuditInput PiiAuditPayload ProviderTokenCounterOptions ReplayHandler ReplayOracle ReplayPosition ReplayStep RunSnapshot SignedAuditLog SloObserver SloOptions SloSnapshot SloTargets StateDiffEntry Timeline TimelineRow TokenPrice ToolOverride TopologyEdge TopologyGraph TopologyGraphOptions TopologyGraphSnapshot TopologyLogEvent TopologyNode TraceReport TraceSpan TraceTrackerCallbacks UnknownModelPolicy WebhookAlertSinkOptions appendPiiAuditEvents approximateCounter axiomSink buildTimeline buildTraceReport chargebackReport chargebackReportToCsv computeCost consoleAlertSink consoleLogger costGuard countTokens countTokensDetailed createAdvancedCostGuard createControlSurface createDevtoolsServer createFileTraceSink createInMemoryAuditStore createInMemoryCostStore createProviderCounter createSignedAuditLog createTopologyGraph createTraceTracker datadogSink diffState langsmith monthlyWindowKey monthlyWindowResetsAt multiTenantCostGuard newRelicSink opentelemetry positionAt priceFor recordCostSpend renderTraceViewerHtml replayBisect replayEvents sloObserver throttle toSseFrame webhookAlertSink wrapObserverWithRedaction",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -161163,7 +161308,7 @@
             }
           ]
         },
-        "contentHash": "1731cecba9b317493798a6b8e8c8d0840b7b613a60ae28eb8d246a21d6dc8aa3",
+        "contentHash": "d4393ee1726dbaafb0bca212f7e61799ce77a7cebf3b0f3c3d3928e96c72db23",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -161254,6 +161399,60 @@
           ]
         },
         "contentHash": "8ad621c87f47ad0cec10d393bac8ddee4e314866ef2b81f9144a8871e672752c",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/observability/src/money.ts",
+        "kind": "module",
+        "path": "packages/observability/src/money.ts",
+        "title": "money.ts",
+        "aliases": [],
+        "symbols": [
+          "NANO",
+          "toNano",
+          "toUsdDecimal"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "money.ts",
+          "headings": "",
+          "path": "packages/observability/src/money.ts",
+          "symbols": "NANO toNano toUsdDecimal",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/postgres.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/tests/money.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "11e35a43210c1ef558b2726fbd340b9d29074abb13a3abee3b74d1c08d8dcafe",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -161488,10 +161687,15 @@
               "kind": "imports",
               "id": "module:packages/observability/src/cost-store.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/money.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "e32f734825f507e3ab194ea9602f3ac659a1a20354ad1d8c7830774a43f14895",
+        "contentHash": "0d88805883fb36074eeaf7f398537368836ee138cf8e7e7c4f1bd68441e6b0b5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -162696,6 +162900,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/observability/tests/cost-store-validation.test.ts",
+        "kind": "module",
+        "path": "packages/observability/tests/cost-store-validation.test.ts",
+        "title": "cost-store-validation.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "cost-store-validation.test.ts",
+          "headings": "",
+          "path": "packages/observability/tests/cost-store-validation.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store-validation.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "c8bf2d91425edbde55940149f29215ce1a0e074984f823c91312d03dd445c909",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/observability/tests/cost-store.test.ts",
         "kind": "module",
         "path": "packages/observability/tests/cost-store.test.ts",
@@ -162736,7 +162980,7 @@
             }
           ]
         },
-        "contentHash": "950a389c1e129144f7588635c9f437cc10b4beb2b7b81621062b3ebef559b0d8",
+        "contentHash": "21d3d9c876b7491072b78792545f1221a7a2a2620c889e9f84b504599df5310b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -162817,6 +163061,46 @@
           ]
         },
         "contentHash": "357e637072bbe8a10c12501cc2eee672f96b068a8f9d9d5810c10e18d614ab13",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/observability/tests/money.test.ts",
+        "kind": "module",
+        "path": "packages/observability/tests/money.test.ts",
+        "title": "money.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "money.test.ts",
+          "headings": "",
+          "path": "packages/observability/tests/money.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/money.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "efafa6a331bb15d50ae1f0a2757e2241e6a31d5b17c79a87ddfe99503c7316f4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -163063,7 +163347,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "dbd4f1b1f4c518fdc519e586f9b2655a6856d036d084504108b47fc410b72a69",
+        "contentHash": "86b1dcb41d7c1f7af82cadf9373d7b8a0634d119ffa206b51b484b754c989e92",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -163103,7 +163387,7 @@
             }
           ]
         },
-        "contentHash": "301ce5fb51c3d0910a5eba60c067ab36ee65c26c879b2882cef099bb6fed0156",
+        "contentHash": "3b03ecf66fe3e5881ad93d9ed816596a8cf31c8a90b93a1b0467b862cf07e238",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -163143,7 +163427,7 @@
             }
           ]
         },
-        "contentHash": "0b325eab8857a792babdce02f661131bac9b41f5aa871174c268b6f8469d6c78",
+        "contentHash": "7f802d9f43a380a66264f1d0fc0d81f54918ad8e7cd66d2c32e12a55ebee8722",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190717,7 +191001,7 @@
             }
           ]
         },
-        "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c",
+        "contentHash": "d864dfa7188ab88eb4aaed89b0c0a0c1f609ca91ceeb875ed7918989837ec096",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191615,7 +191899,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "e956be3912657ccfa0423ea6730aa288db13f826afae909dca866cd5e71d58ba",
+        "contentHash": "84ad8bddadff853c2dc090c8cbec31c2f8124ce4f86777e8f0a58ea4d815772c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -198213,7 +198497,7 @@
           "path": "packages/observability",
           "symbols": "",
           "summary": "consoleLogger(config?) — local dev logging.",
-          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - reservationTtlMs?: number on both store factories — a reservation neither committed nor released after this many ms stops counting against the cap and settles as released (late commit throws AK COST RESERVATION RELEASED ). Checked lazily on every store call; no job needed. Default: never expires. - createInMemoryCostSto",
+          "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith lifecycle observer ( flush / idempotent shutdown ; optional langsmith peer, lazy). - opentelemetry(config) — OpenTelemetry lifecycle observer (optional OTel peers, lazy). - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Cross-repository correlation Every AgentEvent may carry an optional correlation envelope. Set the stable operationId at the host boundary and preserve local runId , sessionId , turnId , actionId , and traceId values when they exist. Observability propagates these values as span attributes without requiring a vendor SDK or a shared runtime. Sinks (batch HTTP exporters) All three return LifecycleObserver ( flush(): Promise<void , idempotent shutdown(): Promise<void ). Shared HttpBatchOptions defaults: batchSize 25, maxQueueSize 1000 (drop-oldest), flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000, plus isolated onError . Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. Await shutdown() on graceful termination. - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Vendor adapters - @agentskit/observability/langfuse — Langfuse logger backend. Install the optional langfuse peer when using this subpath. Guards + counters - costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? }) — per-run dollar ceiling; aborts via AbortController when exceeded and fails closed on unknown pricing by default. - multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … }) — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default. - createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? }) — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes: - warn — observe only. - reject — host must consult isRejected(tenant) (window rejections clear on roll; overall until reset ). Package does not abort the runtime. - kill — requires disableRuntime ; use isDisabled(tenant) ; fail-closed if disable fails. - Accounting is incremental per llm:end / active model ; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated. - consoleAlertSink() , webhookAlertSink({ url, headers, fetch? }) , throttle(sink, windowMs) — built-in alert sinks ( webhook uses injected or globalThis.fetch ; no-op if none). - store?: CostStore on all three guards — durable spend shared by every instance. Without it totals are process-local and the guards warn once when NODE ENV=production (or on Cloudflare Workers with NODE ENV unset); warnWithoutStore?: boolean overrides that. Store failures go to onError , or to one console.warn when it is absent. With it, each priced llm:end is written to the store and the budget is checked against the store's current window. - CostStore { reserve, commit, release, window } — tenant-scoped port. reserve({ tenant, reservationId, amountUsd, capUsd?, windowKey? }) returns { ok: true, window } or { ok: false, reason: 'quota exceeded', window } ; commit({ tenant, reservationId, actualUsd, usage? }) writes real spend and ledger rows; release({ tenant, reservationId }) returns the hold. All idempotent per reservationId ; settling an unknown, released or committed reservation throws CostReservationError ( AK COST RESERVATION NOT FOUND / RELEASED / COMMITTED ). - reservationTtlMs?: number on both store factories — a reservation neither committed nor released after this many ms stops counting against the cap and settles as released (late commit throws AK COST RESERVATION RELEASED ). Checked lazily on every store call; no job needed. Default: never expires. - CostWindow { spentUsd",
           "aliases": "observability @agentskit/observability package ownership"
         },
         "graph": {

@@ -19,6 +19,7 @@ export interface CostStoreContractResult {
   settlement: 'passed'
   isolation: 'passed'
   release: 'passed'
+  money: 'passed'
 }
 
 function check(condition: boolean, message: string): asserts condition {
@@ -135,5 +136,23 @@ export async function costStoreContract(store: CostStore, options: CostStoreCont
   check(near(settled.reservedUsd, 0), 'failed turns release their reservations')
   check(near(settled.spentUsd, expected), `spend equals the committed turns (${settled.spentUsd} vs ${expected})`)
 
-  return { accounting: 'passed', cap: 'passed', idempotency: 'passed', settlement: 'passed', isolation: 'passed', release: 'passed' }
+  const m = tenant('money')
+  const cents = await store.reserve({ tenant: m, reservationId: 'four-cents', amountUsd: 0.04, capUsd: 0.05, windowKey })
+  await store.commit({ tenant: m, reservationId: 'four-cents', actualUsd: 0.04 })
+  const cent = await store.reserve({ tenant: m, reservationId: 'one-cent', amountUsd: 0.01, capUsd: 0.05, windowKey, warnAtUtilization: 1 })
+  check(cents.ok && cent.ok, '0.04 + 0.01 fits a 0.05 cap exactly')
+  check(cent.window.remainingUsd === 0 && cent.window.utilization === 1 && cent.window.warning === true, `a window at its cap reports 0 remaining and utilization 1 (${cent.window.remainingUsd}, ${cent.window.utilization})`)
+  const nano = await store.reserve({ tenant: m, reservationId: 'one-nano', amountUsd: 0.000000001, capUsd: 0.05, windowKey })
+  check(!nano.ok, 'one nano-dollar over the cap is denied')
+  await store.commit({ tenant: m, reservationId: 'one-cent', actualUsd: 0.01 })
+  for (let index = 0; index < 10; index++) {
+    await store.reserve({ tenant: m, reservationId: `dime-${index}`, amountUsd: 0.1, windowKey })
+    await store.commit({ tenant: m, reservationId: `dime-${index}`, actualUsd: 0.1 })
+  }
+  const dimes = await store.window({ tenant: m, capUsd: 1.05, windowKey, warnAtUtilization: 0.8 })
+  check(dimes.spentUsd === 1.05 && dimes.reservedUsd === 0 && dimes.remainingUsd === 0 && dimes.utilization === 1, `ten 0.1 commits sum to exactly 1 (spent ${dimes.spentUsd})`)
+  const below = await store.window({ tenant: m, capUsd: 2.1, windowKey, warnAtUtilization: 0.8 })
+  check(below.utilization === 0.5 && below.warning === false && below.warnAtUtilization === 0.8, 'a window under its threshold reports no warning')
+
+  return { accounting: 'passed', cap: 'passed', idempotency: 'passed', settlement: 'passed', isolation: 'passed', release: 'passed', money: 'passed' }
 }
