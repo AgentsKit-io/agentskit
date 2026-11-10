@@ -37,16 +37,24 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
       - run: pnpm --filter @agentskit/docs-next gen:changelog
 
       - name: Restore lychee cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: .lycheecache
-          key: lychee-cache-${{ runner.os }}
+          key: lychee-cache-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: lychee-cache-${{ runner.os }}-
 
       - name: Run lychee
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
@@ -64,3 +72,11 @@ jobs:
             --fallback-extensions mdx,md
             'apps/docs-next/content/docs/**/*.mdx'
             '*.md'
+
+      - name: Save lychee cache
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        continue-on-error: true
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: .lycheecache
+          key: lychee-cache-${{ runner.os }}-${{ github.run_id }}

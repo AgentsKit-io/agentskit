@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5f408c4ca4278ae24e91d0ec65362a72ae6b6303d5b8c58f9e63022da7c62c1c",
+  "contentHash": "c0976e3701e254f25d59ec29e237e2fa9ccb8147b2bcbba8135d62e30241eb03",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-10T11:52:32.623Z",
+  "generatedAt": "2026-11-10T18:02:52.001Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -4035,7 +4035,7 @@
         "document",
         "human"
       ],
-      "contentHash": "aecc7d023ff5dfb6e51966809c1d140aa2e58dffe8bf198497257459fe719fe7"
+      "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/adapter-contract-tests.mdx",
@@ -11211,7 +11211,7 @@
         "ts",
         "lib"
       ],
-      "contentHash": "f35d462185453da5c906eb21bdb7af948eafb3f70e0e821414b4884c48769f28"
+      "contentHash": "e4099e029a98c3b7e2fafcab413f72f27e3a30a52788c42b2c62a06c46909c53"
     },
     {
       "id": "module:apps/docs-next/lib/rag/embed.ts",
@@ -27498,7 +27498,7 @@
         "ts",
         "memory"
       ],
-      "contentHash": "55638e837fb02a98d4f5cf8e42fd86180655db56b0d465dfbb80fc794d81a5b7"
+      "contentHash": "263a9205c12614b469fd843d0387ba91dd90d8a9afffec095f670d8bd3c47bba"
     },
     {
       "id": "module:packages/net/fixtures/readme-quickstart.ts",
@@ -29904,7 +29904,7 @@
         "ts",
         "rag"
       ],
-      "contentHash": "eed6385eedc1981a6de26c4eebecb1e9d94080d5a7c6f610f738b6cfb4691dc6"
+      "contentHash": "224d8547fc943cea3fa3463ea7686dccfaf508eac95ddef12d1bdc372196ffd1"
     },
     {
       "id": "module:packages/react-native/fixtures/readme-quickstart.tsx",
@@ -33704,7 +33704,7 @@
         "ts",
         "svelte"
       ],
-      "contentHash": "a9d0eb7e3556dccda55f1acf7bd0b3f3da7a7ec8dd794acaf8f1e7ba766db75f"
+      "contentHash": "6cd72aa00876fd6f26a32fc3ad6a80c32827199d8432b20ac2c624175ff29bdf"
     },
     {
       "id": "module:packages/svelte/vitest.ssr.config.ts",
@@ -35794,7 +35794,7 @@
         "ts",
         "tools"
       ],
-      "contentHash": "01d797d23b88896eb4b8c5691b12fff090288ffaf7b3fac14b0f80d03ab788d0"
+      "contentHash": "c049cadb682714b7a6aff66994eeda2736c67b7bf82d8cc8e2b47270de7a836c"
     },
     {
       "id": "module:packages/validation/fixtures/readme-quickstart.ts",
@@ -37485,7 +37485,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "8f5e62d7adba8cb5dc0fc29dae3589ebcf80de2441f87effebb980aa1115d72e"
+      "contentHash": "6f3526e23cb1e05b34b5af275471c746e65c20fcb7d51c80e0baf3df29afc5f4"
     },
     {
       "id": "module:scripts/packed-consumers.test.mjs",
@@ -39160,7 +39160,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "31ce044b066382eeee9b5e2380c2698c07c1bb9cc684a5a1c4f0b45d66de87c7",
+    "hash": "77462dd10a10f53ca22c07be510a86146aeb227040ccc4226bd520eb9dd2f2ff",
     "fileCount": 2689,
     "projectionVersion": 2
   },
@@ -39183,9 +39183,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "64c123e10c3a0f9a79f4a60c0b263fb4cea5af0cac94cdaa822f65233614b921",
+    "contentHash": "32de2d43f71a800c60baf0f4b5878f3e2a5933260c08a07e57129a208cd7e220",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "4be7b96a8beddb41e5fc141e3d3854e7d15a15a3085f6fcea87315418e19fb38",
+    "snapshotHash": "fdd9e806943d8d8cb274312feb14c7902c5b66cf8976b5bc5a11b9d74d583a97",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39217,7 +39217,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.018018018018018,
-        "body": 60.968272620446534,
+        "body": 60.96435566000783,
         "headings": 3.8856247551899727,
         "path": 7.613004308656483,
         "summary": 4.505679592636114,
@@ -63228,7 +63228,7 @@
           "path": "apps/docs-next/content/docs/reference/publications.mdx",
           "symbols": "",
           "summary": "This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed.",
-          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. - AgentsKit Registry on Smithery — listing pending; no public URL yet. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
+          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
           "aliases": "document human"
         },
         "graph": {
@@ -63239,7 +63239,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "aecc7d023ff5dfb6e51966809c1d140aa2e58dffe8bf198497257459fe719fe7",
+        "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95376,7 +95376,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f35d462185453da5c906eb21bdb7af948eafb3f70e0e821414b4884c48769f28",
+        "contentHash": "e4099e029a98c3b7e2fafcab413f72f27e3a30a52788c42b2c62a06c46909c53",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -157311,7 +157311,7 @@
             }
           ]
         },
-        "contentHash": "55638e837fb02a98d4f5cf8e42fd86180655db56b0d465dfbb80fc794d81a5b7",
+        "contentHash": "263a9205c12614b469fd843d0387ba91dd90d8a9afffec095f670d8bd3c47bba",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166220,7 +166220,7 @@
             }
           ]
         },
-        "contentHash": "eed6385eedc1981a6de26c4eebecb1e9d94080d5a7c6f610f738b6cfb4691dc6",
+        "contentHash": "224d8547fc943cea3fa3463ea7686dccfaf508eac95ddef12d1bdc372196ffd1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -179361,7 +179361,7 @@
             }
           ]
         },
-        "contentHash": "a9d0eb7e3556dccda55f1acf7bd0b3f3da7a7ec8dd794acaf8f1e7ba766db75f",
+        "contentHash": "6cd72aa00876fd6f26a32fc3ad6a80c32827199d8432b20ac2c624175ff29bdf",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -187583,7 +187583,7 @@
             }
           ]
         },
-        "contentHash": "01d797d23b88896eb4b8c5691b12fff090288ffaf7b3fac14b0f80d03ab788d0",
+        "contentHash": "c049cadb682714b7a6aff66994eeda2736c67b7bf82d8cc8e2b47270de7a836c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192878,7 +192878,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "8f5e62d7adba8cb5dc0fc29dae3589ebcf80de2441f87effebb980aa1115d72e",
+        "contentHash": "6f3526e23cb1e05b34b5af275471c746e65c20fcb7d51c80e0baf3df29afc5f4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -202459,7 +202459,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a75672050d7cd0cd5a38b9a8b325ba428acfcd18233760534c786f250abe7aad",
+        "contentHash": "0a30c6dc4fa78fe03bbc7c97a0e2cedbb5f88b4d7a1cfb67a46144c9db68b2f6",
         "provenance": "observed",
         "confidence": "observed"
       }
