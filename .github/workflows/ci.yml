@@ -224,6 +224,11 @@ jobs:
         if: steps.package-scope.outputs.run_all == 'false'
         run: pnpm exec turbo run test --filter='...[origin/main]' --concurrency=2
 
+      - name: Coexistence recipes (offline)
+        run: |
+          pnpm exec turbo run build --filter=@agentskit/core --filter=@agentskit/react --filter=@agentskit/adapters --filter=@agentskit/mcp --concurrency=2
+          pnpm test:coexistence
+
   postgres-memory:
     name: PostgreSQL ChatMemory contract
     runs-on: ubuntu-latest
