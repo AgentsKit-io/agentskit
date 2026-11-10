@@ -238,7 +238,7 @@ export function postgresCostStore({ db, windowKey: keyOf = monthlyWindowKey, now
     async count(input) {
       validateCostCount(input)
       const windowKey = input.windowKey ?? keyOf(now())
-      const ttl = input.reservationTtlMs ?? null
+      const ttl = input.reservationTtlMs ?? reservationTtlMs ?? null
       // The deadline comes from the injected `now`, the same clock that stamps created_at and that expire() uses.
       const deadline = ttl === null ? null : new Date(now().getTime() - ttl).toISOString()
       const [row] = await rows(sql`SELECT count(*)::int AS total FROM agentskit_cost_reservation

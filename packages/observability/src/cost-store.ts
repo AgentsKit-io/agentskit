@@ -80,8 +80,9 @@ export interface CostCountInput {
   windowKey?: string
   /**
    * How long a reservation counts as in flight, in milliseconds. A reservation
-   * still held after this long is treated as abandoned and left out. Omit to
-   * count every held reservation.
+   * still held after this long is treated as abandoned and left out. Omitted
+   * means the store's own `reservationTtlMs`; every held reservation counts only
+   * when the store has none.
    */
   reservationTtlMs?: number
 }
@@ -367,7 +368,8 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
     async count(input) {
       validateCostCount(input)
       const windowKey = input.windowKey ?? keyOf(now())
-      const since = input.reservationTtlMs === undefined ? -Infinity : now().getTime() - input.reservationTtlMs
+      const deadlineTtl = input.reservationTtlMs ?? ttl
+      const since = deadlineTtl === undefined ? -Infinity : now().getTime() - deadlineTtl
       let total = 0
       for (const [id, reservation] of reservations) {
         if (reservation.kind !== input.kind || reservation.windowKey !== windowKey) continue

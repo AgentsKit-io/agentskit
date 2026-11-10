@@ -22,3 +22,17 @@ describe('recordCostSpend', () => {
     expect(released).toHaveLength(1)
   })
 })
+
+describe('count with the store reservationTtlMs', () => {
+  it('leaves out reservations past the store TTL when the call omits it', async () => {
+    let at = 0
+    const store = createInMemoryCostStore({ reservationTtlMs: 60_000, now: () => new Date(at), windowKey: () => 'w' })
+    const kind = 'generate-description'
+    await store.reserve({ tenant: 't', reservationId: 'done', amountUsd: 0.1, kind })
+    await store.commit({ tenant: 't', reservationId: 'done', actualUsd: 0.1 })
+    await store.reserve({ tenant: 't', reservationId: 'crashed', amountUsd: 0.1, kind })
+    expect(await store.count({ tenant: 't', kind })).toBe(2)
+    at = 20 * 60_000
+    expect(await store.count({ tenant: 't', kind })).toBe(1)
+  })
+})

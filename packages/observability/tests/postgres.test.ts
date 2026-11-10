@@ -122,6 +122,13 @@ describe('postgresCostStore', () => {
     await expect(store.count({ tenant: 't', kind: ' ' })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
   })
 
+  it('counts with the store reservationTtlMs as the deadline when the input omits it', async () => {
+    const { db, statements } = scripted([[{ total: '1' }]])
+    const store = postgresCostStore({ db, now, reservationTtlMs: 15 * 60_000 })
+    expect(await store.count({ tenant: 't', kind: 'generate-description' })).toBe(1)
+    expect(statements[0]).toContain('2026-10-09T11:45:00.000Z')
+  })
+
   it('expires overdue holds of the window before admitting, when reservationTtlMs is set', async () => {
     const { db, statements } = scripted([[{ reservations: '1' }], [{ spent_usd: '0', reserved_usd: '0.5' }]])
     const store = postgresCostStore({ db, now, reservationTtlMs: 15 * 60_000 })
