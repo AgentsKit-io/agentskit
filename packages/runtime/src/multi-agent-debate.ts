@@ -3,12 +3,20 @@
 
 import type { DebateConfig, TopologyOutcome, TopologyRunAgent } from './multi-agent'
 
+/**
+ * Dependencies and debate settings for a debate topology handler.
+ */
 export type DebateHandlerOptions<Ctx> = {
   runAgent: TopologyRunAgent<Ctx>
 }
 
 type DebateMessage = { role: 'proponent' | 'opponent'; content: unknown }
 
+/**
+ * Create a handler that alternates proponent and opponent agents before a judge decides.
+ * @param opts Agent runner and debate configuration.
+ * @returns An async handler resolving to an `ok`, `failed`, or `paused` outcome.
+ */
 export const createDebateHandler = <Ctx>(opts: DebateHandlerOptions<Ctx>) => {
   return async (node: DebateConfig, input: unknown, ctx: Ctx): Promise<TopologyOutcome> => {
     const topic = node.topic

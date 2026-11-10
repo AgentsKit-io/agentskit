@@ -5,6 +5,7 @@ import { slackAuth } from './auth'
 import { slackActions } from './actions'
 import { slackTriggers } from './triggers'
 
+/** Descriptor for the Slack service integration. */
 export const slackIntegration = defineIntegration({
   name: 'slack',
   displayName: 'Slack',

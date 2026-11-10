@@ -3,6 +3,7 @@ import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { salesforceActions } from './actions'
 
+/** Descriptor for the Salesforce service integration. */
 export const salesforceIntegration = defineIntegration({
   name: 'salesforce',
   displayName: 'Salesforce',

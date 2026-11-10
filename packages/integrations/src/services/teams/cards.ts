@@ -1,3 +1,4 @@
+/** Button action rendered in a Teams Adaptive Card. */
 export interface TeamsAdaptiveCardAction {
   type: 'Action.OpenUrl' | 'Action.Submit'
   title: string
@@ -5,6 +6,7 @@ export interface TeamsAdaptiveCardAction {
   data?: Record<string, unknown>
 }
 
+/** Adaptive Card payload supported by the Teams integration. */
 export interface TeamsAdaptiveCard {
   contentType: 'application/vnd.microsoft.card.adaptive'
   content: {
@@ -16,6 +18,7 @@ export interface TeamsAdaptiveCard {
   }
 }
 
+/** Legacy Teams connector message card payload. */
 export interface TeamsMessageCard {
   contentType: 'application/vnd.microsoft.teams.card.o365connector'
   content: {
@@ -71,6 +74,7 @@ export function messageCard(input: {
   }
 }
 
+/** Message accepted by the host-provided Teams bot client. */
 export interface TeamsBotMessage {
   conversationId: string
   serviceUrl?: string
@@ -80,11 +84,13 @@ export interface TeamsBotMessage {
   signal?: AbortSignal
 }
 
+/** Result returned after a Teams bot sends a message. */
 export interface TeamsBotSendResult {
   id: string
   conversationId: string
 }
 
+/** Host-provided client used by the Teams integration to send messages. */
 export interface TeamsBotClient {
   send: (msg: TeamsBotMessage) => Promise<TeamsBotSendResult>
 }

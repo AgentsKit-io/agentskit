@@ -32,6 +32,16 @@ const rejectRestore = (
   status: 'rejected',
 })
 
+/**
+ * Create a frozen, versioned snapshot from an instance.
+ *
+ * @param instance The instance to serialize.
+ * @returns A JSON-compatible snapshot tagged with the current schema version.
+ * @example
+ * ```ts
+ * const snapshot = serializeStatechart(instance)
+ * ```
+ */
 export const serializeStatechart = <
   TContext extends JsonObject,
   TState extends string,
@@ -49,6 +59,18 @@ export const serializeStatechart = <
     updatedAt: instance.updatedAt,
   })
 
+/**
+ * Validate untrusted snapshot data and restore an instance when it matches a definition.
+ *
+ * @param definition The definition the snapshot must belong to.
+ * @param input Untrusted serialized snapshot data.
+ * @returns A restored instance or a rejection diagnostic; malformed snapshots do not throw.
+ * @example
+ * ```ts
+ * const restored = restoreStatechart(machine, JSON.parse(savedSnapshot))
+ * if (restored.status === 'restored') use(restored.instance)
+ * ```
+ */
 export const restoreStatechart = <
   TContext extends JsonObject,
   TEvent extends StatechartEvent,

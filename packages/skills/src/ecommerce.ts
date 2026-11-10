@@ -5,6 +5,7 @@ import { defineSkill } from './utils'
  * Storefront support + merchandising skills for e-commerce agents.
  */
 
+/** Skill for product recommendations, order lookup, and human escalation of returns. */
 export const storefrontConcierge: SkillDefinition = defineSkill(
   'storefront-concierge',
   'Customer-facing storefront agent. Recommends products, looks up order status, and escalates returns/refunds to a human.',
@@ -40,6 +41,7 @@ Order #A-7821 shipped Tuesday via UPS Ground, tracking 1Z999... It is currently 
   ['catalog_search', 'order_lookup', 'policy_lookup', 'inventory_check'],
 )
 
+/** Skill for analyzing and improving e-commerce merchandising decisions. */
 export const merchandisingAnalyst: SkillDefinition = defineSkill(
   'merchandising-analyst',
   'Analyses sales / inventory data to surface restock priorities, slow-moving SKUs, and bundle opportunities. Outputs CSV-friendly tables.',

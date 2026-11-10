@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
+import type { AdapterFactory, AdapterRequest, ContentPart, StreamChunk, ToolDecisionRecord } from '@agentskit/core'
 import { createChatStore } from '../src'
 
 function mockAdapter(chunks: StreamChunk[]): AdapterFactory {
@@ -37,6 +37,43 @@ function hangingAdapter(opts: { abort: () => void; onSource?: () => void }): Ada
 }
 
 describe('@agentskit/svelte', () => {
+  it('forwards durable decisions and publishes their tool outcome', async () => {
+    let record: ToolDecisionRecord | undefined
+    const execute = vi.fn(() => 'stored')
+    const store = createChatStore({
+      adapter: mockAdapter([]),
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+      decisionStore: {
+        async putPending(pending) { record ??= structuredClone(pending) },
+        async get() { return record && structuredClone(record) },
+        async claim(_id, decision, reason) {
+          if (record?.status !== 'pending') return undefined
+          record = { ...record, status: 'claimed', decision, reason }
+          return structuredClone(record)
+        },
+        async settle(settled) { record = structuredClone(settled) },
+      },
+    })
+    await store.proposeToolCall({ id: 'call', name: 'write', args: {} })
+    expect(await store.decide('call', 'approve')).toMatchObject({ status: 'complete', result: 'stored' })
+    let status: string | undefined
+    const unsubscribe = store.subscribe(state => { status = state.messages[0]?.toolCalls?.[0].status })
+    expect(status).toBe('complete')
+    expect(execute).toHaveBeenCalledTimes(1)
+    unsubscribe()
+    store.destroy()
+  })
+
+  it('forwards content parts and rejects them after destroy', async () => {
+    const parts: ContentPart[] = [{ type: 'text', text: 'hello' }]
+    const createSource = vi.fn(mockAdapter([]).createSource)
+    const store = createChatStore({ adapter: { createSource } })
+    await store.send(parts)
+    expect(createSource.mock.calls[0][0].messages.find(message => message.role === 'user')?.parts).toEqual(parts)
+    store.destroy()
+    await expect(store.send(parts)).rejects.toThrow(/destroyed/)
+  })
+
   it('exports createChatStore', () => {
     expect(typeof createChatStore).toBe('function')
   })
@@ -61,6 +98,7 @@ describe('@agentskit/svelte', () => {
     expect(typeof store.regenerate).toBe('function')
     expect(typeof store.setInput).toBe('function')
     expect(typeof store.clear).toBe('function')
+    expect(typeof store.decide).toBe('function')
     expect(typeof store.approve).toBe('function')
     expect(typeof store.deny).toBe('function')
     expect(typeof store.destroy).toBe('function')
@@ -114,6 +152,7 @@ describe('@agentskit/svelte', () => {
     store.destroy()
     store.setInput('ignored')
     await expect(store.send('after destroy')).rejects.toThrow(/destroyed/)
+    await expect(store.decide('missing', 'approve')).rejects.toThrow(/destroyed/)
     await expect(store.clear()).rejects.toThrow(/destroyed/)
   })
 

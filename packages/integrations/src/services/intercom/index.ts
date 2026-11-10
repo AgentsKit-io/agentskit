@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { intercomActions } from './actions'
 
+/** Descriptor for the Intercom service integration. */
 export const intercomIntegration = defineIntegration({
   name: 'intercom',
   displayName: 'Intercom',

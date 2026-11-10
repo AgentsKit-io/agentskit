@@ -51,6 +51,7 @@ const BUILTIN_CATALOG: readonly SkillDefinition[] = [
   marketAnalyst,
 ]
 
+/** Public metadata for discovering a built-in skill without its prompt. */
 export interface SkillMetadata {
   name: string
   description: string

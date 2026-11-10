@@ -6,7 +6,13 @@
 // each level implements; `Spawner` abstracts `child_process` so tests inject
 // an in-memory double.
 
+/**
+ * Supported isolation level names, ordered from least to stronger isolation.
+ */
 export const SANDBOX_LEVELS = ['none', 'process', 'container', 'vm', 'webcontainer'] as const
+/**
+ * Isolation level label used to select and describe a sandbox runtime.
+ */
 export type SandboxLevel = (typeof SANDBOX_LEVELS)[number]
 
 /** Options for {@link SandboxRuntime.exec} — a command run to completion. */
@@ -32,6 +38,9 @@ export interface SandboxExecResult {
   readonly timedOut: boolean
 }
 
+/**
+ * Adapter for a local runtime that can spawn, and optionally complete, commands.
+ */
 export interface SandboxRuntime {
   readonly level: SandboxLevel
   readonly name: string
@@ -47,11 +56,17 @@ export interface SandboxRuntime {
   exec?(opts: SandboxExecOptions): Promise<SandboxExecResult>
 }
 
+/**
+ * Process identifier and asynchronous kill operation returned by a spawner.
+ */
 export interface ChildHandle {
   readonly pid: number
   kill(): Promise<void>
 }
 
+/**
+ * Command, arguments, working directory, environment, timeout, and output cap for execution.
+ */
 export interface SpawnerExecOptions {
   command: string
   args: readonly string[]
@@ -63,6 +78,9 @@ export interface SpawnerExecOptions {
   maxOutputBytes?: number
 }
 
+/**
+ * Exit code, captured streams, and truncation or timeout status from a spawner.
+ */
 export interface SpawnerExecResult {
   exitCode: number
   stdout: string
@@ -71,6 +89,9 @@ export interface SpawnerExecResult {
   timedOut: boolean
 }
 
+/**
+ * Injected process launcher used by local sandbox runtimes and tests.
+ */
 export interface Spawner {
   spawn(opts: {
     command: string

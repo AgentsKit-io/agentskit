@@ -1,16 +1,14 @@
 import { copyFileSync, mkdirSync } from 'node:fs'
 import { defineConfig } from 'tsup'
+import { sharedTsupOptions } from '../../tsup.shared'
 
 export default defineConfig({
+  ...sharedTsupOptions,
   entry: {
     index: 'src/index.ts',
   },
-  format: ['esm', 'cjs'],
-  dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
-  sourcemap: true,
   clean: true,
   external: ['react', 'react-dom', '@agentskit/core'],
-  treeshake: true,
   onSuccess: async () => {
     mkdirSync('dist/theme', { recursive: true })
     copyFileSync('src/theme/tokens.css', 'dist/theme/tokens.css')

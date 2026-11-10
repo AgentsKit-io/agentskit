@@ -3,6 +3,7 @@ import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { pipedriveActions } from './actions'
 
+/** Descriptor for the Pipedrive service integration. */
 export const pipedriveIntegration = defineIntegration({
   name: 'pipedrive',
   displayName: 'Pipedrive',

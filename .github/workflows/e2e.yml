@@ -30,11 +30,18 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm exec playwright install chromium --with-deps
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
+
+      - uses: ./.github/actions/playwright-browsers
 
       - run: pnpm --filter "./packages/*" build
 
@@ -46,9 +53,13 @@ jobs:
 
       - name: Build the production docs app for docs E2E
         run: pnpm --filter @agentskit/docs-next build
+        env:
+          NEXT_PUBLIC_ASK_ENDPOINT: https://ask.e2e.invalid/v1/ask
 
       - name: Build the production Registry app for Registry E2E
         run: pnpm --filter @agentskit/registry-app build
+        env:
+          NEXT_PUBLIC_ASK_ENDPOINT: https://ask.e2e.invalid/v1/ask
 
       - run: pnpm exec playwright test
 

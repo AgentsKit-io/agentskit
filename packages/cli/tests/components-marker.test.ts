@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto'
+import { canonicalJson as coreCanonicalJson } from '@agentskit/core/hash'
 import { describe, expect, it } from 'vitest'
 import { IntegrityError } from '../src/components/install'
 import type { FileToWrite } from '../src/components/install'
@@ -162,6 +163,28 @@ describe('audit chain — append + verify (D9)', () => {
     const e0 = appendAudit([], auditBase('a'))
     const e1 = appendAudit([e0], auditBase('b'))
     expect(e1.prevEntryHash).toBe(sha(canonicalJson(e0)))
+  })
+
+  it('verifies and rehashes a persisted entry using its original hash', () => {
+    const e0: AuditEntry = { ...auditBase('a'), prevEntryHash: '' }
+    const previousHash = '138c91bbb8c9f78aa520e7d660b0393adaaa25da8233ab4585ee42666a66ccdf'
+    const e1: AuditEntry = { ...auditBase('b'), prevEntryHash: previousHash }
+    const reopened = parseAuditLog(serializeAuditLog([e0, e1]))
+
+    expect(verifyAuditChain(reopened)).toEqual({ ok: true, brokenAt: null })
+    expect(appendAudit([e0], auditBase('b')).prevEntryHash).toBe(previousHash)
+  })
+
+  it('keeps JSON edge cases used by persisted audit entries stable', () => {
+    expect(canonicalJson({
+      text: 'café 🐈',
+      files: [{ path: '10/界.ts', sha256: 'a' }, { path: '2/ñ.ts', sha256: 'b' }, { path: 'C:\\src\\é.ts', sha256: 'c' }],
+      optional: undefined,
+      values: [undefined, 'kept'],
+    })).toBe('{"files":[{"path":"10/界.ts","sha256":"a"},{"path":"2/ñ.ts","sha256":"b"},{"path":"C:\\\\src\\\\é.ts","sha256":"c"}],"text":"café 🐈","values":[null,"kept"]}')
+    const numericKeys = { '10': 'ten', '2': 'two' }
+    expect(canonicalJson(numericKeys)).toBe('{"2":"two","10":"ten"}')
+    expect(coreCanonicalJson(numericKeys)).toBe('{"10":"ten","2":"two"}')
   })
 
   it('verifyAuditChain returns ok:true, brokenAt:null for a valid chain', () => {

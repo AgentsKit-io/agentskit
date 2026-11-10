@@ -21,6 +21,9 @@
 
 export type ValidatorAction = 'retry' | 'block' | 'fallback'
 
+/**
+ * Tool and run metadata supplied to validators.
+ */
 export interface ValidatorCheckContext {
   /** Attempt index (0-based) for the current run. */
   attempt: number
@@ -28,6 +31,9 @@ export interface ValidatorCheckContext {
   output: string
 }
 
+/**
+ * Check a value and return a boolean or structured validation result.
+ */
 export interface Validator {
   /** Stable id for audit logs / dashboards. */
   name: string
@@ -50,8 +56,14 @@ export interface Validator {
   repairPrompt?: (ctx: { output: string; reason?: string }) => string
 }
 
+/**
+ * Boolean or structured result returned by a validator.
+ */
 export type ValidatorResult = boolean | { ok: boolean; reason?: string }
 
+/**
+ * Validators, retry limit, and audit callback for a validator guard.
+ */
 export interface ValidatorGuardOptions {
   validators: Validator[]
   /** Deterministic fallback text used when `onFail: 'fallback'` fires. */
@@ -60,6 +72,9 @@ export interface ValidatorGuardOptions {
   audit?: (event: ValidatorAuditEvent) => void
 }
 
+/**
+ * Audit record for an argument or output validation decision.
+ */
 export interface ValidatorAuditEvent {
   /** ISO timestamp. */
   at: string
@@ -73,6 +88,9 @@ export interface ValidatorAuditEvent {
   output: string
 }
 
+/**
+ * Context and callbacks needed to run a guarded tool operation.
+ */
 export interface ValidatorGuardRun {
   /** Output that survived the gauntlet (or the fallback). */
   output: string
@@ -83,6 +101,9 @@ export interface ValidatorGuardRun {
   failures: Array<{ validator: string; attempt: number; reason?: string; action: ValidatorAction }>
 }
 
+/**
+ * Per-run overrides for validator guard execution.
+ */
 export interface ValidatorGuardRunOptions {
   /** Regenerate the output. Receives the optional repair prompt. */
   regenerate: (repair?: string) => Promise<string>
@@ -90,6 +111,9 @@ export interface ValidatorGuardRunOptions {
   seed?: string
 }
 
+/**
+ * Guard operations that check arguments and outputs around tool calls.
+ */
 export interface ValidatorGuard {
   run: (options: ValidatorGuardRunOptions) => Promise<ValidatorGuardRun>
 }
@@ -99,6 +123,12 @@ function normaliseResult(value: ValidatorResult): { ok: boolean; reason?: string
   return value
 }
 
+/**
+ * Create a guard that validates tool inputs and outputs and applies configured retry or block actions.
+ * @param options Validators, retry settings, and audit callback.
+ * @returns A guard for wrapping tool execution.
+ * @throws {ToolError} When validation blocks a tool call.
+ */
 export function createValidatorGuard(options: ValidatorGuardOptions): ValidatorGuard {
   return {
     async run({ regenerate, seed }) {

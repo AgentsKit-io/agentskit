@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill, TOOLS } from './utils'
 
+/** Skill for checking pull requests against the AgentsKit manifesto and package conventions. */
 export const prReviewer: SkillDefinition = defineSkill(
   'pr-reviewer',
   'Reviews a diff against the AgentsKit Manifesto + package CONVENTIONS. Flags violations and suggests concrete rewrites.',

@@ -23,6 +23,7 @@ const C = {
   reset: '\x1b[0m',
 }
 
+/** Output and animation options for the standalone progress observer. */
 export interface ProgressObserverOptions {
   /** Where to write. Default: process.stdout. */
   write?: (chunk: string) => void
@@ -30,6 +31,14 @@ export interface ProgressObserverOptions {
   plain?: boolean
 }
 
+/** Create an observer that writes progress events as terminal status lines.
+ * @param options Optional output callback and plain-output setting.
+ * @returns An observer that renders progress events without an Ink tree.
+ * @example
+ * ```ts
+ * const agent = createMyAgent({ adapter, observers: [createProgressObserver()] })
+ * ```
+ */
 export function createProgressObserver(options: ProgressObserverOptions = {}): Observer {
   const write = options.write ?? ((s: string) => process.stdout.write(s))
   const plain = options.plain ?? !process.stdout?.isTTY
@@ -65,8 +74,15 @@ export function createProgressObserver(options: ProgressObserverOptions = {}): O
       }
 
       stop()
-      const sym = event.status === 'ok' ? '✓' : event.status === 'error' ? '⛔' : '–'
-      const color = event.status === 'ok' ? C.green : event.status === 'error' ? C.red : C.yellow
+      let sym = '–'
+      let color = C.yellow
+      if (event.status === 'ok') {
+        sym = '✓'
+        color = C.green
+      } else if (event.status === 'error') {
+        sym = '⛔'
+        color = C.red
+      }
       const cr = plain ? '' : '\r'
       const clr = plain ? '' : '\x1b[K' // clear to EOL so a long spinner line leaves no leftover chars
       const c = plain ? '' : color

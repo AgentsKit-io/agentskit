@@ -21,6 +21,7 @@ export {
   createEventEmitter,
   parseToolArgs,
   safeParseArgs,
+  isRecord,
   createToolLifecycle,
 } from './primitives'
 export { defineTool } from './types/tool'
@@ -93,6 +94,8 @@ export type {
   Retriever,
   AdapterContext,
   AdapterRequest,
+  ToolDecisionRecord,
+  ToolDecisionStore,
   ChatConfig,
   ChatState,
   ChatController,

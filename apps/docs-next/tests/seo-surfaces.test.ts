@@ -36,7 +36,7 @@ describe('SEO discovery surfaces', () => {
   })
 
   it('keeps the canonical integration catalog count aligned with its generated list', () => {
-    expect(counts.integrations).toBe(50)
+    expect(counts.integrations).toBe(51)
     expect(lists.integrations).toHaveLength(counts.integrations)
     expect(new Set(lists.integrations).size).toBe(lists.integrations.length)
   })

@@ -2,17 +2,20 @@ import { deserializeMessages, ErrorCodes, MemoryError, serializeMessages } from 
 import { validateMemoryRecord } from '@agentskit/core/memory-validation'
 import type { ChatMemory, Message } from '@agentskit/core'
 
+/** Minimal Web Storage methods required by browser chat memory. */
 export interface WebStorageLike {
   readonly getItem: (key: string) => string | null
   readonly setItem: (key: string, value: string) => void
   readonly removeItem: (key: string) => void
 }
 
+/** Adapter for reading legacy records into canonical AgentsKit messages. */
 export interface WebStorageMemoryMigration {
   readonly keys: readonly string[]
   readonly read: (value: unknown, key: string) => readonly Message[] | undefined
 }
 
+/** Storage key, bounds, and optional migration settings for web memory. */
 export interface WebStorageMemoryOptions {
   readonly key: string
   readonly getStorage: () => WebStorageLike | undefined
@@ -71,6 +74,17 @@ const encodeRecord = (messages: readonly Message[], maxRecordBytes: number): str
 /**
  * Creates a validated, bounded ChatMemory over an injected browser Web Storage backend.
  * The storage getter is evaluated lazily so browser globals can remain SSR-safe.
+ * @param options Storage key, getter, retention limits, and optional migration.
+ * @returns A chat memory that validates and bounds records in Web Storage.
+ * @throws {TypeError} When the key or a configured limit is invalid.
+ * @throws {MemoryError} When a saved message record is invalid or exceeds its byte limit.
+ * @example
+ * ```ts
+ * const memory = createWebStorageMemory({
+ *   key: 'agentskit-chat',
+ *   getStorage: () => globalThis.localStorage,
+ * })
+ * ```
  */
 export function createWebStorageMemory({
   key,

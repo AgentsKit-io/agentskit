@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { mapsActions } from './actions'
 
+/** Descriptor for the Maps (OpenStreetMap / Nominatim) service integration. */
 export const mapsIntegration = defineIntegration({
   name: 'maps',
   displayName: 'Maps (OpenStreetMap / Nominatim)',

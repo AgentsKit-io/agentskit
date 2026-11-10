@@ -27,12 +27,19 @@ Add `@agentskit/net` (beta) as the single owner of these helpers:
 2. **Retry** — `retry` and `fetchWithRetry` with exponential backoff and full
    jitter, `Retry-After` (seconds or HTTP date, capped), retryable statuses
    `408, 425, 429, 500, 502, 503, 504`, idempotent methods by default, and
-   per-attempt timeouts. Streaming request bodies are never retried.
-3. **Bodies** — `readBody` / `readText` / `readJson` with a byte cap.
-4. **SSE** — `parseSSE` over `eventsource-parser` (bundled; it ships ESM only).
-5. **Addresses** — `classifyAddress` / `isPublicAddress` / `assertPublicUrl`
+   per-attempt timeouts. `retry` defaults to the public abortable `sleep`
+   helper and accepts an optional delay callback. Streaming request bodies are
+   never retried.
+3. **Timeouts** — `timeoutSignal` and `anySignal` compose abort reasons;
+   `withTimeout(work, ms, parent?)` passes a combined signal to work, rejects
+   with `AK_NET_TIMEOUT` at the deadline, and preserves parent abort reasons
+   and original work results or failures. The wrapper bounds its rejection,
+   while stopping work depends on that work honoring the signal.
+4. **Bodies** — `readBody` / `readText` / `readJson` with a byte cap.
+5. **SSE** — `parseSSE` over `eventsource-parser` (bundled; it ships ESM only).
+6. **Addresses** — `classifyAddress` / `isPublicAddress` / `assertPublicUrl`
    over `ipaddr.js`.
-6. Typed errors: `NetError extends AgentsKitError` with `AK_NET_*` codes.
+7. Typed errors: `NetError extends AgentsKitError` with `AK_NET_*` codes.
 
 `@agentskit/core` stays zero-dependency; the helpers are too large for its
 budget.

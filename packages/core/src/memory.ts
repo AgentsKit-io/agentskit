@@ -1,6 +1,10 @@
 import { ErrorCodes, MemoryError } from './errors'
 import type { ChatMemory, MemoryRecord, Message } from './types'
 
+/** Convert messages into the versioned JSON-safe memory record format.
+ * @param messages Messages to serialize.
+ * @returns A version 1 record with ISO timestamp strings.
+ */
 export function serializeMessages(messages: Message[]): MemoryRecord {
   return JSON.parse(JSON.stringify({
     version: 1,
@@ -8,6 +12,10 @@ export function serializeMessages(messages: Message[]): MemoryRecord {
   })) as MemoryRecord
 }
 
+/** Restore messages from a memory record, including `createdAt` dates.
+ * @param record Serialized record, or `null` / `undefined` for no messages.
+ * @returns Restored messages; an absent record produces an empty array.
+ */
 export function deserializeMessages(record: MemoryRecord | null | undefined): Message[] {
   if (!record?.messages) return []
   return record.messages.map(message => ({
@@ -16,6 +24,10 @@ export function deserializeMessages(record: MemoryRecord | null | undefined): Me
   }))
 }
 
+/** Create a message-memory backend that stores data in the current process.
+ * @param initialMessages Optional messages to seed the store.
+ * @returns A `ChatMemory` implementation backed by an in-memory array.
+ */
 export function createInMemoryMemory(initialMessages: Message[] = []): ChatMemory {
   let messages = [...initialMessages]
 
@@ -32,6 +44,11 @@ export function createInMemoryMemory(initialMessages: Message[] = []): ChatMemor
   }
 }
 
+/** Create a browser-local-storage backend using the supplied storage key.
+ * @param key Local storage key for the serialized message record.
+ * @returns A `ChatMemory` implementation backed by browser local storage.
+ * @throws MemoryError from load, save, or clear when storage access fails.
+ */
 export function createLocalStorageMemory(key: string): ChatMemory {
   return {
     async load() {

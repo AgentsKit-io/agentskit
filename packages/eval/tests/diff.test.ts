@@ -32,8 +32,8 @@ describe('promptDiff', () => {
   it('formatDiff renders unified-diff style', () => {
     const d = promptDiff('a', 'b')
     const text = formatDiff(d)
-    expect(text).toContain('- a')
-    expect(text).toContain('+ b')
+    expect(text).toBe('- a\n+ b')
+    expect(formatDiff(promptDiff('a', 'a'))).toBe('  a')
   })
 })
 

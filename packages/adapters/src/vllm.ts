@@ -1,5 +1,8 @@
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the vLLM chat adapter.
+ */
 export interface VLLMConfig extends OpenAICompatibleConfig {}
 
 /**

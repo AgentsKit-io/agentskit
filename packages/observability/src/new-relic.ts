@@ -6,6 +6,7 @@ import {
   type LifecycleObserver,
 } from './http-batch-sink'
 
+/** New Relic API key, region, service label, and batch settings. */
 export interface NewRelicSinkConfig extends HttpBatchOptions {
   /** New Relic license / API key (NRAK-... or license key). */
   apiKey: string
@@ -15,6 +16,7 @@ export interface NewRelicSinkConfig extends HttpBatchOptions {
   service?: string
 }
 
+/** Lifecycle observer returned by `newRelicSink`. */
 export type NewRelicSinkObserver = LifecycleObserver
 
 function endpointFor(region: 'US' | 'EU' = 'US'): string {
@@ -45,8 +47,9 @@ function spanToLog(
 }
 
 /**
- * New Relic Logs sink. Batches span start/end events to New Relic's Log API.
- * Errors are isolated.
+ * Create a batched HTTP sink that exports span events to New Relic Logs; failures are isolated.
+ * @param config API key, region, service name, and batch settings.
+ * @returns A lifecycle observer with `flush` and `shutdown` methods.
  */
 export function newRelicSink(config: NewRelicSinkConfig): NewRelicSinkObserver {
   return createHttpBatchSink({

@@ -1,4 +1,5 @@
-import { createHash, randomBytes } from 'node:crypto'
+import { randomBytes } from 'node:crypto'
+import { sha256Hex } from '@agentskit/core/hash'
 import {
   existsSync,
   mkdirSync,
@@ -11,6 +12,10 @@ import {
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 
+/**
+ * Session identifiers, timestamps, preview, message count, and optional provider labels.
+
+ */
 export interface SessionMetadata {
   id: string
   cwd: string
@@ -26,6 +31,10 @@ export interface SessionMetadata {
   forkedFrom?: string
 }
 
+/**
+ * Session metadata paired with its message file path.
+
+ */
 export interface SessionRecord {
   metadata: SessionMetadata
   file: string
@@ -35,7 +44,7 @@ const ROOT = join(homedir(), '.agentskit', 'sessions')
 const META_SUFFIX = '.meta.json'
 
 function cwdHash(cwd: string = process.cwd()): string {
-  return createHash('sha256').update(cwd).digest('hex').slice(0, 12)
+  return sha256Hex(cwd).slice(0, 12)
 }
 
 function dirFor(cwd: string = process.cwd()): string {
@@ -54,6 +63,12 @@ export function generateSessionId(): string {
   return `${ts}-${suffix}`
 }
 
+/**
+ * Returns the message file path for a session and ensures its storage directory exists.
+ * @param id Session identifier.
+ * @param cwd Working directory used to namespace session storage.
+ * @returns The absolute path to the session JSON file.
+ */
 export function sessionFilePath(id: string, cwd: string = process.cwd()): string {
   ensureDir(dirFor(cwd))
   return join(dirFor(cwd), `${id}.json`)
@@ -73,6 +88,12 @@ function readMeta(id: string, cwd: string = process.cwd()): SessionMetadata | nu
   }
 }
 
+/**
+ * Writes session metadata to the CLI session store with private file permissions.
+ * @param meta Session metadata to persist.
+ * @param cwd Working directory used to namespace session storage.
+ * @returns Nothing.
+ */
 export function writeSessionMeta(meta: SessionMetadata, cwd: string = process.cwd()): void {
   ensureDir(dirFor(cwd))
   const path = metaPath(meta.id, cwd)
@@ -88,6 +109,11 @@ export function derivePreview(messages: Array<{ role: string; content: string }>
   return single.length > 80 ? `${single.slice(0, 80)}…` : single
 }
 
+/**
+ * Lists session records for a working directory, newest first.
+ * @param cwd Working directory used to locate sessions.
+ * @returns Session records with their metadata and file paths.
+ */
 export function listSessions(cwd: string = process.cwd()): SessionRecord[] {
   const dir = dirFor(cwd)
   if (!existsSync(dir)) return []
@@ -124,11 +150,22 @@ export function listSessions(cwd: string = process.cwd()): SessionRecord[] {
   return records
 }
 
+/**
+ * Returns the most recently updated session for a working directory.
+ * @param cwd Working directory used to locate sessions.
+ * @returns The newest session record, or `null` when none exists.
+ */
 export function findLatestSession(cwd: string = process.cwd()): SessionRecord | null {
   const all = listSessions(cwd)
   return all[0] ?? null
 }
 
+/**
+ * Finds a session by id, label, or id prefix.
+ * @param id Session identifier, label, or unique prefix.
+ * @param cwd Working directory used to locate sessions.
+ * @returns The matching session record, or `null` when none matches.
+ */
 export function findSession(id: string, cwd: string = process.cwd()): SessionRecord | null {
   const all = listSessions(cwd)
   const exact = all.find(s => s.metadata.id === id || s.metadata.label === id)
@@ -185,6 +222,10 @@ export function forkSession(
   return { id: newId, file: newFile, isNew: true }
 }
 
+/**
+ * Explicit file, resume, create-new, and working-directory settings for session resolution.
+
+ */
 export interface ResolveSessionInput {
   explicitPath?: string
   resumeId?: string | true
@@ -192,6 +233,10 @@ export interface ResolveSessionInput {
   cwd?: string
 }
 
+/**
+ * Session identifier, message file path, and whether the session was newly created.
+
+ */
 export interface ResolvedSession {
   id: string
   file: string

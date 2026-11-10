@@ -3,6 +3,9 @@ import { parseAnthropicStream, type RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
 import { toAnthropicMessages } from './tool-history'
 
+/**
+ * Configuration options for the Anthropic chat adapter.
+ */
 export interface AnthropicConfig {
   apiKey: string
   model: string
@@ -11,6 +14,14 @@ export interface AnthropicConfig {
   retry?: RetryOptions
 }
 
+/**
+ * Creates an adapter for Anthropic Messages API.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = anthropic({ apiKey: '…', model: 'model-name' })
+ */
 export function anthropic(config: AnthropicConfig): AdapterFactory {
   const { apiKey, model, baseUrl = 'https://api.anthropic.com', maxTokens = 4096, retry } = config
 

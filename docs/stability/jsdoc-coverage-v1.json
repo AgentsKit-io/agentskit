@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "packages": {
+    "@agentskit/adapters": [],
+    "@agentskit/angular": [],
+    "@agentskit/cli": [],
+    "@agentskit/core": [],
+    "@agentskit/cross-platform": [
+      ".::basename",
+      ".::dirname",
+      ".::extname",
+      "./pure::basename",
+      "./pure::dirname",
+      "./pure::extname"
+    ],
+    "@agentskit/eval": [],
+    "@agentskit/ink": [],
+    "@agentskit/integrations": [],
+    "@agentskit/mcp": [],
+    "@agentskit/memory": [],
+    "@agentskit/net": [],
+    "@agentskit/observability": [],
+    "@agentskit/rag": [],
+    "@agentskit/react": [],
+    "@agentskit/react-native": [],
+    "@agentskit/runtime": [],
+    "@agentskit/sandbox": [],
+    "@agentskit/skills": [],
+    "@agentskit/solid": [],
+    "@agentskit/statechart": [],
+    "@agentskit/svelte": [],
+    "@agentskit/templates": [],
+    "@agentskit/tools": [],
+    "@agentskit/vue": []
+  }
+}

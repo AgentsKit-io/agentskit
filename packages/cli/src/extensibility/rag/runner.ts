@@ -7,6 +7,10 @@ import type { RAG } from '@agentskit/rag'
 import type { EmbedFn } from '@agentskit/core'
 import { createOpenAiEmbedder } from './embedders'
 
+/**
+ * Sources, embedder, storage, chunking, and retrieval settings for CLI RAG.
+
+ */
 export interface RagConfig {
   enabled?: boolean
   backend?: 'memory' | 'file'
@@ -22,6 +26,10 @@ export interface RagConfig {
   topK?: number
 }
 
+/**
+ * Configuration and optional embedder used to create a file-backed RAG instance.
+
+ */
 export interface BuildRagOptions {
   config: RagConfig
   cwd?: string
@@ -29,6 +37,10 @@ export interface BuildRagOptions {
   embedder?: EmbedFn
 }
 
+/**
+ * Count and absolute paths of the files ingested by a RAG index operation.
+
+ */
 export interface IndexResult {
   /** Number of input documents ingested. */
   documentCount: number

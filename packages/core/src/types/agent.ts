@@ -3,6 +3,7 @@
  * boundaries. `operationId` is the stable cross-system identity; the other
  * fields preserve local lifecycle identities without collapsing their meaning.
  */
+/** IDs that correlate events across an operation, run, session, or turn. */
 export interface AgentEventContext {
   readonly operationId: string
   readonly runId?: string
@@ -33,8 +34,10 @@ type AgentEventPayload =
   | { type: 'run-aborted' }
   | { type: 'error'; error: Error }
 
+/** Typed lifecycle event emitted by an agent or runtime observer source. */
 export type AgentEvent = AgentEventPayload & { readonly correlation?: AgentEventContext }
 
+/** Observer callback registered to receive agent lifecycle events. */
 export interface Observer {
   name: string
   on: (event: AgentEvent) => void | Promise<void>

@@ -1,6 +1,10 @@
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
+import { parseSSE, readJson } from '@agentskit/net'
 import { adapterErrorChunk, isAbortError } from './stream-errors'
 
+/**
+ * Configuration options for the Replicate chat adapter.
+ */
 export interface ReplicateConfig {
   apiKey: string
   /** Replicate model id, e.g. `meta/meta-llama-3-70b-instruct`. */
@@ -14,6 +18,7 @@ export interface ReplicateConfig {
 }
 
 const DEFAULT_BASE_URL = 'https://api.replicate.com'
+const MAX_PREDICTION_RESPONSE_BYTES = 64 * 1024
 
 function defaultPrompt(request: AdapterRequest): string {
   return request.messages
@@ -31,49 +36,33 @@ interface PredictionResponse {
   error?: string
 }
 
-async function* parseReplicateStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
-  const reader = stream.getReader()
-  const decoder = new TextDecoder()
-  let buffer = ''
-  let currentEvent = ''
+async function* parseReplicateStream(
+  stream: ReadableStream<Uint8Array>,
+  signal: AbortSignal,
+): AsyncIterableIterator<StreamChunk> {
   let sawDone = false
-
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      buffer += decoder.decode(value, { stream: true })
-      const lines = buffer.split('\n')
-      buffer = lines.pop() ?? ''
-      for (const line of lines) {
-        if (line.startsWith('event: ')) {
-          currentEvent = line.slice(7).trim()
-          continue
-        }
-        if (!line.startsWith('data: ')) continue
-        const data = line.slice(6)
-        if (currentEvent === 'output' && data) {
-          yield { type: 'text', content: data }
-        } else if (currentEvent === 'done') {
-          sawDone = true
-          yield { type: 'done' }
-          return
-        } else if (currentEvent === 'error') {
-          yield adapterErrorChunk(data || 'replicate stream error')
-          return
-        }
-      }
+  for await (const { event, data } of parseSSE(stream, { signal })) {
+    if (event === 'output' && data) yield { type: 'text', content: data }
+    else if (event === 'done') {
+      sawDone = true
+      yield { type: 'done' }
+      return
+    } else if (event === 'error') {
+      yield adapterErrorChunk(data || 'replicate stream error')
+      return
     }
-  } finally {
-    reader.releaseLock()
   }
-  if (!sawDone) {
-    yield adapterErrorChunk('Replicate stream ended without done event')
-    return
-  }
-  yield { type: 'done' }
+  if (!sawDone) yield adapterErrorChunk('Replicate stream ended without done event')
 }
 
+/**
+ * Creates an adapter for Replicate streaming predictions.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = replicate({ apiKey: '…', model: 'model-name' })
+ */
 export function replicate(config: ReplicateConfig): AdapterFactory {
   const { apiKey, model, version, baseUrl = DEFAULT_BASE_URL, toInput = (r) => ({ prompt: defaultPrompt(r) }) } = config
 
@@ -115,7 +104,9 @@ export function replicate(config: ReplicateConfig): AdapterFactory {
               return
             }
 
-            const prediction = await response.json() as PredictionResponse
+            const prediction = await readJson<PredictionResponse>(response, {
+              maxBytes: MAX_PREDICTION_RESPONSE_BYTES,
+            })
             if (prediction.error) {
               yield adapterErrorChunk(prediction.error)
               return
@@ -136,7 +127,7 @@ export function replicate(config: ReplicateConfig): AdapterFactory {
               return
             }
 
-            for await (const chunk of parseReplicateStream(streamResponse.body)) {
+            for await (const chunk of parseReplicateStream(streamResponse.body, controller.signal)) {
               if (aborted) return
               yield chunk
             }
@@ -155,4 +146,9 @@ export function replicate(config: ReplicateConfig): AdapterFactory {
   }
 }
 
+/**
+ * Creates an adapter for Replicate streaming predictions.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export const replicateAdapter = replicate

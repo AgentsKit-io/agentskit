@@ -8,6 +8,7 @@ import {
   toolsFromMcpClient,
   type JsonRpcMessage,
   type McpTransport,
+  type McpToolDefinition,
 } from '../src/mcp'
 
 function makeTool(name: string, run: (args: Record<string, unknown>) => unknown | Promise<unknown>): ToolDefinition {
@@ -20,6 +21,66 @@ function makeTool(name: string, run: (args: Record<string, unknown>) => unknown 
 }
 
 describe('MCP bridge (client ↔ server over in-memory transport)', () => {
+  it('round-trips display metadata and explicit false hints without granting confirmation', async () => {
+    const metadata = {
+      title: 'Display tool',
+      annotations: { title: 'Annotation title', readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: true },
+    }
+    const execute = vi.fn(() => 'ok')
+    const tool: McpToolDefinition = { name: 'metadata', ...metadata, requiresConfirmation: true, execute }
+    const [a, b] = createInMemoryTransportPair()
+    const server = createMcpServer({ transport: b, tools: [tool] })
+    const client = createMcpClient({ transport: a })
+    expect((await client.listTools()).tools[0]).toMatchObject(metadata)
+    const imported = await toolsFromMcpClient(client, { quarantine: false })
+    expect(imported[0]).toMatchObject(metadata)
+    expect((await client.callTool('metadata', {})).isError).toBe(true)
+    expect(execute).not.toHaveBeenCalled()
+    const [c, d] = createInMemoryTransportPair()
+    const secondServer = createMcpServer({ transport: d, tools: imported })
+    const secondClient = createMcpClient({ transport: c })
+    expect((await secondClient.listTools()).tools[0]).toMatchObject(metadata)
+    await secondClient.close()
+    await secondServer.close()
+    await client.close()
+    await server.close()
+  })
+
+  it('omits absent metadata and preserves empty annotations', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    const server = createMcpServer({ transport: b, tools: [{ name: 'plain' }, { name: 'empty', annotations: {} }] })
+    const client = createMcpClient({ transport: a })
+    const listed = (await client.listTools()).tools
+    expect(listed[0]).not.toHaveProperty('title')
+    expect(listed[0]).not.toHaveProperty('annotations')
+    const imported = await toolsFromMcpClient(client)
+    expect(imported[0]).not.toHaveProperty('title')
+    expect(imported[0]).not.toHaveProperty('annotations')
+    expect(imported[1]?.annotations).toEqual({})
+    await client.close()
+    await server.close()
+  })
+
+  it.each([{ title: 42 }, { annotations: null }, { annotations: { readOnlyHint: 'yes' } }, { annotations: { title: false } }])(
+    'rejects malformed remote metadata %j', async metadata => {
+      const client = createMcpClient({ transport: { send: () => undefined, onMessage: () => () => undefined } })
+      client.listTools = async () => ({ tools: [{ name: 'tool', inputSchema: { type: 'object' }, ...metadata }] }) as never
+      const onInvalidTool = vi.fn()
+      await expect(toolsFromMcpClient(client, { onInvalidTool })).rejects.toThrow(/remote MCP tool/)
+      expect(onInvalidTool).toHaveBeenCalledOnce()
+      await client.close()
+    },
+  )
+
+  it('bounds remote titles by the existing UTF-8 description limit', async () => {
+    const client = createMcpClient({ transport: { send: () => undefined, onMessage: () => () => undefined } })
+    client.listTools = async () => ({ tools: [{ name: 'tool', title: '😀'.repeat(100), annotations: { title: '😀'.repeat(100) }, inputSchema: { type: 'object' } }] })
+    const [tool] = await toolsFromMcpClient(client, { maxDescriptionBytes: 20 })
+    expect(new TextEncoder().encode(tool?.title).byteLength).toBeLessThanOrEqual(20)
+    expect(new TextEncoder().encode(tool?.annotations?.title).byteLength).toBeLessThanOrEqual(20)
+    await client.close()
+  })
+
   it('initialize returns server info', async () => {
     const [a, b] = createInMemoryTransportPair()
     const server = createMcpServer({ transport: b, tools: [] })

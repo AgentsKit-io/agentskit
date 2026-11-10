@@ -1,11 +1,12 @@
 import { buildMessage as message, consumeStream, createEventEmitter, generateId, createToolLifecycle } from './primitives'
 import { buildToolMap, activateSkills, executeSafeTool as execute } from './agent-loop'
+import { partsToText } from './types/content'
 import { createControllerPersistence } from './controller-persistence'
 import { handleControllerToolCall } from './controller-tool-call'
 import {
   accumulateUsage,
   buildAdapterRequest,
-  buildToolContinuation,
+  createControllerToolLoop,
   mapMessageById,
   mapToolCallById,
   normalizeLlmUsage,
@@ -23,7 +24,7 @@ import type {
   AgentEvent,
   AgentEventContext,
 } from './types'
-export function createChatController(initial: ChatConfig): ChatController {
+/** Create a chat controller from adapter, conversation, and optional integrations. @param initial Adapter, prompt, tool, memory, and observer settings. @returns Controller methods for managing the session and reading its state. @example `const chat = createChatController({ adapter }); await chat.send('Hello')`. */ export function createChatController(initial: ChatConfig): ChatController {
   let config = initial
   const controllerCorrelation: AgentEventContext = initial.correlation ?? { operationId: generateId('operation') }
   let activeCorrelation: AgentEventContext = controllerCorrelation
@@ -48,6 +49,7 @@ export function createChatController(initial: ChatConfig): ChatController {
   let lifecycle = createToolLifecycle(toolMap)
   let skillTools: ToolDefinition[] = []
   const approvalGenerations = new Map<string, number>()
+  let pendingRegistration = Promise.resolve()
   let hydrated = false
   let active = false
   const authorize: NonNullable<ChatConfig['authorizeToolCall']> = async (call, context) => {
@@ -106,6 +108,16 @@ export function createChatController(initial: ChatConfig): ChatController {
     },
   )
   const persist = persistence.save
+  const persistPending = async () => {
+    const store = config.decisionStore
+    if (!store) return
+    await persist(state.messages, activeCorrelation, true)
+    for (const call of state.messages.flatMap(message => message.toolCalls ?? [])) {
+      if (call.status === 'requires_confirmation') await store.putPending({
+        toolCallId: call.id, status: 'pending', messages: state.messages,
+      })
+    }
+  }
   const hydrate = async () => {
     if (hydrated || !config.memory) return
     hydrated = true
@@ -195,7 +207,11 @@ export function createChatController(initial: ChatConfig): ChatController {
           patchCall,
           runTool,
           correlation,
-          registerToolCall: id => approvalGenerations.set(id, g),
+          registerToolCall: id => {
+            approvalGenerations.set(id, g)
+            pendingRegistration = persistPending()
+            return pendingRegistration
+          },
         })
       },
       onToolResult(content) {
@@ -239,80 +255,10 @@ export function createChatController(initial: ChatConfig): ChatController {
     return g === gen
   }
 
-  const finalize = async (aid: string, shouldPersist = true) => {
-    let done: Message | undefined
-    set(current => ({
-      ...current,
-      messages: current.messages.map(message => {
-        if (message.id !== aid) return message
-        done = { ...message, status: 'complete' as const }
-        return done
-      }),
-      status: 'idle',
-      error: null,
-    }))
-    if (done) config.onMessage?.(done)
-    if (done && shouldPersist) await persist(state.messages, activeCorrelation)
-  }
-
-  const continueTools = (aid: string, calls: ToolCall[]): string => {
-    let nextId = ''
-    set(current => {
-      const { messages: next, nextAssistantId } = buildToolContinuation(
-        current.messages,
-        aid,
-        calls,
-        message,
-      )
-      nextId = nextAssistantId
-      return {
-        ...current,
-        messages: next,
-        status: 'streaming',
-        error: null,
-      }
-    })
-    return nextId
-  }
-
-  /**
-   * Resume the agent loop after tool calls on `aid` have settled
-   * (no new LLM turn has been issued yet). Used by both `startStream` and
-   * `approve`/`deny` so the flow is identical whether tools auto-run or
-   * wait for user confirmation.
-   */
-  const resume = async (aid: string, g: number, correlation: AgentEventContext) => {
-    let id = aid
-
-    for (let remaining = config.maxToolIterations ?? 5; remaining > 0; remaining--) {
-      const assistant = state.messages.find(message => message.id === id)
-      const calls = assistant?.toolCalls ?? []
-      const waits = calls.some(call => call.status !== 'complete' && call.status !== 'error')
-
-      // Nothing to feed back, or something still awaiting confirmation —
-      // stop here; the caller drives the next step.
-      if (!calls.length || waits) {
-        await finalize(id, !waits)
-        return
-      }
-
-      id = continueTools(id, calls)
-      const ok = await run(id, '', g, correlation)
-      if (!ok) return
-    }
-
-    await finalize(id)
-  }
-
-  /**
-   * Runs one `send` — an LLM turn, plus any follow-up turns needed to feed
-   * completed tool results back to the model.
-   */
-  const start = async (aid: string, text: string, g: number, correlation: AgentEventContext) => {
-    const ok = await run(aid, text, g, correlation)
-    if (!ok) return
-    await resume(aid, g, correlation)
-  }
+  const { start, resume } = createControllerToolLoop({
+    getConfig: () => config, getState: () => state, getCorrelation: () => activeCorrelation,
+    set, run, persist, persistPending,
+  })
 
   const controller: ChatController = {
     getState: () => state,
@@ -320,13 +266,15 @@ export function createChatController(initial: ChatConfig): ChatController {
       listeners.add(listener)
       return () => { listeners.delete(listener) }
     },
-    async send(text) {
+    async send(input) {
+      const parts = typeof input === 'string' ? undefined : input
+      const text = typeof input === 'string' ? input : partsToText(input)
       if (!text.trim()) return
       if (state.status === 'streaming') controller.stop()
       gen++
       const correlation = beginRun()
 
-      const user = message({ role: 'user', content: text })
+      const user = { ...message({ role: 'user', content: text }), ...(parts ? { parts } : {}) }
       const assistant = message({ role: 'assistant', content: '', status: 'streaming' })
 
       set(current => ({
@@ -482,12 +430,48 @@ export function createChatController(initial: ChatConfig): ChatController {
         controller,
         p,
         n => [toolMap.get(n), config.validateArgs, config.onToolCall, authorize],
-      )).then(call => {
+      )).then(async call => {
         if (call.status !== 'requires_confirmation') approvalGenerations.delete(call.id)
+        await persistPending()
         return call
       })
     },
+    async decide(tid, decision, reason) {
+      const { decide } = await import('./controller-decision-internal.js')
+      await pendingRegistration.catch(() => {})
+      let loadedLive = false
+      let loadedGeneration = gen
+      return decide(tid, decision, reason, {
+        store: config.decisionStore, messages: () => state.messages,
+        load: async snapshot => {
+          await activate()
+          loadedGeneration = gen
+          loadedLive = state.messages.length > 0
+          const messages = loadedLive ? state.messages : await persistence.load()
+          return { fallback: !messages.length, messages: messages.length ? messages : snapshot }
+        },
+        tool: name => toolMap.get(name), runTool, patch: patchCall,
+        finish: id => { approvalGenerations.delete(id) }, isCurrent: generation => generation === gen,
+        setMessages: controller.setMessages,
+        persist: correlation => persist(state.messages, correlation, true), resume,
+        prepare: async (messages, reconcile) => {
+          const useLive = loadedLive || state.messages.length > 0 || gen !== loadedGeneration
+          let current = useLive ? state.messages : messages
+          if (state.status !== 'streaming') current = current.map(message =>
+            message.status === 'streaming' ? { ...message, status: 'complete' as const } : message,
+          )
+          const next = reconcile(current)
+          if (!next) return undefined
+          set(current => ({ ...current, messages: next, error: null }))
+          return { generation: gen, correlation: state.status === 'streaming' ? activeCorrelation : beginRun() }
+        },
+      })
+    },
     async approve(tid) {
+      if (config.decisionStore) {
+        await controller.decide(tid, 'approve')
+        return
+      }
       const approvalGeneration = approvalGenerations.get(tid)
       const msg = state.messages.find(m =>
         m.toolCalls?.some(tc => tc.id === tid && tc.status === 'requires_confirmation')
@@ -524,6 +508,10 @@ export function createChatController(initial: ChatConfig): ChatController {
       await resume(msg.id, approvalGeneration, activeCorrelation)
     },
     async deny(tid, reason) {
+      if (config.decisionStore) {
+        await controller.decide(tid, 'deny', reason)
+        return
+      }
       const denialGeneration = approvalGenerations.get(tid)
       const msg = state.messages.find(m =>
         m.toolCalls?.some(tc => tc.id === tid && tc.status === 'requires_confirmation')

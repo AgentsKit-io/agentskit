@@ -68,3 +68,13 @@ const hits = await rag.search('onboarding flow')
 
 - npm: https://www.npmjs.com/package/@agentskit/rag
 - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/rag
+
+## Partition isolation
+
+`createPartitionedRAG({ ...ragConfig, partition, overfetchFactor?, onDiagnostics })`
+composes `createRAG`, stamps reserved `_akPartition` metadata and namespaces chunk
+IDs. It forwards an equality filter, always post-filters, and makes one bounded
+search (factor 1–16, default 4). The required diagnostics callback reports
+`recall: 'potentially-reduced'` on every search; missing metadata fails closed.
+Stores must preserve IDs and metadata faithfully; untrusted writers/stores need
+a separate authorization boundary. See the [package guide](/docs/reference/packages/rag).

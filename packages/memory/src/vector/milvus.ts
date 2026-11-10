@@ -2,6 +2,7 @@ import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit
 import { remoteJson, type RemoteHttpConfig } from './http'
 import { validateIdentifier } from './validation'
 
+/** URL, collection, and credentials for a Milvus-compatible HTTP API. */
 export interface MilvusConfig extends RemoteHttpConfig {
   /** Milvus REST endpoint, e.g. `https://in03-xxx.api.gcp-us-west1.zillizcloud.com`. */
   url: string
@@ -28,6 +29,10 @@ async function call<T>(
   })
 }
 
+/** Creates a vector memory backed by the Milvus HTTP API.
+ * @param config Endpoint, collection, credentials, and search defaults.
+ * @returns A vector memory backed by the configured collection.
+ */
 export function milvusVectorStore(config: MilvusConfig): VectorMemory {
   const collection = validateIdentifier(config.collection, 'collection')
   const defaultTopK = Math.max(1, config.topK ?? 10)

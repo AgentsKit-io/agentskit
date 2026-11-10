@@ -6,7 +6,7 @@ const SECRET_PATTERNS = [
   /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/g,
 ]
 
-const SENSITIVE_ASSIGNMENT = /((?:["']?(?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|api[-_]?key|secret|password|passwd|authorization|credential|private[-_]?key|signature)["']?)\s*[:=]\s*)(?:"[^"]*"|'[^']*'|[^\s,}]+)/gi
+const SENSITIVE_ASSIGNMENT = /((?:["']?(?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|[\w-]+[-_]token|[A-Za-z0-9]+Token|token|api[-_]?key|secret|password|passwd|authorization|credential|private[-_]?key|signature)["']?)\s*[:=]\s*)(?:"[^"]*"|'[^']*'|[^\s,}]+)/gi
 const SENSITIVE_KEY = /(?:^|_)(?:access_?token|refresh_?token|client_?secret|bot_?token|token|secret|password|passwd|api_?key|authorization|credential|private_?key|signature)(?:_|$)/
 const MAX_DEPTH = 20
 
@@ -16,9 +16,9 @@ const MAX_DEPTH = 20
  * @since 1.13.0
  */
 export function isSensitiveFieldName(key: string): boolean {
-  const normalizedKey = key.replace(/([a-z0-9])([A-Z])/g, '$1_$2').toLowerCase()
+  const normalizedKey = key.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/-/g, '_').toLowerCase()
   if (normalizedKey.endsWith('_env')) return false
-  return SENSITIVE_KEY.test(normalizedKey)
+  return normalizedKey === 'token' || normalizedKey.endsWith('_token') || SENSITIVE_KEY.test(normalizedKey)
 }
 
 /**
@@ -35,6 +35,7 @@ export function redactSecrets(value: string, secrets: readonly string[] = []): s
   }
   result = result.replace(/(\/bot)[^/\s]+/gi, '$1[REDACTED]')
   result = result.replace(/\bBearer\s+[^\s,;]+/gi, 'Bearer [REDACTED]')
+  result = result.replace(/(\bauthorization\s*[:=]\s*)Bearer\s+\[REDACTED\]/gi, '$1[REDACTED]')
   for (const pattern of SECRET_PATTERNS) result = result.replace(pattern, '[REDACTED]')
   return result.replace(SENSITIVE_ASSIGNMENT, (match, prefix: string) => {
     const quote = match[prefix.length] === '"' || match[prefix.length] === "'" ? match[prefix.length]! : ''

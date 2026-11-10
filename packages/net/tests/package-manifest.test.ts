@@ -7,7 +7,12 @@ describe('@agentskit/net packaging contract', () => {
     const manifest = JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8'))
     expect(manifest.sideEffects).toBe(false)
     expect(manifest.agentskit.stability).toBe('beta')
-    expect(Object.keys(manifest.exports)).toEqual(['.'])
+    expect(Object.keys(manifest.exports)).toEqual(['.', './rules'])
+    expect(manifest.exports['./rules']).toEqual({
+      types: './dist/rules.d.ts',
+      import: './dist/rules.js',
+      require: './dist/rules.cjs',
+    })
     expect(Object.keys(manifest.dependencies).sort()).toEqual(['@agentskit/core', 'eventsource-parser', 'ipaddr.js'])
   })
 
@@ -22,7 +27,18 @@ describe('@agentskit/net packaging contract', () => {
   it('exposes only named runtime exports', async () => {
     const mod = await import('../src/index')
     expect((mod as Record<string, unknown>).default).toBeUndefined()
-    for (const name of ['fetchWithRetry', 'retry', 'parseRetryAfter', 'readBody', 'parseSSE', 'assertPublicUrl', 'isPublicAddress', 'timeoutSignal']) {
+    for (const name of [
+      'fetchWithRetry',
+      'retry',
+      'sleep',
+      'parseRetryAfter',
+      'readBody',
+      'parseSSE',
+      'assertPublicUrl',
+      'isPublicAddress',
+      'timeoutSignal',
+      'withTimeout',
+    ]) {
       expect(mod[name as keyof typeof mod], name).toBeTypeOf('function')
     }
   })

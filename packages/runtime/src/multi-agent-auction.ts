@@ -11,8 +11,14 @@ import {
   type TopologyRunAgent,
 } from './multi-agent'
 
+/**
+ * Return a numeric score for a bid and its agent identifier.
+ */
 export type AuctionScorerFn = (bid: AgentRunResult, agentId: string) => number
 
+/**
+ * Dependencies and bid selection settings for an auction handler.
+ */
 export type AuctionHandlerOptions<Ctx> = {
   runAgent: TopologyRunAgent<Ctx>
   customScorer?: AuctionScorerFn
@@ -56,6 +62,11 @@ const passesReservePrice = (
   return true
 }
 
+/**
+ * Create a handler that collects bids and selects one according to configured criteria.
+ * @param opts Agent runner and auction configuration.
+ * @returns An async handler resolving to an `ok`, `failed`, or `paused` outcome.
+ */
 export const createAuctionHandler = <Ctx>(opts: AuctionHandlerOptions<Ctx>) => {
   return async (node: AuctionConfig, input: unknown, ctx: Ctx): Promise<TopologyOutcome> => {
     const task = node.task ?? input

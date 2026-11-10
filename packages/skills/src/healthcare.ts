@@ -3,6 +3,7 @@ import { defineSkill, DISCLAIM, TOOLS } from './utils'
 
 const M = DISCLAIM.medical
 
+/** Skill for general health information that directs users to qualified clinical care. */
 export const healthcareAssistant: SkillDefinition = defineSkill(
   'healthcare-assistant',
   'Patient-facing assistant for general health information. Refuses diagnosis, dosage, and emergency triage; always recommends a clinician.',
@@ -57,6 +58,7 @@ ${M}`,
   TOOLS.web,
 )
 
+/** Skill for summarizing clinical notes while preserving relevant facts and uncertainty. */
 export const clinicalNoteSummarizer: SkillDefinition = defineSkill(
   'clinical-note-summarizer',
   'Summarizes clinical notes for clinicians (NOT patients). Preserves SOAP structure; flags missing fields; never adds clinical interpretation.',

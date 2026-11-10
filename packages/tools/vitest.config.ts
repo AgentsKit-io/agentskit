@@ -5,6 +5,9 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig(
   createTestConfig({
     linesThreshold: 70,
+    // sqlite/process tests near the 5 s default fail under turbo's parallel
+    // load (#1936); assertions are unchanged.
+    testTimeout: 30_000,
     // Security-critical surfaces — agent-host boundary.
     criticalFiles: {
       'src/shell.ts': 90,

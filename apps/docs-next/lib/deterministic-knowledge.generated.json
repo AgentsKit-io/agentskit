@@ -8,7 +8,7 @@
     {
       "id": "claim.catalog-models",
       "kind": "restricted-faq",
-      "label": "7870 models",
+      "label": "8900 models",
       "match": {
         "type": "exact",
         "values": [
@@ -18,7 +18,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **7870 models**. The public conservative floor is 7000.",
+        "markdown": "The verified AgentsKit ledger currently reports **8900 models**. The public conservative floor is 8000.",
         "citations": [
           {
             "id": "claim-catalog-models",
@@ -31,7 +31,7 @@
     {
       "id": "claim.catalog-providers",
       "kind": "restricted-faq",
-      "label": "222 providers",
+      "label": "232 providers",
       "match": {
         "type": "exact",
         "values": [
@@ -41,7 +41,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **222 providers**. The public conservative floor is 220.",
+        "markdown": "The verified AgentsKit ledger currently reports **232 providers**. The public conservative floor is 230.",
         "citations": [
           {
             "id": "claim-catalog-providers",
@@ -100,7 +100,7 @@
     {
       "id": "claim.integrations",
       "kind": "restricted-faq",
-      "label": "50 integrations",
+      "label": "51 integrations",
       "match": {
         "type": "exact",
         "values": [
@@ -110,7 +110,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **50 integrations**. The public conservative floor is 50.",
+        "markdown": "The verified AgentsKit ledger currently reports **51 integrations**. The public conservative floor is 51.",
         "citations": [
           {
             "id": "claim-integrations",
@@ -123,7 +123,7 @@
     {
       "id": "claim.memory-backends",
       "kind": "restricted-faq",
-      "label": "18 memory backends",
+      "label": "19 memory backends",
       "match": {
         "type": "exact",
         "values": [
@@ -133,7 +133,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **18 memory backends**.",
+        "markdown": "The verified AgentsKit ledger currently reports **19 memory backends**.",
         "citations": [
           {
             "id": "claim-memory-backends",
@@ -146,7 +146,7 @@
     {
       "id": "claim.native-adapters",
       "kind": "restricted-faq",
-      "label": "25 native adapters",
+      "label": "29 native adapters",
       "match": {
         "type": "exact",
         "values": [
@@ -156,7 +156,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **25 native adapters**. The public conservative floor is 25.",
+        "markdown": "The verified AgentsKit ledger currently reports **29 native adapters**. The public conservative floor is 29.",
         "citations": [
           {
             "id": "claim-native-adapters",
@@ -599,6 +599,29 @@
             "id": "document-memory",
             "title": "memory agent handoff",
             "href": "/docs/for-agents/memory"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.net",
+      "kind": "document",
+      "label": "net documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "net documentation",
+          "docs for net",
+          "net"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the net documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-net",
+            "title": "net agent handoff",
+            "href": "/docs/for-agents/net"
           }
         ]
       }
@@ -1386,6 +1409,29 @@
       }
     },
     {
+      "id": "handoff.net",
+      "kind": "contribution",
+      "label": "net ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns net",
+          "how do i change net",
+          "net handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/net.mdx`. Edit only `packages/net` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/net test`\n- `pnpm --filter @agentskit/net lint`",
+        "citations": [
+          {
+            "id": "handoff-net",
+            "title": "net handoff",
+            "href": "/docs/for-agents/net"
+          }
+        ]
+      }
+    },
+    {
       "id": "handoff.observability",
       "kind": "contribution",
       "label": "observability ownership and checks",
@@ -2030,6 +2076,29 @@
       }
     },
     {
+      "id": "package.net",
+      "kind": "package",
+      "label": "@agentskit/net package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/net",
+          "net package",
+          "net"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/net** — HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.\n\nInstall it with `pnpm add @agentskit/net`.",
+        "citations": [
+          {
+            "id": "package-net",
+            "title": "@agentskit/net documentation",
+            "href": "/docs/reference/packages/net"
+          }
+        ]
+      }
+    },
+    {
       "id": "package.observability",
       "kind": "package",
       "label": "@agentskit/observability package",
@@ -2375,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:e82aa8832ccea5e7253c605f62fb6ff660570dd171a2080b086473c27d63eae9"
+  "contentHash": "sha256:312310c7b0ed8f5a1912cafb99ff949c706d31f8828d8ef55cad117cb40b9a8e"
 }

@@ -20,6 +20,10 @@ export interface Plugin {
   dispose?: () => void | Promise<void>
 }
 
+/**
+ * CLI services and project context passed to plugin factories.
+
+ */
 export interface PluginContext {
   /** Working directory the CLI was launched from. */
   cwd: string
@@ -29,6 +33,10 @@ export interface PluginContext {
   log: (msg: string) => void
 }
 
+/**
+ * Factory that creates an adapter from provider credentials and model settings.
+
+ */
 export type ProviderFactory = (config: {
   apiKey?: string
   model: string
@@ -36,6 +44,10 @@ export type ProviderFactory = (config: {
   extra?: Record<string, unknown>
 }) => unknown
 
+/**
+ * Lifecycle event names accepted by plugin hooks.
+
+ */
 export type HookEvent =
   | 'SessionStart'
   | 'SessionEnd'
@@ -47,22 +59,38 @@ export type HookEvent =
   | 'Stop'
   | 'Error'
 
+/**
+ * Lifecycle-specific data passed to plugin hooks.
+
+ */
 export interface HookPayload {
   event: HookEvent
   [key: string]: unknown
 }
 
+/**
+ * Continue, modify, or block decision returned by a hook handler.
+
+ */
 export type HookResult =
   | { decision: 'continue' }
   | { decision: 'block'; reason: string }
   | { decision: 'modify'; payload: HookPayload }
 
+/**
+ * Handler that receives a lifecycle payload and returns a hook decision.
+
+ */
 export interface HookHandler {
   event: HookEvent
   matcher?: RegExp | ((payload: HookPayload) => boolean)
   run: (payload: HookPayload) => HookResult | Promise<HookResult>
 }
 
+/**
+ * Command, arguments, environment, and name for one MCP server process.
+
+ */
 export interface McpServerSpec {
   name: string
   command: string

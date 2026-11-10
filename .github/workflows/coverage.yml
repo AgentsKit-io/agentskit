@@ -1,10 +1,18 @@
 name: Coverage
 
+# Full-suite coverage runs on main and nightly only. Pull requests already run
+# the affected tests in CI / tests, so running the suite again here was a
+# duplicate (ticket #1961, option b). On PRs this workflow is a skipped
+# placeholder so the required check 'Test coverage' is reported (skipped
+# counts as passing). Thresholds are unchanged.
 on:
   pull_request:
     branches: [main]
   push:
     branches: [main]
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,7 +24,7 @@ concurrency:
 
 jobs:
   coverage:
-    if: github.actor != 'dependabot[bot]'
+    if: github.event_name != 'pull_request' && github.actor != 'dependabot[bot]'
     name: Test coverage
     runs-on: ubuntu-latest
     permissions:
@@ -30,11 +38,18 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter "./packages/*" build
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
+
+      - run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
 
       - run: pnpm test:coverage
 

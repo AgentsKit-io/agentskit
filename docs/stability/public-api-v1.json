@@ -95,6 +95,13 @@
               ]
             },
             {
+              "name": "CapabilityUnsupportedError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
               "name": "CarbonTable",
               "kinds": [
                 "type"
@@ -122,6 +129,24 @@
               "name": "chunkText",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "CLIPROXYAPI_DEFAULT_BASE_URL",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "cloudflareAiGateway",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CloudflareAiGatewayConfig",
+              "kinds": [
+                "type"
               ]
             },
             {
@@ -162,6 +187,12 @@
             },
             {
               "name": "createFallbackAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createModelProvider",
               "kinds": [
                 "value"
               ]
@@ -521,6 +552,18 @@
               ]
             },
             {
+              "name": "ModelProviderConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelProviderId",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "ollama",
               "kinds": [
                 "value"
@@ -551,7 +594,25 @@
               ]
             },
             {
+              "name": "openaiCompatible",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "OpenAICompatibleConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "OpenAICompatibleEmbedderConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "OpenAICompatibleTransportConfig",
               "kinds": [
                 "type"
               ]
@@ -576,6 +637,12 @@
             },
             {
               "name": "openrouter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "openRouter",
               "kinds": [
                 "value"
               ]
@@ -788,6 +855,18 @@
               "name": "withDeprecationPolicy",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "workersAi",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "WorkersAiConfig",
+              "kinds": [
+                "type"
               ]
             }
           ]
@@ -2265,6 +2344,12 @@
               ]
             },
             {
+              "name": "isRecord",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "MaybePromise",
               "kinds": [
                 "type"
@@ -2516,6 +2601,18 @@
             },
             {
               "name": "ToolCallStatus",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ToolDecisionRecord",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ToolDecisionStore",
               "kinds": [
                 "type"
               ]
@@ -3979,6 +4076,12 @@
               ]
             },
             {
+              "name": "RunCliOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "runCommand",
               "kinds": [
                 "value"
@@ -4350,6 +4453,45 @@
             },
             {
               "name": "toPosix",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "./testing": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "createFetchStub",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "FetchStubHandler",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "FetchStubResponses",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "jsonResponse",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "withTempDir",
               "kinds": [
                 "value"
               ]
@@ -4818,6 +4960,57 @@
               "name": "PromptDiff",
               "kinds": [
                 "type"
+              ]
+            }
+          ]
+        },
+        "./provenance": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "createResultRecord",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "precisionRecall",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ResultMetric",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ResultRecord",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ResultRecordInput",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "serializeResultRecord",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "verifyResultRecord",
+              "kinds": [
+                "value"
               ]
             }
           ]
@@ -5991,6 +6184,12 @@
               ]
             },
             {
+              "name": "supabaseIntegration",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "TeamsAdaptiveCard",
               "kinds": [
                 "type"
@@ -6913,6 +7112,39 @@
             }
           ]
         },
+        "./postgres": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "postgresChatMemory",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "PostgresChatMemoryOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "postgresChatMigrationSql",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "postgresChatTable",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
         "./web-storage": {
           "conditions": [
             "import",
@@ -7127,6 +7359,12 @@
               ]
             },
             {
+              "name": "sleep",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "SSEEvent",
               "kinds": [
                 "type"
@@ -7136,6 +7374,33 @@
               "name": "timeoutSignal",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "withTimeout",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "./rules": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "NET_RULES",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "NetRule",
+              "kinds": [
+                "type"
               ]
             }
           ]
@@ -7356,6 +7621,12 @@
               ]
             },
             {
+              "name": "CostCommitInput",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "costGuard",
               "kinds": [
                 "value"
@@ -7380,7 +7651,74 @@
               ]
             },
             {
+              "name": "CostGuardStoreOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostReleaseInput",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostReservationError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "CostReserveInput",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostReserveResult",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "CostSample",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostSpendRecord",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostStore",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostStoreOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostUsageEntry",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostWindow",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostWindowInput",
               "kinds": [
                 "type"
               ]
@@ -7423,6 +7761,12 @@
             },
             {
               "name": "createInMemoryAuditStore",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createInMemoryCostStore",
               "kinds": [
                 "value"
               ]
@@ -7524,6 +7868,18 @@
               ]
             },
             {
+              "name": "InMemoryCostStore",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "InMemoryLedgerRow",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "langsmith",
               "kinds": [
                 "value"
@@ -7545,6 +7901,12 @@
               "name": "LifecycleObserver",
               "kinds": [
                 "type"
+              ]
+            },
+            {
+              "name": "monthlyWindowKey",
+              "kinds": [
+                "value"
               ]
             },
             {
@@ -7641,6 +8003,12 @@
               "name": "ProviderTokenCounterOptions",
               "kinds": [
                 "type"
+              ]
+            },
+            {
+              "name": "recordCostSpend",
+              "kinds": [
+                "value"
               ]
             },
             {
@@ -7966,6 +8334,33 @@
             }
           ]
         },
+        "./cost-store-contract": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "costStoreContract",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CostStoreContractOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CostStoreContractResult",
+              "kinds": [
+                "type"
+              ]
+            }
+          ]
+        },
         "./langfuse": {
           "conditions": [
             "import",
@@ -7989,6 +8384,63 @@
               "name": "LangfuseObserver",
               "kinds": [
                 "type"
+              ]
+            }
+          ]
+        },
+        "./postgres": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "expirePostgresCostReservations",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ExpirePostgresCostReservationsOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "postgresCostMigrationSql",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "postgresCostReservationTable",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "postgresCostStore",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "PostgresCostStoreOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "postgresCostWindowTable",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "postgresUsageLedgerTable",
+              "kinds": [
+                "value"
               ]
             }
           ]
@@ -8077,6 +8529,12 @@
             },
             {
               "name": "createHybridRetriever",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createPartitionedRAG",
               "kinds": [
                 "value"
               ]
@@ -8232,6 +8690,18 @@
               ]
             },
             {
+              "name": "PartitionedRAGConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "PartitionSearchDiagnostics",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "PdfLoaderOptions",
               "kinds": [
                 "type"
@@ -8332,6 +8802,87 @@
               ]
             }
           ]
+        },
+        "./markdown": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "extractWikilinks",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "findSection",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "FrontmatterSplit",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "MarkdownNote",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "MarkdownSection",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "normalize",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "parseNote",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "parseTable",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "plain",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "sections",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "splitFrontmatter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "stripWikilinks",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
         }
       }
     },
@@ -8412,6 +8963,18 @@
             },
             {
               "name": "CodeBlockProps",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ConfirmUndoCard",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ConfirmUndoCardProps",
               "kinds": [
                 "type"
               ]
@@ -8603,6 +9166,12 @@
               ]
             },
             {
+              "name": "ToolConfirmationLabels",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "ToolConfirmationProps",
               "kinds": [
                 "type"
@@ -8652,6 +9221,30 @@
             },
             {
               "name": "TopologyGraphViewSnapshot",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UsageMeter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "UsageMeterProps",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UsageMeterState",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UsageMeterWindow",
               "kinds": [
                 "type"
               ]
@@ -9575,6 +10168,154 @@
             },
             {
               "name": "withQuotas",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "./runners": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "AcpRequestHandler",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "AcpRpcError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "AcpTransport",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "AgentRunner",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "claudeCodeRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CliOutcome",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliRunnerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "codexRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "copilotKitRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CopilotKitRunnerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "createRunnerRegistry",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createTraceRecorder",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "execCli",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "hermesAcpRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "HermesAcpRunnerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerArtifact",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerBudget",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerRegistry",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerResult",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerTask",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerTraceRecorder",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerTraceSpan",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "spawnAcpTransport",
               "kinds": [
                 "value"
               ]
@@ -12145,6 +12886,18 @@
             },
             {
               "name": "McpServerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpToolAnnotations",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpToolDefinition",
               "kinds": [
                 "type"
               ]

@@ -13,6 +13,7 @@ export interface PersonalizationProfile {
   updatedAt: string
 }
 
+/** Persistence contract for retrieving, replacing, merging, and deleting profiles. */
 export interface PersonalizationStore {
   get: (subjectId: string) => Promise<PersonalizationProfile | null>
   set: (profile: PersonalizationProfile) => Promise<void>

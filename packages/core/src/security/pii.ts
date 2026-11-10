@@ -1,5 +1,6 @@
 import type { Message } from '../types/message'
 
+/** Named regular-expression rule and replacement used by a PII redactor. */
 export interface PIIRule {
   name: string
   /** Pattern to match. Use global flag for full replacement. */
@@ -11,22 +12,26 @@ export interface PIIRule {
   replacer?: string | ((match: string) => string)
 }
 
+/** Source offset and length of one redacted match. */
 export interface PIIRedactionMatch {
   offset: number
   length: number
 }
 
+/** Match count and offsets reported for one redaction rule. */
 export interface PIIRedactionHit {
   rule: string
   count: number
   matches: PIIRedactionMatch[]
 }
 
+/** Redacted payload together with the rules and matches that changed it. */
 export interface PIIRedactionResult<TPayload = string> {
   value: TPayload
   hits: PIIRedactionHit[]
 }
 
+/** String and message redaction operations built from a set of PII rules. */
 export interface PIIRedactor {
   redact: (input: string) => PIIRedactionResult<string>
   redactMessages: (messages: Message[]) => PIIRedactionResult<Message[]>

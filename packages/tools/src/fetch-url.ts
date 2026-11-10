@@ -1,6 +1,7 @@
 import type { ToolDefinition } from '@agentskit/core'
 import { checkEgress } from './safe-fetch'
 
+/** Response, redirect, and egress settings for {@link fetchUrl}. */
 export interface FetchUrlConfig {
   /** Maximum bytes to read from the response body. Default: 200 KB. */
   maxBytes?: number
@@ -82,6 +83,15 @@ function stripHtml(html: string): string {
  * - Caps response size via `maxBytes` so a huge page can't flood the
  *   model's context window or blow memory.
  * - Strips HTML tags by default; set `raw: true` to get the body verbatim.
+ *
+ * @param config Byte cap, timeout, user agent, and egress policy options.
+ * @returns A `fetch_url` tool definition.
+ * @example
+ * ```ts
+ * import { fetchUrl } from '@agentskit/tools'
+ *
+ * const tool = fetchUrl({ maxBytes: 100_000 })
+ * ```
  */
 export function fetchUrl(config: FetchUrlConfig = {}): ToolDefinition {
   const {

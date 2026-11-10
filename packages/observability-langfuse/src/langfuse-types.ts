@@ -1,5 +1,6 @@
 import type { Observer } from '@agentskit/core'
 
+/** Credentials, trace metadata, batching, and error settings for Langfuse. */
 export interface LangfuseConfig {
   publicKey?: string
   secretKey?: string
@@ -17,6 +18,7 @@ export interface LangfuseConfig {
   onError?: (error: unknown) => void | Promise<void>
 }
 
+/** Langfuse observer with explicit flush and shutdown methods. */
 export interface LangfuseObserver extends Observer {
   flush: () => Promise<void>
   shutdown: () => Promise<void>

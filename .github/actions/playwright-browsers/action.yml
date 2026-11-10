@@ -1,0 +1,38 @@
+name: 'Playwright browsers'
+description: 'Install Chromium from a cache keyed on the Playwright version; only pushes to main save the cache.'
+
+inputs:
+  install-command:
+    description: 'Command that downloads the browsers and system packages on a cache miss'
+    required: false
+    default: 'pnpm exec playwright install chromium --with-deps'
+
+runs:
+  using: composite
+  steps:
+    - id: version
+      shell: bash
+      run: |
+        v=$(pnpm exec playwright --version | awk '{print $NF}')
+        echo "playwright=$v" >> "$GITHUB_OUTPUT"
+
+    - id: restore
+      uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ steps.version.outputs.playwright }}
+
+    - if: steps.restore.outputs.cache-hit == 'true'
+      shell: bash
+      run: pnpm exec playwright install-deps chromium
+
+    - if: steps.restore.outputs.cache-hit != 'true'
+      shell: bash
+      run: ${{ inputs.install-command }}
+
+    - if: steps.restore.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      continue-on-error: true
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ steps.version.outputs.playwright }}

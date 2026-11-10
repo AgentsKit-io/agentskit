@@ -1,6 +1,9 @@
 import type { AdapterFactory } from '@agentskit/core'
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the Groq chat adapter.
+ */
 export interface GroqConfig extends OpenAICompatibleConfig {}
 
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1'

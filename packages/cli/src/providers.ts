@@ -11,6 +11,10 @@ import {
 } from '@agentskit/adapters'
 import type { AdapterFactory } from '@agentskit/core'
 
+/**
+ * Provider identifier and optional model, credentials, or endpoint used to resolve a chat adapter.
+
+ */
 export interface ChatProviderOptions {
   provider: string
   model?: string
@@ -18,6 +22,10 @@ export interface ChatProviderOptions {
   baseUrl?: string
 }
 
+/**
+ * Resolved adapter together with provider, model, mode, and display summary.
+
+ */
 export interface ResolvedChatProvider {
   adapter: AdapterFactory
   provider: string
@@ -122,6 +130,14 @@ function createDemoAdapter(provider: string, model?: string): AdapterFactory {
   }
 }
 
+/**
+ * Resolves a provider name and credentials to an AgentsKit chat adapter.
+ * @param options Provider, model, credential, and endpoint settings.
+ * @returns Adapter and resolved provider details.
+ * @throws {Error} If the provider is unsupported or required credentials or model are missing.
+ * @example
+ * const resolved = resolveChatProvider({ provider: 'demo' })
+ */
 export function resolveChatProvider(options: ChatProviderOptions): ResolvedChatProvider {
   const name = options.provider.toLowerCase()
 

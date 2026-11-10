@@ -4,6 +4,7 @@ import { registerIntegration } from '../../registry'
 import { twilioActions } from './actions'
 import { twilioTriggers } from './triggers'
 
+/** Descriptor for the Twilio service integration. */
 export const twilioIntegration = defineIntegration({
   name: 'twilio',
   displayName: 'Twilio',

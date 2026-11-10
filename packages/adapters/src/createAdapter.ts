@@ -2,6 +2,11 @@ import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '
 import type { CreateAdapterConfig } from './types'
 import { adapterErrorChunk, isAbortError, raceAbort } from './stream-errors'
 
+/**
+ * Creates an adapter from send and stream parsing functions.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export function createAdapter(config: CreateAdapterConfig): AdapterFactory {
   return {
     createSource: (request: AdapterRequest): StreamSource => {

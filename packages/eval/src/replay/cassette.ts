@@ -1,7 +1,12 @@
-import { ConfigError, ErrorCodes, type AdapterRequest } from '@agentskit/core'
+import { ConfigError, ErrorCodes, isRecord, type AdapterRequest } from '@agentskit/core'
 import { defensiveSnapshot } from './clone'
 import type { Cassette, CassetteEntry } from './types'
 
+/** Create a version 1 cassette with an isolated copy of its initial data.
+ *
+ * @param init Optional cassette fields to copy into the new cassette.
+ * @returns A cassette with version 1 and an empty entries array by default.
+ */
 export function createCassette(init: Partial<Cassette> = {}): Cassette {
   return {
     version: 1,
@@ -11,12 +16,13 @@ export function createCassette(init: Partial<Cassette> = {}): Cassette {
   }
 }
 
+/** Serialize a cassette as indented JSON.
+ *
+ * @param cassette Cassette to serialize.
+ * @returns The cassette JSON string.
+ */
 export function serializeCassette(cassette: Cassette): string {
   return JSON.stringify(cassette, null, 2)
-}
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
 const MESSAGE_ROLES = new Set(['user', 'assistant', 'system', 'tool'])
@@ -32,10 +38,10 @@ function invalidCassette(message: string, cause?: unknown): ConfigError {
 }
 
 function assertCassetteEntry(entry: unknown, index: number): asserts entry is CassetteEntry {
-  if (!isPlainObject(entry)) {
+  if (!isRecord(entry)) {
     throw invalidCassette(`Invalid cassette: entries[${index}] must be an object`)
   }
-  if (!isPlainObject(entry.request)) {
+  if (!isRecord(entry.request)) {
     throw invalidCassette(`Invalid cassette: entries[${index}].request must be an object`)
   }
   const messages = (entry.request as { messages?: unknown }).messages
@@ -45,7 +51,7 @@ function assertCassetteEntry(entry: unknown, index: number): asserts entry is Ca
   for (let messageIndex = 0; messageIndex < messages.length; messageIndex++) {
     const message = messages[messageIndex]
     if (
-      !isPlainObject(message) ||
+      !isRecord(message) ||
       typeof message.id !== 'string' ||
       typeof message.role !== 'string' ||
       !MESSAGE_ROLES.has(message.role) ||
@@ -71,12 +77,12 @@ function assertCassetteEntry(entry: unknown, index: number): asserts entry is Ca
   }
   for (let chunkIndex = 0; chunkIndex < entry.chunks.length; chunkIndex++) {
     const chunk = entry.chunks[chunkIndex]
-    if (!isPlainObject(chunk) || typeof chunk.type !== 'string' || !CHUNK_TYPES.has(chunk.type)) {
+    if (!isRecord(chunk) || typeof chunk.type !== 'string' || !CHUNK_TYPES.has(chunk.type)) {
       throw invalidCassette(
         `Invalid cassette: entries[${index}].chunks[${chunkIndex}] has an invalid type`,
       )
     }
-    if (chunk.metadata !== undefined && !isPlainObject(chunk.metadata)) {
+    if (chunk.metadata !== undefined && !isRecord(chunk.metadata)) {
       throw invalidCassette(
         `Invalid cassette: entries[${index}].chunks[${chunkIndex}].metadata must be an object`,
       )
@@ -93,7 +99,7 @@ function assertCassetteEntry(entry: unknown, index: number): asserts entry is Ca
     if (chunk.type === 'tool_call' || chunk.type === 'tool_result') {
       const toolCall = chunk.toolCall
       if (
-        !isPlainObject(toolCall) ||
+        !isRecord(toolCall) ||
         typeof toolCall.id !== 'string' ||
         typeof toolCall.name !== 'string' ||
         typeof toolCall.args !== 'string' ||
@@ -107,7 +113,7 @@ function assertCassetteEntry(entry: unknown, index: number): asserts entry is Ca
     if (chunk.type === 'usage') {
       const usage = chunk.usage
       if (
-        !isPlainObject(usage) ||
+        !isRecord(usage) ||
         !['promptTokens', 'completionTokens', 'totalTokens'].every(
           key => typeof usage[key] === 'number' && Number.isFinite(usage[key]) && usage[key] >= 0,
         )
@@ -120,6 +126,12 @@ function assertCassetteEntry(entry: unknown, index: number): asserts entry is Ca
   }
 }
 
+/** Parse and validate a serialized version 1 cassette.
+ *
+ * @param input JSON text to parse.
+ * @returns A validated cassette with message timestamps restored as dates.
+ * @throws ConfigError when the JSON or cassette shape is invalid or unsupported.
+ */
 export function parseCassette(input: string): Cassette {
   let parsed: unknown
   try {
@@ -127,7 +139,7 @@ export function parseCassette(input: string): Cassette {
   } catch (cause) {
     throw invalidCassette('Invalid cassette: not valid JSON', cause)
   }
-  if (!isPlainObject(parsed)) {
+  if (!isRecord(parsed)) {
     throw invalidCassette('Invalid cassette: root must be an object')
   }
   if (parsed.version !== 1) {
@@ -143,7 +155,7 @@ export function parseCassette(input: string): Cassette {
   ) {
     throw invalidCassette('Invalid cassette: seed must be a string or finite number')
   }
-  if (parsed.metadata !== undefined && !isPlainObject(parsed.metadata)) {
+  if (parsed.metadata !== undefined && !isRecord(parsed.metadata)) {
     throw invalidCassette('Invalid cassette: metadata must be an object')
   }
   for (let i = 0; i < parsed.entries.length; i++) {
@@ -163,6 +175,12 @@ export function parseCassette(input: string): Cassette {
   return cassette
 }
 
+/** Create a stable JSON fingerprint for the serializable parts of an adapter request.
+ *
+ * @param request Adapter request to fingerprint.
+ * @returns Canonical JSON used to match recorded requests.
+ * @throws ConfigError when the request contains values that cannot be fingerprinted.
+ */
 export function fingerprintRequest(request: AdapterRequest): string {
   const seen = new WeakSet<object>()
 

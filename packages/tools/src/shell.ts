@@ -1,6 +1,7 @@
 import { ConfigError, ErrorCodes, type ToolDefinition } from '@agentskit/core'
 import { isWindows } from '@agentskit/cross-platform/pure'
 
+/** Executable allowlist, timeout, output cap, working directory, and environment for {@link shell}. */
 export interface ShellConfig {
   /** Per-command timeout in ms. Default 30s. */
   timeout?: number
@@ -51,6 +52,18 @@ function parseCommand(input: string, windows: boolean): { argv: string[]; reason
   return { argv }
 }
 
+/** Create a confirmation-gated tool that runs one executable without a shell.
+ *
+ * @param config Allowlist or trusted open mode, timeout, output limit, and process options.
+ * @returns A `shell` tool definition.
+ * @throws {ConfigError} With code AK_CONFIG_INVALID when neither `allowed` nor `allowAny` is set.
+ * @example
+ * ```ts
+ * import { shell } from '@agentskit/tools'
+ *
+ * const tool = shell({ allowed: ['git', 'node'] })
+ * ```
+ */
 export function shell(config: ShellConfig = {}): ToolDefinition {
   const {
     timeout = 30_000,

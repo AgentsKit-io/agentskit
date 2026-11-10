@@ -5,6 +5,10 @@ import type { McpServerSpec } from '../plugins/types'
 const MAX_FRAME_BYTES = 1024 * 1024
 const DISPOSE_GRACE_MS = 1000
 
+/**
+ * Tool name and optional description and input schema reported by an MCP server.
+
+ */
 export interface McpTool {
   name: string
   description?: string

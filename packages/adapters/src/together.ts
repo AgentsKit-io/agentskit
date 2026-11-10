@@ -1,5 +1,8 @@
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the Together AI chat adapter.
+ */
 export interface TogetherConfig extends OpenAICompatibleConfig {}
 
 /**

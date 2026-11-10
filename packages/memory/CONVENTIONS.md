@@ -56,8 +56,8 @@ Memory backends implementing the two contracts from [ADR 0003](../../docs/archit
 
 ## Review checklist for this package
 
-- [ ] Bundle size under 15KB gzipped
-- [ ] Coverage threshold holds (80% lines)
+- [ ] Bundle size within the 16KB gzipped budget
+- [ ] Coverage threshold holds (90% lines)
 - [ ] New backend tested against all relevant invariants
 - [ ] Config accepted at construction; no env reads in the factory
 - [ ] Documentation for the backend's quirks in package README

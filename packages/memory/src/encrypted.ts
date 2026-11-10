@@ -15,6 +15,7 @@ type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
  * during onboarding and stored only on their device.
  */
 
+/** Backing memory, encryption key, and optional Web Crypto adapters. */
 export interface EncryptedMemoryOptions {
   backing: ChatMemory
   /** 32-byte raw key (e.g. `crypto.getRandomValues(new Uint8Array(32))`). */
@@ -27,6 +28,7 @@ export interface EncryptedMemoryOptions {
   aad?: Uint8Array
 }
 
+/** Base64 ciphertext, initialization vector, and content-length marker. */
 export interface EncryptedEnvelope {
   ciphertext: string
   iv: string
@@ -65,6 +67,17 @@ async function resolveKey(
   return subtle.importKey('raw', raw as BufferSource, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt'])
 }
 
+/** Wraps chat memory with AES-GCM encryption using caller-owned key material.
+ * @param options Backing memory, key, and optional Web Crypto settings.
+ * @returns A chat memory that encrypts saved content and decrypts loaded content.
+ * @throws {ConfigError} When the key is invalid.
+ * @throws {MemoryError} When Web Crypto is unavailable.
+ * @example
+ * ```ts
+ * const key = crypto.getRandomValues(new Uint8Array(32))
+ * const memory = await createEncryptedMemory({ backing, key })
+ * ```
+ */
 export async function createEncryptedMemory(
   options: EncryptedMemoryOptions,
 ): Promise<ChatMemory> {

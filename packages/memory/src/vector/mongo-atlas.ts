@@ -16,6 +16,7 @@ export interface MongoCollectionLike {
   }
 }
 
+/** Collection adapter and search settings for MongoDB Atlas vector memory. */
 export interface MongoAtlasVectorConfig {
   collection: MongoCollectionLike
   /** Atlas Search index name on the embedding field. */
@@ -27,6 +28,10 @@ export interface MongoAtlasVectorConfig {
   topK?: number
 }
 
+/** Creates a vector memory backed by a MongoDB Atlas collection.
+ * @param config Collection adapter, vector field, and search settings.
+ * @returns A vector memory backed by the configured collection.
+ */
 export function mongoAtlasVectorStore(config: MongoAtlasVectorConfig): VectorMemory {
   const defaultTopK = Math.max(1, config.topK ?? 10)
   const vectorField = config.vectorField ?? 'embedding'

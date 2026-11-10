@@ -1,6 +1,7 @@
 import type { MaybePromise } from './common'
 import type { ToolDefinition } from './tool'
 
+/** Prompt, metadata, and optional activation hook contributed by a skill. */
 export interface SkillDefinition {
   name: string
   description: string

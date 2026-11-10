@@ -3,14 +3,17 @@
 // that replays the run at a given change-index and returns ok/fail. The
 // bisector walks the history with O(log n) probes.
 
+/** Result of probing a change history for the earliest pass-to-fail transition. */
 export type BisectVerdict =
   | { readonly kind: 'culprit'; readonly index: number; readonly probes: number }
   | { readonly kind: 'all_clean'; readonly probes: number }
   | { readonly kind: 'all_broken'; readonly probes: number }
   | { readonly kind: 'inconsistent'; readonly probes: number; readonly detail: string }
 
+/** Replays a history prefix ending at an index and reports whether it passes. */
 export type ReplayOracle = (changeIndex: number) => Promise<'pass' | 'fail'>
 
+/** Probe limit and optional callback for `replayBisect`. */
 export type BisectOpts = {
   readonly maxProbes?: number
   readonly onProbe?: (changeIndex: number, result: 'pass' | 'fail') => void

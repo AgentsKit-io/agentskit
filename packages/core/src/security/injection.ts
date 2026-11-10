@@ -1,3 +1,4 @@
+/** Named pattern and score contribution used by an injection detector. */
 export interface InjectionHeuristic {
   name: string
   pattern: RegExp
@@ -5,6 +6,7 @@ export interface InjectionHeuristic {
   weight: number
 }
 
+/** Score, decision, and matched signals returned by an injection detector. */
 export interface InjectionVerdict {
   score: number
   blocked: boolean
@@ -12,6 +14,7 @@ export interface InjectionVerdict {
   source: 'heuristic' | 'classifier' | 'hybrid'
 }
 
+/** Threshold, heuristic set, and optional classifier for injection checks. */
 export interface InjectionDetectorOptions {
   /** Threshold above which `blocked = true`. Default 0.7. */
   threshold?: number
@@ -25,6 +28,7 @@ export interface InjectionDetectorOptions {
   classifier?: (input: string) => Promise<number> | number
 }
 
+/** Async prompt-injection check using configured heuristics and classifier. */
 export interface InjectionDetector {
   check: (input: string) => Promise<InjectionVerdict>
 }

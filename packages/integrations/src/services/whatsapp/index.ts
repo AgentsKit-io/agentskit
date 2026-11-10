@@ -4,6 +4,7 @@ import { registerIntegration } from '../../registry'
 import { whatsappActions } from './actions'
 import { whatsappTriggers } from './triggers'
 
+/** Descriptor for the WhatsApp Cloud API service integration. */
 export const whatsappIntegration = defineIntegration({
   name: 'whatsapp',
   displayName: 'WhatsApp Cloud API',

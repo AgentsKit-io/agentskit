@@ -1,9 +1,11 @@
+/** Input and expected-output check used by an evaluation suite. */
 export interface EvalTestCase {
   input: string
   expected: string | ((result: string) => boolean)
   metadata?: Record<string, unknown>
 }
 
+/** Aggregate score and per-case outcomes from an evaluation run. */
 export interface EvalResult {
   totalCases: number
   passed: number
@@ -19,6 +21,7 @@ export interface EvalResult {
   }>
 }
 
+/** Named collection of evaluation cases. */
 export interface EvalSuite {
   name: string
   cases: EvalTestCase[]

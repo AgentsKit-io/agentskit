@@ -1,5 +1,6 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import { defineAction } from '../../contract'
+import { readResponseText } from '../../http'
 
 export interface StripeRuntimeConfig {
   apiKey: string
@@ -19,6 +20,7 @@ async function postForm<TResult>(
   cfg: StripeRuntimeConfig,
   fetchImpl: typeof globalThis.fetch,
   signal: AbortSignal | undefined,
+  maxResponseBytes: number | undefined,
   path: string,
   params: Record<string, unknown>,
 ): Promise<TResult> {
@@ -31,7 +33,7 @@ async function postForm<TResult>(
     signal,
     redirect: 'error',
   })
-  const text = await response.text()
+  const text = await readResponseText(response, maxResponseBytes ?? 2 * 1024 * 1024)
   const parsed = text.length > 0 ? (JSON.parse(text) as TResult) : ({} as TResult)
   if (!response.ok) {
     const err = parsed as { error?: { message?: string } }
@@ -52,8 +54,8 @@ export const stripeCreateCustomer = defineAction({
     type: 'object',
     properties: { email: { type: 'string' }, name: { type: 'string' }, description: { type: 'string' } },
   },
-  async execute(args, { fetch, signal, config }) {
-    const result = await postForm<{ id: string }>(config as StripeRuntimeConfig, fetch, signal, '/customers', args)
+  async execute(args, { fetch, signal, maxResponseBytes, config }) {
+    const result = await postForm<{ id: string }>(config as StripeRuntimeConfig, fetch, signal, maxResponseBytes, '/customers', args)
     return { id: result.id }
   },
 })
@@ -72,8 +74,8 @@ export const stripeCreatePaymentIntent = defineAction({
     },
     required: ['amount', 'currency'],
   },
-  async execute(args, { fetch, signal, config }) {
-    const result = await postForm<{ id: string; client_secret: string; status: string }>(config as StripeRuntimeConfig, fetch, signal, '/payment_intents', args)
+  async execute(args, { fetch, signal, maxResponseBytes, config }) {
+    const result = await postForm<{ id: string; client_secret: string; status: string }>(config as StripeRuntimeConfig, fetch, signal, maxResponseBytes, '/payment_intents', args)
     return { id: result.id, client_secret: result.client_secret, status: result.status }
   },
 })

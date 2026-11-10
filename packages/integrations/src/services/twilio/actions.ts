@@ -1,5 +1,6 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import { defineAction } from '../../contract'
+import { readResponseJson } from '../../http-body'
 
 export interface TwilioRuntimeConfig {
   accountSid: string
@@ -34,7 +35,7 @@ export const twilioSendSms = defineAction({
     },
     required: ['to', 'body'],
   },
-  async execute(args, { fetch, signal, config }) {
+  async execute(args, { fetch, signal, maxResponseBytes, config }) {
     const cfg = config as TwilioRuntimeConfig
     assertE164('to', String(args.to))
     const sender = args.from ? String(args.from) : cfg.fromNumber
@@ -50,7 +51,7 @@ export const twilioSendSms = defineAction({
       signal,
       redirect: 'error',
     })
-    const data = (await response.json()) as { sid?: string; status?: string; message?: string; code?: number }
+    const data = await readResponseJson<{ sid?: string; status?: string; message?: string; code?: number }>(response, maxResponseBytes ?? 2 * 1024 * 1024)
     if (!response.ok) {
       throw new ToolError({
         code: ErrorCodes.AK_TOOL_EXEC_FAILED,

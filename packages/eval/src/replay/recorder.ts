@@ -3,14 +3,22 @@ import { createCassette } from './cassette'
 import { defensiveSnapshot } from './clone'
 import type { Cassette, RecordOptions } from './types'
 
+/** Adapter factory and cassette populated by {@link createRecordingAdapter}. */
 export interface RecordingAdapter {
   factory: AdapterFactory
   cassette: Cassette
 }
 
-/**
- * Wrap an existing AdapterFactory. All streamed chunks are recorded into
- * a fresh Cassette so the session can be replayed deterministically.
+/** Wrap an adapter factory and record each request's streamed chunks in a cassette.
+ *
+ * @param base Adapter factory whose requests should be recorded.
+ * @param options Optional cassette seed and metadata.
+ * @returns A recording factory and the cassette it populates.
+ * @example
+ * ```ts
+ * const recording = createRecordingAdapter(adapter)
+ * // Pass recording.factory to a runtime, then save recording.cassette.
+ * ```
  */
 export function createRecordingAdapter(
   base: AdapterFactory,

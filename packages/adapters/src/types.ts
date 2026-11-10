@@ -17,6 +17,9 @@ export interface CreateAdapterConfig {
   abort?: () => void
 }
 
+/**
+ * Configuration options for the adapter configuration.
+ */
 export interface GenericAdapterConfig {
   send: (
     request: AdapterRequest,

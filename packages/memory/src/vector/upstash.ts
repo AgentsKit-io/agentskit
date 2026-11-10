@@ -1,6 +1,7 @@
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
 import { remoteJson, type RemoteHttpConfig } from './http'
 
+/** REST URL, token, and index settings for Upstash Vector. */
 export interface UpstashVectorConfig extends RemoteHttpConfig {
   url: string
   token: string

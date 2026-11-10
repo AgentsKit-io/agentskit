@@ -1,6 +1,6 @@
 import { buildMessage } from './primitives'
 import { formatRetrievedDocuments } from './rag'
-import type { AdapterRequest, ChatConfig, Message, ToolCall, ToolDefinition } from './types'
+import type { AdapterRequest, AgentEventContext, ChatConfig, ChatState, Message, ToolCall, ToolDefinition } from './types'
 import type { TokenUsage } from './types/stream'
 
 /** Normalize stream usage to finite nonnegative prompt/completion counts for llm:end. */
@@ -75,6 +75,22 @@ export function sameToolLifecycle(
   return true
 }
 
+export function insertToolResults(
+  messages: Message[],
+  assistantId: string,
+  calls: ToolCall[],
+  buildMsg: (init: { role: Message['role']; content: string; toolCallId?: string; status?: Message['status'] }) => Message,
+): Message[] {
+  return messages.flatMap(message => {
+    if (message.id !== assistantId && message.status === 'streaming') return [message]
+    const settled = message.id === assistantId ? calls : message.toolCalls ?? []
+    if (!settled.length || settled.some(call => call.status !== 'complete' && call.status !== 'error')) return [message]
+    const results = settled.filter(call => !messages.some(result => result.role === 'tool' && result.toolCallId === call.id))
+      .map(call => buildMsg({ role: 'tool', content: call.result ?? call.error ?? '', toolCallId: call.id }))
+    return [{ ...message, status: 'complete' as const }, ...results]
+  })
+}
+
 /** Build tool-result messages + a fresh streaming assistant for multi-turn tool loops. */
 export function buildToolContinuation(
   messages: Message[],
@@ -82,20 +98,10 @@ export function buildToolContinuation(
   calls: ToolCall[],
   buildMsg: (init: { role: Message['role']; content: string; toolCallId?: string; status?: Message['status'] }) => Message,
 ): { messages: Message[]; nextAssistantId: string } {
-  const results = calls.map(call =>
-    buildMsg({
-      role: 'tool',
-      content: call.result ?? call.error ?? '',
-      toolCallId: call.id,
-    }),
-  )
   const nextA = buildMsg({ role: 'assistant', content: '', status: 'streaming' })
   return {
     messages: [
-      ...messages.map(message =>
-        message.id === assistantId ? { ...message, status: 'complete' as const } : message
-      ),
-      ...results,
+      ...insertToolResults(messages, assistantId, calls, buildMsg),
       nextA,
     ],
     nextAssistantId: nextA.id,
@@ -166,4 +172,97 @@ export function buildRetrievalMessage(documentsText: string): Message | null {
     role: 'system',
     content: `Use the retrieved context below when it is relevant.\n\n${documentsText}`,
   })
+}
+
+/** Controller tool-loop seam, shared by sends and confirmation continuation. */
+export function createControllerToolLoop({ getConfig, getState, getCorrelation, set, run, persist, persistPending }: {
+  getConfig: () => ChatConfig
+  getState: () => ChatState
+  getCorrelation: () => AgentEventContext
+  set: (updater: (current: ChatState) => ChatState) => void
+  run: (aid: string, text: string, generation: number, correlation: AgentEventContext) => Promise<boolean>
+  persist: (messages: Message[], correlation?: AgentEventContext) => Promise<void>
+  persistPending: () => Promise<void>
+}) {
+  const message = buildMessage
+  const finalize = async (aid: string, shouldPersist = true) => {
+    let done: Message | undefined
+    set(current => ({
+      ...current,
+      messages: current.messages.map(message => {
+        if (message.id !== aid) return message
+        done = { ...message, status: 'complete' as const }
+        return done
+      }),
+      status: 'idle',
+      error: null,
+    }))
+    if (done) getConfig().onMessage?.(done)
+    if (done && shouldPersist) await persist(getState().messages, getCorrelation())
+  }
+
+  const continueTools = async (aid: string, calls: ToolCall[]): Promise<string> => {
+    const { buildToolContinuation } = await import('./controller-decision-internal.js')
+    let nextId = ''
+    set(current => {
+      if (current.messages[current.messages.length - 1]?.id !== aid) return current
+      const { messages: next, nextAssistantId } = buildToolContinuation(
+        current.messages,
+        aid,
+        calls,
+        message,
+      )
+      nextId = nextAssistantId
+      return {
+        ...current,
+        messages: next,
+        status: 'streaming',
+        error: null,
+      }
+    })
+    return nextId
+  }
+
+  /**
+   * Resume the agent loop after tool calls on `aid` have settled
+   * (no new LLM turn has been issued yet). Used by both `startStream` and
+   * `approve`/`deny` so the flow is identical whether tools auto-run or
+   * wait for user confirmation.
+   */
+  const resume = async (aid: string, g: number, correlation: AgentEventContext) => {
+    let id = aid
+
+    for (let remaining = getConfig().maxToolIterations ?? 5; remaining > 0; remaining--) {
+      const assistant = getState().messages.find(message => message.id === id)
+      const calls = assistant?.toolCalls ?? []
+      const waits = calls.some(call => call.status !== 'complete' && call.status !== 'error')
+
+      // Nothing to feed back, or something still awaiting confirmation —
+      // stop here; the caller drives the next step.
+      if (!calls.length || waits || getState().messages[getState().messages.length - 1]?.id !== id) {
+        await finalize(id, !waits)
+        if (waits) await persistPending()
+        return
+      }
+
+      id = await continueTools(id, calls)
+      if (!id) return
+      const ok = await run(id, '', g, correlation)
+      if (!ok) return
+    }
+
+    await finalize(id)
+  }
+
+  /**
+   * Runs one `send` — an LLM turn, plus any follow-up turns needed to feed
+   * completed tool results back to the model.
+   */
+  const start = async (aid: string, text: string, g: number, correlation: AgentEventContext) => {
+    const ok = await run(aid, text, g, correlation)
+    if (!ok) return
+    await resume(aid, g, correlation)
+  }
+
+  return { start, resume }
 }

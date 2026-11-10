@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill, TOOLS } from './utils'
 
+/** Skill for reviewing code and configuration for security vulnerabilities. */
 export const securityAuditor: SkillDefinition = defineSkill(
   'security-auditor',
   'Reviews code or config for security vulnerabilities. Flags injection, auth, secrets, SSRF/XXE, prompt-injection, and supply-chain issues.',

@@ -12,6 +12,17 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 
 ## Unreleased
 
+### Minor Changes
+
+- Expose the MCP server confirmation hook through the programmatic wrapper.
+- Add canonical SHA-256 result records, provenance verification, and precision/recall helpers to `@agentskit/eval`.
+
+### Patch Changes
+
+- Preserve optional MCP tool titles and behavior annotations across server listing and client import.
+
+- Scope the public API snapshot CI gate to packages in the affected build plan, while keeping missing build outputs fatal and full release and update checks unchanged.
+
 ### 2026-09-02 — coordinated ecosystem hardening release train
 
 - Versioned 22 public packages through Changesets, with package-level changelog entries and synchronized documentation metadata.

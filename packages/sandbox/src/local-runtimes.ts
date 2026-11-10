@@ -8,6 +8,9 @@ import type { SandboxRuntime, Spawner } from './local-sandbox-types'
 
 // --- none ---------------------------------------------------------------
 
+/**
+ * Runtime placeholder for in-process compute; external command spawning is rejected.
+ */
 export const noneSandbox: SandboxRuntime = {
   level: 'none',
   name: 'in-process',
@@ -22,6 +25,9 @@ export const noneSandbox: SandboxRuntime = {
 
 // --- process ------------------------------------------------------------
 
+/**
+ * Optional spawner, default working directory, and filtered default environment for process execution.
+ */
 export type ProcessRuntimeOptions = {
   readonly spawner?: Spawner
   readonly defaultEnv?: Readonly<Record<string, string>>
@@ -38,8 +44,17 @@ const filterEnv = (env: Readonly<Record<string, string>>): Record<string, string
   return out
 }
 
+/**
+ * List environment variable names accepted by the local process runtime.
+ * @returns A fresh list of allowed keys.
+ */
 export const exposeAllowedEnvKeys = (): readonly string[] => [...ALLOWED_ENV_KEYS]
 
+/**
+ * Create a child-process runtime with a restricted default environment.
+ * @param opts Optional spawner, working directory, and environment.
+ * @returns Runtime adapter for child-process execution.
+ */
 export const processSandbox = (opts: ProcessRuntimeOptions = {}): SandboxRuntime => {
   // Snapshot caller-provided env so later mutations cannot widen the allowlist.
   const frozenEnv = opts.defaultEnv ? filterEnv({ ...opts.defaultEnv }) : {}
@@ -100,12 +115,18 @@ export const processSandbox = (opts: ProcessRuntimeOptions = {}): SandboxRuntime
 
 // --- sandbox-exec (macOS seatbelt) --------------------------------------
 
+/**
+ * Workspace and network policy for the macOS sandbox-exec runtime.
+ */
 export type SandboxExecPolicy = {
   readonly workspaceRoot: string
   readonly allowNetwork?: boolean
   readonly extraReadablePaths?: readonly string[]
 }
 
+/**
+ * Sandbox-exec policy and optional spawner or executable path.
+ */
 export type SandboxExecRuntimeOpts = {
   readonly policy: SandboxExecPolicy
   readonly spawner?: Spawner
@@ -187,6 +208,12 @@ export const renderSandboxExecProfile = (policy: SandboxExecPolicy): string => {
   return lines.join('\n')
 }
 
+/**
+ * Create a macOS sandbox-exec runtime limited to the workspace and configured readable paths.
+ * @param opts Seatbelt policy and optional spawner or executable path.
+ * @returns Runtime adapter for sandbox-exec.
+ * @throws {SandboxError} When paths are invalid or the runtime cannot start.
+ */
 export const sandboxExecRuntime = (opts: SandboxExecRuntimeOpts): SandboxRuntime => {
   // Snapshot policy so caller mutations after create cannot widen the profile.
   const policy: SandboxExecPolicy = {

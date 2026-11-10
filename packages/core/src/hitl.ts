@@ -13,6 +13,7 @@ import { AgentsKitError, ConfigError, ErrorCodes } from './errors'
 
 export type ApprovalDecision = 'approved' | 'rejected'
 
+/** Persisted approval request and its pending or resolved decision state. */
 export interface Approval<TPayload = unknown> {
   id: string
   /** Logical gate name (e.g. 'delete-user', 'send-email'). */
@@ -26,6 +27,7 @@ export interface Approval<TPayload = unknown> {
   decisionMetadata?: Record<string, unknown>
 }
 
+/** Async persistence contract used by approval gates. */
 export interface ApprovalStore {
   /** Persist a new pending approval. */
   put: <T>(approval: Approval<T>) => Promise<void>
@@ -38,6 +40,7 @@ export interface ApprovalStore {
   patch: <T>(id: string, update: Partial<Approval<T>>, options?: { expectedStatus?: Approval<T>['status'] }) => Promise<Approval<T> | null>
 }
 
+/** Request details submitted to an approval gate. */
 export interface RequestApprovalInput<TPayload> {
   /** Gate name (reuse across invocations — how approvers identify it). */
   name: string
@@ -47,6 +50,7 @@ export interface RequestApprovalInput<TPayload> {
   id: string
 }
 
+/** API for requesting approval and recording decisions for a payload type. */
 export interface ApprovalGate<TPayload = unknown> {
   /**
    * Reserve or reuse an approval by id. First caller creates a

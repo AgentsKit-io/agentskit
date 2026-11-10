@@ -5,6 +5,12 @@ import type { ChatConfig, ChatReturn, ChatState } from '@agentskit/core'
 /**
  * Vue 3 composable — same shape as `@agentskit/react`'s `useChat`,
  * wired through Vue's reactivity.
+ * @param config Chat controller configuration.
+ * @returns Reactive chat state and controller actions.
+ * @example
+ * ```ts
+ * const chat = useChat(chatConfig)
+ * ```
  */
 export function useChat(config: ChatConfig): ChatReturn {
   const controller = createChatController(config)

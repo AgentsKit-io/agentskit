@@ -11,6 +11,7 @@ import { decodeStoredMessages } from './decode'
 
 type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
+/** Turso URL, auth token, and optional database client settings. */
 export interface TursoChatMemoryConfig {
   /** libSQL URL — file:..., libsql://..., or http://... */
   url: string

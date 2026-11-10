@@ -3,6 +3,7 @@ import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { emailActions } from './actions'
 
+/** Descriptor for the Email (SMTP/IMAP) service integration. */
 export const emailIntegration = defineIntegration({
   name: 'email',
   displayName: 'Email (SMTP/IMAP)',

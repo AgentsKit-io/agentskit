@@ -1,5 +1,13 @@
 import type { EmbedFn } from '@agentskit/core'
+import { NetError, readJson, readText } from '@agentskit/net'
 
+const MAX_EMBEDDER_RESPONSE_BYTES = 16 * 1024 * 1024
+const MAX_EMBEDDER_ERROR_BYTES = 1024 * 1024
+
+/**
+ * API key and optional model and endpoint for the OpenAI-compatible embedder.
+
+ */
 export interface OpenAiEmbedderConfig {
   apiKey: string
   model?: string
@@ -30,10 +38,24 @@ export function createOpenAiEmbedder(config: OpenAiEmbedderConfig): EmbedFn {
       body: JSON.stringify({ model, input: text }),
     })
     if (!res.ok) {
-      const body = await res.text().catch(() => '')
-      throw new Error(`embedder ${model} HTTP ${res.status}: ${body}`)
+      let body = ''
+      let cause: unknown
+      try {
+        body = await readText(res, { maxBytes: MAX_EMBEDDER_ERROR_BYTES })
+      } catch (error) {
+        if (error instanceof NetError) cause = error
+      }
+      const error = new Error(`embedder ${model} HTTP ${res.status}: ${body}`)
+      if (cause) Object.assign(error, { cause })
+      throw error
     }
-    const json = (await res.json()) as { data?: Array<{ embedding: number[] }> }
+    let json: { data?: Array<{ embedding: number[] }> }
+    try {
+      json = await readJson(res, { maxBytes: MAX_EMBEDDER_RESPONSE_BYTES })
+    } catch (error) {
+      if (error instanceof NetError) throw Object.assign(new Error(error.message), { cause: error })
+      throw error
+    }
     const first = json.data?.[0]?.embedding
     if (!first) throw new Error(`embedder ${model}: response missing data[0].embedding`)
     return first

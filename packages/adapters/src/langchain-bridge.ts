@@ -29,6 +29,9 @@ export interface AgentsKitChatModelCallOptions extends BaseChatModelCallOptions 
   tools?: BindToolsInput[]
 }
 
+/**
+ * Configuration passed to the LangChain chat model created from an AgentsKit adapter.
+ */
 export interface AdapterToLangChainModelOptions extends BaseChatModelParams {
   /** Reported as the LangSmith model name and `_llmType()` suffix. Default: `agentskit`. */
   modelName?: string

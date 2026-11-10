@@ -18,6 +18,9 @@ import { ConfigError, ErrorCodes, type AdapterFactory } from '@agentskit/core'
 
 export type DeprecationAction = 'warn' | 'remap' | 'fail'
 
+/**
+ * Deprecation metadata for a model identifier.
+ */
 export interface ModelDeprecation {
   provider: string
   model: string
@@ -29,6 +32,9 @@ export interface ModelDeprecation {
   note?: string
 }
 
+/**
+ * Policy for handling deprecated model identifiers.
+ */
 export interface DeprecationPolicy {
   onDeprecation: DeprecationAction
   table?: ModelDeprecation[]
@@ -58,11 +64,17 @@ export const DEFAULT_DEPRECATION_TABLE: ModelDeprecation[] = [
   { provider: 'google', model: 'gemini-pro-vision', successor: 'gemini-1.5-pro', sunsetOn: '2024-07-12' },
 ]
 
+/**
+ * Input used to resolve a model against a deprecation table.
+ */
 export interface ResolveModelInput {
   provider: string
   model: string
 }
 
+/**
+ * A result returned by model deprecation handling.
+ */
 export interface ResolveModelResult {
   /** Final model id to use (may differ from input if remapped). */
   model: string
@@ -70,6 +82,12 @@ export interface ResolveModelResult {
   deprecation?: ModelDeprecation
 }
 
+/**
+ * Resolves a model against the deprecation table and policy.
+ * @param input Input to resolve.
+ * @param policy Policy used during resolution.
+ * @returns The resolved model and any deprecation information.
+ */
 export function resolveModel(
   input: ResolveModelInput,
   policy: DeprecationPolicy,

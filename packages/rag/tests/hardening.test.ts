@@ -17,6 +17,7 @@ import {
   loadUrl,
 } from '../src/loaders'
 import { voyageReranker, jinaReranker } from '../src/rerankers'
+import { isAbortLike, readS3Body } from '../src/loaders/shared'
 
 // ---------------------------------------------------------------------------
 // Fixtures
@@ -83,6 +84,12 @@ function makeFetch(sequence: Array<[number, unknown, 'json' | 'text' | 'binary']
 
 class ListCmd { input: Record<string, unknown>; constructor(i: Record<string, unknown>) { this.input = i } }
 class GetCmd { input: Record<string, unknown>; constructor(i: Record<string, unknown>) { this.input = i } }
+
+function erroredResponse(cause: unknown): Response {
+  return new Response(new ReadableStream<Uint8Array>({
+    start(controller) { controller.error(cause) },
+  }))
+}
 
 // ---------------------------------------------------------------------------
 // chunkText hardening
@@ -693,7 +700,65 @@ describe('loader hardening', () => {
     })).resolves.toEqual([expect.objectContaining({ source: 's3://bk/b' })])
   })
 
+  it('passes SDK abort signals and returns timed-out S3 async iterators', async () => {
+    let returnCount = 0
+    let resolveNext: ((result: IteratorResult<Uint8Array | string>) => void) | undefined
+    const client = {
+      send: vi.fn(async (cmd: { input: Record<string, unknown> }, options?: { abortSignal?: AbortSignal }) => {
+        expect(options?.abortSignal).toBeInstanceOf(AbortSignal)
+        if (!('Key' in cmd.input)) return { Contents: [{ Key: 'slow' }, { Key: 'ok' }], IsTruncated: false }
+        if (cmd.input.Key === 'ok') return { Body: { transformToString: async () => 'recovered' } }
+        return {
+          Body: {
+            [Symbol.asyncIterator]() {
+              return {
+                next: () => new Promise<IteratorResult<Uint8Array | string>>(resolve => { resolveNext = resolve }),
+                return: async () => {
+                  returnCount++
+                  resolveNext?.({ done: true, value: undefined })
+                  return { done: true, value: undefined }
+                },
+              }
+            },
+          },
+        }
+      }),
+    }
+
+    await expect(loadS3({
+      client,
+      bucket: 'bk',
+      commands: { ListObjectsV2Command: ListCmd, GetObjectCommand: GetCmd },
+      timeoutMs: 40,
+    })).resolves.toEqual([expect.objectContaining({ source: 's3://bk/ok', content: 'recovered' })])
+    expect(returnCount).toBe(1)
+    expect(client.send).toHaveBeenCalledTimes(3)
+  })
+
+  it('does not wait for an S3 iterator return that never settles', async () => {
+    let returnCount = 0
+    const body = {
+      [Symbol.asyncIterator]() {
+        return {
+          next: () => new Promise<IteratorResult<Uint8Array>>(() => undefined),
+          return: () => {
+            returnCount++
+            return new Promise<IteratorResult<Uint8Array>>(() => undefined)
+          },
+        }
+      },
+    }
+
+    await expect(readS3Body(body, 'S3 body', 1024, 20)).rejects.toMatchObject({
+      code: 'AK_RAG_LOAD_FAILED',
+      message: expect.stringMatching(/timed out/),
+    })
+    expect(returnCount).toBe(1)
+  })
+
   it('bounds an async-iterable S3 body before materializing it', async () => {
+    let chunksRead = 0
+    let returned = false
     const client = {
       send: vi.fn(async (cmd: { input: Record<string, unknown> }) => {
         if (!('Key' in cmd.input)) return { Contents: [{ Key: 'large' }, { Key: 'ok' }], IsTruncated: false }
@@ -701,8 +766,14 @@ describe('loader hardening', () => {
         return {
           Body: {
             async *[Symbol.asyncIterator]() {
-              yield new Uint8Array([1, 2])
-              yield new Uint8Array([3, 4])
+              try {
+                chunksRead++
+                yield new Uint8Array([1, 2])
+                chunksRead++
+                yield new Uint8Array([3, 4])
+              } finally {
+                returned = true
+              }
             },
           },
         }
@@ -714,6 +785,8 @@ describe('loader hardening', () => {
       commands: { ListObjectsV2Command: ListCmd, GetObjectCommand: GetCmd },
       maxResponseBytes: 3,
     })).resolves.toEqual([expect.objectContaining({ source: 's3://bk/ok' })])
+    expect(chunksRead).toBe(2)
+    expect(returned).toBe(true)
   })
 
   it('skips individual S3 object failures when at least one succeeds', async () => {
@@ -921,23 +994,35 @@ describe('loader hardening', () => {
     expect(odToken).toHaveBeenCalled()
   })
 
-  it('forwards AbortSignal and surfaces abort as load failure', async () => {
+  it('forwards parent cancellation to fetch and surfaces abort as load failure', async () => {
     const controller = new AbortController()
-    controller.abort()
+    let markStarted!: () => void
+    const started = new Promise<void>(resolve => { markStarted = resolve })
+    let childSignal: AbortSignal | undefined
     const fetch = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
-      if (init?.signal?.aborted) {
-        throw new DOMException('Aborted', 'AbortError')
-      }
-      return new Response('ok', { status: 200 })
+      childSignal = init?.signal as AbortSignal | undefined
+      markStarted()
+      return new Promise<Response>((_resolve, reject) => {
+        childSignal?.addEventListener('abort', () => reject(childSignal?.reason), { once: true })
+      })
     }) as unknown as typeof globalThis.fetch
-    await expect(loadUrl('https://x', { fetch, signal: controller.signal, allowedOrigins: ['https://x'] })).rejects.toMatchObject({
+    const loading = loadUrl('https://x', { fetch, signal: controller.signal, allowedOrigins: ['https://x'] })
+    await started
+    controller.abort(new DOMException('Aborted', 'AbortError'))
+    await expect(loading).rejects.toMatchObject({
       code: 'AK_RAG_LOAD_FAILED',
       message: expect.stringMatching(/aborted/),
     })
-    expect(fetch).toHaveBeenCalledWith(
-      'https://x',
-      expect.objectContaining({ signal: controller.signal }),
-    )
+    expect(childSignal).toBeInstanceOf(AbortSignal)
+    expect(childSignal).not.toBe(controller.signal)
+  })
+
+  it('detects nested abort causes and safely stops on a cyclic cause chain', () => {
+    const abort = new DOMException('Aborted', 'AbortError')
+    expect(isAbortLike({ cause: { cause: abort } })).toBe(true)
+    const cyclic: { cause?: unknown } = {}
+    cyclic.cause = cyclic
+    expect(isAbortLike(cyclic)).toBe(false)
   })
 
   it('does not swallow abort as an individual download skip', async () => {
@@ -1170,25 +1255,14 @@ describe('loader hardening', () => {
   })
 
   it('wraps top-level response body read failures as AK_RAG_LOAD_FAILED', async () => {
-    const bodyAbort = vi.fn(async () => ({
-      ok: true,
-      status: 200,
-      text: async () => { throw new DOMException('Aborted', 'AbortError') },
-      json: async () => { throw new DOMException('Aborted', 'AbortError') },
-      arrayBuffer: async () => { throw new DOMException('Aborted', 'AbortError') },
-    })) as unknown as typeof globalThis.fetch
+    const bodyAbort = vi.fn(async () => erroredResponse(new DOMException('Aborted', 'AbortError'))) as unknown as typeof globalThis.fetch
 
     await expect(loadUrl('https://x', { fetch: bodyAbort, allowedOrigins: ['https://x'] })).rejects.toMatchObject({
       code: 'AK_RAG_LOAD_FAILED',
       message: expect.stringMatching(/aborted/),
     })
 
-    const bodyBoom = vi.fn(async () => ({
-      ok: true,
-      status: 200,
-      text: async () => { throw new Error('stream reset') },
-      json: async () => { throw new SyntaxError('Unexpected token') },
-    })) as unknown as typeof globalThis.fetch
+    const bodyBoom = vi.fn(async () => erroredResponse(new Error('stream reset'))) as unknown as typeof globalThis.fetch
 
     await expect(loadUrl('https://x', { fetch: bodyBoom, allowedOrigins: ['https://x'] })).rejects.toMatchObject({
       code: 'AK_RAG_LOAD_FAILED',
@@ -1199,12 +1273,7 @@ describe('loader hardening', () => {
     const treeJsonFail = vi.fn(async (url: string | URL | Request) => {
       const u = String(url)
       if (u.includes('/git/trees/')) {
-        return {
-          ok: true,
-          status: 200,
-          json: async () => { throw new SyntaxError('bad json') },
-          text: async () => '',
-        }
+        return new Response('{bad json', { status: 200 })
       }
       return new Response('ok', { status: 200 })
     }) as unknown as typeof globalThis.fetch
@@ -1225,11 +1294,7 @@ describe('loader hardening', () => {
         }), { status: 200 })
       }
       if (u.includes('bad.md')) {
-        return {
-          ok: true,
-          status: 200,
-          text: async () => { throw new Error('body read failed') },
-        }
+        return erroredResponse(new Error('body read failed'))
       }
       return new Response('ok-body', { status: 200 })
     }) as unknown as typeof globalThis.fetch
@@ -1245,11 +1310,7 @@ describe('loader hardening', () => {
           tree: [{ path: 'a.md', type: 'blob' }],
         }), { status: 200 })
       }
-      return {
-        ok: true,
-        status: 200,
-        text: async () => { throw new Error('body read failed') },
-      }
+      return erroredResponse(new Error('body read failed'))
     }) as unknown as typeof globalThis.fetch
     await expect(loadGitHubTree('o', 'r', { fetch: allFail })).rejects.toMatchObject({
       code: 'AK_RAG_LOAD_FAILED',

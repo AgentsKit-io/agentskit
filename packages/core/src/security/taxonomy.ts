@@ -6,6 +6,7 @@ import type { PIIRule } from './pii'
  * the taxonomy can be loaded from a manifest file (or fetched from a
  * remote source) without `eval`.
  */
+/** JSON-serializable rule definition used in a PII taxonomy. */
 export interface PIITaxonomyEntry {
   name: string
   /** Regex source (the body, no slashes). */
@@ -18,6 +19,7 @@ export interface PIITaxonomyEntry {
   description?: string
 }
 
+/** Versioned collection of JSON-friendly PII redaction rules. */
 export interface PIITaxonomy {
   /** Schema version. Must be `'1'`. */
   version: '1'
@@ -26,6 +28,7 @@ export interface PIITaxonomy {
   rules: PIITaxonomyEntry[]
 }
 
+/** Path and message describing one invalid taxonomy field. */
 export interface TaxonomyValidationIssue {
   /** Rule index in the input array (-1 for top-level / shape errors). */
   index: number
@@ -34,6 +37,7 @@ export interface TaxonomyValidationIssue {
   message: string
 }
 
+/** Validation status and all issues found in a PII taxonomy. */
 export interface TaxonomyValidationResult {
   ok: boolean
   issues: TaxonomyValidationIssue[]

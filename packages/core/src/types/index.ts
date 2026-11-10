@@ -17,7 +17,7 @@ export type {
   VectorFilterPrimitive,
 } from './memory'
 export type { RetrievedDocument, RetrieverRequest, Retriever } from './retrieval'
-export type { ChatConfig, ChatState, ChatController, ChatReturn, EditOptions } from './chat'
+export type { ToolDecisionRecord, ToolDecisionStore, ChatConfig, ChatState, ChatController, ChatReturn, EditOptions } from './chat'
 export type { SkillDefinition } from './skill'
 export type { AgentEvent, AgentEventContext, Observer } from './agent'
 export type { EvalTestCase, EvalResult, EvalSuite } from './eval'

@@ -2,8 +2,10 @@ import type { Message } from './types/message'
 import type { TokenCounter } from './types/token-counter'
 import type { ToolDefinition } from './types/tool'
 
+/** Strategy used to reduce a request when it exceeds its token budget. */
 export type BudgetStrategy = 'drop-oldest' | 'sliding-window' | 'summarize'
 
+/** Inputs for estimating and trimming a model request to a token budget. */
 export interface CompileBudgetInput {
   /** Hard upper bound (model context limit - reserveForOutput). */
   budget: number
@@ -25,6 +27,7 @@ export interface CompileBudgetInput {
   keepRecent?: number
 }
 
+/** Trimmed request, token breakdown, and messages removed to fit the budget. */
 export interface CompileBudgetResult {
   messages: Message[]
   systemPrompt?: string
@@ -78,6 +81,11 @@ async function toNumber(v: number | Promise<number>): Promise<number> {
  *  - 'drop-oldest': remove oldest messages until it fits
  *  - 'sliding-window': backwards-compatible alias of 'drop-oldest'
  *  - 'summarize': fold dropped messages into a single summary message
+ */
+/** Count and trim request content according to the selected budget strategy.
+ * @param input Messages, prompt, tools, budget, and trimming strategy.
+ * @returns The retained request content with token counts and dropped messages.
+ * @throws Error when the system prompt and tools exceed the effective budget or summarization is requested without a summarizer.
  */
 export async function compileBudget(input: CompileBudgetInput): Promise<CompileBudgetResult> {
   const counter = input.counter ?? approximateCounter

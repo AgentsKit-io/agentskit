@@ -9,6 +9,7 @@ import { createRedisClientAdapter } from './redis-client'
 
 type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
+/** Redis connection and key-prefix settings for chat memory. */
 export interface RedisChatMemoryConfig extends RedisConnectionConfig {
   keyPrefix?: string
   conversationId?: string
@@ -23,6 +24,11 @@ function decodeMessages(json: string | null): Message[] {
   return decodeStoredMessages(json, 'redisChatMemory')
 }
 
+/** Creates a chat memory that stores conversation snapshots in Redis.
+ * @param config Redis URL or client and optional namespace settings.
+ * @returns A chat memory backed by Redis.
+ * @throws {MemoryError} When the optional Redis dependency is missing or cannot connect.
+ */
 export function redisChatMemory(config: RedisChatMemoryConfig): ChatMemory {
   const prefix = config.keyPrefix ?? 'agentskit:chat'
   const convId = config.conversationId ?? 'default'

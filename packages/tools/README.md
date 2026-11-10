@@ -114,12 +114,49 @@ For tools without Zod, use `defineTool` from `@agentskit/core` with a JSON Schem
 
 ### Built-ins (6)
 
-- `webSearch()` — live web search with Serper, Tavily, DuckDuckGo, or a custom provider.
+- `webSearch()` — live web search with Serper, Tavily, DuckDuckGo, opt-in Parallel Search MCP, or a custom provider.
 - `fetchUrl()` — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping.
 - `filesystem({ basePath })` — sandboxed read, write, and list operations.
 - `shell({ allowed })` — shell execution with command allow-list + timeout.
 - `sqliteQueryTool({ path })` — read-only SQL against a local SQLite file. Optional peer dep on `better-sqlite3`. **Note:** never feed unvalidated user prompts straight into the `sql` field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input.
 - `slackTool({ webhookUrl })` — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the `slack()` integration.
+
+### Safe outbound requests
+
+`safeFetch(input, init?, policy?)` defaults to denying non-public hosts and
+re-checks every redirect hop. Address classification comes from
+`@agentskit/net`, so reserved, unspecified, multicast, CGNAT, IPv4-mapped
+private, and other non-unicast ranges are blocked as well as private,
+loopback, and link-local addresses. Hostname checks use Node DNS and fail
+closed if any result is non-public or lookup fails.
+
+`isPrivateIPv4` and `isPrivateHost` keep their legacy decimal handling for
+zero-padded dotted quads (`010.0.0.1` means `10.0.0.1`). `safeFetch` first
+applies WHATWG URL canonicalization; avoid ambiguous numeric URL forms.
+
+For a vetted internal target, pass an exact `allowedHosts` entry or set
+`allowPrivateHosts: true`; redirects still pass through the selected policy.
+The DNS preflight does not pin the resolved address to the later connection,
+so it does not prevent DNS rebinding. `webSearch()` also reads provider
+responses through `@agentskit/net` with a 2 MiB default byte limit; set
+`maxResponseBytes` to change it.
+
+### Parallel Search MCP (opt-in)
+
+`webSearch({ provider: 'parallel' })` queries [Parallel Search MCP](https://docs.parallel.ai/integrations/mcp/search-mcp)
+(`https://search.parallel.ai/mcp`, Fast mode) with no account or API key, and
+returns the usual titles, URLs, and snippets. `auto` never selects it, and
+Serper/Tavily keys, custom `search` callbacks, direct-URL queries, and tool
+confirmation behave as before. A selected Parallel failure (HTTP, MCP, timeout,
+cancellation, oversize response) is thrown to the caller instead of falling back.
+
+```ts
+const search = webSearch({ provider: 'parallel', maxResults: 5, timeoutMs: 10_000 })
+```
+
+Transport and authentication are host-owned: pass `mcpClient` (any
+`createMcpClient` client from `@agentskit/tools/mcp`) to use your own transport
+or credentials instead of the built-in keyless HTTP client.
 
 ### Integrations (20+)
 
@@ -147,6 +184,19 @@ set.
   to enforce advertised schemas before execution; remote errors are sanitized
   unless `exposeErrors: true` is explicitly enabled for trusted development.
 - Stdio + in-memory transports. HTTP/SSE adapters are host-owned.
+
+`McpToolDefinition` (from `@agentskit/tools/mcp`) extends the core tool
+shape with optional `title` and `annotations`: `title`, `readOnlyHint`,
+`destructiveHint`, `idempotentHint`, and `openWorldHint`. Server listing and
+client import preserve these fields, including explicit `false` hints.
+Imported titles use the existing `maxDescriptionBytes` UTF-8 limit; malformed
+metadata is rejected. Hints remain untrusted advisory data and never grant
+confirmation or alter execution policy.
+
+These fields follow the [MCP tool metadata specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
+They are optional descriptor extensions on the existing `2024-11-05` bridge;
+older clients may ignore unknown fields. This does not add negotiation or
+other features from newer protocol revisions.
 
 #### Supported MCP protocol matrix
 

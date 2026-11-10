@@ -1,5 +1,7 @@
 import type { JSONSchema7 } from 'json-schema'
+import { isRecord } from './primitives'
 
+/** Provider and optional generation settings for an agent model. */
 export interface AgentSchemaModel {
   provider: string
   model?: string
@@ -8,6 +10,7 @@ export interface AgentSchemaModel {
   baseUrl?: string
 }
 
+/** Tool declaration included in an agent configuration schema. */
 export interface AgentSchemaTool {
   name: string
   description?: string
@@ -18,12 +21,14 @@ export interface AgentSchemaTool {
   tags?: string[]
 }
 
+/** Memory adapter selection and configuration for an agent. */
 export interface AgentSchemaMemory {
   kind: 'inMemory' | 'localStorage' | 'custom'
   key?: string
   options?: Record<string, unknown>
 }
 
+/** Portable declarative configuration for an AgentsKit agent. */
 export interface AgentSchema {
   name: string
   description?: string
@@ -35,6 +40,7 @@ export interface AgentSchema {
   metadata?: Record<string, unknown>
 }
 
+/** Options for parsing an agent schema with a caller-supplied format parser. */
 export interface ParseAgentSchemaOptions {
   /**
    * Parser for non-JSON input (e.g. YAML). Defaults to `JSON.parse`.
@@ -47,10 +53,6 @@ const IDENT = /^[a-zA-Z_][a-zA-Z0-9_-]*$/
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`Invalid agent schema: ${message}`)
-}
-
-function isRecord(v: unknown): v is Record<string, unknown> {
-  return typeof v === 'object' && v !== null && !Array.isArray(v)
 }
 
 function validateModel(raw: unknown): AgentSchemaModel {

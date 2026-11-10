@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { shopifyActions } from './actions'
 
+/** Descriptor for the Shopify service integration. */
 export const shopifyIntegration = defineIntegration({
   name: 'shopify',
   displayName: 'Shopify',

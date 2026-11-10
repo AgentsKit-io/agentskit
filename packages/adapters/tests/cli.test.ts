@@ -22,6 +22,7 @@ import {
 } from '../src/cli'
 import type { CliProviderManifest } from '../src/cli'
 import type { AdapterRequest, StreamChunk } from '@agentskit/core'
+import { redactCliText } from '../src/cli/process'
 
 const request: AdapterRequest = {
   messages: [{
@@ -40,6 +41,18 @@ async function collect(adapter: ReturnType<typeof createCliAdapter>): Promise<St
 }
 
 describe('CLI adapters', () => {
+  it.each([
+    ['literal option secret', 'arg=custom-cli-secret', ['custom-cli-secret'], 'arg=[REDACTED]'],
+    ['bearer token', 'Authorization: Bearer synthetic-token-value', [], 'Authorization: [REDACTED]'],
+    ['OpenAI style token', 'key=sk-synthetic123456', [], 'key=[REDACTED]'],
+    ['GitHub token', 'ghp_0123456789abcdef0123', [], '[REDACTED]'],
+    ['Slack token', 'xoxb-0123456789-abcd', [], '[REDACTED]'],
+    ['AWS access key', 'AKIAABCDEFGHIJKLMNOP', [], '[REDACTED]'],
+    ['private key block', '-----BEGIN PRIVATE KEY-----synthetic\nkey-----END PRIVATE KEY-----', [], '[REDACTED]'],
+  ])('redacts %s', (_name, input, values, expected) => {
+    expect(redactCliText(input, values)).toBe(expected)
+  })
+
   it('passes argv literally without a shell and emits text plus done', async () => {
     const adapter = createCliAdapter({
       command: process.execPath,

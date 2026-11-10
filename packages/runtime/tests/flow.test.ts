@@ -106,6 +106,31 @@ describe('compileFlow', () => {
     expect(types.filter(t => t === 'node:success')).toHaveLength(3)
   })
 
+  it('generates distinct prefixed UUID run ids and respects overrides', async () => {
+    const compiled = compileFlow({ definition: def, registry })
+    const runIds: string[] = []
+    for (let i = 0; i < 2; i++) {
+      await compiled.run(undefined, {
+        onEvent: event => {
+          if (event.type === 'flow:start') runIds.push(event.runId)
+        },
+      })
+    }
+    expect(runIds[0]).not.toBe(runIds[1])
+    for (const runId of runIds) {
+      expect(runId).toMatch(/^flow-demo-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/)
+    }
+
+    const overridden: string[] = []
+    await compiled.run(undefined, {
+      runId: 'configured-run',
+      onEvent: event => {
+        if (event.type === 'flow:start') overridden.push(event.runId)
+      },
+    })
+    expect(overridden).toEqual(['configured-run'])
+  })
+
   it('resumes via durable log: replays completed nodes only', async () => {
     const store = createInMemoryStepLog()
     let fetchCalls = 0

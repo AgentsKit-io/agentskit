@@ -2,8 +2,10 @@ import type { JSONSchema7 } from 'json-schema'
 import type { MaybePromise } from './common'
 import type { Message } from './message'
 
+/** Runtime state of a model-requested tool call. */
 export type ToolCallStatus = 'pending' | 'running' | 'complete' | 'error' | 'requires_confirmation'
 
+/** Tool call requested by a model, including parsed arguments and outcome. */
 export interface ToolCall {
   id: string
   name: string
@@ -13,6 +15,7 @@ export interface ToolCall {
   status: ToolCallStatus
 }
 
+/** Conversation context passed to a tool's execute function. */
 export interface ToolExecutionContext {
   messages: Message[]
   call: ToolCall
@@ -29,12 +32,14 @@ export interface ToolExecutionContext {
 // model produced. Default behaviour (no validator) is passthrough.
 // ---------------------------------------------------------------------------
 
+/** One tool-argument validation issue and its field path. */
 export interface ArgsValidationError {
   /** JSON pointer / dotted path to the offending field, or '' for root. */
   path: string
   message: string
 }
 
+/** Result returned by an injected tool-argument validator. */
 export interface ArgsValidationResult {
   valid: boolean
   errors?: ArgsValidationError[]
@@ -47,6 +52,7 @@ export interface ArgsValidationResult {
  * Returns `{ valid: true }` to allow execution, or `{ valid: false, errors }`
  * to reject it with `AK_TOOL_INVALID_INPUT`.
  */
+/** Validate tool arguments against a JSON Schema before execution. */
 export type ArgsValidator = (
   schema: JSONSchema7,
   args: Record<string, unknown>,
@@ -91,6 +97,7 @@ type InferJSONSchemaObject<T> =
       : Record<string, unknown>
 
 /** Top-level inference: extract args type from a JSON Schema definition. */
+/** Infer a TypeScript argument object from a JSON Schema literal. */
 export type InferSchemaType<T> =
   T extends { type: 'object'; properties: infer _P }
     ? InferJSONSchemaObject<T>
@@ -100,6 +107,7 @@ export type InferSchemaType<T> =
 // ToolDefinition — generic with backward-compatible default
 // ---------------------------------------------------------------------------
 
+/** Executable tool contract, including optional schema and lifecycle hooks. */
 export interface ToolDefinition<TArgs = Record<string, unknown>> {
   name: string
   description?: string
@@ -142,12 +150,21 @@ export function defineTool<TSchema extends JSONSchema7>(
   return config as ToolDefinition<InferSchemaType<TSchema>>
 }
 
+/** Messages and resolved tool supplied to call and authorization handlers. */
 export interface ToolCallHandlerContext {
   messages: Message[]
   tool?: ToolDefinition
 }
 
+/** Stage at which a tool authorization decision is requested. */
 export type ToolAuthorizationPhase = 'propose' | 'execute'
+/** Tool-call context annotated with the authorization stage. */
 export interface ToolAuthorizationContext extends ToolCallHandlerContext { phase: ToolAuthorizationPhase }
+/** Allow or reject a tool call, with an optional explanation. */
 export interface ToolAuthorizationDecision { allowed: boolean; reason?: string }
+/** Callback that decides whether a proposed or executing tool call is allowed.
+ * @param toolCall Proposed or executing tool call.
+ * @param context Conversation, tool, and authorization phase.
+ * @returns A sync or async allow/deny decision.
+ */
 export type ToolAuthorizer = (toolCall: ToolCall, context: ToolAuthorizationContext) => MaybePromise<ToolAuthorizationDecision>

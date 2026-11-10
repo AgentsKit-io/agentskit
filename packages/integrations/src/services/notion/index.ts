@@ -3,6 +3,7 @@ import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { notionActions } from './actions'
 
+/** Descriptor for the Notion service integration. */
 export const notionIntegration = defineIntegration({
   name: 'notion',
   displayName: 'Notion',

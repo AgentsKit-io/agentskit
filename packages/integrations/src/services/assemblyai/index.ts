@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { assemblyaiActions } from './actions'
 
+/** Descriptor for the AssemblyAI service integration. */
 export const assemblyaiIntegration = defineIntegration({
   name: 'assemblyai',
   displayName: 'AssemblyAI',

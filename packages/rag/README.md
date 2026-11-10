@@ -97,10 +97,24 @@ You can also call `rag.retrieve({ query, messages })` to satisfy the core `Retri
 - Works with any `EmbedFn` and any `VectorMemory`.
 - **Rerankers:** `createRerankedRetriever` (Voyage, Jina, custom `RerankFn`, BM25 default), `createHybridRetriever` (vector + BM25 blend), standalone `bm25Score`. [Recipe](https://www.agentskit.io/docs/reference/recipes/rag-reranking).
 - **Document loaders:** `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf`, `loadS3`, `loadGcs`, `loadDropbox`, and `loadOneDrive`. [Recipe](https://www.agentskit.io/docs/reference/recipes/doc-loaders).
-- **Loader resilience:** HTTP/network and response-body read/parse failures surface as `RagError` (`AK_RAG_LOAD_FAILED`). Every remote request and body read has a finite timeout and byte limit by default; both are configurable through `timeoutMs` and `maxResponseBytes`. Optional `signal` aborts are never swallowed as a per-object skip. Tree/list loaders may return partial success when at least one eligible download succeeded; if every attempted eligible download failed, they throw. Missing/invalid S3 object bodies count as failed downloads. Pagination that reports more data without a new cursor/token throws (no silent truncation). `loadNotionPage` follows Notion `has_more` / `next_cursor` with `start_cursor` until complete (preserving block order; incomplete or repeated cursors throw). `loadUrl` requires an HTTPS origin in `allowedOrigins`; it does not follow redirects. Non-positive / non-finite `maxFiles` yields `[]`.
+- **Loader resilience:** HTTP/network and response-body read/parse failures surface as `RagError` (`AK_RAG_LOAD_FAILED`). Every remote request and body read has a finite timeout and byte limit by default; both are configurable through `timeoutMs` and `maxResponseBytes`. `timeoutMs` defaults to 15 seconds and accepts positive safe integers up to 2,147,483,647ms. Timeouts and optional `signal` aborts cancel fetches and HTTP body streams when supported. Caller aborts are never swallowed as a per-object skip; timed-out or other individual non-abort failures may be skipped where tree/list partial-success semantics allow it. S3 list/get calls receive the SDK abort signal, and async-iterable object bodies receive `return()` on cancellation; custom iterators that ignore it may continue in the background. Transform-only S3 bodies may also continue if their transform ignores cancellation. Tree/list loaders may return partial success when at least one eligible download succeeded; if every attempted eligible download failed, they throw. Missing/invalid S3 object bodies count as failed downloads. Pagination that reports more data without a new cursor/token throws (no silent truncation). `loadNotionPage` follows Notion `has_more` / `next_cursor` with `start_cursor` until complete (preserving block order; incomplete or repeated cursors throw). `loadUrl` requires an HTTPS origin in `allowedOrigins`; it does not follow redirects. Non-positive / non-finite `maxFiles` yields `[]`.
 - **Score contracts:** scoreless search/rerank results keep order. When any score is present, every result must have a finite numeric score and is sorted descending — mixed or non-finite scores throw (never fabricate `-Infinity`). Malformed Voyage/Jina/custom reranker output throws `AK_RAG_RERANK_FAILED`. Optional `signal` on `voyageReranker` / `jinaReranker` is forwarded to `fetch`; request/body aborts remain `AK_RAG_RERANK_FAILED`. `bm25Score` sanitizes invalid `k1`/`b` to documented defaults and always emits finite scores. Hybrid relative weights are normalized to a finite pair that sums to 1 (both zero → 0.5/0.5).
 - **Chunk/config safety:** invalid `chunkSize` / `chunkOverlap` / `topK` values are sanitized so chunking always terminates and search never sends non-finite limits to the store.
 - **Ingestion behavior:** `rag.ingest` embeds chunks serially and sends one vector-store batch per call. For large corpora, batch documents in the caller and persist progress between calls; the package does not silently add concurrency or an unbounded background queue.
+
+### Markdown notes (`@agentskit/rag/markdown`)
+
+Pure, synchronous helpers for knowledge-base style Markdown (YAML frontmatter, `[[wikilinks]]`, heading sections, GitHub tables). The subpath is separate so the root entry and its size budget stay free of the `yaml` parser.
+
+```ts
+import { parseNote, findSection, parseTable } from '@agentskit/rag/markdown'
+
+const note = parseNote('notes/plan.md', raw)
+// { path, title, frontmatter, body, links, frontmatterError? }
+const rows = parseTable(findSection(note.body, 'backlog')?.content ?? '')
+```
+
+Also exported: `splitFrontmatter`, `extractWikilinks`, `stripWikilinks`, `sections`, `normalize`, `plain`. Invalid frontmatter never throws; it is reported in `frontmatterError`.
 
 ### S3 in Expo and React Native runtimes
 
@@ -150,3 +164,50 @@ MIT — see [LICENSE](../../LICENSE).
 ## Contributing
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).
+
+## Partition-bound retrieval
+
+`createPartitionedRAG` composes `createRAG` without changing the core Retriever
+contract or existing `createRAG` behavior. Bind each instance to a non-empty
+partition at construction:
+
+```ts
+import { createPartitionedRAG } from '@agentskit/rag'
+
+const rag = createPartitionedRAG({
+  store,
+  embed,
+  partition: 'team-a',
+  topK: 5,
+  overfetchFactor: 4,
+  onDiagnostics: diagnostics => console.warn(diagnostics),
+})
+await rag.ingest([{ id: 'guide', content: 'Team A guide' }])
+const hits = await rag.retrieve({ query: 'guide' })
+```
+
+Ingest overrides the reserved `_akPartition` metadata field and namespaces chunk
+IDs with a JSON tuple, so identical document IDs in different partitions do not
+overwrite or delete each other's chunks. Document metadata, including
+`documentId`, remains available. Returned chunk IDs are opaque namespaced IDs.
+Every search forwards a core `VectorFilter` equality predicate and verifies
+partition metadata locally, rejecting foreign or missing metadata even when a
+store ignores filters. The wrapper makes one store search, requests at most
+`topK * overfetchFactor` candidates, examines at most that many, and returns at
+most `topK` matches. The factor is an integer from 1 to 16 (default 4); unsafe
+candidate limits throw. Per-call `search` limits and thresholds still work.
+
+The required `onDiagnostics` callback runs for every successful store search,
+including empty results, with `partition`, `requestedTopK`, `candidateLimit`,
+`examined`, `rejected`, `returned`, and `recall: 'potentially-reduced'`. This is
+conservative: bounded over-fetch can miss matching chunks, and a store can
+internally filter a bounded global candidate pool without revealing exclusions
+(as `fileVectorMemory` does). Short results never justify returning another
+partition's chunks. Callback exceptions reject the search.
+
+Stores must faithfully preserve chunk metadata and IDs. Missing metadata fails
+closed, but fabricated or incorrectly reassigned partition metadata cannot be
+detected. This is retrieval isolation, not an authorization boundary against
+untrusted writers or stores. Use physically separate stores or a backend with
+trusted partition enforcement when that boundary or exhaustive recall is needed.
+Backend-internal over-fetch is outside the wrapper's candidate bound.

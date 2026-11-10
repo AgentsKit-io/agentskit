@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import type { ToolCall } from '@agentskit/core'
 
+/** Props for displaying a tool call and its expandable details. */
 export interface ToolCallViewProps {
   toolCall: ToolCall
 }
 
+/**
+ * Render a tool call summary with a toggle for arguments and results.
+ * @param props The tool call to display.
+ * @returns The tool call element.
+ */
 export function ToolCallView({ toolCall }: ToolCallViewProps) {
   const [expanded, setExpanded] = useState(false)
 

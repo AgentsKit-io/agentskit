@@ -36,6 +36,33 @@ type FeatureExtractor = (
 let extractorPromise: Promise<FeatureExtractor> | null = null
 
 /**
+ * Cloudflare Workers has no native onnxruntime. There the same model runs on Workers AI
+ * (`@cf/baai/bge-small-en-v1.5`, 384-d, mean pooling) through the `AI` binding, so query
+ * vectors stay compatible with the committed index built by Transformers.js.
+ */
+const WORKERS_AI_MODEL = '@cf/baai/bge-small-en-v1.5'
+const isCloudflareWorker = (): boolean =>
+  typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers'
+
+interface WorkersAiBinding {
+  run: (model: string, input: { text: string[]; pooling?: 'mean' | 'cls' }) => Promise<{ data: number[][] }>
+}
+
+async function workersAi(): Promise<WorkersAiBinding> {
+  // A non-literal specifier keeps webpack (`next build`) from resolving the Workers-only module.
+  const specifier = 'cloudflare:workers'
+  const mod = (await import(/* webpackIgnore: true */ /* @vite-ignore */ specifier)) as { env?: { AI?: WorkersAiBinding } }
+  if (!mod.env?.AI) throw new Error('[ask-docs] Workers AI binding `AI` is not configured')
+  return mod.env.AI
+}
+
+async function embedWithWorkersAi(texts: string[]): Promise<number[][]> {
+  const ai = await workersAi()
+  const out = await ai.run(WORKERS_AI_MODEL, { text: texts, pooling: 'mean' })
+  return out.data.map((row) => l2normalize(Array.from(row)))
+}
+
+/**
  * Lazily build (and cache) the feature-extraction pipeline. The first call pays
  * the model-load cost; every later call reuses the same in-process singleton.
  */
@@ -99,6 +126,7 @@ function tensorToMatrix(tensor: FeatureTensor, rows: number): number[][] {
 
 /** Embed a single string → 384-d mean-pooled, L2-normalized vector. */
 export const embed: EmbedFn = async (text: string): Promise<number[]> => {
+  if (isCloudflareWorker()) return (await embedWithWorkersAi([text]))[0]!
   const extractor = await getExtractor()
   const tensor = await extractor(text, { pooling: 'mean', normalize: true })
   return tensorToVector(tensor)
@@ -110,6 +138,7 @@ export const embed: EmbedFn = async (text: string): Promise<number[]> => {
  */
 export async function embedBatch(texts: string[]): Promise<number[][]> {
   if (texts.length === 0) return []
+  if (isCloudflareWorker()) return embedWithWorkersAi(texts)
   const extractor = await getExtractor()
   const tensor = await extractor(texts, { pooling: 'mean', normalize: true })
   return tensorToMatrix(tensor, texts.length)
@@ -117,4 +146,4 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
 
 // Warm the model at import so the first user query doesn't pay the cold load.
 // Fire-and-forget; failures are retried lazily on first real use.
-void getExtractor().catch(() => {})
+if (!isCloudflareWorker()) void getExtractor().catch(() => {})

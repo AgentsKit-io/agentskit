@@ -1,4 +1,6 @@
 export { createRAG } from './rag'
+export { createPartitionedRAG } from './partitioned'
+export type { PartitionedRAGConfig, PartitionSearchDiagnostics } from './partitioned'
 export { RagError, RagErrorCodes } from './errors'
 export type { RagErrorCode } from './errors'
 export { chunkText } from './chunker'

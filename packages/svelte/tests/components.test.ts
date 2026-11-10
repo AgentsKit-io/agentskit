@@ -30,6 +30,7 @@ function fakeChat(over: Partial<ChatState> = {}): SvelteChatStore & { sent: stri
     stop: () => {},
     retry: async () => {},
     clear: async () => {},
+    decide: async () => ({ id: 'id', name: 'tool', args: {}, status: 'complete' as const }),
     approve: async () => {},
     deny: async () => {},
     edit: async () => {},

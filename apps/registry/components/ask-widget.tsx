@@ -123,6 +123,11 @@ function RegistryComponent(props: StandardComponentProps) {
 }
 
 export function RegistryAskWidget() {
+  const endpoint = process.env.NEXT_PUBLIC_ASK_ENDPOINT
+  return endpoint ? <ConfiguredRegistryAskWidget endpoint={endpoint}/> : null
+}
+
+function ConfiguredRegistryAskWidget({ endpoint }: { readonly endpoint: string }) {
   const [open, setOpen] = useState(false)
   const [discovery, setDiscovery] = useState<RegistryDiscoveryInputs | null | undefined>(undefined)
   // True while local knowledge is being (re)loaded. The chat stays unmounted meanwhile: a question
@@ -135,7 +140,6 @@ export function RegistryAskWidget() {
   const fabRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLElement>(null)
   const openedOnceRef = useRef(false)
-  const endpoint = process.env.NEXT_PUBLIC_ASK_ENDPOINT ?? 'https://ask.agentskit.io/v1/ask'
   const ensureDiscovery = useCallback(() => {
     if (discovery || discoveryPromiseRef.current) return discoveryPromiseRef.current
     if (discovery === null && Date.now() - discoveryFailureAtRef.current < DISCOVERY_RETRY_DELAY_MS) return null

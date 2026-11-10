@@ -1,6 +1,8 @@
 import { defineConfig } from 'tsup'
+import { sharedTsupOptions } from '../../tsup.shared'
 
 export default defineConfig({
+  ...sharedTsupOptions,
   entry: {
     index: 'src/index.ts',
     mcp: 'src/mcp/index.ts',
@@ -8,10 +10,6 @@ export default defineConfig({
     'mcp-devtools': 'src/mcp-devtools/index.ts',
     validation: '../validation/src/index.ts',
   },
-  format: ['esm', 'cjs'],
-  dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
-  sourcemap: true,
   clean: false,
-  treeshake: true,
   noExternal: ['ajv'],
 })

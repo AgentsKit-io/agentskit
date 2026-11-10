@@ -52,7 +52,8 @@ export function createInMemoryTransportPair(): [McpTransport, McpTransport] {
  * avoids importing `node:child_process` so the module stays
  * environment-agnostic. Most callers will wrap `child_process.spawn`
  * themselves and hand the handle in.
- */
+
+ * Minimal child-process stream interface used by the newline-delimited transport. */
 export interface StdioLikeProcess {
   stdin: { write: (chunk: string) => boolean | void }
   stdout: {
@@ -63,6 +64,7 @@ export interface StdioLikeProcess {
   kill?: () => void
 }
 
+/** Limits for the stdio transport frame buffer. */
 export interface StdioTransportOptions {
   /**
    * Maximum bytes the line buffer may hold without seeing a newline.
@@ -74,6 +76,11 @@ export interface StdioTransportOptions {
 
 const DEFAULT_MAX_FRAME_BYTES = 1_048_576
 
+/** Create an MCP transport over a child process using newline-delimited JSON.
+ *
+ * @param child Process-like object exposing stdin and stdout.
+ * @param options Frame size limits.
+ * @returns The bidirectional stdio transport. */
 export function createStdioTransport(
   child: StdioLikeProcess,
   options: StdioTransportOptions = {},

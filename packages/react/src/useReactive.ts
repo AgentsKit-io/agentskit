@@ -1,5 +1,16 @@
 import { useRef, useSyncExternalStore, useCallback } from 'react'
 
+/**
+ * Create a shallow reactive proxy that rerenders this hook's consumer on writes.
+ *
+ * @param initialState The initial top-level state properties.
+ * @returns A proxy whose property assignments notify subscribers.
+ * @example
+ * ```tsx
+ * const state = useReactive({ count: 0 })
+ * return <button onClick={() => state.count++}>{state.count}</button>
+ * ```
+ */
 export function useReactive<T extends Record<string, unknown>>(initialState: T): T {
   const storeRef = useRef<{
     state: T

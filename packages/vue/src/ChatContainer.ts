@@ -5,6 +5,10 @@ import { useChat } from './useChat'
 /**
  * Headless chat container. Renders messages + input using
  * `data-ak-*` attributes; style it with your own CSS.
+ * @example
+ * ```vue
+ * <ChatContainer :config="chatConfig" />
+ * ```
  */
 export const ChatContainer = defineComponent({
   name: 'AkChatContainer',

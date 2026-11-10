@@ -10,6 +10,9 @@
  * Prerequisite: package dist outputs must already exist
  *   (`pnpm --filter "./packages/*" build`).
  *
+ * PACKED_CONSUMERS_BUILD_PLAN may point to `turbo run build --dry=json`
+ * output for the same filter used to build. Unset checks all public packages.
+ *
  * Never installs dependencies, never hits the registry, never executes bins.
  */
 
@@ -41,6 +44,7 @@ import {
   isPathInsidePackage,
   isUnsafeArchiveEntry,
   shouldTypecheckEntry,
+  selectPackedConsumerPackages,
   stripPackagePrefix,
   validateTarballEntries,
 } from './lib/packed-consumers.mjs'
@@ -693,10 +697,18 @@ async function runTypecheckFixtures(consumerRoot, planEntries) {
 }
 
 async function main() {
-  const packages = await discoverPublicPackages()
-  if (packages.length === 0) {
+  const publicPackages = await discoverPublicPackages()
+  if (publicPackages.length === 0) {
     console.error('packed-consumer check: no public packages discovered under packages/')
     process.exit(1)
+  }
+
+  const planPath = process.env.PACKED_CONSUMERS_BUILD_PLAN
+  const buildPlan = planPath ? JSON.parse(await readFile(planPath, 'utf8')) : undefined
+  const packages = selectPackedConsumerPackages(publicPackages, buildPlan)
+  if (packages.length === 0) {
+    console.log('packed-consumer check: no public packages in the build scope')
+    return
   }
 
   await assertBuildPrerequisite(packages)

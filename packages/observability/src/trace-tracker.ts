@@ -11,6 +11,7 @@ type CorrelationContext = {
 
 type CorrelatedAgentEvent = AgentEvent & { readonly correlation?: CorrelationContext }
 
+/** Span identity, timing, attributes, and completion status produced by the tracker. */
 export interface TraceSpan {
   id: string
   name: string
@@ -21,6 +22,7 @@ export interface TraceSpan {
   status: 'ok' | 'error'
 }
 
+/** Callbacks invoked when the tracker starts or completes a span. */
 export interface TraceTrackerCallbacks {
   onSpanStart: (span: TraceSpan) => void
   onSpanEnd: (span: TraceSpan) => void
@@ -33,8 +35,9 @@ function boundSnapshot(value: string): string {
 }
 
 /**
- * JSON-ish snapshot that never throws on circular refs or BigInt.
- * Result is always a string, bounded to SNAPSHOT_LIMIT.
+ * Convert a value to a bounded JSON-like string without throwing on circular references or BigInt.
+ * @param value Value to serialize.
+ * @returns A string no longer than 500 characters, or a fallback for unserializable values.
  */
 export function safeSnapshot(value: unknown): string {
   try {
@@ -72,11 +75,14 @@ function generateSpanId(): string {
 }
 
 /**
- * Builds nested spans from a sequential AgentEvent stream.
- *
- * Assumption: events for the same kind (llm/tool/delegate) are sequential
- * and non-interleaved. When present, the optional correlation envelope is
- * copied to span attributes; it does not change the ordering contract.
+ * Build nested spans from a sequential AgentsKit event stream; same-kind events are assumed non-interleaved.
+ * @param callbacks Receivers for span start and completion events.
+ * @returns An event handler and `flush` method for closing open spans; correlation fields are copied to attributes.
+ * @example
+ * ```ts
+ * const tracker = createTraceTracker({ onSpanStart: save, onSpanEnd: save })
+ * tracker.handle(event)
+ * ```
  */
 export function createTraceTracker(callbacks: TraceTrackerCallbacks) {
   const spanStack: TraceSpan[] = []

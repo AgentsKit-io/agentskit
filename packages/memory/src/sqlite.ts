@@ -11,6 +11,7 @@ import { decodeStoredMessages } from './decode'
 
 type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
+/** Database path and optional SQLite opener for chat memory. */
 export interface SqliteChatMemoryConfig {
   path: string
   conversationId?: string
@@ -46,6 +47,11 @@ async function openDatabase(path: string): Promise<SqliteDb> {
   }
 }
 
+/** Creates a chat memory that stores conversation snapshots in SQLite.
+ * @param config Database path and optional opener.
+ * @returns A chat memory backed by the configured database.
+ * @throws {MemoryError} When the optional SQLite dependency is missing or cannot open the database.
+ */
 export function sqliteChatMemory(config: SqliteChatMemoryConfig): ChatMemory {
   const conversationId = config.conversationId ?? 'default'
   let dbPromise: Promise<SqliteDb> | null = null

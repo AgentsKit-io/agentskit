@@ -1,15 +1,24 @@
 import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
+import { NetError, NetErrorCodes, readText } from '@agentskit/net'
 import type { ToolDefinition } from '@agentskit/core'
 import { safeFetch } from './safe-fetch'
+import type { McpClient } from './mcp/client'
+import { parallelSearch } from './web-search-parallel'
 
+/** Title, URL, and text snippet returned by a web-search provider. */
 export interface WebSearchResult {
   title: string
   url: string
   snippet: string
 }
 
-export type WebSearchProvider = 'auto' | 'serper' | 'tavily' | 'duckduckgo'
+/**
+ * Search backend selection; `auto` prefers configured Serper, then Tavily, then DuckDuckGo.
+ * `parallel` is opt-in and never chosen by `auto`.
+ */
+export type WebSearchProvider = 'auto' | 'serper' | 'tavily' | 'duckduckgo' | 'parallel'
 
+/** Provider, credentials, result count, timeout, response cap, and custom search settings for {@link webSearch}. */
 export interface WebSearchConfig {
   /**
    * Which backend to use. `'auto'` (default) picks the best available:
@@ -25,61 +34,40 @@ export interface WebSearchConfig {
   maxResponseBytes?: number
   /** Caller cancellation signal. */
   signal?: AbortSignal
+  /**
+   * MCP client used by `provider: 'parallel'`. Host-owned: bring your own
+   * transport and authentication. Defaults to a keyless HTTP client for
+   * Parallel Search MCP (`https://search.parallel.ai/mcp`).
+   */
+  mcpClient?: McpClient
   /** Custom search function — overrides every other path. */
   search?: (query: string) => Promise<WebSearchResult[]>
 }
 
 const URL_RE = /^https?:\/\//i
-const SNIPPET_MAX = 600
+export const SNIPPET_MAX = 600
 const DEFAULT_TIMEOUT_MS = 15_000
 const DEFAULT_MAX_RESPONSE_BYTES = 2 * 1024 * 1024
 const MAX_RESULTS = 100
 
-interface SearchRuntimeConfig {
+export interface SearchRuntimeConfig {
   timeoutMs: number
   maxResponseBytes: number
   signal?: AbortSignal
 }
 
 async function readResponseText(response: Response, maxBytes: number): Promise<string> {
-  const headers = (response as Response & { headers?: Headers }).headers
-  const contentLength = headers?.get?.('content-length')
-  if (contentLength && Number(contentLength) > maxBytes) {
-    throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `search response exceeds maxResponseBytes (${maxBytes})` })
-  }
-  const body = (response as Response & { body?: ReadableStream<Uint8Array> | null }).body
-  if (!body) {
-    const text = 'text' in response && typeof response.text === 'function'
-      ? await response.text()
-      : JSON.stringify(await (response as Response & { json: () => Promise<unknown> }).json())
-    if (new TextEncoder().encode(text).byteLength > maxBytes) {
+  try {
+    return await readText(response, { maxBytes })
+  } catch (error) {
+    if (error instanceof NetError && error.code === NetErrorCodes.AK_NET_BODY_TOO_LARGE) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `search response exceeds maxResponseBytes (${maxBytes})` })
     }
-    return text
+    throw error
   }
-  const reader = body.getReader()
-  const chunks: Uint8Array[] = []
-  let total = 0
-  while (true) {
-    const next = await reader.read()
-    if (next.done) break
-    total += next.value.byteLength
-    if (total > maxBytes) {
-      await reader.cancel()
-      throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `search response exceeds maxResponseBytes (${maxBytes})` })
-    }
-    chunks.push(next.value)
-  }
-  const bytes = new Uint8Array(total)
-  let offset = 0
-  for (const chunk of chunks) {
-    bytes.set(chunk, offset)
-    offset += chunk.byteLength
-  }
-  return new TextDecoder().decode(bytes)
 }
 
-async function requestText(
+export async function requestText(
   url: string,
   init: RequestInit,
   config: SearchRuntimeConfig,
@@ -106,7 +94,7 @@ async function requestText(
   }
 }
 
-async function withDeadline<T>(work: Promise<T>, config: SearchRuntimeConfig): Promise<T> {
+export async function withDeadline<T>(work: Promise<T>, config: SearchRuntimeConfig): Promise<T> {
   if (config.signal?.aborted) throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'web search aborted' })
   return await new Promise<T>((resolve, reject) => {
     const timer = setTimeout(() => reject(new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `web search timed out after ${config.timeoutMs}ms` })), config.timeoutMs)
@@ -269,11 +257,23 @@ function resolveBackend(
   return { backend: 'duckduckgo' }
 }
 
+/**
+ * Create a web-search tool; provider responses use the configured byte cap and
+ * are cancelled when the limit is exceeded.
+ * @param config Provider, credentials, result limit, timeout, and body limit.
+ * @returns A `web_search` `ToolDefinition`.
+ * @throws {ConfigError} AK_CONFIG_INVALID for an unsupported provider or invalid limit.
+ * @example
+ * ```ts
+ * import { webSearch } from '@agentskit/tools'
+ * const search = webSearch({ provider: 'duckduckgo', maxResponseBytes: 1_000_000 })
+ * ```
+ */
 export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
   const { provider = 'auto', apiKey, maxResults = 5, search } = config
   const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS
   const maxResponseBytes = config.maxResponseBytes ?? DEFAULT_MAX_RESPONSE_BYTES
-  if (!['auto', 'serper', 'tavily', 'duckduckgo'].includes(provider)) {
+  if (!['auto', 'serper', 'tavily', 'duckduckgo', 'parallel'].includes(provider)) {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `webSearch: unsupported provider ${String(provider)}` })
   }
   if (!Number.isSafeInteger(maxResults) || maxResults < 1 || maxResults > MAX_RESULTS) {
@@ -283,6 +283,7 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'webSearch: timeoutMs and maxResponseBytes must be positive safe integers' })
   }
   const runtime = { timeoutMs, maxResponseBytes, signal: config.signal }
+  const parallelSessionId = globalThis.crypto.randomUUID().replace(/-/g, '')
 
   return {
     name: 'web_search',
@@ -327,6 +328,12 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
       }
       if (provider === 'tavily' && !resolvedKey) {
         return 'Error: Tavily provider requires apiKey (pass { apiKey } or set TAVILY_API_KEY)'
+      }
+
+      // An explicitly selected Parallel backend surfaces every failure to the caller.
+      if (backend === 'parallel') {
+        const results = await parallelSearch(query, maxResults, parallelSessionId, runtime, config.mcpClient)
+        return formatResults(results, query, maxResults)
       }
 
       try {

@@ -3,6 +3,7 @@ import type { Message } from './types/message'
 import type { TokenCounter } from './types/token-counter'
 import { approximateCounter } from './budget'
 
+/** Token budget, summarizer, and callbacks for automatic memory compaction. */
 export interface AutoSummarizeOptions {
   /** Hard cap on stored tokens. Once exceeded, the oldest messages are summarized. */
   maxTokens: number

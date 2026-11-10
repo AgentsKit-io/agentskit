@@ -7,6 +7,7 @@ import { defineSkill, TOOLS } from './utils'
  * with explicit safety rails for minors.
  */
 
+/** Skill for teaching through Socratic questions, hints, and age-aware safety boundaries. */
 export const tutor: SkillDefinition = defineSkill(
   'tutor',
   'Socratic tutor. Defaults to questions and hints; only gives direct answers when the user explicitly asks for them.',
@@ -43,6 +44,7 @@ Only when the learner explicitly says one of: "just tell me", "show me the answe
   TOOLS.webSearch,
 )
 
+/** Skill for designing structured curricula and learning progressions. */
 export const curriculumDesigner: SkillDefinition = defineSkill(
   'curriculum-designer',
   'Designs lesson plans + assessment rubrics for a topic at a target grade level. Bloom-taxonomy aware, accessibility-aware.',

@@ -1,6 +1,12 @@
 import type { EmbedFn } from '@agentskit/core'
-import { embeddingError, requireEmbeddingVector, throwIfNotOk } from './shared'
+import { embeddingError, readEmbeddingJson, requireEmbeddingVector, throwIfNotOk } from './shared'
 
+const MAX_MODEL_LIST_BYTES = 2 * 1024 * 1024
+const MAX_EMBEDDING_RESPONSE_BYTES = 16 * 1024 * 1024
+
+/**
+ * Configuration options for the Gemini embedder.
+ */
 export interface GeminiEmbedderConfig {
   apiKey: string
   model?: string
@@ -13,9 +19,13 @@ async function fetchAvailableModels(baseUrl: string, apiKey: string): Promise<st
     headers: { 'x-goog-api-key': apiKey },
   })
   await throwIfNotOk(response, 'gemini', url)
-  const data = (await response.json()) as {
+  const data = await readEmbeddingJson<{
     models: Array<{ name: string; supportedGenerationMethods: string[] }>
-  }
+  }>(
+    response,
+    'Gemini',
+    MAX_MODEL_LIST_BYTES,
+  )
   return data.models
     .filter(m => m.supportedGenerationMethods.includes('embedContent'))
     .map(m => m.name.replace('models/', ''))
@@ -36,6 +46,11 @@ async function buildModelError(
   }
 }
 
+/**
+ * Creates an embedder for Gemini embeddings.
+ * @param config Adapter configuration.
+ * @returns The EmbedFn result.
+ */
 export function geminiEmbedder(config: GeminiEmbedderConfig): EmbedFn {
   const {
     apiKey,
@@ -65,7 +80,11 @@ export function geminiEmbedder(config: GeminiEmbedderConfig): EmbedFn {
       throw await buildModelError(baseUrl, apiKey, message)
     }
 
-    const data = (await response.json()) as { embedding?: { values?: unknown } }
+    const data = await readEmbeddingJson<{ embedding?: { values?: unknown } }>(
+      response,
+      'Gemini',
+      MAX_EMBEDDING_RESPONSE_BYTES,
+    )
     return requireEmbeddingVector(data.embedding?.values, 'Gemini')
   }
 }

@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { asanaActions } from './actions'
 
+/** Descriptor for the Asana service integration. */
 export const asanaIntegration = defineIntegration({
   name: 'asana',
   displayName: 'Asana',

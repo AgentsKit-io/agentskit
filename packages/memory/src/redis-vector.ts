@@ -2,6 +2,7 @@ import type { VectorMemory, VectorDocument, RetrievedDocument } from '@agentskit
 import type { RedisClientAdapter, RedisConnectionConfig } from './redis-client'
 import { createRedisClientAdapter } from './redis-client'
 
+/** Redis connection and index settings for vector memory. */
 export interface RedisVectorMemoryConfig extends RedisConnectionConfig {
   indexName?: string
   keyPrefix?: string
@@ -16,6 +17,11 @@ function float32Buffer(vector: number[]): Buffer {
   return buffer
 }
 
+/** Creates a vector memory backed by Redis vector search commands.
+ * @param config Redis URL or client and optional index settings.
+ * @returns A vector memory backed by the configured Redis index.
+ * @throws {MemoryError} When the optional Redis dependency is missing or cannot connect.
+ */
 export function redisVectorMemory(config: RedisVectorMemoryConfig): VectorMemory {
   const indexName = config.indexName ?? 'agentskit:vectors:idx'
   const prefix = config.keyPrefix ?? 'agentskit:vec'

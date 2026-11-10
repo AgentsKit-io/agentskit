@@ -11,6 +11,7 @@ export const SEVERITY_ORDER = ['critical', 'high', 'medium', 'low', 'info'] as c
 /** Derived from SEVERITY_ORDER so the union and the order can never drift apart. */
 export type Severity = (typeof SEVERITY_ORDER)[number]
 
+/** Structured issue with severity, evidence, confidence, and a suggested fix. */
 export interface Finding {
   /** Stable id within a run (for dedup / referencing). */
   id: string

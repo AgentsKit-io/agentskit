@@ -3,6 +3,7 @@ import { Box, Text, useInput } from 'ink'
 import type { ChatReturn } from '@agentskit/core'
 import { useInkTheme } from './theme'
 
+/** Chat state and input handling options for the terminal input bar. */
 export interface InputBarProps {
   chat: ChatReturn
   placeholder?: string
@@ -29,6 +30,14 @@ function deriveHistory(chat: ChatReturn): string[] {
     .map(m => m.content)
 }
 
+/** Render a terminal input field with history navigation and submit handling.
+ * @param props Chat state and optional input callbacks and settings.
+ * @returns The terminal input prompt.
+ * @example
+ * ```tsx
+ * <InputBar chat={chat} placeholder="Ask something…" />
+ * ```
+ */
 export function InputBar({
   chat,
   placeholder = 'Type a message...',

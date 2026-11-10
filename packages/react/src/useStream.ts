@@ -1,6 +1,18 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import type { StreamSource, StreamChunk, StreamStatus, UseStreamOptions, UseStreamReturn } from '@agentskit/core'
 
+/**
+ * Consume a stream source and expose its latest chunk, text, status, and error.
+ *
+ * @param source The async stream source to consume.
+ * @param options Optional callbacks for chunks, completion, and errors.
+ * @returns Stream state and a `stop()` action.
+ * @example
+ * ```tsx
+ * const stream = useStream(source)
+ * return <pre>{stream.text}</pre>
+ * ```
+ */
 export function useStream(
   source: StreamSource,
   options?: UseStreamOptions

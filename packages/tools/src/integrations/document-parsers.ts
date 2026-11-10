@@ -1,4 +1,5 @@
 import { ConfigError, ErrorCodes, ToolError, defineTool } from '@agentskit/core'
+import { NetError, NetErrorCodes, readBody } from '@agentskit/net'
 import { checkEgress, safeFetch } from '../safe-fetch'
 import type { EgressPolicy } from '../safe-fetch'
 
@@ -9,12 +10,14 @@ import type { EgressPolicy } from '../safe-fetch'
  * minimal contract below.
  */
 
+/** Optional parser functions supplied by the host for supported document formats. */
 export interface DocumentParserFns {
   parsePdf?: (bytes: Uint8Array) => Promise<{ text: string; pages?: number }> | { text: string; pages?: number }
   parseDocx?: (bytes: Uint8Array) => Promise<{ text: string }> | { text: string }
   parseXlsx?: (bytes: Uint8Array) => Promise<{ sheets: Array<{ name: string; rows: Array<Array<string | number | null>> }> }> | { sheets: Array<{ name: string; rows: Array<Array<string | number | null>> }> }
 }
 
+/** Parser, download, and egress settings for document parsing tools. */
 export interface DocumentParsersConfig extends DocumentParserFns {
   /** Custom fetch (tests). */
   fetch?: typeof globalThis.fetch
@@ -67,37 +70,18 @@ async function download(url: string, config: DocumentParsersConfig): Promise<Uin
         message: `document download failed with status ${response.status}`,
       })
     }
-    const contentLength = response.headers.get('content-length')
-    if (contentLength && Number(contentLength) > maxBytes) {
-      throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `document exceeds maxBytes (${maxBytes})` })
-    }
-    if (!response.body) {
-      const buf = await response.arrayBuffer()
-      if (buf.byteLength > maxBytes) {
-        throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `document exceeds maxBytes (${maxBytes})` })
+    try {
+      return await readBody(response, { maxBytes })
+    } catch (error) {
+      if (error instanceof NetError && error.code === NetErrorCodes.AK_NET_BODY_TOO_LARGE) {
+        throw new ToolError({
+          code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+          message: `document exceeds maxBytes (${maxBytes})`,
+          cause: error,
+        })
       }
-      return new Uint8Array(buf)
+      throw error
     }
-    const reader = response.body.getReader()
-    const chunks: Uint8Array[] = []
-    let total = 0
-    while (true) {
-      const next = await reader.read()
-      if (next.done) break
-      total += next.value.byteLength
-      if (total > maxBytes) {
-        await reader.cancel()
-        throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `document exceeds maxBytes (${maxBytes})` })
-      }
-      chunks.push(next.value)
-    }
-    const bytes = new Uint8Array(total)
-    let offset = 0
-    for (const chunk of chunks) {
-      bytes.set(chunk, offset)
-      offset += chunk.byteLength
-    }
-    return bytes
   } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `document download timed out after ${timeoutMs}ms` })
@@ -108,6 +92,10 @@ async function download(url: string, config: DocumentParsersConfig): Promise<Uin
   }
 }
 
+/** Create a tool that downloads a PDF and returns parser-provided text and page count.
+ *
+ * @param config Parser and download configuration.
+ * @returns A PDF parsing tool. */
 export function parsePdf(config: DocumentParsersConfig) {
   return defineTool({
     name: 'parse_pdf',
@@ -132,6 +120,10 @@ export function parsePdf(config: DocumentParsersConfig) {
   })
 }
 
+/** Create a tool that downloads a DOCX file and returns parser-provided text.
+ *
+ * @param config Parser and download configuration.
+ * @returns A DOCX parsing tool. */
 export function parseDocx(config: DocumentParsersConfig) {
   return defineTool({
     name: 'parse_docx',
@@ -156,6 +148,10 @@ export function parseDocx(config: DocumentParsersConfig) {
   })
 }
 
+/** Create a tool that downloads an XLSX workbook and returns its sheets or a selected sheet.
+ *
+ * @param config Parser and download configuration.
+ * @returns An XLSX parsing tool. */
 export function parseXlsx(config: DocumentParsersConfig) {
   return defineTool({
     name: 'parse_xlsx',
@@ -184,6 +180,13 @@ export function parseXlsx(config: DocumentParsersConfig) {
   })
 }
 
+/** Build parsing tools only for parser functions supplied in the configuration.
+ * @example
+ * const tools = documentParsers({ parsePdf: bytes => parsePdfBytes(bytes) })
+
+ *
+ * @param config Parser and download configuration.
+ * @returns Tools for configured formats. */
 export function documentParsers(config: DocumentParsersConfig) {
   const tools = []
   if (config.parsePdf) tools.push(parsePdf(config))

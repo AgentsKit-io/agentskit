@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Text } from 'ink'
 
+/** Visibility and label for the animated thinking indicator. */
 export interface ThinkingIndicatorProps {
   visible: boolean
   label?: string
@@ -9,6 +10,14 @@ export interface ThinkingIndicatorProps {
 const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 const FRAME_MS = 80
 
+/** Render an animated spinner while the assistant is working.
+ * @param props Whether the indicator is visible and its optional label.
+ * @returns The spinner view, or `null` when hidden.
+ * @example
+ * ```tsx
+ * <ThinkingIndicator visible={chat.status === 'streaming'} />
+ * ```
+ */
 export function ThinkingIndicator({ visible, label = 'Thinking' }: ThinkingIndicatorProps) {
   const [frame, setFrame] = useState(0)
 

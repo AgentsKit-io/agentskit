@@ -1,6 +1,7 @@
 import type { ChatMemory } from './types/memory'
 import type { Message } from './types/message'
 
+/** Active-window and retrieval settings for virtualized chat memory. */
 export interface VirtualizedMemoryOptions {
   /** Maximum number of recent messages to keep "hot" (always loaded). Default 50. */
   maxActive?: number

@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
+import { createFetchStub } from '@agentskit/cross-platform/testing'
 import { AUDIT_PATH, addComponent, type AddDeps } from '../src/components/flow'
 import { CONFIG_PATH } from '../src/components/config'
-import { sha256Hex, type FetchLike } from '../src/components/fetch'
+import { sha256Hex } from '../src/components/fetch'
 import { parseAuditLog, verifyAuditChain } from '../src/components/marker'
 import { IntegrityError, type WriteFs } from '../src/components/install'
 import { type ScanFs } from '../src/components/scan'
@@ -39,15 +40,6 @@ function fakeWriteFs() {
     remove: (p) => void files.delete(p),
   }
   return fs
-}
-
-function fakeFetch(extra: Record<string, string> = {}): FetchLike {
-  const map: Record<string, string> = { [`${BASE}/r/docs-chat/widget.tsx`]: WIDGET, ...extra }
-  return async (url) => {
-    const body = map[url]
-    if (body == null) return { ok: false, status: 404, text: async () => 'nope' }
-    return { ok: true, status: 200, text: async () => body }
-  }
 }
 
 function manifest(over: Partial<RegistryComponent> = {}): string {
@@ -92,7 +84,10 @@ function deps(over: Partial<AddDeps> = {}): AddDeps {
     scanFs: scanFs({ dependencies: { next: '15.0.0', react: '19.0.0' }, devDependencies: { typescript: '5.0.0' } }),
     io: fakeIo(),
     writeFs: fakeWriteFs(),
-    fetchImpl: fakeFetch({ [`${BASE}/r/docs-chat.json`]: manifest() }),
+    fetchImpl: createFetchStub({
+      [`${BASE}/r/docs-chat/widget.tsx`]: WIDGET,
+      [`${BASE}/r/docs-chat.json`]: manifest(),
+    }),
     now: () => NOW,
     ...over,
   }
@@ -162,7 +157,10 @@ describe('addComponent (end-to-end)', () => {
   })
 
   it('aborts on a tampered file (checksum mismatch)', async () => {
-    const tampered = fakeFetch({ [`${BASE}/r/docs-chat.json`]: manifest(), [`${BASE}/r/docs-chat/widget.tsx`]: 'HACKED' })
+    const tampered = createFetchStub({
+      [`${BASE}/r/docs-chat.json`]: manifest(),
+      [`${BASE}/r/docs-chat/widget.tsx`]: 'HACKED',
+    })
     await expect(addComponent({ identifier: 'docs-chat' }, deps({ fetchImpl: tampered }))).rejects.toThrow(IntegrityError)
   })
 })

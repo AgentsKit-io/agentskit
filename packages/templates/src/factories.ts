@@ -6,6 +6,7 @@ import type {
 } from '@agentskit/core'
 import { validateToolTemplate, validateSkillTemplate, validateAdapterTemplate } from './validate'
 
+/** Options merged into a tool definition before validation. */
 export interface ToolTemplateConfig {
   base?: ToolDefinition
   name: string
@@ -19,6 +20,20 @@ export interface ToolTemplateConfig {
   dispose?: ToolDefinition['dispose']
 }
 
+/** Create and validate a tool definition from configuration.
+ * @param config The tool name, implementation, and optional fields.
+ * @returns A validated tool definition.
+ * @throws `ConfigError` when the resulting tool is invalid.
+ * @example
+ * ```ts
+ * const searchTool = createToolTemplate({
+ *   name: 'search',
+ *   description: 'Search the catalog.',
+ *   schema: { type: 'object' },
+ *   execute: async () => 'results',
+ * })
+ * ```
+ */
 export function createToolTemplate(config: ToolTemplateConfig): ToolDefinition {
   const tool: ToolDefinition = {
     ...(config.base ?? {}),
@@ -39,6 +54,7 @@ export function createToolTemplate(config: ToolTemplateConfig): ToolDefinition {
   return tool
 }
 
+/** Options merged into a skill definition before validation. */
 export interface SkillTemplateConfig {
   base?: SkillDefinition
   name: string
@@ -53,6 +69,19 @@ export interface SkillTemplateConfig {
   onActivate?: SkillDefinition['onActivate']
 }
 
+/** Create and validate a skill definition from configuration.
+ * @param config The skill name, prompt, and optional fields.
+ * @returns A validated skill definition.
+ * @throws `ConfigError` when the resulting skill is invalid.
+ * @example
+ * ```ts
+ * const writingSkill = createSkillTemplate({
+ *   name: 'writer',
+ *   description: 'Writes concise summaries.',
+ *   systemPrompt: 'Summarize the supplied material.',
+ * })
+ * ```
+ */
 export function createSkillTemplate(config: SkillTemplateConfig): SkillDefinition {
   const skill: SkillDefinition = {
     ...(config.base ?? { name: '', description: '', systemPrompt: '' }),
@@ -71,6 +100,7 @@ export function createSkillTemplate(config: SkillTemplateConfig): SkillDefinitio
   return skill
 }
 
+/** Options for constructing a named adapter factory. */
 export interface AdapterTemplateConfig {
   name: string
   createSource: AdapterFactory['createSource']
@@ -78,6 +108,21 @@ export interface AdapterTemplateConfig {
   capabilities?: AdapterCapabilities
 }
 
+/** Create and validate a named adapter factory.
+ * @param config The adapter name, source factory, and optional capabilities.
+ * @returns A validated adapter factory with its name.
+ * @throws `ConfigError` when the resulting adapter is invalid.
+ * @example
+ * ```ts
+ * const adapter = createAdapterTemplate({
+ *   name: 'my-adapter',
+ *   createSource: () => ({
+ *     stream: async function* () { yield { type: 'done' as const } },
+ *     abort: () => {},
+ *   }),
+ * })
+ * ```
+ */
 export function createAdapterTemplate(
   config: AdapterTemplateConfig,
 ): AdapterFactory & { name: string } {

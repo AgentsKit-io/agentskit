@@ -3,6 +3,9 @@ import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '
 import { adapterErrorChunk, isAbortError, parseCompleteToolArgs } from './stream-errors'
 import { toAnthropicMessages } from './tool-history'
 
+/**
+ * Configuration options for the Amazon Bedrock chat adapter.
+ */
 export interface BedrockConfig {
   /** Bedrock model id, e.g. `anthropic.claude-3-5-sonnet-20241022-v2:0`. */
   model: string
@@ -187,6 +190,14 @@ async function* parseAnthropicBedrockEvents(
   yield adapterErrorChunk('Bedrock stream ended before message_stop')
 }
 
+/**
+ * Creates an adapter for Amazon Bedrock Converse streaming.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = bedrock({ model: 'anthropic.claude-3-5-sonnet-20241022-v2:0' })
+ */
 export function bedrock(config: BedrockConfig): AdapterFactory {
   const { model, region, maxTokens = 4096 } = config
 
@@ -262,4 +273,7 @@ export function bedrock(config: BedrockConfig): AdapterFactory {
   }
 }
 
+/**
+ * Creates an adapter for Amazon Bedrock Converse streaming.
+ */
 export const bedrockAdapter = bedrock

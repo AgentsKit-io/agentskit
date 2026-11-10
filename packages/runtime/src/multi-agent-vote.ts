@@ -10,6 +10,9 @@ import {
   type VoteConfig,
 } from './multi-agent'
 
+/**
+ * Resolve a tied vote by asking an injected judge agent.
+ */
 export type VoteJudgeFn<Ctx> = (
   outputs: unknown[],
   agentIds: string[],
@@ -17,6 +20,9 @@ export type VoteJudgeFn<Ctx> = (
   ctx: Ctx,
 ) => Promise<unknown>
 
+/**
+ * Dependencies and ballot settings for a vote topology handler.
+ */
 export type VoteHandlerOptions<Ctx> = {
   runAgent: TopologyRunAgent<Ctx>
   judger?: VoteJudgeFn<Ctx>
@@ -102,6 +108,11 @@ const plurality = (scores: Map<string, number>): { winner: string; topScore: num
   return { winner, topScore, isTie: tiers.length > 1 }
 }
 
+/**
+ * Create a fan-out handler that collects ballots and resolves a vote.
+ * @param opts Agent runner, ballot policy, and optional tie-break judge.
+ * @returns An async handler resolving to an `ok`, `failed`, or `paused` outcome.
+ */
 export const createVoteHandler = <Ctx>(opts: VoteHandlerOptions<Ctx>) => {
   return async (node: VoteConfig, input: unknown, ctx: Ctx): Promise<TopologyOutcome> => {
     const nodeInput = node.input ?? (input as Record<string, unknown> | undefined)

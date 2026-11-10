@@ -10,12 +10,18 @@ import {
   type TopologyRunAgent,
 } from './multi-agent'
 
+/**
+ * Score a candidate result for evaluation-based selection.
+ */
 export type CompareEvalFn<Ctx> = (
   results: AgentRunResult[],
   evalRef: string,
   ctx: Ctx,
 ) => Promise<number>
 
+/**
+ * Ask an injected judge agent to select among candidate results.
+ */
 export type CompareJudgeFn<Ctx> = (
   results: AgentRunResult[],
   agentIds: string[],
@@ -24,6 +30,9 @@ export type CompareJudgeFn<Ctx> = (
   ctx: Ctx,
 ) => Promise<number>
 
+/**
+ * Dependencies and selection helpers for a compare topology handler.
+ */
 export type CompareHandlerOptions<Ctx> = {
   runAgent: TopologyRunAgent<Ctx>
   evaluator?: CompareEvalFn<Ctx>
@@ -90,6 +99,11 @@ const failInvalidWinnerIdx = (mode: 'eval' | 'judge', winnerIdx: number): Topolo
   },
 })
 
+/**
+ * Create a fan-out handler that runs agents and selects or combines their results.
+ * @param opts Agent runner, comparison configuration, and optional selection helpers.
+ * @returns An async handler resolving to an `ok`, `failed`, or `paused` outcome.
+ */
 export const createCompareHandler = <Ctx>(opts: CompareHandlerOptions<Ctx>) => {
   return async (node: CompareConfig, input: unknown, ctx: Ctx): Promise<TopologyOutcome> => {
     const nodeInput = node.input ?? (input as Record<string, unknown> | undefined)

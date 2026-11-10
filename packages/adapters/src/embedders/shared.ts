@@ -3,6 +3,7 @@
  */
 
 import { AdapterError, ErrorCodes } from '@agentskit/core'
+import { NetError, readJson } from '@agentskit/net'
 
 export async function throwIfNotOk(
   response: Response,
@@ -24,6 +25,19 @@ export function embeddingError(
     message: `${label} embedding failed: ${detail}`,
     cause,
   })
+}
+
+export async function readEmbeddingJson<T>(
+  response: Response,
+  label: string,
+  maxBytes: number,
+): Promise<T> {
+  try {
+    return await readJson<T>(response, { maxBytes })
+  } catch (cause) {
+    if (!(cause instanceof NetError)) throw cause
+    throw embeddingError(label, cause.message, cause)
+  }
 }
 
 /**

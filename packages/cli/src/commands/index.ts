@@ -15,6 +15,12 @@ import { registerRulesCommand } from './rules'
 import { registerAddCommand } from './add'
 import { registerDiffCommand, registerUpdateCommand } from './registry-maintenance'
 
+/**
+ * Creates the Commander program and registers the AgentsKit CLI commands.
+ * @returns A configured Commander program.
+ * @example
+ * const program = createCli()
+ */
 export function createCli(): Command {
   const program = new Command()
   program

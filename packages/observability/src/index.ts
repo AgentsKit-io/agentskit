@@ -30,6 +30,22 @@ export type { TraceSpan, TraceTrackerCallbacks } from './trace-tracker'
 export { costGuard, priceFor, computeCost, DEFAULT_PRICES } from './cost-guard'
 export type { CostGuardOptions, TokenPrice, CostGuardErrorHandler, UnknownModelPolicy } from './cost-guard'
 
+export { createInMemoryCostStore, recordCostSpend, monthlyWindowKey, CostReservationError } from './cost-store'
+export type {
+  CostStore,
+  CostStoreOptions,
+  CostWindow,
+  CostUsageEntry,
+  CostReserveInput,
+  CostReserveResult,
+  CostCommitInput,
+  CostReleaseInput,
+  CostWindowInput,
+  CostSpendRecord,
+  InMemoryCostStore,
+  InMemoryLedgerRow,
+} from './cost-store'
+export type { CostGuardStoreOptions } from './cost-guard-store'
 export { multiTenantCostGuard } from './cost-guard-multi-tenant'
 export type { MultiTenantCostGuardOptions } from './cost-guard-multi-tenant'
 

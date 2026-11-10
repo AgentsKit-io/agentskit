@@ -4,6 +4,7 @@ import { toPosix } from '../paths'
 import { splitLines } from '../text'
 import { IGNORE_DIRECTIVE, PORTABILITY_RULES, type PortabilityRule } from './rules'
 
+/** A portability rule violation and its source location. */
 export interface Finding {
   file: string
   line: number
@@ -12,6 +13,7 @@ export interface Finding {
   fix: string
 }
 
+/** Optional rule set and file filters for repository scanning. */
 export interface ScanOptions {
   /** Repository root; reported paths are relative to it, with `/`. */
   root: string
@@ -25,13 +27,22 @@ export interface ScanOptions {
 const EXTENSIONS = /\.(?:[cm]?[jt]s|tsx|jsx)$/
 const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', 'coverage', '.next', '.turbo', '.git', '.source'])
 
+/** `<rule-id>-ignore: reason` suppresses one rule; `cross-platform-ignore` still suppresses every rule on the line. */
+function specificIgnore(ruleId: string): RegExp {
+  return new RegExp(`${ruleId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-ignore:\\s*\\S`)
+}
+
 /** Findings in one file's text. */
 export function scanText(file: string, text: string, rules: readonly PortabilityRule[] = PORTABILITY_RULES): Finding[] {
   const findings: Finding[] = []
   const lines = splitLines(text, { dropTrailingEmpty: false })
+  const specific = new Map(rules.map(rule => [rule.id, specificIgnore(rule.id)]))
   lines.forEach((line, index) => {
-    if (IGNORE_DIRECTIVE.test(line) || (index > 0 && IGNORE_DIRECTIVE.test(lines[index - 1] ?? ''))) return
+    const previous = index > 0 ? (lines[index - 1] ?? '') : ''
+    if (IGNORE_DIRECTIVE.test(line) || IGNORE_DIRECTIVE.test(previous)) return
     for (const rule of rules) {
+      const directive = specific.get(rule.id)
+      if (directive?.test(line) || directive?.test(previous)) continue
       if (rule.pattern.test(line)) {
         findings.push({ file, line: index + 1, rule: rule.id, message: rule.message, fix: rule.fix })
       }

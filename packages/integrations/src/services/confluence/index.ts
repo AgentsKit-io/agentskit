@@ -4,6 +4,7 @@ import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { confluenceActions } from './actions'
 
+/** Descriptor for the Confluence service integration. */
 export const confluenceIntegration = defineIntegration({
   name: 'confluence',
   displayName: 'Confluence',

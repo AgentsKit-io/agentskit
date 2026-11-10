@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/templates",
-  "version": "0.5.7",
+  "version": "0.5.10",
   "description": "Extension toolkit for creating custom AgentsKit skills, tools, and adapters.",
   "keywords": [
     "agentskit",
@@ -18,7 +18,8 @@
     "plugin",
     "extension",
     "code-generation",
-    "create-package"
+    "create-package",
+    "experimental"
   ],
   "type": "module",
   "sideEffects": false,
@@ -50,10 +51,10 @@
     "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
+    "@types/node": "^25.9.9",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.5"
   },
   "agentskit": {
     "stability": "beta",
@@ -69,5 +70,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=20.19"
+  }
 }

@@ -3,9 +3,10 @@ title: Swap providers without rewriting the agent
 description: Run one agent path with OpenAI, Anthropic, Gemini, OpenRouter, Groq, or Ollama.
 ---
 
-Provider choice should be configuration, not application architecture. This recipe keeps the
-task, runtime, and result handling unchanged while the adapter boundary moves between six hosted
-and local providers.
+Once the adapter boundary passes the contract test, provider choice becomes configuration. This
+recipe keeps the task, runtime, and result handling unchanged while the adapter moves between six
+hosted and local providers. The swap does not make providers behave the same: latency, failures,
+and output quality still differ, and the shared boundary is what lets you measure those differences.
 
 ## Install
 

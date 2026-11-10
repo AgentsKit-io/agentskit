@@ -4,6 +4,7 @@ import type { Message as MessageType, TokenUsage } from '@agentskit/core'
 import { MarkdownText } from './MarkdownText'
 import { useInkTheme } from './theme'
 
+/** Message content and display options for the terminal message view. */
 export interface MessageProps {
   message: MessageType
   /**
@@ -30,6 +31,14 @@ function truncate(text: string, max: number): string {
   return `${text.slice(0, max)}…`
 }
 
+/** Render a chat message with role styling and optional markdown and usage.
+ * @param props The message and display options.
+ * @returns The terminal representation of the message.
+ * @example
+ * ```tsx
+ * <Message message={message} markdown showUsage />
+ * ```
+ */
 export function Message({ message, markdown = true, showUsage = true }: MessageProps) {
   const theme = useInkTheme()
   const meta = theme.roles[message.role] ?? theme.roles.assistant
@@ -52,6 +61,27 @@ export function Message({ message, markdown = true, showUsage = true }: MessageP
   const usage = message.metadata?.usage as TokenUsage | undefined
   const shouldRenderUsage =
     showUsage && message.role === 'assistant' && usage && usage.totalTokens > 0
+  let messageContent: React.ReactNode = null
+  if (message.content) {
+    if (shouldRenderMarkdown) {
+      messageContent = <MarkdownText content={message.content} />
+    } else {
+      messageContent = <Text>{message.content}</Text>
+    }
+  }
+  let usageContent: React.ReactNode = null
+  if (shouldRenderUsage && usage) {
+    usageContent = (
+      <Box>
+        <Text dimColor>tokens  </Text>
+        <Text color={theme.usage.prompt}>↑{formatTokens(usage.promptTokens)}</Text>
+        <Text dimColor>  </Text>
+        <Text color={theme.usage.completion}>↓{formatTokens(usage.completionTokens)}</Text>
+        <Text dimColor>  ·  </Text>
+        <Text dimColor>{formatTokens(usage.totalTokens)} total</Text>
+      </Box>
+    )
+  }
 
   return (
     <Box flexDirection="column">
@@ -61,23 +91,8 @@ export function Message({ message, markdown = true, showUsage = true }: MessageP
         </Text>
         {isStreaming ? <Text dimColor>  · streaming</Text> : null}
       </Box>
-      {message.content ? (
-        shouldRenderMarkdown ? (
-          <MarkdownText content={message.content} />
-        ) : (
-          <Text>{message.content}</Text>
-        )
-      ) : null}
-      {shouldRenderUsage && usage ? (
-        <Box>
-          <Text dimColor>tokens  </Text>
-          <Text color={theme.usage.prompt}>↑{formatTokens(usage.promptTokens)}</Text>
-          <Text dimColor>  </Text>
-          <Text color={theme.usage.completion}>↓{formatTokens(usage.completionTokens)}</Text>
-          <Text dimColor>  ·  </Text>
-          <Text dimColor>{formatTokens(usage.totalTokens)} total</Text>
-        </Box>
-      ) : null}
+      {messageContent}
+      {usageContent}
     </Box>
   )
 }

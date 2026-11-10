@@ -1,6 +1,7 @@
 import type { ToolDefinition } from '@agentskit/core'
 import { postgresQuery, type PostgresExecuteResult } from './postgres'
 
+/** Separate read and optional write executors, row limit, and denied statements. */
 export interface PostgresRolesConfig {
   /**
    * Read-only client. Should be a Postgres connection / pool created with a

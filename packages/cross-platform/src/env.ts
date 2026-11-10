@@ -2,6 +2,7 @@ import { homedir, tmpdir } from 'node:os'
 import { mapRuntimeError } from './errors'
 import { isWindows } from './runtime'
 
+/** Environment variables where an unset key has an `undefined` value. */
 export type Env = Record<string, string | undefined>
 
 /**
@@ -60,6 +61,7 @@ export function getEnv(name: string, env: Env = readProcessEnv()): string | unde
   return key === undefined ? undefined : env[key]
 }
 
+/** Allowlist and overrides used to construct a child process environment. */
 export interface SafeEnvOptions {
   /** Extra variable names to inherit from the parent environment. */
   inherit?: readonly string[]

@@ -5,6 +5,7 @@ import { OAUTH_SPECS } from '../../oauth-specs'
 import { stripeActions } from './actions'
 import { stripeWebhook } from './webhook'
 
+/** Descriptor for the Stripe service integration. */
 export const stripeIntegration = defineIntegration({
   name: 'stripe',
   displayName: 'Stripe',

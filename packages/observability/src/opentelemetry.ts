@@ -2,6 +2,7 @@ import type { AgentEvent, Observer } from '@agentskit/core'
 import { createTraceTracker, type TraceSpan } from './trace-tracker'
 import { snapshotAttributes } from './http-batch-sink'
 
+/** OTLP endpoint, service name, and isolated error callback. */
 export interface OpenTelemetryConfig {
   endpoint?: string
   serviceName?: string
@@ -9,6 +10,7 @@ export interface OpenTelemetryConfig {
   onError?: (error: unknown) => void | Promise<void>
 }
 
+/** OpenTelemetry observer with explicit flush and shutdown lifecycle. */
 export interface OpenTelemetryObserver extends Observer {
   flush(): Promise<void>
   shutdown(): Promise<void>
@@ -67,8 +69,13 @@ function emitError(
 }
 
 /**
- * OpenTelemetry observer. Construction is pure. SDK modules load lazily on the
- * first span. Owned providers use OTel JS v2 `spanProcessors` constructor config.
+ * Create a lazy-loading observer that exports tracked spans through OpenTelemetry using the v2 `spanProcessors` config.
+ * @param config Optional OTLP endpoint, service name, and error callback.
+ * @returns An observer with `flush` and idempotent `shutdown` methods.
+ * @example
+ * ```ts
+ * const observer = opentelemetry({ endpoint: 'http://localhost:4318/v1/traces' })
+ * ```
  */
 export function opentelemetry(config: OpenTelemetryConfig = {}): OpenTelemetryObserver {
   const { endpoint = 'http://localhost:4318/v1/traces', serviceName = 'agentskit' } = config

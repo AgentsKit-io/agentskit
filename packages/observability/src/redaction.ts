@@ -23,8 +23,10 @@ import {
  * Closes issue #792.
  */
 
+/** Whether observer payloads replace PII or tokenize it through a vault. */
 export type RedactionMode = 'redact' | 'tokenize'
 
+/** Rules, mode, vault, roles, and audit sink used to sanitize observer events. */
 export interface ObserverRedactionOptions {
   /**
    * Rules to apply. Pass `DEFAULT_PII_RULES` for the baseline set,
@@ -136,6 +138,13 @@ async function redactEvent(
   }
 }
 
+/**
+ * Wrap an observer so supported event content is redacted or tokenized before delivery.
+ * @param inner Observer that receives the sanitized event copy.
+ * @param options PII rules and optional tokenization or audit settings.
+ * @returns An observer that forwards sanitized events to `inner`.
+ * @throws {ConfigError} In tokenize mode when vault or allowed roles are missing.
+ */
 export function wrapObserverWithRedaction(
   inner: Observer,
   options: ObserverRedactionOptions,

@@ -10,6 +10,7 @@ import { isWindows } from './runtime'
 // indexers or a lingering handle hold the file (EPERM/EACCES/EBUSY).
 const gracefulRename = promisify(gracefulFs.rename)
 
+/** Retry and recursive-removal settings for graceful directory removal. */
 export interface RemoveOptions {
   /** Retries for EBUSY/EPERM/ENOTEMPTY while handles close. Default 10. */
   maxRetries?: number
@@ -40,6 +41,7 @@ export async function renamePath(from: string, to: string): Promise<void> {
   }
 }
 
+/** File mode and directory creation settings for an atomic write. */
 export interface WriteAtomicOptions {
   encoding?: BufferEncoding
   mode?: number
@@ -60,6 +62,7 @@ export async function writeFileAtomic(path: string, data: string | Uint8Array, o
   }
 }
 
+/** Method used to create a link, including platform fallbacks. */
 export type LinkKind = 'symlink' | 'junction' | 'copy'
 
 /**

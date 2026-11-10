@@ -18,7 +18,7 @@ The provider layer. Every file in this package maps one LLM or one embedding pro
 1. Create `src/<provider>.ts`. Export a factory function that returns `AdapterFactory`.
 2. Accept configuration at construction time only: `apiKey`, `model`, `baseUrl` as needed.
 3. In `createSource`, build the request but **do not fetch yet**. Defer all I/O to `stream()` — invariant A1.
-4. In `stream()`, use the SSE utility from `src/utils.ts` if the provider speaks server-sent events. Otherwise write a parser that respects the chunk shape in `@agentskit/core`.
+4. In `stream()`, use `parseSSE` from `@agentskit/net` if the provider speaks server-sent events. Otherwise write a parser that respects the chunk shape in `@agentskit/core`.
 5. Always end with exactly one `{ type: 'done' }` or `{ type: 'error', metadata: { error } }`. An abort must cancel transport work and produce the terminal error shape — invariants A3, A6, and A9.
 6. Yield `{ type: 'text', content }` for text deltas. Yield `{ type: 'tool_call', toolCall: { id, name, args } }` with **complete args** per invariant A5.
 7. Put provider-specific data in `chunk.metadata` (usage counts, raw response, reasoning). Consumers must not depend on its shape — A8.

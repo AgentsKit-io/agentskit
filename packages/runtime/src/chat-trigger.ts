@@ -115,6 +115,9 @@ export interface ChatInstallationEvent extends ChatSurfaceMeta {
   tenantId: string
 }
 
+/**
+ * Normalized inbound message, mention, reply, reaction, upload, or installation event.
+ */
 export type ChatSurfaceEvent =
   | ChatMessageEvent
   | ChatMentionEvent
@@ -123,6 +126,9 @@ export type ChatSurfaceEvent =
   | ChatFileUploadEvent
   | ChatInstallationEvent
 
+/**
+ * Discriminant values available on normalized chat-surface events.
+ */
 export type ChatSurfaceEventType = ChatSurfaceEvent['type']
 
 /**
@@ -152,6 +158,9 @@ export interface ChatSurfaceAdapter {
   reply?: (event: ChatSurfaceEvent, text: string) => Promise<void> | void
 }
 
+/**
+ * Lifecycle event emitted while a chat trigger handles a surface event.
+ */
 export interface ChatTriggerObserverEvent {
   /**
    * - `received` → before any work
@@ -169,6 +178,9 @@ export interface ChatTriggerObserverEvent {
   reason?: string
 }
 
+/**
+ * Adapter, agent runner, and optional observer configuration for chat triggers.
+ */
 export interface ChatTriggerOptions<TContext = unknown> {
   adapter: ChatSurfaceAdapter
   agent: AgentHandle<TContext>
@@ -225,6 +237,9 @@ function defaultBuildContext<TContext>(event: ChatSurfaceEvent): TContext {
   return { event } as unknown as TContext
 }
 
+/**
+ * Framework-independent webhook handler and observer wiring for a chat trigger.
+ */
 export interface ChatTrigger {
   handler: WebhookHandler
   surface: ChatSurface

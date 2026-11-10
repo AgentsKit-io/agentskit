@@ -1,13 +1,15 @@
 /**
- * Unit tests for public API snapshot pure helpers.
+ * Tests for public API snapshot helpers and the importable gate.
  * Run: node --test scripts/public-api-snapshot.test.mjs
  */
 
 import assert from 'node:assert/strict'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { after, describe, test } from 'node:test'
+import { runPublicApiSnapshot } from './check-public-api-snapshot.mjs'
 import {
   assetSymbols,
   classifyExportSymbol,
@@ -51,6 +53,142 @@ function makeTempDir() {
   tempDirs.push(dir)
   return dir
 }
+
+describe('build-plan snapshot gate scope', () => {
+  const scriptsDir = path.dirname(fileURLToPath(import.meta.url))
+
+  function fixture() {
+    const root = makeTempDir()
+    const baseline = { schemaVersion: /** @type {1} */ (1), packages: {} }
+    for (const name of ['checked', 'skipped']) {
+      const dir = path.join(root, 'packages', name)
+      mkdirSync(dir, { recursive: true })
+      writeFileSync(path.join(dir, 'package.json'), JSON.stringify({ name: `@agentskit/${name}`, exports: './dist/index.js' }))
+      baseline.packages[`@agentskit/${name}`] = {
+        subpaths: { '.': { conditions: [], symbols: assetSymbols(['./dist/index.js']), assets: ['./dist/index.js'] } },
+      }
+    }
+    mkdirSync(path.join(root, 'packages/checked/dist'))
+    writeFileSync(path.join(root, 'packages/checked/dist/index.js'), '')
+    mkdirSync(path.join(root, 'docs/stability'), { recursive: true })
+    const baselinePath = path.join(root, 'docs/stability/public-api-v1.json')
+    writeFileSync(baselinePath, serializeSnapshot(baseline))
+    const planPath = path.join(root, 'plan.json')
+    writeFileSync(planPath, JSON.stringify({ tasks: [{ task: 'build', package: '@agentskit/checked' }] }))
+    return { root, baseline, baselinePath, planPath }
+  }
+
+  function run(root, planPath = '', args = []) {
+    const result = { status: 1, stdout: '', stderr: '' }
+    try {
+      result.status = runPublicApiSnapshot({
+        root, argv: args, env: { PACKED_CONSUMERS_BUILD_PLAN: planPath },
+        stdout: (text) => { result.stdout += text },
+        stderr: (text) => { result.stderr += text },
+      })
+    } catch (error) {
+      result.stderr += String(error)
+    }
+    return result
+  }
+
+  test('help and unknown flags return without exiting the process', () => {
+    const help = run('', '', ['--help'])
+    assert.equal(help.status, 0)
+    assert.match(help.stdout, /^Usage:/)
+    assert.equal(help.stderr, '')
+    const unknown = run('', '', ['--unknown'])
+    assert.equal(unknown.status, 2)
+    assert.match(unknown.stderr, /unknown flag "--unknown"/)
+    assert.equal(unknown.stdout, '')
+  })
+
+  test('invalid baseline reports the error without exiting the process', () => {
+    const { root, planPath, baselinePath } = fixture()
+    writeFileSync(baselinePath, 'invalid baseline')
+    const result = run(root, planPath)
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /invalid baseline:/)
+  })
+
+  test('skips unbuilt packages outside the plan and keeps JSON output parseable', () => {
+    const { root, planPath } = fixture()
+    const result = run(root, planPath, ['--json'])
+    assert.equal(result.status, 0, result.stderr)
+    assert.match(result.stderr, /skipped packages outside build plan: @agentskit\/skipped/)
+    assert.deepEqual(Object.keys(JSON.parse(result.stdout).packageDetails), ['@agentskit/checked'])
+  })
+
+  test('fails closed when a planned package lacks dist', () => {
+    const { root, planPath } = fixture()
+    rmSync(path.join(root, 'packages/checked/dist'), { recursive: true })
+    const result = run(root, planPath)
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /missing build prerequisite/)
+    assert.match(result.stderr, /@agentskit\/checked →/)
+  })
+
+  test('requires every package without a plan', () => {
+    const { root } = fixture()
+    const result = run(root)
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /@agentskit\/skipped →/)
+    assert.doesNotMatch(result.stderr, /skipped packages/)
+  })
+
+  test('still detects drift in checked packages', () => {
+    const { root, planPath, baseline, baselinePath } = fixture()
+    baseline.packages['@agentskit/checked'].subpaths['.'].symbols = []
+    writeFileSync(baselinePath, serializeSnapshot(baseline))
+    const result = run(root, planPath)
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /public API surface drifted/)
+  })
+
+  test('still rejects noncanonical full baseline formatting under a plan', () => {
+    const { root, planPath, baseline, baselinePath } = fixture()
+    writeFileSync(baselinePath, JSON.stringify(baseline))
+    const result = run(root, planPath)
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /baseline JSON formatting/)
+  })
+
+  test('handles an empty build plan', () => {
+    const { root, planPath } = fixture()
+    writeFileSync(planPath, JSON.stringify({ tasks: [] }))
+    assert.equal(run(root, planPath).status, 0)
+  })
+
+  test('rejects malformed build plans', () => {
+    const { root, planPath } = fixture()
+    writeFileSync(planPath, JSON.stringify({ tasks: [{}] }))
+    const result = run(root, planPath)
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /invalid build task/)
+  })
+
+  test('CI snapshot scope mirrors packed-consumer scope only in affected runs', () => {
+    const workflow = readFileSync(path.join(scriptsDir, '../.github/workflows/ci.yml'), 'utf8')
+    const scope = "PACKED_CONSUMERS_BUILD_PLAN: ${{ steps.package-scope.outputs.run_all == 'false' && format('{0}/packed-consumers-build-plan.json', runner.temp) || '' }}"
+    const packedStep = workflow.split('- name: Packed consumer publication contract')[1].split('- name:')[0]
+    const snapshotStep = workflow.split('- name: Public API snapshot contract')[1].split('- name:')[0]
+    assert.ok(packedStep.includes(scope))
+    assert.ok(snapshotStep.includes(scope))
+    assert.equal(workflow.split('PACKED_CONSUMERS_BUILD_PLAN:').length - 1, 2)
+  })
+
+  test('update ignores the plan and requires and writes the full surface', () => {
+    const { root, planPath, baselinePath } = fixture()
+    writeFileSync(planPath, 'invalid plan')
+    assert.equal(run(root, planPath, ['--update']).status, 1)
+    mkdirSync(path.join(root, 'packages/skipped/dist'))
+    writeFileSync(path.join(root, 'packages/skipped/dist/index.js'), '')
+    const result = run(root, planPath, ['--update'])
+    assert.equal(result.status, 0, result.stderr)
+    assert.deepEqual(Object.keys(JSON.parse(readFileSync(baselinePath, 'utf8')).packages), ['@agentskit/checked', '@agentskit/skipped'])
+    assert.equal(run(root).status, 0)
+  })
+})
 
 // ---------------------------------------------------------------------------
 // Sorting / determinism

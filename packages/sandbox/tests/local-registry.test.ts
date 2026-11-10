@@ -9,11 +9,17 @@ import {
 } from '../src/index'
 
 describe('SandboxRegistry', () => {
-  it('ships none + process builtins', () => {
+  it('ships none + process builtins', async () => {
     const reg = new SandboxRegistry()
     expect(reg.has('none')).toBe(true)
     expect(reg.has('process')).toBe(true)
     expect(reg.list()).toEqual(expect.arrayContaining(['none', 'process']))
+    const result = await reg.resolveOrThrow('process').exec?.({
+      command: process.execPath,
+      args: ['-e', 'process.stdout.write("registry-ready")'],
+      timeoutMs: 5_000,
+    })
+    expect(result).toMatchObject({ exitCode: 0, stdout: 'registry-ready', timedOut: false })
   })
 
   it('throws for an unregistered level', () => {

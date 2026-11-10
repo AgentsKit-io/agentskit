@@ -1,0 +1,5 @@
+# CI timing report
+
+Run `pnpm ci:timing` from a checkout with GitHub CLI access and built workspace packages. It summarizes the latest 30 completed `ci.yml` runs on `main` and the latest 30 completed pull request runs, including queue and total duration plus job and step p50/p90 durations and sampled failure and rerun rates. Run `pnpm build` first if `packages/cross-platform/dist` is absent. Use `--runs N` to change the cohort size (1–100). For machine-readable output without pnpm's command banner, run `pnpm --silent ci:timing --format json`.
+
+The report uses the existing cross-platform process adapter and reads GitHub Actions timestamps through `gh`; it creates no workflow, telemetry, or persistent data. Queue time is run creation to first job start, and total duration is run creation to latest completed job. Duration percentiles use nearest-rank, and step names are grouped as GitHub reports them. Failure and rerun rates describe only the sampled completed run records; canceled runs and skipped jobs are outside those rates.

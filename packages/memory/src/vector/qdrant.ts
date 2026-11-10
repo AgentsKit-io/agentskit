@@ -2,6 +2,7 @@ import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit
 import { remoteJson, type RemoteHttpConfig } from './http'
 import { validateIdentifier } from './validation'
 
+/** Endpoint, collection, credentials, and search defaults for Qdrant. */
 export interface QdrantConfig extends RemoteHttpConfig {
   /** Base URL, e.g. `https://xxx.cluster-qdrant.io`. */
   url: string
@@ -46,6 +47,10 @@ async function call<T>(
   })
 }
 
+/** Creates a vector memory backed by a Qdrant collection.
+ * @param config Qdrant endpoint, collection, and optional credentials and result limit.
+ * @returns A vector memory backed by the configured collection.
+ */
 export function qdrant(config: QdrantConfig): VectorMemory {
   const collection = encodeURIComponent(validateIdentifier(config.collection, 'collection'))
   const defaultTopK = Math.max(1, config.topK ?? 10)

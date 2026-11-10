@@ -59,6 +59,8 @@ ErrorCodes.AK_TOOL_PEER_MISSING     // optional tool peer is not installed
 ErrorCodes.AK_TOOL_INVALID_INPUT    // tool arguments or proposal are invalid
 ErrorCodes.AK_TOOL_QUOTA_EXCEEDED   // tool execution exceeds its configured quota
 ErrorCodes.AK_TOOL_FORBIDDEN        // tool execution is denied by policy
+ErrorCodes.AK_ACTION_NOT_FOUND      // durable tool decision ID is unknown
+ErrorCodes.AK_ACTION_ALREADY_DECIDED // decision is claimed or conflicts with stored decision
 
 // Memory errors
 ErrorCodes.AK_MEMORY_LOAD_FAILED          // memory.load() failed

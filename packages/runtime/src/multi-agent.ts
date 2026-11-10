@@ -65,6 +65,9 @@ export type ScratchpadStore = {
   entries(): ReadonlyArray<[string, unknown]>
 }
 
+/**
+ * Store arbitrary values by key in process memory for topology coordination.
+ */
 export class InMemoryScratchpadStore implements ScratchpadStore {
   private readonly _data = new Map<string, unknown>()
 
@@ -83,6 +86,9 @@ export class InMemoryScratchpadStore implements ScratchpadStore {
 
 // --- Config shapes (structurally compatible with a host's node schemas) ---
 
+/**
+ * Strategy for combining, choosing, evaluating, judging, or manually selecting compare results.
+ */
 export type CompareSelection =
   | { readonly mode: 'manual' }
   | { readonly mode: 'all'; readonly combine: 'concat' | 'merge' }
@@ -90,18 +96,27 @@ export type CompareSelection =
   | { readonly mode: 'eval'; readonly evalRef: string }
   | { readonly mode: 'judge'; readonly criteria: string; readonly judgeAgent: string }
 
+/**
+ * Agent list, shared input, and result selection strategy for compare.
+ */
 export interface CompareConfig {
   readonly agents: readonly string[]
   readonly input?: unknown
   readonly selection: CompareSelection
 }
 
+/**
+ * Ballot policy for majority, weighted, unanimous, or quorum voting.
+ */
 export type VoteBallot =
   | { readonly mode: 'majority' }
   | { readonly mode: 'weighted'; readonly weights?: Record<string, number> }
   | { readonly mode: 'unanimous' }
   | { readonly mode: 'quorum'; readonly threshold: number }
 
+/**
+ * Agent list, input, ballot policy, and tie-breaking behavior for vote.
+ */
 export interface VoteConfig {
   readonly agents: readonly string[]
   readonly input?: unknown
@@ -110,6 +125,9 @@ export interface VoteConfig {
   readonly judgeAgent?: string
 }
 
+/**
+ * Topic, participants, round limit, and optional early-exit behavior for a debate.
+ */
 export interface DebateConfig {
   readonly topic: unknown
   readonly format?: unknown
@@ -120,6 +138,9 @@ export interface DebateConfig {
   readonly earlyExit?: 'on-agreement' | string
 }
 
+/**
+ * Bidders, selection criteria, and optional reserve, timeout, and fallback settings.
+ */
 export interface AuctionConfig {
   readonly bidders: readonly string[]
   readonly task?: unknown

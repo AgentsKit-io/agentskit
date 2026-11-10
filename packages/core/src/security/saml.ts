@@ -1,10 +1,12 @@
 import { ConfigError, ErrorCodes } from '../errors'
 
+/** Named attribute and values extracted from a parsed SAML assertion. */
 export interface SamlAttribute {
   name: string
   values: string[]
 }
 
+/** Parsed SAML subject, issuer, audience, validity, and attributes. */
 export interface SamlAssertion {
   /** SAML NameID — usually the user's stable identifier. */
   subject: string
@@ -18,6 +20,7 @@ export interface SamlAssertion {
   attributes: SamlAttribute[]
 }
 
+/** Expected issuer and audience after the XML signature is checked externally. */
 export interface SamlVerifierOptions {
   /** Expected `Issuer` (IdP entity id). */
   issuer: string
@@ -29,6 +32,7 @@ export interface SamlVerifierOptions {
   clockSkewSeconds?: number
 }
 
+/** Claim checks and tenant extraction for parsed SAML assertions. */
 export interface SamlVerifier {
   /** Verify a parsed SAML assertion after external signature validation. */
   verifyClaims: (assertion: SamlAssertion) => void
@@ -36,6 +40,11 @@ export interface SamlVerifier {
   extractTenant: (assertion: SamlAssertion, attributeName: string) => string | undefined
 }
 
+/** Create claim checks for assertions whose XML signature was validated externally.
+ * @param options Expected issuer, audience, and signature-validation declaration.
+ * @returns Claim verification and tenant extraction methods.
+ * @throws {ConfigError} If external signature validation is not declared.
+ */
 export function createSamlVerifier(options: SamlVerifierOptions): SamlVerifier {
   if (options.signatureValidation !== 'external') {
     throw new ConfigError({

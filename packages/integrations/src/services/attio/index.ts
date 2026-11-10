@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { attioActions } from './actions'
 
+/** Descriptor for the Attio service integration. */
 export const attioIntegration = defineIntegration({
   name: 'attio',
   displayName: 'Attio',

@@ -4,6 +4,7 @@ import { OAUTH_SPECS } from '../../oauth-specs'
 import { sentryActions } from './actions'
 import { sentryTriggers } from './triggers'
 
+/** Descriptor for the Sentry service integration. */
 export const sentryIntegration = defineIntegration({
   name: 'sentry',
   displayName: 'Sentry',

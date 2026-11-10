@@ -11,12 +11,24 @@
  * Gate contract (unchanged): fail the process when any advisory of severity
  * `high` or `critical` affects the production dependency graph.
  * Do not ignore advisories, lower the level, or soft-fail registry errors.
+ * The only exception path is WAIVERS below: one advisory, one package, a
+ * maintainer-approved reason, and an expiry after which the hit fails again.
  */
 import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 
 const BULK_URL = 'https://registry.npmjs.org/-/npm/v1/security/advisories/bulk'
 const FAIL_SEVERITIES = new Set(['high', 'critical'])
+
+/** Maintainer-approved, time-boxed waivers for advisories with no patched release. */
+const WAIVERS = [
+  {
+    advisory: 'GHSA-vfj7-8cjw-p6xm',
+    package: 'braces',
+    expires: '2026-11-02',
+    reason: 'No patched release; reached only through build tooling (micromatch via metro and vinext), whose glob patterns come from config, not user input.',
+  },
+]
 
 const require = createRequire(import.meta.url)
 
@@ -102,7 +114,12 @@ try {
   process.exit(1)
 }
 
+const today = new Date().toISOString().slice(0, 10)
+const waiverFor = (name, url) =>
+  WAIVERS.find((waiver) => waiver.package === name && url.includes(waiver.advisory) && today <= waiver.expires)
+
 const hits = []
+const waived = []
 for (const [name, versions] of Object.entries(body)) {
   const advisories = advisoriesByPackage[name]
   if (!Array.isArray(advisories) || advisories.length === 0) continue
@@ -112,16 +129,25 @@ for (const [name, versions] of Object.entries(body)) {
       if (!FAIL_SEVERITIES.has(severity)) continue
       const range = advisory.vulnerable_versions ?? advisory.vulnerableVersionRange
       if (typeof range !== 'string' || !versionInRange(version, range)) continue
-      hits.push({
+      const hit = {
         name,
         version,
         severity,
         title: advisory.title ?? 'unknown',
         url: advisory.url ?? '',
         range,
-      })
+      }
+      const waiver = waiverFor(name, hit.url)
+      if (waiver) waived.push({ ...hit, waiver })
+      else hits.push(hit)
     }
   }
+}
+
+for (const hit of waived) {
+  process.stdout.write(
+    `audit-prod-high: waived until ${hit.waiver.expires} — [${hit.severity}] ${hit.name}@${hit.version} ${hit.waiver.advisory}: ${hit.waiver.reason}\n`,
+  )
 }
 
 if (hits.length > 0) {

@@ -1,5 +1,8 @@
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the Mistral chat adapter.
+ */
 export interface MistralConfig extends OpenAICompatibleConfig {}
 
 /**

@@ -18,6 +18,9 @@
 
 export type CredentialResolver = () => string | Promise<string>
 
+/**
+ * Credential provider that returns the current credential.
+ */
 export interface RotatingCredentials {
   /** Resolve the current secret. Opt-in adapters call this on every request. */
   current: CredentialResolver
@@ -36,6 +39,9 @@ export interface CredentialRotationEvent {
   fingerprint: string
 }
 
+/**
+ * Credential provider that can refresh expiring credentials.
+ */
 export interface CredentialRefreshable {
   /**
    * Opt-in adapters that support credential rotation expose this method.
@@ -46,6 +52,12 @@ export interface CredentialRefreshable {
   refreshCredentials: (next: string) => Promise<void>
 }
 
+/**
+ * Creates a credential provider that refreshes expiring credentials.
+ * @param initial Value passed to the function.
+ * @param options Adapter configuration.
+ * @returns The RotatingCredentials result.
+ */
 export function createRotatingCredentials(
   initial: string,
   options: { id: string },

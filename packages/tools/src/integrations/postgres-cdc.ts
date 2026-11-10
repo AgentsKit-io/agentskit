@@ -21,6 +21,7 @@ import type { PostgresExecuteResult } from './postgres'
 
 export type CdcOp = 'insert' | 'update' | 'delete' | 'truncate' | 'schema'
 
+/** Logical replication change returned by the injected CDC stream client. */
 export interface CdcChangeEvent {
   op: CdcOp
   schema: string
@@ -31,6 +32,7 @@ export interface CdcChangeEvent {
   after?: Record<string, unknown>
 }
 
+/** Current state and WAL positions reported for a replication slot. */
 export interface CdcSlotStatus {
   slotName: string
   active: boolean
@@ -41,19 +43,23 @@ export interface CdcSlotStatus {
   database?: string
 }
 
+/** Administrative replication-slot operations required by CDC management tools. */
 export interface CdcAdminClient {
   execute: (sql: string, params: unknown[]) => Promise<PostgresExecuteResult>
 }
 
+/** Filters and batch size used when reading a CDC stream. */
 export interface CdcStreamOptions {
   signal?: AbortSignal
   startLsn?: string
 }
 
+/** Injected client that reads, acknowledges, and reports CDC stream state. */
 export interface CdcStreamClient {
   stream: (options?: CdcStreamOptions) => AsyncIterable<CdcChangeEvent>
 }
 
+/** Admin and stream clients used by PostgreSQL CDC tools. */
 export interface PostgresCdcConfig {
   admin?: CdcAdminClient
   stream?: CdcStreamClient
@@ -96,6 +102,10 @@ function requireAdmin(config: PostgresCdcConfig, fn: string): CdcAdminClient {
   return config.admin
 }
 
+/** Create a tool that reports replication-slot status.
+ *
+ * @param config CDC clients and database settings.
+ * @returns A slot status tool. */
 export function postgresCdcStatus(config: PostgresCdcConfig) {
   const admin = requireAdmin(config, 'postgresCdcStatus')
   assertIdent(config.slotName, 'slotName')
@@ -132,6 +142,10 @@ export function postgresCdcStatus(config: PostgresCdcConfig) {
   })
 }
 
+/** Create a tool that creates a PostgreSQL logical replication slot.
+ *
+ * @param config CDC clients and database settings.
+ * @returns A slot creation tool. */
 export function postgresCdcCreateSlot(config: PostgresCdcConfig) {
   const admin = requireAdmin(config, 'postgresCdcCreateSlot')
   assertIdent(config.slotName, 'slotName')
@@ -163,6 +177,10 @@ export function postgresCdcCreateSlot(config: PostgresCdcConfig) {
   })
 }
 
+/** Create a tool that drops a PostgreSQL logical replication slot.
+ *
+ * @param config CDC clients and database settings.
+ * @returns A slot deletion tool. */
 export function postgresCdcDropSlot(config: PostgresCdcConfig) {
   const admin = requireAdmin(config, 'postgresCdcDropSlot')
   assertIdent(config.slotName, 'slotName')
@@ -190,6 +208,10 @@ export function postgresCdcDropSlot(config: PostgresCdcConfig) {
   })
 }
 
+/** Create a tool that advances a replication slot to a validated LSN.
+ *
+ * @param config CDC clients and database settings.
+ * @returns A slot advance tool. */
 export function postgresCdcAdvance(config: PostgresCdcConfig) {
   const admin = requireAdmin(config, 'postgresCdcAdvance')
   assertIdent(config.slotName, 'slotName')
@@ -222,6 +244,10 @@ export function postgresCdcAdvance(config: PostgresCdcConfig) {
   })
 }
 
+/** Create a tool that reads a bounded batch of pending CDC events.
+ *
+ * @param config CDC clients and database settings.
+ * @returns A CDC peek tool. */
 export function postgresCdcPeek(config: PostgresCdcConfig) {
   const admin = requireAdmin(config, 'postgresCdcPeek')
   assertIdent(config.slotName, 'slotName')
@@ -263,6 +289,13 @@ export function postgresCdcPeek(config: PostgresCdcConfig) {
   })
 }
 
+/** Build the five PostgreSQL replication-slot and CDC inspection tools.
+ * @example
+ * const tools = postgresCdc({ admin, stream })
+
+ *
+ * @param config CDC clients and database settings.
+ * @returns The CDC management tools. */
 export function postgresCdc(config: PostgresCdcConfig) {
   const admin = requireAdmin(config, 'postgresCdc')
   void admin

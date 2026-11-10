@@ -1,5 +1,8 @@
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the llama.cpp chat adapter.
+ */
 export interface LlamaCppConfig extends OpenAICompatibleConfig {}
 
 /**

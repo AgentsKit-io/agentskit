@@ -85,6 +85,16 @@ function validateConfig(config: unknown): asserts config is RunEvalConfig {
   }
 }
 
+/** Run each case in an evaluation suite and return its pass, latency, and token usage results.
+ *
+ * @param config Agent and suite to evaluate.
+ * @returns Aggregate results for every case in the suite.
+ * @throws RuntimeError when the configuration has an invalid shape.
+ * @example
+ * ```ts
+ * const result = await runEval({ agent: async input => `Answer: ${input}`, suite })
+ * ```
+ */
 export async function runEval(config: RunEvalConfig): Promise<EvalResult> {
   validateConfig(config)
   const { agent, suite } = config

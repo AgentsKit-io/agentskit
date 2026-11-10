@@ -16,6 +16,16 @@ export interface IntegrationRegistry {
   byCategory(category: string): Integration[]
 }
 
+/** Creates an isolated in-memory registry seeded with optional descriptors.
+ * @param initial Integrations to register when the registry is created.
+ * @returns A registry with register, lookup, list, and category methods.
+ * @throws {ConfigError} When two initial integrations have the same name.
+ * @example
+ * ```ts
+ * const registry = createRegistry([slackIntegration])
+ * const slack = registry.get('slack')
+ * ```
+ */
 export function createRegistry(initial: Integration[] = []): IntegrationRegistry {
   const map = new Map<string, Integration>()
 
@@ -48,18 +58,33 @@ export function createRegistry(initial: Integration[] = []): IntegrationRegistry
  */
 const defaultRegistry = createRegistry()
 
+/** Adds an integration to the default catalog.
+ * @param integration Descriptor to register.
+ * @throws {ConfigError} When an integration with the same name is registered.
+ */
 export function registerIntegration(integration: Integration): void {
   defaultRegistry.register(integration)
 }
 
+/** Looks up an integration by its service slug in the default catalog.
+ * @param name Integration slug.
+ * @returns The matching descriptor, or `undefined` when not registered.
+ */
 export function getIntegration(name: string): Integration | undefined {
   return defaultRegistry.get(name)
 }
 
+/** Returns all descriptors registered in the default catalog.
+ * @returns A new array of integration descriptors.
+ */
 export function listIntegrations(): Integration[] {
   return defaultRegistry.list()
 }
 
+/** Returns default-catalog integrations that include the requested category.
+ * @param category Category slug to match.
+ * @returns Matching integration descriptors.
+ */
 export function integrationsByCategory(category: string): Integration[] {
   return defaultRegistry.byCategory(category)
 }
