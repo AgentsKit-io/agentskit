@@ -29,6 +29,13 @@
         "major"
       ],
       "enabled": false
+    },
+    {
+      "description": "OTel 0.300+ belongs to the SDK 3 line (sdk-trace@3, api ^1.10); our peers are sdk-trace-base ^2 and api ^1.9. Stay below it until a deliberate SDK 3 migration",
+      "matchPackageNames": [
+        "@opentelemetry/exporter-trace-otlp-http"
+      ],
+      "allowedVersions": "<0.300.0"
     }
   ]
 }
