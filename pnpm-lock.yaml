@@ -131,6 +131,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@agentskit/memory':
+        specifier: workspace:*
+        version: link:../../packages/memory
       '@agentskit/rag':
         specifier: workspace:*
         version: link:../../packages/rag
