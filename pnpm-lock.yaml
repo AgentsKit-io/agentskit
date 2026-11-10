@@ -27,7 +27,7 @@ overrides:
   protobufjs@>=7.5.0 <8: 7.6.5
   protobufjs@>=8.0.0 <9: 8.6.6
   sharp: 0.35.5
-  tar: 7.5.21
+  tar: 7.5.22
   read-yaml-file: 2.1.0
   adm-zip: 0.6.1
   browserslist: '>=4.28.7 <5'
@@ -9392,8 +9392,8 @@ packages:
     resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
     engines: {node: '>=6'}
 
-  tar@7.5.21:
-    resolution: {integrity: sha512-XdhtCvlMywwxpCW8YEq3lOXBJpUPTR2OHHcwLPO3HwsJqOHa2Ok/oJ7ruGzp+JrKoRPVCzJwAdEjqLW/vNRPHA==}
+  tar@7.5.22:
+    resolution: {integrity: sha512-MFO/QzvtAOmJbkhOaCTvbGcFN9L9b+JunIsDwaKljSOdcLMea3NJ1k9Usz/rjdfSXTq4dfzfeS7W4p4YOAAHeA==}
     engines: {node: '>=18'}
 
   term-size@2.2.1:
@@ -14744,7 +14744,7 @@ snapshots:
       glob: 14.0.3
       openapi-fetch: 0.17.0
       platform: 1.3.6
-      tar: 7.5.21
+      tar: 7.5.22
       undici: 7.30.1
 
   ee-first@1.1.1: {}
@@ -18690,7 +18690,7 @@ snapshots:
 
   tapable@2.3.3: {}
 
-  tar@7.5.21:
+  tar@7.5.22:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
