@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { readFileSync, readdirSync } from 'node:fs'
 
-const read = (p) => readFileSync(p, 'utf8')
+const read = (p) => readFileSync(p, 'utf8').replace(/\r\n/g, '\n')
 const SAVE_GUARD = "github.event_name == 'push' && github.ref == 'refs/heads/main'"
 
 const files = [
@@ -23,7 +23,7 @@ describe('playwright-browsers action', () => {
 
 describe('no workflow saves caches on pull requests', () => {
   it.each(files)('%s guards every cache save with push to main', (file) => {
-    const lines = read(file).split('\n')
+    const lines = read(file).split(/\n/)
     expect(read(file)).not.toMatch(/uses: actions\/cache@/)
     lines.forEach((line, i) => {
       if (!line.includes('actions/cache/save@')) return
