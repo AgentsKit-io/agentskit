@@ -259,7 +259,7 @@ app.get('/v1/corpora', (c) =>
   }),
 )
 
-app.post('/v1/ask', (c) => {
+app.post('/v1/ask', async (c) => {
   const corpus = c.req.query('corpus') ?? 'docs'
   const handler = handlers[corpus]
   if (!handler) return c.json({ error: `unknown corpus "${corpus}"` }, 400)

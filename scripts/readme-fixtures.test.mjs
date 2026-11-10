@@ -2,7 +2,8 @@ import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { extname, join } from 'node:path'
-import ts from 'typescript'
+// Root `typescript` is v7 (native, no JS compiler API); the alias keeps the API.
+import ts from 'typescript-5-9'
 import { test } from 'vitest'
 import { REPO_ROOT } from './compute-stats.mjs'
 

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "1394f0c2683e9b783d3094b6d5ebc7f43de342947a86ace07b6a115ec1a6f7e7",
+  "contentHash": "fb41d0638c5be0882bee3336b2265759854e13a3eaed78b053902a007ae3685b",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-09T22:42:35.521Z",
+  "generatedAt": "2026-11-10T18:30:54.318Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -232,7 +232,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "d856a274c1c6c1f0bc382428dee8af4573fc7282b75da14a34f8a7790a092c55"
+      "contentHash": "abde65ea4e81d1a4855fdb9e6ea582083740ca987ac706deb6f152f52dcee4c1"
     },
     {
       "id": "document:.agent-memory/project_file-size-baselines.md",
@@ -365,6 +365,18 @@
         "unclassified"
       ],
       "contentHash": "4a7dc5346ec10161ec5d72e8b986700fc27d665e6c86a6ac6849e5afc7d1ec10"
+    },
+    {
+      "id": "document:.agent-memory/reference_typescript-7-fallback.md",
+      "type": "document",
+      "title": "reference_typescript-7-fallback.md",
+      "path": ".agent-memory/reference_typescript-7-fallback.md",
+      "description": "Root and example apps use typescript ^7; packages/* and apps/docs-next stay on ^6.0.3.",
+      "tags": [
+        "document",
+        "unclassified"
+      ],
+      "contentHash": "91c6581b21f453c4234e0954c7fa06512a40ee040e5cc9e5b540e503e992411c"
     },
     {
       "id": "document:.github/copilot-instructions.md",
@@ -8263,7 +8275,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "6c761951ecbf5be539a568141ca9faabd8693acfb9a5f6df6ab5899e212a4f7e"
+      "contentHash": "56b57bae77583bc1d9cf21c7480f27736e05e7331be972d937b09d754260d447"
     },
     {
       "id": "module:apps/ask-backend/vitest.config.ts",
@@ -37178,7 +37190,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "336e9c5386960068d73917c0f840bb4bb09ac84bd44a82b538a832fc647f3350"
+      "contentHash": "8ce4af35b946931ab38a24eb4ba8db6662d4b9d2d44f4006925c69348c3e9002"
     },
     {
       "id": "module:scripts/lib/packed-consumers-matrix.mjs",
@@ -37308,7 +37320,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "eed539a529de197565183c33e5187b3551ea97d20d41a2ffb7573d6009b0c86f"
+      "contentHash": "31bd1ac9561a3b0e32a35bf9c2296c78930976185472b2dcf58a30e3a5f0c864"
     },
     {
       "id": "module:scripts/lib/publish-manifests.mjs",
@@ -37575,7 +37587,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "67b32ce28683b57a33c9c90f3a83a09cd1ebc4d49caf9699508a299899cc53da"
+      "contentHash": "58971dc0f0acd3c269c6d0f86b7d2e317e0e550ba81843dc8aeab403115667a5"
     },
     {
       "id": "module:scripts/readme-standard.test.mjs",
@@ -39160,8 +39172,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "01a77f3a9c55fe28cadc32494361cf9ba095057ae76f748a8b61e7bd99fdb092",
-    "fileCount": 2689,
+    "hash": "68d295ee7586ca70307729a60a9ce2f327dd3cac17d11df6b486d9b0ece18d84",
+    "fileCount": 2690,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39183,9 +39195,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2dca5a358159e0eb690ed1d3453098ac343ed6580807d762524969b4b68dd112",
+    "contentHash": "4344667d2ddc7539055032e9793a6364ea3e6595a4ef3bc5e5aa0cb362d38431",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "529fc7e4c11073359aa3ecce6ef9d6ef253b3aa998faafcfe24f4f59e8f0ae30",
+    "snapshotHash": "230705fed4a63169ffa73b839e5bd9d75698d82d5fe483c1d3c1a50e7857343c",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39205,7 +39217,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2553,
+      "documentCount": 2554,
       "fieldNames": [
         "aliases",
         "body",
@@ -39216,13 +39228,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.018018018018018,
-        "body": 60.96553074813944,
-        "headings": 3.8856247551899727,
-        "path": 7.613004308656483,
-        "summary": 4.505679592636114,
-        "symbols": 7.562475518997259,
-        "title": 3.380728554641598
+        "aliases": 3.0176194205168363,
+        "body": 61.00665622552858,
+        "headings": 3.884103367267032,
+        "path": 7.6127642913077525,
+        "summary": 4.508613938919342,
+        "symbols": 7.559514487079092,
+        "title": 3.3813625685199686
       }
     },
     "entries": [
@@ -39537,9 +39549,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 10,
+          "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [
+            "document:.agent-memory/reference_typescript-7-fallback.md",
             "document:.github/factory-playbook.md",
             "document:apps/docs-next/README.md",
             "document:apps/landing/README.md",
@@ -39553,6 +39566,11 @@
           ],
           "packageId": "package:agentskit",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.agent-memory/reference_typescript-7-fallback.md",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "document:.github/factory-playbook.md",
@@ -41930,7 +41948,7 @@
           "path": ".agent-memory/MEMORY.md",
           "symbols": "",
           "summary": "In-repo institutional memory, versioned with the code. One line per memory; the body of each fact lives in its own file. Agents read this index first.",
-          "body": "Agent Memory Index In-repo institutional memory, versioned with the code. One line per memory; the body of each fact lives in its own file. Agents read this index first. - project playbook-alignment — repo is audited against playbook.agentskit.io; what conforms and what is intentionally adapted - feedback json-schema-canonical — JSON Schema is the single schema source of truth; never add Zod as a parallel canonical - feedback zero-dep-core — @agentskit/core takes zero runtime deps; heavy deps go in opt-in packages behind injection points - reference quality-gates — the structural gates, where they live, and how baselines work - project v1-readiness — 2026-06-15 24-pkg v1.0 audit; Phase 0 (honest tiers + stability gates) landed; plan in docs/studies/v1-readiness-audit.md - project file-size-baselines — oversized files pinned in check-file-size; shrink-only, never raise - reference security-surfaces — egress (safeFetch, ADR-0010) + inbound chat-trigger validation (ADR-0011); both opt-in, reuse ArgsValidator - reference models-catalog — models.dev-driven catalog ( 911): /catalog subpath isolation, no-runtime-fetch default, opt-in live pricing fallback, openaiCompatible signal caveat - project npm-publish-workspace-protocol — release publishes via npm OIDC which does not rewrite workspace: ; publish-with-npm.mjs resolves ranges + packs-and-checks; pnpm check:publish-manifests guards it - reference cli-adapter-protocol-boundary — exec-text vs exec-json output boundary in adapters/cli; Claude Code needs the system prompt via --append-system-prompt ( claudeCodeRequestArgs ), never raw JSON or [system] blocks on stdin; claude-code-json is the structured Claude Code path - reference langchain-bridge — AdapterFactory→BaseChatModel bridge is the @agentskit/adapters/langchain-bridge subpath (optional @langchain/core peer), never a new package; must return real AIMessage instances - project ignored-package-changesets-block-release — changesets naming only ignored packages (docs-next) are never consumed and must not count as pending; preflight + release.yml filter via listReleasableChangesets ; recover with recover unpublished dispatch - project next16-fumadocs16-ts7 — sites already on Next 16 / Fumadocs 16; Next 16 does not block TypeScript 7 (still on 6.x)",
+          "body": "Agent Memory Index In-repo institutional memory, versioned with the code. One line per memory; the body of each fact lives in its own file. Agents read this index first. - project playbook-alignment — repo is audited against playbook.agentskit.io; what conforms and what is intentionally adapted - feedback json-schema-canonical — JSON Schema is the single schema source of truth; never add Zod as a parallel canonical - feedback zero-dep-core — @agentskit/core takes zero runtime deps; heavy deps go in opt-in packages behind injection points - reference quality-gates — the structural gates, where they live, and how baselines work - project v1-readiness — 2026-06-15 24-pkg v1.0 audit; Phase 0 (honest tiers + stability gates) landed; plan in docs/studies/v1-readiness-audit.md - project file-size-baselines — oversized files pinned in check-file-size; shrink-only, never raise - reference security-surfaces — egress (safeFetch, ADR-0010) + inbound chat-trigger validation (ADR-0011); both opt-in, reuse ArgsValidator - reference models-catalog — models.dev-driven catalog ( 911): /catalog subpath isolation, no-runtime-fetch default, opt-in live pricing fallback, openaiCompatible signal caveat - project npm-publish-workspace-protocol — release publishes via npm OIDC which does not rewrite workspace: ; publish-with-npm.mjs resolves ranges + packs-and-checks; pnpm check:publish-manifests guards it - reference cli-adapter-protocol-boundary — exec-text vs exec-json output boundary in adapters/cli; Claude Code needs the system prompt via --append-system-prompt ( claudeCodeRequestArgs ), never raw JSON or [system] blocks on stdin; claude-code-json is the structured Claude Code path - reference langchain-bridge — AdapterFactory→BaseChatModel bridge is the @agentskit/adapters/langchain-bridge subpath (optional @langchain/core peer), never a new package; must return real AIMessage instances - project ignored-package-changesets-block-release — changesets naming only ignored packages (docs-next) are never consumed and must not count as pending; preflight + release.yml filter via listReleasableChangesets ; recover with recover unpublished dispatch - reference typescript-7-fallback — packages/ + docs-next stay on TS ^6: tsup dts (rollup-plugin-dts) crashes on TS 7 (no JS API) - project next16-fumadocs16-ts7 — sites already on Next 16 / Fumadocs 16; Next 16 does not block TypeScript 7 (still on 6.x)",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -41966,7 +41984,7 @@
             }
           ]
         },
-        "contentHash": "d856a274c1c6c1f0bc382428dee8af4573fc7282b75da14a34f8a7790a092c55",
+        "contentHash": "abde65ea4e81d1a4855fdb9e6ea582083740ca987ac706deb6f152f52dcee4c1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42567,6 +42585,44 @@
           ]
         },
         "contentHash": "4a7dc5346ec10161ec5d72e8b986700fc27d665e6c86a6ac6849e5afc7d1ec10",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:.agent-memory/reference_typescript-7-fallback.md",
+        "kind": "document",
+        "path": ".agent-memory/reference_typescript-7-fallback.md",
+        "title": "reference_typescript-7-fallback.md",
+        "summary": "Root and example apps use typescript ^7; packages/* and apps/docs-next stay on ^6.0.3.",
+        "aliases": [],
+        "tags": [
+          "document",
+          "unclassified"
+        ],
+        "fields": {
+          "title": "reference_typescript-7-fallback.md",
+          "headings": "",
+          "path": ".agent-memory/reference_typescript-7-fallback.md",
+          "symbols": "",
+          "summary": "Root and example apps use typescript ^7; packages/* and apps/docs-next stay on ^6.0.3.",
+          "body": "Root and example apps use typescript ^7 ; packages/ and apps/docs-next stay on ^6.0.3 . Tried bumping every packages/ to ^7.0.2 (2026-10-29, 1889). pnpm install and tsc --noEmit work, but pnpm build fails in every package using tsup dts: true : TypeError: Cannot read properties of undefined (reading 'useCaseSensitiveFileNames') at rollup-plugin-dts@6.1.1 (bundled in tsup 8.5.1) TS 7 (native) exports ./lib/version.cjs as typescript , with no JS compiler API ( ts.sys , createProgram ), which rollup-plugin-dts needs. Also unsupported as TS 7 peers: typedoc (apps/docs-next), @angular/compiler-cli, ng-packagr, svelte2tsx. How to apply: retry only once tsup/rollup-plugin-dts supports TS 7 (or the build moves off tsup dts). Keep the typescript-5-9 alias as is. Declared typescript peer ranges (npm registry, checked 2026-10-30) that exclude ^7 : - typedoc (apps/docs-next): 5.0.x ... 5.9.x 6.0.x - @angular/compiler-cli (packages/angular): =6.0 <6.1 - ng-packagr (packages/angular): =6.0 <6.1 - svelte2tsx (packages/svelte): ^4.9.4 ^5.0.0 ^6.0.0",
+          "aliases": "document unclassified"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "area:apps/docs-next",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "91c6581b21f453c4234e0954c7fa06512a40ee040e5cc9e5b540e503e992411c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -87255,7 +87311,7 @@
             }
           ]
         },
-        "contentHash": "6c761951ecbf5be539a568141ca9faabd8693acfb9a5f6df6ab5899e212a4f7e",
+        "contentHash": "56b57bae77583bc1d9cf21c7480f27736e05e7331be972d937b09d754260d447",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192009,7 +192065,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "336e9c5386960068d73917c0f840bb4bb09ac84bd44a82b538a832fc647f3350",
+        "contentHash": "8ce4af35b946931ab38a24eb4ba8db6662d4b9d2d44f4006925c69348c3e9002",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192333,7 +192389,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "eed539a529de197565183c33e5187b3551ea97d20d41a2ffb7573d6009b0c86f",
+        "contentHash": "31bd1ac9561a3b0e32a35bf9c2296c78930976185472b2dcf58a30e3a5f0c864",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193171,7 +193227,7 @@
             }
           ]
         },
-        "contentHash": "67b32ce28683b57a33c9c90f3a83a09cd1ebc4d49caf9699508a299899cc53da",
+        "contentHash": "58971dc0f0acd3c269c6d0f86b7d2e317e0e550ba81843dc8aeab403115667a5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -202459,7 +202515,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a75672050d7cd0cd5a38b9a8b325ba428acfcd18233760534c786f250abe7aad",
+        "contentHash": "bb075be99b8f054716eaa0dbbbfb8539741db5610852338a12848cf76d2bbc91",
         "provenance": "observed",
         "confidence": "observed"
       }
