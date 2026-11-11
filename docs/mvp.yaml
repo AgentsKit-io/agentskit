@@ -29,7 +29,9 @@ requirements:
     outros workflows da main seguem verdes
   # PR aberto: #1930
   weight: 2
-  acceptance: []
+  acceptance:
+  - test: scripts/models-dev-workflow.test.mjs
+  - test: apps/registry/lib/fumadocs-nav-utilities.test.ts
   homolog: []
   issues: [1925]
   prs: []
