@@ -68,3 +68,4 @@ runs:
         name: agentskit-evals
         path: ${{ inputs.out-dir }}
         if-no-files-found: warn
+        retention-days: 7
