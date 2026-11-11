@@ -27,7 +27,7 @@ runs:
       run: |
         for attempt in 1 2 3; do
           pnpm exec playwright install-deps chromium && exit 0
-          echo "install-deps failed (attempt $attempt), retrying"; sleep $((attempt * 10))
+          echo "install-deps failed (attempt $attempt), retrying"; sudo apt-get update -o Acquire::Retries=3 || true; sleep $((attempt * 10))
         done
         exit 1
 
@@ -38,7 +38,7 @@ runs:
       run: |
         for attempt in 1 2 3; do
           bash -c "$INSTALL_COMMAND" && exit 0
-          echo "browser install failed (attempt $attempt), retrying"; sleep $((attempt * 10))
+          echo "browser install failed (attempt $attempt), retrying"; sudo apt-get update -o Acquire::Retries=3 || true; sleep $((attempt * 10))
         done
         exit 1
 
