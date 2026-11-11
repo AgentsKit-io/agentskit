@@ -121,18 +121,6 @@ export const publicResources: readonly PublicResource[] = [
     topics: ['MCP', 'agents', 'registry'],
   },
   {
-    id: 'registry-smithery',
-    title: 'AgentsKit Registry on Smithery',
-    summary: 'Installable Registry MCP server listed for discovery by MCP users.',
-    product: 'Registry',
-    publisher: 'Smithery',
-    type: 'registry',
-    status: 'published',
-    url: 'https://smithery.ai/servers/agentskit/registry',
-    verifiedAt: '2026-07-28',
-    topics: ['MCP', 'agents', 'discovery'],
-  },
-  {
     id: 'registry-glama',
     title: 'AgentsKit Registry on Glama',
     summary: 'Public MCP connector profile for the source-owned agent registry.',
