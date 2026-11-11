@@ -1,21 +1,46 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["tsconfig.json", "tsconfig.base.json", "scripts/**"],
+  "globalDependencies": [
+    "tsconfig.json",
+    "tsconfig.base.json",
+    "scripts/**"
+  ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", "build/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        "build/**"
+      ]
     },
     "test": {
-      "dependsOn": ["build", "^build"],
-      "outputs": []
+      "dependsOn": [
+        "build",
+        "^build"
+      ],
+      "outputs": [],
+      "env": [
+        "CI_TEST_PROFILE"
+      ]
     },
     "test:coverage": {
-      "dependsOn": ["build", "^build"],
-      "outputs": ["coverage/**"]
+      "dependsOn": [
+        "build",
+        "^build"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
+      "env": [
+        "CI_TEST_PROFILE"
+      ]
     },
     "lint": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": []
     },
     "dev": {
