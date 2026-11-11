@@ -21,7 +21,7 @@ describe('fumadocs home header utilities (compiled CSS)', () => {
   }, 60_000)
 
   const headerClasses = /"(sticky[^"]*)"/.exec(header)?.[1].split(/\s+/) ?? []
-  const esc = (c: string) => c.replace(/([:/])/g, '\\$1')
+  const esc = (c: string) => c.split(':').join('\\:').split('/').join('\\/')
 
   it('finds the sticky header classes in fumadocs-ui', () => {
     expect(headerClasses).toContain('z-40')
