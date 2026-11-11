@@ -32,6 +32,7 @@ requirements:
   acceptance:
   - test: scripts/models-dev-workflow.test.mjs
   - test: apps/registry/lib/fumadocs-nav-utilities.test.ts
+  - test: apps/docs-next/tests/fumadocs-nav-utilities.test.ts
   homolog: []
   issues: [1925]
   prs: []
