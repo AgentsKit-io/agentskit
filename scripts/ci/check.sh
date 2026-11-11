@@ -20,9 +20,9 @@ if [[ -n "${BASE_REF:-}" && "${GITHUB_HEAD_REF:-}" != "changeset-release/main" ]
 fi
 
 if [[ -z "${BASE_REF:-}" || "${GITHUB_HEAD_REF:-}" == "changeset-release/main" ]]; then
-  pnpm --filter "./packages/*" lint
+  pnpm exec turbo run lint --filter="./packages/*"
 elif git diff --name-only "$BASE_REF"...HEAD | grep -Eq '^(package\.json|pnpm-lock\.yaml|tsconfig[^/]*|vitest\.shared\.ts|turbo\.json|scripts/|\.github/)'; then
-  pnpm --filter "./packages/*" lint
+  pnpm exec turbo run lint --filter="./packages/*"
 else
   pnpm exec turbo run lint --filter="...[$BASE_REF]"
 fi
