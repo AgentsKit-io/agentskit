@@ -24,11 +24,23 @@ runs:
 
     - if: steps.restore.outputs.cache-hit == 'true'
       shell: bash
-      run: pnpm exec playwright install-deps chromium
+      run: |
+        for attempt in 1 2 3; do
+          pnpm exec playwright install-deps chromium && exit 0
+          echo "install-deps failed (attempt $attempt), retrying"; sleep $((attempt * 10))
+        done
+        exit 1
 
     - if: steps.restore.outputs.cache-hit != 'true'
       shell: bash
-      run: ${{ inputs.install-command }}
+      env:
+        INSTALL_COMMAND: ${{ inputs.install-command }}
+      run: |
+        for attempt in 1 2 3; do
+          bash -c "$INSTALL_COMMAND" && exit 0
+          echo "browser install failed (attempt $attempt), retrying"; sleep $((attempt * 10))
+        done
+        exit 1
 
     - if: steps.restore.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5

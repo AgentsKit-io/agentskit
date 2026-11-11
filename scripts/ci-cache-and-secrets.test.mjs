@@ -14,7 +14,7 @@ describe('playwright-browsers action', () => {
   const action = read('.github/actions/playwright-browsers/action.yml')
   it('restores the cache, saves only on main, installs deps on a hit', () => {
     expect(action).toContain('actions/cache/restore@')
-    expect(action).toMatch(/cache-hit == 'true'\n\s+shell: bash\n\s+run: pnpm exec playwright install-deps chromium/)
+    expect(action).toMatch(/cache-hit == 'true'\n\s+shell: bash\n\s+run: \|\n(?:.*\n)*?\s+pnpm exec playwright install-deps chromium/)
     const save = action.slice(action.indexOf('actions/cache/save@') - 300)
     expect(save).toContain(SAVE_GUARD)
     expect(action).not.toMatch(/uses: actions\/cache@/)
