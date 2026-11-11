@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "d5eeb753f0f9c718ed148546cc602880e3152b0bbaca6d95c6238fe1f378c3dc",
+  "contentHash": "71e3ebc35a514335fc5256f3bc1856a496d1b55e2b1c20be3fe98dd138d37b7b",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-10T18:43:03.447Z",
+  "generatedAt": "2026-11-11T07:08:44.266Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -36703,7 +36703,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "ee5a0098d2323e8078ee64fad92efabd47bef684621a2342f1aa0ad36642e6e6"
+      "contentHash": "091ecc3ad4301b9dd42816344307c9f1772576be906f88f83a6bd350026488e0"
     },
     {
       "id": "module:scripts/doc-bridge-benchmark.mjs",
@@ -36762,7 +36762,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c"
+      "contentHash": "e97825c314c4f51cd7c872bc12d0fc6f33b10060a0af65e2aabb6446e8f68d78"
     },
     {
       "id": "module:scripts/ecosystem-llms-block.test.mjs",
@@ -39219,8 +39219,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "d5c6bc862ab4a4ec71857fe0ad1a0aaf7d6cea9f237af3f389290ccef459d79a",
-    "fileCount": 2693,
+    "hash": "6045892ae88b6d0a461f5d7453749047c4d2ef1f057d068255f2fe84dbe93d08",
+    "fileCount": 2694,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39242,9 +39242,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "073bc71f9f710b24ae49300b98f732313ecfa71c8fde407ca15a2a799835f0b9",
+    "contentHash": "6822fba7f8979ecf4d7feb47cdf544471eca07541da034e50eaff50a92c9d894",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "dda9538e13a14963f1af271a988070ddbbb650b829640f591777005821ef33b1",
+    "snapshotHash": "80758e213cb2497e6fdd9a595c42af020ec114b97b3574f5cfd02d72fe17cc8c",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -190735,7 +190735,7 @@
             }
           ]
         },
-        "contentHash": "ee5a0098d2323e8078ee64fad92efabd47bef684621a2342f1aa0ad36642e6e6",
+        "contentHash": "091ecc3ad4301b9dd42816344307c9f1772576be906f88f83a6bd350026488e0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190916,7 +190916,7 @@
             }
           ]
         },
-        "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c",
+        "contentHash": "e97825c314c4f51cd7c872bc12d0fc6f33b10060a0af65e2aabb6446e8f68d78",
         "provenance": "observed",
         "confidence": "observed"
       },
