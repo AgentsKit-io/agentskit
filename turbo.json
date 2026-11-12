@@ -1,22 +1,61 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["tsconfig.json", "tsconfig.base.json", "scripts/**"],
+  "globalDependencies": [
+    "tsconfig.json",
+    "tsconfig.base.json",
+    "scripts/**"
+  ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", "build/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        "build/**"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!**/CHANGELOG.md"
+      ]
     },
     "test": {
-      "dependsOn": ["build", "^build"],
-      "outputs": []
+      "dependsOn": [
+        "build",
+        "^build"
+      ],
+      "outputs": [],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!**/CHANGELOG.md"
+      ]
     },
     "test:coverage": {
-      "dependsOn": ["build", "^build"],
-      "outputs": ["coverage/**"]
+      "dependsOn": [
+        "build",
+        "^build"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!**/CHANGELOG.md"
+      ]
     },
     "lint": {
-      "dependsOn": ["^build"],
-      "outputs": []
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!**/CHANGELOG.md"
+      ]
     },
     "dev": {
       "cache": false,

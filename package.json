@@ -6,6 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test --concurrency=2",
+    "test:changed": "turbo run test --concurrency=2 --filter='...[origin/main]'",
     "test:coverage": "turbo run test:coverage --concurrency=1",
     "test:interop": "vitest run --config tests/vitest.config.ts",
     "test:e2e": "pnpm build && playwright test",
