@@ -24,7 +24,11 @@ runs:
 
     - if: steps.restore.outputs.cache-hit == 'true'
       shell: bash
-      run: pnpm exec playwright install-deps chromium
+      # The browser and its libraries are already on the runner; install-deps only adds fonts.
+      # A runner-side apt/DNS outage must not turn the check red, so bound it and warn instead.
+      run: |
+        timeout 180 pnpm exec playwright install-deps chromium \
+          || echo "::warning::playwright install-deps failed or timed out (apt unreachable); continuing with the system packages already present"
 
     - if: steps.restore.outputs.cache-hit != 'true'
       shell: bash
