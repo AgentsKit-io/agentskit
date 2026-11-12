@@ -168,13 +168,13 @@ describe('build-plan snapshot gate scope', () => {
   })
 
   test('CI snapshot scope mirrors packed-consumer scope only in affected runs', () => {
-    const workflow = readFileSync(path.join(scriptsDir, '../.github/workflows/ci.yml'), 'utf8')
-    const scope = "PACKED_CONSUMERS_BUILD_PLAN: ${{ steps.package-scope.outputs.run_all == 'false' && format('{0}/packed-consumers-build-plan.json', runner.temp) || '' }}"
-    const packedStep = workflow.split('- name: Packed consumer publication contract')[1].split('- name:')[0]
-    const snapshotStep = workflow.split('- name: Public API snapshot contract')[1].split('- name:')[0]
-    assert.ok(packedStep.includes(scope))
-    assert.ok(snapshotStep.includes(scope))
-    assert.equal(workflow.split('PACKED_CONSUMERS_BUILD_PLAN:').length - 1, 2)
+    const workflow = readFileSync(path.join(scriptsDir, 'ci/build.sh'), 'utf8')
+    // The build stage exports the plan only when the run is affected-only (run_all=false).
+    assert.match(workflow, /if \[\[ "\$run_all" == false \]\]; then[\s\S]*export PACKED_CONSUMERS_BUILD_PLAN="\$plan"[\s\S]*\nfi/)
+    assert.equal(workflow.split('PACKED_CONSUMERS_BUILD_PLAN=').length - 1, 1)
+    const exportAt = workflow.indexOf('export PACKED_CONSUMERS_BUILD_PLAN')
+    assert.ok(workflow.indexOf('pnpm check:packed-consumers') > exportAt)
+    assert.ok(workflow.indexOf('pnpm check:public-api-snapshot') > exportAt)
   })
 
   test('update ignores the plan and requires and writes the full surface', () => {

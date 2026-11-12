@@ -1,232 +1,39 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+  schedule:
+    - cron: '41 3 * * *'
+  workflow_dispatch:
 
-permissions:
-  contents: read
+permissions: {}
 
 concurrency:
-  # Supersede in-flight runs for the same PR; pushes to main always finish.
-  group: ${{ github.workflow }}-${{ github.ref }}
+  # Supersede in-flight runs for the same PR; pushes to main and scheduled runs always finish.
+  group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  commitlint:
-    name: Commitlint
-    if: github.event_name == 'pull_request' && github.head_ref != 'changeset-release/main'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
-        with:
-          node-version: 22
-
-      - uses: ./.github/actions/pnpm-store-cache
-        with:
-          mode: restore
-
-      - run: pnpm install --frozen-lockfile
-
-      - uses: ./.github/actions/pnpm-store-cache
-        with:
-          mode: save
-
-      - name: Validate commit messages
-        run: pnpm exec commitlint --from="${{ github.event.pull_request.base.sha }}" --to="${{ github.event.pull_request.head.sha }}" --verbose
-
-  changeset-lint:
-    name: Changeset lint
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.head_ref != 'changeset-release/main'
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
-        with:
-          node-version: 22
-
-      - uses: ./.github/actions/pnpm-store-cache
-        with:
-          mode: restore
-
-      - run: pnpm install --frozen-lockfile
-
-      - uses: ./.github/actions/pnpm-store-cache
-        with:
-          mode: save
-
-      - name: Check for changeset
-        run: |
-          # Skip if PR only touches docs/examples or package metadata.
-          CHANGED=$(git diff --name-only origin/main...HEAD)
-          echo "Changed files:"
-          echo "$CHANGED"
-
-          NEEDS_CHANGESET=$(echo "$CHANGED" | grep -E '^packages/' | grep -vE '^packages/[^/]+/(tests?/|.*\.(test|spec)\.[^/]+$|package\.json$|.*\.md$)' || true)
-
-          if [ -z "$NEEDS_CHANGESET" ]; then
-            echo "No changes inside packages/ — changeset not required."
-            exit 0
-          fi
-
-          echo "Package changes detected. Verifying changeset exists..."
-          pnpm changeset status --since=origin/main
-
-  gates:
-    name: Quality gates
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
-        with:
-          node-version: 22
-
-      - uses: ./.github/actions/pnpm-store-cache
-        with:
-          mode: restore
-
-      - run: pnpm install --frozen-lockfile
-
-      - uses: ./.github/actions/pnpm-store-cache
-        with:
-          mode: save
-
-      - name: Determine package task scope
-        id: package-scope
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          HEAD_REF: ${{ github.head_ref }}
-        run: |
-          if [[ "$EVENT_NAME" != "pull_request" || "$HEAD_REF" == "changeset-release/main" ]]; then
-            echo "run_all=true" >> "$GITHUB_OUTPUT"
-          elif git diff --name-only origin/main...HEAD | grep -Eq '^(package\.json|pnpm-lock\.yaml|tsconfig[^/]*|vitest\.shared\.ts|turbo\.json|scripts/|\.github/)'; then
-            echo "run_all=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run_all=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Build all packages
-        run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
-
-      - name: Build affected packages and dependents
-        if: steps.package-scope.outputs.run_all == 'false'
-        run: |
-          pnpm exec turbo run build --filter='...[origin/main]' --dry=json > "$RUNNER_TEMP/packed-consumers-build-plan.json"
-          pnpm exec turbo run build --filter='...[origin/main]' --concurrency=2
-
-      - name: Publication metadata contract
-        run: pnpm check:publication-surface
-
-      - name: Packed consumer publication contract
-        env:
-          PACKED_CONSUMERS_BUILD_PLAN: ${{ steps.package-scope.outputs.run_all == 'false' && format('{0}/packed-consumers-build-plan.json', runner.temp) || '' }}
-        run: pnpm check:packed-consumers
-
-      - name: Published manifest workspace-protocol guard
-        run: pnpm check:publish-manifests
-
-      - name: Public API snapshot contract
-        env:
-          PACKED_CONSUMERS_BUILD_PLAN: ${{ steps.package-scope.outputs.run_all == 'false' && format('{0}/packed-consumers-build-plan.json', runner.temp) || '' }}
-        run: pnpm check:public-api-snapshot
-
-      - name: Lint all packages
-        if: steps.package-scope.outputs.run_all == 'true'
-        run: pnpm --filter "./packages/*" lint
-
-      - name: Lint affected packages and dependents
-        if: steps.package-scope.outputs.run_all == 'false'
-        run: pnpm exec turbo run lint --filter='...[origin/main]'
-
-      # PRs need the current tree's index for documentation gates, but should
-      # not carry the repository-wide generated index just to pass CI.
-      - name: Generate Doc Bridge artifacts for this checkout
-        run: pnpm docs:bridge:index
-
-      - name: Quality gates (errors, exports, any, file-size, parity, docs)
-        run: pnpm check:quality-gates
-
-      - name: Verify generated Doc Bridge index freshness
-        run: pnpm docs:bridge:freshness
-
-      - name: Doc Bridge gate
-        run: pnpm docs:bridge:gate
-
-      - name: Doc Bridge documentation conformance
-        run: pnpm docs:bridge:conformance
-
-  tests:
-    name: Test, Build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
-        with:
-          node-version: 22
-
-      - uses: ./.github/actions/pnpm-store-cache
-        with:
-          mode: restore
-
-      - run: pnpm install --frozen-lockfile
-
-      - uses: ./.github/actions/pnpm-store-cache
-        with:
-          mode: save
-
-      - name: Determine package task scope
-        id: package-scope
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          HEAD_REF: ${{ github.head_ref }}
-        run: |
-          if [[ "$EVENT_NAME" != "pull_request" || "$HEAD_REF" == "changeset-release/main" ]]; then
-            echo "run_all=true" >> "$GITHUB_OUTPUT"
-          elif git diff --name-only origin/main...HEAD | grep -Eq '^(package\.json|pnpm-lock\.yaml|tsconfig[^/]*|vitest\.shared\.ts|turbo\.json|scripts/|\.github/)'; then
-            echo "run_all=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run_all=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Build all packages
-        if: steps.package-scope.outputs.run_all == 'true'
-        run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
-
-      - name: Build affected packages and dependents
-        if: steps.package-scope.outputs.run_all == 'false'
-        run: pnpm exec turbo run build --filter='...[origin/main]' --concurrency=2
-
-      # Rollback: restore --concurrency=1 here and in the root package.json.
-      - name: Test all packages
-        if: steps.package-scope.outputs.run_all == 'true'
-        run: pnpm exec turbo run test --concurrency=2
-
-      - name: Test affected packages and dependents
-        if: steps.package-scope.outputs.run_all == 'false'
-        run: pnpm exec turbo run test --filter='...[origin/main]' --concurrency=2
+  # Plan, lint (+ typecheck, commitlint, changeset lint), tests, build and the
+  # publication/Doc Bridge gates: see scripts/ci/check.sh and scripts/ci/build.sh.
+  pipeline:
+    uses: ./.github/workflows/ci-standard.yml
+    permissions:
+      actions: write
+      contents: read
 
   postgres-memory:
     name: PostgreSQL ChatMemory contract
-    runs-on: ubuntu-latest
+    needs: pipeline
+    if: contains(fromJSON('["pr","full"]'), needs.pipeline.outputs.mode)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
     services:
       postgres:
         image: postgres:16@sha256:f9a7b9ebf6f56201f949db745e47bc423c0f0f8294bafe991cc10bf74b029657
@@ -275,25 +82,17 @@ jobs:
           AK_POSTGRES_TEST_PORT: 5432
           TURBO_CONCURRENCY: 2
 
-  quality:
-    name: Lint, Test, Build
-    needs: [gates, tests, postgres-memory]
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Require both independent jobs to pass
-        env:
-          GATES_RESULT: ${{ needs.gates.result }}
-          TESTS_RESULT: ${{ needs.tests.result }}
-          POSTGRES_RESULT: ${{ needs.postgres-memory.result }}
-        run: test "$GATES_RESULT" = success && test "$TESTS_RESULT" = success && test "$POSTGRES_RESULT" = success
-
   compatibility:
     name: Compatibility (Node ${{ matrix.node }})
-    runs-on: ubuntu-latest
+    needs: pipeline
+    if: contains(fromJSON('["pr","full"]'), needs.pipeline.outputs.mode)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
     continue-on-error: ${{ matrix.experimental }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         include:
           - node: 24
@@ -324,3 +123,24 @@ jobs:
       - run: pnpm check:packed-consumers
 
       - run: pnpm check:public-api-snapshot
+
+  # Keeps the required check name: green only when the pipeline and every product job passed.
+  quality:
+    name: Lint, Test, Build
+    needs: [pipeline, postgres-memory, compatibility]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions: {}
+    steps:
+      - name: Require the pipeline and product jobs to pass
+        env:
+          PIPELINE_RESULT: ${{ needs.pipeline.result }}
+          POSTGRES_RESULT: ${{ needs.postgres-memory.result }}
+          COMPAT_RESULT: ${{ needs.compatibility.result }}
+        run: |
+          test "$PIPELINE_RESULT" = success
+          # Product jobs are skipped on drafts.
+          for r in "$POSTGRES_RESULT" "$COMPAT_RESULT"; do
+            test "$r" = success || test "$r" = skipped
+          done

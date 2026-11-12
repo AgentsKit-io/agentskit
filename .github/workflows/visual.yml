@@ -82,7 +82,7 @@ jobs:
           path: |
             apps/visual-react/test-results
             apps/visual-react/playwright-report
-          retention-days: 14
+          retention-days: 7
 
       - name: Upload baselines (when bootstrapping)
         if: env.UPDATE_BASELINES == 'true'
@@ -90,4 +90,4 @@ jobs:
         with:
           name: visual-baselines-linux
           path: apps/visual-react/tests/visual.spec.ts-snapshots
-          retention-days: 30
+          retention-days: 7
