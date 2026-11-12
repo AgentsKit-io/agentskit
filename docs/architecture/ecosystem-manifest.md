@@ -46,7 +46,7 @@ block in `apps/docs-next/public/ecosystem-bar.js`.
 ## Consumer sync
 
 The sibling repositories keep verbatim copies of `ecosystem.json` and
-`ecosystem-claims.json`: Registry, Chat, Playbook, Doc Bridge (`master`),
+`ecosystem-claims.json`: Registry, Chat, Playbook, Doc Bridge (`main`),
 Harness, and Code Review. Doc Bridge also records their SHA-256 digests in
 `ecosystem-upstream.json`.
 
