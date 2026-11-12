@@ -78,4 +78,4 @@ jobs:
           name: guardrail-report
           path: guardrail-report-output/
           if-no-files-found: warn
-          retention-days: 90
+          retention-days: 7

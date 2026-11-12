@@ -1,4 +1,17 @@
-import type { ViteUserConfig } from 'vitest/config'
+import { configDefaults, type ViteUserConfig } from 'vitest/config'
+
+/** CI_TEST_PROFILE=pr (set by the CI test stage on pull requests) trims the time budget. */
+const prProfile = process.env.CI_TEST_PROFILE === 'pr'
+
+/** Per-test timeout: capped at 10 s on pull requests, untouched otherwise. */
+export function prTestTimeout(current?: number): number | undefined {
+  return prProfile ? Math.min(10_000, current ?? 5_000) : current
+}
+
+/** Test-file excludes: `*.slow.test.*` are skipped on pull requests. */
+export function testExclude(): string[] {
+  return [...configDefaults.exclude, ...(prProfile ? ['**/*.slow.test.*'] : [])]
+}
 
 /**
  * Shared vitest configuration for AgentsKit packages.
@@ -60,7 +73,9 @@ export function createTestConfig(opts: PackageTestConfig = {}): ViteUserConfig {
       globals: true,
       passWithNoTests: true,
       setupFiles: opts.setupFiles,
-      testTimeout: opts.testTimeout,
+      exclude: testExclude(),
+      slowTestThreshold: 2_000,
+      testTimeout: prTestTimeout(opts.testTimeout),
       hookTimeout: opts.hookTimeout,
       coverage: {
         provider: 'v8',

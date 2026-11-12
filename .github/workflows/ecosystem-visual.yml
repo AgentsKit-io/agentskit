@@ -100,5 +100,5 @@ jobs:
         with:
           name: ecosystem-visual-${{ github.run_id }}
           path: test-results/ecosystem-visual/
-          retention-days: 14
+          retention-days: 7
           if-no-files-found: ignore
