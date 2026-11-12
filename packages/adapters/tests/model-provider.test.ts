@@ -26,7 +26,7 @@ const cases: Array<{ cfg: ModelProviderConfig; sse: string; url: string }> = [
   { cfg: { provider: 'openai', model: 'm', apiKey: 'k', baseUrl: 'https://gateway.test/v1' }, sse: openaiSse, url: 'https://gateway.test/v1/chat/completions' },
   { cfg: { provider: 'openrouter', model: 'a/m', apiKey: 'k', baseUrl: 'https://gateway.test/v1' }, sse: openaiSse, url: 'https://gateway.test/v1/chat/completions' },
   { cfg: { provider: 'cliproxyapi', model: 'm', baseUrl: 'http://proxy.test:9000/v1' }, sse: openaiSse, url: 'http://proxy.test:9000/v1/chat/completions' },
-  { cfg: { provider: 'anthropic', model: 'm', apiKey: 'k', baseUrl: 'https://gateway.test/v1' }, sse: anthropicSse, url: 'https://gateway.test/v1/messages' },
+  { cfg: { provider: 'anthropic', model: 'm', apiKey: 'k', baseUrl: 'https://gateway.test' }, sse: anthropicSse, url: 'https://gateway.test/v1/messages' },
 ]
 
 function requestUrl(input: string | URL | Request): string {
