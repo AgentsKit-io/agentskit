@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "b2f2d4718d7afbdc20681f32fdf676f2e9e614e01ca8a513621a0cd2fe4770ec",
+  "contentHash": "f85031f4f67135365af567cee7377ce7a59e89fd3ab83b8006b0dddc15ea4d40",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-10T18:34:35.850Z",
+  "generatedAt": "2026-11-12T07:31:53.203Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -388,7 +388,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794"
+      "contentHash": "bd344843e5d27de9961004f9c9faf0d364634bfb041870f38c0ffc59d49334bc"
     },
     {
       "id": "document:.github/rulesets/README.md",
@@ -4035,7 +4035,7 @@
         "document",
         "human"
       ],
-      "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10"
+      "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/adapter-contract-tests.mdx",
@@ -7322,7 +7322,7 @@
         "document",
         "project"
       ],
-      "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c"
+      "contentHash": "0c4359a9628d324dfb25ebb7c6afaebde3abc4d8fea28b19b45ba8799009d343"
     },
     {
       "id": "document:packages/rag/CONVENTIONS.md",
@@ -11211,7 +11211,7 @@
         "ts",
         "lib"
       ],
-      "contentHash": "f35d462185453da5c906eb21bdb7af948eafb3f70e0e821414b4884c48769f28"
+      "contentHash": "e4099e029a98c3b7e2fafcab413f72f27e3a30a52788c42b2c62a06c46909c53"
     },
     {
       "id": "module:apps/docs-next/lib/rag/embed.ts",
@@ -28372,6 +28372,26 @@
       "contentHash": "f523e7509cb4e0f9c8901d9ad0dcf071142527b03e4d139b693e4b647e0598b5"
     },
     {
+      "id": "module:packages/observability/src/cost-store-entry.ts",
+      "type": "module",
+      "title": "cost-store-entry.ts",
+      "path": "packages/observability/src/cost-store-entry.ts",
+      "symbols": [
+        "CostReservationError",
+        "CostStore",
+        "MultiTenantCostGuardOptions",
+        "createInMemoryCostStore",
+        "monthlyWindowKey",
+        "multiTenantCostGuard"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "7de6458fec17f3474f990efc5f9081294d96578235f500221bd640e27fca4ae4"
+    },
+    {
       "id": "module:packages/observability/src/cost-store.ts",
       "type": "module",
       "title": "cost-store.ts",
@@ -29037,6 +29057,32 @@
       "contentHash": "3a284757bbc12d9d061ea11791f9b4e8e9cb9b9a69e4cf78b630f88aaa4f9008"
     },
     {
+      "id": "module:packages/observability/tests/cost-store-entry.test.ts",
+      "type": "module",
+      "title": "cost-store-entry.test.ts",
+      "path": "packages/observability/tests/cost-store-entry.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "88c7b054536c27f59915e5f229da0c978440ac4520b71826c230d3e1c70c36ad"
+    },
+    {
+      "id": "module:packages/observability/tests/cost-store-subpath.test.ts",
+      "type": "module",
+      "title": "cost-store-subpath.test.ts",
+      "path": "packages/observability/tests/cost-store-subpath.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "e76b61d37483b44b1df335e9183c372f1bb7235bad19a48b96a27d32621fb9b5"
+    },
+    {
       "id": "module:packages/observability/tests/cost-store.test.ts",
       "type": "module",
       "title": "cost-store.test.ts",
@@ -29339,7 +29385,7 @@
         "ts",
         "observability"
       ],
-      "contentHash": "2f318bb41889c463db9944961fec345256f93559fe44779010397c00395f051d"
+      "contentHash": "2cb05261cd77d0c21e3d9abd97cd071395b7f1077af1df49ec121447f9b24cb3"
     },
     {
       "id": "module:packages/observability/vitest.config.ts",
@@ -39252,8 +39298,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "008b34b19a6e548a1fba0e413804bc4daaba5f6a81a27f13ae6cbb3a136c7e39",
-    "fileCount": 2695,
+    "hash": "0bed80ca589e9854143199569de011bc90bf683fd0a371166d152fb5acf057be",
+    "fileCount": 2698,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39275,9 +39321,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "66f4131f8f24a1eec665be2bebcf983690c1c5b84aec11942595cc3ecf318200",
+    "contentHash": "6739ac4183e28464bbacda2121a64720be12857624dec16cacbd5d154974ec2c",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "0938fda319b61d13327a48f04cb341cedd61c3c47467bccc452ca0b00e83f26c",
+    "snapshotHash": "a3547f27a9aec471330b757681cb8fb96d0dd699a8dd2666c4e0cb53297740bb",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39297,7 +39343,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2559,
+      "documentCount": 2562,
       "fieldNames": [
         "aliases",
         "body",
@@ -39308,13 +39354,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.018757327080891,
-        "body": 60.82336850332161,
-        "headings": 3.8765142633841343,
-        "path": 7.614693239546698,
-        "summary": 4.495115279406018,
-        "symbols": 7.558030480656506,
-        "title": 3.3806174286830792
+        "aliases": 3.0195160031225603,
+        "body": 60.75136612021858,
+        "headings": 3.871975019516003,
+        "path": 7.615925058548009,
+        "summary": 4.489851678376269,
+        "symbols": 7.5597189695550355,
+        "title": 3.3832943013270884
       }
     },
     "entries": [
@@ -42732,7 +42778,7 @@
           "path": ".github/factory-playbook.md",
           "symbols": "",
           "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
-          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks; do not rely on it for the final check (pre-push only typechecks changed packages; run the quick verification and pnpm check:quality-gates yourself). 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm check:quality-gates . - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:index and commit the result (needed whenever docs, package READMEs or exports change). - pnpm-lock.yaml : on conflict take the base side, then p",
+          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks. Pre-push only typechecks changed packages, so it is not the final check: verify in .github/factory.json (affected build, lint and test, Doc Bridge index, quality gates) is. 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm docs:bridge:index && pnpm check:quality-gates (the gates read the current tree's Doc Bridge index, as in CI). - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (plus the two commands above, this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:ind",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -42779,7 +42825,7 @@
             }
           ]
         },
-        "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794",
+        "contentHash": "bd344843e5d27de9961004f9c9faf0d364634bfb041870f38c0ffc59d49334bc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -53581,6 +53627,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/observability/src/cost-guard-multi-tenant.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/observability/src/cost-guard.ts",
               "confidence": "observed"
             },
@@ -53656,7 +53707,7 @@
             }
           ]
         },
-        "contentHash": "c9f4fcde9d6af4180b481e0271907f9d80eeec0627e822aa8476ea05aa99f74b",
+        "contentHash": "69e8ad6baa16879eeb7032027cbaeccaa4757e2ecab96e39f8b06edfb7660bab",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -63320,7 +63371,7 @@
           "path": "apps/docs-next/content/docs/reference/publications.mdx",
           "symbols": "",
           "summary": "This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed.",
-          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. - — public registry entry. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
+          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
           "aliases": "document human"
         },
         "graph": {
@@ -63331,7 +63382,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10",
+        "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81167,7 +81218,7 @@
             }
           ]
         },
-        "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c",
+        "contentHash": "0c4359a9628d324dfb25ebb7c6afaebde3abc4d8fea28b19b45ba8799009d343",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95468,7 +95519,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f35d462185453da5c906eb21bdb7af948eafb3f70e0e821414b4884c48769f28",
+        "contentHash": "e4099e029a98c3b7e2fafcab413f72f27e3a30a52788c42b2c62a06c46909c53",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160550,9 +160601,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/observability.mdx",
             "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
             "document:docs/architecture/adrs/0044-durable-cost-store.md",
             "document:packages/observability/README.md"
@@ -160571,6 +160623,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/observability.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
               "confidence": "observed"
             },
@@ -160582,6 +160639,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/observability/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-store-entry.ts",
               "confidence": "observed"
             },
             {
@@ -160931,6 +160993,64 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/observability/src/cost-store-entry.ts",
+        "kind": "module",
+        "path": "packages/observability/src/cost-store-entry.ts",
+        "title": "cost-store-entry.ts",
+        "aliases": [],
+        "symbols": [
+          "CostReservationError",
+          "CostStore",
+          "MultiTenantCostGuardOptions",
+          "createInMemoryCostStore",
+          "monthlyWindowKey",
+          "multiTenantCostGuard"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "cost-store-entry.ts",
+          "headings": "",
+          "path": "packages/observability/src/cost-store-entry.ts",
+          "symbols": "CostReservationError CostStore MultiTenantCostGuardOptions createInMemoryCostStore monthlyWindowKey multiTenantCostGuard",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/tests/cost-store-entry.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-guard-multi-tenant.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-store.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "7de6458fec17f3474f990efc5f9081294d96578235f500221bd640e27fca4ae4",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/observability/src/cost-store.ts",
         "kind": "module",
         "path": "packages/observability/src/cost-store.ts",
@@ -161035,6 +161155,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/observability/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-store-entry.ts",
               "confidence": "observed"
             },
             {
@@ -163142,6 +163267,80 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/observability/tests/cost-store-entry.test.ts",
+        "kind": "module",
+        "path": "packages/observability/tests/cost-store-entry.test.ts",
+        "title": "cost-store-entry.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "cost-store-entry.test.ts",
+          "headings": "",
+          "path": "packages/observability/tests/cost-store-entry.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/observability/src/cost-store-entry.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "88c7b054536c27f59915e5f229da0c978440ac4520b71826c230d3e1c70c36ad",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/observability/tests/cost-store-subpath.test.ts",
+        "kind": "module",
+        "path": "packages/observability/tests/cost-store-subpath.test.ts",
+        "title": "cost-store-subpath.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "cost-store-subpath.test.ts",
+          "headings": "",
+          "path": "packages/observability/tests/cost-store-subpath.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "e76b61d37483b44b1df335e9183c372f1bb7235bad19a48b96a27d32621fb9b5",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/observability/tests/cost-store.test.ts",
         "kind": "module",
         "path": "packages/observability/tests/cost-store.test.ts",
@@ -164081,7 +164280,7 @@
             }
           ]
         },
-        "contentHash": "2f318bb41889c463db9944961fec345256f93559fe44779010397c00395f051d",
+        "contentHash": "2cb05261cd77d0c21e3d9abd97cd071395b7f1077af1df49ec121447f9b24cb3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -198998,7 +199197,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "88158840d0db94959f601dd7d20f44bfbbb45891e4550de06fbce3eeb9478b9e",
+        "contentHash": "e83babc11a7491472fa3a52871ce9400ab78c8e85d60f6591c415975dfedabf3",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "observability"

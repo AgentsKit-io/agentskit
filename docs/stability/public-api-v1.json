@@ -8334,6 +8334,52 @@
             }
           ]
         },
+        "./cost-store": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "CostReservationError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "CostStore",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "createInMemoryCostStore",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "monthlyWindowKey",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "multiTenantCostGuard",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "MultiTenantCostGuardOptions",
+              "kinds": [
+                "type"
+              ]
+            }
+          ]
+        },
         "./cost-store-contract": {
           "conditions": [
             "import",
