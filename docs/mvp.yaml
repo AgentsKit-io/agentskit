@@ -1,0 +1,131 @@
+# MVP do agentskit (lista aprovada pelo dono em 01/11/2026): lista curta, só o que os produtos consumidores precisam antes de
+# lançar. Não é a lista da 1.0.
+# Decisão do dono: as bibliotecas de base não ganham lista 1.0 completa; cada uma lista de 5 a 12 itens.
+# Base: o uso real nos produtos consumidores (adapters com OpenRouter/Anthropic/OpenAI, memory/postgres,
+# observability com o CostStore em Postgres e em memória, react) e o que eles ainda calculam por conta própria
+# (preço por token vindo de variável de ambiente, arredondamento de dinheiro, expiração de reservas, utilização da
+# janela, contagem de usos por tipo).
+# Fora da lista (um por linha):
+#   - canais de conversa (WhatsApp, Telegram, Slack, e-mail) e agentes prontos (#1916, #1917);
+#   - interop: suítes de conformidade, fixtures portáveis, matriz de compatibilidade (#1893..#1897, #1890);
+#   - superfície suportada vs experimental e promoção a 1.0 (#1918);
+#   - TypeScript 7, Vitest 5, Next 16, Tailwind 4 (#1871..#1873, #1888, #1889);
+#   - novos descritores de integração (#1885..#1887) e o backend de busca MCP (#1842);
+#   - barra de uso no @agentskit/react (#1932): o agentskit-chat já tem a sua.
+# Aprovação: approval.digest é o digest desta lista (ak-harness mvp digest / mvp_manifest.py digest); mudou a lista, precisa aprovar de novo.
+version: 1
+product: agentskit
+repo: AgentsKit-io/agentskit
+source: uso de @agentskit/* nos produtos consumidores + decisão do dono (lista curta por biblioteca)
+approval:
+  by: EmersonBraun
+  at: "2026-11-01T02:00:00Z"
+  digest: b542414146352174
+requirements:
+- id: RF-01
+  title: Main verde
+  done_when: >-
+    Os workflows models.dev catalog freshness e Ecosystem visual passam na main sem afrouxar a checagem, e todos os
+    outros workflows da main seguem verdes
+  # PR aberto: #1930
+  weight: 2
+  acceptance: []
+  homolog: []
+  issues: [1925]
+  prs: []
+- id: RF-02
+  title: Conserto da persistência da memória revisado e mergeado
+  done_when: >-
+    O PR #1819 tem resumo de revisão (achados, correções, comandos e saída), cobre o caminho de vetores e a migração
+    sem perda de dados, está com CI verde e foi mergeado por uma pessoa
+  # PR de revisão aberto: #1929
+  weight: 1
+  acceptance: []
+  homolog: []
+  issues: [1926]
+  prs: []
+- id: RF-03
+  title: Porta única de provedores de modelo
+  done_when: >-
+    Um adaptador comum cobre OpenRouter, Anthropic, OpenAI e CLIProxyAPI, trocados só por configuração; testes com
+    respostas gravadas de cada provedor passam no CI sem chamada paga
+  # PR aberto: #1922
+  weight: 2
+  acceptance:
+    - test: packages/adapters/tests/model-provider.test.ts
+  homolog: []
+  issues: [1915]
+  prs: []
+- id: RF-04
+  title: Custo de cada chamada calculado pela biblioteca
+  done_when: >-
+    Cada chamada devolve tokens de entrada e saída e o custo em US$ pela tabela de preços do modelo (catálogo
+    models.dev, com sobrescrita por configuração); resposta sem uso vem marcada; um produto consumidor deixa de
+    calcular preço por token por conta própria
+  weight: 2
+  acceptance: []
+  homolog: []
+  issues: [1915]
+  prs: []
+- id: RF-05
+  title: Teto por chamada e por orçamento nomeado
+  done_when: >-
+    A chamada aceita um teto por chamada e um orçamento nomeado (por cliente ou usuário) e recusa com um erro tipado
+    antes de chamar o modelo quando estoura; a doc traz o exemplo de teto por cliente
+  weight: 2
+  acceptance: []
+  homolog: []
+  issues: [1915]
+  prs: []
+- id: RF-06
+  title: CostStore com dinheiro exato e janela completa
+  done_when: >-
+    Os valores são guardados e somados sem deriva de ponto flutuante (0,04 + 0,01 = 0,05 no teto); a janela devolve
+    gasto, reservado, teto, utilização, aviso pelo limiar configurado e quando reinicia; teste em memória e em Postgres
+  weight: 1
+  acceptance: []
+  homolog: []
+  issues: []
+  prs: []
+- id: RF-07
+  title: Reservas abandonadas expiram sozinhas
+  done_when: >-
+    Uma reserva nem confirmada nem liberada dentro do prazo configurado deixa de contar no teto sem job do produto; o
+    teste simula uma chamada que caiu e mostra o saldo devolvido
+  weight: 1
+  acceptance: []
+  homolog: []
+  issues: []
+  prs: []
+- id: RF-08
+  title: Contagem de usos por tipo na janela
+  done_when: >-
+    O CostStore conta as chamadas de um tipo (por exemplo "gerar descrição") de um tenant na janela, contando as
+    confirmadas e as reservadas ainda no prazo, sem SQL do produto sobre as tabelas da biblioteca; teste em Postgres
+  weight: 1
+  acceptance: []
+  homolog: []
+  issues: []
+  prs: []
+- id: RF-09
+  title: ToolConfirmation com rótulos traduzíveis e desfazer
+  done_when: >-
+    ToolConfirmation aceita labels (approve, deny, status) e onUndo(toolCallId) opcionais, sem mudar o padrão; versão
+    publicada no npm; teste de regressão dos textos padrão e do desfazer
+  # PR aberto: #1934
+  weight: 1
+  acceptance: []
+  homolog: []
+  issues: [1933]
+  prs: []
+- id: RF-10
+  title: Repositório pronto para a verificação determinística de docs
+  done_when: >-
+    O índice do doc-bridge da main está atualizado e a Camada 1 do doc-bridge roda no repositório sem erro, para um
+    produto consumidor verificar a documentação a cada mudança
+  # provável já pronto: workflow "Doc Bridge index refresh" verde na main; falta o registro de uma execução da Camada 1
+  weight: 1
+  acceptance: []
+  homolog: []
+  issues: []
+  prs: []

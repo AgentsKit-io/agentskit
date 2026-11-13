@@ -182,7 +182,7 @@
   {
     "name": "@agentskit/integrations (ESM)",
     "path": "packages/integrations/dist/index.js",
-    "limit": "33 KB",
+    "limit": "34 KB",
     "gzip": true
   },
   {
@@ -651,6 +651,12 @@
     "name": "@agentskit/observability (ESM export ./postgres)",
     "path": "node_modules/.cache/size-limit-subpaths/observability/postgres.js",
     "limit": "4 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/observability (ESM export ./cost-store)",
+    "path": "node_modules/.cache/size-limit-subpaths/observability/cost-store.js",
+    "limit": "4.5 KB",
     "gzip": true
   },
   {

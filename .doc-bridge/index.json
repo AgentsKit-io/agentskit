@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "a0334aff89a948c90344f818487042242e80f23ce05157068b3a17602a635e40",
+  "contentHash": "f85031f4f67135365af567cee7377ce7a59e89fd3ab83b8006b0dddc15ea4d40",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-10T05:15:27.485Z",
+  "generatedAt": "2026-11-12T07:31:53.203Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -388,7 +388,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794"
+      "contentHash": "bd344843e5d27de9961004f9c9faf0d364634bfb041870f38c0ffc59d49334bc"
     },
     {
       "id": "document:.github/rulesets/README.md",
@@ -1000,7 +1000,7 @@
         "document",
         "human"
       ],
-      "contentHash": "0bdadabac9b88a90237e7c8df98db29d90b32ecc0c9723fe2f53a051555b6966"
+      "contentHash": "a05d310854db844e8a8fbecd581365d0bae9eaa1953d233092ab3bb0a9c4c2f1"
     },
     {
       "id": "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx",
@@ -1223,12 +1223,12 @@
       "type": "document",
       "title": "index.mdx",
       "path": "apps/docs-next/content/docs/agents/tools/integrations/index.mdx",
-      "description": "The canonical @agentskit/integrations package contains 50 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
+      "description": "The canonical @agentskit/integrations package contains 52 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "bef75cc9272f40c33b2e2edb20656844203fa2ddd1775edcbf2df028043dc491"
+      "contentHash": "c93ebf892f79990a59d85ff4eb01a55e215a16b9c0ada9496b734722656af9fb"
     },
     {
       "id": "document:apps/docs-next/content/docs/agents/tools/integrations/jira.mdx",
@@ -4035,7 +4035,7 @@
         "document",
         "human"
       ],
-      "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10"
+      "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/adapter-contract-tests.mdx",
@@ -7250,7 +7250,7 @@
         "document",
         "project"
       ],
-      "contentHash": "e4de036b9a616d728221a7da1158c65f7b0004d43effb3d5d3b44e8896c2bc34"
+      "contentHash": "de4fecb36d86527991b7272db3dfc4ca7feb175dbebf0998648685e8fa6aba92"
     },
     {
       "id": "document:packages/net/CONVENTIONS.md",
@@ -7322,7 +7322,7 @@
         "document",
         "project"
       ],
-      "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c"
+      "contentHash": "0c4359a9628d324dfb25ebb7c6afaebde3abc4d8fea28b19b45ba8799009d343"
     },
     {
       "id": "document:packages/rag/CONVENTIONS.md",
@@ -11211,7 +11211,7 @@
         "ts",
         "lib"
       ],
-      "contentHash": "f35d462185453da5c906eb21bdb7af948eafb3f70e0e821414b4884c48769f28"
+      "contentHash": "e4099e029a98c3b7e2fafcab413f72f27e3a30a52788c42b2c62a06c46909c53"
     },
     {
       "id": "module:apps/docs-next/lib/rag/embed.ts",
@@ -11856,7 +11856,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "41716fe6d8a1801cf46f001398d253cf6cd4d2b20013459e7c3aa2f2434ed29e"
+      "contentHash": "344fef647ef5b4f87ee43d1dfe3aad03f83b6330b5d3c963a830f2cf29e819ed"
     },
     {
       "id": "module:apps/docs-next/tests/site-icons.test.ts",
@@ -23292,7 +23292,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "913a323e10e50115be7e77f966a6fbc074701dba1221e6a91230adb7de3c49b8"
+      "contentHash": "08cdd9564c62fb18d01a62d405e8d54ad8c100eb09f232f52a7d5325df51efd5"
     },
     {
       "id": "module:packages/integrations/src/contract.ts",
@@ -24302,6 +24302,38 @@
       "contentHash": "b9818cc33bef3ac49d59857bb010c786f91c04bbb0f03f5e663e0e381d18267a"
     },
     {
+      "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+      "type": "module",
+      "title": "actions.ts",
+      "path": "packages/integrations/src/services/freshdesk/actions.ts",
+      "symbols": [
+        "freshdeskActions",
+        "freshdeskGetTicket",
+        "freshdeskListTickets"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "freshdesk"
+      ],
+      "contentHash": "0e987397a378fbcbcaf1683affd26011f0f8575d86fe6963b87d37be3597d19d"
+    },
+    {
+      "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/services/freshdesk/index.ts",
+      "symbols": [
+        "freshdeskIntegration"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "freshdesk"
+      ],
+      "contentHash": "9ebfd70e96e3915b6ba179cf9611e0dec6f8461be1a87e637397d0e983b8059e"
+    },
+    {
       "id": "module:packages/integrations/src/services/github-actions/actions.ts",
       "type": "module",
       "title": "actions.ts",
@@ -24538,6 +24570,7 @@
         "elevenlabsIntegration",
         "figmaIntegration",
         "firecrawlIntegration",
+        "freshdeskIntegration",
         "githubActionsIntegration",
         "githubIntegration",
         "gmailIntegration",
@@ -24565,14 +24598,15 @@
         "twilioIntegration",
         "weatherIntegration",
         "whatsappIntegration",
-        "whisperIntegration"
+        "whisperIntegration",
+        "zendeskIntegration"
       ],
       "tags": [
         "module",
         "ts",
         "services"
       ],
-      "contentHash": "f5514d06e27f5e19181434a705171cb31bb0fac9c61025ee9de1f9d1cd2a05ab"
+      "contentHash": "543a9a367419cf7297ce4612d131fbff4ef3dc36ce0dc85f83a1b8f392509167"
     },
     {
       "id": "module:packages/integrations/src/services/intercom/actions.ts",
@@ -25533,6 +25567,38 @@
       "contentHash": "4490a585864cc082312ad1198abce7c9097db7a7aad63217dce8aedda26e2513"
     },
     {
+      "id": "module:packages/integrations/src/services/zendesk/actions.ts",
+      "type": "module",
+      "title": "actions.ts",
+      "path": "packages/integrations/src/services/zendesk/actions.ts",
+      "symbols": [
+        "zendeskActions",
+        "zendeskGetTicket",
+        "zendeskListTickets"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "zendesk"
+      ],
+      "contentHash": "dcd956b1754fc70992d130d637dfd6f8da6055f3a2dd7a9ac670624440c0b7e9"
+    },
+    {
+      "id": "module:packages/integrations/src/services/zendesk/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/services/zendesk/index.ts",
+      "symbols": [
+        "zendeskIntegration"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "zendesk"
+      ],
+      "contentHash": "cc19fbe71a73c5e2b9f897d7d7ff94fa79f1ce692b7c0e002e88581f28385796"
+    },
+    {
       "id": "module:packages/integrations/src/testing/index.ts",
       "type": "module",
       "title": "index.ts",
@@ -25879,6 +25945,19 @@
         "tests"
       ],
       "contentHash": "b099967f7269a82e35cf1b724729743518fcf1ad46d51655935f57d367c865e3"
+    },
+    {
+      "id": "module:packages/integrations/tests/support-desks.test.ts",
+      "type": "module",
+      "title": "support-desks.test.ts",
+      "path": "packages/integrations/tests/support-desks.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "e2f93a4c10a8bb5aba154826ffd00d992390f8eb74b898de227272725315618d"
     },
     {
       "id": "module:packages/integrations/tests/transport-contract.test.ts",
@@ -26301,7 +26380,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "7bc1de58e487346a7a0c207703292c18b8b3a6efecc60d6204d84524a19e54c8"
+      "contentHash": "bec27541708e82a1ab4ac832a54fd07f3c4cd0f00bdcc1eb7bd636496162564c"
     },
     {
       "id": "module:packages/memory/src/forget.ts",
@@ -26320,7 +26399,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "e3a84372862fc9350c7ec329f519a57df41b130f2881cfad7603d37a462e036b"
+      "contentHash": "6f0b8573effecad14e86c2db50a6f7a2cc207515e4754115a0a6713119e5730d"
     },
     {
       "id": "module:packages/memory/src/graph.ts",
@@ -26493,7 +26572,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "8ea60e72246bce59bc0217cc80c6b6cac609c8e18122d0566541dd6a2b87d663"
+      "contentHash": "ee23492065570ad2e01d5c98aca1f9baf8658d5b331cf8a5521c3c6a60e5a8de"
     },
     {
       "id": "module:packages/memory/src/kv-store-factory.ts",
@@ -26549,7 +26628,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "e267cf63b6658a02cc739330353f384d4b1c5b819b788cb432344d43d2d7cd37"
+      "contentHash": "b83f2c7681a845f0a8ae1e758af827ad6765865261ed3307da049eb267ecf336"
     },
     {
       "id": "module:packages/memory/src/kv-store-types.ts",
@@ -26582,7 +26661,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "5ab56b0dbafedf2f9680bfb3581099720452b2fb4fc29722f7a05fbe35785fb3"
+      "contentHash": "d7924a47580fb1bc091b4f90f9654e88fc999a887f3746770860093755088802"
     },
     {
       "id": "module:packages/memory/src/kv-store-vector.ts",
@@ -26598,7 +26677,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "2ed469b2773a6dc8e9e77c994f7048c1a257a28934614ed87453b1a9e4f4f7d1"
+      "contentHash": "67964f69a022b99879f02aceb68508fd7fb2401953c3829850c766810fe4025b"
     },
     {
       "id": "module:packages/memory/src/personalization.ts",
@@ -26669,7 +26748,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "7db9e18cfe93b6caf7a21055dbd716a3e58b7756a359ff4fa3566a000490c3b9"
+      "contentHash": "e91492adb32368e5fad469474d101a899c94fc328c2c6a6dfc05880c255ef160"
     },
     {
       "id": "module:packages/memory/src/redis-client.ts",
@@ -26686,7 +26765,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "fd4900ce390aed0c7f562e0f074ec53a1b63f1bf35f0c85e15e241bbf565ec3b"
+      "contentHash": "146e1a15185d9173560f351dd0ef5f6c6124da5c6933052e7b5517f67162d7a1"
     },
     {
       "id": "module:packages/memory/src/redis-vector.ts",
@@ -26702,7 +26781,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "e4cd3d67548fb17cf6dcd64abe1b9827400810180ea3c8bfb861afb289ced625"
+      "contentHash": "5ed65018c6a66c93740f30e33b5c9eaa43417f2621b6fe47160c4e5ca0f895f6"
     },
     {
       "id": "module:packages/memory/src/sqlite.ts",
@@ -26718,7 +26797,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "bfa5d769ac1c7de9af3f8b674b965ce65fc83be1501da7156581ce25bd8d8523"
+      "contentHash": "ea21347270b34016a80905a169fbba76cc23ce44e7d398bf5b6902054e14a7e0"
     },
     {
       "id": "module:packages/memory/src/turso.ts",
@@ -26734,7 +26813,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "1c65883fe94239e02f09a9a417c83d4a1eb6f2deafdbcfabca6944dfbb538969"
+      "contentHash": "4fdbd7da3ceb74be3dfae6dcf80ca9090cc2fa9f9b67b843078418d30c138760"
     },
     {
       "id": "module:packages/memory/src/vector-store.ts",
@@ -26867,7 +26946,7 @@
         "ts",
         "vector"
       ],
-      "contentHash": "8cf88f0a80d40f4cbd92885adb80724e57089257388d1c60a9521fea5a5a9161"
+      "contentHash": "6e35e4ddd75776980363e0101cb3c6692fcadd80335f81c4e2e631b79b5f8cd3"
     },
     {
       "id": "module:packages/memory/src/vector/pgvector.ts",
@@ -27075,7 +27154,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "da2f3aab41e2c5f75e14aaa3bd835286fedee56a717e1a00752edfd79acf877e"
+      "contentHash": "cd1989da3fd482ef5d20b4653a23322c43a7399141773ae81c24bd37377dc132"
     },
     {
       "id": "module:packages/memory/tests/filter.test.ts",
@@ -27101,7 +27180,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "18e631ec6279e62bd286cc984675689e175a9f035dcc34c9954a940361d5f27d"
+      "contentHash": "be829fafe3128ff3f547c925f433d70d0cdd82e539c88839d624276393b64c06"
     },
     {
       "id": "module:packages/memory/tests/graph.test.ts",
@@ -27140,7 +27219,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "afe57518128aedc9270b039a99b15862f8c25303d564367907fb98be96de5c92"
+      "contentHash": "e92b91130e2c45ecd962c088cdc8ef52dd6920165f6bba413794a9fa8ebb70d8"
     },
     {
       "id": "module:packages/memory/tests/kv-store-factory.test.ts",
@@ -27154,6 +27233,19 @@
         "tests"
       ],
       "contentHash": "812f2313801b2cdc2087a3812de96997a807d5dd6597bf22693e71878ba9024b"
+    },
+    {
+      "id": "module:packages/memory/tests/kv-store-localstorage-file.test.ts",
+      "type": "module",
+      "title": "kv-store-localstorage-file.test.ts",
+      "path": "packages/memory/tests/kv-store-localstorage-file.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "7e3e704ad7f10a510898a27698153a378d3908c751fd8ae00cc8c903d04f5993"
     },
     {
       "id": "module:packages/memory/tests/kv-store-redis.test.ts",
@@ -27179,7 +27271,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "4805cd6e7c92ba95797511e384042f75611914203e10d84a9a101dc80312d309"
+      "contentHash": "02c1f6352b9b095e87ec2bc8fa97e826c0f003426a3dc1eeb697ca7ce6194479"
     },
     {
       "id": "module:packages/memory/tests/kv-store-types.test.ts",
@@ -27205,7 +27297,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "93ed4f0a902474a873b852161e8347e203f92a89b4b38826d7cb686b63711bba"
+      "contentHash": "051ad0bc7a97226ac913af764e7a24ffd941960dd9baf3f1cacadd3be8258f35"
     },
     {
       "id": "module:packages/memory/tests/memory-batch-2.test.ts",
@@ -27218,7 +27310,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "51eb77f8443c2ec41074fb4c5a5c1b92e2c54393600366f0c932ab0db81c8f61"
+      "contentHash": "2672f6af9210546ec29aaa93e4a9cf09d295b102af1f4a4bc12fbcc1491c95b5"
     },
     {
       "id": "module:packages/memory/tests/memory-boundaries.test.ts",
@@ -27325,7 +27417,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "18236172fe54c7b80ab15cc119d85f7b96ca62712ad73fa852b891960df9cdac"
+      "contentHash": "1caafbbaf942abbf94aaf1f50bc564701162ead59ef30f1245909ce0fb1fb507"
     },
     {
       "id": "module:packages/memory/tests/redis-client.test.ts",
@@ -27338,7 +27430,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "c1cfcbeee97e1f6b66f69a600a5770cf8cc1905e3e21b8abca6034344791d86d"
+      "contentHash": "a646fb0af78b0b51779b5a2e642aa27321475631222bb5c5a5bfecf58fb6eebb"
     },
     {
       "id": "module:packages/memory/tests/redis.test.ts",
@@ -27364,7 +27456,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "4c7dcaca06aee5d13dc3b38788e016fc50eba740666f834f07b1d126125bcffd"
+      "contentHash": "d5ac0bbbc6e5793e4527ce269746c61edb9b5cb87edf7f858237272874b4f192"
     },
     {
       "id": "module:packages/memory/tests/supabase-full.test.ts",
@@ -27403,7 +27495,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "35cb7e452d443bd92d6cfb36fd439eed9fd9fa32eb05f8718fae672a35d34d72"
+      "contentHash": "5cbbcc8f88c9f48cd34d955e734d0633bd1079ea3638e3e481429da7142da653"
     },
     {
       "id": "module:packages/memory/tests/turso.test.ts",
@@ -27498,7 +27590,7 @@
         "ts",
         "memory"
       ],
-      "contentHash": "55638e837fb02a98d4f5cf8e42fd86180655db56b0d465dfbb80fc794d81a5b7"
+      "contentHash": "263a9205c12614b469fd843d0387ba91dd90d8a9afffec095f670d8bd3c47bba"
     },
     {
       "id": "module:packages/net/fixtures/readme-quickstart.ts",
@@ -28277,24 +28369,27 @@
         "ts",
         "src"
       ],
-      "contentHash": "e639359b2944a67ae22efb80ba5e3f658688c32b9a23a314b291e2f5fdc32fcb"
+      "contentHash": "f523e7509cb4e0f9c8901d9ad0dcf071142527b03e4d139b693e4b647e0598b5"
     },
     {
-      "id": "module:packages/observability/src/cost-store-spend.ts",
+      "id": "module:packages/observability/src/cost-store-entry.ts",
       "type": "module",
-      "title": "cost-store-spend.ts",
-      "path": "packages/observability/src/cost-store-spend.ts",
+      "title": "cost-store-entry.ts",
+      "path": "packages/observability/src/cost-store-entry.ts",
       "symbols": [
-        "CostSpendRecord",
-        "recordCostSpend",
-        "warnProcessLocalCostState"
+        "CostReservationError",
+        "CostStore",
+        "MultiTenantCostGuardOptions",
+        "createInMemoryCostStore",
+        "monthlyWindowKey",
+        "multiTenantCostGuard"
       ],
       "tags": [
         "module",
         "ts",
         "src"
       ],
-      "contentHash": "746dd149300b1eb83a45e0159d20b9e7014fa9abe3381dc362ac73ca6c44e459"
+      "contentHash": "7de6458fec17f3474f990efc5f9081294d96578235f500221bd640e27fca4ae4"
     },
     {
       "id": "module:packages/observability/src/cost-store.ts",
@@ -28303,7 +28398,6 @@
       "path": "packages/observability/src/cost-store.ts",
       "symbols": [
         "CostCommitInput",
-        "CostCountInput",
         "CostReleaseInput",
         "CostReservationError",
         "CostReserveInput",
@@ -28321,7 +28415,6 @@
         "monthlyWindowKey",
         "recordCostSpend",
         "validateCostCommit",
-        "validateCostCount",
         "validateCostRelease",
         "validateCostReserve",
         "validateCostWindow",
@@ -28333,7 +28426,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "6856312f32806b4b806344b3276504ab9753bb3910827e1b58a8f59f64edbc0c"
+      "contentHash": "3505173725e4f2b72585a759df38e43b8f3e4ac4e6a74b662b57378b966c2b17"
     },
     {
       "id": "module:packages/observability/src/datadog.ts",
@@ -28429,7 +28522,6 @@
         "CostCapWindow",
         "CostCaps",
         "CostCommitInput",
-        "CostCountInput",
         "CostGuardErrorHandler",
         "CostGuardMode",
         "CostGuardOptions",
@@ -28544,7 +28636,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "1abbb62216b903e305048137ad43142daf685fbd5249c326c27c520f2b75086b"
+      "contentHash": "1731cecba9b317493798a6b8e8c8d0840b7b613a60ae28eb8d246a21d6dc8aa3"
     },
     {
       "id": "module:packages/observability/src/langsmith.ts",
@@ -28617,7 +28709,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "3f796aaf7cf515e17abf6c819a2d5c0d6683ac34318575ff68406083c92e0dc1"
+      "contentHash": "e32f734825f507e3ab194ea9602f3ac659a1a20354ad1d8c7830774a43f14895"
     },
     {
       "id": "module:packages/observability/src/prod-control.ts",
@@ -28936,7 +29028,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "d729be8738767d06deb37a1661a69daa1874f523791bfade6179ea4727cf5cf5"
+      "contentHash": "f0bd5884a15e5771ce295772ddca61703b9d9f4b7edf47188486a18d7d254e98"
     },
     {
       "id": "module:packages/observability/tests/cost-guard.test.ts",
@@ -28962,20 +29054,33 @@
         "test",
         "tests"
       ],
-      "contentHash": "53bdd4eb0fe66103dbe67cdafa6505c23a01169a37d12e63ab865284222860f6"
+      "contentHash": "3a284757bbc12d9d061ea11791f9b4e8e9cb9b9a69e4cf78b630f88aaa4f9008"
     },
     {
-      "id": "module:packages/observability/tests/cost-store-spend.test.ts",
+      "id": "module:packages/observability/tests/cost-store-entry.test.ts",
       "type": "module",
-      "title": "cost-store-spend.test.ts",
-      "path": "packages/observability/tests/cost-store-spend.test.ts",
+      "title": "cost-store-entry.test.ts",
+      "path": "packages/observability/tests/cost-store-entry.test.ts",
       "tags": [
         "module",
         "ts",
         "test",
         "tests"
       ],
-      "contentHash": "33e573607b6918bfc6dbeaea3d039f9417c9176c3a740b84a065281406f641dd"
+      "contentHash": "88c7b054536c27f59915e5f229da0c978440ac4520b71826c230d3e1c70c36ad"
+    },
+    {
+      "id": "module:packages/observability/tests/cost-store-subpath.test.ts",
+      "type": "module",
+      "title": "cost-store-subpath.test.ts",
+      "path": "packages/observability/tests/cost-store-subpath.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "e76b61d37483b44b1df335e9183c372f1bb7235bad19a48b96a27d32621fb9b5"
     },
     {
       "id": "module:packages/observability/tests/cost-store.test.ts",
@@ -28988,7 +29093,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "3b1778720dbfb9b8d8bcd203002a0f5699d4a1d0a31bbd571480ff48b224d7de"
+      "contentHash": "950a389c1e129144f7588635c9f437cc10b4beb2b7b81621062b3ebef559b0d8"
     },
     {
       "id": "module:packages/observability/tests/devtools.test.ts",
@@ -29096,7 +29201,7 @@
         "mjs",
         "tests"
       ],
-      "contentHash": "91d38ec2f2703c2e15c079ce548fc5ef28b3613af00baa6da3708470a9a7479a"
+      "contentHash": "dbd4f1b1f4c518fdc519e586f9b2655a6856d036d084504108b47fc410b72a69"
     },
     {
       "id": "module:packages/observability/tests/postgres.integration.test.ts",
@@ -29109,7 +29214,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "3b03ecf66fe3e5881ad93d9ed816596a8cf31c8a90b93a1b0467b862cf07e238"
+      "contentHash": "301ce5fb51c3d0910a5eba60c067ab36ee65c26c879b2882cef099bb6fed0156"
     },
     {
       "id": "module:packages/observability/tests/postgres.test.ts",
@@ -29122,7 +29227,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "986c1ef92700f2c256099a78cf789fdcc91f78c8d9d1dcd136ecbf79ab176643"
+      "contentHash": "0b325eab8857a792babdce02f661131bac9b41f5aa871174c268b6f8469d6c78"
     },
     {
       "id": "module:packages/observability/tests/prod-control.test.ts",
@@ -29280,7 +29385,7 @@
         "ts",
         "observability"
       ],
-      "contentHash": "2f318bb41889c463db9944961fec345256f93559fe44779010397c00395f051d"
+      "contentHash": "2cb05261cd77d0c21e3d9abd97cd071395b7f1077af1df49ec121447f9b24cb3"
     },
     {
       "id": "module:packages/observability/vitest.config.ts",
@@ -29937,7 +30042,7 @@
         "ts",
         "rag"
       ],
-      "contentHash": "eed6385eedc1981a6de26c4eebecb1e9d94080d5a7c6f610f738b6cfb4691dc6"
+      "contentHash": "224d8547fc943cea3fa3463ea7686dccfaf508eac95ddef12d1bdc372196ffd1"
     },
     {
       "id": "module:packages/react-native/fixtures/readme-quickstart.tsx",
@@ -33737,7 +33842,7 @@
         "ts",
         "svelte"
       ],
-      "contentHash": "a9d0eb7e3556dccda55f1acf7bd0b3f3da7a7ec8dd794acaf8f1e7ba766db75f"
+      "contentHash": "6cd72aa00876fd6f26a32fc3ad6a80c32827199d8432b20ac2c624175ff29bdf"
     },
     {
       "id": "module:packages/svelte/vitest.ssr.config.ts",
@@ -35827,7 +35932,7 @@
         "ts",
         "tools"
       ],
-      "contentHash": "01d797d23b88896eb4b8c5691b12fff090288ffaf7b3fac14b0f80d03ab788d0"
+      "contentHash": "c049cadb682714b7a6aff66994eeda2736c67b7bf82d8cc8e2b47270de7a836c"
     },
     {
       "id": "module:packages/validation/fixtures/readme-quickstart.ts",
@@ -37518,7 +37623,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "8f5e62d7adba8cb5dc0fc29dae3589ebcf80de2441f87effebb980aa1115d72e"
+      "contentHash": "6f3526e23cb1e05b34b5af275471c746e65c20fcb7d51c80e0baf3df29afc5f4"
     },
     {
       "id": "module:scripts/packed-consumers.test.mjs",
@@ -39193,8 +39298,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "5283abc85c1bc8d39da6488461332e64740b4d503b61da93ea854ddfa0f24838",
-    "fileCount": 2691,
+    "hash": "0bed80ca589e9854143199569de011bc90bf683fd0a371166d152fb5acf057be",
+    "fileCount": 2698,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39216,9 +39321,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "8ed12337c6ae4f52a084fa35815236d5e28a4a45288a2a514a0fe7bdbf383d5b",
+    "contentHash": "6739ac4183e28464bbacda2121a64720be12857624dec16cacbd5d154974ec2c",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "7ff7ffabce4fb1523036a36f74f699b7ac4baf796521ee23087a0bef0c8027f0",
+    "snapshotHash": "a3547f27a9aec471330b757681cb8fb96d0dd699a8dd2666c4e0cb53297740bb",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39238,7 +39343,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2555,
+      "documentCount": 2562,
       "fieldNames": [
         "aliases",
         "body",
@@ -39249,13 +39354,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0183953033268103,
-        "body": 60.917808219178085,
-        "headings": 3.882583170254403,
-        "path": 7.6136986301369864,
-        "summary": 4.502152641878669,
-        "symbols": 7.566731898238747,
-        "title": 3.3823874755381604
+        "aliases": 3.0195160031225603,
+        "body": 60.75136612021858,
+        "headings": 3.871975019516003,
+        "path": 7.615925058548009,
+        "summary": 4.489851678376269,
+        "symbols": 7.5597189695550355,
+        "title": 3.3832943013270884
       }
     },
     "entries": [
@@ -41279,7 +41384,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3d65c3545b68ed375273039b1262958bdfc042286a6dedb7eff110323cdc3fdc",
+        "contentHash": "753ef36e0dcb1bdb29ded71cf409c0c164ceba431d38428021f4e46d36fbfc89",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42673,7 +42778,7 @@
           "path": ".github/factory-playbook.md",
           "symbols": "",
           "summary": "Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit.",
-          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks; do not rely on it for the final check (pre-push only typechecks changed packages; run the quick verification and pnpm check:quality-gates yourself). 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm check:quality-gates . - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:index and commit the result (needed whenever docs, package READMEs or exports change). - pnpm-lock.yaml : on conflict take the base side, then p",
+          "body": "Factory playbook — AgentsKit Read before every stage. Monorepo: pnpm 10 + Turborepo + Changesets. Also read AGENTS.md and the CONVENTIONS.md of the package you edit. 1. Install - Node 22 in CI (any Node = 22 works locally), pnpm 10.34.4 ( packageManager in package.json ; use corepack). - Exact CI command: pnpm install --frozen-lockfile . - Stale lockfile (frozen install fails): run pnpm install , commit the pnpm-lock.yaml change in its own build: commit. Never hand-edit the lockfile. - No env vars are needed to build/test. Postgres tests read a connection URL variable (see .github/workflows/ci.yml ); skip them locally. - HUSKY=0 skips git hooks. Pre-push only typechecks changed packages, so it is not the final check: verify in .github/factory.json (affected build, lint and test, Doc Bridge index, quality gates) is. 2. Run locally - Docs: pnpm docs (Next.js, apps/docs-next ). Examples: pnpm dev (turbo, all dev tasks). Most tickets are library code and need no running app. 3. Quick verification (small diff) Build first when you touch a package other packages import (they consume dist/ ). - pnpm --filter @agentskit/<pkg build - pnpm --filter @agentskit/<pkg lint (this is tsc --noEmit , the typecheck) - pnpm --filter @agentskit/<pkg test - One test file: pnpm --filter @agentskit/<pkg exec vitest run path/to/file.test.ts - Root scripts/ .test.mjs : pnpm exec vitest run scripts/<file .test.mjs (or node --test for those that use it, see package.json ). - Always finish with pnpm docs:bridge:index && pnpm check:quality-gates (the gates read the current tree's Doc Bridge index, as in CI). - Affected-only, like CI: pnpm exec turbo run build lint test --filter='...[origin/main]' --concurrency=2 (plus the two commands above, this is verify in .github/factory.json ). 4. Full verification (CI, .github/workflows/ ) ci.yml : - Commitlint : every commit of the PR. - Changeset lint : pnpm changeset status --since=origin/main when packages/ source changed. - Quality gates : build, check:publication-surface , check:packed-consumers , check:publish-manifests , check:public-api-snapshot , lint, docs:bridge:index , check:quality-gates , docs:bridge:freshness , docs:bridge:gate , docs:bridge:conformance . Touching root config, scripts/ or .github/ makes it run for ALL packages (slow). - Test, Build : turbo run test --concurrency=2 . PostgreSQL contract : slow, needs a service container. Lint, Test, Build is the aggregate required check. - Compatibility matrix (Node versions) and cross-platform jobs. Other workflows: coverage.yml ( pnpm test:coverage , required), size.yml ( pnpm size , core < 10 KB gzip, required), e2e.yml and visual.yml (Playwright, slow, flaky: baselines), docs.yml , link-check.yml , lighthouse.yml , codeql.yml , dependency-review.yml ( pnpm audit -style alerts come from the lockfile), doc-bridge-index.yml . 5. Rules that most often fail PRs - Commitlint : header <= 72 chars, type(scope): subject ; types: arch build chore ci docs feat fix merge perf quality refactor release reliability revert security style test. Check each commit: echo \"<msg \" pnpm exec commitlint . - Changesets : user-facing change in packages/ /src needs .changeset/<slug .md (frontmatter '@agentskit/<pkg ': patch minor , body starts with a feat: / fix: line). No changelog.d/ here; never bump versions or edit CHANGELOG.md . - Quality gates ( scripts/check-quality-gates.mjs ): file-size budgets (split files, never raise baselines), no any , named exports only, errors, exports, parity, docs, no nested ternary. - Core: zero deps, < 10 KB gzip. - Public API change: pnpm check:public-api-snapshot:update and commit the snapshot. - Private consumer data never goes in code, tests, docs or commits ( docs/PRIVATE-CONSUMER-POLICY.md ); use synthetic fixtures. 6. Shared registry files (conflict-prone) - .doc-bridge/index.json , .doc-bridge/capabilities.json , .doc-bridge/llms.txt , llms.txt : generated. Never hand-edit or resolve by hand: after a merge run pnpm docs:bridge:ind",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -42720,7 +42825,7 @@
             }
           ]
         },
-        "contentHash": "ae1040a16c0d2388416fffa81750ace3866a6cb10cd4680c4c93c8afecbb3794",
+        "contentHash": "bd344843e5d27de9961004f9c9faf0d364634bfb041870f38c0ffc59d49334bc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -45249,7 +45354,7 @@
           "path": "apps/docs-next/content/docs/agents/tools/index.mdx",
           "symbols": "",
           "summary": "defineTool (core) — JSON-Schema inference.",
-          "body": "Authoring - defineTool (core) — JSON-Schema inference. - defineZodTool — Zod-based with runtime validation. - composeTool — chain N tools into one macro tool. . - wrapToolWithSelfDebug — LLM-corrected retries. . - createMandatorySandbox — allow / deny / require-sandbox / validators. . Built-ins webSearch · fetchUrl · filesystem · shell Integrations (50) Dev / chat: github · linear · slack · notion · discord Google: gmail · googleCalendar Business: stripe · postgres · s3 Scraping: firecrawl · reader · documentParsers Voice / image: openaiImages · elevenlabs · whisper · deepgram Data: maps · weather · coingecko Browser: browserAgent MCP bridge - createMcpClient + toolsFromMcpClient — consume any MCP server. - createMcpServer — publish AgentsKit tools to any MCP host. - . Use the to browse all 50 service descriptors, or read the before implementing a connector. Dedicated service guides are linked from the catalog where available. Related - - -",
+          "body": "Authoring - defineTool (core) — JSON-Schema inference. - defineZodTool — Zod-based with runtime validation. - composeTool — chain N tools into one macro tool. . - wrapToolWithSelfDebug — LLM-corrected retries. . - createMandatorySandbox — allow / deny / require-sandbox / validators. . Built-ins webSearch · fetchUrl · filesystem · shell Integrations (50) Dev / chat: github · linear · slack · notion · discord Google: gmail · googleCalendar Business: stripe · postgres · s3 Scraping: firecrawl · reader · documentParsers Voice / image: openaiImages · elevenlabs · whisper · deepgram Data: maps · weather · coingecko Browser: browserAgent MCP bridge - createMcpClient + toolsFromMcpClient — consume any MCP server. - createMcpServer — publish AgentsKit tools to any MCP host. - . Use the to browse all 52 service descriptors, or read the before implementing a connector. Dedicated service guides are linked from the catalog where available. Related - - -",
           "aliases": "document human"
         },
         "graph": {
@@ -45421,7 +45526,7 @@
             }
           ]
         },
-        "contentHash": "0bdadabac9b88a90237e7c8df98db29d90b32ecc0c9723fe2f53a051555b6966",
+        "contentHash": "a05d310854db844e8a8fbecd581365d0bae9eaa1953d233092ab3bb0a9c4c2f1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -46324,7 +46429,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/agents/tools/integrations/index.mdx",
         "title": "index.mdx",
-        "summary": "The canonical @agentskit/integrations package contains 50 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
+        "summary": "The canonical @agentskit/integrations package contains 52 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -46336,8 +46441,8 @@
           "headings": "Categories Usage Credentials Conventions Related",
           "path": "apps/docs-next/content/docs/agents/tools/integrations/index.mdx",
           "symbols": "",
-          "summary": "The canonical @agentskit/integrations package contains 50 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
-          "body": "The canonical @agentskit/integrations package contains 50 service descriptors . This page covers the detailed guides available in the tools documentation; the describes the full descriptor registry and projection contract. The keeps both surfaces discoverable without creating placeholder pages for services that do not yet have a dedicated guide. Categories Category Integrations --- --- Dev + chat · · · · Google · Business · · · · · Ops · Scraping · · Voice + image · · · Data · · Browser (Puppeteer) Usage Import whole integrations for the full tool set, or cherry-pick sub-tools: Credentials Every integration reads a token or API key from its config . No process-env magic, no globals — you pass what you want, where you want. Conventions - Sub-tools are named <integration <Verb (e.g. githubCreateIssue ). - Bundled tool exported under the integration name (e.g. github ) returns an array of sub-tools. - Config types exported as <Integration Config . - Errors wrap provider 4xx/5xx with ToolError so runtime sees a consistent shape. - Mandatory sandbox — wrap risky integrations (shell, postgres write, github create) via createMandatorySandbox . Related - — wrap what's missing. - — webSearch, fetchUrl, filesystem, shell. - — consume or publish tool sets over MCP. - Recipe: .",
+          "summary": "The canonical @agentskit/integrations package contains 52 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
+          "body": "The canonical @agentskit/integrations package contains 52 service descriptors . This page covers the detailed guides available in the tools documentation; the describes the full descriptor registry and projection contract. The keeps both surfaces discoverable without creating placeholder pages for services that do not yet have a dedicated guide. Categories Category Integrations --- --- Dev + chat · · · · Google · Business · · · · · Ops · Scraping · · Voice + image · · · Data · · Browser (Puppeteer) Usage Import whole integrations for the full tool set, or cherry-pick sub-tools: Credentials Every integration reads a token or API key from its config . No process-env magic, no globals — you pass what you want, where you want. Conventions - Sub-tools are named <integration <Verb (e.g. githubCreateIssue ). - Bundled tool exported under the integration name (e.g. github ) returns an array of sub-tools. - Config types exported as <Integration Config . - Errors wrap provider 4xx/5xx with ToolError so runtime sees a consistent shape. - Mandatory sandbox — wrap risky integrations (shell, postgres write, github create) via createMandatorySandbox . Related - — wrap what's missing. - — webSearch, fetchUrl, filesystem, shell. - — consume or publish tool sets over MCP. - Recipe: .",
           "aliases": "document human"
         },
         "graph": {
@@ -46489,7 +46594,7 @@
             }
           ]
         },
-        "contentHash": "bef75cc9272f40c33b2e2edb20656844203fa2ddd1775edcbf2df028043dc491",
+        "contentHash": "c93ebf892f79990a59d85ff4eb01a55e215a16b9c0ada9496b734722656af9fb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -53522,6 +53627,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/observability/src/cost-guard-multi-tenant.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/observability/src/cost-guard.ts",
               "confidence": "observed"
             },
@@ -53597,7 +53707,7 @@
             }
           ]
         },
-        "contentHash": "c9f4fcde9d6af4180b481e0271907f9d80eeec0627e822aa8476ea05aa99f74b",
+        "contentHash": "69e8ad6baa16879eeb7032027cbaeccaa4757e2ecab96e39f8b06edfb7660bab",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -61913,11 +62023,6 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/observability/src/cost-store-spend.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/observability/src/cost-store.ts",
               "confidence": "observed"
             },
@@ -63266,7 +63371,7 @@
           "path": "apps/docs-next/content/docs/reference/publications.mdx",
           "symbols": "",
           "summary": "This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed.",
-          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. - — public registry entry. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
+          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
           "aliases": "document human"
         },
         "graph": {
@@ -63277,7 +63382,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10",
+        "contentHash": "b49c22fda8ebfcdb678a98d44c8d41b664b92bb0865704f54dca840a00f48f83",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73371,11 +73476,6 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/observability/src/cost-store-spend.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/observability/src/cost-store.ts",
               "confidence": "observed"
             },
@@ -80370,7 +80470,7 @@
           "path": "packages/memory/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/memory Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Persist conversations and add vector search to your agents — swap backends without changing agent code. Tags: ai · agents · llm · agentskit · ai-agents · memory · vector-db · embeddings · rag · sqlite · redis · vector-search Verified proof - Package metadata and tests live under packages/memory/ . - Package guide: https://www.agentskit.io/docs/reference/packages/memory - Stability map: How this fits the ecosystem @agentskit/memory gives agents continuity: chat history, vector memory, graph memory, encrypted stores, and local or hosted backends. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why memory - Conversations that survive restarts — SQLite for local development, Redis for production; your agent remembers context across sessions with zero code changes - RAG-ready vector search — store and retrieve embeddings with fileVectorMemory (pure JS, no native deps) or Redis vector search for scale - Plug any backend — the VectorStore interface is 3 methods; bring LanceDB, Pinecone, or any custom store in minutes - One interface, every deployment target — swap from inMemory to sqlite to redis without touching agent code Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With RAG Use a vector backend with createRAG({ embed, store }) — fileVectorMemory and redisVectorMemory implement VectorMemory for chunk storage and search. Features Chat memory (4) - fileChatMemory({ path }) — JSON on disk; zero infra. - sqliteChatMemory({ path }) — WAL-mode SQLite; indexed by session. - redisChatMemory({ client, keyPrefix }) — distributed, serverless-friendly. - tursoChatMemory({ url, authToken? }) — hosted or local libSQL/Turso. All on top of createInMemoryMemory / createLocalStorageMemory from @agentskit/core . Browser Web Storage Use the browser-safe subpath when a host needs validated, bounded storage or sessionStorage instead of the legacy Core localStorage helper: Canonical records are runtime validated. Oversized saves reject with AK MEMORY SAVE FAILED before changing storage. migration may supply legacy keys and a host-owned parser; a legacy key is removed only after canonical persistence succeeds. Vector memory (11) - fileVectorMemory — pure-JS, file-persisted (good to ~10k vectors). - redisVectorMemory — Redis Stack / Redis 8+ HNSW. - pgvector — BYO SQL runner ( postgres.js , pg , Drizzle, Prisma, Neon). - pinecone — managed; namespaces + metadata filters. - qdrant — self-hosted or cloud via HTTP. - chroma — Chroma v2 HTTP client with tenant, database, and token support. - upstashVector — serverless HTTP. - supabaseVectorStore — Supabase-hosted pgvector RPC. - weaviateVectorStore — Weaviate Cloud or self-hosted HTTP. - milvusVectorStore — Milvus/Zilliz REST API. - mongoAtlasVectorStore — MongoDB Atlas Vector Search with an injected collection. Vector adapters follow ADR 0003: a result is included only when its score is strictly greater than threshold . Remote HTTP adapters accept timeoutMs and maxResponseBytes , defaulting to 15 seconds and 2 MiB; both require positive safe integers. Injected fetch and caller signal are also supported. Timeout and response-limit failures use AK MEMORY REMOTE HTTP . File KV writes are atomic and serialized across instances in one process. They are not a multi-process coordination primitive; use SQLite, Redis, or another external store when several processes write the same file. Same 3-method VectorStore contract — swap without touching agent code. Higher-order wrappers (6) - createHierarchicalMemory — MemGPT-style tiers: working / recall",
+          "body": "@agentskit/memory Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Persist conversations and add vector search to your agents — swap backends without changing agent code. Tags: ai · agents · llm · agentskit · ai-agents · memory · vector-db · embeddings · rag · sqlite · redis · vector-search Verified proof - Package metadata and tests live under packages/memory/ . - Package guide: https://www.agentskit.io/docs/reference/packages/memory - Stability map: How this fits the ecosystem @agentskit/memory gives agents continuity: chat history, vector memory, graph memory, encrypted stores, and local or hosted backends. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why memory - Conversations that survive restarts — SQLite for local development, Redis for production; your agent remembers context across sessions with zero code changes - RAG-ready vector search — store and retrieve embeddings with fileVectorMemory (pure JS, no native deps) or Redis vector search for scale - Plug any backend — the VectorStore interface is 3 methods; bring LanceDB, Pinecone, or any custom store in minutes - One interface, every deployment target — swap from inMemory to sqlite to redis without touching agent code Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With RAG Use a vector backend with createRAG({ embed, store }) — fileVectorMemory and redisVectorMemory implement VectorMemory for chunk storage and search. Features Chat memory (4) - fileChatMemory({ path }) — JSON on disk; zero infra. - sqliteChatMemory({ path }) — WAL-mode SQLite; indexed by session. - redisChatMemory({ client, keyPrefix }) — distributed, serverless-friendly. - tursoChatMemory({ url, authToken? }) — hosted or local libSQL/Turso. All on top of createInMemoryMemory / createLocalStorageMemory from @agentskit/core . Browser Web Storage Use the browser-safe subpath when a host needs validated, bounded storage or sessionStorage instead of the legacy Core localStorage helper: Canonical records are runtime validated. Oversized saves reject with AK MEMORY SAVE FAILED before changing storage. migration may supply legacy keys and a host-owned parser; a legacy key is removed only after canonical persistence succeeds. Vector memory (11) - fileVectorMemory — pure-JS, file-persisted (good to ~10k vectors). - redisVectorMemory — Redis Stack / Redis 8+ HNSW. - pgvector — BYO SQL runner ( postgres.js , pg , Drizzle, Prisma, Neon). - pinecone — managed; namespaces + metadata filters. - qdrant — self-hosted or cloud via HTTP. - chroma — Chroma v2 HTTP client with tenant, database, and token support. - upstashVector — serverless HTTP. - supabaseVectorStore — Supabase-hosted pgvector RPC. - weaviateVectorStore — Weaviate Cloud or self-hosted HTTP. - milvusVectorStore — Milvus/Zilliz REST API. - mongoAtlasVectorStore — MongoDB Atlas Vector Search with an injected collection. Mongo Atlas writes use ordered id upserts when the collection provides bulkWrite or updateOne . Repeating an ID replaces the adapter-owned content , embedding, and metadata fields while preserving unrelated fields on the Mongo document; duplicate IDs in one batch resolve to the last document in input order. Older insert-only shims keep their insert behavior and cannot promise repeated-ID replacement. The Vectra file adapter uses stable native IDs when the installed Vectra version provides upsertItem . Re-storing an ID also removes rows written for that ID under random Vectra IDs by earlier versions, in the same index update; rows for IDs that are never re-stored are left as they are. Adapter-owned id and content metadata values ta",
           "aliases": "document project"
         },
         "graph": {
@@ -80547,7 +80647,7 @@
             }
           ]
         },
-        "contentHash": "e4de036b9a616d728221a7da1158c65f7b0004d43effb3d5d3b44e8896c2bc34",
+        "contentHash": "de4fecb36d86527991b7272db3dfc4ca7feb175dbebf0998648685e8fa6aba92",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81118,7 +81218,7 @@
             }
           ]
         },
-        "contentHash": "7d4061c2e5aca6cc074c57c399d1d2d7cc414ded2cee8ae06f14dbaea5823d0c",
+        "contentHash": "0c4359a9628d324dfb25ebb7c6afaebde3abc4d8fea28b19b45ba8799009d343",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95419,7 +95519,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f35d462185453da5c906eb21bdb7af948eafb3f70e0e821414b4884c48769f28",
+        "contentHash": "e4099e029a98c3b7e2fafcab413f72f27e3a30a52788c42b2c62a06c46909c53",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -97377,7 +97477,7 @@
             }
           ]
         },
-        "contentHash": "41716fe6d8a1801cf46f001398d253cf6cd4d2b20013459e7c3aa2f2434ed29e",
+        "contentHash": "344fef647ef5b4f87ee43d1dfe3aad03f83b6330b5d3c963a830f2cf29e819ed",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -139945,6 +140045,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/jira/index.ts",
               "confidence": "observed"
             },
@@ -139994,6 +140099,11 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
               "confidence": "observed"
@@ -140022,7 +140132,7 @@
             }
           ]
         },
-        "contentHash": "913a323e10e50115be7e77f966a6fbc074701dba1221e6a91230adb7de3c49b8",
+        "contentHash": "08cdd9564c62fb18d01a62d405e8d54ad8c100eb09f232f52a7d5325df51efd5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -140341,6 +140451,16 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/github-actions/actions.ts",
               "confidence": "observed"
             },
@@ -140382,16 +140502,6 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/google-calendar/index.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/integrations/src/services/google-drive/actions.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/integrations/src/services/google-drive/index.ts",
               "confidence": "observed"
             }
           ],
@@ -140612,6 +140722,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/linear/gql.ts",
               "confidence": "observed"
             },
@@ -140643,6 +140758,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/whisper/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/actions.ts",
               "confidence": "observed"
             },
             {
@@ -140802,6 +140922,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
               "confidence": "observed"
             }
           ],
@@ -141259,6 +141384,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/tests/transport-contract.test.ts",
               "confidence": "observed"
             },
@@ -141460,6 +141590,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/github-actions/index.ts",
               "confidence": "observed"
             },
@@ -141606,6 +141741,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/whisper/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
               "confidence": "observed"
             },
             {
@@ -144499,6 +144639,131 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/freshdesk/actions.ts",
+        "title": "actions.ts",
+        "aliases": [],
+        "symbols": [
+          "freshdeskActions",
+          "freshdeskGetTicket",
+          "freshdeskListTickets"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "freshdesk"
+        ],
+        "fields": {
+          "title": "actions.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/freshdesk/actions.ts",
+          "symbols": "freshdeskActions freshdeskGetTicket freshdeskListTickets",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts freshdesk"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "0e987397a378fbcbcaf1683affd26011f0f8575d86fe6963b87d37be3597d19d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/freshdesk/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "freshdeskIntegration"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "freshdesk"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/freshdesk/index.ts",
+          "symbols": "freshdeskIntegration",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts freshdesk"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/config-fields.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "9ebfd70e96e3915b6ba179cf9611e0dec6f8461be1a87e637397d0e983b8059e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/services/github-actions/actions.ts",
         "kind": "module",
         "path": "packages/integrations/src/services/github-actions/actions.ts",
@@ -145345,6 +145610,7 @@
           "elevenlabsIntegration",
           "figmaIntegration",
           "firecrawlIntegration",
+          "freshdeskIntegration",
           "githubActionsIntegration",
           "githubIntegration",
           "gmailIntegration",
@@ -145372,7 +145638,8 @@
           "twilioIntegration",
           "weatherIntegration",
           "whatsappIntegration",
-          "whisperIntegration"
+          "whisperIntegration",
+          "zendeskIntegration"
         ],
         "tags": [
           "module",
@@ -145383,7 +145650,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/integrations/src/services/index.ts",
-          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration supabaseIntegration telegramIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration",
+          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration freshdeskIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration supabaseIntegration telegramIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration zendeskIntegration",
           "summary": "",
           "body": "",
           "aliases": "module ts services"
@@ -145516,6 +145783,11 @@
             {
               "kind": "re-exports",
               "id": "module:packages/integrations/src/services/firecrawl/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
               "confidence": "observed"
             },
             {
@@ -145667,10 +145939,15 @@
               "kind": "re-exports",
               "id": "module:packages/integrations/src/services/whisper/index.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "f5514d06e27f5e19181434a705171cb31bb0fac9c61025ee9de1f9d1cd2a05ab",
+        "contentHash": "543a9a367419cf7297ce4612d131fbff4ef3dc36ce0dc85f83a1b8f392509167",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -149407,6 +149684,131 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/services/zendesk/actions.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/zendesk/actions.ts",
+        "title": "actions.ts",
+        "aliases": [],
+        "symbols": [
+          "zendeskActions",
+          "zendeskGetTicket",
+          "zendeskListTickets"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "zendesk"
+        ],
+        "fields": {
+          "title": "actions.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/zendesk/actions.ts",
+          "symbols": "zendeskActions zendeskGetTicket zendeskListTickets",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts zendesk"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "dcd956b1754fc70992d130d637dfd6f8da6055f3a2dd7a9ac670624440c0b7e9",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/services/zendesk/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/zendesk/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "zendeskIntegration"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "zendesk"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/zendesk/index.ts",
+          "symbols": "zendeskIntegration",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts zendesk"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/config-fields.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/actions.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "cc19fbe71a73c5e2b9f897d7d7ff94fa79f1ce692b7c0e002e88581f28385796",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/testing/index.ts",
         "kind": "module",
         "path": "packages/integrations/src/testing/index.ts",
@@ -149564,6 +149966,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
               "confidence": "observed"
             },
             {
@@ -151033,6 +151440,66 @@
           ]
         },
         "contentHash": "b099967f7269a82e35cf1b724729743518fcf1ad46d51655935f57d367c865e3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/tests/support-desks.test.ts",
+        "kind": "module",
+        "path": "packages/integrations/tests/support-desks.test.ts",
+        "title": "support-desks.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "support-desks.test.ts",
+          "headings": "",
+          "path": "packages/integrations/tests/support-desks.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/project/to-tool-definitions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/testing/validate.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "e2f93a4c10a8bb5aba154826ffd00d992390f8eb74b898de227272725315618d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -152607,6 +153074,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/memory/tests/forget.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/rag/tests/partitioned.test.ts",
               "confidence": "observed"
             },
@@ -152679,7 +153151,7 @@
             }
           ]
         },
-        "contentHash": "7bc1de58e487346a7a0c207703292c18b8b3a6efecc60d6204d84524a19e54c8",
+        "contentHash": "bec27541708e82a1ab4ac832a54fd07f3c4cd0f00bdcc1eb7bd636496162564c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -152730,7 +153202,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "e3a84372862fc9350c7ec329f519a57df41b130f2881cfad7603d37a462e036b",
+        "contentHash": "6f0b8573effecad14e86c2db50a6f7a2cc207515e4754115a0a6713119e5730d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -153234,6 +153706,16 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/kv-store-basic.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/kv-store-localstorage-file.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "re-exports",
               "id": "module:packages/memory/src/index.ts",
               "confidence": "observed"
@@ -153247,7 +153729,7 @@
             }
           ]
         },
-        "contentHash": "8ea60e72246bce59bc0217cc80c6b6cac609c8e18122d0566541dd6a2b87d663",
+        "contentHash": "ee23492065570ad2e01d5c98aca1f9baf8658d5b331cf8a5521c3c6a60e5a8de",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -153439,7 +153921,7 @@
             }
           ]
         },
-        "contentHash": "e267cf63b6658a02cc739330353f384d4b1c5b819b788cb432344d43d2d7cd37",
+        "contentHash": "b83f2c7681a845f0a8ae1e758af827ad6765865261ed3307da049eb267ecf336",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -153536,7 +154018,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5ab56b0dbafedf2f9680bfb3581099720452b2fb4fc29722f7a05fbe35785fb3",
+        "contentHash": "d7924a47580fb1bc091b4f90f9654e88fc999a887f3746770860093755088802",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -153590,7 +154072,7 @@
             }
           ]
         },
-        "contentHash": "2ed469b2773a6dc8e9e77c994f7048c1a257a28934614ed87453b1a9e4f4f7d1",
+        "contentHash": "67964f69a022b99879f02aceb68508fd7fb2401953c3829850c766810fe4025b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -153940,7 +154422,7 @@
             }
           ]
         },
-        "contentHash": "7db9e18cfe93b6caf7a21055dbd716a3e58b7756a359ff4fa3566a000490c3b9",
+        "contentHash": "e91492adb32368e5fad469474d101a899c94fc328c2c6a6dfc05880c255ef160",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -154021,7 +154503,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "fd4900ce390aed0c7f562e0f074ec53a1b63f1bf35f0c85e15e241bbf565ec3b",
+        "contentHash": "146e1a15185d9173560f351dd0ef5f6c6124da5c6933052e7b5517f67162d7a1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -154065,6 +154547,11 @@
           ],
           "packageId": "package:@agentskit/memory",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/redis-client.test.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/memory/tests/redis.test.ts",
@@ -154124,7 +154611,7 @@
             }
           ]
         },
-        "contentHash": "e4cd3d67548fb17cf6dcd64abe1b9827400810180ea3c8bfb861afb289ced625",
+        "contentHash": "5ed65018c6a66c93740f30e33b5c9eaa43417f2621b6fe47160c4e5ca0f895f6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -154250,7 +154737,7 @@
             }
           ]
         },
-        "contentHash": "bfa5d769ac1c7de9af3f8b674b965ce65fc83be1501da7156581ce25bd8d8523",
+        "contentHash": "ea21347270b34016a80905a169fbba76cc23ce44e7d398bf5b6902054e14a7e0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -154333,7 +154820,7 @@
             }
           ]
         },
-        "contentHash": "1c65883fe94239e02f09a9a417c83d4a1eb6f2deafdbcfabca6944dfbb538969",
+        "contentHash": "4fdbd7da3ceb74be3dfae6dcf80ca9090cc2fa9f9b67b843078418d30c138760",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -154957,7 +155444,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "8cf88f0a80d40f4cbd92885adb80724e57089257388d1c60a9521fea5a5a9161",
+        "contentHash": "6e35e4ddd75776980363e0101cb3c6692fcadd80335f81c4e2e631b79b5f8cd3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -155994,7 +156481,7 @@
             }
           ]
         },
-        "contentHash": "da2f3aab41e2c5f75e14aaa3bd835286fedee56a717e1a00752edfd79acf877e",
+        "contentHash": "cd1989da3fd482ef5d20b4653a23322c43a7399141773ae81c24bd37377dc132",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156069,12 +156556,17 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/memory/src/file-vector.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/memory/src/forget.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "18e631ec6279e62bd286cc984675689e175a9f035dcc34c9954a940361d5f27d",
+        "contentHash": "be829fafe3128ff3f547c925f433d70d0cdd82e539c88839d624276393b64c06",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156191,10 +156683,15 @@
               "kind": "imports",
               "id": "module:packages/memory/src/index.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/kv-store-basic.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "afe57518128aedc9270b039a99b15862f8c25303d564367907fb98be96de5c92",
+        "contentHash": "e92b91130e2c45ecd962c088cdc8ef52dd6920165f6bba413794a9fa8ebb70d8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156235,6 +156732,46 @@
           ]
         },
         "contentHash": "812f2313801b2cdc2087a3812de96997a807d5dd6597bf22693e71878ba9024b",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/memory/tests/kv-store-localstorage-file.test.ts",
+        "kind": "module",
+        "path": "packages/memory/tests/kv-store-localstorage-file.test.ts",
+        "title": "kv-store-localstorage-file.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "kv-store-localstorage-file.test.ts",
+          "headings": "",
+          "path": "packages/memory/tests/kv-store-localstorage-file.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/memory",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/kv-store-basic.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "7e3e704ad7f10a510898a27698153a378d3908c751fd8ae00cc8c903d04f5993",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156314,7 +156851,7 @@
             }
           ]
         },
-        "contentHash": "4805cd6e7c92ba95797511e384042f75611914203e10d84a9a101dc80312d309",
+        "contentHash": "02c1f6352b9b095e87ec2bc8fa97e826c0f003426a3dc1eeb697ca7ce6194479",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156394,7 +156931,7 @@
             }
           ]
         },
-        "contentHash": "93ed4f0a902474a873b852161e8347e203f92a89b4b38826d7cb686b63711bba",
+        "contentHash": "051ad0bc7a97226ac913af764e7a24ffd941960dd9baf3f1cacadd3be8258f35",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156434,7 +156971,7 @@
             }
           ]
         },
-        "contentHash": "51eb77f8443c2ec41074fb4c5a5c1b92e2c54393600366f0c932ab0db81c8f61",
+        "contentHash": "2672f6af9210546ec29aaa93e4a9cf09d295b102af1f4a4bc12fbcc1491c95b5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156792,7 +157329,7 @@
             }
           ]
         },
-        "contentHash": "18236172fe54c7b80ab15cc119d85f7b96ca62712ad73fa852b891960df9cdac",
+        "contentHash": "1caafbbaf942abbf94aaf1f50bc564701162ead59ef30f1245909ce0fb1fb507",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156829,10 +157366,15 @@
               "kind": "imports",
               "id": "module:packages/memory/src/redis-client.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/redis-vector.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "c1cfcbeee97e1f6b66f69a600a5770cf8cc1905e3e21b8abca6034344791d86d",
+        "contentHash": "a646fb0af78b0b51779b5a2e642aa27321475631222bb5c5a5bfecf58fb6eebb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156922,7 +157464,7 @@
             }
           ]
         },
-        "contentHash": "4c7dcaca06aee5d13dc3b38788e016fc50eba740666f834f07b1d126125bcffd",
+        "contentHash": "d5ac0bbbc6e5793e4527ce269746c61edb9b5cb87edf7f858237272874b4f192",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -157042,7 +157584,7 @@
             }
           ]
         },
-        "contentHash": "35cb7e452d443bd92d6cfb36fd439eed9fd9fa32eb05f8718fae672a35d34d72",
+        "contentHash": "5cbbcc8f88c9f48cd34d955e734d0633bd1079ea3638e3e481429da7142da653",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -157354,7 +157896,7 @@
             }
           ]
         },
-        "contentHash": "55638e837fb02a98d4f5cf8e42fd86180655db56b0d465dfbb80fc794d81a5b7",
+        "contentHash": "263a9205c12614b469fd843d0387ba91dd90d8a9afffec095f670d8bd3c47bba",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160059,9 +160601,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/observability.mdx",
             "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
             "document:docs/architecture/adrs/0044-durable-cost-store.md",
             "document:packages/observability/README.md"
@@ -160080,6 +160623,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/observability.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
               "confidence": "observed"
             },
@@ -160091,6 +160639,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/observability/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-store-entry.ts",
               "confidence": "observed"
             },
             {
@@ -160435,20 +160988,23 @@
             }
           ]
         },
-        "contentHash": "e639359b2944a67ae22efb80ba5e3f658688c32b9a23a314b291e2f5fdc32fcb",
+        "contentHash": "f523e7509cb4e0f9c8901d9ad0dcf071142527b03e4d139b693e4b647e0598b5",
         "provenance": "observed",
         "confidence": "observed"
       },
       {
-        "id": "module:packages/observability/src/cost-store-spend.ts",
+        "id": "module:packages/observability/src/cost-store-entry.ts",
         "kind": "module",
-        "path": "packages/observability/src/cost-store-spend.ts",
-        "title": "cost-store-spend.ts",
+        "path": "packages/observability/src/cost-store-entry.ts",
+        "title": "cost-store-entry.ts",
         "aliases": [],
         "symbols": [
-          "CostSpendRecord",
-          "recordCostSpend",
-          "warnProcessLocalCostState"
+          "CostReservationError",
+          "CostStore",
+          "MultiTenantCostGuardOptions",
+          "createInMemoryCostStore",
+          "monthlyWindowKey",
+          "multiTenantCostGuard"
         ],
         "tags": [
           "module",
@@ -160456,37 +161012,31 @@
           "src"
         ],
         "fields": {
-          "title": "cost-store-spend.ts",
+          "title": "cost-store-entry.ts",
           "headings": "",
-          "path": "packages/observability/src/cost-store-spend.ts",
-          "symbols": "CostSpendRecord recordCostSpend warnProcessLocalCostState",
+          "path": "packages/observability/src/cost-store-entry.ts",
+          "symbols": "CostReservationError CostStore MultiTenantCostGuardOptions createInMemoryCostStore monthlyWindowKey multiTenantCostGuard",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 0,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:apps/docs-next/content/docs/reference/packages/observability.mdx",
-            "document:docs/architecture/adrs/0044-durable-cost-store.md"
-          ],
+          "mentionedBy": [],
           "packageId": "package:@agentskit/observability",
           "inbound": [
             {
               "kind": "imports",
-              "id": "module:packages/observability/tests/cost-store-spend.test.ts",
+              "id": "module:packages/observability/tests/cost-store-entry.test.ts",
               "confidence": "observed"
-            },
+            }
+          ],
+          "outbound": [
             {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/reference/packages/observability.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/architecture/adrs/0044-durable-cost-store.md",
+              "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-guard-multi-tenant.ts",
               "confidence": "observed"
             },
             {
@@ -160494,16 +161044,9 @@
               "id": "module:packages/observability/src/cost-store.ts",
               "confidence": "observed"
             }
-          ],
-          "outbound": [
-            {
-              "kind": "imports",
-              "id": "module:packages/observability/src/cost-store.ts",
-              "confidence": "observed"
-            }
           ]
         },
-        "contentHash": "746dd149300b1eb83a45e0159d20b9e7014fa9abe3381dc362ac73ca6c44e459",
+        "contentHash": "7de6458fec17f3474f990efc5f9081294d96578235f500221bd640e27fca4ae4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160515,7 +161058,6 @@
         "aliases": [],
         "symbols": [
           "CostCommitInput",
-          "CostCountInput",
           "CostReleaseInput",
           "CostReservationError",
           "CostReserveInput",
@@ -160533,7 +161075,6 @@
           "monthlyWindowKey",
           "recordCostSpend",
           "validateCostCommit",
-          "validateCostCount",
           "validateCostRelease",
           "validateCostReserve",
           "validateCostWindow",
@@ -160549,7 +161090,7 @@
           "title": "cost-store.ts",
           "headings": "",
           "path": "packages/observability/src/cost-store.ts",
-          "symbols": "CostCommitInput CostCountInput CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput InMemoryCostStore InMemoryLedgerRow createInMemoryCostStore describeCostWindow monthlyWindowKey recordCostSpend validateCostCommit validateCostCount validateCostRelease validateCostReserve validateCostWindow validateReservationTtl warnProcessLocalCostState",
+          "symbols": "CostCommitInput CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput InMemoryCostStore InMemoryLedgerRow createInMemoryCostStore describeCostWindow monthlyWindowKey recordCostSpend validateCostCommit validateCostRelease validateCostReserve validateCostWindow validateReservationTtl warnProcessLocalCostState",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -160578,11 +161119,6 @@
             },
             {
               "kind": "imports",
-              "id": "module:packages/observability/src/cost-store-spend.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
               "id": "module:packages/observability/src/postgres.ts",
               "confidence": "observed"
             },
@@ -160594,11 +161130,6 @@
             {
               "kind": "imports",
               "id": "module:packages/observability/tests/cost-store-contract.test.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/observability/tests/cost-store-spend.test.ts",
               "confidence": "observed"
             },
             {
@@ -160628,19 +161159,18 @@
             },
             {
               "kind": "re-exports",
+              "id": "module:packages/observability/src/cost-store-entry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
               "id": "module:packages/observability/src/index.ts",
               "confidence": "observed"
             }
           ],
-          "outbound": [
-            {
-              "kind": "re-exports",
-              "id": "module:packages/observability/src/cost-store-spend.ts",
-              "confidence": "observed"
-            }
-          ]
+          "outbound": []
         },
-        "contentHash": "6856312f32806b4b806344b3276504ab9753bb3910827e1b58a8f59f64edbc0c",
+        "contentHash": "3505173725e4f2b72585a759df38e43b8f3e4ac4e6a74b662b57378b966c2b17",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160935,7 +161465,6 @@
           "CostCapWindow",
           "CostCaps",
           "CostCommitInput",
-          "CostCountInput",
           "CostGuardErrorHandler",
           "CostGuardMode",
           "CostGuardOptions",
@@ -161054,7 +161583,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/observability/src/index.ts",
-          "symbols": "AdvancedCostGuard AdvancedCostGuardOptions AppendAuditInput AuditEntry AuditLogOptions AuditLogStore AuditVerifyResult AxiomSinkConfig AxiomSinkObserver BisectOpts BisectVerdict ChargebackGroupKey ChargebackReport ChargebackReportOptions ChargebackRow ConsoleLoggerConfig ControlAuditEntry ControlSurface ControlSurfaceOptions CostAlertEvent CostAlertSink CostAlertType CostCapWindow CostCaps CostCommitInput CostCountInput CostGuardErrorHandler CostGuardMode CostGuardOptions CostGuardStoreOptions CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSample CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput DEFAULT_PRICES DEFAULT_SLO_TARGETS DatadogSinkConfig DatadogSinkObserver DevtoolsClient DevtoolsEnvelope DevtoolsServer DevtoolsServerOptions FileTraceSink HttpBatchOptions InMemoryCostStore InMemoryLedgerRow LangSmithConfig LangSmithObserver LifecycleObserver MultiTenantCostGuardOptions NewRelicSinkConfig NewRelicSinkObserver ObserverRedactionMode ObserverRedactionOptions OpenTelemetryConfig OpenTelemetryObserver PiiAuditAction PiiAuditInput PiiAuditPayload ProviderTokenCounterOptions ReplayHandler ReplayOracle ReplayPosition ReplayStep RunSnapshot SignedAuditLog SloObserver SloOptions SloSnapshot SloTargets StateDiffEntry Timeline TimelineRow TokenPrice ToolOverride TopologyEdge TopologyGraph TopologyGraphOptions TopologyGraphSnapshot TopologyLogEvent TopologyNode TraceReport TraceSpan TraceTrackerCallbacks UnknownModelPolicy WebhookAlertSinkOptions appendPiiAuditEvents approximateCounter axiomSink buildTimeline buildTraceReport chargebackReport chargebackReportToCsv computeCost consoleAlertSink consoleLogger costGuard countTokens countTokensDetailed createAdvancedCostGuard createControlSurface createDevtoolsServer createFileTraceSink createInMemoryAuditStore createInMemoryCostStore createProviderCounter createSignedAuditLog createTopologyGraph createTraceTracker datadogSink diffState langsmith monthlyWindowKey multiTenantCostGuard newRelicSink opentelemetry positionAt priceFor recordCostSpend renderTraceViewerHtml replayBisect replayEvents sloObserver throttle toSseFrame webhookAlertSink wrapObserverWithRedaction",
+          "symbols": "AdvancedCostGuard AdvancedCostGuardOptions AppendAuditInput AuditEntry AuditLogOptions AuditLogStore AuditVerifyResult AxiomSinkConfig AxiomSinkObserver BisectOpts BisectVerdict ChargebackGroupKey ChargebackReport ChargebackReportOptions ChargebackRow ConsoleLoggerConfig ControlAuditEntry ControlSurface ControlSurfaceOptions CostAlertEvent CostAlertSink CostAlertType CostCapWindow CostCaps CostCommitInput CostGuardErrorHandler CostGuardMode CostGuardOptions CostGuardStoreOptions CostReleaseInput CostReservationError CostReserveInput CostReserveResult CostSample CostSpendRecord CostStore CostStoreOptions CostUsageEntry CostWindow CostWindowInput DEFAULT_PRICES DEFAULT_SLO_TARGETS DatadogSinkConfig DatadogSinkObserver DevtoolsClient DevtoolsEnvelope DevtoolsServer DevtoolsServerOptions FileTraceSink HttpBatchOptions InMemoryCostStore InMemoryLedgerRow LangSmithConfig LangSmithObserver LifecycleObserver MultiTenantCostGuardOptions NewRelicSinkConfig NewRelicSinkObserver ObserverRedactionMode ObserverRedactionOptions OpenTelemetryConfig OpenTelemetryObserver PiiAuditAction PiiAuditInput PiiAuditPayload ProviderTokenCounterOptions ReplayHandler ReplayOracle ReplayPosition ReplayStep RunSnapshot SignedAuditLog SloObserver SloOptions SloSnapshot SloTargets StateDiffEntry Timeline TimelineRow TokenPrice ToolOverride TopologyEdge TopologyGraph TopologyGraphOptions TopologyGraphSnapshot TopologyLogEvent TopologyNode TraceReport TraceSpan TraceTrackerCallbacks UnknownModelPolicy WebhookAlertSinkOptions appendPiiAuditEvents approximateCounter axiomSink buildTimeline buildTraceReport chargebackReport chargebackReportToCsv computeCost consoleAlertSink consoleLogger costGuard countTokens countTokensDetailed createAdvancedCostGuard createControlSurface createDevtoolsServer createFileTraceSink createInMemoryAuditStore createInMemoryCostStore createProviderCounter createSignedAuditLog createTopologyGraph createTraceTracker datadogSink diffState langsmith monthlyWindowKey multiTenantCostGuard newRelicSink opentelemetry positionAt priceFor recordCostSpend renderTraceViewerHtml replayBisect replayEvents sloObserver throttle toSseFrame webhookAlertSink wrapObserverWithRedaction",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -161205,7 +161734,7 @@
             }
           ]
         },
-        "contentHash": "1abbb62216b903e305048137ad43142daf685fbd5249c326c27c520f2b75086b",
+        "contentHash": "1731cecba9b317493798a6b8e8c8d0840b7b613a60ae28eb8d246a21d6dc8aa3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -161533,7 +162062,7 @@
             }
           ]
         },
-        "contentHash": "3f796aaf7cf515e17abf6c819a2d5c0d6683ac34318575ff68406083c92e0dc1",
+        "contentHash": "e32f734825f507e3ab194ea9602f3ac659a1a20354ad1d8c7830774a43f14895",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -162648,7 +163177,7 @@
             }
           ]
         },
-        "contentHash": "d729be8738767d06deb37a1661a69daa1874f523791bfade6179ea4727cf5cf5",
+        "contentHash": "f0bd5884a15e5771ce295772ddca61703b9d9f4b7edf47188486a18d7d254e98",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -162733,15 +163262,15 @@
             }
           ]
         },
-        "contentHash": "53bdd4eb0fe66103dbe67cdafa6505c23a01169a37d12e63ab865284222860f6",
+        "contentHash": "3a284757bbc12d9d061ea11791f9b4e8e9cb9b9a69e4cf78b630f88aaa4f9008",
         "provenance": "observed",
         "confidence": "observed"
       },
       {
-        "id": "module:packages/observability/tests/cost-store-spend.test.ts",
+        "id": "module:packages/observability/tests/cost-store-entry.test.ts",
         "kind": "module",
-        "path": "packages/observability/tests/cost-store-spend.test.ts",
-        "title": "cost-store-spend.test.ts",
+        "path": "packages/observability/tests/cost-store-entry.test.ts",
+        "title": "cost-store-entry.test.ts",
         "aliases": [],
         "tags": [
           "module",
@@ -162750,9 +163279,9 @@
           "tests"
         ],
         "fields": {
-          "title": "cost-store-spend.test.ts",
+          "title": "cost-store-entry.test.ts",
           "headings": "",
-          "path": "packages/observability/tests/cost-store-spend.test.ts",
+          "path": "packages/observability/tests/cost-store-entry.test.ts",
           "symbols": "",
           "summary": "",
           "body": "",
@@ -162768,17 +163297,46 @@
           "outbound": [
             {
               "kind": "imports",
-              "id": "module:packages/observability/src/cost-store-spend.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/observability/src/cost-store.ts",
+              "id": "module:packages/observability/src/cost-store-entry.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "33e573607b6918bfc6dbeaea3d039f9417c9176c3a740b84a065281406f641dd",
+        "contentHash": "88c7b054536c27f59915e5f229da0c978440ac4520b71826c230d3e1c70c36ad",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/observability/tests/cost-store-subpath.test.ts",
+        "kind": "module",
+        "path": "packages/observability/tests/cost-store-subpath.test.ts",
+        "title": "cost-store-subpath.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "cost-store-subpath.test.ts",
+          "headings": "",
+          "path": "packages/observability/tests/cost-store-subpath.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/observability",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "e76b61d37483b44b1df335e9183c372f1bb7235bad19a48b96a27d32621fb9b5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -162823,7 +163381,7 @@
             }
           ]
         },
-        "contentHash": "3b1778720dbfb9b8d8bcd203002a0f5699d4a1d0a31bbd571480ff48b224d7de",
+        "contentHash": "950a389c1e129144f7588635c9f437cc10b4beb2b7b81621062b3ebef559b0d8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -163150,7 +163708,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "91d38ec2f2703c2e15c079ce548fc5ef28b3613af00baa6da3708470a9a7479a",
+        "contentHash": "dbd4f1b1f4c518fdc519e586f9b2655a6856d036d084504108b47fc410b72a69",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -163190,7 +163748,7 @@
             }
           ]
         },
-        "contentHash": "3b03ecf66fe3e5881ad93d9ed816596a8cf31c8a90b93a1b0467b862cf07e238",
+        "contentHash": "301ce5fb51c3d0910a5eba60c067ab36ee65c26c879b2882cef099bb6fed0156",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -163230,7 +163788,7 @@
             }
           ]
         },
-        "contentHash": "986c1ef92700f2c256099a78cf789fdcc91f78c8d9d1dcd136ecbf79ab176643",
+        "contentHash": "0b325eab8857a792babdce02f661131bac9b41f5aa871174c268b6f8469d6c78",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -163722,7 +164280,7 @@
             }
           ]
         },
-        "contentHash": "2f318bb41889c463db9944961fec345256f93559fe44779010397c00395f051d",
+        "contentHash": "2cb05261cd77d0c21e3d9abd97cd071395b7f1077af1df49ec121447f9b24cb3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -166395,7 +166953,7 @@
             }
           ]
         },
-        "contentHash": "eed6385eedc1981a6de26c4eebecb1e9d94080d5a7c6f610f738b6cfb4691dc6",
+        "contentHash": "224d8547fc943cea3fa3463ea7686dccfaf508eac95ddef12d1bdc372196ffd1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -179536,7 +180094,7 @@
             }
           ]
         },
-        "contentHash": "a9d0eb7e3556dccda55f1acf7bd0b3f3da7a7ec8dd794acaf8f1e7ba766db75f",
+        "contentHash": "6cd72aa00876fd6f26a32fc3ad6a80c32827199d8432b20ac2c624175ff29bdf",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -187758,7 +188316,7 @@
             }
           ]
         },
-        "contentHash": "01d797d23b88896eb4b8c5691b12fff090288ffaf7b3fac14b0f80d03ab788d0",
+        "contentHash": "c049cadb682714b7a6aff66994eeda2736c67b7bf82d8cc8e2b47270de7a836c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193053,7 +193611,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "8f5e62d7adba8cb5dc0fc29dae3589ebcf80de2441f87effebb980aa1115d72e",
+        "contentHash": "6f3526e23cb1e05b34b5af275471c746e65c20fcb7d51c80e0baf3df29afc5f4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -198639,7 +199197,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "88158840d0db94959f601dd7d20f44bfbbb45891e4550de06fbce3eeb9478b9e",
+        "contentHash": "e83babc11a7491472fa3a52871ce9400ab78c8e85d60f6591c415975dfedabf3",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "observability"
@@ -202634,7 +203192,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a75672050d7cd0cd5a38b9a8b325ba428acfcd18233760534c786f250abe7aad",
+        "contentHash": "0a30c6dc4fa78fe03bbc7c97a0e2cedbb5f88b4d7a1cfb67a46144c9db68b2f6",
         "provenance": "observed",
         "confidence": "observed"
       }
