@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "d5eeb753f0f9c718ed148546cc602880e3152b0bbaca6d95c6238fe1f378c3dc",
+  "contentHash": "f85031f4f67135365af567cee7377ce7a59e89fd3ab83b8006b0dddc15ea4d40",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-10T18:43:03.447Z",
+  "generatedAt": "2026-11-12T07:31:53.203Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -1000,7 +1000,7 @@
         "document",
         "human"
       ],
-      "contentHash": "0bdadabac9b88a90237e7c8df98db29d90b32ecc0c9723fe2f53a051555b6966"
+      "contentHash": "a05d310854db844e8a8fbecd581365d0bae9eaa1953d233092ab3bb0a9c4c2f1"
     },
     {
       "id": "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx",
@@ -1223,12 +1223,12 @@
       "type": "document",
       "title": "index.mdx",
       "path": "apps/docs-next/content/docs/agents/tools/integrations/index.mdx",
-      "description": "The canonical @agentskit/integrations package contains 50 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
+      "description": "The canonical @agentskit/integrations package contains 52 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "bef75cc9272f40c33b2e2edb20656844203fa2ddd1775edcbf2df028043dc491"
+      "contentHash": "c93ebf892f79990a59d85ff4eb01a55e215a16b9c0ada9496b734722656af9fb"
     },
     {
       "id": "document:apps/docs-next/content/docs/agents/tools/integrations/jira.mdx",
@@ -11856,7 +11856,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "41716fe6d8a1801cf46f001398d253cf6cd4d2b20013459e7c3aa2f2434ed29e"
+      "contentHash": "344fef647ef5b4f87ee43d1dfe3aad03f83b6330b5d3c963a830f2cf29e819ed"
     },
     {
       "id": "module:apps/docs-next/tests/site-icons.test.ts",
@@ -23292,7 +23292,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "913a323e10e50115be7e77f966a6fbc074701dba1221e6a91230adb7de3c49b8"
+      "contentHash": "08cdd9564c62fb18d01a62d405e8d54ad8c100eb09f232f52a7d5325df51efd5"
     },
     {
       "id": "module:packages/integrations/src/contract.ts",
@@ -24302,6 +24302,38 @@
       "contentHash": "b9818cc33bef3ac49d59857bb010c786f91c04bbb0f03f5e663e0e381d18267a"
     },
     {
+      "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+      "type": "module",
+      "title": "actions.ts",
+      "path": "packages/integrations/src/services/freshdesk/actions.ts",
+      "symbols": [
+        "freshdeskActions",
+        "freshdeskGetTicket",
+        "freshdeskListTickets"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "freshdesk"
+      ],
+      "contentHash": "0e987397a378fbcbcaf1683affd26011f0f8575d86fe6963b87d37be3597d19d"
+    },
+    {
+      "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/services/freshdesk/index.ts",
+      "symbols": [
+        "freshdeskIntegration"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "freshdesk"
+      ],
+      "contentHash": "9ebfd70e96e3915b6ba179cf9611e0dec6f8461be1a87e637397d0e983b8059e"
+    },
+    {
       "id": "module:packages/integrations/src/services/github-actions/actions.ts",
       "type": "module",
       "title": "actions.ts",
@@ -24538,6 +24570,7 @@
         "elevenlabsIntegration",
         "figmaIntegration",
         "firecrawlIntegration",
+        "freshdeskIntegration",
         "githubActionsIntegration",
         "githubIntegration",
         "gmailIntegration",
@@ -24565,14 +24598,15 @@
         "twilioIntegration",
         "weatherIntegration",
         "whatsappIntegration",
-        "whisperIntegration"
+        "whisperIntegration",
+        "zendeskIntegration"
       ],
       "tags": [
         "module",
         "ts",
         "services"
       ],
-      "contentHash": "f5514d06e27f5e19181434a705171cb31bb0fac9c61025ee9de1f9d1cd2a05ab"
+      "contentHash": "543a9a367419cf7297ce4612d131fbff4ef3dc36ce0dc85f83a1b8f392509167"
     },
     {
       "id": "module:packages/integrations/src/services/intercom/actions.ts",
@@ -25533,6 +25567,38 @@
       "contentHash": "4490a585864cc082312ad1198abce7c9097db7a7aad63217dce8aedda26e2513"
     },
     {
+      "id": "module:packages/integrations/src/services/zendesk/actions.ts",
+      "type": "module",
+      "title": "actions.ts",
+      "path": "packages/integrations/src/services/zendesk/actions.ts",
+      "symbols": [
+        "zendeskActions",
+        "zendeskGetTicket",
+        "zendeskListTickets"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "zendesk"
+      ],
+      "contentHash": "dcd956b1754fc70992d130d637dfd6f8da6055f3a2dd7a9ac670624440c0b7e9"
+    },
+    {
+      "id": "module:packages/integrations/src/services/zendesk/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/services/zendesk/index.ts",
+      "symbols": [
+        "zendeskIntegration"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "zendesk"
+      ],
+      "contentHash": "cc19fbe71a73c5e2b9f897d7d7ff94fa79f1ce692b7c0e002e88581f28385796"
+    },
+    {
       "id": "module:packages/integrations/src/testing/index.ts",
       "type": "module",
       "title": "index.ts",
@@ -25879,6 +25945,19 @@
         "tests"
       ],
       "contentHash": "b099967f7269a82e35cf1b724729743518fcf1ad46d51655935f57d367c865e3"
+    },
+    {
+      "id": "module:packages/integrations/tests/support-desks.test.ts",
+      "type": "module",
+      "title": "support-desks.test.ts",
+      "path": "packages/integrations/tests/support-desks.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "e2f93a4c10a8bb5aba154826ffd00d992390f8eb74b898de227272725315618d"
     },
     {
       "id": "module:packages/integrations/tests/transport-contract.test.ts",
@@ -39219,8 +39298,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "d5c6bc862ab4a4ec71857fe0ad1a0aaf7d6cea9f237af3f389290ccef459d79a",
-    "fileCount": 2693,
+    "hash": "0bed80ca589e9854143199569de011bc90bf683fd0a371166d152fb5acf057be",
+    "fileCount": 2698,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39242,9 +39321,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "073bc71f9f710b24ae49300b98f732313ecfa71c8fde407ca15a2a799835f0b9",
+    "contentHash": "6739ac4183e28464bbacda2121a64720be12857624dec16cacbd5d154974ec2c",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "dda9538e13a14963f1af271a988070ddbbb650b829640f591777005821ef33b1",
+    "snapshotHash": "a3547f27a9aec471330b757681cb8fb96d0dd699a8dd2666c4e0cb53297740bb",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39264,7 +39343,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2557,
+      "documentCount": 2562,
       "fieldNames": [
         "aliases",
         "body",
@@ -39275,13 +39354,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.01916308173641,
-        "body": 60.870160344153305,
-        "headings": 3.879546343371138,
-        "path": 7.615174032068831,
-        "summary": 4.498631208447399,
-        "symbols": 7.561204536566288,
-        "title": 3.384825967931169
+        "aliases": 3.0195160031225603,
+        "body": 60.75136612021858,
+        "headings": 3.871975019516003,
+        "path": 7.615925058548009,
+        "summary": 4.489851678376269,
+        "symbols": 7.5597189695550355,
+        "title": 3.3832943013270884
       }
     },
     "entries": [
@@ -41305,7 +41384,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3d65c3545b68ed375273039b1262958bdfc042286a6dedb7eff110323cdc3fdc",
+        "contentHash": "753ef36e0dcb1bdb29ded71cf409c0c164ceba431d38428021f4e46d36fbfc89",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -45275,7 +45354,7 @@
           "path": "apps/docs-next/content/docs/agents/tools/index.mdx",
           "symbols": "",
           "summary": "defineTool (core) — JSON-Schema inference.",
-          "body": "Authoring - defineTool (core) — JSON-Schema inference. - defineZodTool — Zod-based with runtime validation. - composeTool — chain N tools into one macro tool. . - wrapToolWithSelfDebug — LLM-corrected retries. . - createMandatorySandbox — allow / deny / require-sandbox / validators. . Built-ins webSearch · fetchUrl · filesystem · shell Integrations (50) Dev / chat: github · linear · slack · notion · discord Google: gmail · googleCalendar Business: stripe · postgres · s3 Scraping: firecrawl · reader · documentParsers Voice / image: openaiImages · elevenlabs · whisper · deepgram Data: maps · weather · coingecko Browser: browserAgent MCP bridge - createMcpClient + toolsFromMcpClient — consume any MCP server. - createMcpServer — publish AgentsKit tools to any MCP host. - . Use the to browse all 50 service descriptors, or read the before implementing a connector. Dedicated service guides are linked from the catalog where available. Related - - -",
+          "body": "Authoring - defineTool (core) — JSON-Schema inference. - defineZodTool — Zod-based with runtime validation. - composeTool — chain N tools into one macro tool. . - wrapToolWithSelfDebug — LLM-corrected retries. . - createMandatorySandbox — allow / deny / require-sandbox / validators. . Built-ins webSearch · fetchUrl · filesystem · shell Integrations (50) Dev / chat: github · linear · slack · notion · discord Google: gmail · googleCalendar Business: stripe · postgres · s3 Scraping: firecrawl · reader · documentParsers Voice / image: openaiImages · elevenlabs · whisper · deepgram Data: maps · weather · coingecko Browser: browserAgent MCP bridge - createMcpClient + toolsFromMcpClient — consume any MCP server. - createMcpServer — publish AgentsKit tools to any MCP host. - . Use the to browse all 52 service descriptors, or read the before implementing a connector. Dedicated service guides are linked from the catalog where available. Related - - -",
           "aliases": "document human"
         },
         "graph": {
@@ -45447,7 +45526,7 @@
             }
           ]
         },
-        "contentHash": "0bdadabac9b88a90237e7c8df98db29d90b32ecc0c9723fe2f53a051555b6966",
+        "contentHash": "a05d310854db844e8a8fbecd581365d0bae9eaa1953d233092ab3bb0a9c4c2f1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -46350,7 +46429,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/agents/tools/integrations/index.mdx",
         "title": "index.mdx",
-        "summary": "The canonical @agentskit/integrations package contains 50 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
+        "summary": "The canonical @agentskit/integrations package contains 52 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -46362,8 +46441,8 @@
           "headings": "Categories Usage Credentials Conventions Related",
           "path": "apps/docs-next/content/docs/agents/tools/integrations/index.mdx",
           "symbols": "",
-          "summary": "The canonical @agentskit/integrations package contains 50 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
-          "body": "The canonical @agentskit/integrations package contains 50 service descriptors . This page covers the detailed guides available in the tools documentation; the describes the full descriptor registry and projection contract. The keeps both surfaces discoverable without creating placeholder pages for services that do not yet have a dedicated guide. Categories Category Integrations --- --- Dev + chat · · · · Google · Business · · · · · Ops · Scraping · · Voice + image · · · Data · · Browser (Puppeteer) Usage Import whole integrations for the full tool set, or cherry-pick sub-tools: Credentials Every integration reads a token or API key from its config . No process-env magic, no globals — you pass what you want, where you want. Conventions - Sub-tools are named <integration <Verb (e.g. githubCreateIssue ). - Bundled tool exported under the integration name (e.g. github ) returns an array of sub-tools. - Config types exported as <Integration Config . - Errors wrap provider 4xx/5xx with ToolError so runtime sees a consistent shape. - Mandatory sandbox — wrap risky integrations (shell, postgres write, github create) via createMandatorySandbox . Related - — wrap what's missing. - — webSearch, fetchUrl, filesystem, shell. - — consume or publish tool sets over MCP. - Recipe: .",
+          "summary": "The canonical @agentskit/integrations package contains 52 service descriptors. This page covers the detailed guides available in the tools documentation; the for-agents package guide describes the full descriptor registry and projection contract.",
+          "body": "The canonical @agentskit/integrations package contains 52 service descriptors . This page covers the detailed guides available in the tools documentation; the describes the full descriptor registry and projection contract. The keeps both surfaces discoverable without creating placeholder pages for services that do not yet have a dedicated guide. Categories Category Integrations --- --- Dev + chat · · · · Google · Business · · · · · Ops · Scraping · · Voice + image · · · Data · · Browser (Puppeteer) Usage Import whole integrations for the full tool set, or cherry-pick sub-tools: Credentials Every integration reads a token or API key from its config . No process-env magic, no globals — you pass what you want, where you want. Conventions - Sub-tools are named <integration <Verb (e.g. githubCreateIssue ). - Bundled tool exported under the integration name (e.g. github ) returns an array of sub-tools. - Config types exported as <Integration Config . - Errors wrap provider 4xx/5xx with ToolError so runtime sees a consistent shape. - Mandatory sandbox — wrap risky integrations (shell, postgres write, github create) via createMandatorySandbox . Related - — wrap what's missing. - — webSearch, fetchUrl, filesystem, shell. - — consume or publish tool sets over MCP. - Recipe: .",
           "aliases": "document human"
         },
         "graph": {
@@ -46515,7 +46594,7 @@
             }
           ]
         },
-        "contentHash": "bef75cc9272f40c33b2e2edb20656844203fa2ddd1775edcbf2df028043dc491",
+        "contentHash": "c93ebf892f79990a59d85ff4eb01a55e215a16b9c0ada9496b734722656af9fb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -97398,7 +97477,7 @@
             }
           ]
         },
-        "contentHash": "41716fe6d8a1801cf46f001398d253cf6cd4d2b20013459e7c3aa2f2434ed29e",
+        "contentHash": "344fef647ef5b4f87ee43d1dfe3aad03f83b6330b5d3c963a830f2cf29e819ed",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -139966,6 +140045,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/jira/index.ts",
               "confidence": "observed"
             },
@@ -140015,6 +140099,11 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
               "confidence": "observed"
@@ -140043,7 +140132,7 @@
             }
           ]
         },
-        "contentHash": "913a323e10e50115be7e77f966a6fbc074701dba1221e6a91230adb7de3c49b8",
+        "contentHash": "08cdd9564c62fb18d01a62d405e8d54ad8c100eb09f232f52a7d5325df51efd5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -140362,6 +140451,16 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/github-actions/actions.ts",
               "confidence": "observed"
             },
@@ -140403,16 +140502,6 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/google-calendar/index.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/integrations/src/services/google-drive/actions.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/integrations/src/services/google-drive/index.ts",
               "confidence": "observed"
             }
           ],
@@ -140633,6 +140722,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/linear/gql.ts",
               "confidence": "observed"
             },
@@ -140664,6 +140758,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/whisper/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/actions.ts",
               "confidence": "observed"
             },
             {
@@ -140823,6 +140922,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
               "confidence": "observed"
             }
           ],
@@ -141280,6 +141384,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/tests/transport-contract.test.ts",
               "confidence": "observed"
             },
@@ -141481,6 +141590,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/github-actions/index.ts",
               "confidence": "observed"
             },
@@ -141627,6 +141741,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/whisper/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
               "confidence": "observed"
             },
             {
@@ -144520,6 +144639,131 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/freshdesk/actions.ts",
+        "title": "actions.ts",
+        "aliases": [],
+        "symbols": [
+          "freshdeskActions",
+          "freshdeskGetTicket",
+          "freshdeskListTickets"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "freshdesk"
+        ],
+        "fields": {
+          "title": "actions.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/freshdesk/actions.ts",
+          "symbols": "freshdeskActions freshdeskGetTicket freshdeskListTickets",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts freshdesk"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "0e987397a378fbcbcaf1683affd26011f0f8575d86fe6963b87d37be3597d19d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/freshdesk/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "freshdeskIntegration"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "freshdesk"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/freshdesk/index.ts",
+          "symbols": "freshdeskIntegration",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts freshdesk"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/config-fields.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/actions.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "9ebfd70e96e3915b6ba179cf9611e0dec6f8461be1a87e637397d0e983b8059e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/services/github-actions/actions.ts",
         "kind": "module",
         "path": "packages/integrations/src/services/github-actions/actions.ts",
@@ -145366,6 +145610,7 @@
           "elevenlabsIntegration",
           "figmaIntegration",
           "firecrawlIntegration",
+          "freshdeskIntegration",
           "githubActionsIntegration",
           "githubIntegration",
           "gmailIntegration",
@@ -145393,7 +145638,8 @@
           "twilioIntegration",
           "weatherIntegration",
           "whatsappIntegration",
-          "whisperIntegration"
+          "whisperIntegration",
+          "zendeskIntegration"
         ],
         "tags": [
           "module",
@@ -145404,7 +145650,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/integrations/src/services/index.ts",
-          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration supabaseIntegration telegramIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration",
+          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration freshdeskIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration supabaseIntegration telegramIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration zendeskIntegration",
           "summary": "",
           "body": "",
           "aliases": "module ts services"
@@ -145537,6 +145783,11 @@
             {
               "kind": "re-exports",
               "id": "module:packages/integrations/src/services/firecrawl/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
               "confidence": "observed"
             },
             {
@@ -145688,10 +145939,15 @@
               "kind": "re-exports",
               "id": "module:packages/integrations/src/services/whisper/index.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "f5514d06e27f5e19181434a705171cb31bb0fac9c61025ee9de1f9d1cd2a05ab",
+        "contentHash": "543a9a367419cf7297ce4612d131fbff4ef3dc36ce0dc85f83a1b8f392509167",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -149428,6 +149684,131 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/services/zendesk/actions.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/zendesk/actions.ts",
+        "title": "actions.ts",
+        "aliases": [],
+        "symbols": [
+          "zendeskActions",
+          "zendeskGetTicket",
+          "zendeskListTickets"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "zendesk"
+        ],
+        "fields": {
+          "title": "actions.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/zendesk/actions.ts",
+          "symbols": "zendeskActions zendeskGetTicket zendeskListTickets",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts zendesk"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "dcd956b1754fc70992d130d637dfd6f8da6055f3a2dd7a9ac670624440c0b7e9",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/services/zendesk/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/zendesk/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "zendeskIntegration"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "zendesk"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/zendesk/index.ts",
+          "symbols": "zendeskIntegration",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts zendesk"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/config-fields.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/actions.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "cc19fbe71a73c5e2b9f897d7d7ff94fa79f1ce692b7c0e002e88581f28385796",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/testing/index.ts",
         "kind": "module",
         "path": "packages/integrations/src/testing/index.ts",
@@ -149585,6 +149966,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/supabase.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/support-desks.test.ts",
               "confidence": "observed"
             },
             {
@@ -151054,6 +151440,66 @@
           ]
         },
         "contentHash": "b099967f7269a82e35cf1b724729743518fcf1ad46d51655935f57d367c865e3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/tests/support-desks.test.ts",
+        "kind": "module",
+        "path": "packages/integrations/tests/support-desks.test.ts",
+        "title": "support-desks.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "support-desks.test.ts",
+          "headings": "",
+          "path": "packages/integrations/tests/support-desks.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/project/to-tool-definitions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/freshdesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/zendesk/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/testing/validate.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "e2f93a4c10a8bb5aba154826ffd00d992390f8eb74b898de227272725315618d",
         "provenance": "observed",
         "confidence": "observed"
       },
