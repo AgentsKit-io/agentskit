@@ -54,7 +54,8 @@ requirements:
     respostas gravadas de cada provedor passam no CI sem chamada paga
   # PR aberto: #1922
   weight: 2
-  acceptance: []
+  acceptance:
+    - test: packages/adapters/tests/model-provider.test.ts
   homolog: []
   issues: [1915]
   prs: []
