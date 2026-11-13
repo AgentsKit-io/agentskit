@@ -17,7 +17,7 @@ try {
   }, { retries: 239, minDelayMs: 500, maxDelayMs: 500, jitter: 'none', shouldRetry: () => running })
   const body = await readJson(response, { maxBytes: 4096 })
   assert.equal(response.status, 200, `real workerd/Postgres request: ${JSON.stringify(body)}`)
-  assert.deepEqual(body, { accounting: 'passed', cap: 'passed', idempotency: 'passed', settlement: 'passed', isolation: 'passed', release: 'passed', ledger: 'passed', replayRace: 'passed', expiry: 'passed' })
+  assert.deepEqual(body, { accounting: 'passed', cap: 'passed', idempotency: 'passed', settlement: 'passed', isolation: 'passed', release: 'passed', count: 'passed', ledger: 'passed', replayRace: 'passed', expiry: 'passed' })
   console.log('workerd + PostgreSQL (pool of 5): CostStore contract, ledger, replay race and expiry passed')
 } finally {
   await child.kill('SIGTERM')

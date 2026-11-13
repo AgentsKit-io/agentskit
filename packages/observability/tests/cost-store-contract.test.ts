@@ -53,6 +53,11 @@ describe('costStoreContract', () => {
     await expect(run(lenient)).rejects.toThrow(/released reservation id is not admitted again/)
   })
 
+  it('fails a store whose count includes released reservations', async () => {
+    const loose = broken(store => ({ count: async input => (await store.count(input)) + 1 }))
+    await expect(run(loose)).rejects.toThrow(/count tallies|count starts/)
+  })
+
   it('accepts typed errors from another copy of the error class, as across CommonJS entry points', async () => {
     const foreign = (error: unknown): never => { throw Object.assign(new Error('foreign'), { code: (error as { code?: unknown }).code }) }
     const store = broken(inner => ({
