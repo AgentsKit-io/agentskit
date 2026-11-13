@@ -39,6 +39,7 @@ const GATES = [
   ['nested ternary detector tests', 'check-no-nested-ternary.test.mjs', [], 'vitest'],
   ['models.dev catalog tests', 'models-dev-catalog.test.mjs', [], 'vitest'],
   ['models.dev refresh workflow contract', 'models-dev-workflow.test.mjs', [], 'vitest'],
+  ['CI cache and secrets workflow contract', 'ci-cache-and-secrets.test.mjs', [], 'vitest'],
   ['models.dev snapshot freshness', 'check-models-dev-freshness.mjs'],
   ['verified recipe factory', 'check-content-pipeline.mjs'],
   ['ecosystem contract tests', 'ecosystem-contract.test.mjs', [], 'vitest'],

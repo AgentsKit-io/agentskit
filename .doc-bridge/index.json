@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "f85031f4f67135365af567cee7377ce7a59e89fd3ab83b8006b0dddc15ea4d40",
+  "contentHash": "241a85eecff6fe11a40f4e9673fb3a559080b0fa300365b3ba783af8ba537506",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-12T07:31:53.203Z",
+  "generatedAt": "2026-11-13T05:19:55.533Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -11791,7 +11791,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180"
+      "contentHash": "e0c6ecad9655e6d4c0174a1c544eb5352f01c16b5f2f80a8e9ba2d3b666f59d2"
     },
     {
       "id": "module:apps/docs-next/tests/legacy-redirects.test.ts",
@@ -13796,7 +13796,7 @@
         "test",
         "lib"
       ],
-      "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180"
+      "contentHash": "e0c6ecad9655e6d4c0174a1c544eb5352f01c16b5f2f80a8e9ba2d3b666f59d2"
     },
     {
       "id": "module:apps/registry/lib/github-issue.test.ts",
@@ -16255,7 +16255,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "efd853219e784a5a15803196ca65374c7a30157dbc553136064ac309a76f43c1"
+      "contentHash": "85e4a6ccb20ec68dbd0cd8ab2efc904bfa4d93ea558c21904132460b3b11e9bc"
     },
     {
       "id": "module:packages/adapters/tests/multimodal-http.test.ts",
@@ -36619,7 +36619,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "f8d29321f8bc08cdfda947b16ca67ba2edd1503459a454f387fbc5c0cc88a76a"
+      "contentHash": "a08661f1163f490146b3ee91bf0c74fe29efada4eb609e6468f424087cf7fa7d"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -39298,7 +39298,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0bed80ca589e9854143199569de011bc90bf683fd0a371166d152fb5acf057be",
+    "hash": "8502e06e3b4c408d2abe43213aa0cda835734b0defb6cf3833a856389b577165",
     "fileCount": 2698,
     "projectionVersion": 2
   },
@@ -39321,9 +39321,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "6739ac4183e28464bbacda2121a64720be12857624dec16cacbd5d154974ec2c",
+    "contentHash": "085adfe7cc64085c0b4eac8943760fe74406069d5cc83803857bea8fd328517d",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "a3547f27a9aec471330b757681cb8fb96d0dd699a8dd2666c4e0cb53297740bb",
+    "snapshotHash": "e2719d4f7a36db77a167706797536fdcd6ef3922aa610b479cb41086a4bec833",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -97267,7 +97267,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180",
+        "contentHash": "e0c6ecad9655e6d4c0174a1c544eb5352f01c16b5f2f80a8e9ba2d3b666f59d2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -103234,7 +103234,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "536590ff444c7fa971fb98bc63ec60c7ba8e44bdc27220168cc226157a121180",
+        "contentHash": "e0c6ecad9655e6d4c0174a1c544eb5352f01c16b5f2f80a8e9ba2d3b666f59d2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -113352,7 +113352,7 @@
             }
           ]
         },
-        "contentHash": "efd853219e784a5a15803196ca65374c7a30157dbc553136064ac309a76f43c1",
+        "contentHash": "85e4a6ccb20ec68dbd0cd8ab2efc904bfa4d93ea558c21904132460b3b11e9bc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190523,7 +190523,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f8d29321f8bc08cdfda947b16ca67ba2edd1503459a454f387fbc5c0cc88a76a",
+        "contentHash": "a08661f1163f490146b3ee91bf0c74fe29efada4eb609e6468f424087cf7fa7d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -203192,7 +203192,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "0a30c6dc4fa78fe03bbc7c97a0e2cedbb5f88b4d7a1cfb67a46144c9db68b2f6",
+        "contentHash": "695e5ac358d2e89e99985bf8bab4583fda389348ab5056d7f42cabf765ef5ccc",
         "provenance": "observed",
         "confidence": "observed"
       }
