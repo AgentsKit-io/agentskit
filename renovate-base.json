@@ -1,0 +1,44 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "AgentsKit base Renovate preset: weekly grouped minor/patch/digest updates and lockfile maintenance, automerged on green CI; monthly grouped majors (never automerged). Use: github>AgentsKit-io/agentskit//renovate-base",
+  "extends": [
+    "config:recommended"
+  ],
+  "timezone": "UTC",
+  "prConcurrentLimit": 5,
+  "packageRules": [
+    {
+      "description": "Group all minor/patch/digest updates and lockfile maintenance into one weekly PR and automerge it (Renovate-side, only after every status check is green)",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest",
+        "lockFileMaintenance"
+      ],
+      "groupName": "weekly dependencies and lockfile",
+      "schedule": [
+        "before 6am on monday"
+      ],
+      "automerge": true,
+      "platformAutomerge": false,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Group all major updates into one monthly PR; never automerge",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": "monthly major updates",
+      "schedule": [
+        "before 6am on the first day of the month"
+      ],
+      "automerge": false
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 6am on monday"
+    ]
+  }
+}

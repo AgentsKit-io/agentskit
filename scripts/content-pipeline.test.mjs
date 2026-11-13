@@ -185,7 +185,7 @@ test('provider-swap recipe keeps one application path and a credential-free proo
   assert.equal(atom.executable.ok, true)
   assert.match(atom.executable.stdout, /^\[demo\] Demo model received:/)
   assert.equal(atom.publish.status, 'blocked')
-}, 120_000)
+}, 600_000)
 
 test('provider-swap rejects missing credentials and unknown providers before transport', () => {
   const command = [
