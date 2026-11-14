@@ -22,7 +22,7 @@ export const CONSUMERS = Object.freeze([
   { repo: 'AgentsKit-io/agentskit-registry', base: 'main' },
   { repo: 'AgentsKit-io/agentskit-chat', base: 'main' },
   { repo: 'AgentsKit-io/agents-playbook', base: 'main' },
-  { repo: 'AgentsKit-io/doc-bridge', base: 'master', upstreamDigest: 'ecosystem-upstream.json' },
+  { repo: 'AgentsKit-io/doc-bridge', base: 'main', upstreamDigest: 'ecosystem-upstream.json' },
   { repo: 'AgentsKit-io/harness', base: 'main' },
   { repo: 'AgentsKit-io/code-review', base: 'main' },
 ])
