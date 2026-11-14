@@ -3,9 +3,9 @@ description: 'Install Chromium from a cache keyed on the Playwright version; onl
 
 inputs:
   install-command:
-    description: 'Command that downloads the browsers and system packages on a cache miss'
+    description: 'Command that downloads the browser binary on a cache miss (system packages are installed by a separate bounded step)'
     required: false
-    default: 'pnpm exec playwright install chromium --with-deps'
+    default: 'pnpm exec playwright install chromium'
 
 runs:
   using: composite
@@ -22,13 +22,17 @@ runs:
         path: ~/.cache/ms-playwright
         key: playwright-${{ runner.os }}-${{ steps.version.outputs.playwright }}
 
-    - if: steps.restore.outputs.cache-hit == 'true'
-      shell: bash
-      run: pnpm exec playwright install-deps chromium
-
     - if: steps.restore.outputs.cache-hit != 'true'
       shell: bash
       run: ${{ inputs.install-command }}
+
+    - if: success()
+      shell: bash
+      # System libraries and fonts for Chromium.
+      # A runner-side apt/DNS outage must not turn the check red, so bound it and warn instead.
+      run: |
+        timeout 180 pnpm exec playwright install-deps chromium \
+          || echo "::warning::playwright install-deps failed or timed out (apt unreachable); continuing with the system packages already present"
 
     - if: steps.restore.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
