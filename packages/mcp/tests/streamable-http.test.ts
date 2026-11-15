@@ -112,6 +112,7 @@ describe('Streamable HTTP', () => {
       new Request('https://agent.invalid/.well-known/oauth-protected-resource/mcp'),
     )
     expect(response.status).toBe(200)
+    // net-unbounded-body-ignore: in-process handler response, not an external body.
     expect(await response.json()).toEqual({
       resource: 'https://agent.invalid/mcp',
       authorization_servers: ['https://auth.invalid'],
@@ -131,6 +132,7 @@ describe('Streamable HTTP', () => {
     })
     const response = await handler(new Request('https://agent.invalid/.well-known/oauth-protected-resource'))
     expect(response.status).toBe(200)
+    // net-unbounded-body-ignore: in-process handler response, not an external body.
     expect(await response.json()).toMatchObject({ resource: 'https://agent.invalid' })
 
     const challenge = await handler(new Request('https://agent.invalid/mcp'))

@@ -49,9 +49,8 @@ docbridge:
 
 ## Purpose
 
-Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05`
-tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` +
-`createStdioTransport`).
+Serve AgentsKit tools to an MCP host over stdio or Streamable HTTP, backed by
+the official `@modelcontextprotocol/sdk`.
 
 ## Install
 
@@ -64,6 +63,12 @@ npm install @agentskit/mcp@0.5.2
 - `createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport?, authorizeToolCall? })` —
   expose `McpToolDefinition[]` as an MCP server. Defaults to stdio over the current
   process; pass `transport` to override (tests / custom hosts).
+- `createStreamableHttpHandler({ tools, resource?, verifyBearer?, authorizationServers?, scopesSupported?, metadataPath? })` —
+  return a Web `Request`/`Response` handler for MCP Streamable HTTP. Set
+  `resource` to publish RFC 9728 protected-resource metadata; `verifyBearer`
+  authenticates requests and its identity reaches tool calls.
+- `createMcpServer(options)` — lower-level SDK-backed server. Omit `transport`
+  for a definition-only server, or pass one to connect immediately.
 - `processStdio()` — adapt the Node process into the `StdioLikeProcess` the
   transport expects (server receives on stdin, sends on stdout).
 - `createAgentTool({ id, description, systemPrompt, adapter, maxSteps? })` —
@@ -119,7 +124,7 @@ path and require the tool list to equal `fetch_url,web_search`.
 - Published tool definitions are snapshotted; observer failures cannot alter protocol behavior.
 - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded.
 - Registry source is treated as data and never executed.
-- The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities.
+- The built-in surface is the MCP tools subset over stdio, Streamable HTTP, or an injected transport. Hosts still own token issuance, authorization-server operation, rate limiting, persistence, and confirmation UI.
 
 ### Supported protocol matrix
 
@@ -149,4 +154,5 @@ createAgentsKitMcpServer({ tools: [fetchUrl()] })
 
 - npm: https://www.npmjs.com/package/@agentskit/mcp
 - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/mcp
-- contract: [ADR-0028](../../../../../docs/architecture/adrs/0028-mcp-beta-boundaries.md)
+- contract: [ADR-0028](../../../../../docs/architecture/adrs/0028-mcp-beta-boundaries.md),
+  [ADR-0046](../../../../../docs/architecture/adrs/0046-mcp-official-sdk-streamable-http.md)

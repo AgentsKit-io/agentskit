@@ -195,11 +195,13 @@ function bearerToken(request: Request): string | undefined {
 
 function metadataPathFor(resource: string | undefined): string | undefined {
   if (resource === undefined) return undefined
+  // url-pathname-ignore: HTTP URL pathname, not a filesystem path.
   const path = new URL(resource).pathname.replace(/\/+$/, '')
   return path === '' ? DEFAULT_METADATA_PATH : `${DEFAULT_METADATA_PATH}${path}`
 }
 
 function pathnameOf(metadataPath: string): string {
+  // url-pathname-ignore: HTTP URL pathname, not a filesystem path.
   if (isAbsoluteUrl(metadataPath)) return new URL(metadataPath).pathname
   return metadataPath.startsWith('/') ? metadataPath : `/${metadataPath}`
 }

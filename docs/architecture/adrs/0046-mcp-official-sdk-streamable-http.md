@@ -60,7 +60,10 @@ consumers; the client remains useful independently of either server.
 - Protocol revisions, Streamable HTTP, and MCP Apps arrive through the SDK
   rather than through new hand-written JSON-RPC handlers.
 - `@agentskit/mcp` gains a runtime dependency on the official SDK. The exact pin
-  makes upgrades deliberate and reviewable.
+  makes upgrades deliberate and reviewable. The SDK stays external in the tsup
+  build and in the size-limit subpath measurement; it is not bundled into
+  `dist`. The generated ESM subpath budget rises from 4 KB to 7.5 KB to cover
+  the bridge code (6.43 KB gzipped), not the SDK.
 - The protocol-ownership bullet of ADR 0028 is superseded; its validation,
   observability, CLI, and registry boundaries still apply.
 - `@agentskit/tools/mcp` has two server paths during the transition: the legacy
