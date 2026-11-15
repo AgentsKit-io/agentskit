@@ -175,6 +175,58 @@ const server = createAgentsKitMcpServer({ tools: [], transport })
 await server.close()
 ```
 
+## Remote (Streamable HTTP) + OAuth-protected resource + MCP Apps
+
+`createStreamableHttpHandler` exposes the same tools over the official MCP
+Streamable HTTP transport using Web `Request`/`Response`. It is stateless, so
+it runs unchanged on Node.js 20+, Cloudflare Workers, Deno, and Bun.
+
+```ts
+import { createStreamableHttpHandler } from '@agentskit/mcp'
+
+const handler = createStreamableHttpHandler({
+  tools: [/* your AgentsKit tools */],
+  verifyBearer: async (token) =>
+    token === 'expected-token' ? { subject: 'user-1', scopes: ['tools:read'] } : null,
+  resource: 'https://agent.example.invalid/mcp',
+  authorizationServers: ['https://auth.example.invalid'],
+  scopesSupported: ['tools:read'],
+})
+
+export default {
+  fetch: (request: Request) => handler(request),
+}
+```
+
+When `verifyBearer` is set, requests without a valid `Authorization: Bearer`
+token receive `401` with a `WWW-Authenticate: Bearer
+resource_metadata="..."` challenge (RFC 9728). The handler also serves that
+metadata at `/.well-known/oauth-protected-resource`. Verified identities reach
+tool handlers as `context.auth` (`McpAuthIdentity`: `subject`, optional
+`scopes`, `claims`).
+
+Expose an MCP App by adding a `ui://` resource and linking it from a tool:
+
+```ts
+const handler = createStreamableHttpHandler({
+  tools: [{
+    name: 'status',
+    app: { resourceUri: 'ui://status/app.html' },
+    execute: () => 'ok',
+  }],
+  resources: [{
+    uri: 'ui://status/app.html',
+    name: 'Status app',
+    mimeType: 'text/html;profile=mcp-app',
+    text: '<!doctype html><title>Status</title>',
+  }],
+})
+```
+
+Tool descriptors keep `annotations`, `title`, and raw `_meta`. `app` is a
+shorthand for `_meta.ui.resourceUri`; use `_meta` directly for other MCP Apps
+metadata.
+
 ## Maturity and compatibility
 
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
