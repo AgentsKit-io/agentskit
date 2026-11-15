@@ -13,7 +13,7 @@ import { costStoreContract } from '../src/cost-store-contract'
 describe('createInMemoryCostStore', () => {
   it('passes the shared CostStore contract', async () => {
     const result = await costStoreContract(createInMemoryCostStore(), { tenantPrefix: 'memory' })
-    expect(Object.values(result)).toEqual(Array(6).fill('passed'))
+    expect(Object.values(result)).toEqual(Array(7).fill('passed'))
   })
 
   it('writes one ledger row per usage entry on the first commit only', async () => {

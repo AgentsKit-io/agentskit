@@ -41,6 +41,7 @@ export type {
   CostCommitInput,
   CostReleaseInput,
   CostWindowInput,
+  CostCountInput,
   CostSpendRecord,
   InMemoryCostStore,
   InMemoryLedgerRow,

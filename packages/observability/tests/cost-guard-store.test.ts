@@ -86,6 +86,7 @@ describe('cost guards with a CostStore', () => {
       commit: async () => { throw new Error('store down') },
       release: async () => { throw new Error('store down') },
       window: async () => { throw new Error('store down') },
+      count: async () => { throw new Error('store down') },
     }
     const onError = vi.fn()
     const guard = costGuard({ budgetUsd: 1, controller: new AbortController(), prices, store: failing, onError })
@@ -102,6 +103,7 @@ describe('cost guards with a CostStore', () => {
       commit: async () => { throw new Error('store down') },
       release: async () => { throw new Error('store down') },
       window: async () => { throw new Error('store down') },
+      count: async () => { throw new Error('store down') },
     }
     const guard = costGuard({ budgetUsd: 1, controller: new AbortController(), prices, store: failing })
     send(guard, 100)
