@@ -175,6 +175,61 @@ const server = createAgentsKitMcpServer({ tools: [], transport })
 await server.close()
 ```
 
+## Remote (Streamable HTTP) + OAuth-protected resource + MCP Apps
+
+`createStreamableHttpHandler` exposes the same tools over the official MCP
+Streamable HTTP transport using Web `Request`/`Response`. It is stateless, so
+it runs unchanged on Node.js 20+, Cloudflare Workers, Deno, and Bun.
+
+```ts
+import { createStreamableHttpHandler } from '@agentskit/mcp'
+
+const handler = createStreamableHttpHandler({
+  tools: [/* your AgentsKit tools */],
+  verifyBearer: async (token) =>
+    token === 'expected-token' ? { subject: 'user-1', scopes: ['tools:read'] } : null,
+  resource: 'https://agent.example.invalid/mcp',
+  authorizationServers: ['https://auth.example.invalid'],
+  scopesSupported: ['tools:read'],
+})
+
+export default {
+  fetch: (request: Request) => handler(request),
+}
+```
+
+`resource` is required when `verifyBearer` is set. Requests without a valid
+`Authorization: Bearer` token receive `401` with a `WWW-Authenticate: Bearer
+resource_metadata="..."` challenge (RFC 9728). The metadata URL is derived from
+`resource`: `https://agent.example.invalid/mcp` is served at
+`https://agent.example.invalid/.well-known/oauth-protected-resource/mcp`;
+a resource without a path uses the root well-known URL. Without authentication,
+metadata is served only when `resource` is configured. Verified identities
+reach tool handlers as `context.auth` (`McpAuthIdentity`: `subject`, optional
+`scopes`, `claims`).
+
+Expose an MCP App by adding a `ui://` resource and linking it from a tool:
+
+```ts
+const handler = createStreamableHttpHandler({
+  tools: [{
+    name: 'status',
+    app: { resourceUri: 'ui://status/app.html' },
+    execute: () => 'ok',
+  }],
+  resources: [{
+    uri: 'ui://status/app.html',
+    name: 'Status app',
+    mimeType: 'text/html;profile=mcp-app',
+    text: '<!doctype html><title>Status</title>',
+  }],
+})
+```
+
+Tool descriptors keep `annotations`, `title`, and raw `_meta`. `app` is a
+shorthand for `_meta.ui.resourceUri`; use `_meta` directly for other MCP Apps
+metadata.
+
 ## Maturity and compatibility
 
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)

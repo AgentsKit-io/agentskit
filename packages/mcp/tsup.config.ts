@@ -5,5 +5,12 @@ export default defineConfig({
   ...sharedTsupOptions,
   entry: { index: 'src/index.ts', bin: 'src/bin.ts' },
   clean: true,
-  external: ['@agentskit/core', '@agentskit/net', '@agentskit/tools', '@agentskit/runtime', '@agentskit/adapters'],
+  external: [
+    '@agentskit/core',
+    '@agentskit/net',
+    '@agentskit/tools',
+    '@agentskit/runtime',
+    '@agentskit/adapters',
+    '@modelcontextprotocol/sdk',
+  ],
 })
