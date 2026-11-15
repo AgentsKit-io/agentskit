@@ -40,12 +40,15 @@ export interface StreamableHttpOptions {
   exposeErrors?: boolean
   /** Verify `Authorization: Bearer` tokens. Omit to run without authentication. */
   verifyBearer?: BearerVerifier
-  /** RFC 8707 resource identifier. Defaults to the request origin plus path. */
+  /** RFC 8707 resource identifier (the protected MCP endpoint). Required with `verifyBearer`. */
   resource?: string
   /** Authorization servers advertised in the protected-resource metadata. */
   authorizationServers?: string[]
   scopesSupported?: string[]
-  /** Metadata path. Defaults to `/.well-known/oauth-protected-resource`. */
+  /**
+   * Metadata path. Defaults to the RFC 9728 path-suffixed form derived from
+   * `resource` (`/.well-known/oauth-protected-resource/<path>`).
+   */
   metadataPath?: string
   /** Return JSON instead of an SSE stream. */
   enableJsonResponse?: boolean
@@ -73,22 +76,37 @@ export function createStreamableHttpHandler(options: StreamableHttpOptions): Str
     })
   }
 
+  if (options.verifyBearer && options.resource === undefined) {
+    throw invalid('resource is required when verifyBearer is set')
+  }
+  if (options.metadataPath !== undefined && options.resource === undefined) {
+    throw invalid('resource is required when metadataPath is set')
+  }
+  if (options.resource !== undefined && !isAbsoluteUrl(options.resource)) {
+    throw invalid('resource must be an absolute URL')
+  }
+
   const definition = options.server
     ? definitionFor(options.server)
     : normalizeServerOptions({ ...options, tools: options.tools ?? [] })
 
-  const metadataPath = options.metadataPath ?? DEFAULT_METADATA_PATH
+  const metadataPath = options.metadataPath ?? metadataPathFor(options.resource)
   const handle = async (request: Request): Promise<Response> => {
     const url = new URL(request.url)
-    if (request.method === 'GET' && url.pathname === metadataPath) {
-      return json(protectedResourceMetadata(options, request))
+    if (
+      metadataPath !== undefined &&
+      options.resource !== undefined &&
+      request.method === 'GET' &&
+      url.pathname === pathnameOf(metadataPath)
+    ) {
+      return json(protectedResourceMetadata(options.resource, options))
     }
 
     let authInfo: AuthInfo | undefined
     if (options.verifyBearer) {
       const token = bearerToken(request)
       if (token === undefined) {
-        return unauthorized(request, options, 'missing bearer token', 'invalid_request')
+        return unauthorized(options, 'missing bearer token', 'invalid_request')
       }
       let identity: McpAuthIdentity | null | undefined
       try {
@@ -97,7 +115,7 @@ export function createStreamableHttpHandler(options: StreamableHttpOptions): Str
         identity = undefined
       }
       if (!identity) {
-        return unauthorized(request, options, 'invalid bearer token', 'invalid_token')
+        return unauthorized(options, 'invalid bearer token', 'invalid_token')
       }
       authInfo = {
         token,
@@ -126,11 +144,11 @@ export function createStreamableHttpHandler(options: StreamableHttpOptions): Str
 }
 
 function protectedResourceMetadata(
+  resource: string,
   options: StreamableHttpOptions,
-  request: Request,
 ): ProtectedResourceMetadata {
   return {
-    resource: options.resource ?? resourceFromRequest(request),
+    resource,
     authorization_servers: options.authorizationServers ?? [],
     ...(options.scopesSupported === undefined ? {} : { scopes_supported: options.scopesSupported }),
     bearer_methods_supported: ['header'],
@@ -138,16 +156,17 @@ function protectedResourceMetadata(
 }
 
 function unauthorized(
-  request: Request,
   options: StreamableHttpOptions,
   description: string,
   error: 'invalid_request' | 'invalid_token',
 ): Response {
-  const metadataUrl = new URL(options.metadataPath ?? DEFAULT_METADATA_PATH, request.url).toString()
+  const metadataUrl = metadataUrlFor(options)
   return json(
     { error, error_description: description },
     401,
-    { 'WWW-Authenticate': `Bearer resource_metadata="${metadataUrl}"` },
+    metadataUrl === undefined
+      ? {}
+      : { 'WWW-Authenticate': `Bearer resource_metadata="${metadataUrl}"` },
   )
 }
 
@@ -174,7 +193,35 @@ function bearerToken(request: Request): string | undefined {
   return token === undefined || token.length === 0 ? undefined : token
 }
 
-function resourceFromRequest(request: Request): string {
-  const url = new URL(request.url)
-  return `${url.protocol}//${url.host}${url.pathname}`
+function metadataPathFor(resource: string | undefined): string | undefined {
+  if (resource === undefined) return undefined
+  const path = new URL(resource).pathname.replace(/\/+$/, '')
+  return path === '' ? DEFAULT_METADATA_PATH : `${DEFAULT_METADATA_PATH}${path}`
+}
+
+function pathnameOf(metadataPath: string): string {
+  if (isAbsoluteUrl(metadataPath)) return new URL(metadataPath).pathname
+  return metadataPath.startsWith('/') ? metadataPath : `/${metadataPath}`
+}
+
+function metadataUrlFor(options: StreamableHttpOptions): string | undefined {
+  if (options.resource === undefined) return undefined
+  const metadataPath = options.metadataPath ?? metadataPathFor(options.resource)
+  if (metadataPath === undefined) return undefined
+  if (isAbsoluteUrl(metadataPath)) return metadataPath
+  const path = metadataPath.startsWith('/') ? metadataPath : `/${metadataPath}`
+  return new URL(path, options.resource).toString()
+}
+
+function isAbsoluteUrl(value: string): boolean {
+  try {
+    new URL(value)
+    return true
+  } catch {
+    return false
+  }
+}
+
+function invalid(message: string): ConfigError {
+  return new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message })
 }

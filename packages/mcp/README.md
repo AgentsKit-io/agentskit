@@ -198,11 +198,14 @@ export default {
 }
 ```
 
-When `verifyBearer` is set, requests without a valid `Authorization: Bearer`
-token receive `401` with a `WWW-Authenticate: Bearer
-resource_metadata="..."` challenge (RFC 9728). The handler also serves that
-metadata at `/.well-known/oauth-protected-resource`. Verified identities reach
-tool handlers as `context.auth` (`McpAuthIdentity`: `subject`, optional
+`resource` is required when `verifyBearer` is set. Requests without a valid
+`Authorization: Bearer` token receive `401` with a `WWW-Authenticate: Bearer
+resource_metadata="..."` challenge (RFC 9728). The metadata URL is derived from
+`resource`: `https://agent.example.invalid/mcp` is served at
+`https://agent.example.invalid/.well-known/oauth-protected-resource/mcp`;
+a resource without a path uses the root well-known URL. Without authentication,
+metadata is served only when `resource` is configured. Verified identities
+reach tool handlers as `context.auth` (`McpAuthIdentity`: `subject`, optional
 `scopes`, `claims`).
 
 Expose an MCP App by adding a `ui://` resource and linking it from a tool:

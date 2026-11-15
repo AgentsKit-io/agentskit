@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js'
-import type { ToolDefinition } from '@agentskit/core'
+import { ErrorCodes, type ToolDefinition } from '@agentskit/core'
 import {
   createAgentsKitMcpServer,
   createStreamableHttpHandler,
@@ -65,48 +65,52 @@ describe('Streamable HTTP', () => {
     await handler.close()
   })
 
-  it('returns 401 with a resource_metadata challenge for missing and invalid tokens', async () => {
+  it('requires an explicit resource when verifyBearer is set', () => {
+    expect(() => createStreamableHttpHandler({
+      tools: [echo],
+      verifyBearer: () => ({ subject: 'user-1' }),
+    })).toThrow(expect.objectContaining({ code: ErrorCodes.AK_CONFIG_INVALID }))
+  })
+
+  it('requires a resource when metadataPath is set and rejects relative resources', () => {
+    expect(() => createStreamableHttpHandler({
+      tools: [echo],
+      metadataPath: '/.well-known/oauth-protected-resource',
+    })).toThrow(expect.objectContaining({ code: ErrorCodes.AK_CONFIG_INVALID }))
+    expect(() => createStreamableHttpHandler({
+      tools: [echo],
+      resource: '/mcp',
+    })).toThrow(expect.objectContaining({ code: ErrorCodes.AK_CONFIG_INVALID }))
+  })
+
+  it('points the resource_metadata challenge at the path-suffixed URL', async () => {
     const handler = createStreamableHttpHandler({
       tools: [echo],
+      resource: 'https://agent.invalid/mcp',
       verifyBearer: (token) => (token === 'good' ? { subject: 'user-1' } : null),
     })
-    const init = () => new Request(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json, text/event-stream' },
-      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {
-        protocolVersion: '2025-06-18',
-        capabilities: {},
-        clientInfo: { name: 'test', version: '1.0.0' },
-      } }),
-    })
 
-    const missing = await handler(init())
+    const missing = await handler(new Request(endpoint))
     expect(missing.status).toBe(401)
     expect(missing.headers.get('www-authenticate')).toBe(
-      'Bearer resource_metadata="https://agent.invalid/.well-known/oauth-protected-resource"',
+      'Bearer resource_metadata="https://agent.invalid/.well-known/oauth-protected-resource/mcp"',
     )
 
-    const invalid = new Request(endpoint, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer nope',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json, text/event-stream',
-      },
-      body: '{}',
-    })
+    const invalid = new Request(endpoint, { headers: { Authorization: 'Bearer nope' } })
     expect((await handler(invalid)).status).toBe(401)
     await handler.close()
   })
 
-  it('serves protected-resource metadata', async () => {
+  it('serves protected-resource metadata at the path-suffixed URL', async () => {
     const handler = createStreamableHttpHandler({
       tools: [echo],
       resource: 'https://agent.invalid/mcp',
       authorizationServers: ['https://auth.invalid'],
       scopesSupported: ['tools:read'],
     })
-    const response = await handler(new Request('https://agent.invalid/.well-known/oauth-protected-resource'))
+    const response = await handler(
+      new Request('https://agent.invalid/.well-known/oauth-protected-resource/mcp'),
+    )
     expect(response.status).toBe(200)
     expect(await response.json()).toEqual({
       resource: 'https://agent.invalid/mcp',
@@ -114,6 +118,51 @@ describe('Streamable HTTP', () => {
       scopes_supported: ['tools:read'],
       bearer_methods_supported: ['header'],
     })
+    const root = await handler(new Request('https://agent.invalid/.well-known/oauth-protected-resource'))
+    expect(root.status).not.toBe(200)
+    await handler.close()
+  })
+
+  it('uses the root metadata URL when the resource has no path', async () => {
+    const handler = createStreamableHttpHandler({
+      tools: [echo],
+      resource: 'https://agent.invalid',
+      verifyBearer: () => null,
+    })
+    const response = await handler(new Request('https://agent.invalid/.well-known/oauth-protected-resource'))
+    expect(response.status).toBe(200)
+    expect(await response.json()).toMatchObject({ resource: 'https://agent.invalid' })
+
+    const challenge = await handler(new Request('https://agent.invalid/mcp'))
+    expect(challenge.headers.get('www-authenticate')).toBe(
+      'Bearer resource_metadata="https://agent.invalid/.well-known/oauth-protected-resource"',
+    )
+    await handler.close()
+  })
+
+  it('honors an explicit metadataPath for serving and the challenge', async () => {
+    const handler = createStreamableHttpHandler({
+      tools: [echo],
+      resource: 'https://agent.invalid/mcp',
+      metadataPath: '/.well-known/oauth-protected-resource/custom',
+      verifyBearer: () => null,
+    })
+    const response = await handler(
+      new Request('https://agent.invalid/.well-known/oauth-protected-resource/custom'),
+    )
+    expect(response.status).toBe(200)
+
+    const challenge = await handler(new Request('https://agent.invalid/mcp'))
+    expect(challenge.headers.get('www-authenticate')).toBe(
+      'Bearer resource_metadata="https://agent.invalid/.well-known/oauth-protected-resource/custom"',
+    )
+    await handler.close()
+  })
+
+  it('does not expose protected-resource metadata without a resource', async () => {
+    const handler = createStreamableHttpHandler({ tools: [echo] })
+    const response = await handler(new Request('https://agent.invalid/.well-known/oauth-protected-resource'))
+    expect(response.status).not.toBe(200)
     await handler.close()
   })
 
@@ -128,6 +177,7 @@ describe('Streamable HTTP', () => {
     }
     const handler = createStreamableHttpHandler({
       tools: [whoami],
+      resource: 'https://agent.invalid/mcp',
       verifyBearer: (token) => (token === 'good'
         ? { subject: 'user-1', scopes: ['tools:read'], claims: { plan: 'beta' } }
         : null),
