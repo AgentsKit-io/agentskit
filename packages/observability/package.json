@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/observability",
-  "version": "0.13.1",
+  "version": "1.0.0",
   "description": "Logging and tracing layer for AgentsKit agents.",
   "keywords": [
     "agentskit",
@@ -41,6 +41,11 @@
       "types": "./dist/cost-guard.d.ts",
       "import": "./dist/cost-guard.js",
       "require": "./dist/cost-guard.cjs"
+    },
+    "./cost-store": {
+      "types": "./dist/cost-store.d.ts",
+      "import": "./dist/cost-store.js",
+      "require": "./dist/cost-store.cjs"
     },
     "./postgres": {
       "types": "./dist/postgres.d.ts",

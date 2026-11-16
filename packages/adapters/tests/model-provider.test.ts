@@ -22,6 +22,11 @@ const cases: Array<{ cfg: ModelProviderConfig; sse: string; url: string }> = [
   { cfg: { provider: 'openrouter', model: 'a/m', apiKey: 'k' }, sse: openaiSse, url: 'https://openrouter.ai/api/v1/chat/completions' },
   { cfg: { provider: 'cliproxyapi', model: 'm' }, sse: openaiSse, url: 'http://127.0.0.1:8317/v1/chat/completions' },
   { cfg: { provider: 'anthropic', model: 'm', apiKey: 'k' }, sse: anthropicSse, url: 'https://api.anthropic.com/v1/messages' },
+  // Configured baseUrl must reach the request (synthetic gateway host).
+  { cfg: { provider: 'openai', model: 'm', apiKey: 'k', baseUrl: 'https://gateway.test/v1' }, sse: openaiSse, url: 'https://gateway.test/v1/chat/completions' },
+  { cfg: { provider: 'openrouter', model: 'a/m', apiKey: 'k', baseUrl: 'https://gateway.test/v1' }, sse: openaiSse, url: 'https://gateway.test/v1/chat/completions' },
+  { cfg: { provider: 'cliproxyapi', model: 'm', baseUrl: 'http://proxy.test:9000/v1' }, sse: openaiSse, url: 'http://proxy.test:9000/v1/chat/completions' },
+  { cfg: { provider: 'anthropic', model: 'm', apiKey: 'k', baseUrl: 'https://gateway.test' }, sse: anthropicSse, url: 'https://gateway.test/v1/messages' },
 ]
 
 function requestUrl(input: string | URL | Request): string {
@@ -34,7 +39,7 @@ afterEach(() => { globalThis.fetch = original })
 
 describe('createModelProvider', () => {
   for (const { cfg, sse, url } of cases) {
-    it(`streams recorded ${cfg.provider} response through the common port`, async () => {
+    it(`streams recorded ${cfg.provider} response via ${url}`, async () => {
       const calls: string[] = []
       globalThis.fetch = vi.fn(async (input: string | URL | Request) => {
         calls.push(requestUrl(input))
