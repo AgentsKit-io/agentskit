@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "8a9ab5c1365d5449d018fe836f1025ae3fc10bfab3164282ad806ecb7d3a4761",
+  "contentHash": "a298f9edc6be66d758c53d2ca76aa17c6e741ceb8be7b7adaff7c22015b295dc",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-15T18:59:28.379Z",
+  "generatedAt": "2026-11-16T16:21:39.638Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6914,7 +6914,7 @@
         "document",
         "human"
       ],
-      "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037"
+      "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db"
     },
     {
       "id": "document:docs/V1-READINESS-TRACKER.md",
@@ -23983,6 +23983,38 @@
       "contentHash": "6d920c793d06faf48079bb7bc573d725db682212710bd11371818bad2d82b508"
     },
     {
+      "id": "module:packages/integrations/src/services/clickup/actions.ts",
+      "type": "module",
+      "title": "actions.ts",
+      "path": "packages/integrations/src/services/clickup/actions.ts",
+      "symbols": [
+        "clickupActions",
+        "clickupListTasks",
+        "clickupListWorkspaces"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "clickup"
+      ],
+      "contentHash": "95fdd5611260b7d368b70711f44db44cff507a628d7daf6d797e47d076d9f55b"
+    },
+    {
+      "id": "module:packages/integrations/src/services/clickup/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/services/clickup/index.ts",
+      "symbols": [
+        "clickupIntegration"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "clickup"
+      ],
+      "contentHash": "b06e850efb53cf31e6cfdd1dfa340f7505c75f0a57c7371071208f030834255a"
+    },
+    {
       "id": "module:packages/integrations/src/services/coingecko/actions.ts",
       "type": "module",
       "title": "actions.ts",
@@ -24574,6 +24606,7 @@
         "boxIntegration",
         "calComIntegration",
         "calendlyIntegration",
+        "clickupIntegration",
         "coingeckoIntegration",
         "confluenceIntegration",
         "deepgramIntegration",
@@ -24607,6 +24640,7 @@
         "slackIntegration",
         "supabaseIntegration",
         "telegramIntegration",
+        "trelloIntegration",
         "twilioIntegration",
         "weatherIntegration",
         "whatsappIntegration",
@@ -24618,7 +24652,7 @@
         "ts",
         "services"
       ],
-      "contentHash": "543a9a367419cf7297ce4612d131fbff4ef3dc36ce0dc85f83a1b8f392509167"
+      "contentHash": "782581926a2ff2936fe595cfdbd7ce69fbf05dbc5a66235117f0a64dc2505987"
     },
     {
       "id": "module:packages/integrations/src/services/intercom/actions.ts",
@@ -25422,6 +25456,38 @@
       "contentHash": "c2b725d1a69d41d4ce92567144c392d6f4f730428386c427c2cf33deb629ed70"
     },
     {
+      "id": "module:packages/integrations/src/services/trello/actions.ts",
+      "type": "module",
+      "title": "actions.ts",
+      "path": "packages/integrations/src/services/trello/actions.ts",
+      "symbols": [
+        "trelloActions",
+        "trelloListBoards",
+        "trelloListCards"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "trello"
+      ],
+      "contentHash": "e4c260ac006df6325964024e211f2334ef1c1ebb93a7685c3846634d101426da"
+    },
+    {
+      "id": "module:packages/integrations/src/services/trello/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/integrations/src/services/trello/index.ts",
+      "symbols": [
+        "trelloIntegration"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "trello"
+      ],
+      "contentHash": "a400da951110c19a2500d9204fec11d84714229f4d76537ffecf2b5d1e2cfedc"
+    },
+    {
       "id": "module:packages/integrations/src/services/twilio/actions.ts",
       "type": "module",
       "title": "actions.ts",
@@ -25983,6 +26049,19 @@
         "tests"
       ],
       "contentHash": "a917f3396146e18fa17591cccfa6c7fb44e09df00d82b935e9433148c8d888e2"
+    },
+    {
+      "id": "module:packages/integrations/tests/trello-clickup.test.ts",
+      "type": "module",
+      "title": "trello-clickup.test.ts",
+      "path": "packages/integrations/tests/trello-clickup.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "e77e29590ec5dacdb0348d3ed62084d30fa9204ce1a76d5d8b40c4173d56ca39"
     },
     {
       "id": "module:packages/integrations/tests/validate.test.ts",
@@ -39384,8 +39463,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0d57120a7f0742ca4a58d90d6cfcefeeda6c78837368cfa3fc5c747f54460db6",
-    "fileCount": 2702,
+    "hash": "4baa78591210891197940a6adaa570046baa979d689833a08c79400a13ff66a8",
+    "fileCount": 2707,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39407,9 +39486,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "edf41dbb89f5522228cac0f94d36b222eb6b33880e903a7ec1f09b5aa3b9bad9",
+    "contentHash": "65b5ff8a23f547b7dd64879eefe884ec0db76f989c37e7a435bec753b6afbd23",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "5d0d6c40254a16a2bf386208c276a16be01bb4eb8f55538aea09ad5e885426f6",
+    "snapshotHash": "627329e5cd272cfc992c1ebe130499877fdd3b46c43825e5548827c4dc43db66",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39429,7 +39508,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2566,
+      "documentCount": 2571,
       "fieldNames": [
         "aliases",
         "body",
@@ -39440,13 +39519,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.019485580670304,
-        "body": 60.86477007014809,
-        "headings": 3.8791893998441154,
-        "path": 7.616134060795011,
-        "summary": 4.475837879968823,
-        "symbols": 7.598207326578332,
-        "title": 3.387373343725643
+        "aliases": 3.0198366394399065,
+        "body": 60.73317775184753,
+        "headings": 3.871645274212369,
+        "path": 7.616880591209646,
+        "summary": 4.467133411124077,
+        "symbols": 7.596654998055231,
+        "title": 3.3858420847919097
       }
     },
     "entries": [
@@ -41470,7 +41549,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "753ef36e0dcb1bdb29ded71cf409c0c164ceba431d38428021f4e46d36fbfc89",
+        "contentHash": "df26356fcc0b3544b56a3d8d43151122cfce097768d8309a9803fee6dff931e2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77594,7 +77673,7 @@
           "path": "docs/SUPPORT-MATRIX.md",
           "symbols": "",
           "summary": "Generated by node scripts/gen-support-matrix.mjs — do not edit by hand.",
-          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 0.19.2 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/angular 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/cli 0.14.0 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 0.3.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/eval 0.7.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/ink 0.10.16 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/integrations 0.8.3 experimental — — — — — — @agentskit/mcp 0.5.2 experimental — — — — — — @agentskit/memory 0.12.1 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/net 0.2.4 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/observability 0.13.1 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/rag 0.7.1 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react 0.8.10 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react-native 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/runtime 0.11.3 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/sandbox 0.6.13 supported apps/docs-next ✅ ✅ ✅ ✅ ✅ eligible @agentskit/skills 0.9.10 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/solid 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/statechart 0.3.2 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/svelte 0.6.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 0.13.16 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/vue 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible",
+          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/angular 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/cli 0.14.1 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/eval 1.0.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/ink 1.0.0 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/integrations 0.9.0 experimental — — — — — — @agentskit/mcp 0.6.0 experimental — — — — — — @agentskit/memory 1.0.0 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/net 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/observability 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/rag 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react-native 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/runtime 1.0.0 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/sandbox 1.0.0 supported apps/docs-next ✅ ✅ ✅ ✅ 1.x @agentskit/skills 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/solid 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/statechart 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/svelte 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 1.0.0 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/vue 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x",
           "aliases": "document human"
         },
         "graph": {
@@ -77732,7 +77811,7 @@
             }
           ]
         },
-        "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037",
+        "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -140502,6 +140581,16 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/clickup/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/clickup/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/coingecko/actions.ts",
               "confidence": "observed"
             },
@@ -140638,16 +140727,6 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/gmail/index.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/integrations/src/services/google-calendar/actions.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/integrations/src/services/google-calendar/index.ts",
               "confidence": "observed"
             }
           ],
@@ -141539,6 +141618,11 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/trello-clickup.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions",
               "id": "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
               "confidence": "observed"
@@ -141687,6 +141771,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/calendly/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/clickup/index.ts",
               "confidence": "observed"
             },
             {
@@ -141871,6 +141960,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/trello/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/twilio/index.ts",
               "confidence": "observed"
             },
@@ -141915,6 +142009,11 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/trello-clickup.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
               "confidence": "observed"
@@ -141922,11 +142021,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/integrations/CONVENTIONS.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "re-exports",
-              "id": "module:packages/integrations/src/index.ts",
               "confidence": "observed"
             }
           ],
@@ -143544,6 +143638,121 @@
           ]
         },
         "contentHash": "6d920c793d06faf48079bb7bc573d725db682212710bd11371818bad2d82b508",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/services/clickup/actions.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/clickup/actions.ts",
+        "title": "actions.ts",
+        "aliases": [],
+        "symbols": [
+          "clickupActions",
+          "clickupListTasks",
+          "clickupListWorkspaces"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "clickup"
+        ],
+        "fields": {
+          "title": "actions.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/clickup/actions.ts",
+          "symbols": "clickupActions clickupListTasks clickupListWorkspaces",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts clickup"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/clickup/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "95fdd5611260b7d368b70711f44db44cff507a628d7daf6d797e47d076d9f55b",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/services/clickup/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/clickup/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "clickupIntegration"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "clickup"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/clickup/index.ts",
+          "symbols": "clickupIntegration",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts clickup"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/trello-clickup.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/clickup/actions.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "b06e850efb53cf31e6cfdd1dfa340f7505c75f0a57c7371071208f030834255a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -145748,6 +145957,7 @@
           "boxIntegration",
           "calComIntegration",
           "calendlyIntegration",
+          "clickupIntegration",
           "coingeckoIntegration",
           "confluenceIntegration",
           "deepgramIntegration",
@@ -145781,6 +145991,7 @@
           "slackIntegration",
           "supabaseIntegration",
           "telegramIntegration",
+          "trelloIntegration",
           "twilioIntegration",
           "weatherIntegration",
           "whatsappIntegration",
@@ -145796,7 +146007,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/integrations/src/services/index.ts",
-          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration freshdeskIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration supabaseIntegration telegramIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration zendeskIntegration",
+          "symbols": "acuityIntegration airtableIntegration apolloIntegration asanaIntegration assemblyaiIntegration attioIntegration azureOpenaiIntegration baserowIntegration bigcommerceIntegration boxIntegration calComIntegration calendlyIntegration clickupIntegration coingeckoIntegration confluenceIntegration deepgramIntegration discordIntegration dropboxIntegration elevenlabsIntegration figmaIntegration firecrawlIntegration freshdeskIntegration githubActionsIntegration githubIntegration gmailIntegration googleCalendarIntegration googleDriveIntegration hubspotIntegration intercomIntegration jiraIntegration linearIntegration linearTriageIntegration mailchimpIntegration mapsIntegration notionIntegration openaiImagesIntegration pagerdutyIntegration pipedriveIntegration readerIntegration salesforceIntegration sendgridIntegration sentryIntegration shopifyIntegration slackIntegration supabaseIntegration telegramIntegration trelloIntegration twilioIntegration weatherIntegration whatsappIntegration whisperIntegration zendeskIntegration",
           "summary": "",
           "body": "",
           "aliases": "module ts services"
@@ -145817,6 +146028,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/oauth-specs.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/trello-clickup.test.ts",
               "confidence": "observed"
             },
             {
@@ -145884,6 +146100,11 @@
             {
               "kind": "re-exports",
               "id": "module:packages/integrations/src/services/calendly/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/clickup/index.ts",
               "confidence": "observed"
             },
             {
@@ -146068,6 +146289,11 @@
             },
             {
               "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/trello/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
               "id": "module:packages/integrations/src/services/twilio/index.ts",
               "confidence": "observed"
             },
@@ -146093,7 +146319,7 @@
             }
           ]
         },
-        "contentHash": "543a9a367419cf7297ce4612d131fbff4ef3dc36ce0dc85f83a1b8f392509167",
+        "contentHash": "782581926a2ff2936fe595cfdbd7ce69fbf05dbc5a66235117f0a64dc2505987",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -149191,6 +149417,121 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/services/trello/actions.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/trello/actions.ts",
+        "title": "actions.ts",
+        "aliases": [],
+        "symbols": [
+          "trelloActions",
+          "trelloListBoards",
+          "trelloListCards"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "trello"
+        ],
+        "fields": {
+          "title": "actions.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/trello/actions.ts",
+          "symbols": "trelloActions trelloListBoards trelloListCards",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts trello"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/trello/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "e4c260ac006df6325964024e211f2334ef1c1ebb93a7685c3846634d101426da",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/services/trello/index.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/services/trello/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "trelloIntegration"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "trello"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/integrations/src/services/trello/index.ts",
+          "symbols": "trelloIntegration",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts trello"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/integrations/src/services",
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/trello-clickup.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/services/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/contract.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/trello/actions.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a400da951110c19a2500d9204fec11d84714229f4d76537ffecf2b5d1e2cfedc",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/services/twilio/actions.ts",
         "kind": "module",
         "path": "packages/integrations/src/services/twilio/actions.ts",
@@ -150117,6 +150458,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/support-desks.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/trello-clickup.test.ts",
               "confidence": "observed"
             },
             {
@@ -151711,6 +152057,71 @@
           ]
         },
         "contentHash": "a917f3396146e18fa17591cccfa6c7fb44e09df00d82b935e9433148c8d888e2",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/tests/trello-clickup.test.ts",
+        "kind": "module",
+        "path": "packages/integrations/tests/trello-clickup.test.ts",
+        "title": "trello-clickup.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "trello-clickup.test.ts",
+          "headings": "",
+          "path": "packages/integrations/tests/trello-clickup.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/project/to-tool-definitions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/registry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/clickup/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/trello/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/testing/validate.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "e77e29590ec5dacdb0348d3ed62084d30fa9204ce1a76d5d8b40c4173d56ca39",
         "provenance": "observed",
         "confidence": "observed"
       },
