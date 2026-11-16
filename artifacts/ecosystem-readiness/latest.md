@@ -1,17 +1,15 @@
 # AgentsKit ecosystem readiness
 
-- Audit date: 2026-08-14
-- Overall: **blocked**
+- Audit date: 2026-11-16
+- Overall: **incomplete**
 - Promotion allowed: **no**
-- Products: 0 ready / 6 blocked / 0 incomplete (of 6)
+- Products: 0 ready / 5 blocked / 1 incomplete (of 6)
 - Findings: 6 (P0=6, P1=0)
 
 ## Products
 
-### agentskit — blocked
+### agentskit — incomplete
 - Repo: `AgentsKit-io/agentskit`
-- Maturity: beta (source: ecosystem.json#products[agentskit].maturity)
-- Audited on: 2026-07-14
 
 ### registry — blocked
 - Repo: `AgentsKit-io/agentskit-registry`
@@ -40,17 +38,17 @@
 
 ## Findings
 
-- **P0** `agentskit` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
-  - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit)
-- **P0** `agentskit-chat` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
+- **P0** `agentskit` / `evidence-valid` (fail): agentskit has an invalid gate record
+  - Remediation: Fix the evidence manifest so it validates against the readiness schema. (owner: AgentsKit-io/agentskit)
+- **P0** `agentskit-chat` / `evidence-freshness` (fail): Evidence is 125 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-chat)
-- **P0** `code-review` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
+- **P0** `code-review` / `evidence-freshness` (fail): Evidence is 125 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/code-review)
-- **P0** `doc-bridge` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
+- **P0** `doc-bridge` / `evidence-freshness` (fail): Evidence is 125 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/doc-bridge)
-- **P0** `playbook` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
+- **P0** `playbook` / `evidence-freshness` (fail): Evidence is 125 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agents-playbook)
-- **P0** `registry` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
+- **P0** `registry` / `evidence-freshness` (fail): Evidence is 125 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-registry)
 
 Broad promotion remains gated until overall status is `ready`.
