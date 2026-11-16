@@ -15,7 +15,7 @@ Memory and Retriever are the two contracts that still lack an invariant-by-id ha
 
 ## Shared fixtures
 
-The Tool and Runtime suites read the portable fixtures in `tests/interop/fixtures/` (`tools.json`, `stream.json`, `errors.json`). See `tests/interop/README.md`. Run the fixtures themselves with `pnpm test:interop`.
+The Tool suite reads `tools.json` and the Runtime suite reads `stream.json` and `errors.json` from `tests/interop/fixtures/`. RT13 checks the abort rejection against the `abort` error fixture; RT14 checks the tool and adapter error categories against `tool-exec-failed` and `adapter-stream-failed`. See `tests/interop/README.md`. Run the fixtures themselves with `pnpm test:interop`.
 
 ## Running the suite for your family from an external bridge
 
@@ -27,3 +27,4 @@ The Tool and Runtime suites read the portable fixtures in `tests/interop/fixture
 ## Known violations
 
 - **T6 (Tool streaming).** Core joins every value yielded by an `AsyncIterable` tool into the result, where ADR 0002 says only the last yielded value is the result. Fixing it changes the output of existing streaming tools, so it is an `it.todo` in `packages/tools/tests/contract.ts` and not a patch.
+- **T9 (Tool confirmation).** ADR 0002 says a call to a `requiresConfirmation` tool gets status `requires_confirmation` and pauses until someone approves. Core has no paused state: it calls `onConfirm` inline and, with no approver or on a decline, ends the call as `skipped` without running `execute`. The suite asserts that execution is gated and records the missing status and pause as an `it.todo`, because adding the state changes a published status type.

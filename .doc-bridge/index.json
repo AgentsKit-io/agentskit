@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "8b6da86359c64f8205552e88878c8ec08b900f9eefb07d1208a6f28e9d6593b8",
+  "contentHash": "63a089b07c9cc9b59d9c2c4071216f9beec0f611cb8aaafbbcb98900ded596c6",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-16T18:20:30.226Z",
+  "generatedAt": "2026-11-16T19:46:30.118Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6170,7 +6170,7 @@
         "document",
         "human"
       ],
-      "contentHash": "2b62ad82a9ff34daab529c774f7390e7b62047b2f9a1fbfc0336bb103b8bae07"
+      "contentHash": "3b0d55643e14dad8f237124b4134193c262fbabebd3dc0892544b7906c1e7756"
     },
     {
       "id": "document:docs/architecture/ecosystem-manifest.md",
@@ -31669,6 +31669,7 @@
       "symbols": [
         "RuntimeFactory",
         "RuntimeUnderTest",
+        "loadErrorFixtures",
         "loadStreamFixtures",
         "runRuntimeContract",
         "scriptedAdapter"
@@ -31678,7 +31679,7 @@
         "ts",
         "tests"
       ],
-      "contentHash": "d410e75f2227956724230c79d99e876bfc27d901194ded9312aac7e1edfa903e"
+      "contentHash": "2e6cbc633ebc10f32ebad0fe8c06de5bd574b7897731ed78653f4824105f9486"
     },
     {
       "id": "module:packages/runtime/tests/delegates.test.ts",
@@ -35792,7 +35793,7 @@
         "ts",
         "tests"
       ],
-      "contentHash": "1677f94c7a38879a14d11114deea8626539a43dfc21af740aad3a881b1d9fca0"
+      "contentHash": "73223c93252151de628b0fe7cd4961f545ddb556696264d71ae5fa07c01d0362"
     },
     {
       "id": "module:packages/tools/tests/discovery.test.ts",
@@ -39461,7 +39462,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "c48e31f5dacdaaf933e86f517300c81d895e530fb724e2c5e3646bf890af024f",
+    "hash": "f175ea7f8b1bad6d0f6183181ff03638d37a491e75a67bb3bc3d5383707571f5",
     "fileCount": 2707,
     "projectionVersion": 2
   },
@@ -39484,9 +39485,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "dee2902de2ff751c040a8b536dceae8794b566fba24014c8dfbba75a255f83e3",
+    "contentHash": "c37e977fa75575363323e1d0aae611c3d96d859df0caa88bdb13ebad8015e2ed",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "faa253db010032803f592863bafc0c954cf41ee0397607662c110fba669c2f5e",
+    "snapshotHash": "1d541c1e58e09d54f3b5a17ef86f3b966b05a3e6c08b06c448a436a9131545c2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39518,11 +39519,11 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0198366394399065,
-        "body": 60.84753014391288,
+        "body": 60.87514585764294,
         "headings": 3.8759237650719562,
         "path": 7.6133800077790745,
         "summary": 4.47218980941268,
-        "symbols": 7.599377674056787,
+        "symbols": 7.600933488914819,
         "title": 3.385453131077402
       }
     },
@@ -74170,7 +74171,7 @@
           "path": "docs/architecture/conformance.md",
           "symbols": "",
           "summary": "One suite per core contract. Each names its tests by invariant id, so a failure maps straight back to the ADR.",
-          "body": "Conformance suites One suite per core contract. Each names its tests by invariant id, so a failure maps straight back to the ADR. Contract ADR Suite Command --- --- --- --- Adapter packages/adapters/tests/contract.ts (A1–A10) pnpm --filter @agentskit/adapters test Tool packages/tools/tests/contract.ts (T1–T12) pnpm --filter @agentskit/tools test Memory no named suite yet; the shared fixture tests/interop/fixtures/memory.json plus packages/memory/tests/ pnpm --filter @agentskit/memory test Retriever no named suite yet; fixture tests/interop/fixtures/vector-documents.json pnpm --filter @agentskit/rag test Skill packages/skills/tests/adr-0005-contract.test.ts pnpm --filter @agentskit/skills test Runtime packages/runtime/tests/contract.ts (RT1–RT14) pnpm --filter @agentskit/runtime test Memory and Retriever are the two contracts that still lack an invariant-by-id harness. Shared fixtures The Tool and Runtime suites read the portable fixtures in tests/interop/fixtures/ ( tools.json , stream.json , errors.json ). See tests/interop/README.md . Run the fixtures themselves with pnpm test:interop . Running the suite for your family from an external bridge 1. Copy the harness file ( contract.ts ) of your family, or import it from a checkout of this repository. 2. Describe your implementation as a case. For Tool, a case lists a build() that returns your ToolDefinition[] , plus validArgs and invalidArgs per tool name. For Runtime, pass your factory to runRuntimeContract(label, createRuntime) . The factory receives a RuntimeConfig whose adapter is a scripted mock. 3. Call the runner from a Vitest file ( runToolContract([...]) , runToolLifecycleContract(...) , runRuntimeContract(...) ). 4. Every invariant appears as a test named T<n or RT<n . A failure names the ADR rule that your implementation breaks. Known violations - T6 (Tool streaming). Core joins every value yielded by an AsyncIterable tool into the result, where ADR 0002 says only the last yielded value is the result. Fixing it changes the output of existing streaming tools, so it is an it.todo in packages/tools/tests/contract.ts and not a patch.",
+          "body": "Conformance suites One suite per core contract. Each names its tests by invariant id, so a failure maps straight back to the ADR. Contract ADR Suite Command --- --- --- --- Adapter packages/adapters/tests/contract.ts (A1–A10) pnpm --filter @agentskit/adapters test Tool packages/tools/tests/contract.ts (T1–T12) pnpm --filter @agentskit/tools test Memory no named suite yet; the shared fixture tests/interop/fixtures/memory.json plus packages/memory/tests/ pnpm --filter @agentskit/memory test Retriever no named suite yet; fixture tests/interop/fixtures/vector-documents.json pnpm --filter @agentskit/rag test Skill packages/skills/tests/adr-0005-contract.test.ts pnpm --filter @agentskit/skills test Runtime packages/runtime/tests/contract.ts (RT1–RT14) pnpm --filter @agentskit/runtime test Memory and Retriever are the two contracts that still lack an invariant-by-id harness. Shared fixtures The Tool suite reads tools.json and the Runtime suite reads stream.json and errors.json from tests/interop/fixtures/ . RT13 checks the abort rejection against the abort error fixture; RT14 checks the tool and adapter error categories against tool-exec-failed and adapter-stream-failed . See tests/interop/README.md . Run the fixtures themselves with pnpm test:interop . Running the suite for your family from an external bridge 1. Copy the harness file ( contract.ts ) of your family, or import it from a checkout of this repository. 2. Describe your implementation as a case. For Tool, a case lists a build() that returns your ToolDefinition[] , plus validArgs and invalidArgs per tool name. For Runtime, pass your factory to runRuntimeContract(label, createRuntime) . The factory receives a RuntimeConfig whose adapter is a scripted mock. 3. Call the runner from a Vitest file ( runToolContract([...]) , runToolLifecycleContract(...) , runRuntimeContract(...) ). 4. Every invariant appears as a test named T<n or RT<n . A failure names the ADR rule that your implementation breaks. Known violations - T6 (Tool streaming). Core joins every value yielded by an AsyncIterable tool into the result, where ADR 0002 says only the last yielded value is the result. Fixing it changes the output of existing streaming tools, so it is an it.todo in packages/tools/tests/contract.ts and not a patch. - T9 (Tool confirmation). ADR 0002 says a call to a requiresConfirmation tool gets status requires confirmation and pauses until someone approves. Core has no paused state: it calls onConfirm inline and, with no approver or on a decline, ends the call as skipped without running execute . The suite asserts that execution is gated and records the missing status and pause as an it.todo , because adding the state changes a published status type.",
           "aliases": "document human"
         },
         "graph": {
@@ -74253,7 +74254,7 @@
             }
           ]
         },
-        "contentHash": "2b62ad82a9ff34daab529c774f7390e7b62047b2f9a1fbfc0336bb103b8bae07",
+        "contentHash": "3b0d55643e14dad8f237124b4134193c262fbabebd3dc0892544b7906c1e7756",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -172506,6 +172507,7 @@
         "symbols": [
           "RuntimeFactory",
           "RuntimeUnderTest",
+          "loadErrorFixtures",
           "loadStreamFixtures",
           "runRuntimeContract",
           "scriptedAdapter"
@@ -172519,7 +172521,7 @@
           "title": "contract.ts",
           "headings": "",
           "path": "packages/runtime/tests/contract.ts",
-          "symbols": "RuntimeFactory RuntimeUnderTest loadStreamFixtures runRuntimeContract scriptedAdapter",
+          "symbols": "RuntimeFactory RuntimeUnderTest loadErrorFixtures loadStreamFixtures runRuntimeContract scriptedAdapter",
           "summary": "",
           "body": "",
           "aliases": "module ts tests"
@@ -172552,7 +172554,7 @@
             }
           ]
         },
-        "contentHash": "d410e75f2227956724230c79d99e876bfc27d901194ded9312aac7e1edfa903e",
+        "contentHash": "2e6cbc633ebc10f32ebad0fe8c06de5bd574b7897731ed78653f4824105f9486",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -188146,7 +188148,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "1677f94c7a38879a14d11114deea8626539a43dfc21af740aad3a881b1d9fca0",
+        "contentHash": "73223c93252151de628b0fe7cd4961f545ddb556696264d71ae5fa07c01d0362",
         "provenance": "observed",
         "confidence": "observed"
       },

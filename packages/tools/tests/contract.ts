@@ -203,7 +203,14 @@ export function runToolLifecycleContract(label: string, make: (overrides: Partia
       expect(res.status).toBe('complete')
     })
 
-    it('T9 confirmation gates execute: no approver, no execution', async () => {
+    // Known violation: ADR 0002 T9 says the runtime sets status
+    // 'requires_confirmation' and pauses until a human approves. Core has no
+    // pause: it asks `onConfirm` inline and, without an approver or on a
+    // decline, ends the call as 'skipped'. Adding a paused state changes the
+    // ToolCall status union of a published package, so it is a todo here.
+    it.todo("T9 confirmation: status is 'requires_confirmation' and the call pauses until approved (core skips instead)")
+
+    it('T9 confirmation gates execute: no approver, no execution (core reports skipped)', async () => {
       let executed = 0
       const tool = make({ requiresConfirmation: true, execute: () => { executed++; return 'ok' } })
       const refused = await runTool(tool, {})

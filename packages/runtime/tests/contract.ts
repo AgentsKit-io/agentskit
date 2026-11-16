@@ -25,6 +25,15 @@ export function loadStreamFixtures(): Record<string, StreamChunk[]> {
   return Object.fromEntries(file.valid.map(v => [v.name, v.value]))
 }
 
+type ErrorFixture = Array<{ name: string; value: { name: string; code: string; message: string } }>
+
+/** Error shape fixtures from `tests/interop/fixtures/errors.json` (name, code, message). */
+export function loadErrorFixtures(): Record<string, { name: string; code: string; message: string }> {
+  const path = resolve(__dirname, '../../../tests/interop/fixtures/errors.json')
+  const file = JSON.parse(readFileSync(path, 'utf8')) as { valid: ErrorFixture }
+  return Object.fromEntries(file.valid.map(v => [v.name, v.value]))
+}
+
 /** Adapter replaying one chunk list per model call; after the list ends it answers 'done'. */
 export function scriptedAdapter(calls: StreamChunk[][], seen?: { calls: number }): AdapterFactory {
   let index = 0
@@ -69,6 +78,7 @@ function countingMemory(): { memory: ChatMemory; saves: () => number } {
 
 export function runRuntimeContract(label: string, create: RuntimeFactory): void {
   const fixtures = loadStreamFixtures()
+  const errors = loadErrorFixtures()
 
   describe(`Runtime contract (ADR 0006): ${label}`, () => {
     it('RT1 construction performs no adapter call', () => {
@@ -166,6 +176,27 @@ export function runRuntimeContract(label: string, create: RuntimeFactory): void 
       for (const t of ['llm:start', 'llm:end', 'tool:start', 'tool:end'] as const) expect(types.has(t)).toBe(true)
     })
 
+    it('RT10 delegation is a tool: delegate_<name> runs as a tool call whose execute is a nested run', async () => {
+      const { events, observer } = collect()
+      const child = { calls: 0 }
+      const delegates = {
+        helper: {
+          skill: { name: 'helper', description: 'd', systemPrompt: 'p' },
+          adapter: scriptedAdapter([TEXT_DONE('child answer')], child),
+        },
+      }
+      const res = await create({
+        adapter: scriptedAdapter([TOOL_CALL('d1', 'delegate_helper', '{"task":"subtask"}'), TEXT_DONE('end')]),
+        delegates,
+        observers: [observer],
+      }).run('go')
+      expect(res.toolCalls[0]).toMatchObject({ name: 'delegate_helper', status: 'complete', result: 'child answer' })
+      expect(child.calls).toBe(1)
+      expect(events.some(e => e.type === 'agent:delegate:start')).toBe(true)
+      expect(events.some(e => e.type === 'agent:delegate:end')).toBe(true)
+      expect(res.content).toBe('end')
+    })
+
     it('RT11 delegation depth is bounded: no delegate tool is offered at the limit', async () => {
       let offered: string[] = []
       const adapter: AdapterFactory = {
@@ -193,33 +224,40 @@ export function runRuntimeContract(label: string, create: RuntimeFactory): void 
       expect(res.durationMs).toBeGreaterThanOrEqual(0)
     })
 
-    it('RT13 abort rejects with AbortError, skips memory save and emits run-aborted', async () => {
+    it('RT13 abort rejects with AbortError (fixture: abort), skips memory save and emits run-aborted', async () => {
       const { events, observer } = collect()
       const { memory, saves } = countingMemory()
       const controller = new AbortController()
       controller.abort()
       await expect(
         create({ adapter: scriptedAdapter([TEXT_DONE('x')]), memory, observers: [observer] }).run('go', { signal: controller.signal }),
-      ).rejects.toMatchObject({ name: 'AbortError' })
+      ).rejects.toMatchObject({ name: errors['abort']!.name, message: errors['abort']!.message })
       expect(saves()).toBe(0)
       expect(events.some(e => e.type === 'run-aborted')).toBe(true)
     })
 
-    it('RT14 a tool error is fed back and the loop continues', async () => {
+    it('RT14 a tool error is categorized (fixture: tool-exec-failed), fed back, and the loop continues', async () => {
+      const { events, observer } = collect()
       const res = await create({
         adapter: scriptedAdapter([TOOL_CALL('a', 'bad'), TEXT_DONE('recovered')]),
         tools: [{ name: 'bad', execute: () => { throw new Error('tool boom') } }],
+        observers: [observer],
       }).run('go')
+      const expected = errors['tool-exec-failed']!
+      const surfaced = events.find(e => e.type === 'error')
+      expect(surfaced?.type === 'error' ? surfaced.error : undefined).toMatchObject({ name: expected.name, code: expected.code })
+      expect(res.toolCalls[0]?.error).toContain(expected.code)
       expect(res.toolCalls[0]?.status).toBe('error')
       expect(res.messages.some(m => m.role === 'tool' && m.content.includes('Error'))).toBe(true)
       expect(res.content).toBe('recovered')
     })
 
-    it('RT14 an adapter error chunk terminates the run with the error (fixture: error-chunk)', async () => {
+    it('RT14 an adapter error chunk terminates the run with a categorized error (fixtures: error-chunk, adapter-stream-failed)', async () => {
       const { events, observer } = collect()
+      const expected = errors['adapter-stream-failed']!
       await expect(
         create({ adapter: scriptedAdapter([fixtures['error-chunk']!]), observers: [observer] }).run('go'),
-      ).rejects.toBeInstanceOf(Error)
+      ).rejects.toMatchObject({ name: expected.name, code: expected.code })
       expect(events.some(e => e.type === 'error')).toBe(true)
     })
 
