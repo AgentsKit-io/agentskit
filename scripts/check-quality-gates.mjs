@@ -60,6 +60,8 @@ const GATES = [
   ['brand token sync (landing)', 'sync-brand.mjs', ['--property', 'agentskit', '--format', 'landing', '--out', 'apps/landing/app/globals.css', '--check']],
   ['README Standard v1', 'check-readme-standard.mjs'],
   ['README Standard v1 tests', 'readme-standard.test.mjs', [], 'vitest'],
+  ['support matrix freshness', 'gen-support-matrix.mjs', ['--check']],
+  ['support matrix tests', 'gen-support-matrix.test.mjs', [], 'vitest'],
   ['cross-platform guardrail (ratchet)', 'check-cross-platform.mjs'],
   ['core rules guardrail (ratchet)', 'check-core-rules.mjs'],
   ['core rules ratchet tests', 'check-core-rules.test.mjs', [], 'vitest'],
@@ -68,6 +70,26 @@ const GATES = [
   ['Math.random identifier rule tests', 'math-random-id-rule.test.mjs', [], 'vitest'],
 ]
 
+// Slow gates that only read package sources, docs and registries. With
+// QUALITY_GATES_SCOPED=1 (the factory verify; CI stays full) they are skipped
+// when every file changed against origin/main is a changeset, turbo.json or
+// factory notes, none of which they read.
+const HEAVY = new Set([
+  'content pipeline tests',
+  'verified recipe factory',
+  'ecosystem documentation quality contract',
+])
+const INERT_PATHS = [/^\.changeset\//, /^turbo\.json$/, /^\.factory\//]
+
+function onlyInertChanges() {
+  if (process.env.QUALITY_GATES_SCOPED !== '1') return false
+  const res = spawnSync('git', ['diff', '--name-only', 'origin/main...HEAD'], { cwd: root, encoding: 'utf8' })
+  if (res.status !== 0) return false
+  const files = res.stdout.split(/\r?\n/).filter(Boolean)
+  return files.length > 0 && files.every((f) => INERT_PATHS.some((re) => re.test(f)))
+}
+
+const skipHeavy = onlyInertChanges()
 const failed = []
 
 process.stdout.write('\n▶ package declaration build preconditions\n')
@@ -77,6 +99,10 @@ const build = spawnSync('pnpm', [
 if (build.status !== 0) failed.push('package declaration build preconditions')
 
 for (const [label, script, args = [], runner = 'node'] of GATES) {
+  if (skipHeavy && HEAVY.has(label)) {
+    console.log(`\n▶ ${label}\n  skipped (scoped: only inert files changed)`)
+    continue
+  }
   const started = performance.now()
   process.stdout.write(`\n▶ ${label}\n`)
   const executable = runner === 'vitest' ? 'pnpm' : process.execPath

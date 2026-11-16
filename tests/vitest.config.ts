@@ -5,6 +5,6 @@ export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
-    include: [resolve(__dirname, '*.test.ts')],
+    include: [resolve(__dirname, '*.test.ts'), resolve(__dirname, 'interop/*.test.ts')],
   },
 })

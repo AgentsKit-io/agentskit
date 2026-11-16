@@ -2,8 +2,7 @@
 
 Repo-level CI helpers, runnable from the repo root. Most scripts use only Node
 ESM; the bundle-size helper also uses the already installed `esbuild`
-dependency. They run on every PR + push to `main` via `.github/workflows/ci.yml`
-and a husky `pre-push` hook.
+dependency. They run on every PR + push to `main` via `.github/workflows/ci.yml`.
 
 ## Bundle size targets per public ESM export
 

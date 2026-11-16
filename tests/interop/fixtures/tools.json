@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "kind": "tools",
+  "canonicalSha256": "5b1b8f8a4fae9922b4fd74b6d0c15e215e0b0ed41acec5cc843df5143b5f307c",
+  "valid": [
+    {
+      "name": "call-and-result",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "assistant",
+            "content": "",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "toolCalls": [
+              {
+                "id": "call_1",
+                "name": "get_weather",
+                "args": {
+                  "city": "Lisbon"
+                },
+                "status": "complete",
+                "result": "{\"tempC\":21}"
+              }
+            ]
+          },
+          {
+            "id": "m2",
+            "role": "tool",
+            "content": "{\"tempC\":21}",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "toolCallId": "call_1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "error-result",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "assistant",
+            "content": "",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "toolCalls": [
+              {
+                "id": "call_2",
+                "name": "get_weather",
+                "args": {
+                  "city": ""
+                },
+                "status": "error",
+                "error": "city must not be empty"
+              }
+            ]
+          },
+          {
+            "id": "m2",
+            "role": "tool",
+            "content": "city must not be empty",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "toolCallId": "call_2"
+          }
+        ]
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "args-not-object",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "assistant",
+            "content": "",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "toolCalls": [
+              {
+                "id": "c",
+                "name": "t",
+                "args": "x",
+                "status": "complete"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown-tool-status",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "assistant",
+            "content": "",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "toolCalls": [
+              {
+                "id": "c",
+                "name": "t",
+                "args": {},
+                "status": "lost"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty-tool-call-id",
+      "value": {
+        "version": 1,
+        "messages": [
+          {
+            "id": "m1",
+            "role": "assistant",
+            "content": "",
+            "status": "complete",
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "toolCalls": [
+              {
+                "id": "",
+                "name": "t",
+                "args": {},
+                "status": "complete"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

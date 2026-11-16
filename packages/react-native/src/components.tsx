@@ -39,7 +39,7 @@ export interface ChatContainerProps {
  * ```
  */
 export function ChatContainer({ children, style, testID = 'ak-chat-container' }: ChatContainerProps) {
-  const scrollRef = useRef<ScrollView>(null)
+  const scrollRef = useRef<React.ComponentRef<typeof ScrollView>>(null)
 
   const scrollToEnd = useCallback(() => {
     scrollRef.current?.scrollToEnd?.({ animated: true })

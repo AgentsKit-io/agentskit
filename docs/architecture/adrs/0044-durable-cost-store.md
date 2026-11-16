@@ -42,9 +42,13 @@ or Cloudflare Workers when `NODE_ENV` is not set. `warnWithoutStore` overrides
 the detection. A store write that fails goes to `onError`; a guard without
 `onError` logs the first failure once.
 
-Reservations have no time to live in the store. `expirePostgresCostReservations`
-releases the ones still held and older than a cutoff the host chooses; the host
-schedules it. `recordCostSpend` releases its own hold when the commit fails.
+Reservations expire lazily when the store is given `reservationTtlMs`: each
+operation first releases the held reservations older than the TTL in the scope
+it touches (the tenant window for `reserve` and `window`, the reservation for
+`commit` and `release`), so no host job is needed. Without the option,
+`expirePostgresCostReservations` releases the ones still held and older than a
+cutoff the host chooses; the host schedules it. `recordCostSpend` releases its
+own hold when the commit fails.
 
 ## Consequences
 
@@ -61,9 +65,13 @@ schedules it. `recordCostSpend` releases its own hold when the commit fails.
 - A released reservation id is not admitted again: `reserve` raises
   `AK_COST_RESERVATION_RELEASED`. Replaying it as admitted would let the call
   run without a hold and then fail to commit.
-- A reservation abandoned by a crashed process stays held until the host runs
-  the expiry. A cutoff shorter than a call still in flight releases its hold,
-  and that call's `commit` is then rejected.
+- A reservation abandoned by a crashed process stays held until its TTL passes,
+  or, without `reservationTtlMs`, until the host runs the expiry. A TTL or
+  cutoff shorter than a call still in flight releases its hold, and that call's
+  `commit` is then rejected.
+- With `reservationTtlMs`, a PostgreSQL operation runs one extra scoped expiry
+  statement first, backed by a partial index on held reservations, and the
+  reservation's `created_at` comes from the store clock.
 - `reserve` must run outside a host transaction or inside a savepoint. A
   concurrent duplicate id ends in a unique violation that the store absorbs,
   which still aborts an enclosing transaction.

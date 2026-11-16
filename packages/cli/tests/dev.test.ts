@@ -91,9 +91,7 @@ describe('startDev', () => {
     expect(spawnSpy).toHaveBeenCalledTimes(1)
 
     watcher.trigger('change', 'src/app.ts')
-    await new Promise(r => setTimeout(r, 150))
-
-    expect(spawnSpy).toHaveBeenCalledTimes(2)
+    await vi.waitFor(() => expect(spawnSpy).toHaveBeenCalledTimes(2), { timeout: 3000 })
     expect(controller.restarts()).toBe(2)
 
     await controller.stop()
@@ -117,9 +115,10 @@ describe('startDev', () => {
     watcher.trigger('change', 'a.ts')
     watcher.trigger('change', 'b.ts')
     watcher.trigger('change', 'c.ts')
-    await new Promise(r => setTimeout(r, 200))
-
     // 1 initial + 1 coalesced restart = 2
+    await vi.waitFor(() => expect(spawnSpy).toHaveBeenCalledTimes(2), { timeout: 3000 })
+    // let any extra (uncoalesced) restart surface
+    await new Promise(r => setTimeout(r, 150))
     expect(spawnSpy).toHaveBeenCalledTimes(2)
     await controller.stop()
   })

@@ -29,7 +29,7 @@ export const SITE_THEMES = { playbook: ['dark'] }
 export const CONTRAST_REGIONS = ['bar', 'header', 'hero', 'tour', 'footer']
 
 /** Checks the shared shell owns: a shell PR fails only on these (see `--scope shell`). */
-export const SHELL_CHECKS = new Set(['bar-present', 'bar-products', 'bar-current', 'bar-star', 'footer-upgraded', 'no-horizontal-overflow', 'shell-console-errors', 'contrast-bar', 'contrast-tour', 'contrast-footer'])
+export const SHELL_CHECKS = new Set(['bar-present', 'bar-products', 'bar-current', 'bar-star', 'footer-upgraded', 'shell-overflow', 'shell-console-errors', 'contrast-bar', 'contrast-tour', 'contrast-footer'])
 
 /**
  * Every public site in the ecosystem (bar products plus Playbook, which loads the
@@ -202,6 +202,24 @@ export function isOccluded(item) {
   const expected = [1, 2, 3].map((group, i) => Number(css[group]) * alpha + bg[i] * (1 - alpha))
   const distance = Math.max(...expected.map((value, i) => Math.abs(value - fg[i])))
   return distance > 64 && contrastRatio(expected, bg) >= item.required
+}
+
+/** Platform analytics beacons injected by the host (Vercel, Cloudflare): their failures say nothing about the page. */
+const PLATFORM_BEACON = /\/_vercel\/(speed-)?insights\/|static\.cloudflareinsights\.com\/beacon|cloudflareinsights\.com/
+
+/** True when a console error comes from a host-injected analytics beacon rather than the page. */
+export function isPlatformBeaconError(error) {
+  return PLATFORM_BEACON.test(`${error.url ?? ''} ${error.text ?? ''}`)
+}
+
+/**
+ * Decides who owns a horizontal overflow. `shellOffender` is computed in the page
+ * over ALL top-level offenders (before the listing is truncated).
+ */
+export function classifyOverflow({ scrollWidth, width, offenders = [], shellOffender }) {
+  const overflowing = scrollWidth > width + 1
+  const shellOverflow = overflowing && (shellOffender ?? offenders.some((o) => o.inShell))
+  return { shellOverflow, productOverflow: overflowing && !shellOverflow }
 }
 
 /** Re-labels non-shell failures as warnings when only the shell is under test. */

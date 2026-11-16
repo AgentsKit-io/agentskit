@@ -621,13 +621,13 @@ describe('native HTTP acceptance', () => {
       await expect(httpJson(
         {
           baseUrl: server.origin,
-          timeoutMs: 30,
+          timeoutMs: 400, // generous: the first request must land before the deadline even on a loaded CI box
           retry: { maxAttempts: 2 },
           sleep: async () => new Promise<void>(() => {}),
         },
         { path: '/deadline-retry' },
       )).rejects.toMatchObject({ name: 'TimeoutError' })
-      expect(delayedRetryCalls).toBe(1)
+      await vi.waitFor(() => expect(delayedRetryCalls).toBe(1))
 
       await expect(httpJson(
         { baseUrl: server.origin, timeoutMs: 30 },

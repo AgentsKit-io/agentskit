@@ -20,8 +20,7 @@ export interface KvEntry {
 }
 
 export const isExpired = (entry: KvEntry, ttlSeconds: number | undefined, now: number): boolean => {
-  if (ttlSeconds === undefined) return false
-  return now - entry.insertedAt > ttlSeconds * 1000
+  return ttlSeconds !== undefined && now - entry.insertedAt > ttlSeconds * 1000
 }
 
 export const enforceMaxMessages = (map: Map<string, KvEntry>, maxMessages: number | undefined): void => {
@@ -115,6 +114,7 @@ export interface SqliteStmt {
 export interface SqliteLike {
   exec(sql: string): void
   prepare(sql: string): SqliteStmt
+  transaction?<T extends (...args: never[]) => unknown>(fn: T): T
 }
 
 /** Opens a SQLite database at the given path. */

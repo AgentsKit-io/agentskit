@@ -1,0 +1,34 @@
+name: 'pnpm store cache'
+description: 'Restore the pnpm store; only pushes to main save it, so pull requests never add cache entries.'
+
+inputs:
+  mode:
+    description: 'restore (before install) or save (after install)'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - id: path
+      shell: bash
+      run: echo "store=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+    - if: inputs.mode == 'restore'
+      id: restore
+      uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        path: ${{ steps.path.outputs.store }}
+        key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: |
+          pnpm-store-${{ runner.os }}-
+
+    - if: inputs.mode == 'restore'
+      shell: bash
+      run: echo "PNPM_STORE_CACHE_HIT=${{ steps.restore.outputs.cache-hit }}" >> "$GITHUB_ENV"
+
+    - if: inputs.mode == 'save' && env.PNPM_STORE_CACHE_HIT != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      continue-on-error: true
+      with:
+        path: ${{ steps.path.outputs.store }}
+        key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}

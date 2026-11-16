@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/net",
-  "version": "0.2.4",
+  "version": "1.0.0",
   "description": "Resilient, bounded and SSRF-safe HTTP for the AgentsKit ecosystem: retry with Retry-After, timeouts, size-limited bodies, SSE parsing and private-address checks. Runs in Node, Bun, Deno, browsers and edge.",
   "keywords": [
     "agentskit",
@@ -57,7 +57,7 @@
     "@types/node": "^25.9.9",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.12"
+    "vitest": "^5.0.5"
   },
   "agentskit": {
     "stability": "beta",

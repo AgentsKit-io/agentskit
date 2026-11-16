@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/solid",
-  "version": "0.5.10",
+  "version": "1.0.0",
   "description": "Solid hook + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
   "keywords": [
     "agentskit",
@@ -65,7 +65,7 @@
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vite-plugin-solid": "^2.11.14",
-    "vitest": "^4.1.12"
+    "vitest": "^5.0.5"
   },
   "publishConfig": {
     "access": "public",

@@ -132,6 +132,12 @@
               ]
             },
             {
+              "name": "CLIPROXYAPI_DEFAULT_BASE_URL",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "cloudflareAiGateway",
               "kinds": [
                 "value"
@@ -181,6 +187,12 @@
             },
             {
               "name": "createFallbackAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createModelProvider",
               "kinds": [
                 "value"
               ]
@@ -523,6 +535,18 @@
             },
             {
               "name": "ModelDeprecation",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelProviderConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ModelProviderId",
               "kinds": [
                 "type"
               ]
@@ -5836,6 +5860,12 @@
               ]
             },
             {
+              "name": "freshdeskIntegration",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "getIntegration",
               "kinds": [
                 "value"
@@ -6148,6 +6178,12 @@
               ]
             },
             {
+              "name": "supabaseIntegration",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "TeamsAdaptiveCard",
               "kinds": [
                 "type"
@@ -6254,6 +6290,12 @@
               "kinds": [
                 "value"
               ]
+            },
+            {
+              "name": "zendeskIntegration",
+              "kinds": [
+                "value"
+              ]
             }
           ]
         },
@@ -6320,6 +6362,12 @@
               ]
             },
             {
+              "name": "BearerVerifier",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "createAgentsKitMcpServer",
               "kinds": [
                 "value"
@@ -6327,6 +6375,18 @@
             },
             {
               "name": "createAgentTool",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createMcpServer",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createStreamableHttpHandler",
               "kinds": [
                 "value"
               ]
@@ -6374,7 +6434,49 @@
               ]
             },
             {
+              "name": "McpAppLink",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpAuthIdentity",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpResourceDefinition",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "McpServer",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpServerEvent",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpServerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpToolDefinition",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpToolExecutionContext",
               "kinds": [
                 "type"
               ]
@@ -6389,6 +6491,24 @@
               "name": "processStdio",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "ProtectedResourceMetadata",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "StreamableHttpHandler",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "StreamableHttpOptions",
+              "kinds": [
+                "type"
               ]
             },
             {
@@ -8292,6 +8412,52 @@
             }
           ]
         },
+        "./cost-store": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "CostReservationError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "CostStore",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "createInMemoryCostStore",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "monthlyWindowKey",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "multiTenantCostGuard",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "MultiTenantCostGuardOptions",
+              "kinds": [
+                "type"
+              ]
+            }
+          ]
+        },
         "./cost-store-contract": {
           "conditions": [
             "import",
@@ -8926,6 +9092,18 @@
               ]
             },
             {
+              "name": "ConfirmUndoCard",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ConfirmUndoCardProps",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "createChatController",
               "kinds": [
                 "value"
@@ -9112,6 +9290,12 @@
               ]
             },
             {
+              "name": "ToolConfirmationLabels",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "ToolConfirmationProps",
               "kinds": [
                 "type"
@@ -9161,6 +9345,30 @@
             },
             {
               "name": "TopologyGraphViewSnapshot",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UsageMeter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "UsageMeterProps",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UsageMeterState",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UsageMeterWindow",
               "kinds": [
                 "type"
               ]
@@ -10084,6 +10292,154 @@
             },
             {
               "name": "withQuotas",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "./runners": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "AcpRequestHandler",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "AcpRpcError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "AcpTransport",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "AgentRunner",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "claudeCodeRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CliOutcome",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliRunnerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "codexRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "copilotKitRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CopilotKitRunnerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "createRunnerRegistry",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createTraceRecorder",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "execCli",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "hermesAcpRunner",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "HermesAcpRunnerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerArtifact",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerBudget",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerRegistry",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerResult",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerTask",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerTraceRecorder",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunnerTraceSpan",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "spawnAcpTransport",
               "kinds": [
                 "value"
               ]

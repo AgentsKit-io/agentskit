@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/mcp",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Expose AgentsKit tools as an MCP server for hosts supporting the documented 2024-11-05 tools bridge.",
   "keywords": [
     "codex",
@@ -12,7 +12,8 @@
     "ai",
     "agents",
     "claude",
-    "cursor"
+    "cursor",
+    "experimental"
   ],
   "type": "module",
   "engines": {
@@ -48,13 +49,14 @@
     "@agentskit/core": "workspace:*",
     "@agentskit/net": "workspace:*",
     "@agentskit/runtime": "workspace:*",
-    "@agentskit/tools": "workspace:*"
+    "@agentskit/tools": "workspace:*",
+    "@modelcontextprotocol/sdk": "1.32.2"
   },
   "devDependencies": {
     "@types/node": "^25.9.9",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.12"
+    "vitest": "^5.0.5"
   },
   "publishConfig": {
     "access": "public",

@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/skills",
-  "version": "0.9.10",
+  "version": "1.0.0",
   "description": "Ready-made skills (prompts + behavioral instructions) for AgentsKit agents.",
   "keywords": [
     "agentskit",
@@ -58,7 +58,7 @@
   "devDependencies": {
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.12"
+    "vitest": "^5.0.5"
   },
   "agentskit": {
     "stability": "beta",

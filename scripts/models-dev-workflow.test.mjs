@@ -22,6 +22,19 @@ describe('models.dev refresh workflow', () => {
     expect(workflow).toMatch(/peter-evans\/create-pull-request@[0-9a-f]{40}/)
   })
 
+  // actions/checkout >= v6 stores its credential in an includeIf file that create-pull-request
+  // also sets, so git sent two Authorization headers and GitHub answered 400 on every run.
+  it('does not persist checkout credentials next to the PR action credentials', () => {
+    const checkout = workflow.slice(workflow.indexOf('actions/checkout@'), workflow.indexOf('pnpm/action-setup@'))
+    expect(checkout).toMatch(/persist-credentials:\s+false/)
+  })
+
+  it('opens the refresh PR with the release app token so its CI runs', () => {
+    expect(workflow).toContain('actions/create-github-app-token@')
+    expect(workflow).toContain('token: ${{ steps.release_app_token.outputs.token }}')
+    expect(workflow).not.toContain('token: ${{ secrets.GITHUB_TOKEN }}')
+  })
+
   it('keeps the runtime snapshot and derived evidence in the PR scope', () => {
     expect(workflow).toContain('packages/adapters/src/catalog/snapshot.json')
     expect(workflow).toContain('apps/docs-next/lib/ecosystem-stats.snapshot.json')

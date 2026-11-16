@@ -1,6 +1,6 @@
 # ADR 0028 — MCP bridge beta boundaries
 
-- Status: Accepted
+- Status: Accepted — protocol-ownership bullet partially superseded by ADR 0046
 - Date: 2026-07-17
 - Supersedes: —
 - Related issues: —

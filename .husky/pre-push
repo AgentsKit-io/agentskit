@@ -1,26 +1,33 @@
-# Structural gates + typecheck + build before pushing.
-# Skipped in CI: automation (e.g. the changesets release bot) pushes here, and
-# CI already runs the full suite via dedicated workflows. Running the dev hook
-# during a CI push double-runs heavy checks and breaks on app-only/generated
-# state (e.g. docs-next's generated ask-context). HUSKY=0 also bypasses locally.
+# Fast pre-push: typecheck (the repo's `lint` = tsc --noEmit) of the packages
+# that changed since origin/main, and nothing else. No build, no quality gates,
+# no Doc Bridge index: CI runs those (`pnpm check:quality-gates`, `pnpm build`
+# on demand). Dependents are not rechecked; CI covers them.
+# Skipped in CI: automation pushes here and CI already runs the full suite.
+# HUSKY=0 also bypasses locally.
 [ -n "$CI" ] && exit 0
-# Fast, build-light checks first; full test suite runs in CI.
 
-# The quality gates exercise Doc Bridge against the current tree. Regenerate a
-# temporary copy when the committed outputs are untouched, then restore them so
-# a normal push does not acquire generated index changes in the worktree.
-DOC_BRIDGE_OUTPUTS='.doc-bridge/index.json .doc-bridge/capabilities.json .doc-bridge/llms.txt llms.txt'
-RESTORE_DOC_BRIDGE=false
-restore_doc_bridge_outputs() {
-  if [ "$RESTORE_DOC_BRIDGE" = true ]; then
-    git restore --source=HEAD --worktree -- $DOC_BRIDGE_OUTPUTS
-  fi
-}
+BASE=${PREPUSH_BASE:-origin/main}
+git rev-parse --verify -q "$BASE" >/dev/null || exit 0
 
-if git diff --quiet HEAD -- $DOC_BRIDGE_OUTPUTS; then
-  RESTORE_DOC_BRIDGE=true
-  trap restore_doc_bridge_outputs EXIT
-  pnpm docs:bridge:index || exit 1
-fi
+# Changed files: committed since the merge-base plus uncommitted ones.
+files=$( { git diff --name-only "$BASE"...HEAD; git diff --name-only HEAD; } 2>/dev/null | sort -u)
 
-pnpm check:quality-gates && pnpm lint && pnpm build
+# Map each file to its nearest workspace package dir (has a package.json).
+dirs=
+for f in $files; do
+  d=$(dirname "$f")
+  while [ "$d" != "." ] && [ "$d" != "/" ] && [ ! -f "$d/package.json" ]; do d=$(dirname "$d"); done
+  [ "$d" = "." ] && continue
+  case "$d" in packages/*|apps/*) ;; *) continue ;; esac
+  [ -f "$d/package.json" ] || continue # deleted package
+  grep -q '"lint"' "$d/package.json" || continue
+  case " $dirs " in *" $d "*) ;; *) dirs="$dirs $d" ;; esac
+done
+
+[ -z "$dirs" ] && { echo "pre-push: no package changes, nothing to typecheck"; exit 0; }
+
+args=
+for d in $dirs; do args="$args --filter ./$d"; done
+echo "pre-push: typechecking$dirs"
+# shellcheck disable=SC2086
+exec pnpm $args --workspace-concurrency=4 run lint

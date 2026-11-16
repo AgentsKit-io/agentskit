@@ -5,6 +5,7 @@ export default defineConfig({
   ...sharedTsupOptions,
   entry: {
     index: 'src/index.ts',
+    runners: 'src/runners/index.ts',
     'shared-context': 'src/shared-context.ts',
   },
   clean: false,

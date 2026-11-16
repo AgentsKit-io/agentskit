@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/runtime",
-  "version": "0.11.3",
+  "version": "1.0.0",
   "description": "Standalone agent runtime with ReAct loop for AgentsKit.",
   "keywords": [
     "agentskit",
@@ -33,6 +33,11 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./runners": {
+      "types": "./dist/runners.d.ts",
+      "import": "./dist/runners.js",
+      "require": "./dist/runners.cjs"
+    },
     "./shared-context": {
       "types": "./dist/shared-context.d.ts",
       "import": "./dist/shared-context.js",
@@ -51,13 +56,14 @@
   },
   "dependencies": {
     "@agentskit/core": "workspace:*",
+    "@agentskit/cross-platform": "workspace:*",
     "@agentskit/net": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^25.9.9",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.12"
+    "vitest": "^5.0.5"
   },
   "publishConfig": {
     "access": "public",

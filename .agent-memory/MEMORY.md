@@ -15,3 +15,4 @@ the body of each fact lives in its own file. Agents read this index first.
 - `reference_cli-adapter-protocol-boundary` — exec-text vs exec-json output boundary in adapters/cli; Claude Code needs the system prompt via `--append-system-prompt` (`claudeCodeRequestArgs`), never raw JSON or `[system]` blocks on stdin; `claude-code-json` is the structured Claude Code path
 - `reference_langchain-bridge` — AdapterFactory→BaseChatModel bridge is the `@agentskit/adapters/langchain-bridge` subpath (optional `@langchain/core` peer), never a new package; must return real AIMessage instances
 - `project_ignored-package-changesets-block-release` — changesets naming only ignored packages (docs-next) are never consumed and must not count as pending; preflight + release.yml filter via `listReleasableChangesets`; recover with `recover_unpublished` dispatch
+- `project_next16-fumadocs16-ts7` — sites already on Next 16 / Fumadocs 16; Next 16 does not block TypeScript 7 (still on 6.x)

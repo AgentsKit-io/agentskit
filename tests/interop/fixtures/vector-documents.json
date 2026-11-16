@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "kind": "vector-documents",
+  "canonicalSha256": "9922badcb16e384617e05997b8bfcac83e7c45316d6e5800a82611bff488878d",
+  "valid": [
+    {
+      "name": "document-with-metadata",
+      "value": {
+        "id": "doc-1",
+        "content": "Tea is brewed from leaves.",
+        "embedding": [
+          0.125,
+          -0.5,
+          0.75
+        ],
+        "metadata": {
+          "source": "kb",
+          "page": 3
+        }
+      }
+    },
+    {
+      "name": "document-minimal",
+      "value": {
+        "id": "doc-2",
+        "content": "Coffee.",
+        "embedding": [
+          0,
+          1,
+          0
+        ]
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "embedding-not-numbers",
+      "value": {
+        "id": "d",
+        "content": "c",
+        "embedding": [
+          "a"
+        ]
+      }
+    },
+    {
+      "name": "missing-id",
+      "value": {
+        "content": "c",
+        "embedding": [
+          1
+        ]
+      }
+    }
+  ]
+}
