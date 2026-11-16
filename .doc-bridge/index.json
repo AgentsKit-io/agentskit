@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "8a9ab5c1365d5449d018fe836f1025ae3fc10bfab3164282ad806ecb7d3a4761",
+  "contentHash": "f28eba4a94e4cecf9e4bfb34910ae479d0a5c5f5b5249be53702369d02f0c910",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-15T18:59:28.379Z",
+  "generatedAt": "2026-11-16T03:49:20.392Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3244,6 +3244,18 @@
         "human"
       ],
       "contentHash": "5fb562d1dbe13b48d68d7e2082ef79eece43b3ee5a9ab97a92b38262b88f9ef3"
+    },
+    {
+      "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+      "type": "document",
+      "title": "compatibility.mdx",
+      "path": "apps/docs-next/content/docs/reference/compatibility.mdx",
+      "description": "{/* Generated from docs/interop/compatibility.json by scripts/check-compatibility-matrix.mjs --write. Do not edit by hand. */}",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "89f53ea66438eb9a0f2dcde86366521f1e833bd69e425fe40f20ff8c1591ecc8"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
@@ -6914,7 +6926,7 @@
         "document",
         "human"
       ],
-      "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037"
+      "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db"
     },
     {
       "id": "document:docs/V1-READINESS-TRACKER.md",
@@ -36304,6 +36316,31 @@
       "contentHash": "6f6a568b444c3f5751ae9f77635bd16f05b4a5d5b3f976fbebb3793ba748b904"
     },
     {
+      "id": "module:scripts/check-compatibility-matrix.mjs",
+      "type": "module",
+      "title": "check-compatibility-matrix.mjs",
+      "path": "scripts/check-compatibility-matrix.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "2c59a4e8a7e451a49828156b61ffb6717f012c093da6df61b1c9991b4cd1292d"
+    },
+    {
+      "id": "module:scripts/check-compatibility-matrix.test.mjs",
+      "type": "module",
+      "title": "check-compatibility-matrix.test.mjs",
+      "path": "scripts/check-compatibility-matrix.test.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "test",
+        "scripts"
+      ],
+      "contentHash": "955a10e58b6f5600160c43f41b387b05f8ef1a9d00659aca4d806ebba5c73964"
+    },
+    {
       "id": "module:scripts/check-content-pipeline.mjs",
       "type": "module",
       "title": "check-content-pipeline.mjs",
@@ -36705,7 +36742,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "7cb6019a71b42b9a81ba6ddefbf69b22678c2d8041e49916d15a3f88e9691bf5"
+      "contentHash": "a04d324db2871b7fd5d7550cacb29eedc547e67ce720f8d84b7f8af0bb260deb"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -37139,6 +37176,27 @@
         "scripts"
       ],
       "contentHash": "0e732ca6db42f137504f41989877756b233277cc1f62abcbf847064da6a155cc"
+    },
+    {
+      "id": "module:scripts/lib/compatibility-matrix.mjs",
+      "type": "module",
+      "title": "compatibility-matrix.mjs",
+      "path": "scripts/lib/compatibility-matrix.mjs",
+      "symbols": [
+        "CAPABILITIES",
+        "KINDS",
+        "STATES",
+        "expiredEntries",
+        "loadMatrix",
+        "renderPage",
+        "validateMatrix"
+      ],
+      "tags": [
+        "module",
+        "mjs",
+        "lib"
+      ],
+      "contentHash": "d21e47b4b560d55d46a3f7d23e8ae3b364132874f2392826cb33a423600a743c"
     },
     {
       "id": "module:scripts/lib/content-pipeline/index.mjs",
@@ -39384,8 +39442,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0d57120a7f0742ca4a58d90d6cfcefeeda6c78837368cfa3fc5c747f54460db6",
-    "fileCount": 2702,
+    "hash": "3e6a620c950a743db2a2cba021740bd7730cd35b2ba23f263caa0cc3b0753738",
+    "fileCount": 2708,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39407,9 +39465,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "edf41dbb89f5522228cac0f94d36b222eb6b33880e903a7ec1f09b5aa3b9bad9",
+    "contentHash": "60bb9bb7c6cd63ab808c150cd77b9c7b2c1161015312a6b4ab08f521655b0538",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "5d0d6c40254a16a2bf386208c276a16be01bb4eb8f55538aea09ad5e885426f6",
+    "snapshotHash": "546f372d4222bfab14790c125ee51e082f9b6a4542f1f50cb5a620742eef9045",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39429,7 +39487,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2566,
+      "documentCount": 2570,
       "fieldNames": [
         "aliases",
         "body",
@@ -39440,13 +39498,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.019485580670304,
-        "body": 60.86477007014809,
-        "headings": 3.8791893998441154,
-        "path": 7.616134060795011,
-        "summary": 4.475837879968823,
-        "symbols": 7.598207326578332,
-        "title": 3.387373343725643
+        "aliases": 3.019455252918288,
+        "body": 60.9852140077821,
+        "headings": 3.875486381322957,
+        "path": 7.614785992217898,
+        "summary": 4.4750972762645915,
+        "symbols": 7.5922178988326845,
+        "title": 3.388715953307393
       }
     },
     "entries": [
@@ -42004,7 +42062,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3f87cf805292b5040fa7dfbd66aae2db31ba70b8060d95495076d0d105e29a93",
+        "contentHash": "e7be342bb920fc8f25b8d4546239d3234b5bbf0faddef032653a065e5df6fcf4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -59190,6 +59248,290 @@
           "outbound": []
         },
         "contentHash": "5fb562d1dbe13b48d68d7e2082ef79eece43b3ee5a9ab97a92b38262b88f9ef3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+        "kind": "document",
+        "path": "apps/docs-next/content/docs/reference/compatibility.mdx",
+        "title": "compatibility.mdx",
+        "summary": "{/* Generated from docs/interop/compatibility.json by scripts/check-compatibility-matrix.mjs --write. Do not edit by hand. */}",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "compatibility.mdx",
+          "headings": "provider ui runtime memory retriever protocol",
+          "path": "apps/docs-next/content/docs/reference/compatibility.mdx",
+          "symbols": "",
+          "summary": "{/* Generated from docs/interop/compatibility.json by scripts/check-compatibility-matrix.mjs --write. Do not edit by hand. */}",
+          "body": "{/ Generated from docs/interop/compatibility.json by scripts/check-compatibility-matrix.mjs --write. Do not edit by hand. /} Every claim points at a test file that exists in this repository. A capability without a test is planned or unsupported . The entry format is (v1). State Meaning Entries --- --- --- verified A test exercises the capability 68 partial Tested with the limitations listed 32 planned Intended, no test yet 12 unsupported Not supported 0 provider Subject Package Capability State Evidence Limitations Expires --- --- --- --- --- --- --- openai @agentskit/adapters streaming verified packages/adapters/tests/contract.test.ts — 2027-04-28 openai @agentskit/adapters cancellation verified packages/adapters/tests/contract.test.ts Contract case A6 (abort before, after and mid-stream). 2027-04-28 openai @agentskit/adapters retries partial packages/adapters/tests/retry.test.ts Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. 2027-04-28 anthropic @agentskit/adapters streaming verified packages/adapters/tests/contract.test.ts — 2027-04-28 anthropic @agentskit/adapters cancellation verified packages/adapters/tests/contract.test.ts Contract case A6 (abort before, after and mid-stream). 2027-04-28 anthropic @agentskit/adapters retries partial packages/adapters/tests/retry.test.ts Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. 2027-04-28 gemini @agentskit/adapters streaming verified packages/adapters/tests/contract.test.ts — 2027-04-28 gemini @agentskit/adapters cancellation verified packages/adapters/tests/contract.test.ts Contract case A6 (abort before, after and mid-stream). 2027-04-28 gemini @agentskit/adapters retries partial packages/adapters/tests/retry.test.ts Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. 2027-04-28 grok @agentskit/adapters streaming verified packages/adapters/tests/contract.test.ts — 2027-04-28 grok @agentskit/adapters cancellation verified packages/adapters/tests/contract.test.ts Contract case A6 (abort before, after and mid-stream). 2027-04-28 grok @agentskit/adapters retries partial packages/adapters/tests/retry.test.ts Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. 2027-04-28 deepseek @agentskit/adapters streaming verified packages/adapters/tests/contract.test.ts — 2027-04-28 deepseek @agentskit/adapters cancellation verified packages/adapters/tests/contract.test.ts Contract case A6 (abort before, after and mid-stream). 2027-04-28 deepseek @agentskit/adapters retries partial packages/adapters/tests/retry.test.ts Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. 2027-04-28 kimi @agentskit/adapters streaming verified packages/adapters/tests/contract.test.ts — 2027-04-28 kimi @agentskit/adapters cancellation verified packages/adapters/tests/contract.test.ts Contract case A6 (abort before, after and mid-stream). 2027-04-28 kimi @agentskit/adapters retries partial packages/adapters/tests/retry.test.ts Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. 2027-04-28 mistral @agentskit/adapters streaming verified packages/adapters/tests/contract.test.ts — 2027-04-28 mistral @agentskit/adapters cancellation verified packages/adapters/tests/contract.test.ts Contract case A6 (abort before, after and mid-stream). 2027-04-28 mistral @agentskit/adapters retries partial packages/adapters/tests/retry.test.ts Shared retry helper is tested in isolation; the contract harness disables retries, so per-provider retry wiring is not exercised. 2027-04-28 cohere @agentskit/adapters streaming verified packages/adapters/tests/contract.test.ts — 20",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/contract.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/embedders/gemini.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/embedders/ollama.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/embedders/openai-compatible.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/embedders/openai.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/langchain-bridge.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/langchain.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/multimodal-http.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/retry.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/tool-history.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/adapters/tests/vercel-ai.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/angular/tests/service.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/core/tests/a2a.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/core/tests/hitl.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/ink/tests/ToolConfirmation.test.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/ink/tests/useChat-sync.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/mcp/tests/server.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/cancellation.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/file-chat.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/file-vector.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/postgres.integration.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/redis.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/sqlite.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/supabase.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/turso.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/vector.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/memory/tests/web-storage.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/rag/tests/rag.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/react-native/tests/useChat.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/react/tests/core/useChat.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/runtime/tests/runner.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/solid/tests/useChat.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/svelte/tests/store.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/tools/tests/discovery.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/tools/tests/mcp.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:packages/vue/tests/useChat.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/adapters",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/angular",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/core",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/ink",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/mcp",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/memory",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/rag",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/react",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/react-native",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/runtime",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/solid",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/svelte",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/tools",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/vue",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "89f53ea66438eb9a0f2dcde86366521f1e833bd69e425fe40f20ff8c1591ecc8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77594,7 +77936,7 @@
           "path": "docs/SUPPORT-MATRIX.md",
           "symbols": "",
           "summary": "Generated by node scripts/gen-support-matrix.mjs — do not edit by hand.",
-          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 0.19.2 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/angular 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/cli 0.14.0 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 0.3.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/eval 0.7.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/ink 0.10.16 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/integrations 0.8.3 experimental — — — — — — @agentskit/mcp 0.5.2 experimental — — — — — — @agentskit/memory 0.12.1 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/net 0.2.4 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/observability 0.13.1 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/rag 0.7.1 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react 0.8.10 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react-native 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/runtime 0.11.3 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/sandbox 0.6.13 supported apps/docs-next ✅ ✅ ✅ ✅ ✅ eligible @agentskit/skills 0.9.10 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/solid 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/statechart 0.3.2 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/svelte 0.6.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 0.13.16 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/vue 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible",
+          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/angular 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/cli 0.14.1 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/eval 1.0.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/ink 1.0.0 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/integrations 0.9.0 experimental — — — — — — @agentskit/mcp 0.6.0 experimental — — — — — — @agentskit/memory 1.0.0 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/net 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/observability 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/rag 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react-native 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/runtime 1.0.0 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/sandbox 1.0.0 supported apps/docs-next ✅ ✅ ✅ ✅ 1.x @agentskit/skills 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/solid 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/statechart 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/svelte 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 1.0.0 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/vue 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x",
           "aliases": "document human"
         },
         "graph": {
@@ -77732,7 +78074,7 @@
             }
           ]
         },
-        "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037",
+        "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -112662,11 +113004,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/adapters",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -112937,11 +113287,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/adapters",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -112977,11 +113335,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/adapters",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -113017,11 +113383,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/adapters",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -113067,11 +113441,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/adapters",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -113352,16 +113734,22 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
-            "document:.agent-memory/reference_langchain-bridge.md"
+            "document:.agent-memory/reference_langchain-bridge.md",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
           ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
             {
               "kind": "mentions",
               "id": "document:.agent-memory/reference_langchain-bridge.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             }
           ],
@@ -113405,11 +113793,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/adapters",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -113528,14 +113924,20 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/multi-modal.mdx",
             "document:docs/architecture/adrs/0041-adapter-content-serialization.md"
           ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/recipes/multi-modal.mdx",
@@ -113911,11 +114313,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/adapters",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -114231,11 +114641,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/adapters",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -114291,11 +114709,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/adapters",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -114850,11 +115276,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/angular",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -130024,11 +130458,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/core",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -130980,11 +131422,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/core",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -139844,11 +140294,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/ink",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -139924,11 +140382,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/ink",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": []
         },
         "contentHash": "c332b75010fd9dbd273087fd5e07cab8ff3953ad8acd8475b19991de3f7c2395",
@@ -152882,11 +153348,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/mcp",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -156586,11 +157060,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/memory",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -156781,11 +157263,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/memory",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -156821,11 +157311,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/memory",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -157581,13 +158079,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:docs/memory-postgres-validation.md"
           ],
           "packageId": "package:@agentskit/memory",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "document:docs/memory-postgres-validation.md",
@@ -157759,11 +158263,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/memory",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -157809,11 +158321,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/memory",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -157889,11 +158409,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/memory",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -157969,11 +158497,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/memory",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -158109,11 +158645,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/memory",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -158149,11 +158693,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/memory",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -167174,11 +167726,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/rag",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -167716,11 +168276,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/react-native",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -169289,11 +169857,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/react",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -172736,11 +173312,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/runtime",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -178910,11 +179494,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/solid",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -180403,11 +180995,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/svelte",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -187700,11 +188300,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/tools",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -187980,11 +188588,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/tools",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -189270,11 +189886,19 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx"
+          ],
           "packageId": "package:@agentskit/vue",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -189451,6 +190075,87 @@
           "outbound": []
         },
         "contentHash": "6f6a568b444c3f5751ae9f77635bd16f05b4a5d5b3f976fbebb3793ba748b904",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/check-compatibility-matrix.mjs",
+        "kind": "module",
+        "path": "scripts/check-compatibility-matrix.mjs",
+        "title": "check-compatibility-matrix.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "check-compatibility-matrix.mjs",
+          "headings": "",
+          "path": "scripts/check-compatibility-matrix.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/compatibility-matrix.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "2c59a4e8a7e451a49828156b61ffb6717f012c093da6df61b1c9991b4cd1292d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/check-compatibility-matrix.test.mjs",
+        "kind": "module",
+        "path": "scripts/check-compatibility-matrix.test.mjs",
+        "title": "check-compatibility-matrix.test.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "test",
+          "scripts"
+        ],
+        "fields": {
+          "title": "check-compatibility-matrix.test.mjs",
+          "headings": "",
+          "path": "scripts/check-compatibility-matrix.test.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs test scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/compatibility-matrix.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "955a10e58b6f5600160c43f41b387b05f8ef1a9d00659aca4d806ebba5c73964",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190814,7 +191519,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "7cb6019a71b42b9a81ba6ddefbf69b22678c2d8041e49916d15a3f88e9691bf5",
+        "contentHash": "a04d324db2871b7fd5d7550cacb29eedc547e67ce720f8d84b7f8af0bb260deb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192300,6 +193005,60 @@
           ]
         },
         "contentHash": "0e732ca6db42f137504f41989877756b233277cc1f62abcbf847064da6a155cc",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/lib/compatibility-matrix.mjs",
+        "kind": "module",
+        "path": "scripts/lib/compatibility-matrix.mjs",
+        "title": "compatibility-matrix.mjs",
+        "aliases": [],
+        "symbols": [
+          "CAPABILITIES",
+          "KINDS",
+          "STATES",
+          "expiredEntries",
+          "loadMatrix",
+          "renderPage",
+          "validateMatrix"
+        ],
+        "tags": [
+          "module",
+          "mjs",
+          "lib"
+        ],
+        "fields": {
+          "title": "compatibility-matrix.mjs",
+          "headings": "",
+          "path": "scripts/lib/compatibility-matrix.mjs",
+          "symbols": "CAPABILITIES KINDS STATES expiredEntries loadMatrix renderPage validateMatrix",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/check-compatibility-matrix.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:scripts/check-compatibility-matrix.test.mjs",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "d21e47b4b560d55d46a3f7d23e8ae3b364132874f2392826cb33a423600a743c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -196082,6 +196841,7 @@
             "document:apps/docs-next/content/docs/get-started/migrating/from-vercel-ai-sdk.mdx",
             "document:apps/docs-next/content/docs/production/edge.mdx",
             "document:apps/docs-next/content/docs/production/runbooks.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
             "document:apps/docs-next/content/docs/reference/examples/edge.mdx",
             "document:apps/docs-next/content/docs/reference/examples/ink.mdx",
@@ -196119,8 +196879,7 @@
             "document:docs/ROADMAP-PRD.md",
             "document:docs/STABILITY.md",
             "document:docs/SUPPORT-MATRIX.md",
-            "document:GOVERNANCE.md",
-            "document:packages/adapters/CONVENTIONS.md"
+            "document:GOVERNANCE.md"
           ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
@@ -196247,6 +197006,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/production/runbooks.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -196438,11 +197202,6 @@
               "kind": "mentions",
               "id": "document:GOVERNANCE.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/adapters/CONVENTIONS.md",
-              "confidence": "observed"
             }
           ],
           "outbound": []
@@ -196478,7 +197237,7 @@
         },
         "graph": {
           "pagerank": 0.005176,
-          "inboundLinks": 37,
+          "inboundLinks": 38,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/angular.mdx",
             "document:apps/docs-next/content/docs/reference/packages/angular.mdx"
@@ -196494,6 +197253,7 @@
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/production/cli/init.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/angular.mdx",
@@ -196581,6 +197341,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/production/cli/init.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -196993,6 +197758,7 @@
             "document:apps/docs-next/content/docs/get-started/migrating/from-openai-assistants.mdx",
             "document:apps/docs-next/content/docs/production/cli/programmatic-api.mdx",
             "document:apps/docs-next/content/docs/production/edge.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/index.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/package-docs.mdx",
@@ -197016,8 +197782,7 @@
             "document:apps/docs-next/content/docs/reference/recipes/prompt-experiments.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/schema-first-agent.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/token-budget.mdx",
-            "document:apps/docs-next/content/docs/reference/recipes/tool-composer.mdx",
-            "document:apps/docs-next/content/docs/reference/recipes/virtualized-memory.mdx"
+            "document:apps/docs-next/content/docs/reference/recipes/tool-composer.mdx"
           ],
           "packageId": "package:@agentskit/core",
           "inbound": [
@@ -197218,6 +197983,11 @@
             },
             {
               "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
               "confidence": "observed"
             },
@@ -197334,11 +198104,6 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/recipes/tool-composer.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:apps/docs-next/content/docs/reference/recipes/virtualized-memory.mdx",
               "confidence": "observed"
             }
           ],
@@ -197875,7 +198640,7 @@
         },
         "graph": {
           "pagerank": 0.005176,
-          "inboundLinks": 52,
+          "inboundLinks": 53,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/ink.mdx",
             "document:apps/docs-next/content/docs/reference/packages/ink.mdx"
@@ -197899,6 +198664,7 @@
             "document:apps/docs-next/content/docs/production/cli/init.mdx",
             "document:apps/docs-next/content/docs/production/edge.mdx",
             "document:apps/docs-next/content/docs/production/observability/devtools.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/content/docs/reference/examples/ink.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
@@ -198034,6 +198800,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/production/observability/devtools.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -198401,7 +199172,7 @@
         },
         "graph": {
           "pagerank": 0.002867,
-          "inboundLinks": 21,
+          "inboundLinks": 22,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -198409,6 +199180,7 @@
           "mentionedBy": [
             "document:.agent-memory/project_v1-readiness.md",
             "document:apps/docs-next/content/docs/agents/tools/mcp.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/coding-agent-mcp.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/mcp-bridge.mdx",
@@ -198448,6 +199220,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/agents/tools/mcp.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -198597,6 +199374,7 @@
             "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx",
             "document:apps/docs-next/content/docs/get-started/migrating/from-langgraph.mdx",
             "document:apps/docs-next/content/docs/get-started/migrating/from-llamaindex.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/examples/ink.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/core.mdx",
@@ -198640,8 +199418,7 @@
             "document:packages/rag/README.md",
             "document:packages/react-native/README.md",
             "document:packages/react/CONVENTIONS.md",
-            "document:packages/solid/README.md",
-            "document:packages/svelte/README.md"
+            "document:packages/solid/README.md"
           ],
           "packageId": "package:@agentskit/memory",
           "inbound": [
@@ -198738,6 +199515,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/get-started/migrating/from-llamaindex.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -198958,11 +199740,6 @@
             {
               "kind": "mentions",
               "id": "document:packages/solid/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/svelte/README.md",
               "confidence": "observed"
             }
           ],
@@ -199614,7 +200391,7 @@
         },
         "graph": {
           "pagerank": 0.005176,
-          "inboundLinks": 49,
+          "inboundLinks": 50,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/rag.mdx",
             "document:apps/docs-next/content/docs/reference/packages/rag.mdx"
@@ -199633,6 +200410,7 @@
             "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
             "document:apps/docs-next/content/docs/get-started/migrating/from-llamaindex.mdx",
             "document:apps/docs-next/content/docs/production/edge.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/good-first-issues.mdx",
             "document:apps/docs-next/content/docs/reference/examples/rag-pipeline.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
@@ -199744,6 +200522,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/production/edge.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -199982,6 +200765,7 @@
             "document:apps/docs-next/content/docs/production/edge.mdx",
             "document:apps/docs-next/content/docs/production/embedded.mdx",
             "document:apps/docs-next/content/docs/production/observability/devtools.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/commit-style.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/roadmap.mdx",
@@ -200021,8 +200805,7 @@
             "document:packages/ink/CONVENTIONS.md",
             "document:packages/ink/README.md",
             "document:packages/rag/README.md",
-            "document:packages/react-native/CONVENTIONS.md",
-            "document:packages/react-native/README.md"
+            "document:packages/react-native/CONVENTIONS.md"
           ],
           "packageId": "package:@agentskit/react",
           "inbound": [
@@ -200139,6 +200922,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/production/observability/devtools.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -200340,11 +201128,6 @@
               "kind": "mentions",
               "id": "document:packages/react-native/CONVENTIONS.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/react-native/README.md",
-              "confidence": "observed"
             }
           ],
           "outbound": []
@@ -200380,7 +201163,7 @@
         },
         "graph": {
           "pagerank": 0.005176,
-          "inboundLinks": 35,
+          "inboundLinks": 36,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react-native.mdx",
             "document:apps/docs-next/content/docs/reference/packages/react-native.mdx"
@@ -200395,6 +201178,7 @@
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
@@ -200477,6 +201261,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -200674,6 +201463,7 @@
             "document:apps/docs-next/content/docs/production/cli/init.mdx",
             "document:apps/docs-next/content/docs/production/edge.mdx",
             "document:apps/docs-next/content/docs/production/embedded.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/examples/flow.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
@@ -200709,8 +201499,7 @@
             "document:docs/STABILITY.md",
             "document:docs/studies/ecosystem-cohesion-plan.md",
             "document:docs/SUPPORT-MATRIX.md",
-            "document:GOVERNANCE.md",
-            "document:packages/adapters/README.md"
+            "document:GOVERNANCE.md"
           ],
           "packageId": "package:@agentskit/runtime",
           "inbound": [
@@ -200847,6 +201636,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/production/embedded.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -201027,11 +201821,6 @@
             {
               "kind": "mentions",
               "id": "document:GOVERNANCE.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/adapters/README.md",
               "confidence": "observed"
             }
           ],
@@ -201558,7 +202347,7 @@
         },
         "graph": {
           "pagerank": 0.005176,
-          "inboundLinks": 34,
+          "inboundLinks": 35,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/solid.mdx",
             "document:apps/docs-next/content/docs/reference/packages/solid.mdx"
@@ -201572,6 +202361,7 @@
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
@@ -201648,6 +202438,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -201934,7 +202729,7 @@
         },
         "graph": {
           "pagerank": 0.005176,
-          "inboundLinks": 39,
+          "inboundLinks": 40,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
             "document:apps/docs-next/content/docs/reference/packages/svelte.mdx"
@@ -201950,6 +202745,7 @@
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/production/cli/init.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
@@ -202039,6 +202835,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/production/cli/init.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -202408,6 +203209,7 @@
             "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
             "document:apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx",
             "document:apps/docs-next/content/docs/get-started/migrating/from-langgraph.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
             "document:apps/docs-next/content/docs/reference/packages/react.mdx",
@@ -202448,8 +203250,7 @@
             "document:packages/runtime/CONVENTIONS.md",
             "document:packages/runtime/README.md",
             "document:packages/sandbox/README.md",
-            "document:packages/skills/CONVENTIONS.md",
-            "document:packages/skills/README.md"
+            "document:packages/skills/CONVENTIONS.md"
           ],
           "packageId": "package:@agentskit/tools",
           "inbound": [
@@ -202561,6 +203362,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/get-started/migrating/from-langgraph.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {
@@ -202767,11 +203573,6 @@
               "kind": "mentions",
               "id": "document:packages/skills/CONVENTIONS.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/skills/README.md",
-              "confidence": "observed"
             }
           ],
           "outbound": []
@@ -202926,7 +203727,7 @@
         },
         "graph": {
           "pagerank": 0.005176,
-          "inboundLinks": 39,
+          "inboundLinks": 40,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
             "document:apps/docs-next/content/docs/reference/packages/vue.mdx"
@@ -202942,6 +203743,7 @@
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/production/cli/init.mdx",
+            "document:apps/docs-next/content/docs/reference/compatibility.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/content/docs/reference/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
@@ -203031,6 +203833,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/production/cli/init.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/compatibility.mdx",
               "confidence": "observed"
             },
             {

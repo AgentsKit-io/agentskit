@@ -52,3 +52,6 @@ img/examples/.*\.gif$
 # Internal docs pages still being authored
 docs/reference/recipes/scaffold-creator$
 docs/reference/changelog$
+
+# Interop schema: linked on main before the PR that adds it has merged
+^https://github\.com/AgentsKit-io/agentskit/blob/main/docs/interop/

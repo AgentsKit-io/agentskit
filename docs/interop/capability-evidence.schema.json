@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentskit.io/schemas/interop/capability-evidence.schema.json",
+  "title": "AgentsKit capability evidence v1",
+  "description": "Compatibility matrix: one entry states whether a subject supports a capability and points at the test that proves it. verified/partial require evidence; planned/unsupported must not claim it.",
+  "type": "object",
+  "required": ["schemaVersion", "entries"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "entries": { "type": "array", "items": { "$ref": "#/$defs/entry" } }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": ["subject", "capability", "state", "owner", "reviewedOn", "expiresOn"],
+      "additionalProperties": false,
+      "properties": {
+        "subject": {
+          "type": "object",
+          "required": ["kind", "id", "package"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "enum": ["provider", "ui", "runtime", "memory", "retriever", "protocol"] },
+            "id": { "type": "string", "minLength": 1 },
+            "package": { "type": "string", "minLength": 1 }
+          }
+        },
+        "capability": {
+          "enum": [
+            "streaming", "tool-calling", "structured-output", "multimodal-input", "cancellation",
+            "retries", "embeddings", "persistent-memory", "human-approval"
+          ]
+        },
+        "state": { "enum": ["verified", "partial", "planned", "unsupported"] },
+        "evidence": {
+          "type": "object",
+          "required": ["test", "command"],
+          "additionalProperties": false,
+          "properties": {
+            "test": { "type": "string", "description": "Repo-relative path of an existing test file." },
+            "command": { "type": "string", "description": "Command that runs that test." }
+          }
+        },
+        "limitations": { "type": "string" },
+        "owner": { "type": "string", "minLength": 1 },
+        "reviewedOn": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "expiresOn": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "state": { "enum": ["verified", "partial"] } } },
+          "then": { "required": ["evidence"] }
+        },
+        {
+          "if": { "properties": { "state": { "enum": ["planned", "unsupported"] } } },
+          "then": { "not": { "required": ["evidence"] } }
+        },
+        {
+          "if": { "properties": { "state": { "const": "partial" } } },
+          "then": { "required": ["limitations"] }
+        }
+      ]
+    }
+  }
+}
