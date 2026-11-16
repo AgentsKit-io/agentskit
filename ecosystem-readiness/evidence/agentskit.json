@@ -14,7 +14,7 @@
       "id": "quickstart",
       "category": "quickstart",
       "status": "fail",
-      "severity": "high",
+      "severity": "p1",
       "summary": "2 failures: ecosystem bar mobile-overflow CSS assertion and @agentskit/core/rules missing from the agent handoff doc.",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [
@@ -41,7 +41,7 @@
       "id": "seo",
       "category": "seo",
       "status": "blocked",
-      "severity": "medium",
+      "severity": "p2",
       "summary": "No browser (Lighthouse/Playwright) available on the audit host.",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [
@@ -55,7 +55,7 @@
       "id": "accessibility",
       "category": "accessibility",
       "status": "blocked",
-      "severity": "medium",
+      "severity": "p2",
       "summary": "No browser (Playwright/axe) available on the audit host.",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [
@@ -68,8 +68,8 @@
       "id": "performance",
       "category": "performance",
       "status": "fail",
-      "severity": "medium",
-      "summary": "Exit 1: gates failed (nested ternaries, verified recipe factory, ecosystem documentation quality contract); size-limit target check itself passed.",
+      "severity": "p2",
+      "summary": "Exit 1: 2 gates failed (verified recipe factory, ecosystem documentation quality contract); nested ternaries and the size-limit target check pass.",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [
         "scripts/check-quality-gates.mjs"
@@ -81,8 +81,8 @@
       "id": "links",
       "category": "links",
       "status": "fail",
-      "severity": "medium",
-      "summary": "Exit 1: Content pipeline FAIL plus the failures above.",
+      "severity": "p2",
+      "summary": "Exit 1: verified recipe factory reports Content pipeline FAIL (doc-bridge command failed for the recipe fixtures).",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [
         "scripts/check-quality-gates.mjs"
@@ -93,30 +93,28 @@
     {
       "id": "llms",
       "category": "llms",
-      "status": "blocked",
-      "severity": "medium",
-      "summary": "llms.txt is derived from the Doc Bridge index, which is stale.",
+      "status": "pass",
+      "severity": "info",
+      "summary": "llms.txt regenerated from the fresh Doc Bridge index (no diff); pnpm docs:bridge:gate passes.",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [
         "https://www.agentskit.io/llms.txt",
         "llms.txt"
       ],
-      "command": "not run",
-      "remediation": "Run pnpm docs:bridge:index, then verify llms.txt."
+      "command": "pnpm docs:bridge:index && pnpm docs:bridge:gate"
     },
     {
       "id": "doc-bridge",
       "category": "doc-bridge",
-      "status": "fail",
-      "severity": "high",
-      "summary": "index-freshness failed: index is stale under sha256-semantic-v1.",
+      "status": "pass",
+      "severity": "info",
+      "summary": "pnpm docs:bridge:gate exits 0 after pnpm docs:bridge:index; index-freshness and every Doc Bridge check pass.",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [
         "doc-bridge.config.json",
         "package.json"
       ],
-      "command": "pnpm docs:bridge:gate",
-      "remediation": "Run pnpm docs:bridge:index and commit the index."
+      "command": "pnpm docs:bridge:index && pnpm docs:bridge:gate"
     },
     {
       "id": "chat",
@@ -148,7 +146,7 @@
       "id": "security",
       "category": "security",
       "status": "blocked",
-      "severity": "medium",
+      "severity": "p2",
       "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [
@@ -162,7 +160,7 @@
       "id": "maturity",
       "category": "maturity",
       "status": "blocked",
-      "severity": "medium",
+      "severity": "p2",
       "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [

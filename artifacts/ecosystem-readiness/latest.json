@@ -2,74 +2,239 @@
   "protocol": "agentskit.ecosystem.readiness",
   "schemaVersion": 1,
   "auditDate": "2026-11-16",
-  "overall": "incomplete",
+  "overall": "blocked",
   "promotionAllowed": false,
   "summary": {
     "products": 6,
     "ready": 0,
-    "blocked": 5,
-    "incomplete": 1,
-    "findings": 6,
-    "p0": 6,
-    "p1": 0
+    "blocked": 6,
+    "incomplete": 0,
+    "findings": 12,
+    "p0": 5,
+    "p1": 1
   },
   "products": [
     {
       "id": "agentskit",
       "repo": "AgentsKit-io/agentskit",
-      "status": "incomplete",
-      "maturity": null,
+      "status": "blocked",
+      "maturity": {
+        "declared": "beta",
+        "source": "ecosystem.json#products[agentskit].maturity"
+      },
+      "auditedOn": "2026-11-16",
       "categories": [
         {
           "category": "quickstart",
-          "covered": false
+          "covered": true
         },
         {
           "category": "documentation",
-          "covered": false
+          "covered": true
         },
         {
           "category": "seo",
-          "covered": false
+          "covered": true
         },
         {
           "category": "accessibility",
-          "covered": false
+          "covered": true
         },
         {
           "category": "performance",
-          "covered": false
+          "covered": true
         },
         {
           "category": "links",
-          "covered": false
+          "covered": true
         },
         {
           "category": "llms",
-          "covered": false
+          "covered": true
         },
         {
           "category": "doc-bridge",
-          "covered": false
+          "covered": true
         },
         {
           "category": "chat",
-          "covered": false
+          "covered": true
         },
         {
           "category": "readme",
-          "covered": false
+          "covered": true
         },
         {
           "category": "security",
-          "covered": false
+          "covered": true
         },
         {
           "category": "maturity",
-          "covered": false
+          "covered": true
         }
       ],
-      "gates": []
+      "gates": [
+        {
+          "id": "quickstart",
+          "category": "quickstart",
+          "status": "fail",
+          "severity": "p1",
+          "summary": "2 failures: ecosystem bar mobile-overflow CSS assertion and @agentskit/core/rules missing from the agent handoff doc.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next/fixtures/first-agent/agent.ts",
+            "scripts/reference-docs-vertical.test.mjs"
+          ],
+          "command": "pnpm test:reference-docs",
+          "remediation": "Fix scripts/reference-docs-vertical.test.mjs expectations and document @agentskit/core/rules in the agent handoff, then re-run pnpm test:reference-docs."
+        },
+        {
+          "id": "documentation",
+          "category": "documentation",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Fumadocs docs-next ships human + for-agents corpus with Doc Bridge ownership.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next",
+            "doc-bridge.config.json"
+          ],
+          "command": "pnpm docs:build"
+        },
+        {
+          "id": "seo",
+          "category": "seo",
+          "status": "blocked",
+          "severity": "p2",
+          "summary": "No browser (Lighthouse/Playwright) available on the audit host.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next",
+            "apps/landing"
+          ],
+          "command": "not run",
+          "remediation": "Run the SEO audit on a host with a browser and update this gate."
+        },
+        {
+          "id": "accessibility",
+          "category": "accessibility",
+          "status": "blocked",
+          "severity": "p2",
+          "summary": "No browser (Playwright/axe) available on the audit host.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next"
+          ],
+          "command": "not run",
+          "remediation": "Run the accessibility audit on a host with a browser and update this gate."
+        },
+        {
+          "id": "performance",
+          "category": "performance",
+          "status": "fail",
+          "severity": "p2",
+          "summary": "Exit 1: 2 gates failed (verified recipe factory, ecosystem documentation quality contract); nested ternaries and the size-limit target check pass.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "scripts/check-quality-gates.mjs"
+          ],
+          "command": "pnpm check:quality-gates",
+          "remediation": "Fix the failing quality gates and re-run pnpm check:quality-gates."
+        },
+        {
+          "id": "links",
+          "category": "links",
+          "status": "fail",
+          "severity": "p2",
+          "summary": "Exit 1: verified recipe factory reports Content pipeline FAIL (doc-bridge command failed for the recipe fixtures).",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "scripts/check-quality-gates.mjs"
+          ],
+          "command": "pnpm check:quality-gates",
+          "remediation": "Fix the content pipeline gate and re-run pnpm check:quality-gates."
+        },
+        {
+          "id": "llms",
+          "category": "llms",
+          "status": "pass",
+          "severity": "info",
+          "summary": "llms.txt regenerated from the fresh Doc Bridge index (no diff); pnpm docs:bridge:gate passes.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "https://www.agentskit.io/llms.txt",
+            "llms.txt"
+          ],
+          "command": "pnpm docs:bridge:index && pnpm docs:bridge:gate"
+        },
+        {
+          "id": "doc-bridge",
+          "category": "doc-bridge",
+          "status": "pass",
+          "severity": "info",
+          "summary": "pnpm docs:bridge:gate exits 0 after pnpm docs:bridge:index; index-freshness and every Doc Bridge check pass.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "doc-bridge.config.json",
+            "package.json"
+          ],
+          "command": "pnpm docs:bridge:index && pnpm docs:bridge:gate"
+        },
+        {
+          "id": "chat",
+          "category": "chat",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Deterministic docs answers integrate before Ask backend fallback.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next/tests/deterministic-docs-answers.test.mjs"
+          ],
+          "command": "pnpm test:deterministic-docs"
+        },
+        {
+          "id": "readme",
+          "category": "readme",
+          "status": "pass",
+          "severity": "info",
+          "summary": "README Standard v1 passes for the root, public apps, and all public packages after PR #1233.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "readme-standard-v1.json",
+            "scripts/check-readme-standard.mjs",
+            "https://github.com/AgentsKit-io/agentskit/pull/1233"
+          ],
+          "command": "pnpm check:readme-standard && pnpm test:readme-standard"
+        },
+        {
+          "id": "security",
+          "category": "security",
+          "status": "blocked",
+          "severity": "p2",
+          "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "packages/sandbox",
+            ".github/workflows"
+          ],
+          "command": "not run",
+          "remediation": "Re-run after pnpm check:quality-gates is green."
+        },
+        {
+          "id": "maturity",
+          "category": "maturity",
+          "status": "blocked",
+          "severity": "p2",
+          "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "ecosystem.json",
+            "docs/STABILITY.md"
+          ],
+          "command": "not run",
+          "remediation": "Re-run after pnpm check:quality-gates is green."
+        }
+      ]
     },
     {
       "id": "registry",
@@ -1046,20 +1211,6 @@
   ],
   "findings": [
     {
-      "productId": "agentskit",
-      "repo": "AgentsKit-io/agentskit",
-      "gateId": "evidence-valid",
-      "category": "process",
-      "status": "fail",
-      "severity": "p0",
-      "summary": "agentskit has an invalid gate record",
-      "owner": "AgentsKit-io/agentskit",
-      "remediation": "Fix the evidence manifest so it validates against the readiness schema.",
-      "evidence": [
-        "ecosystem-readiness/evidence/agentskit.json"
-      ]
-    },
-    {
       "productId": "agentskit-chat",
       "repo": "AgentsKit-io/agentskit-chat",
       "gateId": "evidence-freshness",
@@ -1127,6 +1278,108 @@
       "remediation": "Re-run the product audit and commit current evidence.",
       "evidence": [
         "ecosystem-readiness/evidence/registry.json"
+      ]
+    },
+    {
+      "productId": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "gateId": "quickstart",
+      "category": "quickstart",
+      "status": "fail",
+      "severity": "p1",
+      "summary": "2 failures: ecosystem bar mobile-overflow CSS assertion and @agentskit/core/rules missing from the agent handoff doc.",
+      "owner": "AgentsKit-io/agentskit",
+      "remediation": "Fix scripts/reference-docs-vertical.test.mjs expectations and document @agentskit/core/rules in the agent handoff, then re-run pnpm test:reference-docs.",
+      "evidence": [
+        "apps/docs-next/fixtures/first-agent/agent.ts",
+        "scripts/reference-docs-vertical.test.mjs"
+      ]
+    },
+    {
+      "productId": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "gateId": "accessibility",
+      "category": "accessibility",
+      "status": "blocked",
+      "severity": "p2",
+      "summary": "No browser (Playwright/axe) available on the audit host.",
+      "owner": "AgentsKit-io/agentskit",
+      "remediation": "Run the accessibility audit on a host with a browser and update this gate.",
+      "evidence": [
+        "apps/docs-next"
+      ]
+    },
+    {
+      "productId": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "gateId": "links",
+      "category": "links",
+      "status": "fail",
+      "severity": "p2",
+      "summary": "Exit 1: verified recipe factory reports Content pipeline FAIL (doc-bridge command failed for the recipe fixtures).",
+      "owner": "AgentsKit-io/agentskit",
+      "remediation": "Fix the content pipeline gate and re-run pnpm check:quality-gates.",
+      "evidence": [
+        "scripts/check-quality-gates.mjs"
+      ]
+    },
+    {
+      "productId": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "gateId": "maturity",
+      "category": "maturity",
+      "status": "blocked",
+      "severity": "p2",
+      "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
+      "owner": "AgentsKit-io/agentskit",
+      "remediation": "Re-run after pnpm check:quality-gates is green.",
+      "evidence": [
+        "ecosystem.json",
+        "docs/STABILITY.md"
+      ]
+    },
+    {
+      "productId": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "gateId": "performance",
+      "category": "performance",
+      "status": "fail",
+      "severity": "p2",
+      "summary": "Exit 1: 2 gates failed (verified recipe factory, ecosystem documentation quality contract); nested ternaries and the size-limit target check pass.",
+      "owner": "AgentsKit-io/agentskit",
+      "remediation": "Fix the failing quality gates and re-run pnpm check:quality-gates.",
+      "evidence": [
+        "scripts/check-quality-gates.mjs"
+      ]
+    },
+    {
+      "productId": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "gateId": "security",
+      "category": "security",
+      "status": "blocked",
+      "severity": "p2",
+      "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
+      "owner": "AgentsKit-io/agentskit",
+      "remediation": "Re-run after pnpm check:quality-gates is green.",
+      "evidence": [
+        "packages/sandbox",
+        ".github/workflows"
+      ]
+    },
+    {
+      "productId": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "gateId": "seo",
+      "category": "seo",
+      "status": "blocked",
+      "severity": "p2",
+      "summary": "No browser (Lighthouse/Playwright) available on the audit host.",
+      "owner": "AgentsKit-io/agentskit",
+      "remediation": "Run the SEO audit on a host with a browser and update this gate.",
+      "evidence": [
+        "apps/docs-next",
+        "apps/landing"
       ]
     }
   ]
