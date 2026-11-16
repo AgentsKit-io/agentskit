@@ -15,6 +15,8 @@ const root = process.cwd()
 
 const GATES = [
   ['core zero-dependency contract', 'check-core-no-deps.mjs'],
+  ['core import boundary + dependency direction', 'check-core-imports.mjs'],
+  ['core import boundary tests', 'check-core-imports.test.mjs', [], 'vitest'],
   ['stability-tier integrity', 'check-stability-tier.mjs'],
   ['README stability badges', 'check-readme-badge.mjs'],
   ['coverage floor per tier', 'check-coverage-floor.mjs'],
