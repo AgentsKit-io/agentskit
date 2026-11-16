@@ -71,6 +71,12 @@ The Star action lives only in the bar and targets `data-current-repo`.
   and `data-ak-surface` through `--ak-fg`. Place it inside an
   `isolation: isolate` wrapper so it paints above that wrapper's background.
 - **Fumadocs nav title:** `<span class="ak-product-wordmark"><span class="ak-product-wordmark__brand">AgentsKit</span> <span class="ak-product-wordmark__product">Registry</span></span>`.
+- **Fumadocs header (`#nd-nav`):** on pages with `<agentskit-aurora>` the shell
+  makes the header `position: sticky; top: 0; z-index: 40`, so the aurora's
+  isolated wrapper cannot paint over it. It also hides the header's
+  `max-sm:hidden` / `max-lg:hidden` elements below 640px / 1024px, because vinext
+  product builds do not scan fumadocs-ui. Products should still list these
+  utilities in `@source inline(...)`.
 
 ## Fonts and performance
 

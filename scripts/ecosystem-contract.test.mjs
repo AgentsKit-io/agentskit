@@ -269,6 +269,19 @@ test('the served shell is the minified build of the source, and no app keeps a c
   assert.match(readFileSync(join(REPO_ROOT, 'apps/registry/lib/shell.ts'), 'utf8'), /NEXT_PUBLIC_AGENTSKIT_SHELL_ORIGIN \?\? DEFAULT_SHELL_ORIGIN/)
 })
 
+test('shell v1 keeps the Fumadocs product header above the aurora and inside a phone viewport', () => {
+  // Without these the fixed <agentskit-aurora> in the isolated home layout painted over a static
+  // #nd-nav (contrast 1:1) and the desktop nav links overflowed 390px (Ecosystem visual, #1993).
+  assert.match(SHELL, /'body:has\(agentskit-aurora\) #nd-nav\{position:sticky;top:0;z-index:40\}'/)
+  assert.match(SHELL, /@media\(max-width:39\.99rem\)\{#nd-nav \.max-sm\\\\:hidden\{display:none\}\}/)
+  assert.match(SHELL, /@media\(max-width:63\.99rem\)\{#nd-nav \.max-lg\\\\:hidden\{display:none\}\}/)
+  for (const app of ['docs-next', 'registry']) {
+    const css = readFileSync(join(REPO_ROOT, `apps/${app}/app/global.css`), 'utf8')
+    const inline = css.match(/@source inline\("([^"]*)"\)/)?.[1].split(' ') ?? []
+    for (const utility of ['sticky', 'top-0', 'z-40', 'h-14', 'max-sm:hidden', 'max-lg:hidden']) assert.ok(inline.includes(utility), `${app} @source inline lacks ${utility}`)
+  }
+})
+
 test('the shell is served cross-origin with a one-hour cache', () => {
   const config = readFileSync(join(REPO_ROOT, 'apps/docs-next/next.config.mjs'), 'utf8')
   assert.match(config, /source: '\/shell\/:path\*'/)

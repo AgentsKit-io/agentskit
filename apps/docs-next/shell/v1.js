@@ -471,6 +471,13 @@
     'body:has(agentskit-aurora) #ak-eco{background:color-mix(in srgb,var(--ak-bg,#0d1117) 64%,transparent);' +
     'border-bottom-color:color-mix(in srgb,var(--ak-border,#30363d) 78%,transparent);' +
     '-webkit-backdrop-filter:blur(24px) saturate(140%);backdrop-filter:blur(24px) saturate(140%)}' +
+    // Fumadocs product header (#nd-nav). vinext product builds do not scan fumadocs-ui, so its
+    // utilities can be missing in production: without sticky/z-40 the home layout's isolated
+    // stacking context (holding the fixed <agentskit-aurora>) paints over the header and hides its
+    // text; without max-sm/max-lg:hidden the desktop nav links overflow a phone viewport.
+    'body:has(agentskit-aurora) #nd-nav{position:sticky;top:0;z-index:40}' +
+    '@media(max-width:39.99rem){#nd-nav .max-sm\\:hidden{display:none}}' +
+    '@media(max-width:63.99rem){#nd-nav .max-lg\\:hidden{display:none}}' +
     '#ak-eco .ak-eco-brand{box-sizing:border-box;display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;' +
     'min-width:44px;min-height:44px;margin-right:4px;color:var(--ak-fg,#e6edf3);text-decoration:none;line-height:0;border-radius:8px}' +
     '#ak-eco .ak-eco-brand svg{width:18px;height:16px;display:block}' +

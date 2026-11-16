@@ -3,7 +3,7 @@
 @import 'fumadocs-ui/css/preset.css';
 
 /* vinext build does not scan fumadocs-ui: force the HomeLayout header utilities (sticky h-14 top-0 z-40, nav max-sm/max-lg:hidden). */
-@source inline("max-sm:hidden max-lg:hidden z-40 h-14");
+@source inline("sticky top-0 max-sm:hidden max-lg:hidden z-40 h-14");
 
 /**
  * AgentsKit brand tokens.
