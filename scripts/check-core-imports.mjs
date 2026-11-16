@@ -55,7 +55,7 @@ export function findImports(text) {
   ]
   for (const { re, spec, type } of patterns) {
     for (const m of code.matchAll(re)) {
-      const line = code.slice(0, m.index + m[0].match(/^[;}]?\s*/)[0].length).split('\n').length
+      const line = (code.slice(0, m.index + m[0].match(/^[;}]?\s*/)[0].length).match(/\n/g) ?? []).length + 1
       found.push({ specifier: m[spec], typeOnly: Boolean(type && m[type]), line })
     }
   }
