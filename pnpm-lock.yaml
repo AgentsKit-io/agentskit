@@ -53,6 +53,9 @@ importers:
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
+      '@agentskit/mcp':
+        specifier: workspace:*
+        version: link:packages/mcp
       '@agentskit/observability':
         specifier: workspace:*
         version: link:packages/observability
@@ -280,6 +283,12 @@ importers:
       '@cloudflare/vite-plugin':
         specifier: 2.0.0-beta.sha-52b0dc0e9
         version: 2.0.0-beta.sha-52b0dc0e9(@types/node@26.6.5)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1)(sass@1.106.1)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(workerd@1.20261019.1)
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.32.2
+        version: 1.32.2(@cfworker/json-schema@4.1.1)(zod@4.6.7)
+      '@testing-library/react':
+        specifier: ^16.3.3
+        version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@types/mdx':
         specifier: ^2.0.14
         version: 2.0.14
@@ -298,9 +307,15 @@ importers:
       '@vitejs/plugin-rsc':
         specifier: ^0.5.38
         version: 0.5.38(react-dom@19.3.1(react@19.3.1))(react-server-dom-webpack@19.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(webpack@5.111.1(esbuild@0.28.2)(postcss@8.5.31)))(react@19.3.1)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1)(sass@1.106.1)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      ai:
+        specifier: ^7.0.155
+        version: 7.0.173(zod@4.6.7)
       cf:
         specifier: 1.0.0-beta.10
         version: 1.0.0-beta.10(@types/node@26.6.5)
+      happy-dom:
+        specifier: ^21.0.4
+        version: 21.0.4
       tsx:
         specifier: ^4.23.15
         version: 4.23.15
@@ -1920,6 +1935,22 @@ packages:
   '@agentskit/statechart@0.2.1':
     resolution: {integrity: sha512-xIl5MCsoPcLQItzGkyAJ+a3zK/ASGLtpb9AMqWtRRm8wUNk/sgfaNmjkBxtSzybGoJgKW1YvgDij1a2SOGggBg==}
     engines: {node: '>=20'}
+
+  '@ai-sdk/gateway@4.0.146':
+    resolution: {integrity: sha512-rJ5NQSyjnpo6HSBEYc9Ff6k1EROUuB7KeAfHYVbVDsk68ynY0Eb8JeWflZKXlT6NhYgqyCiBDxE5blXWACXMKQ==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: 4.6.7
+
+  '@ai-sdk/provider-utils@5.0.81':
+    resolution: {integrity: sha512-pfvvdQ3d1WxdBuug/mnGEP6E48cPokwD8dMBnsFeeAUp0/rb/H2aj0f3mwOiY62gu/Cu5GO44e+SE5nDHyBWMA==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: 4.6.7
+
+  '@ai-sdk/provider@4.0.38':
+    resolution: {integrity: sha512-GElz70UUCuDFFyD6m6aQJFgRY0HEABQzB5otzgkrisYaF5mnss7o0upAmbBTSD6KWiM9h7lZm1ls2c7xzHR8CA==}
+    engines: {node: '>=22'}
 
   '@alcalzone/ansi-tokenize@0.3.1':
     resolution: {integrity: sha512-cUD0PT0YX+rImRhfn7BfMRduP/tX/Zqt/N0dHlAyn2RlcJssCb5KsCJkhln61eh9vuJDkH8wKn3L8zJzzWXPFg==}
@@ -5079,6 +5110,10 @@ packages:
     resolution: {integrity: sha512-/iYJ34PDu4lty1TXdL86qHEw8viveHTllG1PWLuJX8tSFfqKL7kyVJeUORJmQ250bHB0h+alcalXUlza3c/NSA==}
     engines: {node: '>=22'}
 
+  '@vercel/oidc@3.2.0':
+    resolution: {integrity: sha512-UycprH3T6n3jH0k44NHMa7pnFHGu/N05MjojYr+Mc6I7obkoLIJujSWwin1pCvdy/eOxrI/l3uDLQsmcrOb4ug==}
+    engines: {node: '>= 20'}
+
   '@vinext/cloudflare@1.2.0':
     resolution: {integrity: sha512-faPk2alUCBTRg7evTzIP/w9dARvKk3zVO5qDWVujXT4KKSukb3LnB+Itipp2YT5dYNWtoZL4cLR30TnFx/nErA==}
     engines: {node: '>=22'}
@@ -5227,6 +5262,9 @@ packages:
   '@webassemblyjs/wast-printer@1.14.1':
     resolution: {integrity: sha512-kPSSXE6De1XOR820C90RIo2ogvZG+c3KiHzqUoO/F34Y2shGzesfqv7o57xrxovZJH/MetF5UjroJ/R/3isoiw==}
 
+  '@workflow/serde@4.1.0':
+    resolution: {integrity: sha512-pav4F2BoirECWR7Nf1TKt+2eETcBj7jj4cBefQ8VXQCA6NPkaKeLfj/zMgi+3zYV5ZIBT4GuUiphsj0/b9hPQQ==}
+
   '@xtuc/ieee754@1.2.0':
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
 
@@ -5343,6 +5381,12 @@ packages:
   agent-base@7.1.4:
     resolution: {integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==}
     engines: {node: '>= 14'}
+
+  ai@7.0.173:
+    resolution: {integrity: sha512-dLea37zT1h7cjkUsBprU4Rq35HJqhtHHaq1jTAXjHQoyfpeswpgCrhjZJWdWc10gjEAxmz114py7iLGQ3xIMxw==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: 4.6.7
 
   ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
@@ -7366,6 +7410,9 @@ packages:
 
   json-schema-typed@8.0.2:
     resolution: {integrity: sha512-fQhoXdcvc3V28x7C7BMs4P5+kNlgUURe2jmUT1T//oBRMDrqy1QPelJimwZGo7Hg9VPV3EQV5Bnq4hbFy2vetA==}
+
+  json-schema@0.4.0:
+    resolution: {integrity: sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==}
 
   json5@2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
@@ -10375,6 +10422,25 @@ snapshots:
     optional: true
 
   '@agentskit/statechart@0.2.1': {}
+
+  '@ai-sdk/gateway@4.0.146(zod@4.6.7)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.38
+      '@ai-sdk/provider-utils': 5.0.81(zod@4.6.7)
+      '@vercel/oidc': 3.2.0
+      zod: 4.6.7
+
+  '@ai-sdk/provider-utils@5.0.81(zod@4.6.7)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.38
+      '@standard-schema/spec': 1.1.0
+      '@workflow/serde': 4.1.0
+      eventsource-parser: 3.1.1
+      zod: 4.6.7
+
+  '@ai-sdk/provider@4.0.38':
+    dependencies:
+      json-schema: 0.4.0
 
   '@alcalzone/ansi-tokenize@0.3.1':
     dependencies:
@@ -13564,7 +13630,7 @@ snapshots:
 
   '@types/set-cookie-parser@2.4.10':
     dependencies:
-      '@types/node': 25.9.9
+      '@types/node': 26.6.5
 
   '@types/statuses@2.0.6': {}
 
@@ -13633,6 +13699,8 @@ snapshots:
       sharp: 0.35.5(@types/node@26.6.5)
     transitivePeerDependencies:
       - '@types/node'
+
+  '@vercel/oidc@3.2.0': {}
 
   '@vinext/cloudflare@1.2.0(c2e8c7744c9c0d2822cb105a79d396b6)':
     dependencies:
@@ -13836,6 +13904,8 @@ snapshots:
       '@webassemblyjs/ast': 1.14.1
       '@xtuc/long': 4.2.2
 
+  '@workflow/serde@4.1.0': {}
+
   '@xtuc/ieee754@1.2.0': {}
 
   '@xtuc/long@4.2.2': {}
@@ -13912,6 +13982,13 @@ snapshots:
       - supports-color
 
   agent-base@7.1.4: {}
+
+  ai@7.0.173(zod@4.6.7):
+    dependencies:
+      '@ai-sdk/gateway': 4.0.146(zod@4.6.7)
+      '@ai-sdk/provider': 4.0.38
+      '@ai-sdk/provider-utils': 5.0.81(zod@4.6.7)
+      zod: 4.6.7
 
   ajv-formats@3.0.1(ajv@8.20.0):
     optionalDependencies:
@@ -15884,7 +15961,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 25.9.9
+      '@types/node': 26.6.5
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -15907,7 +15984,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 25.9.9
+      '@types/node': 26.6.5
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -15968,6 +16045,8 @@ snapshots:
   json-schema-traverse@1.0.0: {}
 
   json-schema-typed@8.0.2: {}
+
+  json-schema@0.4.0: {}
 
   json5@2.2.3: {}
 

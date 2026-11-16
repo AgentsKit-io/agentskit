@@ -30,6 +30,9 @@
 # This executable fixture lands atomically with the provider-swap recipe PR.
 ^https://github\.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/fixtures/provider-swap/agent\.ts$
 
+# These executable fixtures land atomically with the coexistence recipes PR.
+^https://github\.com/AgentsKit-io/agentskit/tree/main/apps/docs-next/fixtures/coexistence-(custom-ui|vercel-ai|mcp-host)$
+
 # Anchored fragments that mdx-lint can't resolve cleanly (per-page, fine in browser)
 #strikes-known
 
