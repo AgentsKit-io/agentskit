@@ -81,5 +81,6 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 | [0043](./0043-partition-bound-rag.md) | Partition-bound RAG composition | Proposed |
 | [0044](./0044-durable-cost-store.md) | Durable tenant cost store | Proposed |
 | [0045](./0045-interoperability-charter.md) | Interoperability charter | Proposed |
+| [0046](./0046-mcp-official-sdk-streamable-http.md) | MCP bridge on the official SDK, with remote Streamable HTTP, OAuth-protected resource and MCP Apps | Accepted |
 
 The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.

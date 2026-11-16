@@ -6362,6 +6362,12 @@
               ]
             },
             {
+              "name": "BearerVerifier",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "createAgentsKitMcpServer",
               "kinds": [
                 "value"
@@ -6369,6 +6375,18 @@
             },
             {
               "name": "createAgentTool",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createMcpServer",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createStreamableHttpHandler",
               "kinds": [
                 "value"
               ]
@@ -6416,7 +6434,49 @@
               ]
             },
             {
+              "name": "McpAppLink",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpAuthIdentity",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpResourceDefinition",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "McpServer",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpServerEvent",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpServerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpToolDefinition",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpToolExecutionContext",
               "kinds": [
                 "type"
               ]
@@ -6431,6 +6491,24 @@
               "name": "processStdio",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "ProtectedResourceMetadata",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "StreamableHttpHandler",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "StreamableHttpOptions",
+              "kinds": [
+                "type"
               ]
             },
             {

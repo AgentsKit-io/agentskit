@@ -31,7 +31,7 @@ Docs: [MCP package guide](https://www.agentskit.io/docs/agents/tools/mcp) · [ag
 
 <!-- readme-command:install -->
 ```bash
-npx -y @agentskit/mcp@0.5.2 --tools fetch,search
+npx -y @agentskit/mcp@0.6.0 --tools fetch,search
 ```
 
 Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and
@@ -42,7 +42,7 @@ Claude Desktop or Cursor (`mcpServers` / `.cursor/mcp.json`):
 ```json
 {
   "mcpServers": {
-    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp@0.5.2", "--tools", "fetch,search"] }
+    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp@0.6.0", "--tools", "fetch,search"] }
   }
 }
 ```
@@ -52,7 +52,7 @@ Codex (`~/.codex/config.toml`):
 ```toml
 [mcp_servers.agentskit]
 command = "npx"
-args = ["-y", "@agentskit/mcp@0.5.2", "--tools", "fetch,search"]
+args = ["-y", "@agentskit/mcp@0.6.0", "--tools", "fetch,search"]
 ```
 
 OpenClaw:
@@ -61,7 +61,7 @@ OpenClaw:
 openclaw mcp add agentskit \
   --command npx \
   --arg -y \
-  --arg @agentskit/mcp@0.5.2 \
+  --arg @agentskit/mcp@0.6.0 \
   --arg --tools \
   --arg fetch,search
 openclaw mcp doctor agentskit --probe
@@ -128,7 +128,7 @@ Run a registry agent server-side and expose it as a single MCP tool — the host
 delegates a specialized job instead of orchestrating primitives:
 
 ```bash
-npx @agentskit/mcp@0.5.2 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
+npx @agentskit/mcp@0.6.0 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
 ```
 
 `--provider` covers the first-class adapters (openai, anthropic, gemini, ollama)
@@ -174,6 +174,61 @@ const [, transport] = createInMemoryTransportPair()
 const server = createAgentsKitMcpServer({ tools: [], transport })
 await server.close()
 ```
+
+## Remote (Streamable HTTP) + OAuth-protected resource + MCP Apps
+
+`createStreamableHttpHandler` exposes the same tools over the official MCP
+Streamable HTTP transport using Web `Request`/`Response`. It is stateless, so
+it runs unchanged on Node.js 20+, Cloudflare Workers, Deno, and Bun.
+
+```ts
+import { createStreamableHttpHandler } from '@agentskit/mcp'
+
+const handler = createStreamableHttpHandler({
+  tools: [/* your AgentsKit tools */],
+  verifyBearer: async (token) =>
+    token === 'expected-token' ? { subject: 'user-1', scopes: ['tools:read'] } : null,
+  resource: 'https://agent.example.invalid/mcp',
+  authorizationServers: ['https://auth.example.invalid'],
+  scopesSupported: ['tools:read'],
+})
+
+export default {
+  fetch: (request: Request) => handler(request),
+}
+```
+
+`resource` is required when `verifyBearer` is set. Requests without a valid
+`Authorization: Bearer` token receive `401` with a `WWW-Authenticate: Bearer
+resource_metadata="..."` challenge (RFC 9728). The metadata URL is derived from
+`resource`: `https://agent.example.invalid/mcp` is served at
+`https://agent.example.invalid/.well-known/oauth-protected-resource/mcp`;
+a resource without a path uses the root well-known URL. Without authentication,
+metadata is served only when `resource` is configured. Verified identities
+reach tool handlers as `context.auth` (`McpAuthIdentity`: `subject`, optional
+`scopes`, `claims`).
+
+Expose an MCP App by adding a `ui://` resource and linking it from a tool:
+
+```ts
+const handler = createStreamableHttpHandler({
+  tools: [{
+    name: 'status',
+    app: { resourceUri: 'ui://status/app.html' },
+    execute: () => 'ok',
+  }],
+  resources: [{
+    uri: 'ui://status/app.html',
+    name: 'Status app',
+    mimeType: 'text/html;profile=mcp-app',
+    text: '<!doctype html><title>Status</title>',
+  }],
+})
+```
+
+Tool descriptors keep `annotations`, `title`, and raw `_meta`. `app` is a
+shorthand for `_meta.ui.resourceUri`; use `_meta` directly for other MCP Apps
+metadata.
 
 ## Maturity and compatibility
 
