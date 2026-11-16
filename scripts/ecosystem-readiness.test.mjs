@@ -291,4 +291,15 @@ test('repository inventory and evidence load and evaluate without network', () =
     report.findings.some((f) => f.owner === 'AgentsKit-io/agentskit' && f.gateId === 'evidence-freshness'),
     false,
   )
+  assert.equal(
+    report.findings.some((f) => f.productId === 'agentskit' && f.gateId === 'evidence-valid'),
+    false,
+  )
+  const agentskit = report.products.find((p) => p.id === 'agentskit')
+  assert.equal(agentskit.auditedOn, '2026-11-16')
+  assert.equal(agentskit.gates.length, inventory.requiredGateCategories.length)
+  assert.deepEqual(
+    agentskit.gates.map((g) => g.category).sort(),
+    [...inventory.requiredGateCategories].sort(),
+  )
 })
