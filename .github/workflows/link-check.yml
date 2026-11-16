@@ -64,6 +64,9 @@ jobs:
             --no-progress
             --cache
             --max-cache-age 7d
+            --max-retries 3
+            --retry-wait-time 5
+            --timeout 30
             --accept 200,206,301,302,403,429
             --root-dir ${{ github.workspace }}/apps/docs-next/content
             --fallback-extensions mdx,md
