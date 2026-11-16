@@ -24,7 +24,12 @@ export const tools: ToolDefinition[] = [
   },
 ]
 
-/** Adapt one end of the SDK's in-memory pipe to the AgentsKit MCP transport contract. */
+/**
+ * Bridge one end of the SDK's in-memory pipe to the public `McpTransport`
+ * contract that `createAgentsKitMcpServer` accepts. Over stdio the package
+ * builds this transport itself; a host embedding the server in-process
+ * supplies its own.
+ */
 function toAgentsKitTransport(end: Transport): McpTransport {
   const handlers = new Set<Parameters<McpTransport['onMessage']>[0]>()
   end.onmessage = message => {
@@ -41,30 +46,9 @@ function toAgentsKitTransport(end: Transport): McpTransport {
   }
 }
 
-/** The only protocol revision `@agentskit/mcp` negotiates today. */
-export const SERVER_PROTOCOL_VERSION = '2024-11-05'
-
-/**
- * The server answers `initialize` only for 2024-11-05, while the current MCP SDK
- * client offers its latest revision first. Until the server negotiates down, a
- * host pins the revision it asks for (the SDK client accepts it as supported).
- */
-function pinProtocolVersion(end: Transport): Transport {
-  const send = end.send.bind(end)
-  end.send = (message, options) => {
-    const request = message as { method?: string; params?: { protocolVersion?: string } }
-    if (request.method === 'initialize' && request.params) {
-      request.params.protocolVersion = SERVER_PROTOCOL_VERSION
-    }
-    return send(message, options)
-  }
-  return end
-}
-
 /** Start the AgentsKit MCP server; returns the transport end an MCP host connects to. */
 export function startServer(): { server: McpServer; hostTransport: Transport } {
-  const [clientEnd, serverEnd] = InMemoryTransport.createLinkedPair()
-  const hostTransport = pinProtocolVersion(clientEnd)
+  const [hostTransport, serverEnd] = InMemoryTransport.createLinkedPair()
   const server = createAgentsKitMcpServer({ tools, transport: toAgentsKitTransport(serverEnd) })
   return { server, hostTransport }
 }

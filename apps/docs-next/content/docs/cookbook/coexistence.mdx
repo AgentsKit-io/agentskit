@@ -61,11 +61,9 @@ createAgentsKitMcpServer({ tools, transport })
 
 - Code and test: [`coexistence-mcp-host`](https://github.com/AgentsKit-io/agentskit/tree/main/apps/docs-next/fixtures/coexistence-mcp-host)
 - Limitations: the test runs over an in-memory transport, not a spawned stdio
-  process. The server negotiates only protocol revision `2024-11-05`, and the
-  current SDK client offers a newer one first, so the fixture pins the revision
-  the host asks for. Without that pin, `initialize` fails with
-  `unsupported protocol version`. The host sees a generic
-  `tool execution failed` message, not the original error text.
+  process; the fixture bridges the SDK's in-memory pipe to the `McpTransport`
+  the server accepts. The host sees a generic `tool execution failed` message,
+  not the original error text.
 
 ## Run them
 
