@@ -27,6 +27,7 @@ describe('@agentskit/mcp package contract', () => {
     expect(pkg.bin).toEqual({ 'agentskit-mcp': './dist/bin.js' })
     expect(Object.keys(pkg.dependencies).sort()).toEqual([
       '@agentskit/adapters', '@agentskit/core', '@agentskit/net', '@agentskit/runtime', '@agentskit/tools',
+      '@modelcontextprotocol/sdk',
     ])
   })
 
