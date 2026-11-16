@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "8a9ab5c1365d5449d018fe836f1025ae3fc10bfab3164282ad806ecb7d3a4761",
+  "contentHash": "40fbc4281614a2240f15d5518c69dc01b41c699f4b2864dd82efce51324a9526",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-15T18:59:28.379Z",
+  "generatedAt": "2026-11-16T04:09:30.505Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6914,7 +6914,7 @@
         "document",
         "human"
       ],
-      "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037"
+      "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db"
     },
     {
       "id": "document:docs/V1-READINESS-TRACKER.md",
@@ -36534,6 +36534,18 @@
       "contentHash": "fadaf0c7e9843dca577281307e33ae64004f1d8f162026a3d31bf787871f6c4c"
     },
     {
+      "id": "module:scripts/check-minimum-consumers.mjs",
+      "type": "module",
+      "title": "check-minimum-consumers.mjs",
+      "path": "scripts/check-minimum-consumers.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "fa66ba4c7e23d21ef8ae64c428354f35413eff1a23952ea42531f4163e5ec448"
+    },
+    {
       "id": "module:scripts/check-models-dev-freshness.mjs",
       "type": "module",
       "title": "check-models-dev-freshness.mjs",
@@ -36705,7 +36717,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "7cb6019a71b42b9a81ba6ddefbf69b22678c2d8041e49916d15a3f88e9691bf5"
+      "contentHash": "70fc96bcefa79f734c4bd566b04d6b2f78f3efdc2db974e9de8c016d48024e92"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -36927,7 +36939,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c"
+      "contentHash": "a7d99569b14f1d1f809ab554c3a7acab725a7c8bbbd7521f8a7896171dad4d70"
     },
     {
       "id": "module:scripts/ecosystem-llms-block.test.mjs",
@@ -37594,6 +37606,33 @@
       "contentHash": "162be6b0d7f3af5325f102635250d0d809a2e32121cae746672ada903c1fd654"
     },
     {
+      "id": "module:scripts/lib/release-train.mjs",
+      "type": "module",
+      "title": "release-train.mjs",
+      "path": "scripts/lib/release-train.mjs",
+      "symbols": [
+        "MINIMUM_CONSUMER_COVERAGE",
+        "MINIMUM_CONSUMER_TYPE_PACKAGES",
+        "applyToManifest",
+        "applyToPackageJson",
+        "compareVersions",
+        "findDrift",
+        "findPeerViolations",
+        "parseVersion",
+        "planUpdates",
+        "renderChangeset",
+        "renderOutput",
+        "renderProposal",
+        "validateManifest"
+      ],
+      "tags": [
+        "module",
+        "mjs",
+        "lib"
+      ],
+      "contentHash": "6787fa603755a98496d250d2a86d04c66f35fd7da2c4ec0dde73449ea438271b"
+    },
+    {
       "id": "module:scripts/lib/software-metadata.mjs",
       "type": "module",
       "title": "software-metadata.mjs",
@@ -37864,6 +37903,31 @@
         "scripts"
       ],
       "contentHash": "4f127fca2e056bb88885e2b031bccb88a0076668315d22db4c64c6dce2073644"
+    },
+    {
+      "id": "module:scripts/release-train.mjs",
+      "type": "module",
+      "title": "release-train.mjs",
+      "path": "scripts/release-train.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "6fa9fe637e33385ea0274477402f978aaf104e23f5aba4dc3ec67734cc8b73b3"
+    },
+    {
+      "id": "module:scripts/release-train.test.mjs",
+      "type": "module",
+      "title": "release-train.test.mjs",
+      "path": "scripts/release-train.test.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "test",
+        "scripts"
+      ],
+      "contentHash": "2ed74b7dd47976d09e8d7f1ccd741a08f583d6b05f2943de7c23ae8438dbd303"
     },
     {
       "id": "module:scripts/release-workflow-auth.test.mjs",
@@ -39384,8 +39448,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0d57120a7f0742ca4a58d90d6cfcefeeda6c78837368cfa3fc5c747f54460db6",
-    "fileCount": 2702,
+    "hash": "bf63ea9c5b00c8fc250a0e5c1cdf24bea5da5ee5babfca826849f7d1ef267ca8",
+    "fileCount": 2707,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39407,9 +39471,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "edf41dbb89f5522228cac0f94d36b222eb6b33880e903a7ec1f09b5aa3b9bad9",
+    "contentHash": "95824f939e04592316e28163db8c1ed5b4145f7dd149d89c6beaeae987e9d1e3",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "5d0d6c40254a16a2bf386208c276a16be01bb4eb8f55538aea09ad5e885426f6",
+    "snapshotHash": "3fa44d0d2484b5fcd62f1980c6258fbae22e0d1b6d8b6662f09b9bef3cd8e657",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39429,7 +39493,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2566,
+      "documentCount": 2570,
       "fieldNames": [
         "aliases",
         "body",
@@ -39440,13 +39504,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.019485580670304,
-        "body": 60.86477007014809,
-        "headings": 3.8791893998441154,
-        "path": 7.616134060795011,
-        "summary": 4.475837879968823,
-        "symbols": 7.598207326578332,
-        "title": 3.387373343725643
+        "aliases": 3.0198443579766536,
+        "body": 60.7568093385214,
+        "headings": 3.8731517509727627,
+        "path": 7.613229571984435,
+        "summary": 4.468871595330739,
+        "symbols": 7.6035019455252915,
+        "title": 3.3891050583657587
       }
     },
     "entries": [
@@ -42004,7 +42068,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3f87cf805292b5040fa7dfbd66aae2db31ba70b8060d95495076d0d105e29a93",
+        "contentHash": "28e4bdb9fd278bb50b11dc1b8d47dc89c7b8b80563097e49886c28da5b172564",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77594,7 +77658,7 @@
           "path": "docs/SUPPORT-MATRIX.md",
           "symbols": "",
           "summary": "Generated by node scripts/gen-support-matrix.mjs — do not edit by hand.",
-          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 0.19.2 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/angular 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/cli 0.14.0 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 0.3.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/eval 0.7.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/ink 0.10.16 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/integrations 0.8.3 experimental — — — — — — @agentskit/mcp 0.5.2 experimental — — — — — — @agentskit/memory 0.12.1 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/net 0.2.4 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/observability 0.13.1 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/rag 0.7.1 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react 0.8.10 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react-native 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/runtime 0.11.3 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/sandbox 0.6.13 supported apps/docs-next ✅ ✅ ✅ ✅ ✅ eligible @agentskit/skills 0.9.10 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/solid 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/statechart 0.3.2 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/svelte 0.6.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 0.13.16 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/vue 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible",
+          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/angular 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/cli 0.14.1 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/eval 1.0.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/ink 1.0.0 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/integrations 0.9.0 experimental — — — — — — @agentskit/mcp 0.6.0 experimental — — — — — — @agentskit/memory 1.0.0 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/net 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/observability 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/rag 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react-native 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/runtime 1.0.0 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/sandbox 1.0.0 supported apps/docs-next ✅ ✅ ✅ ✅ 1.x @agentskit/skills 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/solid 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/statechart 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/svelte 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 1.0.0 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/vue 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x",
           "aliases": "document human"
         },
         "graph": {
@@ -77732,7 +77796,7 @@
             }
           ]
         },
-        "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037",
+        "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190250,6 +190314,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:scripts/check-minimum-consumers.mjs",
+        "kind": "module",
+        "path": "scripts/check-minimum-consumers.mjs",
+        "title": "check-minimum-consumers.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "check-minimum-consumers.mjs",
+          "headings": "",
+          "path": "scripts/check-minimum-consumers.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/release-train.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "fa66ba4c7e23d21ef8ae64c428354f35413eff1a23952ea42531f4163e5ec448",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:scripts/check-models-dev-freshness.mjs",
         "kind": "module",
         "path": "scripts/check-models-dev-freshness.mjs",
@@ -190814,7 +190918,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "7cb6019a71b42b9a81ba6ddefbf69b22678c2d8041e49916d15a3f88e9691bf5",
+        "contentHash": "70fc96bcefa79f734c4bd566b04d6b2f78f3efdc2db974e9de8c016d48024e92",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191653,7 +191757,7 @@
             }
           ]
         },
-        "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c",
+        "contentHash": "a7d99569b14f1d1f809ab554c3a7acab725a7c8bbbd7521f8a7896171dad4d70",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193554,6 +193658,71 @@
         "confidence": "observed"
       },
       {
+        "id": "module:scripts/lib/release-train.mjs",
+        "kind": "module",
+        "path": "scripts/lib/release-train.mjs",
+        "title": "release-train.mjs",
+        "aliases": [],
+        "symbols": [
+          "MINIMUM_CONSUMER_COVERAGE",
+          "MINIMUM_CONSUMER_TYPE_PACKAGES",
+          "applyToManifest",
+          "applyToPackageJson",
+          "compareVersions",
+          "findDrift",
+          "findPeerViolations",
+          "parseVersion",
+          "planUpdates",
+          "renderChangeset",
+          "renderOutput",
+          "renderProposal",
+          "validateManifest"
+        ],
+        "tags": [
+          "module",
+          "mjs",
+          "lib"
+        ],
+        "fields": {
+          "title": "release-train.mjs",
+          "headings": "",
+          "path": "scripts/lib/release-train.mjs",
+          "symbols": "MINIMUM_CONSUMER_COVERAGE MINIMUM_CONSUMER_TYPE_PACKAGES applyToManifest applyToPackageJson compareVersions findDrift findPeerViolations parseVersion planUpdates renderChangeset renderOutput renderProposal validateManifest",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/check-minimum-consumers.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:scripts/release-train.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:scripts/release-train.test.mjs",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "6787fa603755a98496d250d2a86d04c66f35fd7da2c4ec0dde73449ea438271b",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:scripts/lib/software-metadata.mjs",
         "kind": "module",
         "path": "scripts/lib/software-metadata.mjs",
@@ -194415,6 +194584,87 @@
           ]
         },
         "contentHash": "4f127fca2e056bb88885e2b031bccb88a0076668315d22db4c64c6dce2073644",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/release-train.mjs",
+        "kind": "module",
+        "path": "scripts/release-train.mjs",
+        "title": "release-train.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "release-train.mjs",
+          "headings": "",
+          "path": "scripts/release-train.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/release-train.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "6fa9fe637e33385ea0274477402f978aaf104e23f5aba4dc3ec67734cc8b73b3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/release-train.test.mjs",
+        "kind": "module",
+        "path": "scripts/release-train.test.mjs",
+        "title": "release-train.test.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "test",
+          "scripts"
+        ],
+        "fields": {
+          "title": "release-train.test.mjs",
+          "headings": "",
+          "path": "scripts/release-train.test.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs test scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/release-train.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "2ed74b7dd47976d09e8d7f1ccd741a08f583d6b05f2943de7c23ae8438dbd303",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -203489,7 +203739,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "0a30c6dc4fa78fe03bbc7c97a0e2cedbb5f88b4d7a1cfb67a46144c9db68b2f6",
+        "contentHash": "2fcda724609dae1071b5122f2571130a40f8b4b7940a4ddc28b8f8ef7ebd631a",
         "provenance": "observed",
         "confidence": "observed"
       }

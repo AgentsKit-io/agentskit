@@ -23,6 +23,8 @@ const GATES = [
   ['stability graduation evidence', 'check-stability-evidence.mjs'],
   ['public API JSDoc coverage', 'check-jsdoc-coverage.mjs'],
   ['public API JSDoc coverage tests', 'check-jsdoc-coverage.test.mjs', [], 'node-test'],
+  ['release-train manifest and planner', 'release-train.test.mjs', [], 'node-test'],
+  ['release-train manifest minimums', 'release-train.mjs', ['--check']],
   ['release registry preflight helpers', 'release-registry.test.mjs'],
   ['release workflow authentication', 'release-workflow-auth.test.mjs'],
   ['typed errors (no bare throw)', 'check-no-bare-throw.mjs'],
