@@ -14,7 +14,7 @@ test('the consumer list covers the six sibling repositories with their default b
     'AgentsKit-io/agentskit-registry@main',
     'AgentsKit-io/agentskit-chat@main',
     'AgentsKit-io/agents-playbook@main',
-    'AgentsKit-io/doc-bridge@master',
+    'AgentsKit-io/doc-bridge@main',
     'AgentsKit-io/harness@main',
     'AgentsKit-io/code-review@main',
   ])

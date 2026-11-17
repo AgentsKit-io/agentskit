@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "8a9ab5c1365d5449d018fe836f1025ae3fc10bfab3164282ad806ecb7d3a4761",
+  "contentHash": "50020a81b6552b0817dfadaca2f27343374512cab3d4bc2e6cbcea087e890717",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-15T18:59:28.379Z",
+  "generatedAt": "2026-11-16T01:20:24.625Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6170,7 +6170,7 @@
         "document",
         "human"
       ],
-      "contentHash": "ab9175e8a69e03f5bbf1159ddee787c01eed69696b25aae31606b11bf9729985"
+      "contentHash": "73e8ae6712f61d5b21d0507d03c69dae4f6fd9e91bcf99c57a9232382c00e3ae"
     },
     {
       "id": "document:docs/ch-e-core-decide.md",
@@ -6914,7 +6914,7 @@
         "document",
         "human"
       ],
-      "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037"
+      "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db"
     },
     {
       "id": "document:docs/V1-READINESS-TRACKER.md",
@@ -37982,7 +37982,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "70205e035a09b0d6b83520f75a24e93075109bb12e7258a41130f127c775a299"
+      "contentHash": "efeb7db65562a32c456ac7d1d0d37577c9e19831e6d13522f32f5185685606b4"
     },
     {
       "id": "module:scripts/sync-ecosystem-consumers.test.mjs",
@@ -37995,7 +37995,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "0c7fb63b72ead3bba009bf51ae1d5f95c4b173f29f43e6b775baabb2ef1b895f"
+      "contentHash": "02ca4b9908a9742f732fad8577ae9115cff6334283e24ffef8ab9e1cc6a1b042"
     },
     {
       "id": "module:scripts/sync-ecosystem.mjs",
@@ -39384,7 +39384,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0d57120a7f0742ca4a58d90d6cfcefeeda6c78837368cfa3fc5c747f54460db6",
+    "hash": "ccc4d325fa9b268093600639cf2453d28dafa85dfad7366ff6b4f11da3a4a2d8",
     "fileCount": 2702,
     "projectionVersion": 2
   },
@@ -39407,9 +39407,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "edf41dbb89f5522228cac0f94d36b222eb6b33880e903a7ec1f09b5aa3b9bad9",
+    "contentHash": "8835d0cd9dc600361a9d1a442a7adf58b5be6f3014ad10fcc8d6f67d6c15c25b",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "5d0d6c40254a16a2bf386208c276a16be01bb4eb8f55538aea09ad5e885426f6",
+    "snapshotHash": "031a2ae783ecfdc7b0b9ab56a873db7231931c349d5fce93e492f8195aed1a1a",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39441,7 +39441,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.019485580670304,
-        "body": 60.86477007014809,
+        "body": 60.85151987529228,
         "headings": 3.8791893998441154,
         "path": 7.616134060795011,
         "summary": 4.475837879968823,
@@ -74058,7 +74058,7 @@
           "path": "docs/architecture/ecosystem-manifest.md",
           "symbols": "",
           "summary": "AgentsKit is the parent brand for a family of products. The root ecosystem.json is the canonical, versioned inventory of those products and their public surfaces. The generated ecosystem-claims.json is the canonical ledger for numeric product claims and their evidence.",
-          "body": "Ecosystem manifest and claim ledger AgentsKit is the parent brand for a family of products. The root is the canonical, versioned inventory of those products and their public surfaces. The generated is the canonical ledger for numeric product claims and their evidence. The manifest owns stable identity and relationships: product IDs, names, repositories, maturity, documentation and chat modes, public URLs, shared navigation order, useful next-product links, and mappings from showcase claim IDs to their owning product's public stats surface. It does not own numeric marketing values. The root properties array is a deprecated v1 compatibility projection for sibling repositories that have not migrated yet. Do not add new consumers of it. Contract validation prevents it from drifting from the corresponding v2 products. The claim ledger owns exact values, optional conservative display floors, and the evidence used to derive each value. It is deterministic and contains no timestamps. The generator never fetches sibling sites at build time; a sibling starts as declared with an empty claim list until its own repository exposes a verifiable snapshot. The shared showcase receives a deterministic AgentsKit snapshot during the build, then loads /ecosystem-claims.js . That same-origin script resolves each showcase claim from the owning application's canonical data and safely updates all consumers without requiring cross-origin connect-src permissions. If an external origin is unavailable, its unverified numbers are omitted rather than served stale. Update workflow 1. Edit ecosystem.json when a product identity, surface, or relationship changes. 2. Edit the owning repository's derivation script when a numeric definition changes. For AgentsKit, that script is scripts/compute-stats.mjs . 3. Run pnpm test:ecosystem . 4. Run node scripts/gen-ecosystem-claims.mjs and node scripts/sync-ecosystem.mjs . 5. Run both commands with --check before opening a pull request. Do not hand-edit generated copies under apps/ /lib or the generated product block in apps/docs-next/public/ecosystem-bar.js . Consumer sync The sibling repositories keep verbatim copies of ecosystem.json and ecosystem-claims.json : Registry, Chat, Playbook, Doc Bridge ( master ), Harness, and Code Review. Doc Bridge also records their SHA-256 digests in ecosystem-upstream.json . .github/workflows/ecosystem-sync.yml runs on every push to main that touches either file, and on manual dispatch. It runs scripts/sync-ecosystem-consumers.mjs , which compares each consumer's default branch with this repository. For each consumer that differs, it force-updates the chore/sync-agentskit-ecosystem branch with a single commit and opens (or updates) one pull request. The commit contains only the two canonical files and, for Doc Bridge, the refreshed digest file. Nothing else is regenerated; consumers that derive more outputs run their own checks in that pull request. The job needs the ECOSYSTEM SYNC TOKEN repository secret: a fine-grained personal access token or GitHub App token with Contents and Pull requests read/write on the six consumer repositories. Without the secret the job prints a notice and a drift report ( --dry-run ) and succeeds without writing anything. Run the same report locally with node scripts/sync-ecosystem-consumers.mjs --dry-run . Consumer example Server and build-time consumers can import the committed snapshot without a network request: External consumers can read the static /api/claims.json route. Existing /api/stats.json consumers remain supported; the claim ledger is additive. See for the decision and trade-offs.",
+          "body": "Ecosystem manifest and claim ledger AgentsKit is the parent brand for a family of products. The root is the canonical, versioned inventory of those products and their public surfaces. The generated is the canonical ledger for numeric product claims and their evidence. The manifest owns stable identity and relationships: product IDs, names, repositories, maturity, documentation and chat modes, public URLs, shared navigation order, useful next-product links, and mappings from showcase claim IDs to their owning product's public stats surface. It does not own numeric marketing values. The root properties array is a deprecated v1 compatibility projection for sibling repositories that have not migrated yet. Do not add new consumers of it. Contract validation prevents it from drifting from the corresponding v2 products. The claim ledger owns exact values, optional conservative display floors, and the evidence used to derive each value. It is deterministic and contains no timestamps. The generator never fetches sibling sites at build time; a sibling starts as declared with an empty claim list until its own repository exposes a verifiable snapshot. The shared showcase receives a deterministic AgentsKit snapshot during the build, then loads /ecosystem-claims.js . That same-origin script resolves each showcase claim from the owning application's canonical data and safely updates all consumers without requiring cross-origin connect-src permissions. If an external origin is unavailable, its unverified numbers are omitted rather than served stale. Update workflow 1. Edit ecosystem.json when a product identity, surface, or relationship changes. 2. Edit the owning repository's derivation script when a numeric definition changes. For AgentsKit, that script is scripts/compute-stats.mjs . 3. Run pnpm test:ecosystem . 4. Run node scripts/gen-ecosystem-claims.mjs and node scripts/sync-ecosystem.mjs . 5. Run both commands with --check before opening a pull request. Do not hand-edit generated copies under apps/ /lib or the generated product block in apps/docs-next/public/ecosystem-bar.js . Consumer sync The sibling repositories keep verbatim copies of ecosystem.json and ecosystem-claims.json : Registry, Chat, Playbook, Doc Bridge ( main ), Harness, and Code Review. Doc Bridge also records their SHA-256 digests in ecosystem-upstream.json . .github/workflows/ecosystem-sync.yml runs on every push to main that touches either file, and on manual dispatch. It runs scripts/sync-ecosystem-consumers.mjs , which compares each consumer's default branch with this repository. For each consumer that differs, it force-updates the chore/sync-agentskit-ecosystem branch with a single commit and opens (or updates) one pull request. The commit contains only the two canonical files and, for Doc Bridge, the refreshed digest file. Nothing else is regenerated; consumers that derive more outputs run their own checks in that pull request. The job needs the ECOSYSTEM SYNC TOKEN repository secret: a fine-grained personal access token or GitHub App token with Contents and Pull requests read/write on the six consumer repositories. Without the secret the job prints a notice and a drift report ( --dry-run ) and succeeds without writing anything. Run the same report locally with node scripts/sync-ecosystem-consumers.mjs --dry-run . Consumer example Server and build-time consumers can import the committed snapshot without a network request: External consumers can read the static /api/claims.json route. Existing /api/stats.json consumers remain supported; the claim ledger is additive. See for the decision and trade-offs.",
           "aliases": "document human"
         },
         "graph": {
@@ -74090,7 +74090,7 @@
             }
           ]
         },
-        "contentHash": "ab9175e8a69e03f5bbf1159ddee787c01eed69696b25aae31606b11bf9729985",
+        "contentHash": "73e8ae6712f61d5b21d0507d03c69dae4f6fd9e91bcf99c57a9232382c00e3ae",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77594,7 +77594,7 @@
           "path": "docs/SUPPORT-MATRIX.md",
           "symbols": "",
           "summary": "Generated by node scripts/gen-support-matrix.mjs — do not edit by hand.",
-          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 0.19.2 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/angular 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/cli 0.14.0 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 0.3.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/eval 0.7.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/ink 0.10.16 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/integrations 0.8.3 experimental — — — — — — @agentskit/mcp 0.5.2 experimental — — — — — — @agentskit/memory 0.12.1 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/net 0.2.4 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/observability 0.13.1 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/rag 0.7.1 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react 0.8.10 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react-native 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/runtime 0.11.3 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/sandbox 0.6.13 supported apps/docs-next ✅ ✅ ✅ ✅ ✅ eligible @agentskit/skills 0.9.10 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/solid 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/statechart 0.3.2 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/svelte 0.6.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 0.13.16 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/vue 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible",
+          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/angular 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/cli 0.14.1 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/eval 1.0.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/ink 1.0.0 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/integrations 0.9.0 experimental — — — — — — @agentskit/mcp 0.6.0 experimental — — — — — — @agentskit/memory 1.0.0 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/net 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/observability 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/rag 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react-native 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/runtime 1.0.0 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/sandbox 1.0.0 supported apps/docs-next ✅ ✅ ✅ ✅ 1.x @agentskit/skills 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/solid 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/statechart 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/svelte 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 1.0.0 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/vue 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x",
           "aliases": "document human"
         },
         "graph": {
@@ -77732,7 +77732,7 @@
             }
           ]
         },
-        "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037",
+        "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -194831,7 +194831,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "70205e035a09b0d6b83520f75a24e93075109bb12e7258a41130f127c775a299",
+        "contentHash": "efeb7db65562a32c456ac7d1d0d37577c9e19831e6d13522f32f5185685606b4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -194877,7 +194877,7 @@
             }
           ]
         },
-        "contentHash": "0c7fb63b72ead3bba009bf51ae1d5f95c4b173f29f43e6b775baabb2ef1b895f",
+        "contentHash": "02ca4b9908a9742f732fad8577ae9115cff6334283e24ffef8ab9e1cc6a1b042",
         "provenance": "observed",
         "confidence": "observed"
       },
