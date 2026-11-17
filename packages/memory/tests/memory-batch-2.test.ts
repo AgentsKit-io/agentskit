@@ -78,6 +78,34 @@ describe('milvusVectorStore', () => {
 })
 
 describe('mongoAtlasVectorStore', () => {
+  it('replaces by id through ordered upsert bulk writes and keeps the last duplicate in a batch', async () => {
+    let operations: Array<Record<string, unknown>> = []
+    let options: unknown
+    const collection = {
+      insertMany: vi.fn(),
+      bulkWrite: vi.fn(async (ops: Array<Record<string, unknown>>, opts: unknown) => { operations = ops; options = opts }),
+      deleteMany: vi.fn(async () => undefined),
+      aggregate: vi.fn(),
+    }
+    const store = mongoAtlasVectorStore({ collection, indexName: 'idx' })
+    const first = { id: 'a1', content: 'first', embedding: [0.2], metadata: { version: 1 } }
+    const last = { id: 'a1', content: 'last', embedding: [0.5], metadata: { source: 'test' } }
+    await store.store([first, last])
+    expect(operations).toHaveLength(2)
+    expect(operations[0]?.updateOne).toMatchObject({
+      filter: { _id: 'a1' },
+      upsert: true,
+      update: { $set: { content: 'first', embedding: [0.2], metadata: { version: 1 } } },
+    })
+    expect(operations[1]?.updateOne).toMatchObject({
+      filter: { _id: 'a1' },
+      upsert: true,
+      update: { $set: { content: 'last', embedding: [0.5], metadata: { source: 'test' } } },
+    })
+    expect(options).toEqual({ ordered: true })
+    expect(collection.insertMany).not.toHaveBeenCalled()
+  })
+
   it('store inserts with _id + embedding field', async () => {
     const inserted: Array<Record<string, unknown>> = []
     const collection = {
@@ -89,6 +117,29 @@ describe('mongoAtlasVectorStore', () => {
     await store.store([{ id: 'a1', content: 'x', embedding: [0.1] }])
     expect(inserted[0]._id).toBe('a1')
     expect((inserted[0] as { embedding: unknown }).embedding).toEqual([0.1])
+  })
+
+  it('uses ordered updateOne upserts when bulkWrite is unavailable and preserves host fields', async () => {
+    const rows = new Map<string, Record<string, unknown>>([['a1', { _id: 'a1', hostField: 'keep' }]])
+    const calls: string[] = []
+    const collection = {
+      insertMany: vi.fn(),
+      updateOne: vi.fn(async (filter: Record<string, unknown>, update: Record<string, unknown>) => {
+        const id = filter._id as string
+        calls.push(String((update.$set as Record<string, unknown>).content))
+        rows.set(id, { ...rows.get(id), ...(update.$set as Record<string, unknown>) })
+      }),
+      deleteMany: vi.fn(async () => undefined),
+      aggregate: vi.fn(),
+    }
+    const store = mongoAtlasVectorStore({ collection, indexName: 'idx' })
+    await store.store([
+      { id: 'a1', content: 'old', embedding: [0.1] },
+      { id: 'a1', content: 'new', embedding: [0.9] },
+    ])
+    expect(calls).toEqual(['old', 'new'])
+    expect(rows.get('a1')).toMatchObject({ hostField: 'keep', content: 'new', embedding: [0.9] })
+    expect(collection.insertMany).not.toHaveBeenCalled()
   })
 
   it('search builds a $vectorSearch pipeline', async () => {

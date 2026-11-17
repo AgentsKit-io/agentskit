@@ -5860,6 +5860,12 @@
               ]
             },
             {
+              "name": "freshdeskIntegration",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "getIntegration",
               "kinds": [
                 "value"
@@ -6284,6 +6290,12 @@
               "kinds": [
                 "value"
               ]
+            },
+            {
+              "name": "zendeskIntegration",
+              "kinds": [
+                "value"
+              ]
             }
           ]
         },
@@ -6350,6 +6362,12 @@
               ]
             },
             {
+              "name": "BearerVerifier",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "createAgentsKitMcpServer",
               "kinds": [
                 "value"
@@ -6357,6 +6375,18 @@
             },
             {
               "name": "createAgentTool",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createMcpServer",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createStreamableHttpHandler",
               "kinds": [
                 "value"
               ]
@@ -6404,7 +6434,49 @@
               ]
             },
             {
+              "name": "McpAppLink",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpAuthIdentity",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpResourceDefinition",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "McpServer",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpServerEvent",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpServerOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpToolDefinition",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "McpToolExecutionContext",
               "kinds": [
                 "type"
               ]
@@ -6419,6 +6491,24 @@
               "name": "processStdio",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "ProtectedResourceMetadata",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "StreamableHttpHandler",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "StreamableHttpOptions",
+              "kinds": [
+                "type"
               ]
             },
             {
@@ -8318,6 +8408,52 @@
               "name": "validateTokenPrices",
               "kinds": [
                 "value"
+              ]
+            }
+          ]
+        },
+        "./cost-store": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "CostReservationError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "CostStore",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "createInMemoryCostStore",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "monthlyWindowKey",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "multiTenantCostGuard",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "MultiTenantCostGuardOptions",
+              "kinds": [
+                "type"
               ]
             }
           ]

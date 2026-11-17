@@ -59,11 +59,18 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: ${{ matrix.runtime == 'node' && matrix.version == 'minimum' && '20.19.0' || '22' }}
-          cache: pnpm
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: restore
 
       # No install scripts: they compile better-sqlite3 (memory/tools), which this
       # package never loads and which fails on windows-latest (node-gyp vs VS 18).
       - run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - uses: ./.github/actions/pnpm-store-cache
+        with:
+          mode: save
 
       - run: pnpm --filter "@agentskit/cross-platform..." build
 
