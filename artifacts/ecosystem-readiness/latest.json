@@ -1,7 +1,7 @@
 {
   "protocol": "agentskit.ecosystem.readiness",
   "schemaVersion": 1,
-  "auditDate": "2026-11-16",
+  "auditDate": "2026-11-17",
   "overall": "blocked",
   "promotionAllowed": false,
   "summary": {
@@ -91,15 +91,17 @@
         {
           "id": "documentation",
           "category": "documentation",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Fumadocs docs-next ships human + for-agents corpus with Doc Bridge ownership.",
+          "status": "fail",
+          "severity": "p2",
+          "summary": "pnpm check:quality-gates fails the 'ecosystem documentation quality contract' gate: the certified llms.txt drifted from the attested commit f69eddb (not an ancestor of HEAD). Pre-existing on main.",
           "owner": "AgentsKit-io/agentskit",
           "evidence": [
             "apps/docs-next",
-            "doc-bridge.config.json"
+            "docs/evidence/ecosystem-documentation-quality/agentskit.json",
+            "scripts/ecosystem-documentation-quality.test.mjs"
           ],
-          "command": "pnpm docs:build"
+          "command": "pnpm check:quality-gates",
+          "remediation": "Re-attest docs/evidence/ecosystem-documentation-quality/agentskit.json against a commit on main that includes the current llms.txt, then re-run pnpm check:quality-gates."
         },
         {
           "id": "seo",
@@ -133,26 +135,25 @@
           "category": "performance",
           "status": "fail",
           "severity": "p2",
-          "summary": "Exit 1: 2 gates failed (verified recipe factory, ecosystem documentation quality contract); nested ternaries and the size-limit target check pass.",
+          "summary": "Exit 1 only because of the 'ecosystem documentation quality contract' gate; the nested ternary gate, the size-limit target check and the verified recipe factory pass.",
           "owner": "AgentsKit-io/agentskit",
           "evidence": [
             "scripts/check-quality-gates.mjs"
           ],
           "command": "pnpm check:quality-gates",
-          "remediation": "Fix the failing quality gates and re-run pnpm check:quality-gates."
+          "remediation": "Fix the ecosystem documentation quality contract gate (see documentation) and re-run pnpm check:quality-gates."
         },
         {
           "id": "links",
           "category": "links",
-          "status": "fail",
-          "severity": "p2",
-          "summary": "Exit 1: verified recipe factory reports Content pipeline FAIL (doc-bridge command failed for the recipe fixtures).",
+          "status": "pass",
+          "severity": "info",
+          "summary": "verified recipe factory reports Content pipeline PASS (3 recipes) in pnpm check:quality-gates.",
           "owner": "AgentsKit-io/agentskit",
           "evidence": [
             "scripts/check-quality-gates.mjs"
           ],
-          "command": "pnpm check:quality-gates",
-          "remediation": "Fix the content pipeline gate and re-run pnpm check:quality-gates."
+          "command": "pnpm check:quality-gates"
         },
         {
           "id": "llms",
@@ -211,7 +212,7 @@
           "category": "security",
           "status": "blocked",
           "severity": "p2",
-          "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
+          "summary": "Not re-run in this audit; pnpm check:quality-gates, which covers it, exited 1 (ecosystem documentation quality contract).",
           "owner": "AgentsKit-io/agentskit",
           "evidence": [
             "packages/sandbox",
@@ -225,7 +226,7 @@
           "category": "maturity",
           "status": "blocked",
           "severity": "p2",
-          "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
+          "summary": "Not re-run in this audit; pnpm check:quality-gates, which covers it, exited 1 (ecosystem documentation quality contract).",
           "owner": "AgentsKit-io/agentskit",
           "evidence": [
             "ecosystem.json",
@@ -1217,7 +1218,7 @@
       "category": "process",
       "status": "fail",
       "severity": "p0",
-      "summary": "Evidence is 125 days old (maximum 30)",
+      "summary": "Evidence is 126 days old (maximum 30)",
       "owner": "AgentsKit-io/agentskit-chat",
       "remediation": "Re-run the product audit and commit current evidence.",
       "evidence": [
@@ -1231,7 +1232,7 @@
       "category": "process",
       "status": "fail",
       "severity": "p0",
-      "summary": "Evidence is 125 days old (maximum 30)",
+      "summary": "Evidence is 126 days old (maximum 30)",
       "owner": "AgentsKit-io/code-review",
       "remediation": "Re-run the product audit and commit current evidence.",
       "evidence": [
@@ -1245,7 +1246,7 @@
       "category": "process",
       "status": "fail",
       "severity": "p0",
-      "summary": "Evidence is 125 days old (maximum 30)",
+      "summary": "Evidence is 126 days old (maximum 30)",
       "owner": "AgentsKit-io/doc-bridge",
       "remediation": "Re-run the product audit and commit current evidence.",
       "evidence": [
@@ -1259,7 +1260,7 @@
       "category": "process",
       "status": "fail",
       "severity": "p0",
-      "summary": "Evidence is 125 days old (maximum 30)",
+      "summary": "Evidence is 126 days old (maximum 30)",
       "owner": "AgentsKit-io/agents-playbook",
       "remediation": "Re-run the product audit and commit current evidence.",
       "evidence": [
@@ -1273,7 +1274,7 @@
       "category": "process",
       "status": "fail",
       "severity": "p0",
-      "summary": "Evidence is 125 days old (maximum 30)",
+      "summary": "Evidence is 126 days old (maximum 30)",
       "owner": "AgentsKit-io/agentskit-registry",
       "remediation": "Re-run the product audit and commit current evidence.",
       "evidence": [
@@ -1312,15 +1313,17 @@
     {
       "productId": "agentskit",
       "repo": "AgentsKit-io/agentskit",
-      "gateId": "links",
-      "category": "links",
+      "gateId": "documentation",
+      "category": "documentation",
       "status": "fail",
       "severity": "p2",
-      "summary": "Exit 1: verified recipe factory reports Content pipeline FAIL (doc-bridge command failed for the recipe fixtures).",
+      "summary": "pnpm check:quality-gates fails the 'ecosystem documentation quality contract' gate: the certified llms.txt drifted from the attested commit f69eddb (not an ancestor of HEAD). Pre-existing on main.",
       "owner": "AgentsKit-io/agentskit",
-      "remediation": "Fix the content pipeline gate and re-run pnpm check:quality-gates.",
+      "remediation": "Re-attest docs/evidence/ecosystem-documentation-quality/agentskit.json against a commit on main that includes the current llms.txt, then re-run pnpm check:quality-gates.",
       "evidence": [
-        "scripts/check-quality-gates.mjs"
+        "apps/docs-next",
+        "docs/evidence/ecosystem-documentation-quality/agentskit.json",
+        "scripts/ecosystem-documentation-quality.test.mjs"
       ]
     },
     {
@@ -1330,7 +1333,7 @@
       "category": "maturity",
       "status": "blocked",
       "severity": "p2",
-      "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
+      "summary": "Not re-run in this audit; pnpm check:quality-gates, which covers it, exited 1 (ecosystem documentation quality contract).",
       "owner": "AgentsKit-io/agentskit",
       "remediation": "Re-run after pnpm check:quality-gates is green.",
       "evidence": [
@@ -1345,9 +1348,9 @@
       "category": "performance",
       "status": "fail",
       "severity": "p2",
-      "summary": "Exit 1: 2 gates failed (verified recipe factory, ecosystem documentation quality contract); nested ternaries and the size-limit target check pass.",
+      "summary": "Exit 1 only because of the 'ecosystem documentation quality contract' gate; the nested ternary gate, the size-limit target check and the verified recipe factory pass.",
       "owner": "AgentsKit-io/agentskit",
-      "remediation": "Fix the failing quality gates and re-run pnpm check:quality-gates.",
+      "remediation": "Fix the ecosystem documentation quality contract gate (see documentation) and re-run pnpm check:quality-gates.",
       "evidence": [
         "scripts/check-quality-gates.mjs"
       ]
@@ -1359,7 +1362,7 @@
       "category": "security",
       "status": "blocked",
       "severity": "p2",
-      "summary": "Not re-run in this audit; the quality-gates run that covers it exited 1.",
+      "summary": "Not re-run in this audit; pnpm check:quality-gates, which covers it, exited 1 (ecosystem documentation quality contract).",
       "owner": "AgentsKit-io/agentskit",
       "remediation": "Re-run after pnpm check:quality-gates is green.",
       "evidence": [

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "51f53bb6be023fd786ef16aeb98b3adf372da0ccf04cce4209780347fb1c4272",
+  "contentHash": "2cf267068f2b19171deadf77de53a79659f29a7904f676c7807d9abfaf8c64d7",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-16T17:54:52.993Z",
+  "generatedAt": "2026-11-17T08:35:04.608Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5590,12 +5590,12 @@
       "type": "document",
       "title": "AgentsKit ecosystem readiness",
       "path": "artifacts/ecosystem-readiness/latest.md",
-      "description": "Audit date: 2026-11-16",
+      "description": "Audit date: 2026-11-17",
       "tags": [
         "document",
         "unclassified"
       ],
-      "contentHash": "ec7013e92c2301c0786905a97e932a7e9b7305c16b737358550867d3cb345717"
+      "contentHash": "a1481bd065a2356e3aeb6618bb29ca0c51d42890120341dbbfc59563a1dc4942"
     },
     {
       "id": "document:brand/voice.md",
@@ -39384,7 +39384,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "fddc027a4d664a6db361d0358b3ac6c2b881a384b1b89ad212dda0a38fea896b",
+    "hash": "bbe5f790c21ff2928fc649d52236f2489251d03b984805d1b6706416da088468",
     "fileCount": 2702,
     "projectionVersion": 2
   },
@@ -39407,9 +39407,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "a5e8ea22da6bc700d15cf4bfc3a1395a2c2c26ca160d6cee10014e99824bb7b4",
+    "contentHash": "48ac3c278fd87b0ae492159a93e16a48ef9bb7654bf15140a38ba74a28c28222",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "9c5dc6df474f3bdd0f5ba6fdd9f7dad3e7338cb2d22acfc4c5e719b06928f5af",
+    "snapshotHash": "504d6ee111cdb9ce19113eff708450a2c72232aa0fe9a1c67b937ef62ab2ba9a",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39441,7 +39441,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.019485580670304,
-        "body": 60.93491816056118,
+        "body": 60.94544037412315,
         "headings": 3.8791893998441154,
         "path": 7.616134060795011,
         "summary": 4.475837879968823,
@@ -69791,7 +69791,7 @@
         "kind": "document",
         "path": "artifacts/ecosystem-readiness/latest.md",
         "title": "AgentsKit ecosystem readiness",
-        "summary": "Audit date: 2026-11-16",
+        "summary": "Audit date: 2026-11-17",
         "aliases": [],
         "tags": [
           "document",
@@ -69802,8 +69802,8 @@
           "headings": "AgentsKit ecosystem readiness Products agentskit — blocked registry — blocked agentskit-chat — blocked playbook — blocked doc-bridge — blocked code-review — blocked Findings",
           "path": "artifacts/ecosystem-readiness/latest.md",
           "symbols": "",
-          "summary": "Audit date: 2026-11-16",
-          "body": "AgentsKit ecosystem readiness - Audit date: 2026-11-16 - Overall: blocked - Promotion allowed: no - Products: 0 ready / 6 blocked / 0 incomplete (of 6) - Findings: 12 (P0=5, P1=1) Products agentskit — blocked - Repo: AgentsKit-io/agentskit - Maturity: beta (source: ecosystem.json products[agentskit].maturity) - Audited on: 2026-11-16 registry — blocked - Repo: AgentsKit-io/agentskit-registry - Maturity: beta (source: ecosystem.json) - Audited on: 2026-07-14 agentskit-chat — blocked - Repo: AgentsKit-io/agentskit-chat - Maturity: alpha (source: ecosystem.json) - Audited on: 2026-07-14 playbook — blocked - Repo: AgentsKit-io/agents-playbook - Maturity: stable (source: ecosystem.json) - Audited on: 2026-07-14 doc-bridge — blocked - Repo: AgentsKit-io/doc-bridge - Maturity: stable (source: ecosystem.json) - Audited on: 2026-07-14 code-review — blocked - Repo: AgentsKit-io/code-review - Maturity: alpha (source: ecosystem.json) - Audited on: 2026-07-14 Findings - P0 agentskit-chat / evidence-freshness (fail): Evidence is 125 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-chat) - P0 code-review / evidence-freshness (fail): Evidence is 125 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/code-review) - P0 doc-bridge / evidence-freshness (fail): Evidence is 125 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/doc-bridge) - P0 playbook / evidence-freshness (fail): Evidence is 125 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agents-playbook) - P0 registry / evidence-freshness (fail): Evidence is 125 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-registry) - P1 agentskit / quickstart (fail): 2 failures: ecosystem bar mobile-overflow CSS assertion and @agentskit/core/rules missing from the agent handoff doc. - Remediation: Fix scripts/reference-docs-vertical.test.mjs expectations and document @agentskit/core/rules in the agent handoff, then re-run pnpm test:reference-docs. (owner: AgentsKit-io/agentskit) - P2 agentskit / accessibility (blocked): No browser (Playwright/axe) available on the audit host. - Remediation: Run the accessibility audit on a host with a browser and update this gate. (owner: AgentsKit-io/agentskit) - P2 agentskit / links (fail): Exit 1: verified recipe factory reports Content pipeline FAIL (doc-bridge command failed for the recipe fixtures). - Remediation: Fix the content pipeline gate and re-run pnpm check:quality-gates. (owner: AgentsKit-io/agentskit) - P2 agentskit / maturity (blocked): Not re-run in this audit; the quality-gates run that covers it exited 1. - Remediation: Re-run after pnpm check:quality-gates is green. (owner: AgentsKit-io/agentskit) - P2 agentskit / performance (fail): Exit 1: 2 gates failed (verified recipe factory, ecosystem documentation quality contract); nested ternaries and the size-limit target check pass. - Remediation: Fix the failing quality gates and re-run pnpm check:quality-gates. (owner: AgentsKit-io/agentskit) - P2 agentskit / security (blocked): Not re-run in this audit; the quality-gates run that covers it exited 1. - Remediation: Re-run after pnpm check:quality-gates is green. (owner: AgentsKit-io/agentskit) - P2 agentskit / seo (blocked): No browser (Lighthouse/Playwright) available on the audit host. - Remediation: Run the SEO audit on a host with a browser and update this gate. (owner: AgentsKit-io/agentskit) Broad promotion remains gated until overall status is ready .",
+          "summary": "Audit date: 2026-11-17",
+          "body": "AgentsKit ecosystem readiness - Audit date: 2026-11-17 - Overall: blocked - Promotion allowed: no - Products: 0 ready / 6 blocked / 0 incomplete (of 6) - Findings: 12 (P0=5, P1=1) Products agentskit — blocked - Repo: AgentsKit-io/agentskit - Maturity: beta (source: ecosystem.json products[agentskit].maturity) - Audited on: 2026-11-16 registry — blocked - Repo: AgentsKit-io/agentskit-registry - Maturity: beta (source: ecosystem.json) - Audited on: 2026-07-14 agentskit-chat — blocked - Repo: AgentsKit-io/agentskit-chat - Maturity: alpha (source: ecosystem.json) - Audited on: 2026-07-14 playbook — blocked - Repo: AgentsKit-io/agents-playbook - Maturity: stable (source: ecosystem.json) - Audited on: 2026-07-14 doc-bridge — blocked - Repo: AgentsKit-io/doc-bridge - Maturity: stable (source: ecosystem.json) - Audited on: 2026-07-14 code-review — blocked - Repo: AgentsKit-io/code-review - Maturity: alpha (source: ecosystem.json) - Audited on: 2026-07-14 Findings - P0 agentskit-chat / evidence-freshness (fail): Evidence is 126 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-chat) - P0 code-review / evidence-freshness (fail): Evidence is 126 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/code-review) - P0 doc-bridge / evidence-freshness (fail): Evidence is 126 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/doc-bridge) - P0 playbook / evidence-freshness (fail): Evidence is 126 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agents-playbook) - P0 registry / evidence-freshness (fail): Evidence is 126 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-registry) - P1 agentskit / quickstart (fail): 2 failures: ecosystem bar mobile-overflow CSS assertion and @agentskit/core/rules missing from the agent handoff doc. - Remediation: Fix scripts/reference-docs-vertical.test.mjs expectations and document @agentskit/core/rules in the agent handoff, then re-run pnpm test:reference-docs. (owner: AgentsKit-io/agentskit) - P2 agentskit / accessibility (blocked): No browser (Playwright/axe) available on the audit host. - Remediation: Run the accessibility audit on a host with a browser and update this gate. (owner: AgentsKit-io/agentskit) - P2 agentskit / documentation (fail): pnpm check:quality-gates fails the 'ecosystem documentation quality contract' gate: the certified llms.txt drifted from the attested commit f69eddb (not an ancestor of HEAD). Pre-existing on main. - Remediation: Re-attest docs/evidence/ecosystem-documentation-quality/agentskit.json against a commit on main that includes the current llms.txt, then re-run pnpm check:quality-gates. (owner: AgentsKit-io/agentskit) - P2 agentskit / maturity (blocked): Not re-run in this audit; pnpm check:quality-gates, which covers it, exited 1 (ecosystem documentation quality contract). - Remediation: Re-run after pnpm check:quality-gates is green. (owner: AgentsKit-io/agentskit) - P2 agentskit / performance (fail): Exit 1 only because of the 'ecosystem documentation quality contract' gate; the nested ternary gate, the size-limit target check and the verified recipe factory pass. - Remediation: Fix the ecosystem documentation quality contract gate (see documentation) and re-run pnpm check:quality-gates. (owner: AgentsKit-io/agentskit) - P2 agentskit / security (blocked): Not re-run in this audit; pnpm check:quality-gates, which covers it, exited 1 (ecosystem documentation quality contract). - Remediation: Re-run after pnpm check:quality-gates is green. (owner: AgentsKit-io/agentskit) - P2 agentskit / seo (blocked): No browser (Lighthouse/Playwright) available on the audit host. - Remediation: Run the SEO audit on a host with a browser and update this gate. (owner: Agen",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -69828,7 +69828,7 @@
             }
           ]
         },
-        "contentHash": "ec7013e92c2301c0786905a97e932a7e9b7305c16b737358550867d3cb345717",
+        "contentHash": "a1481bd065a2356e3aeb6618bb29ca0c51d42890120341dbbfc59563a1dc4942",
         "provenance": "observed",
         "confidence": "observed"
       },
