@@ -283,11 +283,23 @@ test('repository inventory and evidence load and evaluate without network', () =
   const report = evaluateReadiness({
     inventory,
     evidenceByProductId,
-    auditDate: '2026-07-14',
+    auditDate: '2026-11-16',
   })
-  assert.equal(report.overall, 'ready')
-  assert.equal(report.promotionAllowed, true)
-  assert.deepEqual(report.findings, [])
-  assert.equal(report.summary.p0 + report.summary.p1, 0)
-  assert.ok(report.products.every((product) => product.status === 'ready'))
+  // Gates that fail or could not run are recorded honestly, so the overall may stay blocked.
+  assert.notEqual(report.promotionAllowed, true)
+  assert.equal(
+    report.findings.some((f) => f.owner === 'AgentsKit-io/agentskit' && f.gateId === 'evidence-freshness'),
+    false,
+  )
+  assert.equal(
+    report.findings.some((f) => f.productId === 'agentskit' && f.gateId === 'evidence-valid'),
+    false,
+  )
+  const agentskit = report.products.find((p) => p.id === 'agentskit')
+  assert.equal(agentskit.auditedOn, '2026-11-16')
+  assert.equal(agentskit.gates.length, inventory.requiredGateCategories.length)
+  assert.deepEqual(
+    agentskit.gates.map((g) => g.category).sort(),
+    [...inventory.requiredGateCategories].sort(),
+  )
 })

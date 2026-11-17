@@ -2042,7 +2042,7 @@
         ]
       },
       "answer": {
-        "markdown": "**@agentskit/mcp** — Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).\n\nInstall it with `pnpm add @agentskit/mcp`.",
+        "markdown": "**@agentskit/mcp** — Serve AgentsKit tools to an MCP host over stdio or Streamable HTTP, backed by the official `@modelcontextprotocol/sdk`.\n\nInstall it with `pnpm add @agentskit/mcp`.",
         "citations": [
           {
             "id": "package-mcp",
@@ -2444,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:c61e377162a776e02e9d123c12065bb7cf38f5ef43d93ede9ea72a3906c19c89"
+  "contentHash": "sha256:04d0c8835565cc893b0b4a06fe8552b73745b827fd764822ccc90b4f2017381c"
 }
