@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "09e435e1aa0a5e41769491242874559ac37636da364095b53126ac8ae3dbcf7b",
+  "contentHash": "400934b4e22f1e518ac20cc24082a182928548e471643b55abc95f449110b016",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-17T12:59:41.250Z",
+  "generatedAt": "2026-11-17T13:49:18.562Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -15204,12 +15204,6 @@
         "FallbackCandidate",
         "FallbackOptions",
         "FireworksConfig",
-        "GatewayBudget",
-        "GatewayCallUsage",
-        "GatewayCapError",
-        "GatewayErrorCodes",
-        "GatewayOptions",
-        "GatewayPricing",
         "GeminiConfig",
         "GeminiEmbedderConfig",
         "GenericAdapterConfig",
@@ -15271,10 +15265,8 @@
         "cohere",
         "cohereAdapter",
         "createAdapter",
-        "createBudget",
         "createEnsembleAdapter",
         "createFallbackAdapter",
-        "createGateway",
         "createModelProvider",
         "createOpenAICompatibleEmbedder",
         "createRotatingCredentials",
@@ -15282,7 +15274,6 @@
         "deepseek",
         "deepseekEmbedder",
         "estimateCO2Grams",
-        "estimateCostUsd",
         "fetchWithRetry",
         "fireworks",
         "gemini",
@@ -15332,7 +15323,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "3eba399d4348a7f0c5b20244371fc1d05146eb12f325acedad7e8a56bbac7b10"
+      "contentHash": "0028427f5791f6371ab157a332194d0b5915d658750e04a01fa24a135da7e71a"
     },
     {
       "id": "module:packages/adapters/src/kimi.ts",
@@ -16606,7 +16597,7 @@
         "ts",
         "adapters"
       ],
-      "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789"
+      "contentHash": "8228752e43c4cb87f46cdb00d19e238e4bf333631566f1ddbe1c6cb130e7cc96"
     },
     {
       "id": "module:packages/adapters/vitest.config.ts",
@@ -39445,7 +39436,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0f25ae32005ddf09941ac676c5b4cf192318720ada446925b611a5b0342b1a8e",
+    "hash": "e7b27529f848da03e1281dd775e6b3601384cc174c5ad0ae35d94f32f0b42358",
     "fileCount": 2705,
     "projectionVersion": 2
   },
@@ -39468,9 +39459,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "d5e8cfc8b99ab07f7aeaf093b893d4ec92956c01a67250a5059eee17c1920a93",
+    "contentHash": "baedfc646a143eee7f54deb18865e1e057157ed70e0131df68b499ef7a519036",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "41952587f529d7c9442f06164e1168640ef9de8b0b44a8c53d22f02155f86563",
+    "snapshotHash": "84117b35a2fe8e3535518979c61a7a27c83df3a66a00c7f9a314d325edbe8cf0",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39506,7 +39497,7 @@
         "headings": 3.8731517509727627,
         "path": 7.614396887159533,
         "summary": 4.468871595330739,
-        "symbols": 7.613618677042801,
+        "symbols": 7.601556420233463,
         "title": 3.385214007782101
       }
     },
@@ -52159,7 +52150,7 @@
             }
           ]
         },
-        "contentHash": "e38dfcc5850ce4a8ffa0ac3938e65fe1a2f960713cd397e6952011f92717bc16",
+        "contentHash": "a4d643ad3b960621f05208fa952c922364d2e90fda5491fb19365ad617fb70b0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -108260,11 +108251,6 @@
               "kind": "imports",
               "id": "module:packages/adapters/tests/gateway.test.ts",
               "confidence": "observed"
-            },
-            {
-              "kind": "re-exports",
-              "id": "module:packages/adapters/src/index.ts",
-              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -108884,12 +108870,6 @@
           "FallbackCandidate",
           "FallbackOptions",
           "FireworksConfig",
-          "GatewayBudget",
-          "GatewayCallUsage",
-          "GatewayCapError",
-          "GatewayErrorCodes",
-          "GatewayOptions",
-          "GatewayPricing",
           "GeminiConfig",
           "GeminiEmbedderConfig",
           "GenericAdapterConfig",
@@ -108951,10 +108931,8 @@
           "cohere",
           "cohereAdapter",
           "createAdapter",
-          "createBudget",
           "createEnsembleAdapter",
           "createFallbackAdapter",
-          "createGateway",
           "createModelProvider",
           "createOpenAICompatibleEmbedder",
           "createRotatingCredentials",
@@ -108962,7 +108940,6 @@
           "deepseek",
           "deepseekEmbedder",
           "estimateCO2Grams",
-          "estimateCostUsd",
           "fetchWithRetry",
           "fireworks",
           "gemini",
@@ -109016,7 +108993,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/adapters/src/index.ts",
-          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CLIPROXYAPI_DEFAULT_BASE_URL CapabilityUnsupportedError CarbonTable CerebrasConfig CloudflareAiGatewayConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GatewayBudget GatewayCallUsage GatewayCapError GatewayErrorCodes GatewayOptions GatewayPricing GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation ModelProviderConfig ModelProviderId OllamaConfig OllamaEmbedderConfig OpenAICompatibleConfig OpenAICompatibleEmbedderConfig OpenAICompatibleTransportConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike WorkersAiConfig anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cloudflareAiGateway cohere cohereAdapter createAdapter createBudget createEnsembleAdapter createFallbackAdapter createGateway createModelProvider createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams estimateCostUsd fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openRouter openai openaiCompatible openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy workersAi",
+          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CLIPROXYAPI_DEFAULT_BASE_URL CapabilityUnsupportedError CarbonTable CerebrasConfig CloudflareAiGatewayConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation ModelProviderConfig ModelProviderId OllamaConfig OllamaEmbedderConfig OpenAICompatibleConfig OpenAICompatibleEmbedderConfig OpenAICompatibleTransportConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike WorkersAiConfig anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cloudflareAiGateway cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createModelProvider createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openRouter openai openaiCompatible openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy workersAi",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -109133,11 +109110,6 @@
             {
               "kind": "re-exports",
               "id": "module:packages/adapters/src/fireworks.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "re-exports",
-              "id": "module:packages/adapters/src/gateway/index.ts",
               "confidence": "observed"
             },
             {
@@ -109267,7 +109239,7 @@
             }
           ]
         },
-        "contentHash": "3eba399d4348a7f0c5b20244371fc1d05146eb12f325acedad7e8a56bbac7b10",
+        "contentHash": "0028427f5791f6371ab157a332194d0b5915d658750e04a01fa24a135da7e71a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -114698,7 +114670,7 @@
             }
           ]
         },
-        "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789",
+        "contentHash": "8228752e43c4cb87f46cdb00d19e238e4bf333631566f1ddbe1c6cb130e7cc96",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -196719,7 +196691,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "bf16a9b51382f5acdae0124d626859c9fbd7fd6e6851111a84304645f8912cd1",
+        "contentHash": "ad1982ac542c55678ac189df3d095ee5d99d9e7c126e5915ee54b580911eddd4",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "adapters"

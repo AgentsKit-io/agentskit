@@ -51,6 +51,11 @@
       "import": "./dist/cli/index.js",
       "require": "./dist/cli/index.cjs"
     },
+    "./gateway": {
+      "types": "./dist/gateway/index.d.ts",
+      "import": "./dist/gateway/index.js",
+      "require": "./dist/gateway/index.cjs"
+    },
     "./langchain-bridge": {
       "types": "./dist/langchain-bridge.d.ts",
       "import": "./dist/langchain-bridge.js",
