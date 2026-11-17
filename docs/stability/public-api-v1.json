@@ -180,6 +180,12 @@
               ]
             },
             {
+              "name": "createBudget",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "createEnsembleAdapter",
               "kinds": [
                 "value"
@@ -187,6 +193,12 @@
             },
             {
               "name": "createFallbackAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createGateway",
               "kinds": [
                 "value"
               ]
@@ -306,6 +318,12 @@
               ]
             },
             {
+              "name": "estimateCostUsd",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "FallbackCandidate",
               "kinds": [
                 "type"
@@ -331,6 +349,43 @@
             },
             {
               "name": "FireworksConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "GatewayBudget",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "GatewayCallUsage",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "GatewayCapError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "GatewayErrorCodes",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "GatewayOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "GatewayPricing",
               "kinds": [
                 "type"
               ]

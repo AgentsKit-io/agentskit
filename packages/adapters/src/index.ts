@@ -134,3 +134,5 @@ export { CapabilityUnsupportedError } from './content-parts'
 
 export { createModelProvider, CLIPROXYAPI_DEFAULT_BASE_URL } from './provider'
 export type { ModelProviderConfig, ModelProviderId } from './provider'
+export { createGateway, createBudget, estimateCostUsd, GatewayCapError, GatewayErrorCodes } from './gateway'
+export type { GatewayOptions, GatewayBudget, GatewayPricing, GatewayCallUsage } from './gateway'

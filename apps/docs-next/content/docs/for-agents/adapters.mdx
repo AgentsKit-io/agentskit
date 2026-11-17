@@ -251,6 +251,7 @@ const adapter = openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o-min
 - Test without keys: pair `recordingAdapter` + `replayAdapter` ([deterministic replay](/docs/reference/recipes/deterministic-replay)).
 
 - One config-driven port over OpenRouter, Anthropic, OpenAI and CLIProxyAPI: `createModelProvider({ provider, model, apiKey })` returns the same `AdapterFactory`; `CLIPROXYAPI_DEFAULT_BASE_URL` is the local proxy default (`apiKey` optional there).
+- Gateway cost and caps: `createGateway({ adapter, pricing | provider+model, perCallCapUsd, budget })` reports tokens and `costUsd` on the usage/done chunk metadata; `createBudget(name, limitUsd)` makes a named budget and `estimateCostUsd(usage, pricing)` prices usage. Over a cap, the stream throws `GatewayCapError` (`kind` `per-call` or `budget`, code in `GatewayErrorCodes`).
 
 ## Related packages
 
