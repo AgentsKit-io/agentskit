@@ -21,4 +21,6 @@ export const OAUTH_SPECS = {
   stripe: { authorizationUrl: 'https://connect.stripe.com/oauth/authorize', tokenUrl: 'https://connect.stripe.com/oauth/token', defaultScopes: ['read_write'], usePkce: false },
   dropbox: { authorizationUrl: 'https://www.dropbox.com/oauth2/authorize', tokenUrl: 'https://api.dropboxapi.com/oauth2/token', defaultScopes: ['files.content.read', 'files.metadata.read'], usePkce: false, extraAuthParams: { token_access_type: 'offline' } },
   salesforce: { authorizationUrl: 'https://login.salesforce.com/services/oauth2/authorize', tokenUrl: 'https://login.salesforce.com/services/oauth2/token', defaultScopes: ['api', 'refresh_token'], usePkce: true },
+  monday: { authorizationUrl: 'https://auth.monday.com/oauth2/authorize', tokenUrl: 'https://auth.monday.com/oauth2/token', defaultScopes: ['boards:read'], usePkce: false },
+  gitlab: { authorizationUrl: 'https://gitlab.com/oauth/authorize', tokenUrl: 'https://gitlab.com/oauth/token', defaultScopes: ['read_api'], usePkce: true },
 } as const satisfies Record<string, OAuth2ProviderSpec>
