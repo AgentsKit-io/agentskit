@@ -43,7 +43,7 @@ overrides:
   devalue: ">=5.9.3 <6"
   "@grpc/grpc-js": ">=1.14.5 <2"
   # GHSA-w3rx-r6r6-pgpr, GHSA-5p2g-fcmc-qvqq; only less's image-size() reaches it and the repo ships no .less files
-  image-size: "2.0.4"
+  image-size: "2.1.0"
   # GHSA-mrhx-c7xc-m3w5; @cloudflare/config pins zod 4.4.3 exactly
   "zod@>=4.0.0 <4.6.6": "4.6.7"
   # GHSA-g3hv-75wg-m249 (minimatch), GHSA-3g3m-2fjr-6pw4 (glob), GHSA-px8p-9vwx-vf98 (fflate), GHSA-238p-pmpm-9mq7 (katex)
