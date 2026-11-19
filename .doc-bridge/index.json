@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "8a9ab5c1365d5449d018fe836f1025ae3fc10bfab3164282ad806ecb7d3a4761",
+  "contentHash": "400934b4e22f1e518ac20cc24082a182928548e471643b55abc95f449110b016",
   "contentHashAlgo": "sha256-semantic-v1",
-  "generatedAt": "2026-11-15T18:59:28.379Z",
+  "generatedAt": "2026-11-17T13:49:18.562Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6914,7 +6914,7 @@
         "document",
         "human"
       ],
-      "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037"
+      "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db"
     },
     {
       "id": "document:docs/V1-READINESS-TRACKER.md",
@@ -15052,6 +15052,45 @@
       "contentHash": "711c1be1530a07d1c559d516b08adfe4a65f6a495267da49c486f199b16b3ffa"
     },
     {
+      "id": "module:packages/adapters/src/gateway/errors.ts",
+      "type": "module",
+      "title": "errors.ts",
+      "path": "packages/adapters/src/gateway/errors.ts",
+      "symbols": [
+        "GatewayCapError",
+        "GatewayErrorCodes"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "gateway"
+      ],
+      "contentHash": "ce7cd765eb994c93e9088afd17cd8fd93e4a7e6ef4168c3fde56c3f4924114b4"
+    },
+    {
+      "id": "module:packages/adapters/src/gateway/index.ts",
+      "type": "module",
+      "title": "index.ts",
+      "path": "packages/adapters/src/gateway/index.ts",
+      "symbols": [
+        "GatewayBudget",
+        "GatewayCallUsage",
+        "GatewayCapError",
+        "GatewayErrorCodes",
+        "GatewayOptions",
+        "GatewayPricing",
+        "createBudget",
+        "createGateway",
+        "estimateCostUsd"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "gateway"
+      ],
+      "contentHash": "4b9752b7aaed0cc853b783b1bdc7a5a3a5fc405551f04ae458fdc037b986ba56"
+    },
+    {
       "id": "module:packages/adapters/src/gemini.ts",
       "type": "module",
       "title": "gemini.ts",
@@ -16179,6 +16218,19 @@
       "contentHash": "cb7ac059b1f0aa928142ea6359d62c57c7355221b4c97656ee51589a15b3dc6c"
     },
     {
+      "id": "module:packages/adapters/tests/gateway.test.ts",
+      "type": "module",
+      "title": "gateway.test.ts",
+      "path": "packages/adapters/tests/gateway.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "10b968d3d1a457fea187fc056c4ddbcbedd392b5b682685192bcb337d879435a"
+    },
+    {
       "id": "module:packages/adapters/tests/gemini.test.ts",
       "type": "module",
       "title": "gemini.test.ts",
@@ -16545,7 +16597,7 @@
         "ts",
         "adapters"
       ],
-      "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789"
+      "contentHash": "8228752e43c4cb87f46cdb00d19e238e4bf333631566f1ddbe1c6cb130e7cc96"
     },
     {
       "id": "module:packages/adapters/vitest.config.ts",
@@ -39384,8 +39436,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0d57120a7f0742ca4a58d90d6cfcefeeda6c78837368cfa3fc5c747f54460db6",
-    "fileCount": 2702,
+    "hash": "e7b27529f848da03e1281dd775e6b3601384cc174c5ad0ae35d94f32f0b42358",
+    "fileCount": 2705,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -39407,9 +39459,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "edf41dbb89f5522228cac0f94d36b222eb6b33880e903a7ec1f09b5aa3b9bad9",
+    "contentHash": "baedfc646a143eee7f54deb18865e1e057157ed70e0131df68b499ef7a519036",
     "contentHashAlgo": "sha256-semantic-v1",
-    "snapshotHash": "5d0d6c40254a16a2bf386208c276a16be01bb4eb8f55538aea09ad5e885426f6",
+    "snapshotHash": "84117b35a2fe8e3535518979c61a7a27c83df3a66a00c7f9a314d325edbe8cf0",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
@@ -39429,7 +39481,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2566,
+      "documentCount": 2570,
       "fieldNames": [
         "aliases",
         "body",
@@ -39440,13 +39492,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.019485580670304,
-        "body": 60.86477007014809,
-        "headings": 3.8791893998441154,
-        "path": 7.616134060795011,
-        "summary": 4.475837879968823,
-        "symbols": 7.598207326578332,
-        "title": 3.387373343725643
+        "aliases": 3.019066147859922,
+        "body": 60.7568093385214,
+        "headings": 3.8731517509727627,
+        "path": 7.614396887159533,
+        "summary": 4.468871595330739,
+        "symbols": 7.601556420233463,
+        "title": 3.385214007782101
       }
     },
     "entries": [
@@ -40695,6 +40747,37 @@
           "outbound": []
         },
         "contentHash": "ea00c3f4a7cff9a2a58e3762a0ab9ce93a865f37704c53d9d3dca136bac193ea",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "area:packages/adapters/src/gateway",
+        "kind": "area",
+        "path": "packages/adapters/src/gateway",
+        "title": "gateway",
+        "aliases": [],
+        "tags": [
+          "area"
+        ],
+        "fields": {
+          "title": "gateway",
+          "headings": "",
+          "path": "packages/adapters/src/gateway",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "area"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "c1baf6209e414cdf6fcd8452701e70fccf073be47abb61900ee54e0af4ba3769",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -52067,7 +52150,7 @@
             }
           ]
         },
-        "contentHash": "a01f00bc1dfcf309d8e0fc9d1f778745753585cee30c26832f0d1dcf07e2cdad",
+        "contentHash": "a4d643ad3b960621f05208fa952c922364d2e90fda5491fb19365ad617fb70b0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77594,7 +77677,7 @@
           "path": "docs/SUPPORT-MATRIX.md",
           "symbols": "",
           "summary": "Generated by node scripts/gen-support-matrix.mjs — do not edit by hand.",
-          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 0.19.2 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/angular 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/cli 0.14.0 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 0.3.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/eval 0.7.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/ink 0.10.16 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/integrations 0.8.3 experimental — — — — — — @agentskit/mcp 0.5.2 experimental — — — — — — @agentskit/memory 0.12.1 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/net 0.2.4 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/observability 0.13.1 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/rag 0.7.1 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react 0.8.10 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/react-native 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/runtime 0.11.3 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/sandbox 0.6.13 supported apps/docs-next ✅ ✅ ✅ ✅ ✅ eligible @agentskit/skills 0.9.10 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/solid 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/statechart 0.3.2 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/svelte 0.6.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 0.13.16 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ ✅ eligible @agentskit/vue 0.5.10 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ ✅ eligible",
+          "body": "Support matrix Generated by node scripts/gen-support-matrix.mjs — do not edit by hand. A package is supported when an internal consumer (AgentsKit-io or NoxCodeSolutions; workspace apps count as apps/ ) depends on it in its package.json . Packages without a consumer are experimental (community-maintained): they carry the experimental npm keyword and never block a release. A supported package is eligible for 1.0 when it has a consumer in production or homolog, green CI on the default branch, no breaking change in its last four versions, and docs. Eligible packages are promoted in one batch PR the owner approves. CI on the default branch: green . Known limitation: NoxCodeSolutions repositories are not read yet. The factory token cannot access them, so packages used only there show as experimental until their manifests are added to docs/support-consumers.json (follow-up: consumer repositories of NoxCodeSolutions). Package Version Status Internal consumers Consumer live CI green No breaking (4 versions) Docs 1.0 --- --- --- --- --- --- --- --- --- @agentskit/adapters 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-edge, apps/example-embedded, apps/example-rag-chat, apps/example-react, apps/example-webllm, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/angular 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/cli 0.14.1 experimental — — — — — — @agentskit/core 1.15.0 supported apps/ask-backend, apps/docs-next, apps/example-discord-bot, apps/example-edge, apps/example-embedded, apps/example-ink, apps/example-rag-chat, apps/example-react, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/cross-platform 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/eval 1.0.0 supported apps/docs-next, apps/example-dspy, AgentsKit-io/agentskit-chat, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/ink 1.0.0 supported apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/integrations 0.9.0 experimental — — — — — — @agentskit/mcp 0.6.0 experimental — — — — — — @agentskit/memory 1.0.0 supported apps/docs-next, apps/example-ink, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/net 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/observability 1.0.0 supported apps/docs-next, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/rag 1.0.0 supported apps/ask-backend, apps/docs-next, apps/example-rag-chat, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-rag-chat, apps/example-react, apps/example-webllm, apps/registry, apps/visual-react, AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/react-native 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/runtime 1.0.0 supported apps/docs-next, apps/example-discord-bot, apps/example-embedded, apps/example-flow, apps/example-runtime, apps/example-slack-bot, apps/example-teams-bot, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/sandbox 1.0.0 supported apps/docs-next ✅ ✅ ✅ ✅ 1.x @agentskit/skills 1.0.0 supported apps/docs-next, apps/example-multi-agent, apps/example-runtime, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/solid 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/statechart 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/svelte 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x @agentskit/templates 0.5.10 experimental — — — — — — @agentskit/tools 1.0.0 supported apps/ask-backend, apps/docs-next, AgentsKit-io/agentskit-registry ✅ ✅ ✅ ✅ 1.x @agentskit/vue 1.0.0 supported AgentsKit-io/agentskit-chat ✅ ✅ ✅ ✅ 1.x",
           "aliases": "document human"
         },
         "graph": {
@@ -77732,7 +77815,7 @@
             }
           ]
         },
-        "contentHash": "0ff900d0dfba5835091c685eb58e9e723558276608e9fa84744f0eb3a9620037",
+        "contentHash": "7b6a09a1375f05517d8a9b326d4bf8d230c62c1e4214de22af2dfb8b8946d5db",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -105709,6 +105792,11 @@
           "packageId": "package:@agentskit/adapters",
           "inbound": [
             {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/gateway/index.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "re-exports",
               "id": "module:packages/adapters/src/catalog/index.ts",
               "confidence": "observed"
@@ -108068,6 +108156,122 @@
           ]
         },
         "contentHash": "711c1be1530a07d1c559d516b08adfe4a65f6a495267da49c486f199b16b3ffa",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/adapters/src/gateway/errors.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/gateway/errors.ts",
+        "title": "errors.ts",
+        "aliases": [],
+        "symbols": [
+          "GatewayCapError",
+          "GatewayErrorCodes"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "gateway"
+        ],
+        "fields": {
+          "title": "errors.ts",
+          "headings": "",
+          "path": "packages/adapters/src/gateway/errors.ts",
+          "symbols": "GatewayCapError GatewayErrorCodes",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts gateway"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/adapters/src/gateway",
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/gateway/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/adapters/src/gateway/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "ce7cd765eb994c93e9088afd17cd8fd93e4a7e6ef4168c3fde56c3f4924114b4",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/adapters/src/gateway/index.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/gateway/index.ts",
+        "title": "index.ts",
+        "aliases": [],
+        "symbols": [
+          "GatewayBudget",
+          "GatewayCallUsage",
+          "GatewayCapError",
+          "GatewayErrorCodes",
+          "GatewayOptions",
+          "GatewayPricing",
+          "createBudget",
+          "createGateway",
+          "estimateCostUsd"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "gateway"
+        ],
+        "fields": {
+          "title": "index.ts",
+          "headings": "",
+          "path": "packages/adapters/src/gateway/index.ts",
+          "symbols": "GatewayBudget GatewayCallUsage GatewayCapError GatewayErrorCodes GatewayOptions GatewayPricing createBudget createGateway estimateCostUsd",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts gateway"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/adapters/src/gateway",
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/tests/gateway.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/catalog/pricing.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/gateway/errors.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/adapters/src/gateway/errors.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "4b9752b7aaed0cc853b783b1bdc7a5a3a5fc405551f04ae458fdc037b986ba56",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -113210,6 +113414,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/tests/gateway.test.ts",
+        "kind": "module",
+        "path": "packages/adapters/tests/gateway.test.ts",
+        "title": "gateway.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "gateway.test.ts",
+          "headings": "",
+          "path": "packages/adapters/tests/gateway.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/gateway/index.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "10b968d3d1a457fea187fc056c4ddbcbedd392b5b682685192bcb337d879435a",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/tests/gemini.test.ts",
         "kind": "module",
         "path": "packages/adapters/tests/gemini.test.ts",
@@ -114426,7 +114670,7 @@
             }
           ]
         },
-        "contentHash": "8ea4aa1fc8d9af92c677fdff313f94099dc9d2ef4d800f8908f0a79ed6ac6789",
+        "contentHash": "8228752e43c4cb87f46cdb00d19e238e4bf333631566f1ddbe1c6cb130e7cc96",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -196447,7 +196691,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "bf16a9b51382f5acdae0124d626859c9fbd7fd6e6851111a84304645f8912cd1",
+        "contentHash": "ad1982ac542c55678ac189df3d095ee5d99d9e7c126e5915ee54b580911eddd4",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "adapters"

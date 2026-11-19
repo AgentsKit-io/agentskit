@@ -8,6 +8,7 @@ export default defineConfig({
     createAdapter: 'src/createAdapter.ts',
     'cli/index': 'src/cli/index.ts',
     'catalog/index': 'src/catalog/index.ts',
+    'gateway/index': 'src/gateway/index.ts',
     'langchain-bridge': 'src/langchain-bridge.ts',
   },
   clean: true,
