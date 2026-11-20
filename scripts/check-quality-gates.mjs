@@ -79,7 +79,7 @@ const HEAVY = new Set([
   'verified recipe factory',
   'ecosystem documentation quality contract',
 ])
-const INERT_PATHS = [/^\.changeset\//, /^turbo\.json$/, /^\.factory\//]
+const INERT_PATHS = [/^\.changeset\//, /^turbo\.json$/, /^\.factory\//, /^\.github\/workflows\/ci-standard\.yml$/]
 
 function onlyInertChanges() {
   if (process.env.QUALITY_GATES_SCOPED !== '1') return false
