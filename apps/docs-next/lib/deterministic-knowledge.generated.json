@@ -8,7 +8,7 @@
     {
       "id": "claim.catalog-models",
       "kind": "restricted-faq",
-      "label": "8900 models",
+      "label": "10211 models",
       "match": {
         "type": "exact",
         "values": [
@@ -18,7 +18,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **8900 models**. The public conservative floor is 8000.",
+        "markdown": "The verified AgentsKit ledger currently reports **10211 models**. The public conservative floor is 10000.",
         "citations": [
           {
             "id": "claim-catalog-models",
@@ -31,7 +31,7 @@
     {
       "id": "claim.catalog-providers",
       "kind": "restricted-faq",
-      "label": "232 providers",
+      "label": "326 providers",
       "match": {
         "type": "exact",
         "values": [
@@ -41,7 +41,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **232 providers**. The public conservative floor is 230.",
+        "markdown": "The verified AgentsKit ledger currently reports **326 providers**. The public conservative floor is 320.",
         "citations": [
           {
             "id": "claim-catalog-providers",
@@ -2042,7 +2042,7 @@
         ]
       },
       "answer": {
-        "markdown": "**@agentskit/mcp** — Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).\n\nInstall it with `pnpm add @agentskit/mcp`.",
+        "markdown": "**@agentskit/mcp** — Serve AgentsKit tools to an MCP host over stdio or Streamable HTTP, backed by the official `@modelcontextprotocol/sdk`.\n\nInstall it with `pnpm add @agentskit/mcp`.",
         "citations": [
           {
             "id": "package-mcp",
@@ -2444,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:c61e377162a776e02e9d123c12065bb7cf38f5ef43d93ede9ea72a3906c19c89"
+  "contentHash": "sha256:fa3820796ee58b697fb8c789ad35ee0375e53a77a0d79b6ea526f3dcf887f389"
 }
