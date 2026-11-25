@@ -50,7 +50,7 @@ overrides:
   "@agentskit/doc-bridge>minimatch": ">=11.0.1 <12"
   "glob@>=9.0.0 <14.0.2": ">=14.0.2 <15"
   "fflate@>=0.7.0 <0.7.5": "0.7.5"
-  "katex@>=0.11.0 <0.18.2": ">=0.18.2 <0.19"
+  "katex@>=0.11.0 <0.18.2": ">=0.18.2 <0.20"
 auditConfig:
   ignoreGhsas:
     # deepmerge mergeObject() prototype poisoning (low). No patched version published (advisory range has no fix).
